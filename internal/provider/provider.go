@@ -110,6 +110,7 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 
 func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
+		NewIncidentCustomFieldResource,
 		NewIncidentRoleResource,
 		NewIncidentStatusResource,
 	}
