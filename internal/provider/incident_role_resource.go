@@ -152,6 +152,9 @@ func (r *IncidentRoleResource) Update(ctx context.Context, req resource.UpdateRe
 		Shortform:    data.Shortform.ValueString(),
 		Required:     data.Required.ValueBool(),
 	})
+	if err == nil && result.StatusCode() >= 400 {
+		err = fmt.Errorf(string(result.Body))
+	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update incident role, got error: %s", err))
 		return
@@ -168,7 +171,10 @@ func (r *IncidentRoleResource) Delete(ctx context.Context, req resource.DeleteRe
 		return
 	}
 
-	_, err := r.client.IncidentRolesV1DeleteWithResponse(ctx, data.ID.ValueString())
+	result, err := r.client.IncidentRolesV1DeleteWithResponse(ctx, data.ID.ValueString())
+	if err == nil && result.StatusCode() >= 400 {
+		err = fmt.Errorf(string(result.Body))
+	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete incident role, got error: %s", err))
 		return
