@@ -35,7 +35,7 @@ We may add more custom field types in the future - we'd love to hear any other t
 ```terraform
 # Create an Affected Teams multi-select field, required always, shown at all
 # opportunities.
-resource "incident_incident_role" "affected_teams" {
+resource "incident_custom_field" "affected_teams" {
   name        = "Affected Teams"
   description = "The teams that are affected by this incident."
   field_type  = "multi_select"
