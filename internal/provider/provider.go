@@ -112,6 +112,7 @@ func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Reso
 	return []func() resource.Resource{
 		NewIncidentCustomFieldResource,
 		NewIncidentRoleResource,
+		NewIncidentSeverityResource,
 		NewIncidentStatusResource,
 	}
 }
