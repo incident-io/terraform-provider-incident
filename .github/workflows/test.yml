@@ -75,5 +75,6 @@ jobs:
       - run: go mod download
       - env:
           TF_ACC: "1"
+          INCIDENT_API_KEY: ${{ secrets.INCIDENT_API_KEY }}
         run: go test -v -cover ./internal/provider/
         timeout-minutes: 10
