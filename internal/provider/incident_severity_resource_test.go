@@ -51,9 +51,9 @@ func TestAccIncidentSeverityResource(t *testing.T) {
 
 var incidentSeverityTemplate = template.Must(template.New("incident_severity").Funcs(sprig.TxtFuncMap()).Parse(`
 resource "incident_severity" "example" {
-	name         = {{ quote .Name }}
-	description  = {{ quote .Description }}
-	rank		     = {{ toJson .Rank }}
+  name         = {{ quote .Name }}
+  description  = {{ quote .Description }}
+  rank         = {{ toJson .Rank }}
 }
 `))
 

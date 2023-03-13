@@ -55,11 +55,11 @@ func TestAccIncidentRoleResource(t *testing.T) {
 
 var incidentRoleTemplate = template.Must(template.New("incident_role").Funcs(sprig.TxtFuncMap()).Parse(`
 resource "incident_incident_role" "example" {
-	name         = {{ quote .Name }}
-	description  = {{ quote .Description }}
-	instructions = {{ quote .Instructions }}
-	shortform    = {{ quote .Shortform }}
-	required     = {{ toJson .Required }}
+  name         = {{ quote .Name }}
+  description  = {{ quote .Description }}
+  instructions = {{ quote .Instructions }}
+  shortform    = {{ quote .Shortform }}
+  required     = {{ toJson .Required }}
 }
 `))
 

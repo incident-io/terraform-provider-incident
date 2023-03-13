@@ -62,14 +62,14 @@ func TestAccIncidentCustomFieldResource(t *testing.T) {
 
 var customFieldTemplate = template.Must(template.New("incident_custom_field").Funcs(sprig.TxtFuncMap()).Parse(`
 resource "incident_custom_field" "example" {
-	name                      = {{ quote .Name }}
-	description               = {{ quote .Description }}
-	field_type                = {{ quote .FieldType }}
-	required                  = {{ quote .Required }}
-	show_before_creation      = {{ toJson .ShowBeforeCreation }}
-	show_before_closure       = {{ toJson .ShowBeforeClosure }}
-	show_before_update        = {{ toJson .ShowBeforeUpdate }}
-	show_in_announcement_post = {{ toJson .ShowInAnnouncementPost }}
+  name                      = {{ quote .Name }}
+  description               = {{ quote .Description }}
+  field_type                = {{ quote .FieldType }}
+  required                  = {{ quote .Required }}
+  show_before_creation      = {{ toJson .ShowBeforeCreation }}
+  show_before_closure       = {{ toJson .ShowBeforeClosure }}
+  show_before_update        = {{ toJson .ShowBeforeUpdate }}
+  show_in_announcement_post = {{ toJson .ShowInAnnouncementPost }}
 }
 `))
 

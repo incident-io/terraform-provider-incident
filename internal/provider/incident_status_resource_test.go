@@ -50,9 +50,9 @@ func TestAccIncidentStatusResource(t *testing.T) {
 
 var incidentStatusTemplate = template.Must(template.New("incident_status").Funcs(sprig.TxtFuncMap()).Parse(`
 resource "incident_status" "example" {
-	name         = {{ quote .Name }}
-	description  = {{ quote .Description }}
-	category     = {{ quote .Category }}
+  name         = {{ quote .Name }}
+  description  = {{ quote .Description }}
+  category     = {{ quote .Category }}
 }
 `))
 
