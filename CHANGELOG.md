@@ -1,3 +1,9 @@
-## 0.1.0 (Unreleased)
+## 1.0.0
 
-FEATURES:
+Initial release, including support for:
+
+- Custom fields (`incident_custom_field`)
+- Custom field options (`incident_custom_field_option`)
+- Incident roles (`incident_incident_role`)
+- Severities (`incident_severity`)
+- Statuses (`incident_status`)
