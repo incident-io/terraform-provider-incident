@@ -6,4 +6,5 @@ With this provider you manage configuration such as incident severities, roles,
 custom fields and more inside of your incident.io account.
 
 To view the full documentation of this provider, we recommend reading the
-documentation on the [Terraform Registry](TODO).
+documentation on the [Terraform
+Registry](https://registry.terraform.io/providers/incident-io/incident/latest).
