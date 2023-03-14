@@ -56,6 +56,8 @@ jobs:
     timeout-minutes: 15
     strategy:
       fail-fast: false
+      # Running in parallel will cause each test to collide on resource names.
+      max-parallel: 1
       matrix:
         # list whatever Terraform versions here you would like to support
         terraform:
