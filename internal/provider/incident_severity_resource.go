@@ -62,6 +62,7 @@ func (r *IncidentSeverityResource) Schema(ctx context.Context, req resource.Sche
 			"rank": schema.Int64Attribute{
 				MarkdownDescription: apischema.Docstring("SeveritiesV1CreateRequestBody", "rank"),
 				Optional:            true,
+				Computed:            true,
 			},
 		},
 	}
