@@ -49,11 +49,33 @@ func TestAccIncidentSeverityResource(t *testing.T) {
 	})
 }
 
+func TestAccIncidentSeverityResourceWithoutRank(t *testing.T) {
+	// Verify the computed rank is set without issue.
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create and read
+			{
+				Config: testAccIncidentSeverityResourceConfig(&client.SeverityV2{
+					Rank: -1,
+				}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_severity.example", "name", incidentSeverityDefault().Name),
+				),
+			},
+		},
+	})
+}
+
 var incidentSeverityTemplate = template.Must(template.New("incident_severity").Funcs(sprig.TxtFuncMap()).Parse(`
 resource "incident_severity" "example" {
   name         = {{ quote .Name }}
   description  = {{ quote .Description }}
+{{ if gt .Rank 0 }}
   rank         = {{ toJson .Rank }}
+{{ end }}
 }
 `))
 
