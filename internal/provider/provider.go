@@ -4,6 +4,8 @@ import (
 	"context"
 	"os"
 
+	_ "embed"
+
 	"github.com/deepmap/oapi-codegen/pkg/securityprovider"
 	"github.com/hashicorp/go-cleanhttp"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -49,7 +51,8 @@ With this provider you manage configuration such as incident severities, roles,
 custom fields and more inside of your incident.io account.
 
 To view the full documentation of this provider, we recommend reading the
-documentation on the [Terraform Registry](TODO).
+documentation on the [Terraform
+Registry](https://registry.terraform.io/providers/incident-io/incident/latest).
 `,
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
