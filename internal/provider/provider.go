@@ -2,6 +2,8 @@ package provider
 
 import (
 	"context"
+	"fmt"
+	"net/http"
 	"os"
 
 	_ "embed"
@@ -102,7 +104,16 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 		Transport: cleanhttp.DefaultTransport(),
 	}
 
-	client, err := client.NewClientWithResponses(endpoint, client.WithHTTPClient(base), client.WithRequestEditorFn(bearerTokenProvider.Intercept))
+	client, err := client.NewClientWithResponses(
+		endpoint,
+		client.WithHTTPClient(base),
+		client.WithRequestEditorFn(bearerTokenProvider.Intercept),
+		// Add a user-agent so we can tell which version these requests came from.
+		client.WithRequestEditorFn(func(ctx context.Context, req *http.Request) error {
+			req.Header.Add("user-agent", fmt.Sprintf("terraform-provider-incident/%s", p.version))
+			return nil
+		}),
+	)
 	if err != nil {
 		panic(err)
 	}
