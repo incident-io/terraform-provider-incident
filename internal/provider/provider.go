@@ -79,14 +79,14 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 	var endpoint string
 	if override := os.Getenv("INCIDENT_ENDPOINT"); override != "" {
 		endpoint = override
-	} else if data.Endpoint.IsNull() {
+	} else if data.Endpoint.IsNull() || data.Endpoint.IsUnknown() {
 		endpoint = "https://api.incident.io"
 	} else {
 		endpoint = data.Endpoint.String()
 	}
 
 	var apiKey string
-	if data.APIKey.IsNull() {
+	if data.APIKey.IsNull() || data.APIKey.IsUnknown() {
 		apiKey = os.Getenv("INCIDENT_API_KEY")
 	} else {
 		apiKey = data.APIKey.String()

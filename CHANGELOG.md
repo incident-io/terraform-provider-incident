@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix API key setting via provider attribute
+
 ## 1.0.1
 
 - Severity rank is computed (https://github.com/incident-io/terraform-provider-incident/pull/2)
