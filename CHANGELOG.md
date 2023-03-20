@@ -1,4 +1,4 @@
-## Unreleased
+## 1.0.2
 
 - Fix API key setting via provider attribute
 - Provide user-agent of terraform-provider-incident/version for all requests
