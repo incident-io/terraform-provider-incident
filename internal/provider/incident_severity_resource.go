@@ -92,9 +92,8 @@ func (r *IncidentSeverityResource) Create(ctx context.Context, req resource.Crea
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	var rank *int64
-	if !data.Rank.IsNull() {
+	if !data.Rank.IsUnknown() {
 		rank = lo.ToPtr(data.Rank.ValueInt64())
 	}
 	result, err := r.client.SeveritiesV1CreateWithResponse(ctx, client.SeveritiesV1CreateJSONRequestBody{
