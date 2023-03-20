@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/samber/lo"
 )
 
 var (
@@ -24,9 +25,15 @@ type IncidentCatalogTypeAttributesResource struct {
 	client *client.ClientWithResponses
 }
 
+type catalogTypeAttribute struct {
+	Name  types.String `tfsdk:"name"`
+	Type  types.String `tfsdk:"type"`
+	Array types.Bool   `tfsdk:"array"`
+}
+
 type IncidentCatalogTypeAttributesResourceModel struct {
-	CatalogTypeID types.String `tfsdk:"catalog_type_id"`
-	Attribute     types.List   `tfsdk:"attribute"`
+	CatalogTypeID types.String           `tfsdk:"catalog_type_id"`
+	Attribute     []catalogTypeAttribute `tfsdk:"attribute"`
 }
 
 func NewIncidentCatalogTypeAttributesResource() resource.Resource {
@@ -42,13 +49,14 @@ func (r *IncidentCatalogTypeAttributesResource) Schema(ctx context.Context, req 
 		MarkdownDescription: apischema.TagDocstring("Catalog V2"),
 		Attributes: map[string]schema.Attribute{
 			"catalog_type_id": schema.StringAttribute{
-				Computed:            true,
+				Required:            true,
 				MarkdownDescription: apischema.Docstring("CatalogTypeV2ResponseBody", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"attribute": schema.ListNestedAttribute{
+				Required: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
@@ -96,8 +104,12 @@ func (r *IncidentCatalogTypeAttributesResource) Create(ctx context.Context, req 
 	}
 
 	attributes := []client.CatalogTypeAttributeV2{}
-	for _, elem := range data.Attribute.Elements() {
-		//
+	for _, elem := range data.Attribute {
+		attributes = append(attributes, client.CatalogTypeAttributeV2{
+			Name:  elem.Name.ValueString(),
+			Type:  elem.Type.ValueString(),
+			Array: elem.Array.ValueBool(),
+		})
 	}
 	result, err := r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.UpdateTypeSchemaRequestBody{
 		Attributes: attributes,
@@ -110,8 +122,8 @@ func (r *IncidentCatalogTypeAttributesResource) Create(ctx context.Context, req 
 		return
 	}
 
-	tflog.Trace(ctx, fmt.Sprintf("created a catalog type resource with id=%s", result.JSON201.CatalogType.Id))
-	data = r.buildModel(result.JSON201.CatalogType)
+	tflog.Trace(ctx, fmt.Sprintf("Updated catalog type resource with id=%s", result.JSON200.CatalogType.Id))
+	data = r.buildModel(result.JSON200.CatalogType)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -122,7 +134,7 @@ func (r *IncidentCatalogTypeAttributesResource) Read(ctx context.Context, req re
 		return
 	}
 
-	result, err := r.client.CatalogV2ShowTypeWithResponse(ctx, data.ID.ValueString())
+	result, err := r.client.CatalogV2ShowTypeWithResponse(ctx, data.CatalogTypeID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog type, got error: %s", err))
 		return
@@ -139,25 +151,26 @@ func (r *IncidentCatalogTypeAttributesResource) Update(ctx context.Context, req 
 		return
 	}
 
-	var semanticType string
-	if data.SemanticType.IsUnknown() {
-		semanticType = "custom"
-	} else {
-		semanticType = data.SemanticType.ValueString()
+	attributes := []client.CatalogTypeAttributeV2{}
+	for _, elem := range data.Attribute {
+		attributes = append(attributes, client.CatalogTypeAttributeV2{
+			Name:  elem.Name.String(),
+			Type:  elem.Type.String(),
+			Array: elem.Array.ValueBool(),
+		})
 	}
-	result, err := r.client.CatalogV2UpdateTypeWithResponse(ctx, data.ID.ValueString(), client.CatalogV2UpdateTypeJSONRequestBody{
-		Name:         data.Name.ValueString(),
-		Description:  data.Description.ValueString(),
-		SemanticType: semanticType,
+	result, err := r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.UpdateTypeSchemaRequestBody{
+		Attributes: attributes,
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update catalog type, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update catalog type schema, got error: %s", err))
 		return
 	}
 
+	tflog.Trace(ctx, fmt.Sprintf("Updated catalog type resource with id=%s", result.JSON200.CatalogType.Id))
 	data = r.buildModel(result.JSON200.CatalogType)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -169,7 +182,7 @@ func (r *IncidentCatalogTypeAttributesResource) Delete(ctx context.Context, req 
 		return
 	}
 
-	_, err := r.client.CatalogV2DestroyTypeWithResponse(ctx, data.ID.ValueString())
+	_, err := r.client.CatalogV2DestroyTypeWithResponse(ctx, data.CatalogTypeID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete catalog type, got error: %s", err))
 		return
@@ -182,9 +195,13 @@ func (r *IncidentCatalogTypeAttributesResource) ImportState(ctx context.Context,
 
 func (r *IncidentCatalogTypeAttributesResource) buildModel(catalogType client.CatalogTypeV2) *IncidentCatalogTypeAttributesResourceModel {
 	return &IncidentCatalogTypeAttributesResourceModel{
-		ID:           types.StringValue(catalogType.Id),
-		Name:         types.StringValue(catalogType.Name),
-		Description:  types.StringValue(catalogType.Description),
-		SemanticType: types.StringValue(catalogType.SemanticType),
+		CatalogTypeID: types.StringValue(catalogType.Id),
+		Attribute: lo.Map(catalogType.Schema.Attributes, func(attr client.CatalogTypeAttributeV2, _ int) catalogTypeAttribute {
+			return catalogTypeAttribute{
+				Name:  types.StringValue(attr.Name),
+				Type:  types.StringValue(attr.Type),
+				Array: types.BoolValue(attr.Array),
+			}
+		}),
 	}
 }

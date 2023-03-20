@@ -130,6 +130,7 @@ func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Reso
 		NewIncidentRoleResource,
 		NewIncidentSeverityResource,
 		NewIncidentStatusResource,
+		NewIncidentCatalogTypeAttributesResource,
 	}
 }
 
