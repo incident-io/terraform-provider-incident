@@ -2,6 +2,7 @@
 
 - Fix API key setting via provider attribute
 - Provide user-agent of terraform-provider-incident/version for all requests
+- Fix creating severities without providing a rank
 
 ## 1.0.1
 
