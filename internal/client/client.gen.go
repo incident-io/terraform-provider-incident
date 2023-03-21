@@ -373,10 +373,28 @@ type CatalogEntryV2 struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+// CatalogTypeAttributePayloadV2 defines model for CatalogTypeAttributePayloadV2.
+type CatalogTypeAttributePayloadV2 struct {
+	// Array Whether this column is an array
+	Array bool `json:"array"`
+
+	// Id The ID of this column
+	Id *string `json:"id,omitempty"`
+
+	// Name Unique name of this column
+	Name string `json:"name"`
+
+	// Type The type of this column
+	Type string `json:"type"`
+}
+
 // CatalogTypeAttributeV2 defines model for CatalogTypeAttributeV2.
 type CatalogTypeAttributeV2 struct {
 	// Array Whether this column is an array
 	Array bool `json:"array"`
+
+	// Id The ID of this column
+	Id string `json:"id"`
 
 	// Name Unique name of this column
 	Name string `json:"name"`
@@ -1428,7 +1446,7 @@ type UpdateTypeRequestBody struct {
 
 // UpdateTypeSchemaRequestBody defines model for UpdateTypeSchemaRequestBody.
 type UpdateTypeSchemaRequestBody struct {
-	Attributes []CatalogTypeAttributeV2 `json:"attributes"`
+	Attributes []CatalogTypeAttributePayloadV2 `json:"attributes"`
 }
 
 // UserReferencePayloadV1 defines model for UserReferencePayloadV1.

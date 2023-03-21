@@ -2234,7 +2234,7 @@
                       "attributes": [
                         {
                           "array": false,
-                          "id": "abc123",
+                          "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
                           "type": "tier"
                         }
@@ -2435,7 +2435,7 @@
                       "attributes": [
                         {
                           "array": false,
-                          "id": "abc123",
+                          "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
                           "type": "tier"
                         }
@@ -2549,7 +2549,7 @@
                       "attributes": [
                         {
                           "array": false,
-                          "id": "abc123",
+                          "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
                           "type": "tier"
                         }
@@ -2592,7 +2592,7 @@
                         "attributes": [
                           {
                             "array": false,
-                            "id": "abc123",
+                            "id": "01GW2G3V0S59R238FAHPDS1R66",
                             "name": "tier",
                             "type": "tier"
                           }
@@ -2648,7 +2648,7 @@
                       "attributes": [
                         {
                           "array": false,
-                          "id": "abc123",
+                          "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
                           "type": "tier"
                         }
@@ -2731,7 +2731,7 @@
                       "attributes": [
                         {
                           "array": false,
-                          "id": "abc123",
+                          "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
                           "type": "tier"
                         }
@@ -2800,7 +2800,7 @@
                       "attributes": [
                         {
                           "array": false,
-                          "id": "abc123",
+                          "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
                           "type": "tier"
                         }
@@ -2849,7 +2849,7 @@
                 "attributes": [
                   {
                     "array": false,
-                    "id": "abc123",
+                    "id": "01GW2G3V0S59R238FAHPDS1R66",
                     "name": "tier",
                     "type": "tier"
                   }
@@ -2876,7 +2876,7 @@
                       "attributes": [
                         {
                           "array": false,
-                          "id": "abc123",
+                          "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
                           "type": "tier"
                         }
@@ -4580,7 +4580,7 @@
           "updated_at"
         ]
       },
-      "CatalogTypeAttributeV2": {
+      "CatalogTypeAttributePayloadV2": {
         "type": "object",
         "properties": {
           "array": {
@@ -4591,7 +4591,7 @@
           "id": {
             "type": "string",
             "description": "The ID of this column",
-            "example": "abc123"
+            "example": "01GW2G3V0S59R238FAHPDS1R66"
           },
           "name": {
             "type": "string",
@@ -4606,7 +4606,43 @@
         },
         "example": {
           "array": false,
-          "id": "abc123",
+          "id": "01GW2G3V0S59R238FAHPDS1R66",
+          "name": "tier",
+          "type": "tier"
+        },
+        "required": [
+          "name",
+          "type",
+          "array"
+        ]
+      },
+      "CatalogTypeAttributeV2": {
+        "type": "object",
+        "properties": {
+          "array": {
+            "type": "boolean",
+            "description": "Whether this column is an array",
+            "example": false
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of this column",
+            "example": "01GW2G3V0S59R238FAHPDS1R66"
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique name of this column",
+            "example": "tier"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of this column",
+            "example": "tier"
+          }
+        },
+        "example": {
+          "array": false,
+          "id": "01GW2G3V0S59R238FAHPDS1R66",
           "name": "tier",
           "type": "tier"
         },
@@ -4629,7 +4665,7 @@
             "example": [
               {
                 "array": false,
-                "id": "abc123",
+                "id": "01GW2G3V0S59R238FAHPDS1R66",
                 "name": "tier",
                 "type": "tier"
               }
@@ -4640,7 +4676,7 @@
           "attributes": [
             {
               "array": false,
-              "id": "abc123",
+              "id": "01GW2G3V0S59R238FAHPDS1R66",
               "name": "tier",
               "type": "tier"
             }
@@ -4698,7 +4734,7 @@
             "attributes": [
               {
                 "array": false,
-                "id": "abc123",
+                "id": "01GW2G3V0S59R238FAHPDS1R66",
                 "name": "tier",
                 "type": "tier"
               }
@@ -5512,7 +5548,7 @@
               "attributes": [
                 {
                   "array": false,
-                  "id": "abc123",
+                  "id": "01GW2G3V0S59R238FAHPDS1R66",
                   "name": "tier",
                   "type": "tier"
                 }
@@ -7437,7 +7473,7 @@
               "attributes": [
                 {
                   "array": false,
-                  "id": "abc123",
+                  "id": "01GW2G3V0S59R238FAHPDS1R66",
                   "name": "tier",
                   "type": "tier"
                 }
@@ -8475,7 +8511,7 @@
                   "attributes": [
                     {
                       "array": false,
-                      "id": "abc123",
+                      "id": "01GW2G3V0S59R238FAHPDS1R66",
                       "name": "tier",
                       "type": "tier"
                     }
@@ -8498,7 +8534,7 @@
                 "attributes": [
                   {
                     "array": false,
-                    "id": "abc123",
+                    "id": "01GW2G3V0S59R238FAHPDS1R66",
                     "name": "tier",
                     "type": "tier"
                   }
@@ -9237,7 +9273,7 @@
               "attributes": [
                 {
                   "array": false,
-                  "id": "abc123",
+                  "id": "01GW2G3V0S59R238FAHPDS1R66",
                   "name": "tier",
                   "type": "tier"
                 }
@@ -9969,12 +10005,12 @@
           "attributes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CatalogTypeAttributeV2"
+              "$ref": "#/components/schemas/CatalogTypeAttributePayloadV2"
             },
             "example": [
               {
                 "array": false,
-                "id": "abc123",
+                "id": "01GW2G3V0S59R238FAHPDS1R66",
                 "name": "tier",
                 "type": "tier"
               }
@@ -9985,7 +10021,7 @@
           "attributes": [
             {
               "array": false,
-              "id": "abc123",
+              "id": "01GW2G3V0S59R238FAHPDS1R66",
               "name": "tier",
               "type": "tier"
             }
