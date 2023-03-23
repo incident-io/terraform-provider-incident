@@ -45,8 +45,12 @@ func (m IncidentCatalogEntryResourceModel) buildAttributeValues() map[string]cli
 		if !attributeValue.ArrayValue.IsUnknown() {
 			arrayValue := []client.CatalogAttributeValuePayloadV2{}
 			for _, element := range attributeValue.ArrayValue.Elements() {
+				elementString, ok := element.(types.String)
+				if !ok {
+					panic(fmt.Sprintf("element should have been types.String but was %T", element))
+				}
 				arrayValue = append(arrayValue, client.CatalogAttributeValuePayloadV2{
-					Literal: lo.ToPtr(element.(types.String).ValueString()),
+					Literal: lo.ToPtr(elementString.ValueString()),
 				})
 			}
 
