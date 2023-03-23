@@ -1694,6 +1694,7 @@
               "$ref": "#/definitions/CatalogV2UpdateTypeSchemaRequestBody",
               "required": [
                 "attributes",
+                "version",
                 "name",
                 "description",
                 "semantic_type",
@@ -2867,6 +2868,12 @@
               "type": "tier"
             }
           ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "The version number of this schema",
+          "example": 1,
+          "format": "int64"
         }
       },
       "example": {
@@ -2877,10 +2884,12 @@
             "name": "tier",
             "type": "tier"
           }
-        ]
+        ],
+        "version": 1
       },
       "required": [
-        "attributes"
+        "attributes",
+        "version"
       ]
     },
     "CatalogTypeV2ResponseBody": {
@@ -2936,7 +2945,8 @@
               "name": "tier",
               "type": "tier"
             }
-          ]
+          ],
+          "version": 1
         },
         "semantic_type": "service",
         "updated_at": "2021-08-17T13:28:57.801578Z"
@@ -3116,7 +3126,8 @@
                 "name": "tier",
                 "type": "tier"
               }
-            ]
+            ],
+            "version": 1
           },
           "semantic_type": "service",
           "updated_at": "2021-08-17T13:28:57.801578Z"
@@ -3228,7 +3239,8 @@
                 "name": "tier",
                 "type": "tier"
               }
-            ]
+            ],
+            "version": 1
           },
           "semantic_type": "service",
           "updated_at": "2021-08-17T13:28:57.801578Z"
@@ -3262,7 +3274,8 @@
                     "name": "tier",
                     "type": "tier"
                   }
-                ]
+                ],
+                "version": 1
               },
               "semantic_type": "service",
               "updated_at": "2021-08-17T13:28:57.801578Z"
@@ -3285,7 +3298,8 @@
                   "name": "tier",
                   "type": "tier"
                 }
-              ]
+              ],
+              "version": 1
             },
             "semantic_type": "service",
             "updated_at": "2021-08-17T13:28:57.801578Z"
@@ -3356,7 +3370,8 @@
                 "name": "tier",
                 "type": "tier"
               }
-            ]
+            ],
+            "version": 1
           },
           "semantic_type": "service",
           "updated_at": "2021-08-17T13:28:57.801578Z"
@@ -3389,7 +3404,8 @@
                 "name": "tier",
                 "type": "tier"
               }
-            ]
+            ],
+            "version": 1
           },
           "semantic_type": "service",
           "updated_at": "2021-08-17T13:28:57.801578Z"
@@ -3511,7 +3527,8 @@
                 "name": "tier",
                 "type": "tier"
               }
-            ]
+            ],
+            "version": 1
           },
           "semantic_type": "service",
           "updated_at": "2021-08-17T13:28:57.801578Z"
@@ -3578,7 +3595,8 @@
                 "name": "tier",
                 "type": "tier"
               }
-            ]
+            ],
+            "version": 1
           },
           "semantic_type": "service",
           "updated_at": "2021-08-17T13:28:57.801578Z"
@@ -3605,6 +3623,11 @@
               "type": "tier"
             }
           ]
+        },
+        "version": {
+          "type": "integer",
+          "example": 1,
+          "format": "int64"
         }
       },
       "example": {
@@ -3615,10 +3638,12 @@
             "name": "tier",
             "type": "tier"
           }
-        ]
+        ],
+        "version": 1
       },
       "required": [
         "attributes",
+        "version",
         "name",
         "description",
         "semantic_type",
@@ -3649,7 +3674,8 @@
                 "name": "tier",
                 "type": "tier"
               }
-            ]
+            ],
+            "version": 1
           },
           "semantic_type": "service",
           "updated_at": "2021-08-17T13:28:57.801578Z"

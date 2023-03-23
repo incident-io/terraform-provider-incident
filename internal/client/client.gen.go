@@ -407,6 +407,9 @@ type CatalogTypeAttributeV2 struct {
 type CatalogTypeSchemaV2 struct {
 	// Attributes Attributes of this catalog type
 	Attributes []CatalogTypeAttributeV2 `json:"attributes"`
+
+	// Version The version number of this schema
+	Version int64 `json:"version"`
 }
 
 // CatalogTypeV2 defines model for CatalogTypeV2.
@@ -1447,6 +1450,7 @@ type UpdateTypeRequestBody struct {
 // UpdateTypeSchemaRequestBody defines model for UpdateTypeSchemaRequestBody.
 type UpdateTypeSchemaRequestBody struct {
 	Attributes []CatalogTypeAttributePayloadV2 `json:"attributes"`
+	Version    int64                           `json:"version"`
 }
 
 // UserReferencePayloadV1 defines model for UserReferencePayloadV1.

@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"sync"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -12,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/pkg/errors"
 	"github.com/samber/lo"
 )
 
@@ -123,36 +125,37 @@ func (r *IncidentCatalogTypeAttributeResource) Create(ctx context.Context, req r
 		return
 	}
 
-	typeResult, err := r.client.CatalogV2ShowTypeWithResponse(ctx, data.CatalogTypeID.ValueString())
-	if err == nil && typeResult.StatusCode() >= 400 {
-		err = fmt.Errorf(string(typeResult.Body))
-	}
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to get catalog type, got error: %s", err))
-		return
-	}
+	var result *client.CatalogV2UpdateTypeSchemaResponse
+	err := r.lockFor(ctx, data.CatalogTypeID.ValueString(), func(ctx context.Context, catalogType client.CatalogTypeV2) error {
+		attributes := []client.CatalogTypeAttributePayloadV2{}
+		for _, attribute := range catalogType.Schema.Attributes {
+			attributes = append(attributes, client.CatalogTypeAttributePayloadV2{
+				Id:    &attribute.Id,
+				Name:  attribute.Name,
+				Type:  attribute.Type,
+				Array: attribute.Array,
+			})
+		}
 
-	attributes := []client.CatalogTypeAttributePayloadV2{}
-	for _, attribute := range typeResult.JSON200.CatalogType.Schema.Attributes {
-		attributes = append(attributes, client.CatalogTypeAttributePayloadV2{
-			Id:    &attribute.Id,
-			Name:  attribute.Name,
-			Type:  attribute.Type,
-			Array: attribute.Array,
+		// Add our new attribute.
+		attributes = append(attributes, data.buildAttribute())
+
+		var err error
+		result, err = r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, catalogType.Id, client.UpdateTypeSchemaRequestBody{
+			Version:    catalogType.Schema.Version,
+			Attributes: attributes,
 		})
-	}
+		if err == nil && result.StatusCode() >= 400 {
+			err = fmt.Errorf(string(result.Body))
+		}
+		if err != nil {
+			return errors.Wrap(err, "Unable to update catalog type schema, got error")
+		}
 
-	// Add our new attribute.
-	attributes = append(attributes, data.buildAttribute())
-
-	result, err := r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.UpdateTypeSchemaRequestBody{
-		Attributes: attributes,
+		return nil
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update catalog type schema, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf(err.Error()))
 		return
 	}
 
@@ -196,45 +199,49 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 		return
 	}
 
-	typeResult, err := r.client.CatalogV2ShowTypeWithResponse(ctx, data.CatalogTypeID.ValueString())
-	if err == nil && typeResult.StatusCode() >= 400 {
-		err = fmt.Errorf(string(typeResult.Body))
-	}
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to get catalog type, got error: %s", err))
-		return
-	}
-
 	var (
-		attributes    = []client.CatalogTypeAttributePayloadV2{}
 		alreadyExists bool
 	)
-	for _, attribute := range typeResult.JSON200.CatalogType.Schema.Attributes {
-		if attribute.Id == data.ID.ValueString() {
-			alreadyExists = true
-			attributes = append(attributes, data.buildAttribute())
-		} else {
-			attributes = append(attributes, client.CatalogTypeAttributePayloadV2{
-				Id:    &attribute.Id,
-				Name:  attribute.Name,
-				Type:  attribute.Type,
-				Array: attribute.Array,
-			})
-		}
-	}
-	if !alreadyExists {
-		// We weren't here, so add us to the end.
-		attributes = append(attributes, data.buildAttribute())
-	}
 
-	result, err := r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.UpdateTypeSchemaRequestBody{
-		Attributes: attributes,
+	var result *client.CatalogV2UpdateTypeSchemaResponse
+	err := r.lockFor(ctx, data.CatalogTypeID.ValueString(), func(ctx context.Context, catalogType client.CatalogTypeV2) error {
+		var (
+			attributes = []client.CatalogTypeAttributePayloadV2{}
+		)
+		for _, attribute := range catalogType.Schema.Attributes {
+			if attribute.Id == data.ID.ValueString() {
+				alreadyExists = true
+				attributes = append(attributes, data.buildAttribute())
+			} else {
+				attributes = append(attributes, client.CatalogTypeAttributePayloadV2{
+					Id:    &attribute.Id,
+					Name:  attribute.Name,
+					Type:  attribute.Type,
+					Array: attribute.Array,
+				})
+			}
+		}
+		if !alreadyExists {
+			// We weren't here, so add us to the end.
+			attributes = append(attributes, data.buildAttribute())
+		}
+
+		var err error
+		result, err = r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.UpdateTypeSchemaRequestBody{
+			Version:    catalogType.Schema.Version,
+			Attributes: attributes,
+		})
+		if err == nil && result.StatusCode() >= 400 {
+			err = fmt.Errorf(string(result.Body))
+		}
+		if err != nil {
+			return errors.Wrap(err, "Unable to update catalog type schema, got error")
+		}
+
+		return nil
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update catalog type schema, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf(err.Error()))
 		return
 	}
 
@@ -265,37 +272,36 @@ func (r *IncidentCatalogTypeAttributeResource) Delete(ctx context.Context, req r
 		return
 	}
 
-	typeResult, err := r.client.CatalogV2ShowTypeWithResponse(ctx, data.CatalogTypeID.ValueString())
-	if err == nil && typeResult.StatusCode() >= 400 {
-		err = fmt.Errorf(string(typeResult.Body))
-	}
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to get catalog type, got error: %s", err))
-		return
-	}
+	err := r.lockFor(ctx, data.CatalogTypeID.ValueString(), func(ctx context.Context, catalogType client.CatalogTypeV2) error {
+		attributes := []client.CatalogTypeAttributePayloadV2{}
+		for _, attribute := range catalogType.Schema.Attributes {
+			if attribute.Id == data.ID.ValueString() {
+				continue
+			}
 
-	attributes := []client.CatalogTypeAttributePayloadV2{}
-	for _, attribute := range typeResult.JSON200.CatalogType.Schema.Attributes {
-		if attribute.Id == data.ID.ValueString() {
-			continue
+			attributes = append(attributes, client.CatalogTypeAttributePayloadV2{
+				Id:    &attribute.Id,
+				Name:  attribute.Name,
+				Type:  attribute.Type,
+				Array: attribute.Array,
+			})
 		}
 
-		attributes = append(attributes, client.CatalogTypeAttributePayloadV2{
-			Id:    &attribute.Id,
-			Name:  attribute.Name,
-			Type:  attribute.Type,
-			Array: attribute.Array,
+		result, err := r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.UpdateTypeSchemaRequestBody{
+			Version:    catalogType.Schema.Version,
+			Attributes: attributes,
 		})
-	}
+		if err == nil && result.StatusCode() >= 400 {
+			err = fmt.Errorf(string(result.Body))
+		}
+		if err != nil {
+			return errors.Wrap(err, "Unable to update catalog type schema, got error")
+		}
 
-	result, err := r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.UpdateTypeSchemaRequestBody{
-		Attributes: attributes,
+		return nil
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update catalog type schema, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf(err.Error()))
 		return
 	}
 }
@@ -315,4 +321,33 @@ func (r *IncidentCatalogTypeAttributeResource) buildModel(catalogType client.Cat
 	}
 
 	return result
+}
+
+var (
+	catalogTypeLocks = map[string]*sync.Mutex{}
+	catalogTypeMutex sync.Mutex
+)
+
+func (r *IncidentCatalogTypeAttributeResource) lockFor(ctx context.Context, catalogTypeID string, do func(ctx context.Context, catalogType client.CatalogTypeV2) error) error {
+	catalogTypeMutex.Lock()
+	defer catalogTypeMutex.Unlock()
+
+	_, ok := catalogTypeLocks[catalogTypeID]
+	if !ok {
+		catalogTypeLocks[catalogTypeID] = new(sync.Mutex)
+	}
+
+	mutex := catalogTypeLocks[catalogTypeID]
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	typeResult, err := r.client.CatalogV2ShowTypeWithResponse(ctx, catalogTypeID)
+	if err == nil && typeResult.StatusCode() >= 400 {
+		err = fmt.Errorf(string(typeResult.Body))
+	}
+	if err != nil {
+		return errors.Wrap(err, "Unable to get catalog type, got error")
+	}
+
+	return do(ctx, typeResult.JSON200.CatalogType)
 }
