@@ -1,3 +1,7 @@
+## Unreleased
+
+- Bugfix for terraform provider variables
+
 ## 1.0.2
 
 - Fix API key setting via provider attribute
