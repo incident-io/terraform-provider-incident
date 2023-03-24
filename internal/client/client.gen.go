@@ -232,6 +232,7 @@ const (
 	UserV1RoleAdministrator UserV1Role = "administrator"
 	UserV1RoleOwner         UserV1Role = "owner"
 	UserV1RoleResponder     UserV1Role = "responder"
+	UserV1RoleUnset         UserV1Role = "unset"
 	UserV1RoleViewer        UserV1Role = "viewer"
 )
 
@@ -300,6 +301,154 @@ type ActionV1Status string
 type ActorV2 struct {
 	ApiKey *APIKeyV2 `json:"api_key,omitempty"`
 	User   *UserV1   `json:"user,omitempty"`
+}
+
+// CatalogAttributeBindingPayloadV2 defines model for CatalogAttributeBindingPayloadV2.
+type CatalogAttributeBindingPayloadV2 struct {
+	// ArrayValue If set, this is the array value of the attribute
+	ArrayValue *[]CatalogAttributeValuePayloadV2 `json:"array_value,omitempty"`
+	Value      *CatalogAttributeValuePayloadV2   `json:"value,omitempty"`
+}
+
+// CatalogAttributeBindingV2 defines model for CatalogAttributeBindingV2.
+type CatalogAttributeBindingV2 struct {
+	// ArrayValue If array_value is set, this helps render the values
+	ArrayValue *[]CatalogAttributeValueV2 `json:"array_value,omitempty"`
+	Value      *CatalogAttributeValueV2   `json:"value,omitempty"`
+}
+
+// CatalogAttributeValuePayloadV2 defines model for CatalogAttributeValuePayloadV2.
+type CatalogAttributeValuePayloadV2 struct {
+	// Literal The literal value of this attribute
+	Literal *string `json:"literal,omitempty"`
+}
+
+// CatalogAttributeValueV2 defines model for CatalogAttributeValueV2.
+type CatalogAttributeValueV2 struct {
+	CatalogEntry *CatalogEntryReferenceV2 `json:"catalog_entry,omitempty"`
+
+	// ImageUrl If appropriate, URL to an image that can be displayed alongside the option
+	ImageUrl *string `json:"image_url,omitempty"`
+
+	// IsImageSlackIcon If true, the image_url is a Slack icon and should be displayed as such
+	IsImageSlackIcon *bool `json:"is_image_slack_icon,omitempty"`
+
+	// Label Human readable label to be displayed for user to select
+	Label string `json:"label"`
+
+	// Literal If set, this is the literal value of the step parameter
+	Literal *string `json:"literal,omitempty"`
+
+	// SortKey Gives an indication of how to sort the options when displayed to the user
+	SortKey string `json:"sort_key"`
+}
+
+// CatalogEntryReferenceV2 defines model for CatalogEntryReferenceV2.
+type CatalogEntryReferenceV2 struct {
+	// CatalogEntryId ID of this catalog entry
+	CatalogEntryId string `json:"catalog_entry_id"`
+
+	// CatalogTypeId ID of this catalog type
+	CatalogTypeId string `json:"catalog_type_id"`
+}
+
+// CatalogEntryV2 defines model for CatalogEntryV2.
+type CatalogEntryV2 struct {
+	// AttributeValues Values of this entry
+	AttributeValues map[string]CatalogAttributeBindingV2 `json:"attribute_values"`
+
+	// CatalogTypeId ID of this catalog type
+	CatalogTypeId string `json:"catalog_type_id"`
+
+	// CreatedAt When this entry was created
+	CreatedAt time.Time `json:"created_at"`
+
+	// Id ID of this resource
+	Id string `json:"id"`
+
+	// Name Name is the human readable name of this entry
+	Name string `json:"name"`
+
+	// UpdatedAt When this entry was last updated
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// CatalogTypeAttributePayloadV2 defines model for CatalogTypeAttributePayloadV2.
+type CatalogTypeAttributePayloadV2 struct {
+	// Array Whether this column is an array
+	Array bool `json:"array"`
+
+	// Id The ID of this column
+	Id *string `json:"id,omitempty"`
+
+	// Name Unique name of this column
+	Name string `json:"name"`
+
+	// Type The type of this column
+	Type string `json:"type"`
+}
+
+// CatalogTypeAttributeV2 defines model for CatalogTypeAttributeV2.
+type CatalogTypeAttributeV2 struct {
+	// Array Whether this column is an array
+	Array bool `json:"array"`
+
+	// Id The ID of this column
+	Id string `json:"id"`
+
+	// Name Unique name of this column
+	Name string `json:"name"`
+
+	// Type The type of this column
+	Type string `json:"type"`
+}
+
+// CatalogTypeSchemaV2 defines model for CatalogTypeSchemaV2.
+type CatalogTypeSchemaV2 struct {
+	// Attributes Attributes of this catalog type
+	Attributes []CatalogTypeAttributeV2 `json:"attributes"`
+
+	// Version The version number of this schema
+	Version int64 `json:"version"`
+}
+
+// CatalogTypeV2 defines model for CatalogTypeV2.
+type CatalogTypeV2 struct {
+	// CreatedAt When this type was created
+	CreatedAt time.Time `json:"created_at"`
+
+	// Description Human readble description of this type
+	Description string `json:"description"`
+
+	// Id ID of this resource
+	Id string `json:"id"`
+
+	// Name Name is the human readable name of this type
+	Name   string              `json:"name"`
+	Schema CatalogTypeSchemaV2 `json:"schema"`
+
+	// SemanticType Semantic type of this resource
+	SemanticType string `json:"semantic_type"`
+
+	// UpdatedAt When this type was last updated
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// CreateEntryRequestBody defines model for CreateEntryRequestBody.
+type CreateEntryRequestBody struct {
+	// AttributeValues Values of this entry
+	AttributeValues map[string]CatalogAttributeBindingPayloadV2 `json:"attribute_values"`
+
+	// CatalogTypeId ID of this catalog type
+	CatalogTypeId string `json:"catalog_type_id"`
+
+	// Name Name is the human readable name of this entry
+	Name string `json:"name"`
+}
+
+// CreateEntryResponseBody defines model for CreateEntryResponseBody.
+type CreateEntryResponseBody struct {
+	CatalogEntry CatalogEntryV2 `json:"catalog_entry"`
 }
 
 // CreateRequestBody defines model for CreateRequestBody.
@@ -508,6 +657,23 @@ type CreateRequestBody8 struct {
 // CreateResponseBody defines model for CreateResponseBody.
 type CreateResponseBody struct {
 	IncidentAttachment IncidentAttachmentV1 `json:"incident_attachment"`
+}
+
+// CreateTypeRequestBody defines model for CreateTypeRequestBody.
+type CreateTypeRequestBody struct {
+	// Description Human readble description of this type
+	Description string `json:"description"`
+
+	// Name Name is the human readable name of this type
+	Name string `json:"name"`
+
+	// SemanticType Semantic type of this resource
+	SemanticType string `json:"semantic_type"`
+}
+
+// CreateTypeResponseBody defines model for CreateTypeResponseBody.
+type CreateTypeResponseBody struct {
+	CatalogType CatalogTypeV2 `json:"catalog_type"`
 }
 
 // CustomFieldEntryPayloadV1 defines model for CustomFieldEntryPayloadV1.
@@ -1019,6 +1185,12 @@ type IncidentV2Mode string
 // IncidentV2Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/en/articles/5947963-can-we-mark-incidents-as-sensitive-and-restrict-access).
 type IncidentV2Visibility string
 
+// ListEntriesResponseBody defines model for ListEntriesResponseBody.
+type ListEntriesResponseBody struct {
+	CatalogEntries []CatalogEntryV2 `json:"catalog_entries"`
+	CatalogType    CatalogTypeV2    `json:"catalog_type"`
+}
+
 // ListResponseBody defines model for ListResponseBody.
 type ListResponseBody struct {
 	Actions []ActionV1 `json:"actions"`
@@ -1082,6 +1254,11 @@ type ListResponseBody9 struct {
 	PaginationMeta  *PaginationMeta    `json:"pagination_meta,omitempty"`
 }
 
+// ListTypesResponseBody defines model for ListTypesResponseBody.
+type ListTypesResponseBody struct {
+	CatalogTypes []CatalogTypeV2 `json:"catalog_types"`
+}
+
 // PaginationMeta defines model for PaginationMeta.
 type PaginationMeta struct {
 	// After If provided, were records after a particular ID
@@ -1128,6 +1305,12 @@ type SeverityV2 struct {
 
 	// UpdatedAt When the action was last updated
 	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// ShowEntryResponseBody defines model for ShowEntryResponseBody.
+type ShowEntryResponseBody struct {
+	CatalogEntry CatalogEntryV2 `json:"catalog_entry"`
+	CatalogType  CatalogTypeV2  `json:"catalog_type"`
 }
 
 // ShowResponseBody defines model for ShowResponseBody.
@@ -1178,6 +1361,15 @@ type ShowResponseBody8 struct {
 // ShowResponseBody9 defines model for ShowResponseBody9.
 type ShowResponseBody9 struct {
 	Incident IncidentV2 `json:"incident"`
+}
+
+// UpdateEntryRequestBody defines model for UpdateEntryRequestBody.
+type UpdateEntryRequestBody struct {
+	// AttributeValues Values of this entry
+	AttributeValues map[string]CatalogAttributeBindingPayloadV2 `json:"attribute_values"`
+
+	// Name Name is the human readable name of this entry
+	Name string `json:"name"`
 }
 
 // UpdateRequestBody defines model for UpdateRequestBody.
@@ -1243,6 +1435,24 @@ type UpdateRequestBody4 struct {
 	Name string `json:"name"`
 }
 
+// UpdateTypeRequestBody defines model for UpdateTypeRequestBody.
+type UpdateTypeRequestBody struct {
+	// Description Human readble description of this type
+	Description string `json:"description"`
+
+	// Name Name is the human readable name of this type
+	Name string `json:"name"`
+
+	// SemanticType Semantic type of this resource
+	SemanticType string `json:"semantic_type"`
+}
+
+// UpdateTypeSchemaRequestBody defines model for UpdateTypeSchemaRequestBody.
+type UpdateTypeSchemaRequestBody struct {
+	Attributes []CatalogTypeAttributePayloadV2 `json:"attributes"`
+	Version    int64                           `json:"version"`
+}
+
 // UserReferencePayloadV1 defines model for UserReferencePayloadV1.
 type UserReferencePayloadV1 struct {
 	// Email The user's email address, matching the email on their Slack account
@@ -1266,14 +1476,14 @@ type UserV1 struct {
 	// Name Name of the user
 	Name string `json:"name"`
 
-	// Role Role of the user
+	// Role DEPRECATED: Role of the user as of March 9th 2023, this value is no longer updated.
 	Role UserV1Role `json:"role"`
 
 	// SlackUserId Slack ID of the user
 	SlackUserId *string `json:"slack_user_id,omitempty"`
 }
 
-// UserV1Role Role of the user
+// UserV1Role DEPRECATED: Role of the user as of March 9th 2023, this value is no longer updated.
 type UserV1Role string
 
 // ActionsV1ListParams defines parameters for ActionsV1List.
@@ -1328,6 +1538,12 @@ type IncidentsV1ListParams struct {
 
 	// Status Filter for incidents in these statuses
 	Status *[]string `form:"status,omitempty" json:"status,omitempty"`
+}
+
+// CatalogV2ListEntriesParams defines parameters for CatalogV2ListEntries.
+type CatalogV2ListEntriesParams struct {
+	// CatalogTypeId ID of this catalog type
+	CatalogTypeId string `form:"catalog_type_id" json:"catalog_type_id"`
 }
 
 // IncidentUpdatesV2ListParams defines parameters for IncidentUpdatesV2List.
@@ -1401,6 +1617,21 @@ type SeveritiesV1CreateJSONRequestBody = CreateRequestBody8
 
 // SeveritiesV1UpdateJSONRequestBody defines body for SeveritiesV1Update for application/json ContentType.
 type SeveritiesV1UpdateJSONRequestBody = CreateRequestBody8
+
+// CatalogV2CreateEntryJSONRequestBody defines body for CatalogV2CreateEntry for application/json ContentType.
+type CatalogV2CreateEntryJSONRequestBody = CreateEntryRequestBody
+
+// CatalogV2UpdateEntryJSONRequestBody defines body for CatalogV2UpdateEntry for application/json ContentType.
+type CatalogV2UpdateEntryJSONRequestBody = UpdateEntryRequestBody
+
+// CatalogV2CreateTypeJSONRequestBody defines body for CatalogV2CreateType for application/json ContentType.
+type CatalogV2CreateTypeJSONRequestBody = CreateTypeRequestBody
+
+// CatalogV2UpdateTypeJSONRequestBody defines body for CatalogV2UpdateType for application/json ContentType.
+type CatalogV2UpdateTypeJSONRequestBody = UpdateTypeRequestBody
+
+// CatalogV2UpdateTypeSchemaJSONRequestBody defines body for CatalogV2UpdateTypeSchema for application/json ContentType.
+type CatalogV2UpdateTypeSchemaJSONRequestBody = UpdateTypeSchemaRequestBody
 
 // IncidentsV2CreateJSONRequestBody defines body for IncidentsV2Create for application/json ContentType.
 type IncidentsV2CreateJSONRequestBody = CreateRequestBody7
@@ -1612,6 +1843,49 @@ type ClientInterface interface {
 	SeveritiesV1UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	SeveritiesV1Update(ctx context.Context, id string, body SeveritiesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV2ListEntries request
+	CatalogV2ListEntries(ctx context.Context, params *CatalogV2ListEntriesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV2CreateEntry request with any body
+	CatalogV2CreateEntryWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CatalogV2CreateEntry(ctx context.Context, body CatalogV2CreateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV2DestroyEntry request
+	CatalogV2DestroyEntry(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV2ShowEntry request
+	CatalogV2ShowEntry(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV2UpdateEntry request with any body
+	CatalogV2UpdateEntryWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CatalogV2UpdateEntry(ctx context.Context, id string, body CatalogV2UpdateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV2ListTypes request
+	CatalogV2ListTypes(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV2CreateType request with any body
+	CatalogV2CreateTypeWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CatalogV2CreateType(ctx context.Context, body CatalogV2CreateTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV2DestroyType request
+	CatalogV2DestroyType(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV2ShowType request
+	CatalogV2ShowType(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV2UpdateType request with any body
+	CatalogV2UpdateTypeWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CatalogV2UpdateType(ctx context.Context, id string, body CatalogV2UpdateTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV2UpdateTypeSchema request with any body
+	CatalogV2UpdateTypeSchemaWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CatalogV2UpdateTypeSchema(ctx context.Context, id string, body CatalogV2UpdateTypeSchemaJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// IncidentTimestampsV2List request
 	IncidentTimestampsV2List(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2212,6 +2486,198 @@ func (c *Client) SeveritiesV1UpdateWithBody(ctx context.Context, id string, cont
 
 func (c *Client) SeveritiesV1Update(ctx context.Context, id string, body SeveritiesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSeveritiesV1UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2ListEntries(ctx context.Context, params *CatalogV2ListEntriesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2ListEntriesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2CreateEntryWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2CreateEntryRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2CreateEntry(ctx context.Context, body CatalogV2CreateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2CreateEntryRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2DestroyEntry(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2DestroyEntryRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2ShowEntry(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2ShowEntryRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2UpdateEntryWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2UpdateEntryRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2UpdateEntry(ctx context.Context, id string, body CatalogV2UpdateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2UpdateEntryRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2ListTypes(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2ListTypesRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2CreateTypeWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2CreateTypeRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2CreateType(ctx context.Context, body CatalogV2CreateTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2CreateTypeRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2DestroyType(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2DestroyTypeRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2ShowType(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2ShowTypeRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2UpdateTypeWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2UpdateTypeRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2UpdateType(ctx context.Context, id string, body CatalogV2UpdateTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2UpdateTypeRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2UpdateTypeSchemaWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2UpdateTypeSchemaRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV2UpdateTypeSchema(ctx context.Context, id string, body CatalogV2UpdateTypeSchemaJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV2UpdateTypeSchemaRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3798,6 +4264,433 @@ func NewSeveritiesV1UpdateRequestWithBody(server string, id string, contentType 
 	return req, nil
 }
 
+// NewCatalogV2ListEntriesRequest generates requests for CatalogV2ListEntries
+func NewCatalogV2ListEntriesRequest(server string, params *CatalogV2ListEntriesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/catalog_entries")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if queryFrag, err := runtime.StyleParamWithLocation("form", true, "catalog_type_id", runtime.ParamLocationQuery, params.CatalogTypeId); err != nil {
+		return nil, err
+	} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+		return nil, err
+	} else {
+		for k, v := range parsed {
+			for _, v2 := range v {
+				queryValues.Add(k, v2)
+			}
+		}
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCatalogV2CreateEntryRequest calls the generic CatalogV2CreateEntry builder with application/json body
+func NewCatalogV2CreateEntryRequest(server string, body CatalogV2CreateEntryJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCatalogV2CreateEntryRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCatalogV2CreateEntryRequestWithBody generates requests for CatalogV2CreateEntry with any type of body
+func NewCatalogV2CreateEntryRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/catalog_entries")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCatalogV2DestroyEntryRequest generates requests for CatalogV2DestroyEntry
+func NewCatalogV2DestroyEntryRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/catalog_entries/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCatalogV2ShowEntryRequest generates requests for CatalogV2ShowEntry
+func NewCatalogV2ShowEntryRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/catalog_entries/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCatalogV2UpdateEntryRequest calls the generic CatalogV2UpdateEntry builder with application/json body
+func NewCatalogV2UpdateEntryRequest(server string, id string, body CatalogV2UpdateEntryJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCatalogV2UpdateEntryRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewCatalogV2UpdateEntryRequestWithBody generates requests for CatalogV2UpdateEntry with any type of body
+func NewCatalogV2UpdateEntryRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/catalog_entries/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCatalogV2ListTypesRequest generates requests for CatalogV2ListTypes
+func NewCatalogV2ListTypesRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/catalog_types")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCatalogV2CreateTypeRequest calls the generic CatalogV2CreateType builder with application/json body
+func NewCatalogV2CreateTypeRequest(server string, body CatalogV2CreateTypeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCatalogV2CreateTypeRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCatalogV2CreateTypeRequestWithBody generates requests for CatalogV2CreateType with any type of body
+func NewCatalogV2CreateTypeRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/catalog_types")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCatalogV2DestroyTypeRequest generates requests for CatalogV2DestroyType
+func NewCatalogV2DestroyTypeRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/catalog_types/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCatalogV2ShowTypeRequest generates requests for CatalogV2ShowType
+func NewCatalogV2ShowTypeRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/catalog_types/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCatalogV2UpdateTypeRequest calls the generic CatalogV2UpdateType builder with application/json body
+func NewCatalogV2UpdateTypeRequest(server string, id string, body CatalogV2UpdateTypeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCatalogV2UpdateTypeRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewCatalogV2UpdateTypeRequestWithBody generates requests for CatalogV2UpdateType with any type of body
+func NewCatalogV2UpdateTypeRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/catalog_types/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCatalogV2UpdateTypeSchemaRequest calls the generic CatalogV2UpdateTypeSchema builder with application/json body
+func NewCatalogV2UpdateTypeSchemaRequest(server string, id string, body CatalogV2UpdateTypeSchemaJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCatalogV2UpdateTypeSchemaRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewCatalogV2UpdateTypeSchemaRequestWithBody generates requests for CatalogV2UpdateTypeSchema with any type of body
+func NewCatalogV2UpdateTypeSchemaRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/catalog_types/%s/actions/update_schema", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewIncidentTimestampsV2ListRequest generates requests for IncidentTimestampsV2List
 func NewIncidentTimestampsV2ListRequest(server string) (*http.Request, error) {
 	var err error
@@ -4332,6 +5225,49 @@ type ClientWithResponsesInterface interface {
 	SeveritiesV1UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SeveritiesV1UpdateResponse, error)
 
 	SeveritiesV1UpdateWithResponse(ctx context.Context, id string, body SeveritiesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*SeveritiesV1UpdateResponse, error)
+
+	// CatalogV2ListEntries request
+	CatalogV2ListEntriesWithResponse(ctx context.Context, params *CatalogV2ListEntriesParams, reqEditors ...RequestEditorFn) (*CatalogV2ListEntriesResponse, error)
+
+	// CatalogV2CreateEntry request with any body
+	CatalogV2CreateEntryWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV2CreateEntryResponse, error)
+
+	CatalogV2CreateEntryWithResponse(ctx context.Context, body CatalogV2CreateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV2CreateEntryResponse, error)
+
+	// CatalogV2DestroyEntry request
+	CatalogV2DestroyEntryWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CatalogV2DestroyEntryResponse, error)
+
+	// CatalogV2ShowEntry request
+	CatalogV2ShowEntryWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CatalogV2ShowEntryResponse, error)
+
+	// CatalogV2UpdateEntry request with any body
+	CatalogV2UpdateEntryWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV2UpdateEntryResponse, error)
+
+	CatalogV2UpdateEntryWithResponse(ctx context.Context, id string, body CatalogV2UpdateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV2UpdateEntryResponse, error)
+
+	// CatalogV2ListTypes request
+	CatalogV2ListTypesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*CatalogV2ListTypesResponse, error)
+
+	// CatalogV2CreateType request with any body
+	CatalogV2CreateTypeWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV2CreateTypeResponse, error)
+
+	CatalogV2CreateTypeWithResponse(ctx context.Context, body CatalogV2CreateTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV2CreateTypeResponse, error)
+
+	// CatalogV2DestroyType request
+	CatalogV2DestroyTypeWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CatalogV2DestroyTypeResponse, error)
+
+	// CatalogV2ShowType request
+	CatalogV2ShowTypeWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CatalogV2ShowTypeResponse, error)
+
+	// CatalogV2UpdateType request with any body
+	CatalogV2UpdateTypeWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV2UpdateTypeResponse, error)
+
+	CatalogV2UpdateTypeWithResponse(ctx context.Context, id string, body CatalogV2UpdateTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV2UpdateTypeResponse, error)
+
+	// CatalogV2UpdateTypeSchema request with any body
+	CatalogV2UpdateTypeSchemaWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV2UpdateTypeSchemaResponse, error)
+
+	CatalogV2UpdateTypeSchemaWithResponse(ctx context.Context, id string, body CatalogV2UpdateTypeSchemaJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV2UpdateTypeSchemaResponse, error)
 
 	// IncidentTimestampsV2List request
 	IncidentTimestampsV2ListWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*IncidentTimestampsV2ListResponse, error)
@@ -5162,6 +6098,246 @@ func (r SeveritiesV1UpdateResponse) StatusCode() int {
 	return 0
 }
 
+type CatalogV2ListEntriesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListEntriesResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV2ListEntriesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV2ListEntriesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CatalogV2CreateEntryResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *CreateEntryResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV2CreateEntryResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV2CreateEntryResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CatalogV2DestroyEntryResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV2DestroyEntryResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV2DestroyEntryResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CatalogV2ShowEntryResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ShowEntryResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV2ShowEntryResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV2ShowEntryResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CatalogV2UpdateEntryResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ShowEntryResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV2UpdateEntryResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV2UpdateEntryResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CatalogV2ListTypesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListTypesResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV2ListTypesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV2ListTypesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CatalogV2CreateTypeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *CreateTypeResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV2CreateTypeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV2CreateTypeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CatalogV2DestroyTypeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV2DestroyTypeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV2DestroyTypeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CatalogV2ShowTypeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CreateTypeResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV2ShowTypeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV2ShowTypeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CatalogV2UpdateTypeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CreateTypeResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV2UpdateTypeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV2UpdateTypeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CatalogV2UpdateTypeSchemaResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CreateTypeResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV2UpdateTypeSchemaResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV2UpdateTypeSchemaResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type IncidentTimestampsV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -5721,6 +6897,145 @@ func (c *ClientWithResponses) SeveritiesV1UpdateWithResponse(ctx context.Context
 		return nil, err
 	}
 	return ParseSeveritiesV1UpdateResponse(rsp)
+}
+
+// CatalogV2ListEntriesWithResponse request returning *CatalogV2ListEntriesResponse
+func (c *ClientWithResponses) CatalogV2ListEntriesWithResponse(ctx context.Context, params *CatalogV2ListEntriesParams, reqEditors ...RequestEditorFn) (*CatalogV2ListEntriesResponse, error) {
+	rsp, err := c.CatalogV2ListEntries(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2ListEntriesResponse(rsp)
+}
+
+// CatalogV2CreateEntryWithBodyWithResponse request with arbitrary body returning *CatalogV2CreateEntryResponse
+func (c *ClientWithResponses) CatalogV2CreateEntryWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV2CreateEntryResponse, error) {
+	rsp, err := c.CatalogV2CreateEntryWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2CreateEntryResponse(rsp)
+}
+
+func (c *ClientWithResponses) CatalogV2CreateEntryWithResponse(ctx context.Context, body CatalogV2CreateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV2CreateEntryResponse, error) {
+	rsp, err := c.CatalogV2CreateEntry(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2CreateEntryResponse(rsp)
+}
+
+// CatalogV2DestroyEntryWithResponse request returning *CatalogV2DestroyEntryResponse
+func (c *ClientWithResponses) CatalogV2DestroyEntryWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CatalogV2DestroyEntryResponse, error) {
+	rsp, err := c.CatalogV2DestroyEntry(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2DestroyEntryResponse(rsp)
+}
+
+// CatalogV2ShowEntryWithResponse request returning *CatalogV2ShowEntryResponse
+func (c *ClientWithResponses) CatalogV2ShowEntryWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CatalogV2ShowEntryResponse, error) {
+	rsp, err := c.CatalogV2ShowEntry(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2ShowEntryResponse(rsp)
+}
+
+// CatalogV2UpdateEntryWithBodyWithResponse request with arbitrary body returning *CatalogV2UpdateEntryResponse
+func (c *ClientWithResponses) CatalogV2UpdateEntryWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV2UpdateEntryResponse, error) {
+	rsp, err := c.CatalogV2UpdateEntryWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2UpdateEntryResponse(rsp)
+}
+
+func (c *ClientWithResponses) CatalogV2UpdateEntryWithResponse(ctx context.Context, id string, body CatalogV2UpdateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV2UpdateEntryResponse, error) {
+	rsp, err := c.CatalogV2UpdateEntry(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2UpdateEntryResponse(rsp)
+}
+
+// CatalogV2ListTypesWithResponse request returning *CatalogV2ListTypesResponse
+func (c *ClientWithResponses) CatalogV2ListTypesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*CatalogV2ListTypesResponse, error) {
+	rsp, err := c.CatalogV2ListTypes(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2ListTypesResponse(rsp)
+}
+
+// CatalogV2CreateTypeWithBodyWithResponse request with arbitrary body returning *CatalogV2CreateTypeResponse
+func (c *ClientWithResponses) CatalogV2CreateTypeWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV2CreateTypeResponse, error) {
+	rsp, err := c.CatalogV2CreateTypeWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2CreateTypeResponse(rsp)
+}
+
+func (c *ClientWithResponses) CatalogV2CreateTypeWithResponse(ctx context.Context, body CatalogV2CreateTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV2CreateTypeResponse, error) {
+	rsp, err := c.CatalogV2CreateType(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2CreateTypeResponse(rsp)
+}
+
+// CatalogV2DestroyTypeWithResponse request returning *CatalogV2DestroyTypeResponse
+func (c *ClientWithResponses) CatalogV2DestroyTypeWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CatalogV2DestroyTypeResponse, error) {
+	rsp, err := c.CatalogV2DestroyType(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2DestroyTypeResponse(rsp)
+}
+
+// CatalogV2ShowTypeWithResponse request returning *CatalogV2ShowTypeResponse
+func (c *ClientWithResponses) CatalogV2ShowTypeWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CatalogV2ShowTypeResponse, error) {
+	rsp, err := c.CatalogV2ShowType(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2ShowTypeResponse(rsp)
+}
+
+// CatalogV2UpdateTypeWithBodyWithResponse request with arbitrary body returning *CatalogV2UpdateTypeResponse
+func (c *ClientWithResponses) CatalogV2UpdateTypeWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV2UpdateTypeResponse, error) {
+	rsp, err := c.CatalogV2UpdateTypeWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2UpdateTypeResponse(rsp)
+}
+
+func (c *ClientWithResponses) CatalogV2UpdateTypeWithResponse(ctx context.Context, id string, body CatalogV2UpdateTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV2UpdateTypeResponse, error) {
+	rsp, err := c.CatalogV2UpdateType(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2UpdateTypeResponse(rsp)
+}
+
+// CatalogV2UpdateTypeSchemaWithBodyWithResponse request with arbitrary body returning *CatalogV2UpdateTypeSchemaResponse
+func (c *ClientWithResponses) CatalogV2UpdateTypeSchemaWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV2UpdateTypeSchemaResponse, error) {
+	rsp, err := c.CatalogV2UpdateTypeSchemaWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2UpdateTypeSchemaResponse(rsp)
+}
+
+func (c *ClientWithResponses) CatalogV2UpdateTypeSchemaWithResponse(ctx context.Context, id string, body CatalogV2UpdateTypeSchemaJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV2UpdateTypeSchemaResponse, error) {
+	rsp, err := c.CatalogV2UpdateTypeSchema(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV2UpdateTypeSchemaResponse(rsp)
 }
 
 // IncidentTimestampsV2ListWithResponse request returning *IncidentTimestampsV2ListResponse
@@ -6677,6 +7992,272 @@ func ParseSeveritiesV1UpdateResponse(rsp *http.Response) (*SeveritiesV1UpdateRes
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ShowResponseBody10
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV2ListEntriesResponse parses an HTTP response from a CatalogV2ListEntriesWithResponse call
+func ParseCatalogV2ListEntriesResponse(rsp *http.Response) (*CatalogV2ListEntriesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV2ListEntriesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListEntriesResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV2CreateEntryResponse parses an HTTP response from a CatalogV2CreateEntryWithResponse call
+func ParseCatalogV2CreateEntryResponse(rsp *http.Response) (*CatalogV2CreateEntryResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV2CreateEntryResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CreateEntryResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV2DestroyEntryResponse parses an HTTP response from a CatalogV2DestroyEntryWithResponse call
+func ParseCatalogV2DestroyEntryResponse(rsp *http.Response) (*CatalogV2DestroyEntryResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV2DestroyEntryResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV2ShowEntryResponse parses an HTTP response from a CatalogV2ShowEntryWithResponse call
+func ParseCatalogV2ShowEntryResponse(rsp *http.Response) (*CatalogV2ShowEntryResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV2ShowEntryResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ShowEntryResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV2UpdateEntryResponse parses an HTTP response from a CatalogV2UpdateEntryWithResponse call
+func ParseCatalogV2UpdateEntryResponse(rsp *http.Response) (*CatalogV2UpdateEntryResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV2UpdateEntryResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ShowEntryResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV2ListTypesResponse parses an HTTP response from a CatalogV2ListTypesWithResponse call
+func ParseCatalogV2ListTypesResponse(rsp *http.Response) (*CatalogV2ListTypesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV2ListTypesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListTypesResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV2CreateTypeResponse parses an HTTP response from a CatalogV2CreateTypeWithResponse call
+func ParseCatalogV2CreateTypeResponse(rsp *http.Response) (*CatalogV2CreateTypeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV2CreateTypeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CreateTypeResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV2DestroyTypeResponse parses an HTTP response from a CatalogV2DestroyTypeWithResponse call
+func ParseCatalogV2DestroyTypeResponse(rsp *http.Response) (*CatalogV2DestroyTypeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV2DestroyTypeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV2ShowTypeResponse parses an HTTP response from a CatalogV2ShowTypeWithResponse call
+func ParseCatalogV2ShowTypeResponse(rsp *http.Response) (*CatalogV2ShowTypeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV2ShowTypeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CreateTypeResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV2UpdateTypeResponse parses an HTTP response from a CatalogV2UpdateTypeWithResponse call
+func ParseCatalogV2UpdateTypeResponse(rsp *http.Response) (*CatalogV2UpdateTypeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV2UpdateTypeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CreateTypeResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV2UpdateTypeSchemaResponse parses an HTTP response from a CatalogV2UpdateTypeSchemaWithResponse call
+func ParseCatalogV2UpdateTypeSchemaResponse(rsp *http.Response) (*CatalogV2UpdateTypeSchemaResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV2UpdateTypeSchemaResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CreateTypeResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

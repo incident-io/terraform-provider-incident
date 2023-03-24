@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Adds support for catalog types, attributes and entries
+
 ## 1.0.3
 
 - Bugfix for terraform provider variables
