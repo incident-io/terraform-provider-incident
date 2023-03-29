@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"sort"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -99,7 +100,7 @@ func (r *IncidentCatalogEntryResource) Schema(ctx context.Context, req resource.
 				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "name"),
 				Required:            true,
 			},
-			"attribute_values": schema.ListNestedAttribute{
+			"attribute_values": schema.SetNestedAttribute{
 				Required: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -245,6 +246,12 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV2) *
 
 		values = append(values, value)
 	}
+
+	// This ensures we get a stable read of the resource, rather than hitting
+	// non-deterministic map key iteration.
+	sort.Slice(values, func(i, j int) bool {
+		return values[i].Attribute.ValueString() < values[j].Attribute.ValueString()
+	})
 
 	return &IncidentCatalogEntryResourceModel{
 		ID:              types.StringValue(entry.Id),

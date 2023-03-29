@@ -1,3 +1,8 @@
+## 1.2.0
+
+- Technically new feature, this represents attribute values on catalog entries
+  as sets to avoid unnecessary diffs when reordering the attributes
+
 ## 1.1.0
 
 - Adds support for catalog types, attributes and entries
