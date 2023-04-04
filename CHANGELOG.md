@@ -1,3 +1,7 @@
+## 1.3.0
+
+- Support alias and rank for catalog_entry
+
 ## 1.2.0
 
 - Technically new feature, this represents attribute values on catalog entries

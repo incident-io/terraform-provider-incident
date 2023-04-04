@@ -718,7 +718,7 @@
           "Incident Attachments V1"
         ],
         "summary": "List Incident Attachments V1",
-        "description": "List all incident attachements for an external resouce",
+        "description": "List all incident attachements for a given external resource or incident. You must provide either a specific incident ID or a specific external resource type and external ID.",
         "operationId": "Incident Attachments V1#List",
         "parameters": [
           {
@@ -2177,6 +2177,32 @@
               "example": "01FCNDV6P870EA6S7TK1DSYDG0"
             },
             "example": "01FCNDV6P870EA6S7TK1DSYDG0"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Integer number of records to return",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "integer",
+              "description": "Integer number of records to return",
+              "default": 25,
+              "example": 25,
+              "format": "int64"
+            },
+            "example": 25
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "description": "An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string",
+              "description": "An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.",
+              "example": "01FDAG4SAP5TYPT98WGR2N7W91"
+            },
+            "example": "01FDAG4SAP5TYPT98WGR2N7W91"
           }
         ],
         "responses": {
@@ -2190,12 +2216,14 @@
                 "example": {
                   "catalog_entries": [
                     {
+                      "alias": "incident-io/core",
                       "attribute_values": {
                         "abc123": {
                           "array_value": [
                             {
                               "catalog_entry": {
                                 "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                                "catalog_entry_name": "Primary escalation",
                                 "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                               },
                               "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -2208,6 +2236,7 @@
                           "value": {
                             "catalog_entry": {
                               "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
                               "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                             },
                             "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -2222,27 +2251,39 @@
                       "created_at": "2021-08-17T13:28:57.801578Z",
                       "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                       "name": "Primary On-call",
+                      "rank": 3,
                       "updated_at": "2021-08-17T13:28:57.801578Z"
                     }
                   ],
                   "catalog_type": {
+                    "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
+                    "estimated_count": 7,
+                    "icon": "box",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Kubernetes Cluster",
+                    "ranked": true,
+                    "required_integrations": [
+                      "pager_duty"
+                    ],
                     "schema": {
                       "attributes": [
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
-                          "type": "tier"
+                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                         }
                       ],
                       "version": 1
                     },
-                    "semantic_type": "service",
+                    "semantic_type": "custom",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
+                  },
+                  "pagination_meta": {
+                    "after": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "page_size": 25
                   }
                 }
               }
@@ -2265,6 +2306,7 @@
                 "$ref": "#/components/schemas/CreateEntryRequestBody"
               },
               "example": {
+                "alias": "incident-io/core",
                 "attribute_values": {
                   "abc123": {
                     "array_value": [
@@ -2278,7 +2320,8 @@
                   }
                 },
                 "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                "name": "Primary On-call"
+                "name": "Primary On-call",
+                "rank": 3
               }
             }
           }
@@ -2293,12 +2336,14 @@
                 },
                 "example": {
                   "catalog_entry": {
+                    "alias": "incident-io/core",
                     "attribute_values": {
                       "abc123": {
                         "array_value": [
                           {
                             "catalog_entry": {
                               "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
                               "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                             },
                             "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -2311,6 +2356,7 @@
                         "value": {
                           "catalog_entry": {
                             "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
                             "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                           },
                           "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -2325,6 +2371,7 @@
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Primary On-call",
+                    "rank": 3,
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
                 }
@@ -2393,12 +2440,14 @@
                 },
                 "example": {
                   "catalog_entry": {
+                    "alias": "incident-io/core",
                     "attribute_values": {
                       "abc123": {
                         "array_value": [
                           {
                             "catalog_entry": {
                               "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
                               "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                             },
                             "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -2411,6 +2460,7 @@
                         "value": {
                           "catalog_entry": {
                             "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
                             "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                           },
                           "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -2425,25 +2475,33 @@
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Primary On-call",
+                    "rank": 3,
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   },
                   "catalog_type": {
+                    "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
+                    "estimated_count": 7,
+                    "icon": "box",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Kubernetes Cluster",
+                    "ranked": true,
+                    "required_integrations": [
+                      "pager_duty"
+                    ],
                     "schema": {
                       "attributes": [
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
-                          "type": "tier"
+                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                         }
                       ],
                       "version": 1
                     },
-                    "semantic_type": "service",
+                    "semantic_type": "custom",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
                 }
@@ -2481,6 +2539,7 @@
                 "$ref": "#/components/schemas/UpdateEntryRequestBody"
               },
               "example": {
+                "alias": "incident-io/core",
                 "attribute_values": {
                   "abc123": {
                     "array_value": [
@@ -2493,7 +2552,8 @@
                     }
                   }
                 },
-                "name": "Primary On-call"
+                "name": "Primary On-call",
+                "rank": 3
               }
             }
           }
@@ -2508,12 +2568,14 @@
                 },
                 "example": {
                   "catalog_entry": {
+                    "alias": "incident-io/core",
                     "attribute_values": {
                       "abc123": {
                         "array_value": [
                           {
                             "catalog_entry": {
                               "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
                               "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                             },
                             "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -2526,6 +2588,7 @@
                         "value": {
                           "catalog_entry": {
                             "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
                             "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                           },
                           "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -2540,25 +2603,33 @@
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Primary On-call",
+                    "rank": 3,
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   },
                   "catalog_type": {
+                    "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
+                    "estimated_count": 7,
+                    "icon": "box",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Kubernetes Cluster",
+                    "ranked": true,
+                    "required_integrations": [
+                      "pager_duty"
+                    ],
                     "schema": {
                       "attributes": [
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
-                          "type": "tier"
+                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                         }
                       ],
                       "version": 1
                     },
-                    "semantic_type": "service",
+                    "semantic_type": "custom",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
                 }
@@ -2587,22 +2658,29 @@
                 "example": {
                   "catalog_types": [
                     {
+                      "color": "slate",
                       "created_at": "2021-08-17T13:28:57.801578Z",
                       "description": "Represents Kubernetes clusters that we run inside of GKE.",
+                      "estimated_count": 7,
+                      "icon": "box",
                       "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                       "name": "Kubernetes Cluster",
+                      "ranked": true,
+                      "required_integrations": [
+                        "pager_duty"
+                      ],
                       "schema": {
                         "attributes": [
                           {
                             "array": false,
                             "id": "01GW2G3V0S59R238FAHPDS1R66",
                             "name": "tier",
-                            "type": "tier"
+                            "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                           }
                         ],
                         "version": 1
                       },
-                      "semantic_type": "service",
+                      "semantic_type": "custom",
                       "updated_at": "2021-08-17T13:28:57.801578Z"
                     }
                   ]
@@ -2627,9 +2705,12 @@
                 "$ref": "#/components/schemas/CreateTypeRequestBody"
               },
               "example": {
+                "color": "slate",
                 "description": "Represents Kubernetes clusters that we run inside of GKE.",
+                "icon": "box",
                 "name": "Kubernetes Cluster",
-                "semantic_type": "service"
+                "ranked": true,
+                "semantic_type": "custom"
               }
             }
           }
@@ -2644,22 +2725,29 @@
                 },
                 "example": {
                   "catalog_type": {
+                    "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
+                    "estimated_count": 7,
+                    "icon": "box",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Kubernetes Cluster",
+                    "ranked": true,
+                    "required_integrations": [
+                      "pager_duty"
+                    ],
                     "schema": {
                       "attributes": [
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
-                          "type": "tier"
+                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                         }
                       ],
                       "version": 1
                     },
-                    "semantic_type": "service",
+                    "semantic_type": "custom",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
                 }
@@ -2728,22 +2816,29 @@
                 },
                 "example": {
                   "catalog_type": {
+                    "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
+                    "estimated_count": 7,
+                    "icon": "box",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Kubernetes Cluster",
+                    "ranked": true,
+                    "required_integrations": [
+                      "pager_duty"
+                    ],
                     "schema": {
                       "attributes": [
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
-                          "type": "tier"
+                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                         }
                       ],
                       "version": 1
                     },
-                    "semantic_type": "service",
+                    "semantic_type": "custom",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
                 }
@@ -2778,12 +2873,15 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateTypeRequestBody"
+                "$ref": "#/components/schemas/CreateTypeRequestBody"
               },
               "example": {
+                "color": "slate",
                 "description": "Represents Kubernetes clusters that we run inside of GKE.",
+                "icon": "box",
                 "name": "Kubernetes Cluster",
-                "semantic_type": "service"
+                "ranked": true,
+                "semantic_type": "custom"
               }
             }
           }
@@ -2798,22 +2896,29 @@
                 },
                 "example": {
                   "catalog_type": {
+                    "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
+                    "estimated_count": 7,
+                    "icon": "box",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Kubernetes Cluster",
+                    "ranked": true,
+                    "required_integrations": [
+                      "pager_duty"
+                    ],
                     "schema": {
                       "attributes": [
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
-                          "type": "tier"
+                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                         }
                       ],
                       "version": 1
                     },
-                    "semantic_type": "service",
+                    "semantic_type": "custom",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
                 }
@@ -2858,7 +2963,7 @@
                     "array": false,
                     "id": "01GW2G3V0S59R238FAHPDS1R66",
                     "name": "tier",
-                    "type": "tier"
+                    "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                   }
                 ],
                 "version": 1
@@ -2876,22 +2981,29 @@
                 },
                 "example": {
                   "catalog_type": {
+                    "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
+                    "estimated_count": 7,
+                    "icon": "box",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Kubernetes Cluster",
+                    "ranked": true,
+                    "required_integrations": [
+                      "pager_duty"
+                    ],
                     "schema": {
                       "attributes": [
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
                           "name": "tier",
-                          "type": "tier"
+                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                         }
                       ],
                       "version": 1
                     },
-                    "semantic_type": "service",
+                    "semantic_type": "custom",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
                 }
@@ -3473,6 +3585,7 @@
                     ]
                   }
                 ],
+                "id": "01FDAG4SAP5TYPT98WGR2N7W91",
                 "idempotency_key": "alert-uuid",
                 "incident_role_assignments": [
                   {
@@ -3669,6 +3782,209 @@
             "example": "01FDAG4SAP5TYPT98WGR2N7W91"
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowResponseBody9"
+                },
+                "example": {
+                  "incident": {
+                    "call_url": "https://zoom.us/foo",
+                    "created_at": "2021-08-17T13:28:57.801578Z",
+                    "creator": {
+                      "api_key": {
+                        "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                        "name": "My test API key"
+                      },
+                      "user": {
+                        "email": "lisa@incident.io",
+                        "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                        "name": "Lisa Karlin Curtis",
+                        "role": "viewer",
+                        "slack_user_id": "U02AYNF2XJM"
+                      }
+                    },
+                    "custom_field_entries": [
+                      {
+                        "custom_field": {
+                          "description": "Which team is impacted by this issue",
+                          "field_type": "single_select",
+                          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "name": "Affected Team",
+                          "options": [
+                            {
+                              "custom_field_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "sort_key": 10,
+                              "value": "Product"
+                            }
+                          ]
+                        },
+                        "values": [
+                          {
+                            "value_link": "https://google.com/",
+                            "value_numeric": "123.456",
+                            "value_option": {
+                              "custom_field_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "sort_key": 10,
+                              "value": "Product"
+                            },
+                            "value_text": "This is my text field, I hope you like it"
+                          }
+                        ]
+                      }
+                    ],
+                    "external_issue_reference": {
+                      "issue_name": "INC-123",
+                      "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
+                      "provider": "asana"
+                    },
+                    "id": "01FDAG4SAP5TYPT98WGR2N7W91",
+                    "incident_role_assignments": [
+                      {
+                        "assignee": {
+                          "email": "lisa@incident.io",
+                          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "name": "Lisa Karlin Curtis",
+                          "role": "viewer",
+                          "slack_user_id": "U02AYNF2XJM"
+                        },
+                        "role": {
+                          "created_at": "2021-08-17T13:28:57.801578Z",
+                          "description": "The person currently coordinating the incident",
+                          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "instructions": "Take point on the incident; Make sure people are clear on responsibilities",
+                          "name": "Incident Lead",
+                          "required": true,
+                          "role_type": "lead",
+                          "shortform": "lead",
+                          "updated_at": "2021-08-17T13:28:57.801578Z"
+                        }
+                      }
+                    ],
+                    "incident_status": {
+                      "category": "triage",
+                      "created_at": "2021-08-17T13:28:57.801578Z",
+                      "description": "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
+                      "id": "01FCNDV6P870EA6S7TK1DSYD5H",
+                      "name": "Closed",
+                      "rank": 4,
+                      "updated_at": "2021-08-17T13:28:57.801578Z"
+                    },
+                    "incident_timestamp_values": [
+                      {
+                        "incident_timestamp": {
+                          "id": "01FCNDV6P870EA6S7TK1DSYD5H",
+                          "name": "Impact started",
+                          "rank": 1
+                        },
+                        "value": {
+                          "value": "2021-08-17T13:28:57.801578Z"
+                        }
+                      }
+                    ],
+                    "incident_type": {
+                      "create_in_triage": "always",
+                      "created_at": "2021-08-17T13:28:57.801578Z",
+                      "description": "Customer facing production outages",
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "is_default": false,
+                      "name": "Production Outage",
+                      "private_incidents_only": false,
+                      "updated_at": "2021-08-17T13:28:57.801578Z"
+                    },
+                    "mode": "standard",
+                    "name": "Our database is sad",
+                    "permalink": "https://app.incident.io/incidents/123",
+                    "postmortem_document_url": "https://docs.google.com/my_doc_id",
+                    "reference": "INC-123",
+                    "severity": {
+                      "created_at": "2021-08-17T13:28:57.801578Z",
+                      "description": "Issues with **low impact**.",
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Minor",
+                      "rank": 1,
+                      "updated_at": "2021-08-17T13:28:57.801578Z"
+                    },
+                    "slack_channel_id": "C02AW36C1M5",
+                    "slack_channel_name": "inc-165-green-parrot",
+                    "slack_team_id": "T02A1FSLE8J",
+                    "summary": "Our database is really really sad, and we don't know why yet.",
+                    "updated_at": "2021-08-17T13:28:57.801578Z",
+                    "visibility": "public"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/incidents/{id}/actions/edit": {
+      "post": {
+        "tags": [
+          "Incidents V2"
+        ],
+        "summary": "Edit Incidents V2",
+        "description": "Edit an existing incident.\n\nThis endpoint allows you to edit the properties of an existing incident: e.g. set the severity or update custom fields.\n\nWhen using this endpoint, only fields that are provided will be edited (omitted fields \nwill be ignored).\n",
+        "operationId": "Incidents V2#Edit",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the incident that you want to edit",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The unique identifier of the incident that you want to edit",
+              "example": "01G18REBY9AYH6CMWCJ2CVCYCH"
+            },
+            "example": "01G18REBY9AYH6CMWCJ2CVCYCH"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditRequestBody"
+              },
+              "example": {
+                "incident": {
+                  "custom_field_entries": [
+                    {
+                      "custom_field_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "values": [
+                        {
+                          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "value_link": "https://google.com/",
+                          "value_numeric": "123.456",
+                          "value_option_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "value_text": "This is my text field, I hope you like it",
+                          "value_timestamp": ""
+                        }
+                      ]
+                    }
+                  ],
+                  "incident_timestamp_values": [
+                    {
+                      "incident_timestamp_id": "01FCNDV6P870EA6S7TK1DSYD5H",
+                      "value": "2021-08-17T13:28:57.801578Z"
+                    }
+                  ],
+                  "name": "Our database is sad",
+                  "severity_id": "01FH5TZRWMNAFB0DZ23FD1TV96",
+                  "summary": "Our database is really really sad, and we don't know why yet."
+                },
+                "notify_incident_channel": true
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK response.",
@@ -4354,6 +4670,7 @@
               {
                 "catalog_entry": {
                   "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "catalog_entry_name": "Primary escalation",
                   "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                 },
                 "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -4373,6 +4690,7 @@
             {
               "catalog_entry": {
                 "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "catalog_entry_name": "Primary escalation",
                 "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
               },
               "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -4385,6 +4703,7 @@
           "value": {
             "catalog_entry": {
               "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "catalog_entry_name": "Primary escalation",
               "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
             },
             "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -4443,6 +4762,7 @@
         "example": {
           "catalog_entry": {
             "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "catalog_entry_name": "Primary escalation",
             "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
           },
           "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -4464,6 +4784,11 @@
             "description": "ID of this catalog entry",
             "example": "01FCNDV6P870EA6S7TK1DSYDG0"
           },
+          "catalog_entry_name": {
+            "type": "string",
+            "description": "The name of this entry",
+            "example": "Primary escalation"
+          },
           "catalog_type_id": {
             "type": "string",
             "description": "ID of this catalog type",
@@ -4472,16 +4797,23 @@
         },
         "example": {
           "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "catalog_entry_name": "Primary escalation",
           "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
         },
         "required": [
           "catalog_type_id",
-          "catalog_entry_id"
+          "catalog_entry_id",
+          "catalog_entry_name"
         ]
       },
       "CatalogEntryV2": {
         "type": "object",
         "properties": {
+          "alias": {
+            "type": "string",
+            "description": "An optional alias that must uniquely identify this type",
+            "example": "incident-io/core"
+          },
           "attribute_values": {
             "type": "object",
             "description": "Values of this entry",
@@ -4491,6 +4823,7 @@
                   {
                     "catalog_entry": {
                       "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "catalog_entry_name": "Primary escalation",
                       "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                     },
                     "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -4503,6 +4836,7 @@
                 "value": {
                   "catalog_entry": {
                     "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "catalog_entry_name": "Primary escalation",
                     "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                   },
                   "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -4538,6 +4872,12 @@
             "description": "Name is the human readable name of this entry",
             "example": "Primary On-call"
           },
+          "rank": {
+            "type": "integer",
+            "description": "When catalog type is ranked, this is used to help order things",
+            "example": 3,
+            "format": "int32"
+          },
           "updated_at": {
             "type": "string",
             "description": "When this entry was last updated",
@@ -4546,12 +4886,14 @@
           }
         },
         "example": {
+          "alias": "incident-io/core",
           "attribute_values": {
             "abc123": {
               "array_value": [
                 {
                   "catalog_entry": {
                     "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "catalog_entry_name": "Primary escalation",
                     "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                   },
                   "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -4564,6 +4906,7 @@
               "value": {
                 "catalog_entry": {
                   "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "catalog_entry_name": "Primary escalation",
                   "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                 },
                 "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -4578,12 +4921,14 @@
           "created_at": "2021-08-17T13:28:57.801578Z",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "name": "Primary On-call",
+          "rank": 3,
           "updated_at": "2021-08-17T13:28:57.801578Z"
         },
         "required": [
           "id",
           "catalog_type_id",
           "name",
+          "rank",
           "attribute_values",
           "created_at",
           "updated_at"
@@ -4594,30 +4939,30 @@
         "properties": {
           "array": {
             "type": "boolean",
-            "description": "Whether this column is an array",
+            "description": "Whether this attribute is an array",
             "example": false
           },
           "id": {
             "type": "string",
-            "description": "The ID of this column",
+            "description": "The ID of this attribute",
             "example": "01GW2G3V0S59R238FAHPDS1R66"
           },
           "name": {
             "type": "string",
-            "description": "Unique name of this column",
+            "description": "Unique name of this attribute",
             "example": "tier"
           },
           "type": {
             "type": "string",
-            "description": "The type of this column",
-            "example": "tier"
+            "description": "Catalog type name for this attribute",
+            "example": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
           }
         },
         "example": {
           "array": false,
           "id": "01GW2G3V0S59R238FAHPDS1R66",
           "name": "tier",
-          "type": "tier"
+          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
         },
         "required": [
           "name",
@@ -4630,30 +4975,30 @@
         "properties": {
           "array": {
             "type": "boolean",
-            "description": "Whether this column is an array",
+            "description": "Whether this attribute is an array",
             "example": false
           },
           "id": {
             "type": "string",
-            "description": "The ID of this column",
+            "description": "The ID of this attribute",
             "example": "01GW2G3V0S59R238FAHPDS1R66"
           },
           "name": {
             "type": "string",
-            "description": "Unique name of this column",
+            "description": "Unique name of this attribute",
             "example": "tier"
           },
           "type": {
             "type": "string",
-            "description": "The type of this column",
-            "example": "tier"
+            "description": "Catalog type name for this attribute",
+            "example": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
           }
         },
         "example": {
           "array": false,
           "id": "01GW2G3V0S59R238FAHPDS1R66",
           "name": "tier",
-          "type": "tier"
+          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
         },
         "required": [
           "id",
@@ -4676,7 +5021,7 @@
                 "array": false,
                 "id": "01GW2G3V0S59R238FAHPDS1R66",
                 "name": "tier",
-                "type": "tier"
+                "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
               }
             ]
           },
@@ -4693,7 +5038,7 @@
               "array": false,
               "id": "01GW2G3V0S59R238FAHPDS1R66",
               "name": "tier",
-              "type": "tier"
+              "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
             }
           ],
           "version": 1
@@ -4706,6 +5051,19 @@
       "CatalogTypeV2": {
         "type": "object",
         "properties": {
+          "color": {
+            "type": "string",
+            "description": "Sets the display color of this type in the dashboard",
+            "example": "slate",
+            "enum": [
+              "slate",
+              "red",
+              "yellow",
+              "green",
+              "blue",
+              "violet"
+            ]
+          },
           "created_at": {
             "type": "string",
             "description": "When this type was created",
@@ -4717,6 +5075,27 @@
             "description": "Human readble description of this type",
             "example": "Represents Kubernetes clusters that we run inside of GKE."
           },
+          "estimated_count": {
+            "type": "integer",
+            "description": "If populated, gives an estimated count of entries for this type",
+            "example": 7,
+            "format": "int64"
+          },
+          "icon": {
+            "type": "string",
+            "description": "Sets the display icon of this type in the dashboard",
+            "example": "box",
+            "enum": [
+              "box",
+              "briefcase",
+              "bulb",
+              "clock",
+              "cog",
+              "doc",
+              "email",
+              "users"
+            ]
+          },
           "id": {
             "type": "string",
             "description": "ID of this resource",
@@ -4727,13 +5106,29 @@
             "description": "Name is the human readable name of this type",
             "example": "Kubernetes Cluster"
           },
+          "ranked": {
+            "type": "boolean",
+            "description": "If this type should be ranked",
+            "example": true
+          },
+          "required_integrations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "abc123"
+            },
+            "description": "If populated, the integrations required for this type",
+            "example": [
+              "pager_duty"
+            ]
+          },
           "schema": {
             "$ref": "#/components/schemas/CatalogTypeSchemaV2"
           },
           "semantic_type": {
             "type": "string",
             "description": "Semantic type of this resource",
-            "example": "service"
+            "example": "custom"
           },
           "updated_at": {
             "type": "string",
@@ -4743,22 +5138,29 @@
           }
         },
         "example": {
+          "color": "slate",
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
+          "estimated_count": 7,
+          "icon": "box",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "name": "Kubernetes Cluster",
+          "ranked": true,
+          "required_integrations": [
+            "pager_duty"
+          ],
           "schema": {
             "attributes": [
               {
                 "array": false,
                 "id": "01GW2G3V0S59R238FAHPDS1R66",
                 "name": "tier",
-                "type": "tier"
+                "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
               }
             ],
             "version": 1
           },
-          "semantic_type": "service",
+          "semantic_type": "custom",
           "updated_at": "2021-08-17T13:28:57.801578Z"
         },
         "required": [
@@ -4766,7 +5168,10 @@
           "name",
           "description",
           "semantic_type",
+          "ranked",
           "schema",
+          "icon",
+          "color",
           "created_at",
           "updated_at"
         ]
@@ -4774,6 +5179,11 @@
       "CreateEntryRequestBody": {
         "type": "object",
         "properties": {
+          "alias": {
+            "type": "string",
+            "description": "An optional alias that must uniquely identify this type",
+            "example": "incident-io/core"
+          },
           "attribute_values": {
             "type": "object",
             "description": "Values of this entry",
@@ -4802,9 +5212,16 @@
             "type": "string",
             "description": "Name is the human readable name of this entry",
             "example": "Primary On-call"
+          },
+          "rank": {
+            "type": "integer",
+            "description": "When catalog type is ranked, this is used to help order things",
+            "example": 3,
+            "format": "int32"
           }
         },
         "example": {
+          "alias": "incident-io/core",
           "attribute_values": {
             "abc123": {
               "array_value": [
@@ -4818,15 +5235,13 @@
             }
           },
           "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-          "name": "Primary On-call"
+          "name": "Primary On-call",
+          "rank": 3
         },
         "required": [
           "catalog_type_id",
           "name",
-          "attribute_values",
-          "id",
-          "created_at",
-          "updated_at"
+          "attribute_values"
         ]
       },
       "CreateEntryResponseBody": {
@@ -4838,12 +5253,14 @@
         },
         "example": {
           "catalog_entry": {
+            "alias": "incident-io/core",
             "attribute_values": {
               "abc123": {
                 "array_value": [
                   {
                     "catalog_entry": {
                       "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "catalog_entry_name": "Primary escalation",
                       "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                     },
                     "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -4856,6 +5273,7 @@
                 "value": {
                   "catalog_entry": {
                     "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "catalog_entry_name": "Primary escalation",
                     "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                   },
                   "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -4870,6 +5288,7 @@
             "created_at": "2021-08-17T13:28:57.801578Z",
             "id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "name": "Primary On-call",
+            "rank": 3,
             "updated_at": "2021-08-17T13:28:57.801578Z"
           }
         },
@@ -5322,6 +5741,11 @@
               }
             ]
           },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the incident",
+            "example": "01FDAG4SAP5TYPT98WGR2N7W91"
+          },
           "idempotency_key": {
             "type": "string",
             "description": "Unique string used to de-duplicate incident create requests",
@@ -5427,6 +5851,7 @@
               ]
             }
           ],
+          "id": "01FDAG4SAP5TYPT98WGR2N7W91",
           "idempotency_key": "alert-uuid",
           "incident_role_assignments": [
             {
@@ -5518,35 +5943,66 @@
       "CreateTypeRequestBody": {
         "type": "object",
         "properties": {
+          "color": {
+            "type": "string",
+            "description": "Sets the display color of this type in the dashboard",
+            "example": "slate",
+            "enum": [
+              "slate",
+              "red",
+              "yellow",
+              "green",
+              "blue",
+              "violet"
+            ]
+          },
           "description": {
             "type": "string",
             "description": "Human readble description of this type",
             "example": "Represents Kubernetes clusters that we run inside of GKE."
+          },
+          "icon": {
+            "type": "string",
+            "description": "Sets the display icon of this type in the dashboard",
+            "example": "box",
+            "enum": [
+              "box",
+              "briefcase",
+              "bulb",
+              "clock",
+              "cog",
+              "doc",
+              "email",
+              "users"
+            ]
           },
           "name": {
             "type": "string",
             "description": "Name is the human readable name of this type",
             "example": "Kubernetes Cluster"
           },
+          "ranked": {
+            "type": "boolean",
+            "description": "If this type should be ranked",
+            "example": true
+          },
           "semantic_type": {
             "type": "string",
             "description": "Semantic type of this resource",
-            "example": "service"
+            "example": "custom"
           }
         },
         "example": {
+          "color": "slate",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
+          "icon": "box",
           "name": "Kubernetes Cluster",
-          "semantic_type": "service"
+          "ranked": true,
+          "semantic_type": "custom"
         },
         "required": [
-          "id",
           "name",
-          "description",
-          "semantic_type",
-          "schema",
-          "created_at",
-          "updated_at"
+          "description"
         ]
       },
       "CreateTypeResponseBody": {
@@ -5558,22 +6014,29 @@
         },
         "example": {
           "catalog_type": {
+            "color": "slate",
             "created_at": "2021-08-17T13:28:57.801578Z",
             "description": "Represents Kubernetes clusters that we run inside of GKE.",
+            "estimated_count": 7,
+            "icon": "box",
             "id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "name": "Kubernetes Cluster",
+            "ranked": true,
+            "required_integrations": [
+              "pager_duty"
+            ],
             "schema": {
               "attributes": [
                 {
                   "array": false,
                   "id": "01GW2G3V0S59R238FAHPDS1R66",
                   "name": "tier",
-                  "type": "tier"
+                  "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                 }
               ],
               "version": 1
             },
-            "semantic_type": "service",
+            "semantic_type": "custom",
             "updated_at": "2021-08-17T13:28:57.801578Z"
           }
         },
@@ -5799,6 +6262,7 @@
           "show_before_closure",
           "show_before_update",
           "options",
+          "is_usable",
           "conditions",
           "created_at",
           "updated_at"
@@ -6005,6 +6469,52 @@
           "value_text": "This is my text field, I hope you like it"
         }
       },
+      "EditRequestBody": {
+        "type": "object",
+        "properties": {
+          "incident": {
+            "$ref": "#/components/schemas/IncidentEditPayloadV2"
+          },
+          "notify_incident_channel": {
+            "type": "boolean",
+            "description": "Should we send Slack channel notifications to inform responders of this update? Note that this won't work if the Slack channel has already been archived.",
+            "example": true
+          }
+        },
+        "example": {
+          "incident": {
+            "custom_field_entries": [
+              {
+                "custom_field_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "values": [
+                  {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "value_link": "https://google.com/",
+                    "value_numeric": "123.456",
+                    "value_option_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "value_text": "This is my text field, I hope you like it",
+                    "value_timestamp": ""
+                  }
+                ]
+              }
+            ],
+            "incident_timestamp_values": [
+              {
+                "incident_timestamp_id": "01FCNDV6P870EA6S7TK1DSYD5H",
+                "value": "2021-08-17T13:28:57.801578Z"
+              }
+            ],
+            "name": "Our database is sad",
+            "severity_id": "01FH5TZRWMNAFB0DZ23FD1TV96",
+            "summary": "Our database is really really sad, and we don't know why yet."
+          },
+          "notify_incident_channel": true
+        },
+        "required": [
+          "incident",
+          "notify_incident_channel"
+        ]
+      },
       "ExternalIssueReferenceV1": {
         "type": "object",
         "properties": {
@@ -6163,6 +6673,7 @@
               "enum": [
                 "viewer",
                 "incident_creator",
+                "incident_editor",
                 "global_access",
                 "manage_settings"
               ]
@@ -6219,6 +6730,87 @@
           "creator",
           "created_at"
         ]
+      },
+      "IncidentEditPayloadV2": {
+        "type": "object",
+        "properties": {
+          "custom_field_entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomFieldEntryPayloadV1"
+            },
+            "description": "Set the incident's custom fields to these values",
+            "example": [
+              {
+                "custom_field_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "values": [
+                  {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "value_link": "https://google.com/",
+                    "value_numeric": "123.456",
+                    "value_option_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "value_text": "This is my text field, I hope you like it",
+                    "value_timestamp": ""
+                  }
+                ]
+              }
+            ]
+          },
+          "incident_timestamp_values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IncidentTimestampValuePayloadV2"
+            },
+            "description": "Assign the incident's timestamps to these values",
+            "example": [
+              {
+                "incident_timestamp_id": "01FCNDV6P870EA6S7TK1DSYD5H",
+                "value": "2021-08-17T13:28:57.801578Z"
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Explanation of the incident",
+            "example": "Our database is sad"
+          },
+          "severity_id": {
+            "type": "string",
+            "description": "Severity to change incident to",
+            "example": "01FH5TZRWMNAFB0DZ23FD1TV96"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Detailed description of the incident",
+            "example": "Our database is really really sad, and we don't know why yet."
+          }
+        },
+        "example": {
+          "custom_field_entries": [
+            {
+              "custom_field_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "values": [
+                {
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "value_link": "https://google.com/",
+                  "value_numeric": "123.456",
+                  "value_option_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "value_text": "This is my text field, I hope you like it",
+                  "value_timestamp": ""
+                }
+              ]
+            }
+          ],
+          "incident_timestamp_values": [
+            {
+              "incident_timestamp_id": "01FCNDV6P870EA6S7TK1DSYD5H",
+              "value": "2021-08-17T13:28:57.801578Z"
+            }
+          ],
+          "name": "Our database is sad",
+          "severity_id": "01FH5TZRWMNAFB0DZ23FD1TV96",
+          "summary": "Our database is really really sad, and we don't know why yet."
+        }
       },
       "IncidentRoleAssignmentPayloadV1": {
         "type": "object",
@@ -7405,12 +7997,14 @@
             },
             "example": [
               {
+                "alias": "incident-io/core",
                 "attribute_values": {
                   "abc123": {
                     "array_value": [
                       {
                         "catalog_entry": {
                           "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "catalog_entry_name": "Primary escalation",
                           "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                         },
                         "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -7423,6 +8017,7 @@
                     "value": {
                       "catalog_entry": {
                         "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                        "catalog_entry_name": "Primary escalation",
                         "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                       },
                       "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -7437,23 +8032,29 @@
                 "created_at": "2021-08-17T13:28:57.801578Z",
                 "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                 "name": "Primary On-call",
+                "rank": 3,
                 "updated_at": "2021-08-17T13:28:57.801578Z"
               }
             ]
           },
           "catalog_type": {
             "$ref": "#/components/schemas/CatalogTypeV2"
+          },
+          "pagination_meta": {
+            "$ref": "#/components/schemas/PaginationMeta"
           }
         },
         "example": {
           "catalog_entries": [
             {
+              "alias": "incident-io/core",
               "attribute_values": {
                 "abc123": {
                   "array_value": [
                     {
                       "catalog_entry": {
                         "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                        "catalog_entry_name": "Primary escalation",
                         "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                       },
                       "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -7466,6 +8067,7 @@
                   "value": {
                     "catalog_entry": {
                       "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "catalog_entry_name": "Primary escalation",
                       "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                     },
                     "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -7480,32 +8082,45 @@
               "created_at": "2021-08-17T13:28:57.801578Z",
               "id": "01FCNDV6P870EA6S7TK1DSYDG0",
               "name": "Primary On-call",
+              "rank": 3,
               "updated_at": "2021-08-17T13:28:57.801578Z"
             }
           ],
           "catalog_type": {
+            "color": "slate",
             "created_at": "2021-08-17T13:28:57.801578Z",
             "description": "Represents Kubernetes clusters that we run inside of GKE.",
+            "estimated_count": 7,
+            "icon": "box",
             "id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "name": "Kubernetes Cluster",
+            "ranked": true,
+            "required_integrations": [
+              "pager_duty"
+            ],
             "schema": {
               "attributes": [
                 {
                   "array": false,
                   "id": "01GW2G3V0S59R238FAHPDS1R66",
                   "name": "tier",
-                  "type": "tier"
+                  "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                 }
               ],
               "version": 1
             },
-            "semantic_type": "service",
+            "semantic_type": "custom",
             "updated_at": "2021-08-17T13:28:57.801578Z"
+          },
+          "pagination_meta": {
+            "after": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "page_size": 25
           }
         },
         "required": [
           "catalog_type",
-          "catalog_entries"
+          "catalog_entries",
+          "pagination_meta"
         ]
       },
       "ListResponseBody": {
@@ -8523,22 +9138,29 @@
             },
             "example": [
               {
+                "color": "slate",
                 "created_at": "2021-08-17T13:28:57.801578Z",
                 "description": "Represents Kubernetes clusters that we run inside of GKE.",
+                "estimated_count": 7,
+                "icon": "box",
                 "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                 "name": "Kubernetes Cluster",
+                "ranked": true,
+                "required_integrations": [
+                  "pager_duty"
+                ],
                 "schema": {
                   "attributes": [
                     {
                       "array": false,
                       "id": "01GW2G3V0S59R238FAHPDS1R66",
                       "name": "tier",
-                      "type": "tier"
+                      "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                     }
                   ],
                   "version": 1
                 },
-                "semantic_type": "service",
+                "semantic_type": "custom",
                 "updated_at": "2021-08-17T13:28:57.801578Z"
               }
             ]
@@ -8547,22 +9169,29 @@
         "example": {
           "catalog_types": [
             {
+              "color": "slate",
               "created_at": "2021-08-17T13:28:57.801578Z",
               "description": "Represents Kubernetes clusters that we run inside of GKE.",
+              "estimated_count": 7,
+              "icon": "box",
               "id": "01FCNDV6P870EA6S7TK1DSYDG0",
               "name": "Kubernetes Cluster",
+              "ranked": true,
+              "required_integrations": [
+                "pager_duty"
+              ],
               "schema": {
                 "attributes": [
                   {
                     "array": false,
                     "id": "01GW2G3V0S59R238FAHPDS1R66",
                     "name": "tier",
-                    "type": "tier"
+                    "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                   }
                 ],
                 "version": 1
               },
-              "semantic_type": "service",
+              "semantic_type": "custom",
               "updated_at": "2021-08-17T13:28:57.801578Z"
             }
           ]
@@ -8582,6 +9211,7 @@
           "page_size": {
             "type": "integer",
             "description": "What was the maximum number of results requested",
+            "default": 25,
             "example": 25,
             "format": "int64"
           }
@@ -8605,6 +9235,7 @@
           "page_size": {
             "type": "integer",
             "description": "What was the maximum number of results requested",
+            "default": 25,
             "example": 25,
             "format": "int64"
           },
@@ -9252,12 +9883,14 @@
         },
         "example": {
           "catalog_entry": {
+            "alias": "incident-io/core",
             "attribute_values": {
               "abc123": {
                 "array_value": [
                   {
                     "catalog_entry": {
                       "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "catalog_entry_name": "Primary escalation",
                       "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                     },
                     "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -9270,6 +9903,7 @@
                 "value": {
                   "catalog_entry": {
                     "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "catalog_entry_name": "Primary escalation",
                     "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
                   },
                   "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
@@ -9284,25 +9918,33 @@
             "created_at": "2021-08-17T13:28:57.801578Z",
             "id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "name": "Primary On-call",
+            "rank": 3,
             "updated_at": "2021-08-17T13:28:57.801578Z"
           },
           "catalog_type": {
+            "color": "slate",
             "created_at": "2021-08-17T13:28:57.801578Z",
             "description": "Represents Kubernetes clusters that we run inside of GKE.",
+            "estimated_count": 7,
+            "icon": "box",
             "id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "name": "Kubernetes Cluster",
+            "ranked": true,
+            "required_integrations": [
+              "pager_duty"
+            ],
             "schema": {
               "attributes": [
                 {
                   "array": false,
                   "id": "01GW2G3V0S59R238FAHPDS1R66",
                   "name": "tier",
-                  "type": "tier"
+                  "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
                 }
               ],
               "version": 1
             },
-            "semantic_type": "service",
+            "semantic_type": "custom",
             "updated_at": "2021-08-17T13:28:57.801578Z"
           }
         },
@@ -9769,6 +10411,11 @@
       "UpdateEntryRequestBody": {
         "type": "object",
         "properties": {
+          "alias": {
+            "type": "string",
+            "description": "An optional alias that must uniquely identify this type",
+            "example": "incident-io/core"
+          },
           "attribute_values": {
             "type": "object",
             "description": "Values of this entry",
@@ -9792,9 +10439,16 @@
             "type": "string",
             "description": "Name is the human readable name of this entry",
             "example": "Primary On-call"
+          },
+          "rank": {
+            "type": "integer",
+            "description": "When catalog type is ranked, this is used to help order things",
+            "example": 3,
+            "format": "int32"
           }
         },
         "example": {
+          "alias": "incident-io/core",
           "attribute_values": {
             "abc123": {
               "array_value": [
@@ -9807,14 +10461,12 @@
               }
             }
           },
-          "name": "Primary On-call"
+          "name": "Primary On-call",
+          "rank": 3
         },
         "required": [
           "name",
-          "attribute_values",
-          "catalog_type_id",
-          "created_at",
-          "updated_at"
+          "attribute_values"
         ]
       },
       "UpdateRequestBody": {
@@ -9989,39 +10641,6 @@
           "updated_at"
         ]
       },
-      "UpdateTypeRequestBody": {
-        "type": "object",
-        "properties": {
-          "description": {
-            "type": "string",
-            "description": "Human readble description of this type",
-            "example": "Represents Kubernetes clusters that we run inside of GKE."
-          },
-          "name": {
-            "type": "string",
-            "description": "Name is the human readable name of this type",
-            "example": "Kubernetes Cluster"
-          },
-          "semantic_type": {
-            "type": "string",
-            "description": "Semantic type of this resource",
-            "example": "service"
-          }
-        },
-        "example": {
-          "description": "Represents Kubernetes clusters that we run inside of GKE.",
-          "name": "Kubernetes Cluster",
-          "semantic_type": "service"
-        },
-        "required": [
-          "name",
-          "description",
-          "semantic_type",
-          "schema",
-          "created_at",
-          "updated_at"
-        ]
-      },
       "UpdateTypeSchemaRequestBody": {
         "type": "object",
         "properties": {
@@ -10035,7 +10654,7 @@
                 "array": false,
                 "id": "01GW2G3V0S59R238FAHPDS1R66",
                 "name": "tier",
-                "type": "tier"
+                "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
               }
             ]
           },
@@ -10051,7 +10670,7 @@
               "array": false,
               "id": "01GW2G3V0S59R238FAHPDS1R66",
               "name": "tier",
-              "type": "tier"
+              "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
             }
           ],
           "version": 1
@@ -10062,7 +10681,10 @@
           "name",
           "description",
           "semantic_type",
+          "ranked",
           "schema",
+          "icon",
+          "color",
           "created_at",
           "updated_at"
         ]

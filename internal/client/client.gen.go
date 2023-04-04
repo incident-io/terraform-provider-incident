@@ -26,6 +26,28 @@ const (
 	Outstanding ActionV1Status = "outstanding"
 )
 
+// Defines values for CatalogTypeV2Color.
+const (
+	CatalogTypeV2ColorBlue   CatalogTypeV2Color = "blue"
+	CatalogTypeV2ColorGreen  CatalogTypeV2Color = "green"
+	CatalogTypeV2ColorRed    CatalogTypeV2Color = "red"
+	CatalogTypeV2ColorSlate  CatalogTypeV2Color = "slate"
+	CatalogTypeV2ColorViolet CatalogTypeV2Color = "violet"
+	CatalogTypeV2ColorYellow CatalogTypeV2Color = "yellow"
+)
+
+// Defines values for CatalogTypeV2Icon.
+const (
+	CatalogTypeV2IconBox       CatalogTypeV2Icon = "box"
+	CatalogTypeV2IconBriefcase CatalogTypeV2Icon = "briefcase"
+	CatalogTypeV2IconBulb      CatalogTypeV2Icon = "bulb"
+	CatalogTypeV2IconClock     CatalogTypeV2Icon = "clock"
+	CatalogTypeV2IconCog       CatalogTypeV2Icon = "cog"
+	CatalogTypeV2IconDoc       CatalogTypeV2Icon = "doc"
+	CatalogTypeV2IconEmail     CatalogTypeV2Icon = "email"
+	CatalogTypeV2IconUsers     CatalogTypeV2Icon = "users"
+)
+
 // Defines values for CreateRequestBody2FieldType.
 const (
 	CreateRequestBody2FieldTypeLink         CreateRequestBody2FieldType = "link"
@@ -96,6 +118,28 @@ const (
 	CreateRequestBody7VisibilityPublic  CreateRequestBody7Visibility = "public"
 )
 
+// Defines values for CreateTypeRequestBodyColor.
+const (
+	CreateTypeRequestBodyColorBlue   CreateTypeRequestBodyColor = "blue"
+	CreateTypeRequestBodyColorGreen  CreateTypeRequestBodyColor = "green"
+	CreateTypeRequestBodyColorRed    CreateTypeRequestBodyColor = "red"
+	CreateTypeRequestBodyColorSlate  CreateTypeRequestBodyColor = "slate"
+	CreateTypeRequestBodyColorViolet CreateTypeRequestBodyColor = "violet"
+	CreateTypeRequestBodyColorYellow CreateTypeRequestBodyColor = "yellow"
+)
+
+// Defines values for CreateTypeRequestBodyIcon.
+const (
+	CreateTypeRequestBodyIconBox       CreateTypeRequestBodyIcon = "box"
+	CreateTypeRequestBodyIconBriefcase CreateTypeRequestBodyIcon = "briefcase"
+	CreateTypeRequestBodyIconBulb      CreateTypeRequestBodyIcon = "bulb"
+	CreateTypeRequestBodyIconClock     CreateTypeRequestBodyIcon = "clock"
+	CreateTypeRequestBodyIconCog       CreateTypeRequestBodyIcon = "cog"
+	CreateTypeRequestBodyIconDoc       CreateTypeRequestBodyIcon = "doc"
+	CreateTypeRequestBodyIconEmail     CreateTypeRequestBodyIcon = "email"
+	CreateTypeRequestBodyIconUsers     CreateTypeRequestBodyIcon = "users"
+)
+
 // Defines values for CustomFieldTypeInfoV1FieldType.
 const (
 	CustomFieldTypeInfoV1FieldTypeLink         CustomFieldTypeInfoV1FieldType = "link"
@@ -157,6 +201,7 @@ const (
 const (
 	IdentityV1RolesGlobalAccess    IdentityV1Roles = "global_access"
 	IdentityV1RolesIncidentCreator IdentityV1Roles = "incident_creator"
+	IdentityV1RolesIncidentEditor  IdentityV1Roles = "incident_editor"
 	IdentityV1RolesManageSettings  IdentityV1Roles = "manage_settings"
 	IdentityV1RolesViewer          IdentityV1Roles = "viewer"
 )
@@ -348,12 +393,18 @@ type CatalogEntryReferenceV2 struct {
 	// CatalogEntryId ID of this catalog entry
 	CatalogEntryId string `json:"catalog_entry_id"`
 
+	// CatalogEntryName The name of this entry
+	CatalogEntryName string `json:"catalog_entry_name"`
+
 	// CatalogTypeId ID of this catalog type
 	CatalogTypeId string `json:"catalog_type_id"`
 }
 
 // CatalogEntryV2 defines model for CatalogEntryV2.
 type CatalogEntryV2 struct {
+	// Alias An optional alias that must uniquely identify this type
+	Alias *string `json:"alias,omitempty"`
+
 	// AttributeValues Values of this entry
 	AttributeValues map[string]CatalogAttributeBindingV2 `json:"attribute_values"`
 
@@ -369,37 +420,40 @@ type CatalogEntryV2 struct {
 	// Name Name is the human readable name of this entry
 	Name string `json:"name"`
 
+	// Rank When catalog type is ranked, this is used to help order things
+	Rank int32 `json:"rank"`
+
 	// UpdatedAt When this entry was last updated
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // CatalogTypeAttributePayloadV2 defines model for CatalogTypeAttributePayloadV2.
 type CatalogTypeAttributePayloadV2 struct {
-	// Array Whether this column is an array
+	// Array Whether this attribute is an array
 	Array bool `json:"array"`
 
-	// Id The ID of this column
+	// Id The ID of this attribute
 	Id *string `json:"id,omitempty"`
 
-	// Name Unique name of this column
+	// Name Unique name of this attribute
 	Name string `json:"name"`
 
-	// Type The type of this column
+	// Type Catalog type name for this attribute
 	Type string `json:"type"`
 }
 
 // CatalogTypeAttributeV2 defines model for CatalogTypeAttributeV2.
 type CatalogTypeAttributeV2 struct {
-	// Array Whether this column is an array
+	// Array Whether this attribute is an array
 	Array bool `json:"array"`
 
-	// Id The ID of this column
+	// Id The ID of this attribute
 	Id string `json:"id"`
 
-	// Name Unique name of this column
+	// Name Unique name of this attribute
 	Name string `json:"name"`
 
-	// Type The type of this column
+	// Type Catalog type name for this attribute
 	Type string `json:"type"`
 }
 
@@ -414,18 +468,33 @@ type CatalogTypeSchemaV2 struct {
 
 // CatalogTypeV2 defines model for CatalogTypeV2.
 type CatalogTypeV2 struct {
+	// Color Sets the display color of this type in the dashboard
+	Color CatalogTypeV2Color `json:"color"`
+
 	// CreatedAt When this type was created
 	CreatedAt time.Time `json:"created_at"`
 
 	// Description Human readble description of this type
 	Description string `json:"description"`
 
+	// EstimatedCount If populated, gives an estimated count of entries for this type
+	EstimatedCount *int64 `json:"estimated_count,omitempty"`
+
+	// Icon Sets the display icon of this type in the dashboard
+	Icon CatalogTypeV2Icon `json:"icon"`
+
 	// Id ID of this resource
 	Id string `json:"id"`
 
 	// Name Name is the human readable name of this type
-	Name   string              `json:"name"`
-	Schema CatalogTypeSchemaV2 `json:"schema"`
+	Name string `json:"name"`
+
+	// Ranked If this type should be ranked
+	Ranked bool `json:"ranked"`
+
+	// RequiredIntegrations If populated, the integrations required for this type
+	RequiredIntegrations *[]string           `json:"required_integrations,omitempty"`
+	Schema               CatalogTypeSchemaV2 `json:"schema"`
 
 	// SemanticType Semantic type of this resource
 	SemanticType string `json:"semantic_type"`
@@ -434,8 +503,17 @@ type CatalogTypeV2 struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+// CatalogTypeV2Color Sets the display color of this type in the dashboard
+type CatalogTypeV2Color string
+
+// CatalogTypeV2Icon Sets the display icon of this type in the dashboard
+type CatalogTypeV2Icon string
+
 // CreateEntryRequestBody defines model for CreateEntryRequestBody.
 type CreateEntryRequestBody struct {
+	// Alias An optional alias that must uniquely identify this type
+	Alias *string `json:"alias,omitempty"`
+
 	// AttributeValues Values of this entry
 	AttributeValues map[string]CatalogAttributeBindingPayloadV2 `json:"attribute_values"`
 
@@ -444,6 +522,9 @@ type CreateEntryRequestBody struct {
 
 	// Name Name is the human readable name of this entry
 	Name string `json:"name"`
+
+	// Rank When catalog type is ranked, this is used to help order things
+	Rank *int32 `json:"rank,omitempty"`
 }
 
 // CreateEntryResponseBody defines model for CreateEntryResponseBody.
@@ -601,6 +682,9 @@ type CreateRequestBody7 struct {
 	// CustomFieldEntries Set the incident's custom fields to these values
 	CustomFieldEntries *[]CustomFieldEntryPayloadV1 `json:"custom_field_entries,omitempty"`
 
+	// Id Unique identifier for the incident
+	Id *string `json:"id,omitempty"`
+
 	// IdempotencyKey Unique string used to de-duplicate incident create requests
 	IdempotencyKey string `json:"idempotency_key"`
 
@@ -661,15 +745,30 @@ type CreateResponseBody struct {
 
 // CreateTypeRequestBody defines model for CreateTypeRequestBody.
 type CreateTypeRequestBody struct {
+	// Color Sets the display color of this type in the dashboard
+	Color *CreateTypeRequestBodyColor `json:"color,omitempty"`
+
 	// Description Human readble description of this type
 	Description string `json:"description"`
+
+	// Icon Sets the display icon of this type in the dashboard
+	Icon *CreateTypeRequestBodyIcon `json:"icon,omitempty"`
 
 	// Name Name is the human readable name of this type
 	Name string `json:"name"`
 
+	// Ranked If this type should be ranked
+	Ranked *bool `json:"ranked,omitempty"`
+
 	// SemanticType Semantic type of this resource
-	SemanticType string `json:"semantic_type"`
+	SemanticType *string `json:"semantic_type,omitempty"`
 }
+
+// CreateTypeRequestBodyColor Sets the display color of this type in the dashboard
+type CreateTypeRequestBodyColor string
+
+// CreateTypeRequestBodyIcon Sets the display icon of this type in the dashboard
+type CreateTypeRequestBodyIcon string
 
 // CreateTypeResponseBody defines model for CreateTypeResponseBody.
 type CreateTypeResponseBody struct {
@@ -808,6 +907,14 @@ type CustomFieldValueV1 struct {
 	ValueText *string `json:"value_text,omitempty"`
 }
 
+// EditRequestBody defines model for EditRequestBody.
+type EditRequestBody struct {
+	Incident IncidentEditPayloadV2 `json:"incident"`
+
+	// NotifyIncidentChannel Should we send Slack channel notifications to inform responders of this update? Note that this won't work if the Slack channel has already been archived.
+	NotifyIncidentChannel bool `json:"notify_incident_channel"`
+}
+
 // ExternalIssueReferenceV1 defines model for ExternalIssueReferenceV1.
 type ExternalIssueReferenceV1 struct {
 	// IssueName Human readable ID for the issue
@@ -881,6 +988,24 @@ type IncidentAttachmentV1 struct {
 	// IncidentId Unique identifier of the incident
 	IncidentId string             `json:"incident_id"`
 	Resource   ExternalResourceV1 `json:"resource"`
+}
+
+// IncidentEditPayloadV2 defines model for IncidentEditPayloadV2.
+type IncidentEditPayloadV2 struct {
+	// CustomFieldEntries Set the incident's custom fields to these values
+	CustomFieldEntries *[]CustomFieldEntryPayloadV1 `json:"custom_field_entries,omitempty"`
+
+	// IncidentTimestampValues Assign the incident's timestamps to these values
+	IncidentTimestampValues *[]IncidentTimestampValuePayloadV2 `json:"incident_timestamp_values,omitempty"`
+
+	// Name Explanation of the incident
+	Name *string `json:"name,omitempty"`
+
+	// SeverityId Severity to change incident to
+	SeverityId *string `json:"severity_id,omitempty"`
+
+	// Summary Detailed description of the incident
+	Summary *string `json:"summary,omitempty"`
 }
 
 // IncidentRoleAssignmentPayloadV1 defines model for IncidentRoleAssignmentPayloadV1.
@@ -1189,6 +1314,7 @@ type IncidentV2Visibility string
 type ListEntriesResponseBody struct {
 	CatalogEntries []CatalogEntryV2 `json:"catalog_entries"`
 	CatalogType    CatalogTypeV2    `json:"catalog_type"`
+	PaginationMeta PaginationMeta   `json:"pagination_meta"`
 }
 
 // ListResponseBody defines model for ListResponseBody.
@@ -1365,11 +1491,17 @@ type ShowResponseBody9 struct {
 
 // UpdateEntryRequestBody defines model for UpdateEntryRequestBody.
 type UpdateEntryRequestBody struct {
+	// Alias An optional alias that must uniquely identify this type
+	Alias *string `json:"alias,omitempty"`
+
 	// AttributeValues Values of this entry
 	AttributeValues map[string]CatalogAttributeBindingPayloadV2 `json:"attribute_values"`
 
 	// Name Name is the human readable name of this entry
 	Name string `json:"name"`
+
+	// Rank When catalog type is ranked, this is used to help order things
+	Rank *int32 `json:"rank,omitempty"`
 }
 
 // UpdateRequestBody defines model for UpdateRequestBody.
@@ -1433,18 +1565,6 @@ type UpdateRequestBody4 struct {
 
 	// Name Unique name of this status
 	Name string `json:"name"`
-}
-
-// UpdateTypeRequestBody defines model for UpdateTypeRequestBody.
-type UpdateTypeRequestBody struct {
-	// Description Human readble description of this type
-	Description string `json:"description"`
-
-	// Name Name is the human readable name of this type
-	Name string `json:"name"`
-
-	// SemanticType Semantic type of this resource
-	SemanticType string `json:"semantic_type"`
 }
 
 // UpdateTypeSchemaRequestBody defines model for UpdateTypeSchemaRequestBody.
@@ -1544,6 +1664,12 @@ type IncidentsV1ListParams struct {
 type CatalogV2ListEntriesParams struct {
 	// CatalogTypeId ID of this catalog type
 	CatalogTypeId string `form:"catalog_type_id" json:"catalog_type_id"`
+
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
 // IncidentUpdatesV2ListParams defines parameters for IncidentUpdatesV2List.
@@ -1628,13 +1754,16 @@ type CatalogV2UpdateEntryJSONRequestBody = UpdateEntryRequestBody
 type CatalogV2CreateTypeJSONRequestBody = CreateTypeRequestBody
 
 // CatalogV2UpdateTypeJSONRequestBody defines body for CatalogV2UpdateType for application/json ContentType.
-type CatalogV2UpdateTypeJSONRequestBody = UpdateTypeRequestBody
+type CatalogV2UpdateTypeJSONRequestBody = CreateTypeRequestBody
 
 // CatalogV2UpdateTypeSchemaJSONRequestBody defines body for CatalogV2UpdateTypeSchema for application/json ContentType.
 type CatalogV2UpdateTypeSchemaJSONRequestBody = UpdateTypeSchemaRequestBody
 
 // IncidentsV2CreateJSONRequestBody defines body for IncidentsV2Create for application/json ContentType.
 type IncidentsV2CreateJSONRequestBody = CreateRequestBody7
+
+// IncidentsV2EditJSONRequestBody defines body for IncidentsV2Edit for application/json ContentType.
+type IncidentsV2EditJSONRequestBody = EditRequestBody
 
 // RequestEditorFn  is the function signature for the RequestEditor callback function
 type RequestEditorFn func(ctx context.Context, req *http.Request) error
@@ -1906,6 +2035,11 @@ type ClientInterface interface {
 
 	// IncidentsV2Show request
 	IncidentsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentsV2Edit request with any body
+	IncidentsV2EditWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	IncidentsV2Edit(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) ActionsV1List(ctx context.Context, params *ActionsV1ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -2762,6 +2896,30 @@ func (c *Client) IncidentsV2Create(ctx context.Context, body IncidentsV2CreateJS
 
 func (c *Client) IncidentsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewIncidentsV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) IncidentsV2EditWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentsV2EditRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) IncidentsV2Edit(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentsV2EditRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4297,6 +4455,38 @@ func NewCatalogV2ListEntriesRequest(server string, params *CatalogV2ListEntriesP
 		}
 	}
 
+	if params.PageSize != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.After != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
 	queryURL.RawQuery = queryValues.Encode()
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
@@ -5048,6 +5238,53 @@ func NewIncidentsV2ShowRequest(server string, id string) (*http.Request, error) 
 	return req, nil
 }
 
+// NewIncidentsV2EditRequest calls the generic IncidentsV2Edit builder with application/json body
+func NewIncidentsV2EditRequest(server string, id string, body IncidentsV2EditJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewIncidentsV2EditRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewIncidentsV2EditRequestWithBody generates requests for IncidentsV2Edit with any type of body
+func NewIncidentsV2EditRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/incidents/%s/actions/edit", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 func (c *Client) applyEditors(ctx context.Context, req *http.Request, additionalEditors []RequestEditorFn) error {
 	for _, r := range c.RequestEditors {
 		if err := r(ctx, req); err != nil {
@@ -5288,6 +5525,11 @@ type ClientWithResponsesInterface interface {
 
 	// IncidentsV2Show request
 	IncidentsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*IncidentsV2ShowResponse, error)
+
+	// IncidentsV2Edit request with any body
+	IncidentsV2EditWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error)
+
+	IncidentsV2EditWithResponse(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error)
 }
 
 type ActionsV1ListResponse struct {
@@ -6470,6 +6712,28 @@ func (r IncidentsV2ShowResponse) StatusCode() int {
 	return 0
 }
 
+type IncidentsV2EditResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ShowResponseBody9
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentsV2EditResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentsV2EditResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 // ActionsV1ListWithResponse request returning *ActionsV1ListResponse
 func (c *ClientWithResponses) ActionsV1ListWithResponse(ctx context.Context, params *ActionsV1ListParams, reqEditors ...RequestEditorFn) (*ActionsV1ListResponse, error) {
 	rsp, err := c.ActionsV1List(ctx, params, reqEditors...)
@@ -7098,6 +7362,23 @@ func (c *ClientWithResponses) IncidentsV2ShowWithResponse(ctx context.Context, i
 		return nil, err
 	}
 	return ParseIncidentsV2ShowResponse(rsp)
+}
+
+// IncidentsV2EditWithBodyWithResponse request with arbitrary body returning *IncidentsV2EditResponse
+func (c *ClientWithResponses) IncidentsV2EditWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error) {
+	rsp, err := c.IncidentsV2EditWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentsV2EditResponse(rsp)
+}
+
+func (c *ClientWithResponses) IncidentsV2EditWithResponse(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error) {
+	rsp, err := c.IncidentsV2Edit(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentsV2EditResponse(rsp)
 }
 
 // ParseActionsV1ListResponse parses an HTTP response from a ActionsV1ListWithResponse call
@@ -8407,6 +8688,32 @@ func ParseIncidentsV2ShowResponse(rsp *http.Response) (*IncidentsV2ShowResponse,
 	}
 
 	response := &IncidentsV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ShowResponseBody9
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIncidentsV2EditResponse parses an HTTP response from a IncidentsV2EditWithResponse call
+func ParseIncidentsV2EditResponse(rsp *http.Response) (*IncidentsV2EditResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentsV2EditResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}

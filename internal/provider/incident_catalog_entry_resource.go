@@ -31,6 +31,8 @@ type IncidentCatalogEntryResourceModel struct {
 	ID              types.String                 `tfsdk:"id"`
 	CatalogTypeID   types.String                 `tfsdk:"catalog_type_id"`
 	Name            types.String                 `tfsdk:"name"`
+	Alias           types.String                 `tfsdk:"alias"`
+	Rank            types.Int64                  `tfsdk:"rank"`
 	AttributeValues []CatalogEntryAttributeValue `tfsdk:"attribute_values"`
 }
 
@@ -100,6 +102,16 @@ func (r *IncidentCatalogEntryResource) Schema(ctx context.Context, req resource.
 				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "name"),
 				Required:            true,
 			},
+			"alias": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "alias"),
+				Optional:            true,
+				Computed:            true,
+			},
+			"rank": schema.Int64Attribute{
+				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "rank"),
+				Optional:            true,
+				Computed:            true,
+			},
 			"attribute_values": schema.SetNestedAttribute{
 				Required: true,
 				NestedObject: schema.NestedAttributeObject{
@@ -149,9 +161,19 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 		return
 	}
 
+	var rank *int32
+	if !data.Rank.IsNull() {
+		rank = lo.ToPtr(int32(data.Rank.ValueInt64()))
+	}
+	var alias *string
+	if !data.Alias.IsUnknown() {
+		alias = lo.ToPtr(data.Alias.ValueString())
+	}
 	result, err := r.client.CatalogV2CreateEntryWithResponse(ctx, client.CreateEntryRequestBody{
 		CatalogTypeId:   data.CatalogTypeID.ValueString(),
 		Name:            data.Name.ValueString(),
+		Rank:            rank,
+		Alias:           alias,
 		AttributeValues: data.buildAttributeValues(),
 	})
 	if err == nil && result.StatusCode() >= 400 {
@@ -191,8 +213,18 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		return
 	}
 
+	var rank *int32
+	if !data.Rank.IsNull() {
+		rank = lo.ToPtr(int32(data.Rank.ValueInt64()))
+	}
+	var alias *string
+	if !data.Alias.IsUnknown() {
+		alias = lo.ToPtr(data.Alias.ValueString())
+	}
 	result, err := r.client.CatalogV2UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.UpdateEntryRequestBody{
 		Name:            data.Name.ValueString(),
+		Rank:            rank,
+		Alias:           alias,
 		AttributeValues: data.buildAttributeValues(),
 	})
 	if err == nil && result.StatusCode() >= 400 {
@@ -253,10 +285,17 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV2) *
 		return values[i].Attribute.ValueString() < values[j].Attribute.ValueString()
 	})
 
+	alias := types.StringNull()
+	if entry.Alias != nil {
+		alias = types.StringValue(*entry.Alias)
+	}
+
 	return &IncidentCatalogEntryResourceModel{
 		ID:              types.StringValue(entry.Id),
 		CatalogTypeID:   types.StringValue(entry.CatalogTypeId),
 		Name:            types.StringValue(entry.Name),
+		Alias:           alias,
+		Rank:            types.Int64Value(int64(entry.Rank)),
 		AttributeValues: values,
 	}
 }

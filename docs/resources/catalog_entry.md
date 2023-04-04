@@ -85,9 +85,14 @@ resource "incident_catalog_entry" "service_tier" {
 
 ### Required
 
-- `attribute_values` (Attributes List) (see [below for nested schema](#nestedatt--attribute_values))
+- `attribute_values` (Attributes Set) (see [below for nested schema](#nestedatt--attribute_values))
 - `catalog_type_id` (String) ID of this catalog type
 - `name` (String) Name is the human readable name of this entry
+
+### Optional
+
+- `alias` (String) An optional alias that must uniquely identify this type
+- `rank` (Number) When catalog type is ranked, this is used to help order things
 
 ### Read-Only
 
