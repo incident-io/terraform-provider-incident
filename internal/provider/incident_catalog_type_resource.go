@@ -101,7 +101,7 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 	result, err := r.client.CatalogV2CreateTypeWithResponse(ctx, client.CreateTypeRequestBody{
 		Name:         data.Name.ValueString(),
 		Description:  data.Description.ValueString(),
-		SemanticType: semanticType,
+		SemanticType: &semanticType,
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
@@ -149,7 +149,7 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 	result, err := r.client.CatalogV2UpdateTypeWithResponse(ctx, data.ID.ValueString(), client.CatalogV2UpdateTypeJSONRequestBody{
 		Name:         data.Name.ValueString(),
 		Description:  data.Description.ValueString(),
-		SemanticType: semanticType,
+		SemanticType: &semanticType,
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
