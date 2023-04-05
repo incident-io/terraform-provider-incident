@@ -25,12 +25,6 @@ type IncidentCatalogTypeAttributeResource struct {
 	client *client.ClientWithResponses
 }
 
-type CatalogTypeAttribute struct {
-	Name  types.String `tfsdk:"name"`
-	Type  types.String `tfsdk:"type"`
-	Array types.Bool   `tfsdk:"array"`
-}
-
 type IncidentCatalogTypeAttributesResourceModel struct {
 	ID            types.String `tfsdk:"id"`
 	CatalogTypeID types.String `tfsdk:"catalog_type_id"`
@@ -75,6 +69,9 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"catalog_type_id": schema.StringAttribute{
 				Required:            true,
@@ -208,6 +205,7 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 		var (
 			attributes = []client.CatalogTypeAttributePayloadV2{}
 		)
+		tflog.Trace(ctx, fmt.Sprintf("Looking for attribute with id=%s", data.ID.ValueString()))
 		for _, attribute := range catalogType.Schema.Attributes {
 			if attribute.Id == data.ID.ValueString() {
 				alreadyExists = true
@@ -226,6 +224,7 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 			attributes = append(attributes, data.buildAttribute())
 		}
 
+		tflog.Trace(ctx, fmt.Sprintf("Updating catalog type with attributes: %v", attributes))
 		var err error
 		result, err = r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.UpdateTypeSchemaRequestBody{
 			Version:    catalogType.Schema.Version,

@@ -40,12 +40,12 @@ func (m IncidentCatalogEntryResourceModel) buildAttributeValues() map[string]cli
 	values := map[string]client.CatalogAttributeBindingPayloadV2{}
 	for _, attributeValue := range m.AttributeValues {
 		payload := client.CatalogAttributeBindingPayloadV2{}
-		if !attributeValue.Value.IsUnknown() {
+		if !attributeValue.Value.IsNull() {
 			payload.Value = &client.CatalogAttributeValuePayloadV2{
 				Literal: lo.ToPtr(attributeValue.Value.ValueString()),
 			}
 		}
-		if !attributeValue.ArrayValue.IsUnknown() {
+		if !attributeValue.ArrayValue.IsNull() {
 			arrayValue := []client.CatalogAttributeValuePayloadV2{}
 			for _, element := range attributeValue.ArrayValue.Elements() {
 				elementString, ok := element.(types.String)
@@ -264,6 +264,14 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV2) *
 			Attribute:  types.StringValue(attributeID),
 			ArrayValue: types.ListNull(types.StringType),
 		}
+		// The API can behave weirdly in the case of empty arrays and omit the field entirely.
+		// This is painful for us as terraform will see the omission as a diff against the
+		// state, so we paper over the issue by instantiating an empty array value if we think
+		// we're seeing the weirdness.
+		if binding.Value == nil && binding.ArrayValue == nil {
+			binding.ArrayValue = lo.ToPtr([]client.CatalogAttributeValueV2{})
+		}
+
 		if binding.Value != nil {
 			value.Value = types.StringValue(*binding.Value.Literal)
 		}
