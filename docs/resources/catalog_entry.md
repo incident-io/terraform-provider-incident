@@ -3,36 +3,21 @@
 page_title: "incident_catalog_entry Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  Manage and browse catalog resources.
-  This endpoint is in beta, released for early testing but excluded from our backwards
-  compatibility guarantee at this time. Contact support@incident.io if you have
-  questions about availability or want to try this out.
-  Use the incident.io catalog to track services, teams, product features and anything
-  else that helps build a map of your organisation.
-  The catalog has a number of types which are synced from your connected integrations, such
-  as GitHub Repositories or PagerDuty Services, but you can also create custom types
-  specifically tailored to your company.
-  Examples might be a Service type with an Alert channel which you can point at a Slack
-  channel, or Team which specifies its Manager and Technical Lead.
+  This resource manages a single entry for a given catalog type. It should be used when
+  you're loading a small number (<100) of catalog entries and want to do so with a terraform
+  for_each, or you don't want terraform to remove any entries that it is not managing.
+  If you're working with a large number of entries (>100) or want to be authoritative
+  (remove anything terraform does not manage) then prefer incident_catalog_entries.
 ---
 
 # incident_catalog_entry (Resource)
 
-Manage and browse catalog resources.
+This resource manages a single entry for a given catalog type. It should be used when
+you're loading a small number (<100) of catalog entries and want to do so with a terraform
+for_each, or you don't want terraform to remove any entries that it is not managing.
 
-> This endpoint is in beta, released for early testing but excluded from our backwards
-> compatibility guarantee at this time. Contact support@incident.io if you have
-> questions about availability or want to try this out.
-
-Use the incident.io catalog to track services, teams, product features and anything
-else that helps build a map of your organisation.
-
-The catalog has a number of types which are synced from your connected integrations, such
-as GitHub Repositories or PagerDuty Services, but you can also create custom types
-specifically tailored to your company.
-
-Examples might be a Service type with an Alert channel which you can point at a Slack
-channel, or Team which specifies its Manager and Technical Lead.
+If you're working with a large number of entries (>100) or want to be authoritative
+(remove anything terraform does not manage) then prefer `incident_catalog_entries`.
 
 ## Example Usage
 

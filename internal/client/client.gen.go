@@ -414,6 +414,9 @@ type CatalogEntryV2 struct {
 	// CreatedAt When this entry was created
 	CreatedAt time.Time `json:"created_at"`
 
+	// ExternalId An optional alternative ID for this entry, which is ensured to be unique for the type
+	ExternalId *string `json:"external_id,omitempty"`
+
 	// Id ID of this resource
 	Id string `json:"id"`
 
@@ -519,6 +522,9 @@ type CreateEntryRequestBody struct {
 
 	// CatalogTypeId ID of this catalog type
 	CatalogTypeId string `json:"catalog_type_id"`
+
+	// ExternalId An optional alternative ID for this entry, which is ensured to be unique for the type
+	ExternalId *string `json:"external_id,omitempty"`
 
 	// Name Name is the human readable name of this entry
 	Name string `json:"name"`
@@ -1496,6 +1502,9 @@ type UpdateEntryRequestBody struct {
 
 	// AttributeValues Values of this entry
 	AttributeValues map[string]CatalogAttributeBindingPayloadV2 `json:"attribute_values"`
+
+	// ExternalId An optional alternative ID for this entry, which is ensured to be unique for the type
+	ExternalId *string `json:"external_id,omitempty"`
 
 	// Name Name is the human readable name of this entry
 	Name string `json:"name"`

@@ -2249,6 +2249,7 @@
                       },
                       "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
                       "created_at": "2021-08-17T13:28:57.801578Z",
+                      "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
                       "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                       "name": "Primary On-call",
                       "rank": 3,
@@ -2320,6 +2321,7 @@
                   }
                 },
                 "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
                 "name": "Primary On-call",
                 "rank": 3
               }
@@ -2369,6 +2371,7 @@
                     },
                     "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "created_at": "2021-08-17T13:28:57.801578Z",
+                    "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Primary On-call",
                     "rank": 3,
@@ -2473,6 +2476,7 @@
                     },
                     "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "created_at": "2021-08-17T13:28:57.801578Z",
+                    "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Primary On-call",
                     "rank": 3,
@@ -2552,6 +2556,7 @@
                     }
                   }
                 },
+                "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
                 "name": "Primary On-call",
                 "rank": 3
               }
@@ -2601,6 +2606,7 @@
                     },
                     "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "created_at": "2021-08-17T13:28:57.801578Z",
+                    "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "name": "Primary On-call",
                     "rank": 3,
@@ -4627,6 +4633,257 @@
           "event_type"
         ]
       },
+      "AnnouncementRuleCreatedV1ResponseBody": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "The type of log entry that this is",
+            "example": "announcement_rule.created"
+          },
+          "actor": {
+            "$ref": "#/components/schemas/AuditLogActorV2"
+          },
+          "context": {
+            "$ref": "#/components/schemas/AuditLogEntryContextV2"
+          },
+          "occurred_at": {
+            "type": "string",
+            "description": "When the entry occurred",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuditLogTargetV2"
+            },
+            "description": "The custom field that was created",
+            "example": [
+              {
+                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "name": "#engineering",
+                "type": "announcement_rule"
+              }
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "description": "Which version the event is",
+            "example": 1,
+            "format": "int64"
+          }
+        },
+        "example": {
+          "action": "announcement_rule.created",
+          "actor": {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "metadata": {
+              "user_base_role_slug": "admin",
+              "user_custom_role_slugs": "engineering,security"
+            },
+            "name": "John Doe",
+            "type": "user"
+          },
+          "context": {
+            "location": "1.2.3.4",
+            "user_agent": "Chrome/91.0.4472.114"
+          },
+          "occurred_at": "2021-08-17T13:28:57.801578Z",
+          "targets": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "#engineering",
+              "type": "announcement_rule"
+            }
+          ],
+          "version": 1
+        },
+        "required": [
+          "action",
+          "occurred_at",
+          "version",
+          "actor",
+          "targets",
+          "context"
+        ]
+      },
+      "AuditLogActorMetadataV2": {
+        "type": "object",
+        "properties": {
+          "api_key_roles": {
+            "type": "string",
+            "description": "The roles that the API key has, separated by commas (if it's an API key actor)",
+            "example": "abc123"
+          },
+          "external_resource_external_id": {
+            "type": "string",
+            "description": "The ID of the external resource in the 3rd party system (if it's an external resource actor)",
+            "example": "q1234"
+          },
+          "external_resource_type": {
+            "type": "string",
+            "description": "The type of the external resource (if it's an external resource actor)",
+            "example": "pager_duty_incident"
+          },
+          "user_base_role_slug": {
+            "type": "string",
+            "description": "The base role slug of the user (if it's a user actor)",
+            "example": "admin"
+          },
+          "user_custom_role_slugs": {
+            "type": "string",
+            "description": "The custom role slugs of the user, separated by commas (if it's a user actor)",
+            "example": "engineering,security"
+          }
+        },
+        "example": {
+          "api_key_roles": "abc123",
+          "external_resource_external_id": "q1234",
+          "external_resource_type": "pager_duty_incident",
+          "user_base_role_slug": "admin",
+          "user_custom_role_slugs": "engineering,security"
+        }
+      },
+      "AuditLogActorV2": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the actor",
+            "example": "01FCNDV6P870EA6S7TK1DSYDG0"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/AuditLogActorMetadataV2"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the actor",
+            "example": "John Doe"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of actor",
+            "example": "user",
+            "enum": [
+              "user",
+              "system",
+              "api_key",
+              "workflow",
+              "external_resource"
+            ]
+          }
+        },
+        "example": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "required": [
+          "id",
+          "type"
+        ]
+      },
+      "AuditLogEntryContextV2": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "The location of the actor that performed this action",
+            "example": "1.2.3.4"
+          },
+          "user_agent": {
+            "type": "string",
+            "description": "The user agent of the actor that performed this action",
+            "example": "Chrome/91.0.4472.114"
+          }
+        },
+        "example": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "required": [
+          "location"
+        ]
+      },
+      "AuditLogTargetMetadataV2": {
+        "type": "object",
+        "properties": {
+          "user_base_role_slug": {
+            "type": "string",
+            "description": "The base role slug of the user (if it's a user target)",
+            "example": "admin"
+          },
+          "user_custom_role_slugs": {
+            "type": "string",
+            "description": "The custom role slugs of the user, separated by commas (if it's a user target)",
+            "example": "engineering,security"
+          }
+        },
+        "example": {
+          "user_base_role_slug": "admin",
+          "user_custom_role_slugs": "engineering,security"
+        }
+      },
+      "AuditLogTargetV2": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the target",
+            "example": "01FCNDV6P870EA6S7TK1DSYDG0"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/AuditLogTargetMetadataV2"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the target",
+            "example": "John Doe"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of target",
+            "example": "user",
+            "enum": [
+              "announcement_rule",
+              "api_key",
+              "custom_field",
+              "follow_up_priority",
+              "incident",
+              "incident_duration_metric",
+              "incident_role",
+              "incident_status",
+              "incident_timestamp",
+              "incident_type",
+              "integration",
+              "policy",
+              "private_incident_membership",
+              "rbac_role",
+              "severity",
+              "user",
+              "workflow"
+            ]
+          }
+        },
+        "example": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "required": [
+          "id",
+          "type"
+        ]
+      },
       "CatalogAttributeBindingPayloadV2": {
         "type": "object",
         "properties": {
@@ -4862,6 +5119,11 @@
             "example": "2021-08-17T13:28:57.801578Z",
             "format": "date-time"
           },
+          "external_id": {
+            "type": "string",
+            "description": "An optional alternative ID for this entry, which is ensured to be unique for the type",
+            "example": "761722cd-d1d7-477b-ac7e-90f9e079dc33"
+          },
           "id": {
             "type": "string",
             "description": "ID of this resource",
@@ -4919,6 +5181,7 @@
           },
           "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "created_at": "2021-08-17T13:28:57.801578Z",
+          "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "name": "Primary On-call",
           "rank": 3,
@@ -5208,6 +5471,11 @@
             "description": "ID of this catalog type",
             "example": "01FCNDV6P870EA6S7TK1DSYDG0"
           },
+          "external_id": {
+            "type": "string",
+            "description": "An optional alternative ID for this entry, which is ensured to be unique for the type",
+            "example": "761722cd-d1d7-477b-ac7e-90f9e079dc33"
+          },
           "name": {
             "type": "string",
             "description": "Name is the human readable name of this entry",
@@ -5235,6 +5503,7 @@
             }
           },
           "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
           "name": "Primary On-call",
           "rank": 3
         },
@@ -5286,6 +5555,7 @@
             },
             "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "created_at": "2021-08-17T13:28:57.801578Z",
+            "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
             "id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "name": "Primary On-call",
             "rank": 3,
@@ -8030,6 +8300,7 @@
                 },
                 "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
                 "created_at": "2021-08-17T13:28:57.801578Z",
+                "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
                 "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                 "name": "Primary On-call",
                 "rank": 3,
@@ -8080,6 +8351,7 @@
               },
               "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
               "created_at": "2021-08-17T13:28:57.801578Z",
+              "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
               "id": "01FCNDV6P870EA6S7TK1DSYDG0",
               "name": "Primary On-call",
               "rank": 3,
@@ -9916,6 +10188,7 @@
             },
             "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "created_at": "2021-08-17T13:28:57.801578Z",
+            "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
             "id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "name": "Primary On-call",
             "rank": 3,
@@ -10435,6 +10708,11 @@
               "$ref": "#/components/schemas/CatalogAttributeBindingPayloadV2"
             }
           },
+          "external_id": {
+            "type": "string",
+            "description": "An optional alternative ID for this entry, which is ensured to be unique for the type",
+            "example": "761722cd-d1d7-477b-ac7e-90f9e079dc33"
+          },
           "name": {
             "type": "string",
             "description": "Name is the human readable name of this entry",
@@ -10461,6 +10739,7 @@
               }
             }
           },
+          "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
           "name": "Primary On-call",
           "rank": 3
         },
