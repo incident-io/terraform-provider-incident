@@ -4,7 +4,6 @@ go 1.20
 
 require (
 	github.com/Masterminds/sprig v2.22.0+incompatible
-	github.com/davecgh/go-spew v1.1.1
 	github.com/deepmap/oapi-codegen v1.12.4
 	github.com/getkin/kin-openapi v0.114.0
 	github.com/google/uuid v1.3.0
@@ -16,7 +15,7 @@ require (
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.25.0
 	github.com/motemen/go-loghttp v0.0.0-20170804080138-974ac5ceac27
 	github.com/pkg/errors v0.9.1
-	github.com/samber/lo v1.37.0
+	github.com/samber/lo v1.38.1
 	golang.org/x/sync v0.1.0
 )
 
