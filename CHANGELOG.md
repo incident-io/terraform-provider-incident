@@ -1,3 +1,7 @@
+## 1.4.0
+
+- incident_catalog_entries for large entry counts
+
 ## 1.3.1
 
 - Fix bug around omitted empty arrays

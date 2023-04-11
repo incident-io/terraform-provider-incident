@@ -82,7 +82,14 @@ func (r *IncidentCatalogEntryResource) Metadata(ctx context.Context, req resourc
 
 func (r *IncidentCatalogEntryResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("Catalog V2"),
+		MarkdownDescription: `
+This resource manages a single entry for a given catalog type. It should be used when
+you're loading a small number (<100) of catalog entries and want to do so with a terraform
+for_each, or you don't want terraform to remove any entries that it is not managing.
+
+If you're working with a large number of entries (>100) or want to be authoritative
+(remove anything terraform does not manage) then prefer ` + "`incident_catalog_entries`" + `.
+		`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,

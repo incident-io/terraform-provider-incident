@@ -2020,6 +2020,1340 @@
         ]
       }
     },
+    "/x-audit-logs/announcement_rule.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "AnnouncementRuleCreatedV1 Audit logs",
+        "description": "This entry is created whenever a announcement rule is created",
+        "operationId": "Audit logs#AnnouncementRuleCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsAnnouncementRuleCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/announcement_rule.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "AnnouncementRuleDeletedV1 Audit logs",
+        "description": "This entry is created whenever a announcement rule is deleted",
+        "operationId": "Audit logs#AnnouncementRuleDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsAnnouncementRuleDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/announcement_rule.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "AnnouncementRuleUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a announcement rule is updated",
+        "operationId": "Audit logs#AnnouncementRuleUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsAnnouncementRuleUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/api_key.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "ApiKeyCreatedV1 Audit logs",
+        "description": "This entry is created whenever a api key is created",
+        "operationId": "Audit logs#ApiKeyCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsAPIKeyCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/api_key.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "ApiKeyDeletedV1 Audit logs",
+        "description": "This entry is created whenever a api key is deleted",
+        "operationId": "Audit logs#ApiKeyDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsAPIKeyDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/api_key.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "ApiKeyUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a api key is updated",
+        "operationId": "Audit logs#ApiKeyUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsAPIKeyUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/custom_field.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "CustomFieldCreatedV1 Audit logs",
+        "description": "This entry is created whenever a custom field is created",
+        "operationId": "Audit logs#CustomFieldCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsCustomFieldCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/custom_field.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "CustomFieldDeletedV1 Audit logs",
+        "description": "This entry is created whenever a custom field is deleted",
+        "operationId": "Audit logs#CustomFieldDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsCustomFieldDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/custom_field.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "CustomFieldUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a custom field is updated",
+        "operationId": "Audit logs#CustomFieldUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsCustomFieldUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/follow_up_priority.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "FollowUpPriorityCreatedV1 Audit logs",
+        "description": "This entry is created whenever a follow up priority is created",
+        "operationId": "Audit logs#FollowUpPriorityCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsFollowUpPriorityCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/follow_up_priority.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "FollowUpPriorityDeletedV1 Audit logs",
+        "description": "This entry is created whenever a follow up priority is deleted",
+        "operationId": "Audit logs#FollowUpPriorityDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsFollowUpPriorityDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/follow_up_priority.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "FollowUpPriorityUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a follow up priority is updated",
+        "operationId": "Audit logs#FollowUpPriorityUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsFollowUpPriorityUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_duration_metric.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentDurationMetricCreatedV1 Audit logs",
+        "description": "This entry is created whenever a incident duration metric is created",
+        "operationId": "Audit logs#IncidentDurationMetricCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentDurationMetricCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_duration_metric.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentDurationMetricDeletedV1 Audit logs",
+        "description": "This entry is created whenever a incident duration metric is deleted",
+        "operationId": "Audit logs#IncidentDurationMetricDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentDurationMetricDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_duration_metric.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentDurationMetricUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a incident duration metric is updated",
+        "operationId": "Audit logs#IncidentDurationMetricUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentDurationMetricUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_role.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentRoleCreatedV1 Audit logs",
+        "description": "This entry is created whenever a incident role is created",
+        "operationId": "Audit logs#IncidentRoleCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentRoleCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_role.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentRoleDeletedV1 Audit logs",
+        "description": "This entry is created whenever a incident role is deleted",
+        "operationId": "Audit logs#IncidentRoleDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentRoleDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_role.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentRoleUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a incident role is updated",
+        "operationId": "Audit logs#IncidentRoleUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentRoleUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_status.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentStatusCreatedV1 Audit logs",
+        "description": "This entry is created whenever a incident status is created",
+        "operationId": "Audit logs#IncidentStatusCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentStatusCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_status.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentStatusDeletedV1 Audit logs",
+        "description": "This entry is created whenever a incident status is deleted",
+        "operationId": "Audit logs#IncidentStatusDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentStatusDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_status.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentStatusUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a incident status is updated",
+        "operationId": "Audit logs#IncidentStatusUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentStatusUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_timestamp.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentTimestampCreatedV1 Audit logs",
+        "description": "This entry is created whenever a incident timestamp is created",
+        "operationId": "Audit logs#IncidentTimestampCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentTimestampCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_timestamp.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentTimestampDeletedV1 Audit logs",
+        "description": "This entry is created whenever a incident timestamp is deleted",
+        "operationId": "Audit logs#IncidentTimestampDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentTimestampDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_timestamp.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentTimestampUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a incident timestamp is updated",
+        "operationId": "Audit logs#IncidentTimestampUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentTimestampUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_type.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentTypeCreatedV1 Audit logs",
+        "description": "This entry is created whenever a incident type is created",
+        "operationId": "Audit logs#IncidentTypeCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentTypeCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_type.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentTypeDeletedV1 Audit logs",
+        "description": "This entry is created whenever a incident type is deleted",
+        "operationId": "Audit logs#IncidentTypeDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentTypeDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/incident_type.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IncidentTypeUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a incident type is updated",
+        "operationId": "Audit logs#IncidentTypeUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIncidentTypeUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/integration.installed.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IntegrationInstalledV1 Audit logs",
+        "description": "This entry is created whenever an integration is installed",
+        "operationId": "Audit logs#IntegrationInstalledV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIntegrationInstalledV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/integration.uninstalled.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "IntegrationUninstalledV1 Audit logs",
+        "description": "This entry is created whenever an integration is uninstalled",
+        "operationId": "Audit logs#IntegrationUninstalledV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsIntegrationUninstalledV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/policy.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PolicyCreatedV1 Audit logs",
+        "description": "This entry is created whenever a policy is created",
+        "operationId": "Audit logs#PolicyCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPolicyCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/policy.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PolicyDeletedV1 Audit logs",
+        "description": "This entry is created whenever a policy is deleted",
+        "operationId": "Audit logs#PolicyDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPolicyDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/policy.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PolicyUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a policy is updated",
+        "operationId": "Audit logs#PolicyUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPolicyUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/privated_incident_membership.granted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PrivatedIncidentMembershipGrantedV1 Audit logs",
+        "description": "This entry is created whenever someone is granted access to a private incident. If they have the 'manage private incidents' permission, then it'll appear that the system has given them access to the incident.",
+        "operationId": "Audit logs#PrivatedIncidentMembershipGrantedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPrivatedIncidentMembershipGrantedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/privated_incident_membership.revoked.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PrivatedIncidentMembershipRevokedV1 Audit logs",
+        "description": "This entry is created whenever someone's access to a private incident is revoked.",
+        "operationId": "Audit logs#PrivatedIncidentMembershipRevokedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPrivatedIncidentMembershipRevokedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/rbac_role.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "RbacRoleCreatedV1 Audit logs",
+        "description": "This entry is created whenever a rbac role is created",
+        "operationId": "Audit logs#RbacRoleCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsRbacRoleCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/rbac_role.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "RbacRoleDeletedV1 Audit logs",
+        "description": "This entry is created whenever a rbac role is deleted",
+        "operationId": "Audit logs#RbacRoleDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsRbacRoleDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/rbac_role.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "RbacRoleUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a rbac role is updated",
+        "operationId": "Audit logs#RbacRoleUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsRbacRoleUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/severity.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "SeverityCreatedV1 Audit logs",
+        "description": "This entry is created whenever a severity is created",
+        "operationId": "Audit logs#SeverityCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsSeverityCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/severity.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "SeverityDeletedV1 Audit logs",
+        "description": "This entry is created whenever a severity is deleted",
+        "operationId": "Audit logs#SeverityDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsSeverityDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/severity.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "SeverityUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a severity is updated",
+        "operationId": "Audit logs#SeverityUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsSeverityUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/user.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "UserCreatedV1 Audit logs",
+        "description": "This entry is created whenever a user is created",
+        "operationId": "Audit logs#UserCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsUserCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/user.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "UserDeletedV1 Audit logs",
+        "description": "This entry is created whenever a user is deleted",
+        "operationId": "Audit logs#UserDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsUserDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/user.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "UserUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a user is updated",
+        "operationId": "Audit logs#UserUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsUserUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/workflow.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "WorkflowCreatedV1 Audit logs",
+        "description": "This entry is created whenever a workflow is created",
+        "operationId": "Audit logs#WorkflowCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsWorkflowCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/workflow.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "WorkflowDeletedV1 Audit logs",
+        "description": "This entry is created whenever a workflow is deleted",
+        "operationId": "Audit logs#WorkflowDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsWorkflowDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/workflow.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "WorkflowUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a workflow is updated",
+        "operationId": "Audit logs#WorkflowUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsWorkflowUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
     "/x-webhooks/__all__": {
       "get": {
         "tags": [
@@ -2540,6 +3874,3703 @@
         }
       }
     },
+    "AuditLogActorMetadataV2ResponseBody": {
+      "title": "AuditLogActorMetadataV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "api_key_roles": {
+          "type": "string",
+          "description": "The roles that the API key has, separated by commas (if it's an API key actor)",
+          "example": "abc123"
+        },
+        "external_resource_external_id": {
+          "type": "string",
+          "description": "The ID of the external resource in the 3rd party system (if it's an external resource actor)",
+          "example": "q1234"
+        },
+        "external_resource_type": {
+          "type": "string",
+          "description": "The type of the external resource (if it's an external resource actor)",
+          "example": "pager_duty_incident"
+        },
+        "user_base_role_slug": {
+          "type": "string",
+          "description": "The base role slug of the user (if it's a user actor)",
+          "example": "admin"
+        },
+        "user_custom_role_slugs": {
+          "type": "string",
+          "description": "The custom role slugs of the user, separated by commas (if it's a user actor)",
+          "example": "engineering,security"
+        }
+      },
+      "example": {
+        "api_key_roles": "abc123",
+        "external_resource_external_id": "q1234",
+        "external_resource_type": "pager_duty_incident",
+        "user_base_role_slug": "admin",
+        "user_custom_role_slugs": "engineering,security"
+      }
+    },
+    "AuditLogActorV2ResponseBody": {
+      "title": "AuditLogActorV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the actor",
+          "example": "01FCNDV6P870EA6S7TK1DSYDG0"
+        },
+        "metadata": {
+          "$ref": "#/definitions/AuditLogActorMetadataV2ResponseBody"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the actor",
+          "example": "John Doe"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of actor",
+          "example": "user",
+          "enum": [
+            "user",
+            "system",
+            "api_key",
+            "workflow",
+            "external_resource"
+          ]
+        }
+      },
+      "example": {
+        "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+        "metadata": {
+          "user_base_role_slug": "admin",
+          "user_custom_role_slugs": "engineering,security"
+        },
+        "name": "John Doe",
+        "type": "user"
+      },
+      "required": [
+        "id",
+        "type"
+      ]
+    },
+    "AuditLogEntryContextV2ResponseBody": {
+      "title": "AuditLogEntryContextV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "The location of the actor that performed this action",
+          "example": "1.2.3.4"
+        },
+        "user_agent": {
+          "type": "string",
+          "description": "The user agent of the actor that performed this action",
+          "example": "Chrome/91.0.4472.114"
+        }
+      },
+      "example": {
+        "location": "1.2.3.4",
+        "user_agent": "Chrome/91.0.4472.114"
+      },
+      "required": [
+        "location"
+      ]
+    },
+    "AuditLogTargetMetadataV2ResponseBody": {
+      "title": "AuditLogTargetMetadataV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "user_base_role_slug": {
+          "type": "string",
+          "description": "The base role slug of the user (if it's a user target)",
+          "example": "admin"
+        },
+        "user_custom_role_slugs": {
+          "type": "string",
+          "description": "The custom role slugs of the user, separated by commas (if it's a user target)",
+          "example": "engineering,security"
+        }
+      },
+      "example": {
+        "user_base_role_slug": "admin",
+        "user_custom_role_slugs": "engineering,security"
+      }
+    },
+    "AuditLogTargetV2ResponseBody": {
+      "title": "AuditLogTargetV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the target",
+          "example": "01FCNDV6P870EA6S7TK1DSYDG0"
+        },
+        "metadata": {
+          "$ref": "#/definitions/AuditLogTargetMetadataV2ResponseBody"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the target",
+          "example": "John Doe"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of target",
+          "example": "user",
+          "enum": [
+            "announcement_rule",
+            "api_key",
+            "custom_field",
+            "follow_up_priority",
+            "incident",
+            "incident_duration_metric",
+            "incident_role",
+            "incident_status",
+            "incident_timestamp",
+            "incident_type",
+            "integration",
+            "policy",
+            "private_incident_membership",
+            "rbac_role",
+            "severity",
+            "user",
+            "workflow"
+          ]
+        }
+      },
+      "example": {
+        "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+        "metadata": {
+          "user_base_role_slug": "admin",
+          "user_custom_role_slugs": "engineering,security"
+        },
+        "name": "John Doe",
+        "type": "user"
+      },
+      "required": [
+        "id",
+        "type"
+      ]
+    },
+    "AuditLogsAPIKeyCreatedV1ResponseBody": {
+      "title": "AuditLogsAPIKeyCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "api_key.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Development API Key",
+              "type": "api_key"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "api_key.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Development API Key",
+            "type": "api_key"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsAPIKeyDeletedV1ResponseBody": {
+      "title": "AuditLogsAPIKeyDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "api_key.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Development API Key",
+              "type": "api_key"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "api_key.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Development API Key",
+            "type": "api_key"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsAPIKeyUpdatedV1ResponseBody": {
+      "title": "AuditLogsAPIKeyUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "api_key.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Development API Key",
+              "type": "api_key"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "api_key.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Development API Key",
+            "type": "api_key"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsAnnouncementRuleCreatedV1ResponseBody": {
+      "title": "AuditLogsAnnouncementRuleCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "announcement_rule.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "#engineering",
+              "type": "announcement_rule"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "announcement_rule.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "#engineering",
+            "type": "announcement_rule"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsAnnouncementRuleDeletedV1ResponseBody": {
+      "title": "AuditLogsAnnouncementRuleDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "announcement_rule.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "#engineering",
+              "type": "announcement_rule"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "announcement_rule.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "#engineering",
+            "type": "announcement_rule"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsAnnouncementRuleUpdatedV1ResponseBody": {
+      "title": "AuditLogsAnnouncementRuleUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "announcement_rule.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "#engineering",
+              "type": "announcement_rule"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "announcement_rule.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "#engineering",
+            "type": "announcement_rule"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsCustomFieldCreatedV1ResponseBody": {
+      "title": "AuditLogsCustomFieldCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "custom_field.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Affected teams",
+              "type": "custom_field"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "custom_field.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Affected teams",
+            "type": "custom_field"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsCustomFieldDeletedV1ResponseBody": {
+      "title": "AuditLogsCustomFieldDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "custom_field.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Affected teams",
+              "type": "custom_field"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "custom_field.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Affected teams",
+            "type": "custom_field"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsCustomFieldUpdatedV1ResponseBody": {
+      "title": "AuditLogsCustomFieldUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "custom_field.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Affected teams",
+              "type": "custom_field"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "custom_field.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Affected teams",
+            "type": "custom_field"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsFollowUpPriorityCreatedV1ResponseBody": {
+      "title": "AuditLogsFollowUpPriorityCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "follow_up_priority.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Low",
+              "type": "follow_up_priority"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "follow_up_priority.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Low",
+            "type": "follow_up_priority"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsFollowUpPriorityDeletedV1ResponseBody": {
+      "title": "AuditLogsFollowUpPriorityDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "follow_up_priority.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Low",
+              "type": "follow_up_priority"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "follow_up_priority.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Low",
+            "type": "follow_up_priority"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsFollowUpPriorityUpdatedV1ResponseBody": {
+      "title": "AuditLogsFollowUpPriorityUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "follow_up_priority.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Low",
+              "type": "follow_up_priority"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "follow_up_priority.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Low",
+            "type": "follow_up_priority"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentDurationMetricCreatedV1ResponseBody": {
+      "title": "AuditLogsIncidentDurationMetricCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_duration_metric.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Time to resolve",
+              "type": "incident_duration_metric"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_duration_metric.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Time to resolve",
+            "type": "incident_duration_metric"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentDurationMetricDeletedV1ResponseBody": {
+      "title": "AuditLogsIncidentDurationMetricDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_duration_metric.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Time to resolve",
+              "type": "incident_duration_metric"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_duration_metric.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Time to resolve",
+            "type": "incident_duration_metric"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentDurationMetricUpdatedV1ResponseBody": {
+      "title": "AuditLogsIncidentDurationMetricUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_duration_metric.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Time to resolve",
+              "type": "incident_duration_metric"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_duration_metric.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Time to resolve",
+            "type": "incident_duration_metric"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentRoleCreatedV1ResponseBody": {
+      "title": "AuditLogsIncidentRoleCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_role.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Communications Lead",
+              "type": "incident_role"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_role.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Communications Lead",
+            "type": "incident_role"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentRoleDeletedV1ResponseBody": {
+      "title": "AuditLogsIncidentRoleDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_role.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Communications Lead",
+              "type": "incident_role"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_role.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Communications Lead",
+            "type": "incident_role"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentRoleUpdatedV1ResponseBody": {
+      "title": "AuditLogsIncidentRoleUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_role.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Communications Lead",
+              "type": "incident_role"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_role.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Communications Lead",
+            "type": "incident_role"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentStatusCreatedV1ResponseBody": {
+      "title": "AuditLogsIncidentStatusCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_status.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Investigating",
+              "type": "incident_status"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_status.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Investigating",
+            "type": "incident_status"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentStatusDeletedV1ResponseBody": {
+      "title": "AuditLogsIncidentStatusDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_status.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Investigating",
+              "type": "incident_status"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_status.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Investigating",
+            "type": "incident_status"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentStatusUpdatedV1ResponseBody": {
+      "title": "AuditLogsIncidentStatusUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_status.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Investigating",
+              "type": "incident_status"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_status.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Investigating",
+            "type": "incident_status"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentTimestampCreatedV1ResponseBody": {
+      "title": "AuditLogsIncidentTimestampCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_timestamp.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Fixed at",
+              "type": "incident_timestamp"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_timestamp.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Fixed at",
+            "type": "incident_timestamp"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentTimestampDeletedV1ResponseBody": {
+      "title": "AuditLogsIncidentTimestampDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_timestamp.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Fixed at",
+              "type": "incident_timestamp"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_timestamp.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Fixed at",
+            "type": "incident_timestamp"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentTimestampUpdatedV1ResponseBody": {
+      "title": "AuditLogsIncidentTimestampUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_timestamp.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Fixed at",
+              "type": "incident_timestamp"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_timestamp.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Fixed at",
+            "type": "incident_timestamp"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentTypeCreatedV1ResponseBody": {
+      "title": "AuditLogsIncidentTypeCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_type.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Security",
+              "type": "incident_type"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_type.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Security",
+            "type": "incident_type"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentTypeDeletedV1ResponseBody": {
+      "title": "AuditLogsIncidentTypeDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_type.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Security",
+              "type": "incident_type"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_type.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Security",
+            "type": "incident_type"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIncidentTypeUpdatedV1ResponseBody": {
+      "title": "AuditLogsIncidentTypeUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "incident_type.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Security",
+              "type": "incident_type"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "incident_type.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Security",
+            "type": "incident_type"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIntegrationInstalledV1ResponseBody": {
+      "title": "AuditLogsIntegrationInstalledV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "integration.installed"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "github",
+              "name": "Github",
+              "type": "integration"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "integration.installed",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "github",
+            "name": "Github",
+            "type": "integration"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsIntegrationUninstalledV1ResponseBody": {
+      "title": "AuditLogsIntegrationUninstalledV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "integration.uninstalled"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "github",
+              "name": "Github",
+              "type": "integration"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "integration.uninstalled",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "github",
+            "name": "Github",
+            "type": "integration"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPolicyCreatedV1ResponseBody": {
+      "title": "AuditLogsPolicyCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "policy.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Follow-ups must be closed within 3 weeks",
+              "type": "policy"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "policy.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Follow-ups must be closed within 3 weeks",
+            "type": "policy"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPolicyDeletedV1ResponseBody": {
+      "title": "AuditLogsPolicyDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "policy.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Follow-ups must be closed within 3 weeks",
+              "type": "policy"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "policy.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Follow-ups must be closed within 3 weeks",
+            "type": "policy"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPolicyUpdatedV1ResponseBody": {
+      "title": "AuditLogsPolicyUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "policy.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Follow-ups must be closed within 3 weeks",
+              "type": "policy"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "policy.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Follow-ups must be closed within 3 weeks",
+            "type": "policy"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPrivatedIncidentMembershipGrantedV1ResponseBody": {
+      "title": "AuditLogsPrivatedIncidentMembershipGrantedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "privated_incident_membership.granted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Bob the builder",
+              "type": "user"
+            },
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "#INC-123 The website is slow",
+              "type": "incident"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "privated_incident_membership.granted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Bob the builder",
+            "type": "user"
+          },
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "#INC-123 The website is slow",
+            "type": "incident"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPrivatedIncidentMembershipRevokedV1ResponseBody": {
+      "title": "AuditLogsPrivatedIncidentMembershipRevokedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "privated_incident_membership.revoked"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Bob the builder",
+              "type": "user"
+            },
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "#INC-123 The website is slow",
+              "type": "incident"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "privated_incident_membership.revoked",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Bob the builder",
+            "type": "user"
+          },
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "#INC-123 The website is slow",
+            "type": "incident"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsRbacRoleCreatedV1ResponseBody": {
+      "title": "AuditLogsRbacRoleCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "rbac_role.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Engineering",
+              "type": "rbac_role"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "rbac_role.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Engineering",
+            "type": "rbac_role"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsRbacRoleDeletedV1ResponseBody": {
+      "title": "AuditLogsRbacRoleDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "rbac_role.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Engineering",
+              "type": "rbac_role"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "rbac_role.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Engineering",
+            "type": "rbac_role"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsRbacRoleUpdatedV1ResponseBody": {
+      "title": "AuditLogsRbacRoleUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "rbac_role.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Engineering",
+              "type": "rbac_role"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "rbac_role.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Engineering",
+            "type": "rbac_role"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsSeverityCreatedV1ResponseBody": {
+      "title": "AuditLogsSeverityCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "severity.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Minor",
+              "type": "severity"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "severity.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Minor",
+            "type": "severity"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsSeverityDeletedV1ResponseBody": {
+      "title": "AuditLogsSeverityDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "severity.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Minor",
+              "type": "severity"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "severity.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Minor",
+            "type": "severity"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsSeverityUpdatedV1ResponseBody": {
+      "title": "AuditLogsSeverityUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "severity.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Minor",
+              "type": "severity"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "severity.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Minor",
+            "type": "severity"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsUserCreatedV1ResponseBody": {
+      "title": "AuditLogsUserCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "user.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Bob the builder",
+              "type": "user"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "user.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Bob the builder",
+            "type": "user"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsUserDeletedV1ResponseBody": {
+      "title": "AuditLogsUserDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "user.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Bob the builder",
+              "type": "user"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "user.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Bob the builder",
+            "type": "user"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsUserUpdatedV1ResponseBody": {
+      "title": "AuditLogsUserUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "user.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Bob the builder",
+              "type": "user"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "user.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Bob the builder",
+            "type": "user"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsWorkflowCreatedV1ResponseBody": {
+      "title": "AuditLogsWorkflowCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "workflow.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Nudge to write a postmortem",
+              "type": "workflow"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "workflow.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Nudge to write a postmortem",
+            "type": "workflow"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsWorkflowDeletedV1ResponseBody": {
+      "title": "AuditLogsWorkflowDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "workflow.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Nudge to write a postmortem",
+              "type": "workflow"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "workflow.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Nudge to write a postmortem",
+            "type": "workflow"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsWorkflowUpdatedV1ResponseBody": {
+      "title": "AuditLogsWorkflowUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "workflow.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Nudge to write a postmortem",
+              "type": "workflow"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "workflow.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Nudge to write a postmortem",
+            "type": "workflow"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
     "CatalogAttributeBindingPayloadV2RequestBody": {
       "title": "CatalogAttributeBindingPayloadV2RequestBody",
       "type": "object",
@@ -2781,6 +7812,11 @@
           "example": "2021-08-17T13:28:57.801578Z",
           "format": "date-time"
         },
+        "external_id": {
+          "type": "string",
+          "description": "An optional alternative ID for this entry, which is ensured to be unique for the type",
+          "example": "761722cd-d1d7-477b-ac7e-90f9e079dc33"
+        },
         "id": {
           "type": "string",
           "description": "ID of this resource",
@@ -2838,6 +7874,7 @@
         },
         "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
         "created_at": "2021-08-17T13:28:57.801578Z",
+        "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
         "id": "01FCNDV6P870EA6S7TK1DSYDG0",
         "name": "Primary On-call",
         "rank": 3,
@@ -3132,6 +8169,11 @@
           "description": "ID of this catalog type",
           "example": "01FCNDV6P870EA6S7TK1DSYDG0"
         },
+        "external_id": {
+          "type": "string",
+          "description": "An optional alternative ID for this entry, which is ensured to be unique for the type",
+          "example": "761722cd-d1d7-477b-ac7e-90f9e079dc33"
+        },
         "name": {
           "type": "string",
           "description": "Name is the human readable name of this entry",
@@ -3159,6 +8201,7 @@
           }
         },
         "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+        "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
         "name": "Primary On-call",
         "rank": 3
       },
@@ -3211,6 +8254,7 @@
           },
           "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "created_at": "2021-08-17T13:28:57.801578Z",
+          "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "name": "Primary On-call",
           "rank": 3,
@@ -3371,6 +8415,7 @@
               },
               "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
               "created_at": "2021-08-17T13:28:57.801578Z",
+              "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
               "id": "01FCNDV6P870EA6S7TK1DSYDG0",
               "name": "Primary On-call",
               "rank": 3,
@@ -3421,6 +8466,7 @@
             },
             "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "created_at": "2021-08-17T13:28:57.801578Z",
+            "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
             "id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "name": "Primary On-call",
             "rank": 3,
@@ -3583,6 +8629,7 @@
           },
           "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "created_at": "2021-08-17T13:28:57.801578Z",
+          "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "name": "Primary On-call",
           "rank": 3,
@@ -3688,6 +8735,11 @@
             "$ref": "#/definitions/CatalogAttributeBindingPayloadV2RequestBody"
           }
         },
+        "external_id": {
+          "type": "string",
+          "description": "An optional alternative ID for this entry, which is ensured to be unique for the type",
+          "example": "761722cd-d1d7-477b-ac7e-90f9e079dc33"
+        },
         "name": {
           "type": "string",
           "description": "Name is the human readable name of this entry",
@@ -3714,6 +8766,7 @@
             }
           }
         },
+        "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
         "name": "Primary On-call",
         "rank": 3
       },
@@ -3768,6 +8821,7 @@
           },
           "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "created_at": "2021-08-17T13:28:57.801578Z",
+          "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "name": "Primary On-call",
           "rank": 3,
@@ -10712,6 +15766,10 @@
     {
       "name": "Actions V1",
       "description": "Manage incident actions.\n\nIncidents have two types of actions associated to them:\n\n- Actions, used during an incident response as ephemeral todo lists\n- Follow-ups, actions which are for after the incident and can be exported to external\n\tissue trackers\n\nYou can manage actions in the incident Slack channel with <code>/incident actions</code>, or on\nthe incident homepage.\n\nExporting follow-ups to external issue trackers can be done in the incident homepage.\n"
+    },
+    {
+      "name": "Audit logs",
+      "description": "Audit logs are a record of configuration changes in your account.\n\nTODO: write the rest of the docs..."
     },
     {
       "name": "Catalog V2",
