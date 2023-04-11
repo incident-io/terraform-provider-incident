@@ -4,7 +4,6 @@ go 1.20
 
 require (
 	github.com/Masterminds/sprig v2.22.0+incompatible
-	github.com/davecgh/go-spew v1.1.1
 	github.com/deepmap/oapi-codegen v1.12.4
 	github.com/getkin/kin-openapi v0.114.0
 	github.com/google/uuid v1.3.0
@@ -95,4 +94,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/hashicorp/terraform-plugin-framework v1.20.0 => github.com/incident-io/terraform-plugin-framework v0.0.0-20230411130521-b36f4a132cca
+replace github.com/hashicorp/terraform-plugin-framework v1.2.0 => github.com/incident-io/terraform-plugin-framework v0.0.0-20230411130521-b36f4a132cca

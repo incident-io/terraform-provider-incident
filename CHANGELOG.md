@@ -1,3 +1,7 @@
+## 1.4.1
+
+- Pin the correct dependency to include our logging patch
+
 ## 1.4.0
 
 - incident_catalog_entries for large entry counts
