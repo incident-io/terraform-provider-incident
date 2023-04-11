@@ -1,3 +1,7 @@
+## 1.4.2
+
+- Fix bug in framework patch that meant we never defaulted our log level
+
 ## 1.4.1
 
 - Pin the correct dependency to include our logging patch

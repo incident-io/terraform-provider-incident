@@ -94,4 +94,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/hashicorp/terraform-plugin-framework v1.2.0 => github.com/incident-io/terraform-plugin-framework v0.0.0-20230411130521-b36f4a132cca
+replace github.com/hashicorp/terraform-plugin-framework v1.2.0 => github.com/incident-io/terraform-plugin-framework v0.0.0-20230411174718-a39a43fd37ba
