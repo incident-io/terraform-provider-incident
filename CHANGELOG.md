@@ -1,3 +1,7 @@
+## 1.4.3
+
+- Handle 404 for catalog types without panicking
+
 ## 1.4.2
 
 - Fix bug in framework patch that meant we never defaulted our log level
