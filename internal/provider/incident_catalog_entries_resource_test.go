@@ -84,11 +84,8 @@ resource "incident_catalog_entries" "example" {
   entries = {
   {{ range .Entries }}
     {{ quote .ExternalID }} = {
-      name  = {{ quote .Name }}
-      {{ if eq .Alias "" }}
-      {{ else }}
-      alias = {{ quote .Alias }}
-      {{ end }}
+      name    = {{ quote .Name }}
+      aliases = {{ toJson .Aliases }}
 
       attribute_values = {
         (incident_catalog_type_attribute.example_description.id) = {
@@ -104,7 +101,7 @@ resource "incident_catalog_entries" "example" {
 type catalogEntryElement struct {
 	Name        string
 	ExternalID  string
-	Alias       string
+	Aliases     []string
 	Description string
 }
 

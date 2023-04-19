@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -38,7 +40,7 @@ type IncidentCatalogEntriesResourceModel struct {
 type CatalogEntryModel struct {
 	ID              types.String                                 `tfsdk:"id"`
 	Name            types.String                                 `tfsdk:"name"`
-	Alias           types.String                                 `tfsdk:"alias"`
+	Aliases         types.List                                   `tfsdk:"aliases"`
 	Rank            types.Int64                                  `tfsdk:"rank"`
 	AttributeValues map[string]CatalogEntryAttributeBindingModel `tfsdk:"attribute_values"`
 
@@ -108,9 +110,14 @@ changes to one entry to an update to that same entry when the upstream changes.
 							MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "name"),
 							Required:            true,
 						},
-						"alias": schema.StringAttribute{
-							MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "alias"),
+						"aliases": schema.ListAttribute{
+							ElementType: types.StringType,
+							PlanModifiers: []planmodifier.List{
+								listplanmodifier.UseStateForUnknown(),
+							},
+							MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "aliases"),
 							Optional:            true,
+							Computed:            true,
 						},
 						"rank": schema.Int64Attribute{
 							MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "rank"),
@@ -274,15 +281,15 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 			values[attributeID] = value
 		}
 
-		alias := types.StringNull()
-		if entry.Alias != nil {
-			alias = types.StringValue(*entry.Alias)
+		aliases := []attr.Value{}
+		for _, alias := range entry.Aliases {
+			aliases = append(aliases, types.StringValue(alias))
 		}
 
 		modelEntries[*entry.ExternalId] = CatalogEntryModel{
 			ID:              types.StringValue(entry.Id),
 			Name:            types.StringValue(entry.Name),
-			Alias:           alias,
+			Aliases:         types.ListValueMust(types.StringType, aliases),
 			Rank:            types.Int64Value(int64(entry.Rank)),
 			AttributeValues: values,
 			externalID:      *entry.ExternalId,
@@ -302,7 +309,7 @@ type catalogEntryModelPayload struct {
 
 // buildPayloads produces a list of payloads that are used to either create or update an
 // entry depending on whether we're already tracking it in our model.
-func (m IncidentCatalogEntriesResourceModel) buildPayloads() []*catalogEntryModelPayload {
+func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) []*catalogEntryModelPayload {
 	payloads := []*catalogEntryModelPayload{}
 	for externalID, entry := range m.Entries {
 		values := map[string]client.CatalogAttributeBindingPayloadV2{}
@@ -331,9 +338,16 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads() []*catalogEntryMode
 			values[attributeID] = payload
 		}
 
+		aliases := []string{}
+		if !entry.Aliases.IsUnknown() {
+			if diags := entry.Aliases.ElementsAs(ctx, &aliases, false); diags.HasError() {
+				panic(spew.Sdump(diags.Errors()))
+			}
+		}
 		payload := &catalogEntryModelPayload{
 			Payload: client.CreateEntryRequestBody{
 				CatalogTypeId:   m.ID.ValueString(),
+				Aliases:         &aliases,
 				Name:            entry.Name.ValueString(),
 				ExternalId:      lo.ToPtr(externalID),
 				AttributeValues: values,
@@ -342,9 +356,6 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads() []*catalogEntryMode
 		}
 		if !entry.ID.IsUnknown() {
 			payload.CatalogEntryID = lo.ToPtr(entry.ID.ValueString())
-		}
-		if !entry.Alias.IsUnknown() && !entry.Alias.IsNull() {
-			payload.Payload.Alias = lo.ToPtr(entry.Alias.ValueString())
 		}
 		if !entry.Rank.IsUnknown() && !entry.Rank.IsNull() {
 			payload.Payload.Rank = lo.ToPtr(int32(entry.Rank.ValueInt64()))
@@ -466,7 +477,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 
 		// For everything in our model, we know we either want to create or update it.
 	eachPayload:
-		for _, payload := range data.buildPayloads() {
+		for _, payload := range data.buildPayloads(ctx) {
 			var (
 				payload      = payload              // alias this for concurrent loop
 				shouldUpdate bool                   // mark this if we think we should update things
@@ -480,7 +491,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 				if entry != nil {
 					isSame :=
 						reflect.DeepEqual(payload.Payload.Name, entry.Name) &&
-							reflect.DeepEqual(payload.Payload.Alias, entry.Alias) &&
+							reflect.DeepEqual(payload.Payload.Aliases, entry.Aliases) &&
 							(payload.Payload.Rank == nil || (*payload.Payload.Rank == entry.Rank))
 
 					currentBindings := map[string]client.CatalogAttributeBindingPayloadV2{}
@@ -518,7 +529,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 						Name:            payload.Payload.Name,
 						ExternalId:      payload.Payload.ExternalId,
 						Rank:            payload.Payload.Rank,
-						Alias:           payload.Payload.Alias,
+						Aliases:         payload.Payload.Aliases,
 						AttributeValues: payload.Payload.AttributeValues,
 					})
 					if err == nil && result.StatusCode() >= 400 {
@@ -535,7 +546,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 						Name:            payload.Payload.Name,
 						ExternalId:      payload.Payload.ExternalId,
 						Rank:            payload.Payload.Rank,
-						Alias:           payload.Payload.Alias,
+						Aliases:         payload.Payload.Aliases,
 						AttributeValues: payload.Payload.AttributeValues,
 					})
 					if err == nil && result.StatusCode() >= 400 {
