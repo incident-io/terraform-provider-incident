@@ -35,11 +35,11 @@ func TestAccIncidentCatalogTypeResource(t *testing.T) {
 			// Update and read
 			{
 				Config: testAccIncidentCatalogTypeResourceConfig(&client.CatalogTypeV2{
-					Name: "Spaceships",
+					Name: StableSuffix("Spaceships"),
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_catalog_type.example", "name", "Spaceships"),
+						"incident_catalog_type.example", "name", StableSuffix("Spaceships")),
 				),
 			},
 		},
@@ -55,8 +55,8 @@ resource "incident_catalog_type" "example" {
 
 func catalogTypeDefault() client.CatalogTypeV2 {
 	return client.CatalogTypeV2{
-		Name:        "Service",
-		Description: "List of running services with information about their owner",
+		Name:        StableSuffix("Service"),
+		Description: "Catalog Type Acceptance tests",
 	}
 }
 
