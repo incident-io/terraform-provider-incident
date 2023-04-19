@@ -17,7 +17,7 @@ func TestAccIncidentCatalogEntryResource(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Create and read
 			{
-				Config: testAccIncidentCatalogEntryResourceConfig("One", "This is the first entry", ""),
+				Config: testAccIncidentCatalogEntryResourceConfig("One", "This is the first entry", []string{}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
 						"incident_catalog_entry.example", "name", "One"),
@@ -31,7 +31,7 @@ func TestAccIncidentCatalogEntryResource(t *testing.T) {
 			},
 			// Update and read
 			{
-				Config: testAccIncidentCatalogEntryResourceConfig("Two", "This is the second entry", ""),
+				Config: testAccIncidentCatalogEntryResourceConfig("Two", "This is the second entry", []string{}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
 						"incident_catalog_entry.example", "name", "Two"),
@@ -48,7 +48,7 @@ func TestAccIncidentCatalogEntryResourceWithAlias(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Create and read
 			{
-				Config: testAccIncidentCatalogEntryResourceConfig("One", "This is the first entry", "one"),
+				Config: testAccIncidentCatalogEntryResourceConfig("One", "This is the first entry", []string{"one"}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
 						"incident_catalog_entry.example", "name", "One"),
@@ -62,7 +62,7 @@ func TestAccIncidentCatalogEntryResourceWithAlias(t *testing.T) {
 			},
 			// Update and read
 			{
-				Config: testAccIncidentCatalogEntryResourceConfig("Two", "This is the second entry", "two"),
+				Config: testAccIncidentCatalogEntryResourceConfig("Two", "This is the second entry", []string{"two"}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
 						"incident_catalog_entry.example", "name", "Two"),
@@ -88,11 +88,8 @@ resource "incident_catalog_type_attribute" "example_description" {
 resource "incident_catalog_entry" "example" {
   catalog_type_id = incident_catalog_type.example.id
 
-  name  = {{ quote .Name }}
-  {{ if eq .Alias "" }}
-	{{ else }}
-  alias = {{ quote .Alias }}
-  {{ end }}
+  name    = {{ quote .Name }}
+  aliases = {{ toJson .Aliases }}
 
   attribute_values = [
     {
@@ -103,18 +100,18 @@ resource "incident_catalog_entry" "example" {
 }
 `))
 
-func testAccIncidentCatalogEntryResourceConfig(name, description, alias string) string {
+func testAccIncidentCatalogEntryResourceConfig(name, description string, aliases []string) string {
 	var buf bytes.Buffer
 	if err := catalogEntryTemplate.Execute(&buf, struct {
 		ID          string
 		Name        string
 		Description string
-		Alias       string
+		Aliases     []string
 	}{
 		ID:          uuid.NewString(),
 		Name:        name,
 		Description: description,
-		Alias:       alias,
+		Aliases:     aliases,
 	}); err != nil {
 		panic(err)
 	}

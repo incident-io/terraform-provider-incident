@@ -1698,11 +1698,13 @@
                 "version",
                 "name",
                 "description",
+                "type_name",
                 "semantic_type",
                 "ranked",
                 "schema",
                 "icon",
                 "color",
+                "is_editable",
                 "created_at",
                 "updated_at"
               ]
@@ -2149,35 +2151,6 @@
             "description": "OK response.",
             "schema": {
               "$ref": "#/definitions/AuditLogsAPIKeyDeletedV1ResponseBody",
-              "required": [
-                "action",
-                "occurred_at",
-                "version",
-                "actor",
-                "targets",
-                "context"
-              ]
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ]
-      }
-    },
-    "/x-audit-logs/api_key.updated.1": {
-      "get": {
-        "tags": [
-          "Audit logs"
-        ],
-        "summary": "ApiKeyUpdatedV1 Audit logs",
-        "description": "This entry is created whenever a api key is updated",
-        "operationId": "Audit logs#ApiKeyUpdatedV1",
-        "responses": {
-          "200": {
-            "description": "OK response.",
-            "schema": {
-              "$ref": "#/definitions/AuditLogsAPIKeyUpdatedV1ResponseBody",
               "required": [
                 "action",
                 "occurred_at",
@@ -2948,19 +2921,49 @@
         ]
       }
     },
-    "/x-audit-logs/privated_incident_membership.granted.1": {
+    "/x-audit-logs/private_incident.access_attempted.1": {
       "get": {
         "tags": [
           "Audit logs"
         ],
-        "summary": "PrivatedIncidentMembershipGrantedV1 Audit logs",
-        "description": "This entry is created whenever someone is granted access to a private incident. If they have the 'manage private incidents' permission, then it'll appear that the system has given them access to the incident.",
-        "operationId": "Audit logs#PrivatedIncidentMembershipGrantedV1",
+        "summary": "PrivateIncidentAccessAttemptedV1 Audit logs",
+        "description": "This entry is created whenever someone attempts to access a private incident.",
+        "operationId": "Audit logs#PrivateIncidentAccessAttemptedV1",
         "responses": {
           "200": {
             "description": "OK response.",
             "schema": {
-              "$ref": "#/definitions/AuditLogsPrivatedIncidentMembershipGrantedV1ResponseBody",
+              "$ref": "#/definitions/AuditLogsPrivateIncidentAccessAttemptedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context",
+                "metadata"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/private_incident.access_requested.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PrivateIncidentAccessRequestedV1 Audit logs",
+        "description": "This entry is created whenever someone requests access to a private incident.",
+        "operationId": "Audit logs#PrivateIncidentAccessRequestedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPrivateIncidentAccessRequestedV1ResponseBody",
               "required": [
                 "action",
                 "occurred_at",
@@ -2977,19 +2980,48 @@
         ]
       }
     },
-    "/x-audit-logs/privated_incident_membership.revoked.1": {
+    "/x-audit-logs/private_incident_membership.granted.1": {
       "get": {
         "tags": [
           "Audit logs"
         ],
-        "summary": "PrivatedIncidentMembershipRevokedV1 Audit logs",
-        "description": "This entry is created whenever someone's access to a private incident is revoked.",
-        "operationId": "Audit logs#PrivatedIncidentMembershipRevokedV1",
+        "summary": "PrivateIncidentMembershipGrantedV1 Audit logs",
+        "description": "This entry is created whenever someone is granted access to a private incident. If they have the 'manage private incidents' permission, then it'll appear that the system has given them access to the incident.",
+        "operationId": "Audit logs#PrivateIncidentMembershipGrantedV1",
         "responses": {
           "200": {
             "description": "OK response.",
             "schema": {
-              "$ref": "#/definitions/AuditLogsPrivatedIncidentMembershipRevokedV1ResponseBody",
+              "$ref": "#/definitions/AuditLogsPrivateIncidentMembershipGrantedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/private_incident_membership.revoked.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PrivateIncidentMembershipRevokedV1 Audit logs",
+        "description": "This entry is created whenever someone's access to a private incident is revoked.",
+        "operationId": "Audit logs#PrivateIncidentMembershipRevokedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPrivateIncidentMembershipRevokedV1ResponseBody",
               "required": [
                 "action",
                 "occurred_at",
@@ -3084,6 +3116,36 @@
                 "actor",
                 "targets",
                 "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/scim_group.role_mappings_updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "ScimGroupRoleMappingsUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a SCIM group is mapped to a new RBAC role",
+        "operationId": "Audit logs#ScimGroupRoleMappingsUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsScimGroupRoleMappingsUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context",
+                "metadata"
               ]
             }
           }
@@ -3209,19 +3271,19 @@
         ]
       }
     },
-    "/x-audit-logs/user.deleted.1": {
+    "/x-audit-logs/user.deactivated.1": {
       "get": {
         "tags": [
           "Audit logs"
         ],
-        "summary": "UserDeletedV1 Audit logs",
-        "description": "This entry is created whenever a user is deleted",
-        "operationId": "Audit logs#UserDeletedV1",
+        "summary": "UserDeactivatedV1 Audit logs",
+        "description": "This entry is created whenever a user is deactivated",
+        "operationId": "Audit logs#UserDeactivatedV1",
         "responses": {
           "200": {
             "description": "OK response.",
             "schema": {
-              "$ref": "#/definitions/AuditLogsUserDeletedV1ResponseBody",
+              "$ref": "#/definitions/AuditLogsUserDeactivatedV1ResponseBody",
               "required": [
                 "action",
                 "occurred_at",
@@ -3229,6 +3291,65 @@
                 "actor",
                 "targets",
                 "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/user.reinstated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "UserReinstatedV1 Audit logs",
+        "description": "This entry is created when a user is reinstated after being deactivated",
+        "operationId": "Audit logs#UserReinstatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsUserReinstatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/user.role_memberships_updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "UserRoleMembershipsUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a user's role memberships are changed.",
+        "operationId": "Audit logs#UserRoleMembershipsUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsUserRoleMembershipsUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context",
+                "metadata"
               ]
             }
           }
@@ -3979,24 +4100,22 @@
         "location"
       ]
     },
-    "AuditLogTargetMetadataV2ResponseBody": {
-      "title": "AuditLogTargetMetadataV2ResponseBody",
+    "AuditLogPrivateIncidentAccessAttemptedMetadataV2ResponseBody": {
+      "title": "AuditLogPrivateIncidentAccessAttemptedMetadataV2ResponseBody",
       "type": "object",
       "properties": {
-        "user_base_role_slug": {
+        "outcome": {
           "type": "string",
-          "description": "The base role slug of the user (if it's a user target)",
-          "example": "admin"
-        },
-        "user_custom_role_slugs": {
-          "type": "string",
-          "description": "The custom role slugs of the user, separated by commas (if it's a user target)",
-          "example": "engineering,security"
+          "description": "Whether or not the user was able to access the private incident",
+          "example": "granted",
+          "enum": [
+            "granted",
+            "denied"
+          ]
         }
       },
       "example": {
-        "user_base_role_slug": "admin",
-        "user_custom_role_slugs": "engineering,security"
+        "outcome": "granted"
       }
     },
     "AuditLogTargetV2ResponseBody": {
@@ -4007,9 +4126,6 @@
           "type": "string",
           "description": "The ID of the target",
           "example": "01FCNDV6P870EA6S7TK1DSYDG0"
-        },
-        "metadata": {
-          "$ref": "#/definitions/AuditLogTargetMetadataV2ResponseBody"
         },
         "name": {
           "type": "string",
@@ -4035,6 +4151,7 @@
             "policy",
             "private_incident_membership",
             "rbac_role",
+            "scim_group",
             "severity",
             "user",
             "workflow"
@@ -4043,10 +4160,6 @@
       },
       "example": {
         "id": "01FCNDV6P870EA6S7TK1DSYDG0",
-        "metadata": {
-          "user_base_role_slug": "admin",
-          "user_custom_role_slugs": "engineering,security"
-        },
         "name": "John Doe",
         "type": "user"
       },
@@ -4054,6 +4167,76 @@
         "id",
         "type"
       ]
+    },
+    "AuditLogUserRoleMembershipChangedMetadataV2ResponseBody": {
+      "title": "AuditLogUserRoleMembershipChangedMetadataV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "after_base_role_slug": {
+          "type": "string",
+          "description": "The base role slug of the user after their role memberships changed",
+          "example": "owner"
+        },
+        "after_custom_role_slugs": {
+          "type": "string",
+          "description": "The custom role slugs of the user after their role memberships changed, separated by commas",
+          "example": "engineering,data"
+        },
+        "before_base_role_slug": {
+          "type": "string",
+          "description": "The base role slug of the user before their role memberships changed",
+          "example": "admin"
+        },
+        "before_custom_role_slugs": {
+          "type": "string",
+          "description": "The custom role slugs of the user before their role memberships changed, separated by commas",
+          "example": "engineering,security"
+        }
+      },
+      "example": {
+        "after_base_role_slug": "owner",
+        "after_custom_role_slugs": "engineering,data",
+        "before_base_role_slug": "admin",
+        "before_custom_role_slugs": "engineering,security"
+      },
+      "required": [
+        "before_base_role_slug",
+        "before_custom_role_slugs",
+        "after_base_role_slug",
+        "after_custom_role_slugs"
+      ]
+    },
+    "AuditLogUserSCIMGroupMappingChangedMetadataV2ResponseBody": {
+      "title": "AuditLogUserSCIMGroupMappingChangedMetadataV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "after_base_role_slug": {
+          "type": "string",
+          "description": "The base role slug of this SCIM group after the mapping was changed (if any)",
+          "example": "owner"
+        },
+        "after_custom_role_slugs": {
+          "type": "string",
+          "description": "The custom role slugs of this SCIM group after the mapping was changed (if any), separated by commas",
+          "example": "engineering,data"
+        },
+        "before_base_role_slug": {
+          "type": "string",
+          "description": "The base role slug assigned to this SCIM group before the mapping was changed (if any)",
+          "example": "admin"
+        },
+        "before_custom_role_slugs": {
+          "type": "string",
+          "description": "The custom role slugs of this SCIM group before the mapping was changed (if any), separated by commas",
+          "example": "engineering,security"
+        }
+      },
+      "example": {
+        "after_base_role_slug": "owner",
+        "after_custom_role_slugs": "engineering,data",
+        "before_base_role_slug": "admin",
+        "before_custom_role_slugs": "engineering,security"
+      }
     },
     "AuditLogsAPIKeyCreatedV1ResponseBody": {
       "title": "AuditLogsAPIKeyCreatedV1ResponseBody",
@@ -4175,82 +4358,6 @@
       },
       "example": {
         "action": "api_key.deleted",
-        "actor": {
-          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
-          "metadata": {
-            "user_base_role_slug": "admin",
-            "user_custom_role_slugs": "engineering,security"
-          },
-          "name": "John Doe",
-          "type": "user"
-        },
-        "context": {
-          "location": "1.2.3.4",
-          "user_agent": "Chrome/91.0.4472.114"
-        },
-        "occurred_at": "2021-08-17T13:28:57.801578Z",
-        "targets": [
-          {
-            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
-            "name": "Development API Key",
-            "type": "api_key"
-          }
-        ],
-        "version": 1
-      },
-      "required": [
-        "action",
-        "occurred_at",
-        "version",
-        "actor",
-        "targets",
-        "context"
-      ]
-    },
-    "AuditLogsAPIKeyUpdatedV1ResponseBody": {
-      "title": "AuditLogsAPIKeyUpdatedV1ResponseBody",
-      "type": "object",
-      "properties": {
-        "action": {
-          "type": "string",
-          "description": "The type of log entry that this is",
-          "example": "api_key.updated"
-        },
-        "actor": {
-          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
-        },
-        "context": {
-          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
-        },
-        "occurred_at": {
-          "type": "string",
-          "description": "When the entry occurred",
-          "example": "2021-08-17T13:28:57.801578Z",
-          "format": "date-time"
-        },
-        "targets": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
-          },
-          "description": "The custom field that was created",
-          "example": [
-            {
-              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
-              "name": "Development API Key",
-              "type": "api_key"
-            }
-          ]
-        },
-        "version": {
-          "type": "integer",
-          "description": "Which version the event is",
-          "example": 1,
-          "format": "int64"
-        }
-      },
-      "example": {
-        "action": "api_key.updated",
         "actor": {
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "metadata": {
@@ -6487,14 +6594,173 @@
         "context"
       ]
     },
-    "AuditLogsPrivatedIncidentMembershipGrantedV1ResponseBody": {
-      "title": "AuditLogsPrivatedIncidentMembershipGrantedV1ResponseBody",
+    "AuditLogsPrivateIncidentAccessAttemptedV1ResponseBody": {
+      "title": "AuditLogsPrivateIncidentAccessAttemptedV1ResponseBody",
       "type": "object",
       "properties": {
         "action": {
           "type": "string",
           "description": "The type of log entry that this is",
-          "example": "privated_incident_membership.granted"
+          "example": "private_incident.access_attempted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "metadata": {
+          "$ref": "#/definitions/AuditLogPrivateIncidentAccessAttemptedMetadataV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "#INC-123 The website is slow",
+              "type": "incident"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "private_incident.access_attempted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "metadata": {
+          "outcome": "granted"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "#INC-123 The website is slow",
+            "type": "incident"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context",
+        "metadata"
+      ]
+    },
+    "AuditLogsPrivateIncidentAccessRequestedV1ResponseBody": {
+      "title": "AuditLogsPrivateIncidentAccessRequestedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "private_incident.access_requested"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "#INC-123 The website is slow",
+              "type": "incident"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "private_incident.access_requested",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "#INC-123 The website is slow",
+            "type": "incident"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPrivateIncidentMembershipGrantedV1ResponseBody": {
+      "title": "AuditLogsPrivateIncidentMembershipGrantedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "private_incident_membership.granted"
         },
         "actor": {
           "$ref": "#/definitions/AuditLogActorV2ResponseBody"
@@ -6535,7 +6801,7 @@
         }
       },
       "example": {
-        "action": "privated_incident_membership.granted",
+        "action": "private_incident_membership.granted",
         "actor": {
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "metadata": {
@@ -6573,14 +6839,14 @@
         "context"
       ]
     },
-    "AuditLogsPrivatedIncidentMembershipRevokedV1ResponseBody": {
-      "title": "AuditLogsPrivatedIncidentMembershipRevokedV1ResponseBody",
+    "AuditLogsPrivateIncidentMembershipRevokedV1ResponseBody": {
+      "title": "AuditLogsPrivateIncidentMembershipRevokedV1ResponseBody",
       "type": "object",
       "properties": {
         "action": {
           "type": "string",
           "description": "The type of log entry that this is",
-          "example": "privated_incident_membership.revoked"
+          "example": "private_incident_membership.revoked"
         },
         "actor": {
           "$ref": "#/definitions/AuditLogActorV2ResponseBody"
@@ -6621,7 +6887,7 @@
         }
       },
       "example": {
-        "action": "privated_incident_membership.revoked",
+        "action": "private_incident_membership.revoked",
         "actor": {
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "metadata": {
@@ -6885,6 +7151,92 @@
         "actor",
         "targets",
         "context"
+      ]
+    },
+    "AuditLogsScimGroupRoleMappingsUpdatedV1ResponseBody": {
+      "title": "AuditLogsScimGroupRoleMappingsUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "scim_group.role_mappings_updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "metadata": {
+          "$ref": "#/definitions/AuditLogUserSCIMGroupMappingChangedMetadataV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Security",
+              "type": "scim_group"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "scim_group.role_mappings_updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "metadata": {
+          "after_base_role_slug": "owner",
+          "after_custom_role_slugs": "engineering,data",
+          "before_base_role_slug": "admin",
+          "before_custom_role_slugs": "engineering,security"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Security",
+            "type": "scim_group"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context",
+        "metadata"
       ]
     },
     "AuditLogsSeverityCreatedV1ResponseBody": {
@@ -7191,14 +7543,14 @@
         "context"
       ]
     },
-    "AuditLogsUserDeletedV1ResponseBody": {
-      "title": "AuditLogsUserDeletedV1ResponseBody",
+    "AuditLogsUserDeactivatedV1ResponseBody": {
+      "title": "AuditLogsUserDeactivatedV1ResponseBody",
       "type": "object",
       "properties": {
         "action": {
           "type": "string",
           "description": "The type of log entry that this is",
-          "example": "user.deleted"
+          "example": "user.deactivated"
         },
         "actor": {
           "$ref": "#/definitions/AuditLogActorV2ResponseBody"
@@ -7234,7 +7586,7 @@
         }
       },
       "example": {
-        "action": "user.deleted",
+        "action": "user.deactivated",
         "actor": {
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "metadata": {
@@ -7265,6 +7617,168 @@
         "actor",
         "targets",
         "context"
+      ]
+    },
+    "AuditLogsUserReinstatedV1ResponseBody": {
+      "title": "AuditLogsUserReinstatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "user.reinstated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Bob the builder",
+              "type": "user"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "user.reinstated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Bob the builder",
+            "type": "user"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsUserRoleMembershipsUpdatedV1ResponseBody": {
+      "title": "AuditLogsUserRoleMembershipsUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "user.role_memberships_updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2ResponseBody"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2ResponseBody"
+        },
+        "metadata": {
+          "$ref": "#/definitions/AuditLogUserRoleMembershipChangedMetadataV2ResponseBody"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2ResponseBody"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Bob the builder",
+              "type": "user"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "user.role_memberships_updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "metadata": {
+          "after_base_role_slug": "owner",
+          "after_custom_role_slugs": "engineering,data",
+          "before_base_role_slug": "admin",
+          "before_custom_role_slugs": "engineering,security"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Bob the builder",
+            "type": "user"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context",
+        "metadata"
       ]
     },
     "AuditLogsUserUpdatedV1ResponseBody": {
@@ -7759,10 +8273,17 @@
       "title": "CatalogEntryV2ResponseBody",
       "type": "object",
       "properties": {
-        "alias": {
-          "type": "string",
-          "description": "An optional alias that must uniquely identify this type",
-          "example": "incident-io/core"
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "abc123"
+          },
+          "description": "Optional aliases that can be used to reference this entry",
+          "example": [
+            "lawrence@incident.io",
+            "lawrence"
+          ]
         },
         "attribute_values": {
           "type": "object",
@@ -7841,7 +8362,10 @@
         }
       },
       "example": {
-        "alias": "incident-io/core",
+        "aliases": [
+          "lawrence@incident.io",
+          "lawrence"
+        ],
         "attribute_values": {
           "abc123": {
             "array_value": [
@@ -7884,6 +8408,7 @@
         "id",
         "catalog_type_id",
         "name",
+        "aliases",
         "rank",
         "attribute_values",
         "created_at",
@@ -8041,18 +8566,31 @@
           "example": 7,
           "format": "int64"
         },
+        "external_type": {
+          "type": "string",
+          "description": "The external resource this type is synced from, if any",
+          "example": "PagerDutyService"
+        },
         "icon": {
           "type": "string",
           "description": "Sets the display icon of this type in the dashboard",
-          "example": "box",
+          "example": "bolt",
           "enum": [
+            "bolt",
             "box",
             "briefcase",
+            "browser",
             "bulb",
             "clock",
             "cog",
+            "database",
             "doc",
             "email",
+            "server",
+            "severity",
+            "star",
+            "tag",
+            "user",
             "users"
           ]
         },
@@ -8060,6 +8598,11 @@
           "type": "string",
           "description": "ID of this resource",
           "example": "01FCNDV6P870EA6S7TK1DSYDG0"
+        },
+        "is_editable": {
+          "type": "boolean",
+          "description": "Catalog types that are synced with external resources can't be edited",
+          "example": false
         },
         "name": {
           "type": "string",
@@ -8090,6 +8633,11 @@
           "description": "Semantic type of this resource",
           "example": "custom"
         },
+        "type_name": {
+          "type": "string",
+          "description": "The type name of this catalog type, to be used when defining attributes",
+          "example": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]"
+        },
         "updated_at": {
           "type": "string",
           "description": "When this type was last updated",
@@ -8102,8 +8650,10 @@
         "created_at": "2021-08-17T13:28:57.801578Z",
         "description": "Represents Kubernetes clusters that we run inside of GKE.",
         "estimated_count": 7,
-        "icon": "box",
+        "external_type": "PagerDutyService",
+        "icon": "bolt",
         "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+        "is_editable": false,
         "name": "Kubernetes Cluster",
         "ranked": true,
         "required_integrations": [
@@ -8121,17 +8671,20 @@
           "version": 1
         },
         "semantic_type": "custom",
+        "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
         "updated_at": "2021-08-17T13:28:57.801578Z"
       },
       "required": [
         "id",
         "name",
         "description",
+        "type_name",
         "semantic_type",
         "ranked",
         "schema",
         "icon",
         "color",
+        "is_editable",
         "created_at",
         "updated_at"
       ]
@@ -8140,10 +8693,17 @@
       "title": "CatalogV2CreateEntryRequestBody",
       "type": "object",
       "properties": {
-        "alias": {
-          "type": "string",
-          "description": "An optional alias that must uniquely identify this type",
-          "example": "incident-io/core"
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "abc123"
+          },
+          "description": "Optional aliases that can be used to reference this entry",
+          "example": [
+            "lawrence@incident.io",
+            "lawrence"
+          ]
         },
         "attribute_values": {
           "type": "object",
@@ -8187,7 +8747,10 @@
         }
       },
       "example": {
-        "alias": "incident-io/core",
+        "aliases": [
+          "lawrence@incident.io",
+          "lawrence"
+        ],
         "attribute_values": {
           "abc123": {
             "array_value": [
@@ -8221,7 +8784,10 @@
       },
       "example": {
         "catalog_entry": {
-          "alias": "incident-io/core",
+          "aliases": [
+            "lawrence@incident.io",
+            "lawrence"
+          ],
           "attribute_values": {
             "abc123": {
               "array_value": [
@@ -8290,15 +8856,23 @@
         "icon": {
           "type": "string",
           "description": "Sets the display icon of this type in the dashboard",
-          "example": "box",
+          "example": "bolt",
           "enum": [
+            "bolt",
             "box",
             "briefcase",
+            "browser",
             "bulb",
             "clock",
             "cog",
+            "database",
             "doc",
             "email",
+            "server",
+            "severity",
+            "star",
+            "tag",
+            "user",
             "users"
           ]
         },
@@ -8321,7 +8895,7 @@
       "example": {
         "color": "slate",
         "description": "Represents Kubernetes clusters that we run inside of GKE.",
-        "icon": "box",
+        "icon": "bolt",
         "name": "Kubernetes Cluster",
         "ranked": true,
         "semantic_type": "custom"
@@ -8345,8 +8919,10 @@
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
           "estimated_count": 7,
-          "icon": "box",
+          "external_type": "PagerDutyService",
+          "icon": "bolt",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "is_editable": false,
           "name": "Kubernetes Cluster",
           "ranked": true,
           "required_integrations": [
@@ -8364,6 +8940,7 @@
             "version": 1
           },
           "semantic_type": "custom",
+          "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
           "updated_at": "2021-08-17T13:28:57.801578Z"
         }
       },
@@ -8382,7 +8959,10 @@
           },
           "example": [
             {
-              "alias": "incident-io/core",
+              "aliases": [
+                "lawrence@incident.io",
+                "lawrence"
+              ],
               "attribute_values": {
                 "abc123": {
                   "array_value": [
@@ -8433,7 +9013,10 @@
       "example": {
         "catalog_entries": [
           {
-            "alias": "incident-io/core",
+            "aliases": [
+              "lawrence@incident.io",
+              "lawrence"
+            ],
             "attribute_values": {
               "abc123": {
                 "array_value": [
@@ -8478,8 +9061,10 @@
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
           "estimated_count": 7,
-          "icon": "box",
+          "external_type": "PagerDutyService",
+          "icon": "bolt",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "is_editable": false,
           "name": "Kubernetes Cluster",
           "ranked": true,
           "required_integrations": [
@@ -8497,6 +9082,7 @@
             "version": 1
           },
           "semantic_type": "custom",
+          "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
           "updated_at": "2021-08-17T13:28:57.801578Z"
         },
         "pagination_meta": {
@@ -8525,8 +9111,10 @@
               "created_at": "2021-08-17T13:28:57.801578Z",
               "description": "Represents Kubernetes clusters that we run inside of GKE.",
               "estimated_count": 7,
-              "icon": "box",
+              "external_type": "PagerDutyService",
+              "icon": "bolt",
               "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "is_editable": false,
               "name": "Kubernetes Cluster",
               "ranked": true,
               "required_integrations": [
@@ -8544,6 +9132,7 @@
                 "version": 1
               },
               "semantic_type": "custom",
+              "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
               "updated_at": "2021-08-17T13:28:57.801578Z"
             }
           ]
@@ -8556,8 +9145,10 @@
             "created_at": "2021-08-17T13:28:57.801578Z",
             "description": "Represents Kubernetes clusters that we run inside of GKE.",
             "estimated_count": 7,
-            "icon": "box",
+            "external_type": "PagerDutyService",
+            "icon": "bolt",
             "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "is_editable": false,
             "name": "Kubernetes Cluster",
             "ranked": true,
             "required_integrations": [
@@ -8575,6 +9166,7 @@
               "version": 1
             },
             "semantic_type": "custom",
+            "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
             "updated_at": "2021-08-17T13:28:57.801578Z"
           }
         ]
@@ -8596,7 +9188,10 @@
       },
       "example": {
         "catalog_entry": {
-          "alias": "incident-io/core",
+          "aliases": [
+            "lawrence@incident.io",
+            "lawrence"
+          ],
           "attribute_values": {
             "abc123": {
               "array_value": [
@@ -8640,8 +9235,10 @@
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
           "estimated_count": 7,
-          "icon": "box",
+          "external_type": "PagerDutyService",
+          "icon": "bolt",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "is_editable": false,
           "name": "Kubernetes Cluster",
           "ranked": true,
           "required_integrations": [
@@ -8659,6 +9256,7 @@
             "version": 1
           },
           "semantic_type": "custom",
+          "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
           "updated_at": "2021-08-17T13:28:57.801578Z"
         }
       },
@@ -8681,8 +9279,10 @@
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
           "estimated_count": 7,
-          "icon": "box",
+          "external_type": "PagerDutyService",
+          "icon": "bolt",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "is_editable": false,
           "name": "Kubernetes Cluster",
           "ranked": true,
           "required_integrations": [
@@ -8700,6 +9300,7 @@
             "version": 1
           },
           "semantic_type": "custom",
+          "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
           "updated_at": "2021-08-17T13:28:57.801578Z"
         }
       },
@@ -8711,10 +9312,17 @@
       "title": "CatalogV2UpdateEntryRequestBody",
       "type": "object",
       "properties": {
-        "alias": {
-          "type": "string",
-          "description": "An optional alias that must uniquely identify this type",
-          "example": "incident-io/core"
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "abc123"
+          },
+          "description": "Optional aliases that can be used to reference this entry",
+          "example": [
+            "lawrence@incident.io",
+            "lawrence"
+          ]
         },
         "attribute_values": {
           "type": "object",
@@ -8753,7 +9361,10 @@
         }
       },
       "example": {
-        "alias": "incident-io/core",
+        "aliases": [
+          "lawrence@incident.io",
+          "lawrence"
+        ],
         "attribute_values": {
           "abc123": {
             "array_value": [
@@ -8788,7 +9399,10 @@
       },
       "example": {
         "catalog_entry": {
-          "alias": "incident-io/core",
+          "aliases": [
+            "lawrence@incident.io",
+            "lawrence"
+          ],
           "attribute_values": {
             "abc123": {
               "array_value": [
@@ -8832,8 +9446,10 @@
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
           "estimated_count": 7,
-          "icon": "box",
+          "external_type": "PagerDutyService",
+          "icon": "bolt",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "is_editable": false,
           "name": "Kubernetes Cluster",
           "ranked": true,
           "required_integrations": [
@@ -8851,6 +9467,7 @@
             "version": 1
           },
           "semantic_type": "custom",
+          "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
           "updated_at": "2021-08-17T13:28:57.801578Z"
         }
       },
@@ -8884,15 +9501,23 @@
         "icon": {
           "type": "string",
           "description": "Sets the display icon of this type in the dashboard",
-          "example": "box",
+          "example": "bolt",
           "enum": [
+            "bolt",
             "box",
             "briefcase",
+            "browser",
             "bulb",
             "clock",
             "cog",
+            "database",
             "doc",
             "email",
+            "server",
+            "severity",
+            "star",
+            "tag",
+            "user",
             "users"
           ]
         },
@@ -8915,7 +9540,7 @@
       "example": {
         "color": "slate",
         "description": "Represents Kubernetes clusters that we run inside of GKE.",
-        "icon": "box",
+        "icon": "bolt",
         "name": "Kubernetes Cluster",
         "ranked": true,
         "semantic_type": "custom"
@@ -8939,8 +9564,10 @@
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
           "estimated_count": 7,
-          "icon": "box",
+          "external_type": "PagerDutyService",
+          "icon": "bolt",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "is_editable": false,
           "name": "Kubernetes Cluster",
           "ranked": true,
           "required_integrations": [
@@ -8958,6 +9585,7 @@
             "version": 1
           },
           "semantic_type": "custom",
+          "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
           "updated_at": "2021-08-17T13:28:57.801578Z"
         }
       },
@@ -9005,11 +9633,13 @@
         "version",
         "name",
         "description",
+        "type_name",
         "semantic_type",
         "ranked",
         "schema",
         "icon",
         "color",
+        "is_editable",
         "created_at",
         "updated_at"
       ]
@@ -9028,8 +9658,10 @@
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
           "estimated_count": 7,
-          "icon": "box",
+          "external_type": "PagerDutyService",
+          "icon": "bolt",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "is_editable": false,
           "name": "Kubernetes Cluster",
           "ranked": true,
           "required_integrations": [
@@ -9047,6 +9679,7 @@
             "version": 1
           },
           "semantic_type": "custom",
+          "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
           "updated_at": "2021-08-17T13:28:57.801578Z"
         }
       },
@@ -15769,7 +16402,7 @@
     },
     {
       "name": "Audit logs",
-      "description": "Audit logs are a record of configuration changes in your account.\n\nTODO: write the rest of the docs..."
+      "description": "To give you visibility over the changes that are made within your incident.io account, we use an audit log. Our audit log is powered by <a href=\"https://workos.com\" target=\"_blank\">WorkOS</a>. The log is available for customers on our [Enterprise plan](https://incident.io/pricing).\n\nThe audit log contains information about any configuration changes, as well as changes to a user's permissions (e.g. being given a new role, or access to a private incident).\n\nEach entry will have an actor (the person or system that made the change) and one or more targets (a thing that was modified by this change). It will also include the Location and User Agent of the actor, where applicable.\n\nEach entry will conform to a schema, which is documented here. Each entry also has a version, so that if our schema changes over time you’ll still be able to parse old events.\n\nWe’ll retain these entries for one year.\n\nAudit log entries start from 18 April, 2023 (there are no entries available from before that date).\n\n## Viewing your audit log\n\nYou can view your audit log via our [security settings](https://app.incident.io/settings/security) page.\n\nFrom there, you'll be able to:\n\n- View the entries via a web interface (filterable by target, event type, actor and date)\n- Export the entries for a given time period to a CSV\n- Set up a log stream to a provider of your choice (e.g. Splunk or an Amazon S3 bucket)\n\n## Understanding actors\n\nEach entry will have an actor associated with it, which is one of 5 types:\n\n### Users\n\nThis is for changes triggered by the actions of a particular user in your account.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"user\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Kelsey Mills\",\n    \"metadata\": {\n      \"user_base_role_slug\": \"admin\",\n      \"user_custom_role_slugs\": \"engineering,security\"\n    }\n  }\n```\n\n### API Keys\n\nThis is for changes triggered by an API key.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"api_key\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Lisa's development key\",\n    \"metadata\": {\n      \"api_key_roles\": \"incident_creator,global_access\"\n    }\n  }\n```\n\n### Integrations\n\nThis is for changes triggered by a system. Sometimes that will be a third party system (e.g. a user might be created\nvia Slack) or sometimes it might be something triggered from inside incident.io (e.g. a severity created as part of setup).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"system\",\n    \"id\": \"incident_setup\",\n    \"name\": \"incident.io (setup)\",\n    \"metadata\": {}\n  }\n```\n\n### Workflows\n\nThis is for changes triggered by a workflow: for example, a workflow that invites users to a private incident.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"workflow\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Auto-invite security team to private incidents\",\n    \"metadata\": {}\n  }\n```\n\n### External resources\n\nThis is for changes triggered by a specific [external resource](https://api-docs.incident.io/tag/Incident-Attachments-V1) (also known as an attachment).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"external_resource\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"#1234 Increased API latency\",\n    \"metadata\": {\n      \"external_resource_type\": \"pager_duty_incident\",\n      \"external_resource_external_id\": \"q1234\"\n    }\n  }\n```\n"
     },
     {
       "name": "Catalog V2",

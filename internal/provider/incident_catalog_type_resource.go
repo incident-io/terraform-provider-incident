@@ -124,6 +124,9 @@ func (r *IncidentCatalogTypeResource) Read(ctx context.Context, req resource.Rea
 	}
 
 	result, err := r.client.CatalogV2ShowTypeWithResponse(ctx, data.ID.ValueString())
+	if err == nil && result.StatusCode() >= 400 {
+		err = fmt.Errorf(string(result.Body))
+	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog type, got error: %s", err))
 		return

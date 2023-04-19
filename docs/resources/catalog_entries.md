@@ -147,10 +147,9 @@ resource "incident_catalog_entries" "services" {
       # e.g. artist-web
       name = entry["metadata"]["name"],
 
-      # In this catalog we know names are unique, so we can use them as a
-      # human-friendly unique alias. Other catalogs name may not be unique, in
-      # which case this would fail.
-      alias = entry["metadata"]["name"],
+      # We want to use the name as a potential reference value for this entry
+      # from other entries.
+      aliases = [entry["metadata"]["name"]],
 
       # Now build all attribute values for this entry, with an object
       # comprehension that filters out any attributes that we are missing values
@@ -196,7 +195,7 @@ Required:
 
 Optional:
 
-- `alias` (String) An optional alias that must uniquely identify this type
+- `aliases` (List of String) Optional aliases that can be used to reference this entry
 - `rank` (Number) When catalog type is ranked, this is used to help order things
 
 Read-Only:

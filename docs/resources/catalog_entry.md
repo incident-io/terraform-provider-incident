@@ -76,7 +76,7 @@ resource "incident_catalog_entry" "service_tier" {
 
 ### Optional
 
-- `alias` (String) An optional alias that must uniquely identify this type
+- `aliases` (List of String) Optional aliases that can be used to reference this entry
 - `rank` (Number) When catalog type is ranked, this is used to help order things
 
 ### Read-Only

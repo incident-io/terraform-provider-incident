@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/Masterminds/sprig v2.22.0+incompatible
+	github.com/davecgh/go-spew v1.1.1
 	github.com/deepmap/oapi-codegen v1.12.4
 	github.com/getkin/kin-openapi v0.114.0
 	github.com/google/uuid v1.3.0

@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -31,7 +32,7 @@ type IncidentCatalogEntryResourceModel struct {
 	ID              types.String                 `tfsdk:"id"`
 	CatalogTypeID   types.String                 `tfsdk:"catalog_type_id"`
 	Name            types.String                 `tfsdk:"name"`
-	Alias           types.String                 `tfsdk:"alias"`
+	Aliases         types.List                   `tfsdk:"aliases"`
 	Rank            types.Int64                  `tfsdk:"rank"`
 	AttributeValues []CatalogEntryAttributeValue `tfsdk:"attribute_values"`
 }
@@ -109,8 +110,12 @@ If you're working with a large number of entries (>100) or want to be authoritat
 				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "name"),
 				Required:            true,
 			},
-			"alias": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "alias"),
+			"aliases": schema.ListAttribute{
+				ElementType: types.StringType,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "aliases"),
 				Optional:            true,
 				Computed:            true,
 			},
@@ -172,15 +177,16 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 	if !data.Rank.IsNull() {
 		rank = lo.ToPtr(int32(data.Rank.ValueInt64()))
 	}
-	var alias *string
-	if !data.Alias.IsUnknown() {
-		alias = lo.ToPtr(data.Alias.ValueString())
+	var aliases []string
+	if diags := data.Aliases.ElementsAs(ctx, &aliases, false); diags.HasError() {
+		resp.Diagnostics.AddError("Client Error", "Unable to read aliases")
+		return
 	}
 	result, err := r.client.CatalogV2CreateEntryWithResponse(ctx, client.CreateEntryRequestBody{
 		CatalogTypeId:   data.CatalogTypeID.ValueString(),
 		Name:            data.Name.ValueString(),
 		Rank:            rank,
-		Alias:           alias,
+		Aliases:         &aliases,
 		AttributeValues: data.buildAttributeValues(),
 	})
 	if err == nil && result.StatusCode() >= 400 {
@@ -224,14 +230,15 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 	if !data.Rank.IsNull() {
 		rank = lo.ToPtr(int32(data.Rank.ValueInt64()))
 	}
-	var alias *string
-	if !data.Alias.IsUnknown() {
-		alias = lo.ToPtr(data.Alias.ValueString())
+	var aliases []string
+	if diags := data.Aliases.ElementsAs(ctx, &aliases, false); diags.HasError() {
+		resp.Diagnostics.AddError("Client Error", "Unable to read aliases")
+		return
 	}
 	result, err := r.client.CatalogV2UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.UpdateEntryRequestBody{
 		Name:            data.Name.ValueString(),
 		Rank:            rank,
-		Alias:           alias,
+		Aliases:         &aliases,
 		AttributeValues: data.buildAttributeValues(),
 	})
 	if err == nil && result.StatusCode() >= 400 {
@@ -300,16 +307,16 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV2) *
 		return values[i].Attribute.ValueString() < values[j].Attribute.ValueString()
 	})
 
-	alias := types.StringNull()
-	if entry.Alias != nil {
-		alias = types.StringValue(*entry.Alias)
+	aliases := []attr.Value{}
+	for _, alias := range entry.Aliases {
+		aliases = append(aliases, types.StringValue(alias))
 	}
 
 	return &IncidentCatalogEntryResourceModel{
 		ID:              types.StringValue(entry.Id),
 		CatalogTypeID:   types.StringValue(entry.CatalogTypeId),
 		Name:            types.StringValue(entry.Name),
-		Alias:           alias,
+		Aliases:         types.ListValueMust(types.StringType, aliases),
 		Rank:            types.Int64Value(int64(entry.Rank)),
 		AttributeValues: values,
 	}

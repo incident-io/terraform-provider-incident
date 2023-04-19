@@ -38,13 +38,21 @@ const (
 
 // Defines values for CatalogTypeV2Icon.
 const (
+	CatalogTypeV2IconBolt      CatalogTypeV2Icon = "bolt"
 	CatalogTypeV2IconBox       CatalogTypeV2Icon = "box"
 	CatalogTypeV2IconBriefcase CatalogTypeV2Icon = "briefcase"
+	CatalogTypeV2IconBrowser   CatalogTypeV2Icon = "browser"
 	CatalogTypeV2IconBulb      CatalogTypeV2Icon = "bulb"
 	CatalogTypeV2IconClock     CatalogTypeV2Icon = "clock"
 	CatalogTypeV2IconCog       CatalogTypeV2Icon = "cog"
+	CatalogTypeV2IconDatabase  CatalogTypeV2Icon = "database"
 	CatalogTypeV2IconDoc       CatalogTypeV2Icon = "doc"
 	CatalogTypeV2IconEmail     CatalogTypeV2Icon = "email"
+	CatalogTypeV2IconServer    CatalogTypeV2Icon = "server"
+	CatalogTypeV2IconSeverity  CatalogTypeV2Icon = "severity"
+	CatalogTypeV2IconStar      CatalogTypeV2Icon = "star"
+	CatalogTypeV2IconTag       CatalogTypeV2Icon = "tag"
+	CatalogTypeV2IconUser      CatalogTypeV2Icon = "user"
 	CatalogTypeV2IconUsers     CatalogTypeV2Icon = "users"
 )
 
@@ -130,13 +138,21 @@ const (
 
 // Defines values for CreateTypeRequestBodyIcon.
 const (
+	CreateTypeRequestBodyIconBolt      CreateTypeRequestBodyIcon = "bolt"
 	CreateTypeRequestBodyIconBox       CreateTypeRequestBodyIcon = "box"
 	CreateTypeRequestBodyIconBriefcase CreateTypeRequestBodyIcon = "briefcase"
+	CreateTypeRequestBodyIconBrowser   CreateTypeRequestBodyIcon = "browser"
 	CreateTypeRequestBodyIconBulb      CreateTypeRequestBodyIcon = "bulb"
 	CreateTypeRequestBodyIconClock     CreateTypeRequestBodyIcon = "clock"
 	CreateTypeRequestBodyIconCog       CreateTypeRequestBodyIcon = "cog"
+	CreateTypeRequestBodyIconDatabase  CreateTypeRequestBodyIcon = "database"
 	CreateTypeRequestBodyIconDoc       CreateTypeRequestBodyIcon = "doc"
 	CreateTypeRequestBodyIconEmail     CreateTypeRequestBodyIcon = "email"
+	CreateTypeRequestBodyIconServer    CreateTypeRequestBodyIcon = "server"
+	CreateTypeRequestBodyIconSeverity  CreateTypeRequestBodyIcon = "severity"
+	CreateTypeRequestBodyIconStar      CreateTypeRequestBodyIcon = "star"
+	CreateTypeRequestBodyIconTag       CreateTypeRequestBodyIcon = "tag"
+	CreateTypeRequestBodyIconUser      CreateTypeRequestBodyIcon = "user"
 	CreateTypeRequestBodyIconUsers     CreateTypeRequestBodyIcon = "users"
 )
 
@@ -402,8 +418,8 @@ type CatalogEntryReferenceV2 struct {
 
 // CatalogEntryV2 defines model for CatalogEntryV2.
 type CatalogEntryV2 struct {
-	// Alias An optional alias that must uniquely identify this type
-	Alias *string `json:"alias,omitempty"`
+	// Aliases Optional aliases that can be used to reference this entry
+	Aliases []string `json:"aliases"`
 
 	// AttributeValues Values of this entry
 	AttributeValues map[string]CatalogAttributeBindingV2 `json:"attribute_values"`
@@ -483,11 +499,17 @@ type CatalogTypeV2 struct {
 	// EstimatedCount If populated, gives an estimated count of entries for this type
 	EstimatedCount *int64 `json:"estimated_count,omitempty"`
 
+	// ExternalType The external resource this type is synced from, if any
+	ExternalType *string `json:"external_type,omitempty"`
+
 	// Icon Sets the display icon of this type in the dashboard
 	Icon CatalogTypeV2Icon `json:"icon"`
 
 	// Id ID of this resource
 	Id string `json:"id"`
+
+	// IsEditable Catalog types that are synced with external resources can't be edited
+	IsEditable bool `json:"is_editable"`
 
 	// Name Name is the human readable name of this type
 	Name string `json:"name"`
@@ -502,6 +524,9 @@ type CatalogTypeV2 struct {
 	// SemanticType Semantic type of this resource
 	SemanticType string `json:"semantic_type"`
 
+	// TypeName The type name of this catalog type, to be used when defining attributes
+	TypeName string `json:"type_name"`
+
 	// UpdatedAt When this type was last updated
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -514,8 +539,8 @@ type CatalogTypeV2Icon string
 
 // CreateEntryRequestBody defines model for CreateEntryRequestBody.
 type CreateEntryRequestBody struct {
-	// Alias An optional alias that must uniquely identify this type
-	Alias *string `json:"alias,omitempty"`
+	// Aliases Optional aliases that can be used to reference this entry
+	Aliases *[]string `json:"aliases,omitempty"`
 
 	// AttributeValues Values of this entry
 	AttributeValues map[string]CatalogAttributeBindingPayloadV2 `json:"attribute_values"`
@@ -1497,8 +1522,8 @@ type ShowResponseBody9 struct {
 
 // UpdateEntryRequestBody defines model for UpdateEntryRequestBody.
 type UpdateEntryRequestBody struct {
-	// Alias An optional alias that must uniquely identify this type
-	Alias *string `json:"alias,omitempty"`
+	// Aliases Optional aliases that can be used to reference this entry
+	Aliases *[]string `json:"aliases,omitempty"`
 
 	// AttributeValues Values of this entry
 	AttributeValues map[string]CatalogAttributeBindingPayloadV2 `json:"attribute_values"`

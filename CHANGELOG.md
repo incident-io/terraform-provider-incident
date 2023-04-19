@@ -1,3 +1,9 @@
+## 2.0.0
+
+- Rename `alias` in catalog_entries and catalog_entry to `aliases` in support
+  for multiple alias entries
+- Handle catalog types having been removed without panicking
+
 ## 1.4.3
 
 - Handle 404 for catalog types without panicking
