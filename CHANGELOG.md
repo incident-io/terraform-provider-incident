@@ -1,4 +1,4 @@
-## Unreleased
+## 2.0.1
 
 - Update client to latest API schema
 - Remove any disclaimers about the catalog being in beta ahead of launch
