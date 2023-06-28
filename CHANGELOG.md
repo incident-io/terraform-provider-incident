@@ -1,3 +1,8 @@
+## Unreleased
+
+- Update client to latest API schema
+- Remove any disclaimers about the catalog being in beta ahead of launch
+
 ## 2.0.0
 
 - Rename `alias` in catalog_entries and catalog_entry to `aliases` in support

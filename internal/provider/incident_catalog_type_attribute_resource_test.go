@@ -35,14 +35,14 @@ func TestAccIncidentCatalogTypeAttributeResource(t *testing.T) {
 			{
 				Config: testAccIncidentCatalogTypeAttributeResourceConfig(client.CatalogTypeAttributeV2{
 					Name:  "Description",
-					Type:  "Text",
+					Type:  "String",
 					Array: true,
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
 						"incident_catalog_type_attribute.example", "name", "Description"),
 					resource.TestCheckResourceAttr(
-						"incident_catalog_type_attribute.example", "type", "Text"),
+						"incident_catalog_type_attribute.example", "type", "String"),
 					resource.TestCheckResourceAttr(
 						"incident_catalog_type_attribute.example", "array", "true"),
 				),

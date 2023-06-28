@@ -232,7 +232,11 @@
                       "sort_key": 10,
                       "value": "Product"
                     }
-                  ]
+                  ],
+                  "pagination_meta": {
+                    "after": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "page_size": 25
+                  }
                 }
               }
             }
@@ -1419,7 +1423,7 @@
               "default": 25,
               "description": "Integer number of records to return",
               "example": 25,
-              "format": "int64",
+              "maximum": 500,
               "type": "integer"
             }
           },
@@ -2188,7 +2192,7 @@
               "description": "Integer number of records to return",
               "default": 25,
               "example": 25,
-              "format": "int64"
+              "maximum": 500
             },
             "example": 25
           },
@@ -2220,6 +2224,7 @@
                         "lawrence@incident.io",
                         "lawrence"
                       ],
+                      "archived_at": "2021-08-17T14:28:57.801578Z",
                       "attribute_values": {
                         "abc123": {
                           "array_value": [
@@ -2260,6 +2265,9 @@
                     }
                   ],
                   "catalog_type": {
+                    "annotations": {
+                      "incident.io/catalog-importer/id": "id-of-config"
+                    },
                     "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -2278,14 +2286,15 @@
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
+                          "mode": "manual",
                           "name": "tier",
-                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                          "type": "Custom[\"Service\"]"
                         }
                       ],
                       "version": 1
                     },
                     "semantic_type": "custom",
-                    "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+                    "type_name": "Custom[\"BackstageGroup\"]",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   },
                   "pagination_meta": {
@@ -2351,6 +2360,7 @@
                       "lawrence@incident.io",
                       "lawrence"
                     ],
+                    "archived_at": "2021-08-17T14:28:57.801578Z",
                     "attribute_values": {
                       "abc123": {
                         "array_value": [
@@ -2459,6 +2469,7 @@
                       "lawrence@incident.io",
                       "lawrence"
                     ],
+                    "archived_at": "2021-08-17T14:28:57.801578Z",
                     "attribute_values": {
                       "abc123": {
                         "array_value": [
@@ -2498,6 +2509,9 @@
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   },
                   "catalog_type": {
+                    "annotations": {
+                      "incident.io/catalog-importer/id": "id-of-config"
+                    },
                     "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -2516,14 +2530,15 @@
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
+                          "mode": "manual",
                           "name": "tier",
-                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                          "type": "Custom[\"Service\"]"
                         }
                       ],
                       "version": 1
                     },
                     "semantic_type": "custom",
-                    "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+                    "type_name": "Custom[\"BackstageGroup\"]",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
                 }
@@ -2598,6 +2613,7 @@
                       "lawrence@incident.io",
                       "lawrence"
                     ],
+                    "archived_at": "2021-08-17T14:28:57.801578Z",
                     "attribute_values": {
                       "abc123": {
                         "array_value": [
@@ -2637,6 +2653,9 @@
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   },
                   "catalog_type": {
+                    "annotations": {
+                      "incident.io/catalog-importer/id": "id-of-config"
+                    },
                     "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -2655,16 +2674,50 @@
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
+                          "mode": "manual",
                           "name": "tier",
-                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                          "type": "Custom[\"Service\"]"
                         }
                       ],
                       "version": 1
                     },
                     "semantic_type": "custom",
-                    "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+                    "type_name": "Custom[\"BackstageGroup\"]",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/catalog_resources": {
+      "get": {
+        "tags": [
+          "Catalog V2"
+        ],
+        "summary": "ListResources Catalog V2",
+        "description": "List available engine resources for the catalog",
+        "operationId": "Catalog V2#ListResources",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResourcesResponseBody"
+                },
+                "example": {
+                  "resources": [
+                    {
+                      "category": "custom",
+                      "description": "Boolean true or false value",
+                      "label": "GitHub Repository",
+                      "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]",
+                      "value_docstring": "Either the GraphQL node ID of the repository or a string of <owner>/<repo>, e.g. incident-io/website"
+                    }
+                  ]
                 }
               }
             }
@@ -2691,6 +2744,9 @@
                 "example": {
                   "catalog_types": [
                     {
+                      "annotations": {
+                        "incident.io/catalog-importer/id": "id-of-config"
+                      },
                       "color": "slate",
                       "created_at": "2021-08-17T13:28:57.801578Z",
                       "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -2709,14 +2765,15 @@
                           {
                             "array": false,
                             "id": "01GW2G3V0S59R238FAHPDS1R66",
+                            "mode": "manual",
                             "name": "tier",
-                            "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                            "type": "Custom[\"Service\"]"
                           }
                         ],
                         "version": 1
                       },
                       "semantic_type": "custom",
-                      "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+                      "type_name": "Custom[\"BackstageGroup\"]",
                       "updated_at": "2021-08-17T13:28:57.801578Z"
                     }
                   ]
@@ -2741,12 +2798,16 @@
                 "$ref": "#/components/schemas/CreateTypeRequestBody"
               },
               "example": {
+                "annotations": {
+                  "incident.io/catalog-importer/id": "id-of-config"
+                },
                 "color": "slate",
                 "description": "Represents Kubernetes clusters that we run inside of GKE.",
                 "icon": "bolt",
                 "name": "Kubernetes Cluster",
                 "ranked": true,
-                "semantic_type": "custom"
+                "semantic_type": "custom",
+                "type_name": "Custom[\"BackstageGroup\"]"
               }
             }
           }
@@ -2761,6 +2822,9 @@
                 },
                 "example": {
                   "catalog_type": {
+                    "annotations": {
+                      "incident.io/catalog-importer/id": "id-of-config"
+                    },
                     "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -2779,14 +2843,15 @@
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
+                          "mode": "manual",
                           "name": "tier",
-                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                          "type": "Custom[\"Service\"]"
                         }
                       ],
                       "version": 1
                     },
                     "semantic_type": "custom",
-                    "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+                    "type_name": "Custom[\"BackstageGroup\"]",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
                 }
@@ -2855,6 +2920,9 @@
                 },
                 "example": {
                   "catalog_type": {
+                    "annotations": {
+                      "incident.io/catalog-importer/id": "id-of-config"
+                    },
                     "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -2873,14 +2941,15 @@
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
+                          "mode": "manual",
                           "name": "tier",
-                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                          "type": "Custom[\"Service\"]"
                         }
                       ],
                       "version": 1
                     },
                     "semantic_type": "custom",
-                    "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+                    "type_name": "Custom[\"BackstageGroup\"]",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
                 }
@@ -2915,9 +2984,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTypeRequestBody"
+                "$ref": "#/components/schemas/UpdateTypeRequestBody"
               },
               "example": {
+                "annotations": {
+                  "incident.io/catalog-importer/id": "id-of-config"
+                },
                 "color": "slate",
                 "description": "Represents Kubernetes clusters that we run inside of GKE.",
                 "icon": "bolt",
@@ -2938,6 +3010,9 @@
                 },
                 "example": {
                   "catalog_type": {
+                    "annotations": {
+                      "incident.io/catalog-importer/id": "id-of-config"
+                    },
                     "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -2956,14 +3031,15 @@
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
+                          "mode": "manual",
                           "name": "tier",
-                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                          "type": "Custom[\"Service\"]"
                         }
                       ],
                       "version": 1
                     },
                     "semantic_type": "custom",
-                    "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+                    "type_name": "Custom[\"BackstageGroup\"]",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
                 }
@@ -3007,8 +3083,9 @@
                   {
                     "array": false,
                     "id": "01GW2G3V0S59R238FAHPDS1R66",
+                    "mode": "manual",
                     "name": "tier",
-                    "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                    "type": "Custom[\"Service\"]"
                   }
                 ],
                 "version": 1
@@ -3026,6 +3103,9 @@
                 },
                 "example": {
                   "catalog_type": {
+                    "annotations": {
+                      "incident.io/catalog-importer/id": "id-of-config"
+                    },
                     "color": "slate",
                     "created_at": "2021-08-17T13:28:57.801578Z",
                     "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -3044,14 +3124,15 @@
                         {
                           "array": false,
                           "id": "01GW2G3V0S59R238FAHPDS1R66",
+                          "mode": "manual",
                           "name": "tier",
-                          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                          "type": "Custom[\"Service\"]"
                         }
                       ],
                       "version": 1
                     },
                     "semantic_type": "custom",
-                    "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+                    "type_name": "Custom[\"BackstageGroup\"]",
                     "updated_at": "2021-08-17T13:28:57.801578Z"
                   }
                 }
@@ -3166,7 +3247,7 @@
               "description": "Integer number of records to return",
               "default": 25,
               "example": 25,
-              "format": "int64"
+              "maximum": 500
             },
             "example": 25
           },
@@ -3589,7 +3670,11 @@
                       "slack_team_id": "T02A1FSLE8J",
                       "summary": "Our database is really really sad, and we don't know why yet.",
                       "updated_at": "2021-08-17T13:28:57.801578Z",
-                      "visibility": "public"
+                      "visibility": "public",
+                      "workload_minutes_late": 40.7,
+                      "workload_minutes_sleeping": 0,
+                      "workload_minutes_total": 60.7,
+                      "workload_minutes_working": 20
                     }
                   ],
                   "pagination_meta": {
@@ -3799,7 +3884,11 @@
                     "slack_team_id": "T02A1FSLE8J",
                     "summary": "Our database is really really sad, and we don't know why yet.",
                     "updated_at": "2021-08-17T13:28:57.801578Z",
-                    "visibility": "public"
+                    "visibility": "public",
+                    "workload_minutes_late": 40.7,
+                    "workload_minutes_sleeping": 0,
+                    "workload_minutes_total": 60.7,
+                    "workload_minutes_working": 20
                   }
                 }
               }
@@ -3963,7 +4052,11 @@
                     "slack_team_id": "T02A1FSLE8J",
                     "summary": "Our database is really really sad, and we don't know why yet.",
                     "updated_at": "2021-08-17T13:28:57.801578Z",
-                    "visibility": "public"
+                    "visibility": "public",
+                    "workload_minutes_late": 40.7,
+                    "workload_minutes_sleeping": 0,
+                    "workload_minutes_total": 60.7,
+                    "workload_minutes_working": 20
                   }
                 }
               }
@@ -4166,7 +4259,11 @@
                     "slack_team_id": "T02A1FSLE8J",
                     "summary": "Our database is really really sad, and we don't know why yet.",
                     "updated_at": "2021-08-17T13:28:57.801578Z",
-                    "visibility": "public"
+                    "visibility": "public",
+                    "workload_minutes_late": 40.7,
+                    "workload_minutes_sleeping": 0,
+                    "workload_minutes_total": 60.7,
+                    "workload_minutes_working": 20
                   }
                 }
               }
@@ -4542,7 +4639,11 @@
             "slack_team_id": "T02A1FSLE8J",
             "summary": "Our database is really really sad, and we don't know why yet.",
             "updated_at": "2021-08-17T13:28:57.801578Z",
-            "visibility": "public"
+            "visibility": "public",
+            "workload_minutes_late": 40.7,
+            "workload_minutes_sleeping": 0,
+            "workload_minutes_total": 60.7,
+            "workload_minutes_working": 20
           },
           "public_incident.incident_updated_v2": {
             "call_url": "https://zoom.us/foo",
@@ -4668,7 +4769,11 @@
             "slack_team_id": "T02A1FSLE8J",
             "summary": "Our database is really really sad, and we don't know why yet.",
             "updated_at": "2021-08-17T13:28:57.801578Z",
-            "visibility": "public"
+            "visibility": "public",
+            "workload_minutes_late": 40.7,
+            "workload_minutes_sleeping": 0,
+            "workload_minutes_total": 60.7,
+            "workload_minutes_working": 20
           }
         },
         "required": [
@@ -4889,6 +4994,7 @@
             "enum": [
               "announcement_rule",
               "api_key",
+              "catalog_type",
               "custom_field",
               "follow_up_priority",
               "incident",
@@ -4903,6 +5009,8 @@
               "rbac_role",
               "scim_group",
               "severity",
+              "status_page",
+              "status_page_template",
               "user",
               "workflow"
             ]
@@ -5180,6 +5288,12 @@
               "lawrence"
             ]
           },
+          "archived_at": {
+            "type": "string",
+            "description": "When this entry was archived",
+            "example": "2021-08-17T14:28:57.801578Z",
+            "format": "date-time"
+          },
           "attribute_values": {
             "type": "object",
             "description": "Values of this entry",
@@ -5261,6 +5375,7 @@
             "lawrence@incident.io",
             "lawrence"
           ],
+          "archived_at": "2021-08-17T14:28:57.801578Z",
           "attribute_values": {
             "abc123": {
               "array_value": [
@@ -5310,6 +5425,56 @@
           "updated_at"
         ]
       },
+      "CatalogResourceV2": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Which category of resource",
+            "example": "custom",
+            "enum": [
+              "primitive",
+              "custom",
+              "external"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "Human readable description for this resource",
+            "example": "Boolean true or false value"
+          },
+          "label": {
+            "type": "string",
+            "description": "Label for this catalog resource type",
+            "example": "GitHub Repository"
+          },
+          "type": {
+            "type": "string",
+            "description": "Catalog type name for this resource",
+            "example": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+          },
+          "value_docstring": {
+            "type": "string",
+            "description": "Documentation for the literal string value of this resource",
+            "example": "Either the GraphQL node ID of the repository or a string of <owner>/<repo>, e.g. incident-io/website"
+          }
+        },
+        "example": {
+          "category": "custom",
+          "description": "Boolean true or false value",
+          "label": "GitHub Repository",
+          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]",
+          "value_docstring": "Either the GraphQL node ID of the repository or a string of <owner>/<repo>, e.g. incident-io/website"
+        },
+        "required": [
+          "type",
+          "label",
+          "description",
+          "value_docstring",
+          "category",
+          "config"
+        ]
+      },
       "CatalogTypeAttributePayloadV2": {
         "type": "object",
         "properties": {
@@ -5323,6 +5488,16 @@
             "description": "The ID of this attribute",
             "example": "01GW2G3V0S59R238FAHPDS1R66"
           },
+          "mode": {
+            "type": "string",
+            "description": "Controls how this attribute is modified",
+            "example": "manual",
+            "enum": [
+              "",
+              "manual",
+              "external"
+            ]
+          },
           "name": {
             "type": "string",
             "description": "Unique name of this attribute",
@@ -5331,14 +5506,15 @@
           "type": {
             "type": "string",
             "description": "Catalog type name for this attribute",
-            "example": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+            "example": "Custom[\"Service\"]"
           }
         },
         "example": {
           "array": false,
           "id": "01GW2G3V0S59R238FAHPDS1R66",
+          "mode": "manual",
           "name": "tier",
-          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+          "type": "Custom[\"Service\"]"
         },
         "required": [
           "name",
@@ -5359,6 +5535,16 @@
             "description": "The ID of this attribute",
             "example": "01GW2G3V0S59R238FAHPDS1R66"
           },
+          "mode": {
+            "type": "string",
+            "description": "Controls how this attribute is modified",
+            "example": "manual",
+            "enum": [
+              "",
+              "manual",
+              "external"
+            ]
+          },
           "name": {
             "type": "string",
             "description": "Unique name of this attribute",
@@ -5367,17 +5553,19 @@
           "type": {
             "type": "string",
             "description": "Catalog type name for this attribute",
-            "example": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+            "example": "Custom[\"Service\"]"
           }
         },
         "example": {
           "array": false,
           "id": "01GW2G3V0S59R238FAHPDS1R66",
+          "mode": "manual",
           "name": "tier",
-          "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+          "type": "Custom[\"Service\"]"
         },
         "required": [
           "id",
+          "mode",
           "name",
           "type",
           "array"
@@ -5396,8 +5584,9 @@
               {
                 "array": false,
                 "id": "01GW2G3V0S59R238FAHPDS1R66",
+                "mode": "manual",
                 "name": "tier",
-                "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                "type": "Custom[\"Service\"]"
               }
             ]
           },
@@ -5413,8 +5602,9 @@
             {
               "array": false,
               "id": "01GW2G3V0S59R238FAHPDS1R66",
+              "mode": "manual",
               "name": "tier",
-              "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+              "type": "Custom[\"Service\"]"
             }
           ],
           "version": 1
@@ -5427,6 +5617,17 @@
       "CatalogTypeV2": {
         "type": "object",
         "properties": {
+          "annotations": {
+            "type": "object",
+            "description": "Annotations that can track metadata about this type",
+            "example": {
+              "incident.io/catalog-importer/id": "id-of-config"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "example": "abc123"
+            }
+          },
           "color": {
             "type": "string",
             "description": "Sets the display color of this type in the dashboard",
@@ -5526,8 +5727,8 @@
           },
           "type_name": {
             "type": "string",
-            "description": "The type name of this catalog type, to be used when defining attributes",
-            "example": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]"
+            "description": "The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom[\"SomeName \"]",
+            "example": "Custom[\"BackstageGroup\"]"
           },
           "updated_at": {
             "type": "string",
@@ -5537,6 +5738,9 @@
           }
         },
         "example": {
+          "annotations": {
+            "incident.io/catalog-importer/id": "id-of-config"
+          },
           "color": "slate",
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -5555,14 +5759,15 @@
               {
                 "array": false,
                 "id": "01GW2G3V0S59R238FAHPDS1R66",
+                "mode": "manual",
                 "name": "tier",
-                "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                "type": "Custom[\"Service\"]"
               }
             ],
             "version": 1
           },
           "semantic_type": "custom",
-          "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+          "type_name": "Custom[\"BackstageGroup\"]",
           "updated_at": "2021-08-17T13:28:57.801578Z"
         },
         "required": [
@@ -5576,6 +5781,7 @@
           "icon",
           "color",
           "is_editable",
+          "annotations",
           "created_at",
           "updated_at"
         ]
@@ -5677,6 +5883,7 @@
               "lawrence@incident.io",
               "lawrence"
             ],
+            "archived_at": "2021-08-17T14:28:57.801578Z",
             "attribute_values": {
               "abc123": {
                 "array_value": [
@@ -5904,8 +6111,7 @@
           "instructions": {
             "type": "string",
             "description": "Provided to whoever is nominated for the role",
-            "example": "Take point on the incident; Make sure people are clear on responsibilities",
-            "minLength": 1
+            "example": "Take point on the incident; Make sure people are clear on responsibilities"
           },
           "name": {
             "type": "string",
@@ -5954,6 +6160,7 @@
             "example": "live",
             "enum": [
               "live",
+              "learning",
               "closed"
             ]
           },
@@ -6367,6 +6574,17 @@
       "CreateTypeRequestBody": {
         "type": "object",
         "properties": {
+          "annotations": {
+            "type": "object",
+            "description": "Annotations that can track metadata about this type",
+            "example": {
+              "incident.io/catalog-importer/id": "id-of-config"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "example": "abc123"
+            }
+          },
           "color": {
             "type": "string",
             "description": "Sets the display color of this type in the dashboard",
@@ -6422,15 +6640,24 @@
             "type": "string",
             "description": "Semantic type of this resource",
             "example": "custom"
+          },
+          "type_name": {
+            "type": "string",
+            "description": "The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom[\"SomeName \"]",
+            "example": "Custom[\"BackstageGroup\"]"
           }
         },
         "example": {
+          "annotations": {
+            "incident.io/catalog-importer/id": "id-of-config"
+          },
           "color": "slate",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
           "icon": "bolt",
           "name": "Kubernetes Cluster",
           "ranked": true,
-          "semantic_type": "custom"
+          "semantic_type": "custom",
+          "type_name": "Custom[\"BackstageGroup\"]"
         },
         "required": [
           "name",
@@ -6446,6 +6673,9 @@
         },
         "example": {
           "catalog_type": {
+            "annotations": {
+              "incident.io/catalog-importer/id": "id-of-config"
+            },
             "color": "slate",
             "created_at": "2021-08-17T13:28:57.801578Z",
             "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -6464,14 +6694,15 @@
                 {
                   "array": false,
                   "id": "01GW2G3V0S59R238FAHPDS1R66",
+                  "mode": "manual",
                   "name": "tier",
-                  "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                  "type": "Custom[\"Service\"]"
                 }
               ],
               "version": 1
             },
             "semantic_type": "custom",
-            "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+            "type_name": "Custom[\"BackstageGroup\"]",
             "updated_at": "2021-08-17T13:28:57.801578Z"
           }
         },
@@ -6492,7 +6723,7 @@
             "items": {
               "$ref": "#/components/schemas/CustomFieldValuePayloadV1"
             },
-            "description": "List of values to associate with this entry",
+            "description": "List of values to associate with this entry. Use an empty array to unset the value of the custom field.",
             "example": [
               {
                 "id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -6699,6 +6930,7 @@
           "options",
           "is_usable",
           "conditions",
+          "field_mode",
           "created_at",
           "updated_at"
         ]
@@ -7109,8 +7341,10 @@
                 "viewer",
                 "incident_creator",
                 "incident_editor",
+                "manage_settings",
                 "global_access",
-                "manage_settings"
+                "catalog_viewer",
+                "catalog_editor"
               ]
             },
             "description": "Which roles have been enabled for this key",
@@ -7353,8 +7587,7 @@
           "instructions": {
             "type": "string",
             "description": "Provided to whoever is nominated for the role",
-            "example": "Take point on the incident; Make sure people are clear on responsibilities",
-            "minLength": 1
+            "example": "Take point on the incident; Make sure people are clear on responsibilities"
           },
           "name": {
             "type": "string",
@@ -7425,7 +7658,9 @@
               "triage",
               "declined",
               "merged",
+              "canceled",
               "live",
+              "learning",
               "closed"
             ]
           },
@@ -7540,6 +7775,8 @@
           "set_on_transition",
           "set_on_visit",
           "set_on_creation",
+          "set_on_acceptance",
+          "set_on_resolution",
           "timestamp_type",
           "created_at",
           "updated_at"
@@ -8070,6 +8307,8 @@
           "name",
           "incident_status",
           "idempotency_key",
+          "did_opt_out_of_learning_flow",
+          "did_enter_learning_flow",
           "visibility",
           "mode",
           "organisation_id",
@@ -8271,6 +8510,30 @@
               "public",
               "private"
             ]
+          },
+          "workload_minutes_late": {
+            "type": "number",
+            "description": "Amount of time spent on the incident in late hours",
+            "example": 40.7,
+            "format": "double"
+          },
+          "workload_minutes_sleeping": {
+            "type": "number",
+            "description": "Amount of time spent on the incident in sleeping hours",
+            "example": 0,
+            "format": "double"
+          },
+          "workload_minutes_total": {
+            "type": "number",
+            "description": "Amount of time spent on the incident in total",
+            "example": 60.7,
+            "format": "double"
+          },
+          "workload_minutes_working": {
+            "type": "number",
+            "description": "Amount of time spent on the incident in working hours",
+            "example": 20,
+            "format": "double"
           }
         },
         "example": {
@@ -8397,7 +8660,11 @@
           "slack_team_id": "T02A1FSLE8J",
           "summary": "Our database is really really sad, and we don't know why yet.",
           "updated_at": "2021-08-17T13:28:57.801578Z",
-          "visibility": "public"
+          "visibility": "public",
+          "workload_minutes_late": 40.7,
+          "workload_minutes_sleeping": 0,
+          "workload_minutes_total": 60.7,
+          "workload_minutes_working": 20
         },
         "required": [
           "incident_status",
@@ -8406,6 +8673,8 @@
           "reference",
           "name",
           "idempotency_key",
+          "did_opt_out_of_learning_flow",
+          "did_enter_learning_flow",
           "visibility",
           "mode",
           "organisation_id",
@@ -8436,6 +8705,7 @@
                   "lawrence@incident.io",
                   "lawrence"
                 ],
+                "archived_at": "2021-08-17T14:28:57.801578Z",
                 "attribute_values": {
                   "abc123": {
                     "array_value": [
@@ -8480,7 +8750,7 @@
             "$ref": "#/components/schemas/CatalogTypeV2"
           },
           "pagination_meta": {
-            "$ref": "#/components/schemas/PaginationMeta"
+            "$ref": "#/components/schemas/PaginationMetaResult"
           }
         },
         "example": {
@@ -8490,6 +8760,7 @@
                 "lawrence@incident.io",
                 "lawrence"
               ],
+              "archived_at": "2021-08-17T14:28:57.801578Z",
               "attribute_values": {
                 "abc123": {
                   "array_value": [
@@ -8530,6 +8801,9 @@
             }
           ],
           "catalog_type": {
+            "annotations": {
+              "incident.io/catalog-importer/id": "id-of-config"
+            },
             "color": "slate",
             "created_at": "2021-08-17T13:28:57.801578Z",
             "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -8548,14 +8822,15 @@
                 {
                   "array": false,
                   "id": "01GW2G3V0S59R238FAHPDS1R66",
+                  "mode": "manual",
                   "name": "tier",
-                  "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                  "type": "Custom[\"Service\"]"
                 }
               ],
               "version": 1
             },
             "semantic_type": "custom",
-            "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+            "type_name": "Custom[\"BackstageGroup\"]",
             "updated_at": "2021-08-17T13:28:57.801578Z"
           },
           "pagination_meta": {
@@ -8567,6 +8842,40 @@
           "catalog_type",
           "catalog_entries",
           "pagination_meta"
+        ]
+      },
+      "ListResourcesResponseBody": {
+        "type": "object",
+        "properties": {
+          "resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogResourceV2"
+            },
+            "example": [
+              {
+                "category": "custom",
+                "description": "Boolean true or false value",
+                "label": "GitHub Repository",
+                "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]",
+                "value_docstring": "Either the GraphQL node ID of the repository or a string of <owner>/<repo>, e.g. incident-io/website"
+              }
+            ]
+          }
+        },
+        "example": {
+          "resources": [
+            {
+              "category": "custom",
+              "description": "Boolean true or false value",
+              "label": "GitHub Repository",
+              "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]",
+              "value_docstring": "Either the GraphQL node ID of the repository or a string of <owner>/<repo>, e.g. incident-io/website"
+            }
+          ]
+        },
+        "required": [
+          "resources"
         ]
       },
       "ListResponseBody": {
@@ -8752,7 +9061,7 @@
             ]
           },
           "pagination_meta": {
-            "$ref": "#/components/schemas/PaginationMetaWithTotal"
+            "$ref": "#/components/schemas/PaginationMetaResultWithTotal"
           }
         },
         "example": {
@@ -9008,12 +9317,16 @@
                 "slack_team_id": "T02A1FSLE8J",
                 "summary": "Our database is really really sad, and we don't know why yet.",
                 "updated_at": "2021-08-17T13:28:57.801578Z",
-                "visibility": "public"
+                "visibility": "public",
+                "workload_minutes_late": 40.7,
+                "workload_minutes_sleeping": 0,
+                "workload_minutes_total": 60.7,
+                "workload_minutes_working": 20
               }
             ]
           },
           "pagination_meta": {
-            "$ref": "#/components/schemas/PaginationMetaWithTotal"
+            "$ref": "#/components/schemas/PaginationMetaResultWithTotal"
           }
         },
         "example": {
@@ -9142,7 +9455,11 @@
               "slack_team_id": "T02A1FSLE8J",
               "summary": "Our database is really really sad, and we don't know why yet.",
               "updated_at": "2021-08-17T13:28:57.801578Z",
-              "visibility": "public"
+              "visibility": "public",
+              "workload_minutes_late": 40.7,
+              "workload_minutes_sleeping": 0,
+              "workload_minutes_total": 60.7,
+              "workload_minutes_working": 20
             }
           ],
           "pagination_meta": {
@@ -9207,6 +9524,9 @@
                 "value": "Product"
               }
             ]
+          },
+          "pagination_meta": {
+            "$ref": "#/components/schemas/PaginationMetaResult"
           }
         },
         "example": {
@@ -9217,10 +9537,15 @@
               "sort_key": 10,
               "value": "Product"
             }
-          ]
+          ],
+          "pagination_meta": {
+            "after": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "page_size": 25
+          }
         },
         "required": [
-          "custom_field_options"
+          "custom_field_options",
+          "pagination_meta"
         ]
       },
       "ListResponseBody3": {
@@ -9523,7 +9848,7 @@
             ]
           },
           "pagination_meta": {
-            "$ref": "#/components/schemas/PaginationMeta"
+            "$ref": "#/components/schemas/PaginationMetaResult"
           }
         },
         "example": {
@@ -9584,6 +9909,9 @@
             },
             "example": [
               {
+                "annotations": {
+                  "incident.io/catalog-importer/id": "id-of-config"
+                },
                 "color": "slate",
                 "created_at": "2021-08-17T13:28:57.801578Z",
                 "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -9602,14 +9930,15 @@
                     {
                       "array": false,
                       "id": "01GW2G3V0S59R238FAHPDS1R66",
+                      "mode": "manual",
                       "name": "tier",
-                      "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                      "type": "Custom[\"Service\"]"
                     }
                   ],
                   "version": 1
                 },
                 "semantic_type": "custom",
-                "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+                "type_name": "Custom[\"BackstageGroup\"]",
                 "updated_at": "2021-08-17T13:28:57.801578Z"
               }
             ]
@@ -9618,6 +9947,9 @@
         "example": {
           "catalog_types": [
             {
+              "annotations": {
+                "incident.io/catalog-importer/id": "id-of-config"
+              },
               "color": "slate",
               "created_at": "2021-08-17T13:28:57.801578Z",
               "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -9636,14 +9968,15 @@
                   {
                     "array": false,
                     "id": "01GW2G3V0S59R238FAHPDS1R66",
+                    "mode": "manual",
                     "name": "tier",
-                    "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                    "type": "Custom[\"Service\"]"
                   }
                 ],
                 "version": 1
               },
               "semantic_type": "custom",
-              "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+              "type_name": "Custom[\"BackstageGroup\"]",
               "updated_at": "2021-08-17T13:28:57.801578Z"
             }
           ]
@@ -9652,12 +9985,12 @@
           "catalog_types"
         ]
       },
-      "PaginationMeta": {
+      "PaginationMetaResult": {
         "type": "object",
         "properties": {
           "after": {
             "type": "string",
-            "description": "If provided, were records after a particular ID",
+            "description": "If provided, pass this as the 'after' param to load the next page",
             "example": "01FCNDV6P870EA6S7TK1DSYDG0"
           },
           "page_size": {
@@ -9676,12 +10009,12 @@
           "page_size"
         ]
       },
-      "PaginationMetaWithTotal": {
+      "PaginationMetaResultWithTotal": {
         "type": "object",
         "properties": {
           "after": {
             "type": "string",
-            "description": "If provided, were records after a particular ID",
+            "description": "If provided, pass this as the 'after' param to load the next page",
             "example": "01FCNDV6P870EA6S7TK1DSYDG0"
           },
           "page_size": {
@@ -10173,7 +10506,11 @@
             "slack_team_id": "T02A1FSLE8J",
             "summary": "Our database is really really sad, and we don't know why yet.",
             "updated_at": "2021-08-17T13:28:57.801578Z",
-            "visibility": "public"
+            "visibility": "public",
+            "workload_minutes_late": 40.7,
+            "workload_minutes_sleeping": 0,
+            "workload_minutes_total": 60.7,
+            "workload_minutes_working": 20
           }
         },
         "required": [
@@ -10329,7 +10666,11 @@
             "slack_team_id": "T02A1FSLE8J",
             "summary": "Our database is really really sad, and we don't know why yet.",
             "updated_at": "2021-08-17T13:28:57.801578Z",
-            "visibility": "public"
+            "visibility": "public",
+            "workload_minutes_late": 40.7,
+            "workload_minutes_sleeping": 0,
+            "workload_minutes_total": 60.7,
+            "workload_minutes_working": 20
           }
         },
         "required": [
@@ -10506,6 +10847,7 @@
               "lawrence@incident.io",
               "lawrence"
             ],
+            "archived_at": "2021-08-17T14:28:57.801578Z",
             "attribute_values": {
               "abc123": {
                 "array_value": [
@@ -10545,6 +10887,9 @@
             "updated_at": "2021-08-17T13:28:57.801578Z"
           },
           "catalog_type": {
+            "annotations": {
+              "incident.io/catalog-importer/id": "id-of-config"
+            },
             "color": "slate",
             "created_at": "2021-08-17T13:28:57.801578Z",
             "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -10563,14 +10908,15 @@
                 {
                   "array": false,
                   "id": "01GW2G3V0S59R238FAHPDS1R66",
+                  "mode": "manual",
                   "name": "tier",
-                  "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                  "type": "Custom[\"Service\"]"
                 }
               ],
               "version": 1
             },
             "semantic_type": "custom",
-            "type_name": "CatalogEntry[\"01FCNDV6P870EA6S7TK1DSYDG2\"]",
+            "type_name": "Custom[\"BackstageGroup\"]",
             "updated_at": "2021-08-17T13:28:57.801578Z"
           }
         },
@@ -11027,7 +11373,11 @@
             "slack_team_id": "T02A1FSLE8J",
             "summary": "Our database is really really sad, and we don't know why yet.",
             "updated_at": "2021-08-17T13:28:57.801578Z",
-            "visibility": "public"
+            "visibility": "public",
+            "workload_minutes_late": 40.7,
+            "workload_minutes_sleeping": 0,
+            "workload_minutes_total": 60.7,
+            "workload_minutes_working": 20
           }
         },
         "required": [
@@ -11216,8 +11566,7 @@
           "instructions": {
             "type": "string",
             "description": "Provided to whoever is nominated for the role",
-            "example": "Take point on the incident; Make sure people are clear on responsibilities",
-            "minLength": 1
+            "example": "Take point on the incident; Make sure people are clear on responsibilities"
           },
           "name": {
             "type": "string",
@@ -11283,6 +11632,93 @@
           "updated_at"
         ]
       },
+      "UpdateTypeRequestBody": {
+        "type": "object",
+        "properties": {
+          "annotations": {
+            "type": "object",
+            "description": "Annotations that can track metadata about this type",
+            "example": {
+              "incident.io/catalog-importer/id": "id-of-config"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "example": "abc123"
+            }
+          },
+          "color": {
+            "type": "string",
+            "description": "Sets the display color of this type in the dashboard",
+            "example": "slate",
+            "enum": [
+              "slate",
+              "red",
+              "yellow",
+              "green",
+              "blue",
+              "violet"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "Human readble description of this type",
+            "example": "Represents Kubernetes clusters that we run inside of GKE."
+          },
+          "icon": {
+            "type": "string",
+            "description": "Sets the display icon of this type in the dashboard",
+            "example": "bolt",
+            "enum": [
+              "bolt",
+              "box",
+              "briefcase",
+              "browser",
+              "bulb",
+              "clock",
+              "cog",
+              "database",
+              "doc",
+              "email",
+              "server",
+              "severity",
+              "star",
+              "tag",
+              "user",
+              "users"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Name is the human readable name of this type",
+            "example": "Kubernetes Cluster"
+          },
+          "ranked": {
+            "type": "boolean",
+            "description": "If this type should be ranked",
+            "example": true
+          },
+          "semantic_type": {
+            "type": "string",
+            "description": "Semantic type of this resource",
+            "example": "custom"
+          }
+        },
+        "example": {
+          "annotations": {
+            "incident.io/catalog-importer/id": "id-of-config"
+          },
+          "color": "slate",
+          "description": "Represents Kubernetes clusters that we run inside of GKE.",
+          "icon": "bolt",
+          "name": "Kubernetes Cluster",
+          "ranked": true,
+          "semantic_type": "custom"
+        },
+        "required": [
+          "name",
+          "description"
+        ]
+      },
       "UpdateTypeSchemaRequestBody": {
         "type": "object",
         "properties": {
@@ -11295,8 +11731,9 @@
               {
                 "array": false,
                 "id": "01GW2G3V0S59R238FAHPDS1R66",
+                "mode": "manual",
                 "name": "tier",
-                "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+                "type": "Custom[\"Service\"]"
               }
             ]
           },
@@ -11311,8 +11748,9 @@
             {
               "array": false,
               "id": "01GW2G3V0S59R238FAHPDS1R66",
+              "mode": "manual",
               "name": "tier",
-              "type": "CatalogEntry[\"01GVGYJSD39FRKVDWACK9NDS4E\"]"
+              "type": "Custom[\"Service\"]"
             }
           ],
           "version": 1
@@ -11329,6 +11767,7 @@
           "icon",
           "color",
           "is_editable",
+          "annotations",
           "created_at",
           "updated_at"
         ]
@@ -11520,7 +11959,7 @@
     },
     {
       "name": "Catalog V2",
-      "description": "Manage and browse catalog resources.\n\n> This endpoint is in beta, released for early testing but excluded from our backwards\n> compatibility guarantee at this time. Contact support@incident.io if you have\n> questions about availability or want to try this out.\n\nUse the incident.io catalog to track services, teams, product features and anything\nelse that helps build a map of your organisation.\n\nThe catalog has a number of types which are synced from your connected integrations, such\nas GitHub Repositories or PagerDuty Services, but you can also create custom types\nspecifically tailored to your company.\n\nExamples might be a Service type with an Alert channel which you can point at a Slack\nchannel, or Team which specifies its Manager and Technical Lead.\n"
+      "description": "Manage and browse catalog resources.\n\nUse the incident.io catalog to track services, teams, product features and anything\nelse that helps build a map of your organisation.\n\nThe catalog has a number of types which are synced from your connected integrations, such\nas GitHub Repositories or PagerDuty Services, but you can also create custom types\nspecifically tailored to your company.\n\nExamples might be a Service type with an Alert channel which you can point at a Slack\nchannel, or Team which specifies its Manager and Technical Lead.\n"
     },
     {
       "name": "Custom Field Options V1",
@@ -11572,7 +12011,7 @@
     },
     {
       "name": "Webhooks",
-      "description": "Webhooks can be used to receive notifications when certain events occur in incident.io. This might be useful for annotating graphs in a monitoring tool with incidents, or keeping track of follow-ups in another system. Our webhooks are powered by <a href=\"https://svix.com\" target=\"_blank\">Svix</a>.\n\n## Getting started with webhooks\n\nTo start using webhooks, you’ll need to create a webhook endpoint. You can do this in the same way that you’d create any other endpoint in your application. If you’d like to play around with our webhooks, we’d recommend using <a href=\"https://www.svix.com/play/\" target=\"_blank\">Svix play</a> which allows you to set up an endpoint and inspect the payloads via their web interface. There are also other services (e.g. <a href=\"https://ngrok.com/\" target=\"_blank\">ngrok</a>)) which have great debugging tools to help getting started with webhooks.\n\nOnce you have a webhook endpoint set up, you can head to <a href=\"https://app.incident.io/settings/webhooks\" target=\"_blank\">Settings > Webhooks</a> to configure your endpoint. In here you'll be able to choose which types of events you'd like to recieve, send test events, see recent event deliveries, and retry any failed events.\n\n## Status codes, errors and retries\n\nWhen processing webhooks, please return a 2xx status code (e.g. `200 OK` or `204 No Content`). If the endpoint returns a non-2xx status code, we’ll try to resend the event with a backoff over the next 24 hours. If attempts to a specific endpoint repeatedly fail over a 5 day period, we’ll mark the endpoint as disabled and notify you via email. If you do miss some messages (e.g. due to unexpected downtime), Svix offer a number of options for [replaying messages](https://docs.svix.com/receiving/using-app-portal/replaying-messages) which you can access via <a href=\"https://app.incident.io/settings/webhooks\" target=\"_blank\">Settings > Webhooks</a>.\n\n## Verifying webhooks\n\nIt’s important to know whether a webhook has come from incident.io, or a third party that might be trying to exploit a vulnerability. To avoid this, we send a `signature` in the header of our webhooks, which you can verify using the `Signing secret` from the webhook endpoint settings page. The webhooks we send will have three headers that you’ll want to look at:\n\n```json\n{\n  \"webhook-id\": \"123\",\n  \"webhook-timestamp\": 1676033031,\n  \"webhook-signature\": \"v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=\"\n}\n```\n\nThese are signed using a HMAC signature in the following format:\n\n```\n${webhook-id}.${webhook-timestamp}.${request_body}\n```\n\nYou can verify the signature either using the <a href=\"https://docs.svix.com/receiving/verifying-payloads/how\" target=\"_blank\">Svix client libraries</a>, or manually by following <a href=\"https://docs.svix.com/receiving/verifying-payloads/how-manual\" target=\"_blank\">these instructions</a>.\n\n## Keeping another system in-line with incident.io\n\nA common use-case for webhooks is to keep another system up-to-date with everything that’s happening in incident.io. As we deliver webhooks individually over HTTPS, we cannot guarantee that they’ll be delivered in the correct order. That means that, to keep the other system up-to-date, we’d recommend that you build an application which:\n\n- Receives a webhook about INC-123\n- Makes a request to our public API to get the latest state of INC-123\n- Save that state to your system\n\nThis means you aren’t relying on the order in which you receive webhooks to make sure your system remains up-to-date.\n\n## Webhooks on private incidents\n\nIn general, we try to send webhooks with all the relevant information in the payload (e.g. the name, summary, status etc.). However, private incidents are the exception. For private incidents, we only send the ID of the resource that’s been changed. If your integration needs to access the full data, you’ll need to <a href=\"https://help.incident.io/en/articles/6149651-our-api\" target=\"_blank\">create an API Key</a> that can view private incidents. You can then use that key to get the details about the specific incident or follow-up. This is to make sure we don’t leak information about private incidents to a system that shouldn’t have access to them.\n"
+      "description": "Webhooks can be used to receive notifications when certain events occur in incident.io. This might be useful for annotating graphs in a monitoring tool with incidents, or keeping track of follow-ups in another system. Our webhooks are powered by <a href=\"https://svix.com\" target=\"_blank\">Svix</a>.\n\n## Getting started with webhooks\n\nTo start using webhooks, you’ll need to create a webhook endpoint. You can do this in the same way that you’d create any other endpoint in your application. If you’d like to play around with our webhooks, we’d recommend using <a href=\"https://www.svix.com/play/\" target=\"_blank\">Svix play</a> which allows you to set up an endpoint and inspect the payloads via their web interface. There are also other services (e.g. <a href=\"https://ngrok.com/\" target=\"_blank\">ngrok</a>) which have great debugging tools to help getting started with webhooks.\n\nOnce you have a webhook endpoint set up, you can head to <a href=\"https://app.incident.io/settings/webhooks\" target=\"_blank\">Settings > Webhooks</a> to configure your endpoint. In here you'll be able to choose which types of events you'd like to recieve, send test events, see recent event deliveries, and retry any failed events.\n\n## Status codes, errors and retries\n\nWhen processing webhooks, please return a 2xx status code (e.g. `200 OK` or `204 No Content`). If the endpoint returns a non-2xx status code, we’ll try to resend the event with a backoff over the next 24 hours. If attempts to a specific endpoint repeatedly fail over a 5 day period, we’ll mark the endpoint as disabled and notify you via email. If you do miss some messages (e.g. due to unexpected downtime), Svix offer a number of options for [replaying messages](https://docs.svix.com/receiving/using-app-portal/replaying-messages) which you can access via <a href=\"https://app.incident.io/settings/webhooks\" target=\"_blank\">Settings > Webhooks</a>.\n\n## Verifying webhooks\n\nIt’s important to know whether a webhook has come from incident.io, or a third party that might be trying to exploit a vulnerability. To avoid this, we send a `signature` in the header of our webhooks, which you can verify using the `Signing secret` from the webhook endpoint settings page. The webhooks we send will have three headers that you’ll want to look at:\n\n```json\n{\n  \"webhook-id\": \"123\",\n  \"webhook-timestamp\": 1676033031,\n  \"webhook-signature\": \"v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=\"\n}\n```\n\nThese are signed using a HMAC signature in the following format:\n\n```\n${webhook-id}.${webhook-timestamp}.${request_body}\n```\n\nYou can verify the signature either using the <a href=\"https://docs.svix.com/receiving/verifying-payloads/how\" target=\"_blank\">Svix client libraries</a>, or manually by following <a href=\"https://docs.svix.com/receiving/verifying-payloads/how-manual\" target=\"_blank\">these instructions</a>.\n\n## Keeping another system in-line with incident.io\n\nA common use-case for webhooks is to keep another system up-to-date with everything that’s happening in incident.io. As we deliver webhooks individually over HTTPS, we cannot guarantee that they’ll be delivered in the correct order. That means that, to keep the other system up-to-date, we’d recommend that you build an application which:\n\n- Receives a webhook about INC-123\n- Makes a request to our public API to get the latest state of INC-123\n- Save that state to your system\n\nThis means you aren’t relying on the order in which you receive webhooks to make sure your system remains up-to-date.\n\n## Webhooks on private incidents\n\nIn general, we try to send webhooks with all the relevant information in the payload (e.g. the name, summary, status etc.). However, private incidents are the exception. For private incidents, we only send the ID of the resource that’s been changed. If your integration needs to access the full data, you’ll need to <a href=\"https://help.incident.io/en/articles/6149651-our-api\" target=\"_blank\">create an API Key</a> that can view private incidents. You can then use that key to get the details about the specific incident or follow-up. This is to make sure we don’t leak information about private incidents to a system that shouldn’t have access to them.\n"
     },
     {
       "name": "Audit logs",
@@ -11928,7 +12367,11 @@
                     "slack_team_id": "T02A1FSLE8J",
                     "summary": "Our database is really really sad, and we don't know why yet.",
                     "updated_at": "2021-08-17T13:28:57.801578Z",
-                    "visibility": "public"
+                    "visibility": "public",
+                    "workload_minutes_late": 40.7,
+                    "workload_minutes_sleeping": 0,
+                    "workload_minutes_total": 60.7,
+                    "workload_minutes_working": 20
                   }
                 }
               }
@@ -12079,7 +12522,11 @@
                     "slack_team_id": "T02A1FSLE8J",
                     "summary": "Our database is really really sad, and we don't know why yet.",
                     "updated_at": "2021-08-17T13:28:57.801578Z",
-                    "visibility": "public"
+                    "visibility": "public",
+                    "workload_minutes_late": 40.7,
+                    "workload_minutes_sleeping": 0,
+                    "workload_minutes_total": 60.7,
+                    "workload_minutes_working": 20
                   }
                 }
               }
@@ -12313,6 +12760,147 @@
                       "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                       "name": "Development API Key",
                       "type": "api_key"
+                    }
+                  ],
+                  "version": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/x-audit-logs/catalog_type.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "CatalogTypeCreatedV1",
+        "description": "This entry is created whenever a catalog type is created",
+        "operationId": "Audit logs#CatalogTypeCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementRuleCreatedV1ResponseBody"
+                },
+                "example": {
+                  "action": "catalog_type.created",
+                  "actor": {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "metadata": {
+                      "user_base_role_slug": "admin",
+                      "user_custom_role_slugs": "engineering,security"
+                    },
+                    "name": "John Doe",
+                    "type": "user"
+                  },
+                  "context": {
+                    "location": "1.2.3.4",
+                    "user_agent": "Chrome/91.0.4472.114"
+                  },
+                  "occurred_at": "2021-08-17T13:28:57.801578Z",
+                  "targets": [
+                    {
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Service",
+                      "type": "catalog_type"
+                    }
+                  ],
+                  "version": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/x-audit-logs/catalog_type.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "CatalogTypeDeletedV1",
+        "description": "This entry is created whenever a catalog type is deleted",
+        "operationId": "Audit logs#CatalogTypeDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementRuleCreatedV1ResponseBody"
+                },
+                "example": {
+                  "action": "catalog_type.deleted",
+                  "actor": {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "metadata": {
+                      "user_base_role_slug": "admin",
+                      "user_custom_role_slugs": "engineering,security"
+                    },
+                    "name": "John Doe",
+                    "type": "user"
+                  },
+                  "context": {
+                    "location": "1.2.3.4",
+                    "user_agent": "Chrome/91.0.4472.114"
+                  },
+                  "occurred_at": "2021-08-17T13:28:57.801578Z",
+                  "targets": [
+                    {
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Service",
+                      "type": "catalog_type"
+                    }
+                  ],
+                  "version": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/x-audit-logs/catalog_type.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "CatalogTypeUpdatedV1",
+        "description": "This entry is created whenever a catalog type is updated",
+        "operationId": "Audit logs#CatalogTypeUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementRuleCreatedV1ResponseBody"
+                },
+                "example": {
+                  "action": "catalog_type.updated",
+                  "actor": {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "metadata": {
+                      "user_base_role_slug": "admin",
+                      "user_custom_role_slugs": "engineering,security"
+                    },
+                    "name": "John Doe",
+                    "type": "user"
+                  },
+                  "context": {
+                    "location": "1.2.3.4",
+                    "user_agent": "Chrome/91.0.4472.114"
+                  },
+                  "occurred_at": "2021-08-17T13:28:57.801578Z",
+                  "targets": [
+                    {
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Service",
+                      "type": "catalog_type"
                     }
                   ],
                   "version": 1
@@ -13404,6 +13992,147 @@
         }
       }
     },
+    "/x-audit-logs/learning_task.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "LearningTaskCreatedV1",
+        "description": "This entry is created whenever a learning task is created",
+        "operationId": "Audit logs#LearningTaskCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementRuleCreatedV1ResponseBody"
+                },
+                "example": {
+                  "action": "learning_task.created",
+                  "actor": {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "metadata": {
+                      "user_base_role_slug": "admin",
+                      "user_custom_role_slugs": "engineering,security"
+                    },
+                    "name": "John Doe",
+                    "type": "user"
+                  },
+                  "context": {
+                    "location": "1.2.3.4",
+                    "user_agent": "Chrome/91.0.4472.114"
+                  },
+                  "occurred_at": "2021-08-17T13:28:57.801578Z",
+                  "targets": [
+                    {
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Schedule a debrief",
+                      "type": "learning_task"
+                    }
+                  ],
+                  "version": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/x-audit-logs/learning_task.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "LearningTaskDeletedV1",
+        "description": "This entry is created whenever a learning task is deleted",
+        "operationId": "Audit logs#LearningTaskDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementRuleCreatedV1ResponseBody"
+                },
+                "example": {
+                  "action": "learning_task.deleted",
+                  "actor": {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "metadata": {
+                      "user_base_role_slug": "admin",
+                      "user_custom_role_slugs": "engineering,security"
+                    },
+                    "name": "John Doe",
+                    "type": "user"
+                  },
+                  "context": {
+                    "location": "1.2.3.4",
+                    "user_agent": "Chrome/91.0.4472.114"
+                  },
+                  "occurred_at": "2021-08-17T13:28:57.801578Z",
+                  "targets": [
+                    {
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Schedule a debrief",
+                      "type": "learning_task"
+                    }
+                  ],
+                  "version": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/x-audit-logs/learning_task.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "LearningTaskUpdatedV1",
+        "description": "This entry is created whenever a learning task is updated",
+        "operationId": "Audit logs#LearningTaskUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementRuleCreatedV1ResponseBody"
+                },
+                "example": {
+                  "action": "learning_task.updated",
+                  "actor": {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "metadata": {
+                      "user_base_role_slug": "admin",
+                      "user_custom_role_slugs": "engineering,security"
+                    },
+                    "name": "John Doe",
+                    "type": "user"
+                  },
+                  "context": {
+                    "location": "1.2.3.4",
+                    "user_agent": "Chrome/91.0.4472.114"
+                  },
+                  "occurred_at": "2021-08-17T13:28:57.801578Z",
+                  "targets": [
+                    {
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Schedule a debrief",
+                      "type": "learning_task"
+                    }
+                  ],
+                  "version": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/x-audit-logs/policy.created.1": {
       "get": {
         "tags": [
@@ -14071,6 +14800,288 @@
                       "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                       "name": "Minor",
                       "type": "severity"
+                    }
+                  ],
+                  "version": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/x-audit-logs/status_page.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "StatusPageCreatedV1",
+        "description": "This entry is created whenever a status page is created",
+        "operationId": "Audit logs#StatusPageCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementRuleCreatedV1ResponseBody"
+                },
+                "example": {
+                  "action": "status_page.created",
+                  "actor": {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "metadata": {
+                      "user_base_role_slug": "admin",
+                      "user_custom_role_slugs": "engineering,security"
+                    },
+                    "name": "John Doe",
+                    "type": "user"
+                  },
+                  "context": {
+                    "location": "1.2.3.4",
+                    "user_agent": "Chrome/91.0.4472.114"
+                  },
+                  "occurred_at": "2021-08-17T13:28:57.801578Z",
+                  "targets": [
+                    {
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Public Page",
+                      "type": "status_page"
+                    }
+                  ],
+                  "version": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/x-audit-logs/status_page.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "StatusPageDeletedV1",
+        "description": "This entry is created whenever a status page is deleted",
+        "operationId": "Audit logs#StatusPageDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementRuleCreatedV1ResponseBody"
+                },
+                "example": {
+                  "action": "status_page.deleted",
+                  "actor": {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "metadata": {
+                      "user_base_role_slug": "admin",
+                      "user_custom_role_slugs": "engineering,security"
+                    },
+                    "name": "John Doe",
+                    "type": "user"
+                  },
+                  "context": {
+                    "location": "1.2.3.4",
+                    "user_agent": "Chrome/91.0.4472.114"
+                  },
+                  "occurred_at": "2021-08-17T13:28:57.801578Z",
+                  "targets": [
+                    {
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Public Page",
+                      "type": "status_page"
+                    }
+                  ],
+                  "version": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/x-audit-logs/status_page.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "StatusPageUpdatedV1",
+        "description": "This entry is created whenever a status page has its configuration updated",
+        "operationId": "Audit logs#StatusPageUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementRuleCreatedV1ResponseBody"
+                },
+                "example": {
+                  "action": "status_page.updated",
+                  "actor": {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "metadata": {
+                      "user_base_role_slug": "admin",
+                      "user_custom_role_slugs": "engineering,security"
+                    },
+                    "name": "John Doe",
+                    "type": "user"
+                  },
+                  "context": {
+                    "location": "1.2.3.4",
+                    "user_agent": "Chrome/91.0.4472.114"
+                  },
+                  "occurred_at": "2021-08-17T13:28:57.801578Z",
+                  "targets": [
+                    {
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Public Page",
+                      "type": "status_page"
+                    }
+                  ],
+                  "version": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/x-audit-logs/status_page_template.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "StatusPageTemplateCreatedV1",
+        "description": "This entry is created whenever a status page template is created",
+        "operationId": "Audit logs#StatusPageTemplateCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementRuleCreatedV1ResponseBody"
+                },
+                "example": {
+                  "action": "status_page_template.created",
+                  "actor": {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "metadata": {
+                      "user_base_role_slug": "admin",
+                      "user_custom_role_slugs": "engineering,security"
+                    },
+                    "name": "John Doe",
+                    "type": "user"
+                  },
+                  "context": {
+                    "location": "1.2.3.4",
+                    "user_agent": "Chrome/91.0.4472.114"
+                  },
+                  "occurred_at": "2021-08-17T13:28:57.801578Z",
+                  "targets": [
+                    {
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Investigating",
+                      "type": "status_page_template"
+                    }
+                  ],
+                  "version": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/x-audit-logs/status_page_template.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "StatusPageTemplateDeletedV1",
+        "description": "This entry is created whenever a status page template is deleted",
+        "operationId": "Audit logs#StatusPageTemplateDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementRuleCreatedV1ResponseBody"
+                },
+                "example": {
+                  "action": "status_page_template.deleted",
+                  "actor": {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "metadata": {
+                      "user_base_role_slug": "admin",
+                      "user_custom_role_slugs": "engineering,security"
+                    },
+                    "name": "John Doe",
+                    "type": "user"
+                  },
+                  "context": {
+                    "location": "1.2.3.4",
+                    "user_agent": "Chrome/91.0.4472.114"
+                  },
+                  "occurred_at": "2021-08-17T13:28:57.801578Z",
+                  "targets": [
+                    {
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Investigating",
+                      "type": "status_page_template"
+                    }
+                  ],
+                  "version": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/x-audit-logs/status_page_template.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "StatusPageTemplateUpdatedV1",
+        "description": "This entry is created whenever a status page template is updated",
+        "operationId": "Audit logs#StatusPageTemplateUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementRuleCreatedV1ResponseBody"
+                },
+                "example": {
+                  "action": "status_page_template.updated",
+                  "actor": {
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "metadata": {
+                      "user_base_role_slug": "admin",
+                      "user_custom_role_slugs": "engineering,security"
+                    },
+                    "name": "John Doe",
+                    "type": "user"
+                  },
+                  "context": {
+                    "location": "1.2.3.4",
+                    "user_agent": "Chrome/91.0.4472.114"
+                  },
+                  "occurred_at": "2021-08-17T13:28:57.801578Z",
+                  "targets": [
+                    {
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Investigating",
+                      "type": "status_page_template"
                     }
                   ],
                   "version": 1

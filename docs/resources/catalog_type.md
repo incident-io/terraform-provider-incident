@@ -4,9 +4,6 @@ page_title: "incident_catalog_type Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
   Manage and browse catalog resources.
-  This endpoint is in beta, released for early testing but excluded from our backwards
-  compatibility guarantee at this time. Contact support@incident.io if you have
-  questions about availability or want to try this out.
   Use the incident.io catalog to track services, teams, product features and anything
   else that helps build a map of your organisation.
   The catalog has a number of types which are synced from your connected integrations, such
@@ -19,10 +16,6 @@ description: |-
 # incident_catalog_type (Resource)
 
 Manage and browse catalog resources.
-
-> This endpoint is in beta, released for early testing but excluded from our backwards
-> compatibility guarantee at this time. Contact support@incident.io if you have
-> questions about availability or want to try this out.
 
 Use the incident.io catalog to track services, teams, product features and anything
 else that helps build a map of your organisation.
