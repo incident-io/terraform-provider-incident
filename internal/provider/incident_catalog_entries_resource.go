@@ -275,7 +275,10 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 					elements = append(elements, types.StringValue(*value.Literal))
 				}
 
-				value.ArrayValue = types.ListValueMust(types.StringType, elements)
+				list := types.ListValueMust(types.StringType, elements)
+				if len(list.Elements()) > 0 {
+					value.ArrayValue = list
+				}
 			}
 
 			values[attributeID] = value
