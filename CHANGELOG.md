@@ -1,5 +1,7 @@
 ## Unreleased
 
+## 2.0.2
+
 - Handle omission of empty list or null array_value in catalog entries (#36)
 
 ## 2.0.1
