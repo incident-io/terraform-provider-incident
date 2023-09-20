@@ -179,7 +179,7 @@ func (r *IncidentCatalogEntriesResource) Create(ctx context.Context, req resourc
 		return
 	}
 
-	data = r.buildModel(*catalogType, entries)
+	data = r.buildModel(*catalogType, entries, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -196,7 +196,7 @@ func (r *IncidentCatalogEntriesResource) Read(ctx context.Context, req resource.
 		return
 	}
 
-	data = r.buildModel(*catalogType, entries)
+	data = r.buildModel(*catalogType, entries, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -213,7 +213,7 @@ func (r *IncidentCatalogEntriesResource) Update(ctx context.Context, req resourc
 		return
 	}
 
-	data = r.buildModel(*catalogType, entries)
+	data = r.buildModel(*catalogType, entries, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -244,7 +244,7 @@ func (r *IncidentCatalogEntriesResource) ImportState(ctx context.Context, req re
 
 // buildModel generates a terraform model from a catalog type and current list of all
 // entries, as received from getEntries.
-func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTypeV2, entries []client.CatalogEntryV2) *IncidentCatalogEntriesResourceModel {
+func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTypeV2, entries []client.CatalogEntryV2, plan *IncidentCatalogEntriesResourceModel) *IncidentCatalogEntriesResourceModel {
 	modelEntries := map[string]CatalogEntryModel{}
 	for _, entry := range entries {
 		// Skip all entries that come with no external ID, as these can't have been created by
@@ -255,15 +255,39 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 
 		values := map[string]CatalogEntryAttributeBindingModel{}
 		for attributeID, binding := range entry.AttributeValues {
+			// For terraform to serialize a list, it must know the type of the list. It's
+			// possible that we won't have any values from the API response that we'd populate
+			// our ArrayValue with, so we default allocate it as a string list so we know how to
+			// serialise it even when the list is empty.
 			value := CatalogEntryAttributeBindingModel{
 				ArrayValue: types.ListNull(types.StringType),
 			}
-			// The API can behave weirdly in the case of empty arrays and omit the field entirely.
-			// This is painful for us as terraform will see the omission as a diff against the
-			// state, so we paper over the issue by instantiating an empty array value if we think
-			// we're seeing the weirdness.
+
+			// If we have neither value or array value, then we are at risk of the API having
+			// removed the array value that we provided from our state/plan as our API code
+			// tends to omit any empty arrays.
+			//
+			// Terraform won't like this and will fail with "my state doesn't match the plan" if
+			// we send our API a null or empty list value and get back something different. So
+			// we patch our value to match what we provided in our state if we think it's likely
+			// been dropped from the API response.
 			if binding.Value == nil && binding.ArrayValue == nil {
-				binding.ArrayValue = lo.ToPtr([]client.CatalogAttributeValueV2{})
+				// If our plan included an empty array then assume the API dropped it when
+				// responding, and allocate an empty array. Otherwise if the plan was null, patch
+				// over the API response to pretend like it is null also.
+				planBinding := plan.Entries[*entry.ExternalId].AttributeValues[attributeID]
+				if planBinding.ArrayValue.IsNull() {
+					value.ArrayValue = types.ListNull(types.StringType)
+				} else if len(planBinding.ArrayValue.Elements()) == 0 {
+					value.ArrayValue = planBinding.ArrayValue
+				}
+
+				// If we hit neither of the above, then our plan had elements but the API response
+				// has lost them, that means we genuinely have a problem and will need to
+				// replan/apply to fix things.
+
+				values[attributeID] = value
+				continue
 			}
 
 			if binding.Value != nil {
