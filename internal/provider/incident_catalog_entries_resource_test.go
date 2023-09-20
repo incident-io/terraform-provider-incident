@@ -22,11 +22,13 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 						Name:        "One",
 						ExternalID:  "one",
 						Description: "This is the first entry",
+						ArrayValue:  "null",
 					},
 					{
 						Name:        "Two",
 						ExternalID:  "two",
 						Description: "This is the second entry",
+						ArrayValue:  "[]",
 					},
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -49,11 +51,13 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 						Name:        "One",
 						ExternalID:  "one",
 						Description: "This is the first entry",
+						ArrayValue:  "null",
 					},
 					{
 						Name:        "Three",
 						ExternalID:  "two",
 						Description: "This is the third entry",
+						ArrayValue:  "[]",
 					},
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -78,6 +82,14 @@ resource "incident_catalog_type_attribute" "example_description" {
   type = "Text"
 }
 
+resource "incident_catalog_type_attribute" "example_array" {
+  catalog_type_id = incident_catalog_type.example.id
+
+  name  = "Array"
+  type  = "String"
+  array = true
+}
+
 resource "incident_catalog_entries" "example" {
   id = incident_catalog_type.example.id
 
@@ -91,6 +103,9 @@ resource "incident_catalog_entries" "example" {
         (incident_catalog_type_attribute.example_description.id) = {
           value = {{ quote .Description }}
         }
+        (incident_catalog_type_attribute.example_array.id) = {
+          array_value = {{ .ArrayValue }}
+        }
       }
     },
   {{ end }}
@@ -103,6 +118,7 @@ type catalogEntryElement struct {
 	ExternalID  string
 	Aliases     []string
 	Description string
+	ArrayValue  string
 }
 
 func testAccIncidentCatalogEntriesResourceConfig(entries []catalogEntryElement) string {

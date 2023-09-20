@@ -1,5 +1,9 @@
 ## Unreleased
 
+- Handle omission of empty list or null array_value in catalog entries (#36)
+
+## 2.0.1
+
 - Update client to latest API schema
 - Remove any disclaimers about the catalog being in beta ahead of launch
 
