@@ -37,23 +37,23 @@ type IncidentCatalogEntryResourceModel struct {
 	AttributeValues []CatalogEntryAttributeValue `tfsdk:"attribute_values"`
 }
 
-func (m IncidentCatalogEntryResourceModel) buildAttributeValues() map[string]client.CatalogAttributeBindingPayloadV2 {
-	values := map[string]client.CatalogAttributeBindingPayloadV2{}
+func (m IncidentCatalogEntryResourceModel) buildAttributeValues() map[string]client.EngineParamBindingPayloadV2 {
+	values := map[string]client.EngineParamBindingPayloadV2{}
 	for _, attributeValue := range m.AttributeValues {
-		payload := client.CatalogAttributeBindingPayloadV2{}
+		payload := client.EngineParamBindingPayloadV2{}
 		if !attributeValue.Value.IsNull() {
-			payload.Value = &client.CatalogAttributeValuePayloadV2{
+			payload.Value = &client.EngineParamBindingValuePayloadV2{
 				Literal: lo.ToPtr(attributeValue.Value.ValueString()),
 			}
 		}
 		if !attributeValue.ArrayValue.IsNull() {
-			arrayValue := []client.CatalogAttributeValuePayloadV2{}
+			arrayValue := []client.EngineParamBindingValuePayloadV2{}
 			for _, element := range attributeValue.ArrayValue.Elements() {
 				elementString, ok := element.(types.String)
 				if !ok {
 					panic(fmt.Sprintf("element should have been types.String but was %T", element))
 				}
-				arrayValue = append(arrayValue, client.CatalogAttributeValuePayloadV2{
+				arrayValue = append(arrayValue, client.EngineParamBindingValuePayloadV2{
 					Literal: lo.ToPtr(elementString.ValueString()),
 				})
 			}
@@ -283,7 +283,7 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV2) *
 		// state, so we paper over the issue by instantiating an empty array value if we think
 		// we're seeing the weirdness.
 		if binding.Value == nil && binding.ArrayValue == nil {
-			binding.ArrayValue = lo.ToPtr([]client.CatalogAttributeValueV2{})
+			binding.ArrayValue = lo.ToPtr([]client.EngineParamBindingValueV2{})
 		}
 
 		if binding.Value != nil {
