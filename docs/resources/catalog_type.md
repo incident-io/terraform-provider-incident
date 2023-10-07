@@ -58,10 +58,6 @@ resource "incident_catalog_type" "service_tier" {
 - `description` (String) Human readble description of this type
 - `name` (String) Name is the human readable name of this type
 
-### Optional
-
-- `semantic_type` (String) Semantic type of this resource
-
 ### Read-Only
 
 - `id` (String) ID of this catalog type
