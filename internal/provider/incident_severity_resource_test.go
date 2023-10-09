@@ -58,11 +58,12 @@ func TestAccIncidentSeverityResourceWithoutRank(t *testing.T) {
 			// Create and read
 			{
 				Config: testAccIncidentSeverityResourceConfig(&client.SeverityV2{
+					Name: "Pretty bad",
 					Rank: -1,
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_severity.example", "name", incidentSeverityDefault().Name),
+						"incident_severity.example", "name", "Pretty bad"),
 				),
 			},
 		},

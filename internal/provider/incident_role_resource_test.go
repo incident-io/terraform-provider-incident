@@ -38,8 +38,9 @@ func TestAccIncidentRoleResource(t *testing.T) {
 			},
 			// Update and read
 			{
-				Config: testAccIncidentRoleResourceConfig(&client.IncidentRoleV1{
-					Name: "Communications Follow",
+				Config: testAccIncidentRoleResourceConfig(&client.IncidentRoleV2{
+					Name:      "Communications Follow",
+					Shortform: "comms",
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
@@ -68,7 +69,7 @@ func incidentRoleDefault() client.IncidentRoleV2 {
 	}
 }
 
-func testAccIncidentRoleResourceConfig(override *client.IncidentRoleV1) string {
+func testAccIncidentRoleResourceConfig(override *client.IncidentRoleV2) string {
 	model := incidentRoleDefault()
 
 	// Merge any non-zero fields in override into the model.
