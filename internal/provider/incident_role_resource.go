@@ -30,7 +30,6 @@ type IncidentRoleResourceModel struct {
 	Description  types.String `tfsdk:"description"`
 	Instructions types.String `tfsdk:"instructions"`
 	Shortform    types.String `tfsdk:"shortform"`
-	Required     types.Bool   `tfsdk:"required"`
 }
 
 func NewIncidentRoleResource() resource.Resource {
@@ -43,33 +42,29 @@ func (r *IncidentRoleResource) Metadata(ctx context.Context, req resource.Metada
 
 func (r *IncidentRoleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("Incident Roles V1"),
+		MarkdownDescription: apischema.TagDocstring("Incident Roles V2"),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("IncidentRoleV1ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("IncidentRoleV2ResponseBody", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV1CreateRequestBody", "name"),
+				MarkdownDescription: apischema.Docstring("IncidentRolesV2CreateRequestBody", "name"),
 				Required:            true,
 			},
 			"description": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV1CreateRequestBody", "description"),
+				MarkdownDescription: apischema.Docstring("IncidentRolesV2CreateRequestBody", "description"),
 				Required:            true,
 			},
 			"instructions": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV1CreateRequestBody", "instructions"),
+				MarkdownDescription: apischema.Docstring("IncidentRolesV2CreateRequestBody", "instructions"),
 				Required:            true,
 			},
 			"shortform": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV1CreateRequestBody", "shortform"),
-				Required:            true,
-			},
-			"required": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV1CreateRequestBody", "required"),
+				MarkdownDescription: apischema.Docstring("IncidentRolesV2CreateRequestBody", "shortform"),
 				Required:            true,
 			},
 		},
@@ -101,12 +96,11 @@ func (r *IncidentRoleResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
-	result, err := r.client.IncidentRolesV1CreateWithResponse(ctx, client.IncidentRolesV1CreateJSONRequestBody{
+	result, err := r.client.IncidentRolesV2CreateWithResponse(ctx, client.IncidentRolesV2CreateJSONRequestBody{
 		Name:         data.Name.ValueString(),
 		Description:  data.Description.ValueString(),
 		Instructions: data.Instructions.ValueString(),
 		Shortform:    data.Shortform.ValueString(),
-		Required:     data.Required.ValueBool(),
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
@@ -128,7 +122,7 @@ func (r *IncidentRoleResource) Read(ctx context.Context, req resource.ReadReques
 		return
 	}
 
-	result, err := r.client.IncidentRolesV1ShowWithResponse(ctx, data.ID.ValueString())
+	result, err := r.client.IncidentRolesV2ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read incident role, got error: %s", err))
 		return
@@ -145,12 +139,11 @@ func (r *IncidentRoleResource) Update(ctx context.Context, req resource.UpdateRe
 		return
 	}
 
-	result, err := r.client.IncidentRolesV1UpdateWithResponse(ctx, data.ID.ValueString(), client.IncidentRolesV1UpdateJSONRequestBody{
+	result, err := r.client.IncidentRolesV2UpdateWithResponse(ctx, data.ID.ValueString(), client.IncidentRolesV2UpdateJSONRequestBody{
 		Name:         data.Name.ValueString(),
 		Description:  data.Description.ValueString(),
 		Instructions: data.Instructions.ValueString(),
 		Shortform:    data.Shortform.ValueString(),
-		Required:     data.Required.ValueBool(),
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
@@ -171,7 +164,7 @@ func (r *IncidentRoleResource) Delete(ctx context.Context, req resource.DeleteRe
 		return
 	}
 
-	result, err := r.client.IncidentRolesV1DeleteWithResponse(ctx, data.ID.ValueString())
+	result, err := r.client.IncidentRolesV2DeleteWithResponse(ctx, data.ID.ValueString())
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
@@ -185,13 +178,12 @@ func (r *IncidentRoleResource) ImportState(ctx context.Context, req resource.Imp
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *IncidentRoleResource) buildModel(role client.IncidentRoleV1) *IncidentRoleResourceModel {
+func (r *IncidentRoleResource) buildModel(role client.IncidentRoleV2) *IncidentRoleResourceModel {
 	return &IncidentRoleResourceModel{
 		ID:           types.StringValue(role.Id),
 		Name:         types.StringValue(role.Name),
 		Description:  types.StringValue(role.Description),
 		Instructions: types.StringValue(role.Instructions),
 		Shortform:    types.StringValue(role.Shortform),
-		Required:     types.BoolValue(role.Required),
 	}
 }
