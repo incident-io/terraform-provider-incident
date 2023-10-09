@@ -41,7 +41,7 @@ func (r *IncidentStatusResource) Metadata(ctx context.Context, req resource.Meta
 
 func (r *IncidentStatusResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("IncidentStatuses V1"),
+		MarkdownDescription: apischema.TagDocstring("Incident Statuses V1"),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
@@ -97,7 +97,7 @@ func (r *IncidentStatusResource) Create(ctx context.Context, req resource.Create
 	result, err := r.client.IncidentStatusesV1CreateWithResponse(ctx, client.IncidentStatusesV1CreateJSONRequestBody{
 		Name:        data.Name.ValueString(),
 		Description: data.Description.ValueString(),
-		Category:    client.CreateRequestBody6Category(data.Category.ValueString()),
+		Category:    client.CreateRequestBody7Category(data.Category.ValueString()),
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
