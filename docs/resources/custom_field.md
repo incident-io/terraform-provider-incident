@@ -44,12 +44,6 @@ resource "incident_custom_field" "affected_teams" {
   name        = "Affected Teams"
   description = "The teams that are affected by this incident."
   field_type  = "multi_select"
-  required    = "always"
-
-  show_before_creation      = true
-  show_before_closure       = true
-  show_before_update        = true
-  show_in_announcement_post = true
 }
 ```
 
@@ -61,11 +55,6 @@ resource "incident_custom_field" "affected_teams" {
 - `description` (String) Description of the custom field
 - `field_type` (String) Type of custom field
 - `name` (String) Human readable name for the custom field
-- `required` (String) When this custom field must be set during the incident lifecycle.
-- `show_before_closure` (Boolean) Whether a custom field should be shown in the incident close modal. If this custom field is required before closure, but no value has been set for it, the field will be shown in the closure modal whatever the value of this setting.
-- `show_before_creation` (Boolean) Whether a custom field should be shown in the incident creation modal. This must be true if the field is always required.
-- `show_before_update` (Boolean) Whether a custom field should be shown in the incident update modal.
-- `show_in_announcement_post` (Boolean) Whether a custom field should be shown in the list of fields as part of the announcement post when set.
 
 ### Read-Only
 

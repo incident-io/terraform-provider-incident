@@ -13,7 +13,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/samber/lo"
 )
 
 var (
@@ -26,15 +25,10 @@ type IncidentCustomFieldResource struct {
 }
 
 type IncidentCustomFieldResourceModel struct {
-	ID                     types.String `tfsdk:"id"`
-	Name                   types.String `tfsdk:"name"`
-	Description            types.String `tfsdk:"description"`
-	FieldType              types.String `tfsdk:"field_type"`
-	Required               types.String `tfsdk:"required"`
-	ShowBeforeClosure      types.Bool   `tfsdk:"show_before_closure"`
-	ShowBeforeCreation     types.Bool   `tfsdk:"show_before_creation"`
-	ShowBeforeUpdate       types.Bool   `tfsdk:"show_before_update"`
-	ShowInAnnouncementPost types.Bool   `tfsdk:"show_in_announcement_post"`
+	ID          types.String `tfsdk:"id"`
+	Name        types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
+	FieldType   types.String `tfsdk:"field_type"`
 }
 
 func NewIncidentCustomFieldResource() resource.Resource {
@@ -47,49 +41,29 @@ func (r *IncidentCustomFieldResource) Metadata(ctx context.Context, req resource
 
 func (r *IncidentCustomFieldResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("Custom Fields V1"),
+		MarkdownDescription: apischema.TagDocstring("Custom Fields V2"),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("CustomFieldV1ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("CustomFieldV2ResponseBody", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV1CreateRequestBody", "name"),
+				MarkdownDescription: apischema.Docstring("CustomFieldsV2CreateRequestBody", "name"),
 				Required:            true,
 			},
 			"description": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV1CreateRequestBody", "description"),
+				MarkdownDescription: apischema.Docstring("CustomFieldsV2CreateRequestBody", "description"),
 				Required:            true,
 			},
 			"field_type": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV1CreateRequestBody", "field_type"),
+				MarkdownDescription: apischema.Docstring("CustomFieldsV2CreateRequestBody", "field_type"),
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-			},
-			"required": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV1CreateRequestBody", "required"),
-				Required:            true,
-			},
-			"show_before_closure": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV1CreateRequestBody", "show_before_closure"),
-				Required:            true,
-			},
-			"show_before_creation": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV1CreateRequestBody", "show_before_creation"),
-				Required:            true,
-			},
-			"show_before_update": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV1CreateRequestBody", "show_before_update"),
-				Required:            true,
-			},
-			"show_in_announcement_post": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV1CreateRequestBody", "show_in_announcement_post"),
-				Required:            true,
 			},
 		},
 	}
@@ -120,15 +94,10 @@ func (r *IncidentCustomFieldResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	result, err := r.client.CustomFieldsV1CreateWithResponse(ctx, client.CustomFieldsV1CreateJSONRequestBody{
-		Name:                   data.Name.ValueString(),
-		Description:            data.Description.ValueString(),
-		FieldType:              client.CreateRequestBody2FieldType(data.FieldType.ValueString()),
-		Required:               client.CreateRequestBody2Required(data.Required.ValueString()),
-		ShowBeforeClosure:      data.ShowBeforeClosure.ValueBool(),
-		ShowBeforeCreation:     data.ShowBeforeCreation.ValueBool(),
-		ShowBeforeUpdate:       data.ShowBeforeUpdate.ValueBool(),
-		ShowInAnnouncementPost: lo.ToPtr(data.ShowInAnnouncementPost.ValueBool()),
+	result, err := r.client.CustomFieldsV2CreateWithResponse(ctx, client.CustomFieldsV2CreateJSONRequestBody{
+		Name:        data.Name.ValueString(),
+		Description: data.Description.ValueString(),
+		FieldType:   client.CreateRequestBody3FieldType(data.FieldType.ValueString()),
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
@@ -150,7 +119,7 @@ func (r *IncidentCustomFieldResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
-	result, err := r.client.CustomFieldsV1ShowWithResponse(ctx, data.ID.ValueString())
+	result, err := r.client.CustomFieldsV2ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read custom field, got error: %s", err))
 		return
@@ -167,14 +136,9 @@ func (r *IncidentCustomFieldResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	result, err := r.client.CustomFieldsV1UpdateWithResponse(ctx, data.ID.ValueString(), client.CustomFieldsV1UpdateJSONRequestBody{
-		Name:                   data.Name.ValueString(),
-		Description:            data.Description.ValueString(),
-		Required:               client.UpdateRequestBody2Required(data.Required.ValueString()),
-		ShowBeforeClosure:      data.ShowBeforeClosure.ValueBool(),
-		ShowBeforeCreation:     data.ShowBeforeCreation.ValueBool(),
-		ShowBeforeUpdate:       data.ShowBeforeUpdate.ValueBool(),
-		ShowInAnnouncementPost: lo.ToPtr(data.ShowInAnnouncementPost.ValueBool()),
+	result, err := r.client.CustomFieldsV2UpdateWithResponse(ctx, data.ID.ValueString(), client.CustomFieldsV2UpdateJSONRequestBody{
+		Name:        data.Name.ValueString(),
+		Description: data.Description.ValueString(),
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
@@ -195,7 +159,7 @@ func (r *IncidentCustomFieldResource) Delete(ctx context.Context, req resource.D
 		return
 	}
 
-	_, err := r.client.CustomFieldsV1DeleteWithResponse(ctx, data.ID.ValueString())
+	_, err := r.client.CustomFieldsV2DeleteWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete custom field, got error: %s", err))
 		return
@@ -206,21 +170,11 @@ func (r *IncidentCustomFieldResource) ImportState(ctx context.Context, req resou
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *IncidentCustomFieldResource) buildModel(cf client.CustomFieldV1) *IncidentCustomFieldResourceModel {
-	var showInAnnouncementPost bool
-	if cf.ShowInAnnouncementPost != nil {
-		showInAnnouncementPost = *cf.ShowInAnnouncementPost
-	}
-
+func (r *IncidentCustomFieldResource) buildModel(cf client.CustomFieldV2) *IncidentCustomFieldResourceModel {
 	return &IncidentCustomFieldResourceModel{
-		ID:                     types.StringValue(cf.Id),
-		Name:                   types.StringValue(cf.Name),
-		Description:            types.StringValue(cf.Description),
-		FieldType:              types.StringValue(string(cf.FieldType)),
-		Required:               types.StringValue(string(cf.Required)),
-		ShowBeforeClosure:      types.BoolValue(cf.ShowBeforeClosure),
-		ShowBeforeCreation:     types.BoolValue(cf.ShowBeforeCreation),
-		ShowBeforeUpdate:       types.BoolValue(cf.ShowBeforeUpdate),
-		ShowInAnnouncementPost: types.BoolValue(showInAnnouncementPost),
+		ID:          types.StringValue(cf.Id),
+		Name:        types.StringValue(cf.Name),
+		Description: types.StringValue(cf.Description),
+		FieldType:   types.StringValue(string(cf.FieldType)),
 	}
 }
