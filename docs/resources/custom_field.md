@@ -9,6 +9,8 @@ description: |-
   your own data needs.
   Each field has a type:
   Single-select, single value selected from a predefined list of options (ie. Incident Type)Multi-select, as above but you can pick more than one option (ie. Teams)Text, freeform text field (ie. Customer ID)Link, link URL that is synced to Slack bookmarks on the incident channel (ie. External Status Page)Number, integer or fractional numbers (ie. Customers Affected)
+  Single-select and multi-select fields can also be powered by the Catalog. This will mean a field has a
+  catalogtypeid, which links it to the catalog type that it references.
   We may add more custom field types in the future - we'd love to hear any other types you'd like to use!
 ---
 
@@ -27,6 +29,9 @@ Each field has a type:
 - Text, freeform text field (ie. Customer ID)
 - Link, link URL that is synced to Slack bookmarks on the incident channel (ie. External Status Page)
 - Number, integer or fractional numbers (ie. Customers Affected)
+
+Single-select and multi-select fields can also be powered by the Catalog. This will mean a field has a
+catalog_type_id, which links it to the catalog type that it references.
 
 We may add more custom field types in the future - we'd love to hear any other types you'd like to use!
 
