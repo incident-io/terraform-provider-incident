@@ -2,7 +2,6 @@ package provider
 
 import (
 	"bytes"
-	"fmt"
 	"reflect"
 	"testing"
 	"text/template"
@@ -29,8 +28,6 @@ func TestAccIncidentRoleResource(t *testing.T) {
 						"incident_incident_role.example", "instructions", incidentRoleDefault().Instructions),
 					resource.TestCheckResourceAttr(
 						"incident_incident_role.example", "shortform", incidentRoleDefault().Shortform),
-					resource.TestCheckResourceAttr(
-						"incident_incident_role.example", "required", fmt.Sprintf("%v", incidentRoleDefault().Required)),
 				),
 			},
 			// Import
@@ -41,8 +38,9 @@ func TestAccIncidentRoleResource(t *testing.T) {
 			},
 			// Update and read
 			{
-				Config: testAccIncidentRoleResourceConfig(&client.IncidentRoleV1{
-					Name: "Communications Follow",
+				Config: testAccIncidentRoleResourceConfig(&client.IncidentRoleV2{
+					Name:      "Communications Follow",
+					Shortform: "comms",
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
@@ -59,21 +57,19 @@ resource "incident_incident_role" "example" {
   description  = {{ quote .Description }}
   instructions = {{ quote .Instructions }}
   shortform    = {{ quote .Shortform }}
-  required     = {{ toJson .Required }}
 }
 `))
 
-func incidentRoleDefault() client.IncidentRoleV1 {
-	return client.IncidentRoleV1{
+func incidentRoleDefault() client.IncidentRoleV2 {
+	return client.IncidentRoleV2{
 		Name:         "Communications Lead",
 		Description:  "Responsible for communications on behalf of the response team.",
 		Instructions: "Manage internal and external communications on behalf of the response team.",
 		Shortform:    "communications",
-		Required:     false,
 	}
 }
 
-func testAccIncidentRoleResourceConfig(override *client.IncidentRoleV1) string {
+func testAccIncidentRoleResourceConfig(override *client.IncidentRoleV2) string {
 	model := incidentRoleDefault()
 
 	// Merge any non-zero fields in override into the model.

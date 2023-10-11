@@ -1,5 +1,24 @@
 ## Unreleased
 
+## 3.0.0
+
+- Remove SemanticType from catalog types (This has never been used by our
+  application, so we've decided to remove it from the provider as we have no
+  plans to use it.)
+- Move to CustomFieldsV2 API as we are deprecating a number of fields from the
+  CustomFieldsV1 API (required, show_before_closure, show_before_creation,
+  show_before_update, show_in_announcement_post). These will now be controlled
+  via 'Incident Forms' which (for now) will only be available via the web
+  dashboard. This will enable users to have much more control over the way they
+  configure their incident forms.
+- Move to IncidentRolesV2 API as we are deprecating the `required` field from the
+  IncidentRolesV1 API. This will now be controlled via 'Incident Forms' which
+  (for now) will only be available via the web dashboard. This will enable users
+  to have much more control over the way they configure their incident forms.
+
+To upgrade to v3, you will need to remove the deprecated fields from any `custom_field` and `incident_role` resources.
+You'll also need to remove any references to `semantic_type`
+
 ## 2.0.2
 
 - Handle omission of empty list or null array_value in catalog entries (#36)

@@ -5,12 +5,17 @@ subcategory: ""
 description: |-
   Manage and browse catalog resources.
   Use the incident.io catalog to track services, teams, product features and anything
-  else that helps build a map of your organisation.
-  The catalog has a number of types which are synced from your connected integrations, such
-  as GitHub Repositories or PagerDuty Services, but you can also create custom types
-  specifically tailored to your company.
-  Examples might be a Service type with an Alert channel which you can point at a Slack
-  channel, or Team which specifies its Manager and Technical Lead.
+  else that helps build a map of your organisation. These different categories of thing
+  become catalog types, and each instance (like a particular service or team) is a
+  catalog entry.
+  Each type is made up of a series of attributes, and each attribute has a type. Types
+  can even have attributes that refer to other catalog types.
+  We automatically create catalog types when you connect an integration, such as GitHub
+  repositories or PagerDuty services and teams. You can use this API to create custom
+  types, that are specifically tailored to your organisation.
+  Examples might be a 'Service' type with an 'Alert channel' which you can point at a
+  Slack channel, or 'Team' which specifies its 'Manager' and 'Technical Lead' as Slack
+  users. You can then use these types to create powerful new workflows.
 ---
 
 # incident_catalog_type (Resource)
@@ -18,14 +23,20 @@ description: |-
 Manage and browse catalog resources.
 
 Use the incident.io catalog to track services, teams, product features and anything
-else that helps build a map of your organisation.
+else that helps build a map of your organisation. These different categories of thing
+become catalog types, and each instance (like a particular service or team) is a
+catalog entry.
 
-The catalog has a number of types which are synced from your connected integrations, such
-as GitHub Repositories or PagerDuty Services, but you can also create custom types
-specifically tailored to your company.
+Each type is made up of a series of attributes, and each attribute has a type. Types
+can even have attributes that refer to other catalog types.
 
-Examples might be a Service type with an Alert channel which you can point at a Slack
-channel, or Team which specifies its Manager and Technical Lead.
+We automatically create catalog types when you connect an integration, such as GitHub 
+repositories or PagerDuty services and teams. You can use this API to create custom
+types, that are specifically tailored to your organisation.
+
+Examples might be a 'Service' type with an 'Alert channel' which you can point at a 
+Slack channel, or 'Team' which specifies its 'Manager' and 'Technical Lead' as Slack
+users. You can then use these types to create powerful new workflows.
 
 ## Example Usage
 
@@ -47,12 +58,8 @@ resource "incident_catalog_type" "service_tier" {
 - `description` (String) Human readble description of this type
 - `name` (String) Name is the human readable name of this type
 
-### Optional
-
-- `semantic_type` (String) Semantic type of this resource
-
 ### Read-Only
 
-- `id` (String) ID of this resource
+- `id` (String) ID of this catalog type
 
 

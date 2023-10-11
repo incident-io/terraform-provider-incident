@@ -81,7 +81,7 @@ resource "incident_catalog_entry" "service_tier" {
 
 ### Read-Only
 
-- `id` (String) ID of this resource
+- `id` (String) ID of this catalog entry
 
 <a id="nestedatt--attribute_values"></a>
 ### Nested Schema for `attribute_values`

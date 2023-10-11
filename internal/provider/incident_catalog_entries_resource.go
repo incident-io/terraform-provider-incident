@@ -336,22 +336,22 @@ type catalogEntryModelPayload struct {
 func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) []*catalogEntryModelPayload {
 	payloads := []*catalogEntryModelPayload{}
 	for externalID, entry := range m.Entries {
-		values := map[string]client.CatalogAttributeBindingPayloadV2{}
+		values := map[string]client.EngineParamBindingPayloadV2{}
 		for attributeID, attributeValue := range entry.AttributeValues {
-			payload := client.CatalogAttributeBindingPayloadV2{}
+			payload := client.EngineParamBindingPayloadV2{}
 			if !attributeValue.Value.IsNull() {
-				payload.Value = &client.CatalogAttributeValuePayloadV2{
+				payload.Value = &client.EngineParamBindingValuePayloadV2{
 					Literal: lo.ToPtr(attributeValue.Value.ValueString()),
 				}
 			}
 			if !attributeValue.ArrayValue.IsNull() {
-				arrayValue := []client.CatalogAttributeValuePayloadV2{}
+				arrayValue := []client.EngineParamBindingValuePayloadV2{}
 				for _, element := range attributeValue.ArrayValue.Elements() {
 					elementString, ok := element.(types.String)
 					if !ok {
 						panic(fmt.Sprintf("element should have been types.String but was %T", element))
 					}
-					arrayValue = append(arrayValue, client.CatalogAttributeValuePayloadV2{
+					arrayValue = append(arrayValue, client.EngineParamBindingValuePayloadV2{
 						Literal: lo.ToPtr(elementString.ValueString()),
 					})
 				}
@@ -518,18 +518,18 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 							reflect.DeepEqual(payload.Payload.Aliases, entry.Aliases) &&
 							(payload.Payload.Rank == nil || (*payload.Payload.Rank == entry.Rank))
 
-					currentBindings := map[string]client.CatalogAttributeBindingPayloadV2{}
+					currentBindings := map[string]client.EngineParamBindingPayloadV2{}
 					for attributeID, value := range entry.AttributeValues {
-						current := client.CatalogAttributeBindingPayloadV2{}
+						current := client.EngineParamBindingPayloadV2{}
 						if value.ArrayValue != nil {
-							current.ArrayValue = lo.ToPtr(lo.Map(*value.ArrayValue, func(binding client.CatalogAttributeValueV2, _ int) client.CatalogAttributeValuePayloadV2 {
-								return client.CatalogAttributeValuePayloadV2{
+							current.ArrayValue = lo.ToPtr(lo.Map(*value.ArrayValue, func(binding client.EngineParamBindingValueV2, _ int) client.EngineParamBindingValuePayloadV2 {
+								return client.EngineParamBindingValuePayloadV2{
 									Literal: binding.Literal,
 								}
 							}))
 						}
 						if value.Value != nil {
-							current.Value = &client.CatalogAttributeValuePayloadV2{
+							current.Value = &client.EngineParamBindingValuePayloadV2{
 								Literal: value.Value.Literal,
 							}
 						}

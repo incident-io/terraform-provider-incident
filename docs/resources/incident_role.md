@@ -41,7 +41,6 @@ resource "incident_incident_role" "comms" {
 - `description` (String) Describes the purpose of the role
 - `instructions` (String) Provided to whoever is nominated for the role
 - `name` (String) Human readable name of the incident role
-- `required` (Boolean) Whether incident require this role to be set
 - `shortform` (String) Short human readable name for Slack
 
 ### Read-Only

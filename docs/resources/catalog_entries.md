@@ -200,7 +200,7 @@ Optional:
 
 Read-Only:
 
-- `id` (String) ID of this resource
+- `id` (String) ID of this catalog entry
 
 <a id="nestedatt--entries--attribute_values"></a>
 ### Nested Schema for `entries.attribute_values`

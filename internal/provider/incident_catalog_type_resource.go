@@ -25,10 +25,9 @@ type IncidentCatalogTypeResource struct {
 }
 
 type IncidentCatalogTypeResourceModel struct {
-	ID           types.String `tfsdk:"id"`
-	Name         types.String `tfsdk:"name"`
-	Description  types.String `tfsdk:"description"`
-	SemanticType types.String `tfsdk:"semantic_type"`
+	ID          types.String `tfsdk:"id"`
+	Name        types.String `tfsdk:"name"`
+	Description types.String `tfsdk:"description"`
 }
 
 func NewIncidentCatalogTypeResource() resource.Resource {
@@ -57,11 +56,6 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 			"description": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "description"),
 				Required:            true,
-			},
-			"semantic_type": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "semantic_type"),
-				Computed:            true,
-				Optional:            true,
 			},
 		},
 	}
@@ -92,16 +86,9 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	var semanticType string
-	if data.SemanticType.IsUnknown() {
-		semanticType = "custom"
-	} else {
-		semanticType = data.SemanticType.ValueString()
-	}
 	result, err := r.client.CatalogV2CreateTypeWithResponse(ctx, client.CreateTypeRequestBody{
-		Name:         data.Name.ValueString(),
-		Description:  data.Description.ValueString(),
-		SemanticType: &semanticType,
+		Name:        data.Name.ValueString(),
+		Description: data.Description.ValueString(),
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
@@ -143,16 +130,9 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	var semanticType string
-	if data.SemanticType.IsUnknown() {
-		semanticType = "custom"
-	} else {
-		semanticType = data.SemanticType.ValueString()
-	}
 	result, err := r.client.CatalogV2UpdateTypeWithResponse(ctx, data.ID.ValueString(), client.CatalogV2UpdateTypeJSONRequestBody{
-		Name:         data.Name.ValueString(),
-		Description:  data.Description.ValueString(),
-		SemanticType: &semanticType,
+		Name:        data.Name.ValueString(),
+		Description: data.Description.ValueString(),
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
@@ -186,9 +166,8 @@ func (r *IncidentCatalogTypeResource) ImportState(ctx context.Context, req resou
 
 func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV2) *IncidentCatalogTypeResourceModel {
 	return &IncidentCatalogTypeResourceModel{
-		ID:           types.StringValue(catalogType.Id),
-		Name:         types.StringValue(catalogType.Name),
-		Description:  types.StringValue(catalogType.Description),
-		SemanticType: types.StringValue(catalogType.SemanticType),
+		ID:          types.StringValue(catalogType.Id),
+		Name:        types.StringValue(catalogType.Name),
+		Description: types.StringValue(catalogType.Description),
 	}
 }
