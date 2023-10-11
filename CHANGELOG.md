@@ -16,6 +16,9 @@
   (for now) will only be available via the web dashboard. This will enable users
   to have much more control over the way they configure their incident forms.
 
+To upgrade to v3, you will need to remove the deprecated fields from any `custom_field` and `incident_role` resources.
+You'll also need to remove any references to `semantic_type`
+
 ## 2.0.2
 
 - Handle omission of empty list or null array_value in catalog entries (#36)
