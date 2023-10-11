@@ -51,3 +51,61 @@ When you want to cut a new release, you can:
 
 That will trigger the CI pipeline that will publish your provider version to the
 terraform registry.
+
+## Running the provider locally
+
+There may be changes where you want to be running the provider itself, rather than
+just running tests. To do that you need to:
+
+1. Install terraform:
+```sh
+brew install terraform
+```
+2. Create yourself a project
+```
+mkdir tmp/project
+
+```
+3. Create a `dev.tfrc` file, inside `tmp/project` so that terraform uses your local version of the provider:
+```
+provider_installation {
+  dev_overrides {
+    "incident-io/incident" = "/<PATH-TO-REPO>/terraform-provider-incident/bin"
+  }
+
+  direct {}
+}
+```
+4. Create a `main.tf` file including any resources that you want to create (look in `examples/resources` for some nice examples)
+```
+terraform {
+  required_providers {
+    incident = {
+      source  = "incident-io/incident"
+      version = "3.0.0"
+    }
+  }
+}
+
+provider "incident" {}
+
+resource "incident_catalog_type" "service_tier" {
+  name        = "Service Tier"
+  description = "Level of importance for each service"
+}
+
+```
+5. Build the provider binary
+```sh
+make build
+```
+6. Start your terraform server:
+```
+TF_CLI_CONFIG_FILE=./dev.tfrc terraform init
+```
+7. You can now plan and apply your terraform configuration:
+```
+TF_CLI_CONFIG_FILE=./dev.tfrc terraform plan
+
+TF_CLI_CONFIG_FILE=./dev.tfrc terraform apply
+```
