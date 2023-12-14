@@ -35,5 +35,5 @@ provider "incident" {
 
 ### Optional
 
-- `api_key` (String, Sensitive) API key for incident.io (https://app.incident.io/settings/api-keys). Sourced from the INCIDENT_API_KEY environment variable, if set.
+- `api_key` (String, Sensitive) API key for incident.io (https://app.incident.io/settings/api-keys). Sourced from the `INCIDENT_API_KEY` environment variable, if set.
 - `endpoint` (String) URL of the incident.io API

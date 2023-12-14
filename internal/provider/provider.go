@@ -62,7 +62,7 @@ Registry](https://registry.terraform.io/providers/incident-io/incident/latest).
 				Optional:            true,
 			},
 			"api_key": schema.StringAttribute{
-				MarkdownDescription: "API key for incident.io (https://app.incident.io/settings/api-keys). Sourced from the INCIDENT_API_KEY environment variable, if set.",
+				MarkdownDescription: "API key for incident.io (https://app.incident.io/settings/api-keys). Sourced from the `INCIDENT_API_KEY` environment variable, if set.",
 				Optional:            true,
 				Sensitive:           true,
 			},

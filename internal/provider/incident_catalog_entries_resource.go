@@ -258,7 +258,7 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 			// For terraform to serialize a list, it must know the type of the list. It's
 			// possible that we won't have any values from the API response that we'd populate
 			// our ArrayValue with, so we default allocate it as a string list so we know how to
-			// serialise it even when the list is empty.
+			// serialize it even when the list is empty.
 			value := CatalogEntryAttributeBindingModel{
 				ArrayValue: types.ListNull(types.StringType),
 			}
