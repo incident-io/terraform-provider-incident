@@ -29,7 +29,6 @@ resource "incident_incident_role" "comms" {
   description  = "Responsible for communications on behalf of the response team."
   instructions = "Manage internal and external communications on behalf of the response team."
   shortform    = "comms"
-  required     = false
 }
 ```
 
