@@ -6,7 +6,7 @@ description: |-
   This resource manages all entries for a given catalog type and should be used when
   loading many (>100) catalog entries to ensure fast and reliable plans.
   Please note that this resource is authoritative, in that it will delete all entries from
-  the catalog type that it doesn't manage, even those created outside of terraform.
+  the catalog type that it doesn't manage, even those created outside of Terraform.
   If you have a catalog source such as Backstage or some custom catalog you'd like to sync
   into incident.io, this is the recommended way of achieving that.
   External IDs
@@ -25,7 +25,7 @@ This resource manages all entries for a given catalog type and should be used wh
 loading many (>100) catalog entries to ensure fast and reliable plans.
 
 Please note that this resource is authoritative, in that it will delete all entries from
-the catalog type that it doesn't manage, even those created outside of terraform.
+the catalog type that it doesn't manage, even those created outside of Terraform.
 
 If you have a catalog source such as Backstage or some custom catalog you'd like to sync
 into incident.io, this is the recommended way of achieving that.

@@ -8,7 +8,7 @@ The account is empty and marked as a demo to enable all feature gates.
 ## incident.io staff
 
 If you work at incident.io as an engineer, you may wish to develop this provider
-against your own local instance of the product, such as when building terraform
+against your own local instance of the product, such as when building Terraform
 resources for as-yet released features.
 
 You can do this by:
@@ -44,7 +44,7 @@ just as you would for a normal environment.
 When you want to cut a new release, you can:
 
 1. Merge any of the changes you want in the release to master.
-2. Ensure that terraform acceptance tests have passed.
+2. Ensure that Terraform acceptance tests have passed.
 3. Create a new commit on master that adjusts the CHANGELOG so all unreleased
    changes appear under the new version.
 4. Push that commit and tag it with whatever your release version should be.
@@ -57,7 +57,7 @@ terraform registry.
 There may be changes where you want to be running the provider itself, rather than
 just running tests. To do that you need to:
 
-1. Install terraform:
+1. Install Terraform:
 ```sh
 brew install terraform
 ```
@@ -66,7 +66,7 @@ brew install terraform
 mkdir tmp/project
 
 ```
-3. Create a `dev.tfrc` file, inside `tmp/project` so that terraform uses your local version of the provider:
+3. Create a `dev.tfrc` file, inside `tmp/project` so that `terraform` uses your local version of the provider:
 ```
 provider_installation {
   dev_overrides {
@@ -99,13 +99,13 @@ resource "incident_catalog_type" "service_tier" {
 ```sh
 make build
 ```
-6. Start your terraform server:
+6. Start your `terraform` server:
 ```
 TF_CLI_CONFIG_FILE=./dev.tfrc terraform init
 ```
-7. You can now plan and apply your terraform configuration:
+7. You can now plan and apply your Terraform configuration:
 ```
 TF_CLI_CONFIG_FILE=./dev.tfrc terraform plan
 
 TF_CLI_CONFIG_FILE=./dev.tfrc terraform apply
-```
+``````
