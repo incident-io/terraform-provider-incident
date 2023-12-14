@@ -59,7 +59,7 @@ just running tests. To do that you need to:
 
 1. Install Terraform:
 ```sh
-brew install terraform
+brew install hashicorp/tap/terraform
 ```
 2. Create yourself a project
 ```
