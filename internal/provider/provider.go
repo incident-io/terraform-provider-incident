@@ -45,9 +45,9 @@ func (p *IncidentProvider) Metadata(ctx context.Context, req provider.MetadataRe
 
 func (p *IncidentProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "This project is the official terraform provider for incident.io.",
+		Description: "This project is the official Terraform provider for incident.io.",
 		MarkdownDescription: `
-This project is the official terraform provider for incident.io.
+This project is the official Terraform provider for incident.io.
 
 With this provider you manage configuration such as incident severities, roles,
 custom fields and more inside of your incident.io account.
@@ -62,7 +62,7 @@ Registry](https://registry.terraform.io/providers/incident-io/incident/latest).
 				Optional:            true,
 			},
 			"api_key": schema.StringAttribute{
-				MarkdownDescription: "API key for incident.io (https://app.incident.io/settings/api-keys). Sourced from the INCIDENT_API_KEY environment variable, if set.",
+				MarkdownDescription: "API key for incident.io (https://app.incident.io/settings/api-keys). Sourced from the `INCIDENT_API_KEY` environment variable, if set.",
 				Optional:            true,
 				Sensitive:           true,
 			},

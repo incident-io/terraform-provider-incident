@@ -6,14 +6,14 @@ description: |-
   This resource manages all entries for a given catalog type and should be used when
   loading many (>100) catalog entries to ensure fast and reliable plans.
   Please note that this resource is authoritative, in that it will delete all entries from
-  the catalog type that it doesn't manage, even those created outside of terraform.
+  the catalog type that it doesn't manage, even those created outside of Terraform.
   If you have a catalog source such as Backstage or some custom catalog you'd like to sync
   into incident.io, this is the recommended way of achieving that.
   External IDs
   As this resource loads content from an existing catalog source into the incident.io
   catalog, it requires that each entry is given a stable identifier that can uniquely
   identify it in the upstream system.
-  We call this the 'external ID' and might be something like:
+  We call this the 'external ID' and it might be something like:
   The ID of the entry in a custom catalog, often the primary key of the entryAny stable human identifier (often called a slug) that uniquely reference the entry
   This external ID is what we use as a map key for the entries attribute, and how we map
   changes to one entry to an update to that same entry when the upstream changes.
@@ -24,8 +24,8 @@ description: |-
 This resource manages all entries for a given catalog type and should be used when
 loading many (>100) catalog entries to ensure fast and reliable plans.
 
-Please note that this resource is authoritative, in that it will delete all entries from
-the catalog type that it doesn't manage, even those created outside of terraform.
+Please note that this resource is authoritative, in that it will delete _all_ entries from
+the catalog type that it doesn't manage, even those created outside of Terraform.
 
 If you have a catalog source such as Backstage or some custom catalog you'd like to sync
 into incident.io, this is the recommended way of achieving that.
@@ -36,7 +36,7 @@ As this resource loads content from an existing catalog source into the incident
 catalog, it requires that each entry is given a stable identifier that can uniquely
 identify it in the upstream system.
 
-We call this the 'external ID' and might be something like:
+We call this the 'external ID' and it might be something like:
 
 - The ID of the entry in a custom catalog, often the primary key of the entry
 - Any stable human identifier (often called a slug) that uniquely reference the entry

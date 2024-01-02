@@ -3,7 +3,7 @@
 page_title: "incident Provider"
 subcategory: ""
 description: |-
-  This project is the official terraform provider for incident.io.
+  This project is the official Terraform provider for incident.io.
   With this provider you manage configuration such as incident severities, roles,
   custom fields and more inside of your incident.io account.
   To view the full documentation of this provider, we recommend reading the
@@ -13,7 +13,7 @@ description: |-
 
 # incident Provider
 
-This project is the official terraform provider for incident.io.
+This project is the official Terraform provider for incident.io.
 
 With this provider you manage configuration such as incident severities, roles,
 custom fields and more inside of your incident.io account.
@@ -35,5 +35,5 @@ provider "incident" {
 
 ### Optional
 
-- `api_key` (String, Sensitive) API key for incident.io (https://app.incident.io/settings/api-keys). Sourced from the INCIDENT_API_KEY environment variable, if set.
+- `api_key` (String, Sensitive) API key for incident.io (https://app.incident.io/settings/api-keys). Sourced from the `INCIDENT_API_KEY` environment variable, if set.
 - `endpoint` (String) URL of the incident.io API

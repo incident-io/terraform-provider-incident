@@ -4,20 +4,20 @@ page_title: "incident_catalog_entry Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
   This resource manages a single entry for a given catalog type. It should be used when
-  you're loading a small number (<100) of catalog entries and want to do so with a terraform
+  you're loading a small number (<100) of catalog entries and want to do so with a Terraform
   for_each, or you don't want terraform to remove any entries that it is not managing.
   If you're working with a large number of entries (>100) or want to be authoritative
-  (remove anything terraform does not manage) then prefer incident_catalog_entries.
+  (remove anything Terraform does not manage) then prefer incident_catalog_entries.
 ---
 
 # incident_catalog_entry (Resource)
 
 This resource manages a single entry for a given catalog type. It should be used when
-you're loading a small number (<100) of catalog entries and want to do so with a terraform
+you're loading a small number (<100) of catalog entries and want to do so with a Terraform
 for_each, or you don't want terraform to remove any entries that it is not managing.
 
 If you're working with a large number of entries (>100) or want to be authoritative
-(remove anything terraform does not manage) then prefer `incident_catalog_entries`.
+(remove anything Terraform does not manage) then prefer `incident_catalog_entries`.
 
 ## Example Usage
 
