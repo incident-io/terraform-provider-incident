@@ -27,6 +27,7 @@ type IncidentCatalogTypeResource struct {
 type IncidentCatalogTypeResourceModel struct {
 	ID          types.String `tfsdk:"id"`
 	Name        types.String `tfsdk:"name"`
+	TypeName    types.String `tfsdk:"type_name"`
 	Description types.String `tfsdk:"description"`
 }
 
@@ -52,6 +53,11 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 			"name": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "name"),
 				Required:            true,
+			},
+			"type_name": schema.StringAttribute{
+				Optional:            true,
+				Computed:            true, // If not provided, we'll use the generated ID
+				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "type_name"),
 			},
 			"description": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "description"),
@@ -86,10 +92,15 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	result, err := r.client.CatalogV2CreateTypeWithResponse(ctx, client.CreateTypeRequestBody{
+	requestBody := client.CreateTypeRequestBody{
 		Name:        data.Name.ValueString(),
 		Description: data.Description.ValueString(),
-	})
+	}
+	if typeName := data.TypeName.ValueString(); typeName != "" {
+		requestBody.TypeName = &typeName
+	}
+
+	result, err := r.client.CatalogV2CreateTypeWithResponse(ctx, requestBody)
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
@@ -131,7 +142,8 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 	}
 
 	result, err := r.client.CatalogV2UpdateTypeWithResponse(ctx, data.ID.ValueString(), client.CatalogV2UpdateTypeJSONRequestBody{
-		Name:        data.Name.ValueString(),
+		Name: data.Name.ValueString(),
+		// TypeName cannot be changed once set
 		Description: data.Description.ValueString(),
 	})
 	if err == nil && result.StatusCode() >= 400 {
@@ -168,6 +180,7 @@ func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV
 	return &IncidentCatalogTypeResourceModel{
 		ID:          types.StringValue(catalogType.Id),
 		Name:        types.StringValue(catalogType.Name),
+		TypeName:    types.StringValue(catalogType.TypeName),
 		Description: types.StringValue(catalogType.Description),
 	}
 }

@@ -1,5 +1,9 @@
 ## Unreleased
 
+- Add support for setting the `type_name` of a catalog type. This allows
+  other catalog attributes to refer to this type by a friendly name, rather than
+  the randomly generated ID
+
 ## 3.0.0
 
 - Remove SemanticType from catalog types (This has never been used by our
