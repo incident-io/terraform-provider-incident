@@ -58,9 +58,9 @@ resource "incident_status" "example" {
 
 func incidentStatusDefault() client.IncidentStatusV1 {
 	return client.IncidentStatusV1{
-		Name:        "Complete",
-		Description: "Impact has been fully mitigated.",
-		Category:    client.IncidentStatusV1CategoryClosed,
+		Name:        "Clean up",
+		Description: "We're cleaning up",
+		Category:    client.IncidentStatusV1CategoryLive,
 	}
 }
 
