@@ -1,5 +1,7 @@
 ## Unreleased
 
+## 3.1.0
+
 - Add support for setting the `type_name` of a catalog type. This allows
   other catalog attributes to refer to this type by a friendly name, rather than
   the randomly generated ID
