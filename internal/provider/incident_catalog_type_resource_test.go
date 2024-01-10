@@ -2,7 +2,10 @@ package provider
 
 import (
 	"bytes"
+	"fmt"
 	"reflect"
+	"regexp"
+	"strings"
 	"testing"
 	"text/template"
 
@@ -12,6 +15,7 @@ import (
 )
 
 func TestAccIncidentCatalogTypeResource(t *testing.T) {
+	// Not setting the type name
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -44,11 +48,65 @@ func TestAccIncidentCatalogTypeResource(t *testing.T) {
 			},
 		},
 	})
+
+	// Setting the type name explicitly
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create and read
+			{
+				Config: testAccIncidentCatalogTypeResourceConfig(&client.CatalogTypeV2{
+					TypeName: generateTypeName(),
+				}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type.example", "name", catalogTypeWithTypeName().Name),
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type.example", "type_name", catalogTypeWithTypeName().TypeName),
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type.example", "description", catalogTypeWithTypeName().Description),
+				),
+			},
+			// Import
+			{
+				ResourceName:      "incident_catalog_type.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			// Update and read
+			{
+				Config: testAccIncidentCatalogTypeResourceConfig(&client.CatalogTypeV2{
+					Name:     StableSuffix("Spaceships"),
+					TypeName: generateTypeName(),
+				}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type.example", "name", StableSuffix("Spaceships")),
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type.example", "type_name", generateTypeName(),
+					),
+				),
+			},
+		},
+	})
+}
+
+func generateTypeName() string {
+	// The test run ID is a uuid, which won't be accepted. Strip it down to
+	// something allowed
+	allowedRunID := strings.ReplaceAll(testRunID, "-", "")
+	// Numbers are not allowed
+	numberRegexp := regexp.MustCompile("[0-9]")
+	allowedRunID = numberRegexp.ReplaceAllString(allowedRunID, "")
+
+	return fmt.Sprintf(`Custom["Spaceships%s"]`, allowedRunID)
 }
 
 var catalogTypeTemplate = template.Must(template.New("incident_catalog_type").Funcs(sprig.TxtFuncMap()).Parse(`
 resource "incident_catalog_type" "example" {
   name        = {{ quote .Name }}
+  {{ if ne .TypeName "" }}type_name   = {{ quote .TypeName }}{{ end }}
   description = {{ quote .Description }}
 }
 `))
@@ -56,6 +114,14 @@ resource "incident_catalog_type" "example" {
 func catalogTypeDefault() client.CatalogTypeV2 {
 	return client.CatalogTypeV2{
 		Name:        StableSuffix("Service"),
+		Description: "Catalog Type Acceptance tests",
+	}
+}
+
+func catalogTypeWithTypeName() client.CatalogTypeV2 {
+	return client.CatalogTypeV2{
+		Name:        StableSuffix("Service"),
+		TypeName:    generateTypeName(),
 		Description: "Catalog Type Acceptance tests",
 	}
 }

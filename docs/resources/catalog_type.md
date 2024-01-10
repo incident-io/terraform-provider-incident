@@ -58,6 +58,10 @@ resource "incident_catalog_type" "service_tier" {
 - `description` (String) Human readble description of this type
 - `name` (String) Name is the human readable name of this type
 
+### Optional
+
+- `type_name` (String) The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom["SomeName "]
+
 ### Read-Only
 
 - `id` (String) ID of this catalog type
