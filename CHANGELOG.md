@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.1.1
+
+- Handle 404 for all resources without panicking, and remove resource from state
+
 ## 3.1.0
 
 - Add support for setting the `type_name` of a catalog type. This allows
