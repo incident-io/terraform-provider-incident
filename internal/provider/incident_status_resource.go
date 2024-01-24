@@ -124,6 +124,11 @@ func (r *IncidentStatusResource) Read(ctx context.Context, req resource.ReadRequ
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read incident status, got error: %s", err))
 		return
 	}
+	if result.StatusCode() == 404 {
+		resp.Diagnostics.AddWarning("Not Found", fmt.Sprintf("Unable to read incident status, got status code: %d", result.StatusCode()))
+		resp.State.RemoveResource(ctx)
+		return
+	}
 
 	data = r.buildModel(result.JSON200.IncidentStatus)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

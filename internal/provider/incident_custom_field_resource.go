@@ -125,6 +125,12 @@ func (r *IncidentCustomFieldResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
+	if result.StatusCode() == 404 {
+		resp.Diagnostics.AddWarning("Not Found", fmt.Sprintf("Unable to read custom field, got status code: %d", result.StatusCode()))
+		resp.State.RemoveResource(ctx)
+		return
+	}
+
 	data = r.buildModel(result.JSON200.CustomField)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
