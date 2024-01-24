@@ -211,7 +211,13 @@ func (r *IncidentCatalogEntryResource) Read(ctx context.Context, req resource.Re
 
 	result, err := r.client.CatalogV2ShowEntryWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read incident severity, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog entry, got error: %s", err))
+		return
+	}
+
+	if result.StatusCode() == 404 {
+		resp.Diagnostics.AddWarning("Not Found", fmt.Sprintf("Unable to read catalog entry, got status code: %d", result.StatusCode()))
+		resp.State.RemoveResource(ctx)
 		return
 	}
 
