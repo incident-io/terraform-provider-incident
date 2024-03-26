@@ -1,5 +1,10 @@
 ## Unreleased
 
+## 3.1.2
+
+- Marks type_name as requiring a replace, as it is immutable
+- Updates our docs so they are a lot clearer on how to connect attributes
+
 ## 3.1.1
 
 - Handle 404 for all resources without panicking, and remove resource from state
