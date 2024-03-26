@@ -38,7 +38,7 @@ resource "incident_status" "clean_up" {
 
 ### Required
 
-- `category` (String) Whether the status should be considered 'live' or 'closed'. The triage and declined statuses cannot be created or modified.
+- `category` (String) Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
 - `description` (String) Rich text description of the incident status
 - `name` (String) Unique name of this status
 

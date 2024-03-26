@@ -26,11 +26,12 @@ type IncidentCatalogTypeAttributeResource struct {
 }
 
 type IncidentCatalogTypeAttributesResourceModel struct {
-	ID            types.String `tfsdk:"id"`
-	CatalogTypeID types.String `tfsdk:"catalog_type_id"`
-	Name          types.String `tfsdk:"name"`
-	Type          types.String `tfsdk:"type"`
-	Array         types.Bool   `tfsdk:"array"`
+	ID                types.String `tfsdk:"id"`
+	CatalogTypeID     types.String `tfsdk:"catalog_type_id"`
+	Name              types.String `tfsdk:"name"`
+	Type              types.String `tfsdk:"type"`
+	Array             types.Bool   `tfsdk:"array"`
+	BacklinkAttribute types.String `tfsdk:"backlink_attribute"`
 }
 
 func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute() client.CatalogTypeAttributePayloadV2 {
@@ -47,11 +48,23 @@ func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute() client.Cata
 	} else {
 		id = lo.ToPtr(m.ID.ValueString())
 	}
+
+	var (
+		mode              *client.CatalogTypeAttributePayloadV2Mode
+		backlinkAttribute *string
+	)
+	if !m.BacklinkAttribute.IsNull() {
+		backlinkAttribute = lo.ToPtr(m.BacklinkAttribute.ValueString())
+		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModeBacklink)
+	}
+
 	return client.CatalogTypeAttributePayloadV2{
-		Id:    id,
-		Name:  m.Name.ValueString(),
-		Type:  m.Type.ValueString(),
-		Array: array,
+		Id:                id,
+		Name:              m.Name.ValueString(),
+		Type:              m.Type.ValueString(),
+		Array:             array,
+		Mode:              mode,
+		BacklinkAttribute: backlinkAttribute,
 	}
 }
 
@@ -93,6 +106,10 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 				Optional:    true,
 				Computed:    true,
 			},
+			"backlink_attribute": schema.StringAttribute{
+				Description: `If this is a backlink, the id of the attribute that it's linked from`,
+				Optional:    true,
+			},
 		},
 	}
 }
@@ -127,10 +144,11 @@ func (r *IncidentCatalogTypeAttributeResource) Create(ctx context.Context, req r
 		attributes := []client.CatalogTypeAttributePayloadV2{}
 		for _, attribute := range catalogType.Schema.Attributes {
 			attributes = append(attributes, client.CatalogTypeAttributePayloadV2{
-				Id:    lo.ToPtr(attribute.Id),
-				Name:  attribute.Name,
-				Type:  attribute.Type,
-				Array: attribute.Array,
+				Id:                lo.ToPtr(attribute.Id),
+				Name:              attribute.Name,
+				Type:              attribute.Type,
+				Array:             attribute.Array,
+				BacklinkAttribute: attribute.BacklinkAttribute,
 			})
 		}
 
@@ -214,11 +232,18 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 				alreadyExists = true
 				attributes = append(attributes, data.buildAttribute())
 			} else {
+				var mode *client.CatalogTypeAttributePayloadV2Mode
+				if attribute.BacklinkAttribute != nil {
+					mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModeBacklink)
+				}
+
 				attributes = append(attributes, client.CatalogTypeAttributePayloadV2{
-					Id:    lo.ToPtr(attribute.Id),
-					Name:  attribute.Name,
-					Type:  attribute.Type,
-					Array: attribute.Array,
+					Id:                lo.ToPtr(attribute.Id),
+					Name:              attribute.Name,
+					Type:              attribute.Type,
+					Array:             attribute.Array,
+					BacklinkAttribute: attribute.BacklinkAttribute,
+					Mode:              mode,
 				})
 			}
 		}
@@ -281,11 +306,18 @@ func (r *IncidentCatalogTypeAttributeResource) Delete(ctx context.Context, req r
 				continue
 			}
 
+			var mode *client.CatalogTypeAttributePayloadV2Mode
+			if attribute.BacklinkAttribute != nil {
+				mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModeBacklink)
+			}
+
 			attributes = append(attributes, client.CatalogTypeAttributePayloadV2{
-				Id:    lo.ToPtr(attribute.Id),
-				Name:  attribute.Name,
-				Type:  attribute.Type,
-				Array: attribute.Array,
+				Id:                lo.ToPtr(attribute.Id),
+				Name:              attribute.Name,
+				Type:              attribute.Type,
+				Array:             attribute.Array,
+				BacklinkAttribute: attribute.BacklinkAttribute,
+				Mode:              mode,
 			})
 		}
 
@@ -319,6 +351,9 @@ func (r *IncidentCatalogTypeAttributeResource) buildModel(catalogType client.Cat
 			result.Name = types.StringValue(attribute.Name)
 			result.Type = types.StringValue(attribute.Type)
 			result.Array = types.BoolValue(attribute.Array)
+			if attribute.BacklinkAttribute != nil {
+				result.BacklinkAttribute = types.StringValue(*attribute.BacklinkAttribute)
+			}
 		}
 	}
 
