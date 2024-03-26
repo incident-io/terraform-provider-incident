@@ -58,6 +58,9 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 				Optional:            true,
 				Computed:            true, // If not provided, we'll use the generated ID
 				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "type_name"),
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 			},
 			"description": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "description"),
