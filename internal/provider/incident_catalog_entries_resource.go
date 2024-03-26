@@ -399,7 +399,7 @@ func (r *IncidentCatalogEntriesResource) getEntries(ctx context.Context, catalog
 	for {
 		result, err := r.client.CatalogV2ListEntriesWithResponse(ctx, &client.CatalogV2ListEntriesParams{
 			CatalogTypeId: catalogTypeID,
-			PageSize:      lo.ToPtr(int(250)),
+			PageSize:      lo.ToPtr(int64(250)),
 			After:         after,
 		})
 		if err == nil && result.StatusCode() >= 400 {
