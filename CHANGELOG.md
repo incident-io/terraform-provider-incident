@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.2.0
+
+- Add support for backlink attributes on catalog types
+
 ## 3.1.2
 
 - Marks type_name as requiring a replace, as it is immutable
