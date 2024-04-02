@@ -43,10 +43,11 @@ users. You can then use these types to create powerful new workflows.
 ```terraform
 # Create a catalog type for a service tier, representing how important a service is.
 resource "incident_catalog_type" "service_tier" {
-  name        = "ServiceTier"
-  description = <<EOF
+  name            = "ServiceTier"
+  description     = <<EOF
   How critical is this service, with tier 1 being the highest and 3 the lowest.
   EOF
+  source_repo_url = "https://github.com/mycompany/infrastructure"
 }
 ```
 
@@ -60,6 +61,7 @@ resource "incident_catalog_type" "service_tier" {
 
 ### Optional
 
+- `source_repo_url` (String) The url of the external repository where this type is managed. When set, users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.
 - `type_name` (String) The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom["SomeName "]
 
 ### Read-Only
