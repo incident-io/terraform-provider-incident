@@ -25,10 +25,11 @@ type IncidentCatalogTypeResource struct {
 }
 
 type IncidentCatalogTypeResourceModel struct {
-	ID          types.String `tfsdk:"id"`
-	Name        types.String `tfsdk:"name"`
-	TypeName    types.String `tfsdk:"type_name"`
-	Description types.String `tfsdk:"description"`
+	ID            types.String `tfsdk:"id"`
+	Name          types.String `tfsdk:"name"`
+	TypeName      types.String `tfsdk:"type_name"`
+	Description   types.String `tfsdk:"description"`
+	SourceRepoURL types.String `tfsdk:"source_repo_url"`
 }
 
 func NewIncidentCatalogTypeResource() resource.Resource {
@@ -66,6 +67,10 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "description"),
 				Required:            true,
 			},
+			"source_repo_url": schema.StringAttribute{
+				MarkdownDescription: "The url of the external repository where this type is managed. When set, users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.",
+				Optional:            true,
+			},
 		},
 	}
 }
@@ -101,6 +106,9 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 	}
 	if typeName := data.TypeName.ValueString(); typeName != "" {
 		requestBody.TypeName = &typeName
+	}
+	if sourceRepoURL := data.SourceRepoURL.ValueString(); sourceRepoURL != "" {
+		requestBody.SourceRepoUrl = &sourceRepoURL
 	}
 
 	result, err := r.client.CatalogV2CreateTypeWithResponse(ctx, requestBody)
@@ -144,11 +152,17 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	result, err := r.client.CatalogV2UpdateTypeWithResponse(ctx, data.ID.ValueString(), client.CatalogV2UpdateTypeJSONRequestBody{
+	requestBody := client.CatalogV2UpdateTypeJSONRequestBody{
 		Name: data.Name.ValueString(),
 		// TypeName cannot be changed once set
 		Description: data.Description.ValueString(),
-	})
+	}
+
+	if sourceRepoURL := data.SourceRepoURL.ValueString(); sourceRepoURL != "" {
+		requestBody.SourceRepoUrl = &sourceRepoURL
+	}
+
+	result, err := r.client.CatalogV2UpdateTypeWithResponse(ctx, data.ID.ValueString(), requestBody)
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
@@ -180,10 +194,14 @@ func (r *IncidentCatalogTypeResource) ImportState(ctx context.Context, req resou
 }
 
 func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV2) *IncidentCatalogTypeResourceModel {
-	return &IncidentCatalogTypeResourceModel{
+	model := &IncidentCatalogTypeResourceModel{
 		ID:          types.StringValue(catalogType.Id),
 		Name:        types.StringValue(catalogType.Name),
 		TypeName:    types.StringValue(catalogType.TypeName),
 		Description: types.StringValue(catalogType.Description),
 	}
+	if catalogType.SourceRepoUrl != nil {
+		model.SourceRepoURL = types.StringValue(*catalogType.SourceRepoUrl)
+	}
+	return model
 }
