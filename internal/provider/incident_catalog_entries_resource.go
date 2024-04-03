@@ -560,7 +560,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 						err = fmt.Errorf(string(result.Body))
 					}
 					if err != nil {
-						return errors.Wrap(err, fmt.Sprintf("unable to update catalog entry with id=%s, got error", *payload.CatalogEntryID))
+						return errors.Wrap(err, fmt.Sprintf("unable to update catalog entry with id=%s, got error", entry.Id))
 					}
 
 					tflog.Debug(ctx, fmt.Sprintf("updated catalog entry with id=%s", entry.Id))
