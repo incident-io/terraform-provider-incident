@@ -178,10 +178,13 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 		rank = lo.ToPtr(int32(data.Rank.ValueInt64()))
 	}
 	var aliases []string
-	if diags := data.Aliases.ElementsAs(ctx, &aliases, false); diags.HasError() {
-		resp.Diagnostics.AddError("Client Error", "Unable to read aliases")
-		return
+	if !data.Aliases.IsUnknown() {
+		if diags := data.Aliases.ElementsAs(ctx, &aliases, false); diags.HasError() {
+			resp.Diagnostics.AddError("Client Error", "Unable to read aliases")
+			return
+		}
 	}
+
 	result, err := r.client.CatalogV2CreateEntryWithResponse(ctx, client.CreateEntryRequestBody{
 		CatalogTypeId:   data.CatalogTypeID.ValueString(),
 		Name:            data.Name.ValueString(),
@@ -237,10 +240,13 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		rank = lo.ToPtr(int32(data.Rank.ValueInt64()))
 	}
 	var aliases []string
-	if diags := data.Aliases.ElementsAs(ctx, &aliases, false); diags.HasError() {
-		resp.Diagnostics.AddError("Client Error", "Unable to read aliases")
-		return
+	if !data.Aliases.IsUnknown() {
+		if diags := data.Aliases.ElementsAs(ctx, &aliases, false); diags.HasError() {
+			resp.Diagnostics.AddError("Client Error", "Unable to read aliases")
+			return
+		}
 	}
+
 	result, err := r.client.CatalogV2UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.UpdateEntryRequestBody{
 		Name:            data.Name.ValueString(),
 		Rank:            rank,
