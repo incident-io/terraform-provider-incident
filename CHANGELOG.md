@@ -1,5 +1,10 @@
 ## Unreleased
 
+## 3.2.1
+
+- Add support for setting the source_repo_url on catalog types
+- Fix a bug where we'd panic if we received a specific kind of error when updating catalog entries
+
 ## 3.2.0
 
 - Add support for backlink attributes on catalog types
