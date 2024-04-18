@@ -82,8 +82,8 @@ resource "incident_severity" "example" {
 
 func incidentSeverityDefault() client.SeverityV2 {
 	return client.SeverityV2{
-		Name:        "Major",
-		Description: "Issues causing significant impact. Immediate response is usually required.",
+		Name:        "P0",
+		Description: "All work stops until this issue is resolved.",
 		Rank:        7,
 	}
 }
