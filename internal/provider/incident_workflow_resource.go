@@ -45,8 +45,6 @@ type IncidentWorkflowResourceModel struct {
 	TerraformRepoURL              types.String `tfsdk:"terraform_repo_url"`
 	IsDraft                       types.Bool   `tfsdk:"is_draft"`
 
-	CreatedAt  types.String `tfsdk:"created_at"`
-	UpdatedAt  types.String `tfsdk:"updated_at"`
 	DisabledAt types.String `tfsdk:"disabled_at"`
 }
 
@@ -83,17 +81,23 @@ func (i *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 		MarkdownDescription: apischema.TagDocstring("Workflows V2"),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "id"),
+				Required:            true,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "name"),
+				Required:            true,
 			},
-			"folder": schema.StringAttribute{},
+			"folder": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "folder"),
+			},
 			"version": schema.Int64Attribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "version"),
+				Required:            true,
 			},
 			"trigger": schema.SingleNestedAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "trigger"),
+				Required:            true,
 				Attributes: map[string]schema.Attribute{
 					"name":        schema.StringAttribute{},
 					"icon":        schema.StringAttribute{},
@@ -102,7 +106,8 @@ func (i *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"once_for": schema.SetNestedAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "once_for"),
+				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"key":         schema.StringAttribute{},
@@ -117,49 +122,61 @@ func (i *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"expressions": schema.SetNestedAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "expressions"),
+				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{},
 				},
 			},
 			"condition_groups": schema.SetNestedAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "condition_groups"),
+				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{},
 				},
 			},
 			"steps": schema.SetNestedAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "steps"),
+				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{},
 				},
 			},
-			"delay_for_seconds":           schema.Int64Attribute{},
-			"conditions_apply_over_delay": schema.BoolAttribute{},
+			"delay_for_seconds": schema.Int64Attribute{
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "delay_for_seconds"),
+			},
+			"conditions_apply_over_delay": schema.BoolAttribute{
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "conditions_apply_over_delay"),
+			},
 			"include_private_incidents": schema.BoolAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "include_private_incidents"),
+				Required:            true,
 			},
 			"include_test_incidents": schema.BoolAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "include_test_incidents"),
+				Required:            true,
 			},
 			"include_retrospective_incidents": schema.BoolAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "include_retrospective_incidents"),
+				Required:            true,
 			},
 			"runs_on_incidents": schema.BoolAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "runs_on_incidents"),
+				Required:            true,
 			},
-			"runs_from":          schema.StringAttribute{},
-			"terraform_repo_url": schema.StringAttribute{},
+			"runs_from": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "runs_from"),
+			},
+			"terraform_repo_url": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "terraform_repo_url"),
+			},
 			"is_draft": schema.BoolAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "is_draft"),
+				Required:            true,
 			},
-			"created_at": schema.StringAttribute{
-				Required: true,
+			"disabled_at": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "disabled_at"),
 			},
-			"updated_at": schema.StringAttribute{
-				Required: true,
-			},
-			"disabled_at": schema.StringAttribute{},
 		},
 	}
 }
