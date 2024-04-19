@@ -24,21 +24,26 @@ func NewIncidentWorkflowResource() resource.Resource {
 }
 
 type IncidentWorkflowResourceModel struct {
-	ID                            types.String                     `tfsdk:"id"`
-	Name                          types.String                     `tfsdk:"name"`
-	Trigger                       IncidentWorkflowTriggerSlimModel `tfsdk:"trigger"`
-	Folder                        types.String                     `tfsdk:"folder"`
-	Version                       types.Int64                      `tfsdk:"version"`
-	DelayForSeconds               types.Int64                      `tfsdk:"delay_for_seconds"`
-	ConditionsApplyOverDelay      types.Bool                       `tfsdk:"conditions_apply_over_delay"`
-	IncludePrivateIncidents       types.Bool                       `tfsdk:"include_private_incidents"`
-	IncludeTestIncidents          types.Bool                       `tfsdk:"include_test_incidents"`
-	IncludeRetrospectiveIncidents types.Bool                       `tfsdk:"include_retrospective_incidents"`
-	RunsOnIncidents               types.Bool                       `tfsdk:"runs_on_incidents"`
-	RunsFrom                      types.String                     `tfsdk:"runs_from"`
-	TerraformRepoURL              types.String                     `tfsdk:"terraform_repo_url"`
-	OnceFor                       []IncidentEngineReferenceModel   `tfsdk:"once_for"`
-	IsDraft                       types.Bool                       `tfsdk:"is_draft"`
+	ID      types.String `tfsdk:"id"`
+	Name    types.String `tfsdk:"name"`
+	Folder  types.String `tfsdk:"folder"`
+	Version types.Int64  `tfsdk:"version"`
+
+	Trigger         IncidentWorkflowTriggerSlimModel    `tfsdk:"trigger"`
+	OnceFor         []IncidentEngineReferenceModel      `tfsdk:"once_for"`
+	Expressions     []IncidentEngineExpressionModel     `tfsdk:"expressions"`
+	ConditionGroups []IncidentEngineConditionGroupModel `tfsdk:"condition_groups"`
+	Steps           []IncidentWorkflowStepConfigModel   `tfsdk:"steps"`
+
+	DelayForSeconds               types.Int64  `tfsdk:"delay_for_seconds"`
+	ConditionsApplyOverDelay      types.Bool   `tfsdk:"conditions_apply_over_delay"`
+	IncludePrivateIncidents       types.Bool   `tfsdk:"include_private_incidents"`
+	IncludeTestIncidents          types.Bool   `tfsdk:"include_test_incidents"`
+	IncludeRetrospectiveIncidents types.Bool   `tfsdk:"include_retrospective_incidents"`
+	RunsOnIncidents               types.Bool   `tfsdk:"runs_on_incidents"`
+	RunsFrom                      types.String `tfsdk:"runs_from"`
+	TerraformRepoURL              types.String `tfsdk:"terraform_repo_url"`
+	IsDraft                       types.Bool   `tfsdk:"is_draft"`
 
 	CreatedAt  types.String `tfsdk:"created_at"`
 	UpdatedAt  types.String `tfsdk:"updated_at"`
@@ -63,6 +68,12 @@ type IncidentEngineReferenceModel struct {
 	Icon       types.String `tfsdk:"icon"`
 }
 
+type IncidentEngineExpressionModel struct{} // TODO(CAT-250)
+
+type IncidentEngineConditionGroupModel struct{} // TODO(CAT-248)
+
+type IncidentWorkflowStepConfigModel struct{} // TODO(CAT-249)
+
 func (i *IncidentWorkflowResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_workflow"
 }
@@ -71,8 +82,16 @@ func (i *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Workflows V2"),
 		Attributes: map[string]schema.Attribute{
-			"id":   schema.StringAttribute{},
-			"name": schema.StringAttribute{},
+			"id": schema.StringAttribute{
+				Required: true,
+			},
+			"name": schema.StringAttribute{
+				Required: true,
+			},
+			"folder": schema.StringAttribute{},
+			"version": schema.Int64Attribute{
+				Required: true,
+			},
 			"trigger": schema.SingleNestedAttribute{
 				Required: true,
 				Attributes: map[string]schema.Attribute{
@@ -82,17 +101,8 @@ func (i *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 					"group_label": schema.StringAttribute{},
 				},
 			},
-			"folder":                          schema.StringAttribute{},
-			"version":                         schema.Int64Attribute{},
-			"delay_for_seconds":               schema.Int64Attribute{},
-			"conditions_apply_over_delay":     schema.BoolAttribute{},
-			"include_private_incidents":       schema.BoolAttribute{},
-			"include_test_incidents":          schema.BoolAttribute{},
-			"include_retrospective_incidents": schema.BoolAttribute{},
-			"runs_on_incidents":               schema.BoolAttribute{},
-			"runs_from":                       schema.StringAttribute{},
-			"terraform_repo_url":              schema.StringAttribute{},
 			"once_for": schema.SetNestedAttribute{
+				Required: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"key":         schema.StringAttribute{},
@@ -106,9 +116,49 @@ func (i *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 					},
 				},
 			},
-			"is_draft":    schema.BoolAttribute{},
-			"created_at":  schema.StringAttribute{},
-			"updated_at":  schema.StringAttribute{},
+			"expressions": schema.SetNestedAttribute{
+				Required: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{},
+				},
+			},
+			"condition_groups": schema.SetNestedAttribute{
+				Required: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{},
+				},
+			},
+			"steps": schema.SetNestedAttribute{
+				Required: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{},
+				},
+			},
+			"delay_for_seconds":           schema.Int64Attribute{},
+			"conditions_apply_over_delay": schema.BoolAttribute{},
+			"include_private_incidents": schema.BoolAttribute{
+				Required: true,
+			},
+			"include_test_incidents": schema.BoolAttribute{
+				Required: true,
+			},
+			"include_retrospective_incidents": schema.BoolAttribute{
+				Required: true,
+			},
+			"runs_on_incidents": schema.BoolAttribute{
+				Required: true,
+			},
+			"runs_from":          schema.StringAttribute{},
+			"terraform_repo_url": schema.StringAttribute{},
+			"is_draft": schema.BoolAttribute{
+				Required: true,
+			},
+			"created_at": schema.StringAttribute{
+				Required: true,
+			},
+			"updated_at": schema.StringAttribute{
+				Required: true,
+			},
 			"disabled_at": schema.StringAttribute{},
 		},
 	}
