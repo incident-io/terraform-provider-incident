@@ -78,6 +78,7 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 			Steps:            []client.StepConfigPayload{},
 			Expressions:      []client.ExpressionPayloadV2{},
 			RunsOnIncidents:  "newly_created",
+			IsDraft:          true,
 		},
 	}
 	if folder := data.Folder.ValueString(); folder != "" {
