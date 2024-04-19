@@ -1427,90 +1427,6 @@
         ]
       }
     },
-    "/v2": {
-      "get": {
-        "tags": [
-          "Workflows V2"
-        ],
-        "summary": "ListWorkflows Workflows V2",
-        "description": "List all workflows",
-        "operationId": "Workflows V2#ListWorkflows",
-        "parameters": [
-          {
-            "name": "incident_type",
-            "in": "query",
-            "description": "If provided, will filter workflows for those applicable to the incident type",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK response.",
-            "schema": {
-              "$ref": "#/definitions/WorkflowsV2ListWorkflowsResponseBody",
-              "required": [
-                "workflows"
-              ]
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ]
-      },
-      "post": {
-        "tags": [
-          "Workflows V2"
-        ],
-        "summary": "CreateWorkflow Workflows V2",
-        "description": "Create a workflow",
-        "operationId": "Workflows V2#CreateWorkflow",
-        "parameters": [
-          {
-            "name": "CreateWorkflowRequestBody",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/WorkflowsV2CreateWorkflowRequestBody",
-              "required": [
-                "workflow",
-                "trigger",
-                "id",
-                "organisation_id",
-                "name",
-                "once_for",
-                "version",
-                "expressions",
-                "condition_groups",
-                "steps",
-                "include_private_incidents",
-                "include_test_incidents",
-                "include_retrospective_incidents",
-                "runs_on_incidents",
-                "created_at",
-                "updated_at",
-                "is_draft"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created response.",
-            "schema": {
-              "$ref": "#/definitions/WorkflowsV2CreateWorkflowResponseBody",
-              "required": [
-                "workflow"
-              ]
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ]
-      }
-    },
     "/v2/actions": {
       "get": {
         "tags": [
@@ -2819,158 +2735,6 @@
         ]
       }
     },
-    "/v2/steps": {
-      "get": {
-        "tags": [
-          "Workflows V2"
-        ],
-        "summary": "ListSteps Workflows V2",
-        "description": "List all available steps",
-        "operationId": "Workflows V2#ListSteps",
-        "responses": {
-          "200": {
-            "description": "OK response.",
-            "schema": {
-              "$ref": "#/definitions/WorkflowsV2ListStepsResponseBody",
-              "required": [
-                "steps"
-              ]
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ]
-      }
-    },
-    "/v2/steps/validate": {
-      "post": {
-        "tags": [
-          "Workflows V2"
-        ],
-        "summary": "ValidateStep Workflows V2",
-        "description": "Validates a workflow step configuration",
-        "operationId": "Workflows V2#ValidateStep",
-        "parameters": [
-          {
-            "name": "ValidateStepRequestBody",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/WorkflowsV2ValidateStepRequestBody",
-              "required": [
-                "step"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content response."
-          }
-        },
-        "schemes": [
-          "https"
-        ]
-      }
-    },
-    "/v2/steps/{name}": {
-      "get": {
-        "tags": [
-          "Workflows V2"
-        ],
-        "summary": "ShowStep Workflows V2",
-        "description": "Gets a specific step, by the name of the step",
-        "operationId": "Workflows V2#ShowStep",
-        "parameters": [
-          {
-            "name": "trigger",
-            "in": "query",
-            "description": "What trigger should we use to render any default values",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "name",
-            "in": "path",
-            "description": "Unique name of the step in the engine",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK response.",
-            "schema": {
-              "$ref": "#/definitions/WorkflowsV2ShowStepResponseBody",
-              "required": [
-                "step"
-              ]
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ]
-      }
-    },
-    "/v2/triggers": {
-      "get": {
-        "tags": [
-          "Workflows V2"
-        ],
-        "summary": "ListTriggers Workflows V2",
-        "description": "List all available triggers",
-        "operationId": "Workflows V2#ListTriggers",
-        "responses": {
-          "200": {
-            "description": "OK response.",
-            "schema": {
-              "$ref": "#/definitions/WorkflowsV2ListTriggersResponseBody",
-              "required": [
-                "triggers"
-              ]
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ]
-      }
-    },
-    "/v2/triggers/{name}": {
-      "get": {
-        "tags": [
-          "Workflows V2"
-        ],
-        "summary": "ShowTrigger Workflows V2",
-        "description": "Gets a specific trigger, by the name of the trigger",
-        "operationId": "Workflows V2#ShowTrigger",
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "description": "Unique name of the trigger inside of the engine",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK response.",
-            "schema": {
-              "$ref": "#/definitions/WorkflowsV2ShowTriggerResponseBody",
-              "required": [
-                "trigger"
-              ]
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ]
-      }
-    },
     "/v2/users": {
       "get": {
         "tags": [
@@ -3047,7 +2811,243 @@
         ]
       }
     },
-    "/v2/workflow_runs": {
+    "/v2/workflows": {
+      "get": {
+        "tags": [
+          "Workflows V2"
+        ],
+        "summary": "ListWorkflows Workflows V2",
+        "description": "List all workflows",
+        "operationId": "Workflows V2#ListWorkflows",
+        "parameters": [
+          {
+            "name": "incident_type",
+            "in": "query",
+            "description": "If provided, will filter workflows for those applicable to the incident type",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/WorkflowsV2ListWorkflowsResponseBody",
+              "required": [
+                "workflows"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      },
+      "post": {
+        "tags": [
+          "Workflows V2"
+        ],
+        "summary": "CreateWorkflow Workflows V2",
+        "description": "Create a workflow",
+        "operationId": "Workflows V2#CreateWorkflow",
+        "parameters": [
+          {
+            "name": "CreateWorkflowRequestBody",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WorkflowsV2CreateWorkflowRequestBody",
+              "required": [
+                "workflow",
+                "trigger",
+                "id",
+                "organisation_id",
+                "name",
+                "once_for",
+                "version",
+                "expressions",
+                "condition_groups",
+                "steps",
+                "include_private_incidents",
+                "include_test_incidents",
+                "include_retrospective_incidents",
+                "runs_on_incidents",
+                "created_at",
+                "updated_at",
+                "is_draft"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created response.",
+            "schema": {
+              "$ref": "#/definitions/WorkflowsV2CreateWorkflowResponseBody",
+              "required": [
+                "workflow"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/v2/workflows/steps": {
+      "get": {
+        "tags": [
+          "Workflows V2"
+        ],
+        "summary": "ListSteps Workflows V2",
+        "description": "List all available steps",
+        "operationId": "Workflows V2#ListSteps",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/WorkflowsV2ListStepsResponseBody",
+              "required": [
+                "steps"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/v2/workflows/steps/validate": {
+      "post": {
+        "tags": [
+          "Workflows V2"
+        ],
+        "summary": "ValidateStep Workflows V2",
+        "description": "Validates a workflow step configuration",
+        "operationId": "Workflows V2#ValidateStep",
+        "parameters": [
+          {
+            "name": "ValidateStepRequestBody",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WorkflowsV2ValidateStepRequestBody",
+              "required": [
+                "step"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content response."
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/v2/workflows/steps/{name}": {
+      "get": {
+        "tags": [
+          "Workflows V2"
+        ],
+        "summary": "ShowStep Workflows V2",
+        "description": "Gets a specific step, by the name of the step",
+        "operationId": "Workflows V2#ShowStep",
+        "parameters": [
+          {
+            "name": "trigger",
+            "in": "query",
+            "description": "What trigger should we use to render any default values",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Unique name of the step in the engine",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/WorkflowsV2ShowStepResponseBody",
+              "required": [
+                "step"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/v2/workflows/triggers": {
+      "get": {
+        "tags": [
+          "Workflows V2"
+        ],
+        "summary": "ListTriggers Workflows V2",
+        "description": "List all available triggers",
+        "operationId": "Workflows V2#ListTriggers",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/WorkflowsV2ListTriggersResponseBody",
+              "required": [
+                "triggers"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/v2/workflows/triggers/{name}": {
+      "get": {
+        "tags": [
+          "Workflows V2"
+        ],
+        "summary": "ShowTrigger Workflows V2",
+        "description": "Gets a specific trigger, by the name of the trigger",
+        "operationId": "Workflows V2#ShowTrigger",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Unique name of the trigger inside of the engine",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/WorkflowsV2ShowTriggerResponseBody",
+              "required": [
+                "trigger"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/v2/workflows/workflow_runs": {
       "get": {
         "tags": [
           "Workflows V2"
@@ -3122,7 +3122,7 @@
         ]
       }
     },
-    "/v2/workflow_runs/{id}": {
+    "/v2/workflows/workflow_runs/{id}": {
       "get": {
         "tags": [
           "Workflows V2"
@@ -3155,7 +3155,7 @@
         ]
       }
     },
-    "/v2/workflow_templates": {
+    "/v2/workflows/workflow_templates": {
       "get": {
         "tags": [
           "Workflows V2"
@@ -3179,7 +3179,7 @@
         ]
       }
     },
-    "/v2/workflow_templates/{name}": {
+    "/v2/workflows/workflow_templates/{name}": {
       "get": {
         "tags": [
           "Workflows V2"
@@ -3212,7 +3212,7 @@
         ]
       }
     },
-    "/v2/{id}": {
+    "/v2/workflows/{id}": {
       "get": {
         "tags": [
           "Workflows V2"
@@ -3327,7 +3327,7 @@
         ]
       }
     },
-    "/v2/{id}/actions/disable": {
+    "/v2/workflows/{id}/actions/disable": {
       "post": {
         "tags": [
           "Workflows V2"
@@ -3360,7 +3360,7 @@
         ]
       }
     },
-    "/v2/{id}/actions/enable": {
+    "/v2/workflows/{id}/actions/enable": {
       "post": {
         "tags": [
           "Workflows V2"
@@ -3393,7 +3393,7 @@
         ]
       }
     },
-    "/v2/{id}/actions/folder": {
+    "/v2/workflows/{id}/actions/folder": {
       "post": {
         "tags": [
           "Workflows V2"

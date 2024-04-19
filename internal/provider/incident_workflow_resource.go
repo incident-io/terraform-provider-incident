@@ -76,6 +76,8 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 			OnceFor:          []string{"incident.url"},
 			ConditionGroups:  []client.ExpressionFilterOptsPayloadV2{},
 			Steps:            []client.StepConfigPayload{},
+			Expressions:      []client.ExpressionPayloadV2{},
+			RunsOnIncidents:  "newly_created",
 		},
 	}
 	if folder := data.Folder.ValueString(); folder != "" {

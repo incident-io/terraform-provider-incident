@@ -3695,12 +3695,6 @@ type IncidentsV1ListParams struct {
 	Status *[]string `form:"status,omitempty" json:"status,omitempty"`
 }
 
-// WorkflowsV2ListWorkflowsParams defines parameters for WorkflowsV2ListWorkflows.
-type WorkflowsV2ListWorkflowsParams struct {
-	// IncidentType If provided, will filter workflows for those applicable to the incident type
-	IncidentType *string `form:"incident_type,omitempty" json:"incident_type,omitempty"`
-}
-
 // ActionsV2ListParams defines parameters for ActionsV2List.
 type ActionsV2ListParams struct {
 	// IncidentId Find actions related to this incident
@@ -3806,6 +3800,12 @@ type WorkflowsV2ListWorkflowRunsParams struct {
 	WorkflowId string `form:"workflow_id" json:"workflow_id"`
 }
 
+// WorkflowsV2ListWorkflowsParams defines parameters for WorkflowsV2ListWorkflows.
+type WorkflowsV2ListWorkflowsParams struct {
+	// IncidentType If provided, will filter workflows for those applicable to the incident type
+	IncidentType *string `form:"incident_type,omitempty" json:"incident_type,omitempty"`
+}
+
 // CustomFieldOptionsV1CreateJSONRequestBody defines body for CustomFieldOptionsV1Create for application/json ContentType.
 type CustomFieldOptionsV1CreateJSONRequestBody = CreateRequestBody
 
@@ -3848,9 +3848,6 @@ type SeveritiesV1CreateJSONRequestBody = CreateRequestBody11
 // SeveritiesV1UpdateJSONRequestBody defines body for SeveritiesV1Update for application/json ContentType.
 type SeveritiesV1UpdateJSONRequestBody = CreateRequestBody11
 
-// WorkflowsV2CreateWorkflowJSONRequestBody defines body for WorkflowsV2CreateWorkflow for application/json ContentType.
-type WorkflowsV2CreateWorkflowJSONRequestBody = CreateWorkflowRequestBody
-
 // AlertEventsV2CreateHTTPJSONRequestBody defines body for AlertEventsV2CreateHTTP for application/json ContentType.
 type AlertEventsV2CreateHTTPJSONRequestBody = CreateHTTPRequestBody
 
@@ -3892,6 +3889,9 @@ type WorkflowsV2ValidateStepJSONRequestBody = ValidateStepRequestBody
 
 // WorkflowsV2CreateWorkflowRunJSONRequestBody defines body for WorkflowsV2CreateWorkflowRun for application/json ContentType.
 type WorkflowsV2CreateWorkflowRunJSONRequestBody = CreateWorkflowRunRequestBody
+
+// WorkflowsV2CreateWorkflowJSONRequestBody defines body for WorkflowsV2CreateWorkflow for application/json ContentType.
+type WorkflowsV2CreateWorkflowJSONRequestBody = CreateWorkflowRequestBody
 
 // WorkflowsV2UpdateWorkflowJSONRequestBody defines body for WorkflowsV2UpdateWorkflow for application/json ContentType.
 type WorkflowsV2UpdateWorkflowJSONRequestBody = UpdateWorkflowRequestBody
@@ -4120,14 +4120,6 @@ type ClientInterface interface {
 
 	SeveritiesV1Update(ctx context.Context, id string, body SeveritiesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// WorkflowsV2ListWorkflows request
-	WorkflowsV2ListWorkflows(ctx context.Context, params *WorkflowsV2ListWorkflowsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2CreateWorkflow request with any body
-	WorkflowsV2CreateWorkflowWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	WorkflowsV2CreateWorkflow(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
 	// ActionsV2List request
 	ActionsV2List(ctx context.Context, params *ActionsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -4293,6 +4285,14 @@ type ClientInterface interface {
 
 	// WorkflowsV2ShowWorkflowTemplate request
 	WorkflowsV2ShowWorkflowTemplate(ctx context.Context, name string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// WorkflowsV2ListWorkflows request
+	WorkflowsV2ListWorkflows(ctx context.Context, params *WorkflowsV2ListWorkflowsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// WorkflowsV2CreateWorkflow request with any body
+	WorkflowsV2CreateWorkflowWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	WorkflowsV2CreateWorkflow(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// WorkflowsV2DestroyWorkflow request
 	WorkflowsV2DestroyWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -4955,42 +4955,6 @@ func (c *Client) SeveritiesV1UpdateWithBody(ctx context.Context, id string, cont
 
 func (c *Client) SeveritiesV1Update(ctx context.Context, id string, body SeveritiesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSeveritiesV1UpdateRequest(c.Server, id, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ListWorkflows(ctx context.Context, params *WorkflowsV2ListWorkflowsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ListWorkflowsRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2CreateWorkflowWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2CreateWorkflowRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2CreateWorkflow(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2CreateWorkflowRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -5711,6 +5675,42 @@ func (c *Client) WorkflowsV2ListWorkflowTemplates(ctx context.Context, reqEditor
 
 func (c *Client) WorkflowsV2ShowWorkflowTemplate(ctx context.Context, name string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewWorkflowsV2ShowWorkflowTemplateRequest(c.Server, name)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) WorkflowsV2ListWorkflows(ctx context.Context, params *WorkflowsV2ListWorkflowsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowsV2ListWorkflowsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) WorkflowsV2CreateWorkflowWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowsV2CreateWorkflowRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) WorkflowsV2CreateWorkflow(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowsV2CreateWorkflowRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -7407,93 +7407,6 @@ func NewSeveritiesV1UpdateRequestWithBody(server string, id string, contentType 
 	}
 
 	req, err := http.NewRequest("PUT", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewWorkflowsV2ListWorkflowsRequest generates requests for WorkflowsV2ListWorkflows
-func NewWorkflowsV2ListWorkflowsRequest(server string, params *WorkflowsV2ListWorkflowsParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	queryValues := queryURL.Query()
-
-	if params.IncidentType != nil {
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "incident_type", runtime.ParamLocationQuery, *params.IncidentType); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	queryURL.RawQuery = queryValues.Encode()
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2CreateWorkflowRequest calls the generic WorkflowsV2CreateWorkflow builder with application/json body
-func NewWorkflowsV2CreateWorkflowRequest(server string, body WorkflowsV2CreateWorkflowJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewWorkflowsV2CreateWorkflowRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewWorkflowsV2CreateWorkflowRequestWithBody generates requests for WorkflowsV2CreateWorkflow with any type of body
-func NewWorkflowsV2CreateWorkflowRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -9503,6 +9416,93 @@ func NewWorkflowsV2ShowWorkflowTemplateRequest(server string, name string) (*htt
 	return req, nil
 }
 
+// NewWorkflowsV2ListWorkflowsRequest generates requests for WorkflowsV2ListWorkflows
+func NewWorkflowsV2ListWorkflowsRequest(server string, params *WorkflowsV2ListWorkflowsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/workflows")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.IncidentType != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "incident_type", runtime.ParamLocationQuery, *params.IncidentType); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewWorkflowsV2CreateWorkflowRequest calls the generic WorkflowsV2CreateWorkflow builder with application/json body
+func NewWorkflowsV2CreateWorkflowRequest(server string, body WorkflowsV2CreateWorkflowJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewWorkflowsV2CreateWorkflowRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewWorkflowsV2CreateWorkflowRequestWithBody generates requests for WorkflowsV2CreateWorkflow with any type of body
+func NewWorkflowsV2CreateWorkflowRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/workflows")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewWorkflowsV2DestroyWorkflowRequest generates requests for WorkflowsV2DestroyWorkflow
 func NewWorkflowsV2DestroyWorkflowRequest(server string, id string) (*http.Request, error) {
 	var err error
@@ -9924,14 +9924,6 @@ type ClientWithResponsesInterface interface {
 
 	SeveritiesV1UpdateWithResponse(ctx context.Context, id string, body SeveritiesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*SeveritiesV1UpdateResponse, error)
 
-	// WorkflowsV2ListWorkflows request
-	WorkflowsV2ListWorkflowsWithResponse(ctx context.Context, params *WorkflowsV2ListWorkflowsParams, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowsResponse, error)
-
-	// WorkflowsV2CreateWorkflow request with any body
-	WorkflowsV2CreateWorkflowWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error)
-
-	WorkflowsV2CreateWorkflowWithResponse(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error)
-
 	// ActionsV2List request
 	ActionsV2ListWithResponse(ctx context.Context, params *ActionsV2ListParams, reqEditors ...RequestEditorFn) (*ActionsV2ListResponse, error)
 
@@ -10097,6 +10089,14 @@ type ClientWithResponsesInterface interface {
 
 	// WorkflowsV2ShowWorkflowTemplate request
 	WorkflowsV2ShowWorkflowTemplateWithResponse(ctx context.Context, name string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowTemplateResponse, error)
+
+	// WorkflowsV2ListWorkflows request
+	WorkflowsV2ListWorkflowsWithResponse(ctx context.Context, params *WorkflowsV2ListWorkflowsParams, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowsResponse, error)
+
+	// WorkflowsV2CreateWorkflow request with any body
+	WorkflowsV2CreateWorkflowWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error)
+
+	WorkflowsV2CreateWorkflowWithResponse(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error)
 
 	// WorkflowsV2DestroyWorkflow request
 	WorkflowsV2DestroyWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2DestroyWorkflowResponse, error)
@@ -10988,50 +10988,6 @@ func (r SeveritiesV1UpdateResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r SeveritiesV1UpdateResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2ListWorkflowsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *ListWorkflowsResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2ListWorkflowsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2ListWorkflowsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2CreateWorkflowResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON201      *CreateWorkflowResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2CreateWorkflowResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2CreateWorkflowResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -12045,6 +12001,50 @@ func (r WorkflowsV2ShowWorkflowTemplateResponse) StatusCode() int {
 	return 0
 }
 
+type WorkflowsV2ListWorkflowsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListWorkflowsResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r WorkflowsV2ListWorkflowsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r WorkflowsV2ListWorkflowsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type WorkflowsV2CreateWorkflowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *CreateWorkflowResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r WorkflowsV2CreateWorkflowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r WorkflowsV2CreateWorkflowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type WorkflowsV2DestroyWorkflowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -12648,32 +12648,6 @@ func (c *ClientWithResponses) SeveritiesV1UpdateWithResponse(ctx context.Context
 	return ParseSeveritiesV1UpdateResponse(rsp)
 }
 
-// WorkflowsV2ListWorkflowsWithResponse request returning *WorkflowsV2ListWorkflowsResponse
-func (c *ClientWithResponses) WorkflowsV2ListWorkflowsWithResponse(ctx context.Context, params *WorkflowsV2ListWorkflowsParams, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowsResponse, error) {
-	rsp, err := c.WorkflowsV2ListWorkflows(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ListWorkflowsResponse(rsp)
-}
-
-// WorkflowsV2CreateWorkflowWithBodyWithResponse request with arbitrary body returning *WorkflowsV2CreateWorkflowResponse
-func (c *ClientWithResponses) WorkflowsV2CreateWorkflowWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error) {
-	rsp, err := c.WorkflowsV2CreateWorkflowWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2CreateWorkflowResponse(rsp)
-}
-
-func (c *ClientWithResponses) WorkflowsV2CreateWorkflowWithResponse(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error) {
-	rsp, err := c.WorkflowsV2CreateWorkflow(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2CreateWorkflowResponse(rsp)
-}
-
 // ActionsV2ListWithResponse request returning *ActionsV2ListResponse
 func (c *ClientWithResponses) ActionsV2ListWithResponse(ctx context.Context, params *ActionsV2ListParams, reqEditors ...RequestEditorFn) (*ActionsV2ListResponse, error) {
 	rsp, err := c.ActionsV2List(ctx, params, reqEditors...)
@@ -13198,6 +13172,32 @@ func (c *ClientWithResponses) WorkflowsV2ShowWorkflowTemplateWithResponse(ctx co
 		return nil, err
 	}
 	return ParseWorkflowsV2ShowWorkflowTemplateResponse(rsp)
+}
+
+// WorkflowsV2ListWorkflowsWithResponse request returning *WorkflowsV2ListWorkflowsResponse
+func (c *ClientWithResponses) WorkflowsV2ListWorkflowsWithResponse(ctx context.Context, params *WorkflowsV2ListWorkflowsParams, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowsResponse, error) {
+	rsp, err := c.WorkflowsV2ListWorkflows(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseWorkflowsV2ListWorkflowsResponse(rsp)
+}
+
+// WorkflowsV2CreateWorkflowWithBodyWithResponse request with arbitrary body returning *WorkflowsV2CreateWorkflowResponse
+func (c *ClientWithResponses) WorkflowsV2CreateWorkflowWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error) {
+	rsp, err := c.WorkflowsV2CreateWorkflowWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseWorkflowsV2CreateWorkflowResponse(rsp)
+}
+
+func (c *ClientWithResponses) WorkflowsV2CreateWorkflowWithResponse(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error) {
+	rsp, err := c.WorkflowsV2CreateWorkflow(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseWorkflowsV2CreateWorkflowResponse(rsp)
 }
 
 // WorkflowsV2DestroyWorkflowWithResponse request returning *WorkflowsV2DestroyWorkflowResponse
@@ -14234,58 +14234,6 @@ func ParseSeveritiesV1UpdateResponse(rsp *http.Response) (*SeveritiesV1UpdateRes
 			return nil, err
 		}
 		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2ListWorkflowsResponse parses an HTTP response from a WorkflowsV2ListWorkflowsWithResponse call
-func ParseWorkflowsV2ListWorkflowsResponse(rsp *http.Response) (*WorkflowsV2ListWorkflowsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2ListWorkflowsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListWorkflowsResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2CreateWorkflowResponse parses an HTTP response from a WorkflowsV2CreateWorkflowWithResponse call
-func ParseWorkflowsV2CreateWorkflowResponse(rsp *http.Response) (*WorkflowsV2CreateWorkflowResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2CreateWorkflowResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest CreateWorkflowResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON201 = &dest
 
 	}
 
@@ -15432,6 +15380,58 @@ func ParseWorkflowsV2ShowWorkflowTemplateResponse(rsp *http.Response) (*Workflow
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseWorkflowsV2ListWorkflowsResponse parses an HTTP response from a WorkflowsV2ListWorkflowsWithResponse call
+func ParseWorkflowsV2ListWorkflowsResponse(rsp *http.Response) (*WorkflowsV2ListWorkflowsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &WorkflowsV2ListWorkflowsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListWorkflowsResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseWorkflowsV2CreateWorkflowResponse parses an HTTP response from a WorkflowsV2CreateWorkflowWithResponse call
+func ParseWorkflowsV2CreateWorkflowResponse(rsp *http.Response) (*WorkflowsV2CreateWorkflowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &WorkflowsV2CreateWorkflowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CreateWorkflowResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
 
 	}
 
