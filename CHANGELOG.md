@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Add an empty workflow resource
+- Add an initial workflow resource
 
 ## 3.2.1
 

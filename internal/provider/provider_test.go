@@ -28,7 +28,7 @@ func testAccPreCheck(t *testing.T) {
 	}
 }
 
-func overrideAndMarshalModel[T any](base *T, override *T) string {
+func overrideAndMarshalModel[T any](base T, override *T) string {
 	// Merge any non-zero fields in override into the base model.
 	if override != nil {
 		for idx := 0; idx < reflect.TypeOf(*override).NumField(); idx++ {

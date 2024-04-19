@@ -51,8 +51,8 @@ resource "incident_workflow" "example" {
 }
 `))
 
-func incidentWorkflowDefault() *client.Workflow {
-	return &client.Workflow{
+func incidentWorkflowDefault() client.Workflow {
+	return client.Workflow{
 		Name: "My Test Workflow",
 	}
 }
