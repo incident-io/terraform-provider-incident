@@ -3397,8 +3397,8 @@ type ValidateStepRequestBody struct {
 
 // Workflow defines model for Workflow.
 type Workflow struct {
-	// Conditions Conditions that apply to the workflow trigger
-	Conditions []ConditionV2 `json:"conditions"`
+	// ConditionGroups Conditions that apply to the workflow trigger
+	ConditionGroups []ExpressionFilterOptsV2 `json:"condition_groups"`
 
 	// ConditionsApplyOverDelay If this workflow is delayed, whether the conditions should be rechecked between trigger firing and execution
 	ConditionsApplyOverDelay *bool `json:"conditions_apply_over_delay,omitempty"`
@@ -3449,8 +3449,11 @@ type Workflow struct {
 	RunsOnIncidents WorkflowRunsOnIncidents `json:"runs_on_incidents"`
 
 	// Steps Steps that are executed as part of the workflow
-	Steps   []StepConfig `json:"steps"`
-	Trigger TriggerSlim  `json:"trigger"`
+	Steps []StepConfig `json:"steps"`
+
+	// TerraformRepoUrl The url of the external repository where this workflow is managed
+	TerraformRepoUrl *string     `json:"terraform_repo_url,omitempty"`
+	Trigger          TriggerSlim `json:"trigger"`
 
 	// UpdatedAt When the resource was last updated
 	UpdatedAt time.Time `json:"updated_at"`
@@ -3464,8 +3467,8 @@ type WorkflowRunsOnIncidents string
 
 // WorkflowPayload defines model for WorkflowPayload.
 type WorkflowPayload struct {
-	// Conditions List of conditions to apply to the workflow
-	Conditions []ConditionPayloadV2 `json:"conditions"`
+	// ConditionGroups List of conditions to apply to the workflow
+	ConditionGroups []ExpressionFilterOptsPayloadV2 `json:"condition_groups"`
 
 	// ConditionsApplyOverDelay If this workflow is delayed, whether the conditions should be rechecked between trigger firing and execution
 	ConditionsApplyOverDelay *bool `json:"conditions_apply_over_delay,omitempty"`
@@ -3499,6 +3502,9 @@ type WorkflowPayload struct {
 
 	// Steps List of step to execute as part of the workflow
 	Steps []StepConfigPayload `json:"steps"`
+
+	// TerraformRepoUrl The url of the external repository where this workflow is managed
+	TerraformRepoUrl *string `json:"terraform_repo_url,omitempty"`
 }
 
 // WorkflowPayloadRunsOnIncidents Which incidents should the workflow be applied to?
@@ -3551,8 +3557,8 @@ type WorkflowRun struct {
 
 // WorkflowSlim defines model for WorkflowSlim.
 type WorkflowSlim struct {
-	// Conditions Conditions that apply to the workflow trigger
-	Conditions []ConditionV2 `json:"conditions"`
+	// ConditionGroups Conditions that apply to the workflow trigger
+	ConditionGroups []ExpressionFilterOptsV2 `json:"condition_groups"`
 
 	// ConditionsApplyOverDelay If this workflow is delayed, whether the conditions should be rechecked between trigger firing and execution
 	ConditionsApplyOverDelay *bool `json:"conditions_apply_over_delay,omitempty"`
@@ -3597,8 +3603,11 @@ type WorkflowSlim struct {
 	RunsOnIncidents WorkflowSlimRunsOnIncidents `json:"runs_on_incidents"`
 
 	// Steps Steps that are executed as part of the workflow
-	Steps   []StepConfigSlim `json:"steps"`
-	Trigger TriggerSlim      `json:"trigger"`
+	Steps []StepConfigSlim `json:"steps"`
+
+	// TerraformRepoUrl The url of the external repository where this workflow is managed
+	TerraformRepoUrl *string     `json:"terraform_repo_url,omitempty"`
+	Trigger          TriggerSlim `json:"trigger"`
 
 	// Version Revision of the workflow, uniquely identifying it's version
 	Version int64 `json:"version"`

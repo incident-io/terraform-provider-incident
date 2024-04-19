@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -26,46 +27,12 @@ func NewIncidentWorkflowResource() resource.Resource {
 }
 
 type IncidentWorkflowResourceModel struct {
-	ID      types.String `tfsdk:"id"`
-	Name    types.String `tfsdk:"name"`
-	Folder  types.String `tfsdk:"folder"`
-	Version types.Int64  `tfsdk:"version"`
-
-	Trigger         types.String                        `tfsdk:"trigger"`
-	OnceFor         []IncidentEngineReferenceModel      `tfsdk:"once_for"`
-	Expressions     []IncidentEngineExpressionModel     `tfsdk:"expressions"`
-	ConditionGroups []IncidentEngineConditionGroupModel `tfsdk:"condition_groups"`
-	Steps           []IncidentWorkflowStepConfigModel   `tfsdk:"steps"`
-
-	DelayForSeconds               types.Int64  `tfsdk:"delay_for_seconds"`
-	ConditionsApplyOverDelay      types.Bool   `tfsdk:"conditions_apply_over_delay"`
-	IncludePrivateIncidents       types.Bool   `tfsdk:"include_private_incidents"`
-	IncludeTestIncidents          types.Bool   `tfsdk:"include_test_incidents"`
-	IncludeRetrospectiveIncidents types.Bool   `tfsdk:"include_retrospective_incidents"`
-	RunsOnIncidents               types.Bool   `tfsdk:"runs_on_incidents"`
-	RunsFrom                      types.String `tfsdk:"runs_from"`
-	TerraformRepoURL              types.String `tfsdk:"terraform_repo_url"`
-	IsDraft                       types.Bool   `tfsdk:"is_draft"`
-
-	DisabledAt types.String `tfsdk:"disabled_at"`
+	ID               types.String `tfsdk:"id"`
+	Name             types.String `tfsdk:"name"`
+	Folder           types.String `tfsdk:"folder"`
+	Trigger          types.String `tfsdk:"trigger"`
+	TerraformRepoURL types.String `tfsdk:"terraform_repo_url"`
 }
-
-type IncidentEngineReferenceModel struct {
-	Key        types.String `tfsdk:"key"`
-	Label      types.String `tfsdk:"label"`
-	NodeLabel  types.String `tfsdk:"node_label"`
-	Type       types.String `tfsdk:"type"`
-	HideFilter types.Bool   `tfsdk:"hide_filter"`
-	Array      types.Bool   `tfsdk:"array"`
-	Parent     types.String `tfsdk:"parent"`
-	Icon       types.String `tfsdk:"icon"`
-}
-
-type IncidentEngineExpressionModel struct{} // TODO(CAT-250)
-
-type IncidentEngineConditionGroupModel struct{} // TODO(CAT-248)
-
-type IncidentWorkflowStepConfigModel struct{} // TODO(CAT-249)
 
 func (r *IncidentWorkflowResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_workflow"
@@ -87,10 +54,6 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "folder"),
 				Optional:            true,
 			},
-			"version": schema.Int64Attribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "version"),
-				Required:            true,
-			},
 			"trigger": schema.SingleNestedAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "trigger"),
 				Required:            true,
@@ -101,82 +64,9 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 					"group_label": schema.StringAttribute{},
 				},
 			},
-			"once_for": schema.SetNestedAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "once_for"),
-				Required:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"key":         schema.StringAttribute{},
-						"label":       schema.StringAttribute{},
-						"node_label":  schema.StringAttribute{},
-						"type":        schema.StringAttribute{},
-						"hide_filter": schema.BoolAttribute{},
-						"array":       schema.BoolAttribute{},
-						"parent":      schema.StringAttribute{},
-						"icon":        schema.StringAttribute{},
-					},
-				},
-			},
-			"expressions": schema.SetNestedAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "expressions"),
-				Required:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{},
-				},
-			},
-			"condition_groups": schema.SetNestedAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "condition_groups"),
-				Required:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{},
-				},
-			},
-			"steps": schema.SetNestedAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "steps"),
-				Required:            true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{},
-				},
-			},
-			"delay_for_seconds": schema.Int64Attribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "delay_for_seconds"),
-				Optional:            true,
-			},
-			"conditions_apply_over_delay": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "conditions_apply_over_delay"),
-				Optional:            true,
-			},
-			"include_private_incidents": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "include_private_incidents"),
-				Required:            true,
-			},
-			"include_test_incidents": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "include_test_incidents"),
-				Required:            true,
-			},
-			"include_retrospective_incidents": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "include_retrospective_incidents"),
-				Required:            true,
-			},
-			"runs_on_incidents": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "runs_on_incidents"),
-				Required:            true,
-			},
-			"runs_from": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "runs_from"),
-				Optional:            true,
-			},
 			"terraform_repo_url": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "terraform_repo_url"),
 				Optional:            true,
-			},
-			"is_draft": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "is_draft"),
-				Required:            true,
-			},
-			"disabled_at": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "disabled_at"),
-				Optional:            true, // computed?
 			},
 		},
 	}
@@ -192,7 +82,11 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 	payload := client.CreateWorkflowRequestBody{
 		Trigger: data.Trigger.ValueString(),
 		Workflow: client.WorkflowPayload{
-			Name: data.Name.ValueString(),
+			Name:             data.Name.ValueString(),
+			TerraformRepoUrl: data.TerraformRepoURL.ValueStringPointer(),
+			OnceFor:          []string{"incident.url"},
+			ConditionGroups:  []client.ExpressionFilterOptsPayloadV2{},
+			Steps:            []client.StepConfigPayload{},
 		},
 	}
 	if folder := data.Folder.ValueString(); folder != "" {
@@ -214,19 +108,66 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 }
 
 func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	panic("unimplemented")
+	var data *IncidentWorkflowResourceModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	payload := client.WorkflowsV2UpdateWorkflowJSONRequestBody{
+		Workflow: client.WorkflowPayload{
+			Name: data.Name.ValueString(),
+		},
+	}
+	result, err := r.client.WorkflowsV2UpdateWorkflowWithResponse(ctx, data.ID.ValueString(), payload)
+	if err == nil && result.StatusCode() >= 400 {
+		err = fmt.Errorf(string(result.Body))
+	}
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update workflow, got error: %s", err))
+		return
+	}
+
+	data = r.buildModel(result.JSON200.Workflow)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *IncidentWorkflowResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	panic("unimplemented")
+	var data *IncidentWorkflowResourceModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	result, err := r.client.WorkflowsV2ShowWorkflowWithResponse(ctx, data.ID.ValueString())
+	if err == nil && result.StatusCode() >= 400 {
+		err = fmt.Errorf(string(result.Body))
+	}
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read workflow, got error: %s", err))
+		return
+	}
+
+	data = r.buildModel(result.JSON200.Workflow)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *IncidentWorkflowResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	panic("unimplemented")
+	var data *IncidentWorkflowResourceModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	_, err := r.client.WorkflowsV2DestroyWorkflowWithResponse(ctx, data.ID.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete workflow, got error: %s", err))
+		return
+	}
 }
 
 func (r *IncidentWorkflowResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	panic("unimplemented")
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -248,5 +189,16 @@ func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.C
 }
 
 func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *IncidentWorkflowResourceModel {
-	return nil
+	model := &IncidentWorkflowResourceModel{
+		ID:      types.StringValue(workflow.Id),
+		Name:    types.StringValue(workflow.Name),
+		Trigger: types.StringValue(workflow.Trigger.Name),
+	}
+	if workflow.Folder != nil {
+		model.Folder = types.StringValue(*workflow.Folder)
+	}
+	if workflow.TerraformRepoUrl != nil {
+		model.TerraformRepoURL = types.StringValue(*workflow.TerraformRepoUrl)
+	}
+	return model
 }

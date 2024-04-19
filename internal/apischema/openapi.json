@@ -1482,7 +1482,7 @@
                 "once_for",
                 "version",
                 "expressions",
-                "conditions",
+                "condition_groups",
                 "steps",
                 "include_private_incidents",
                 "include_test_incidents",
@@ -3273,7 +3273,7 @@
                 "once_for",
                 "version",
                 "expressions",
-                "conditions",
+                "condition_groups",
                 "steps",
                 "include_private_incidents",
                 "include_test_incidents",
@@ -3422,7 +3422,7 @@
                 "once_for",
                 "version",
                 "expressions",
-                "conditions",
+                "condition_groups",
                 "steps",
                 "include_private_incidents",
                 "include_test_incidents",
@@ -15740,6 +15740,286 @@
       },
       "required": [
         "catalog_type"
+      ]
+    },
+    "ConditionGroupPayloadRequestBody": {
+      "title": "ConditionGroupPayloadRequestBody",
+      "type": "object",
+      "properties": {
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConditionPayloadV2RequestBody"
+          },
+          "description": "List of conditions that should be AND-ed together",
+          "example": [
+            {
+              "operation": "one_of",
+              "param_bindings": [
+                {
+                  "array_value": [
+                    {
+                      "literal": "SEV123",
+                      "reference": "incident.severity"
+                    }
+                  ],
+                  "value": {
+                    "literal": "SEV123",
+                    "reference": "incident.severity"
+                  }
+                }
+              ],
+              "subject": "incident.severity"
+            }
+          ]
+        }
+      },
+      "example": {
+        "conditions": [
+          {
+            "operation": "one_of",
+            "param_bindings": [
+              {
+                "array_value": [
+                  {
+                    "literal": "SEV123",
+                    "reference": "incident.severity"
+                  }
+                ],
+                "value": {
+                  "literal": "SEV123",
+                  "reference": "incident.severity"
+                }
+              }
+            ],
+            "subject": "incident.severity"
+          }
+        ]
+      },
+      "required": [
+        "conditions"
+      ]
+    },
+    "ConditionGroupResponseBody": {
+      "title": "ConditionGroupResponseBody",
+      "type": "object",
+      "properties": {
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConditionV2ResponseBody"
+          },
+          "description": "List of conditions that should be AND-ed together",
+          "example": [
+            {
+              "operation": {
+                "label": "Lawrence Jones",
+                "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+              },
+              "param_bindings": [
+                {
+                  "array_value": [
+                    {
+                      "catalog_entry": {
+                        "archived_at": "2021-08-17T14:28:57.801578Z",
+                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                        "catalog_entry_name": "Primary escalation",
+                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                      },
+                      "helptext": "Collection of standalone automations like auto-closing incidents.",
+                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                      "is_image_slack_icon": false,
+                      "label": "Lawrence Jones",
+                      "literal": "SEV123",
+                      "reference": "incident.severity",
+                      "sort_key": "000020",
+                      "unavailable": false,
+                      "value": "abc123"
+                    }
+                  ],
+                  "value": {
+                    "catalog_entry": {
+                      "archived_at": "2021-08-17T14:28:57.801578Z",
+                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "catalog_entry_name": "Primary escalation",
+                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                    },
+                    "helptext": "Collection of standalone automations like auto-closing incidents.",
+                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                    "is_image_slack_icon": false,
+                    "label": "Lawrence Jones",
+                    "literal": "SEV123",
+                    "reference": "incident.severity",
+                    "sort_key": "000020",
+                    "unavailable": false,
+                    "value": "abc123"
+                  }
+                }
+              ],
+              "params": [
+                {
+                  "array": true,
+                  "default_value": {
+                    "array_value": [
+                      {
+                        "catalog_entry": {
+                          "archived_at": "2021-08-17T14:28:57.801578Z",
+                          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "catalog_entry_name": "Primary escalation",
+                          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                        },
+                        "helptext": "Collection of standalone automations like auto-closing incidents.",
+                        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                        "is_image_slack_icon": false,
+                        "label": "Lawrence Jones",
+                        "literal": "SEV123",
+                        "reference": "incident.severity",
+                        "sort_key": "000020",
+                        "unavailable": false,
+                        "value": "abc123"
+                      }
+                    ],
+                    "value": {
+                      "catalog_entry": {
+                        "archived_at": "2021-08-17T14:28:57.801578Z",
+                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                        "catalog_entry_name": "Primary escalation",
+                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                      },
+                      "helptext": "Collection of standalone automations like auto-closing incidents.",
+                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                      "is_image_slack_icon": false,
+                      "label": "Lawrence Jones",
+                      "literal": "SEV123",
+                      "reference": "incident.severity",
+                      "sort_key": "000020",
+                      "unavailable": false,
+                      "value": "abc123"
+                    }
+                  },
+                  "description": "What slack channel should we send the message to?",
+                  "infer_reference": true,
+                  "label": "To date",
+                  "name": "severity",
+                  "optional": true,
+                  "type": "IncidentSeverity"
+                }
+              ],
+              "subject": {
+                "icon": "action",
+                "label": "Incident Severity",
+                "reference": "incident.severity"
+              }
+            }
+          ]
+        }
+      },
+      "example": {
+        "conditions": [
+          {
+            "operation": {
+              "label": "Lawrence Jones",
+              "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+            },
+            "param_bindings": [
+              {
+                "array_value": [
+                  {
+                    "catalog_entry": {
+                      "archived_at": "2021-08-17T14:28:57.801578Z",
+                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "catalog_entry_name": "Primary escalation",
+                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                    },
+                    "helptext": "Collection of standalone automations like auto-closing incidents.",
+                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                    "is_image_slack_icon": false,
+                    "label": "Lawrence Jones",
+                    "literal": "SEV123",
+                    "reference": "incident.severity",
+                    "sort_key": "000020",
+                    "unavailable": false,
+                    "value": "abc123"
+                  }
+                ],
+                "value": {
+                  "catalog_entry": {
+                    "archived_at": "2021-08-17T14:28:57.801578Z",
+                    "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "catalog_entry_name": "Primary escalation",
+                    "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                  },
+                  "helptext": "Collection of standalone automations like auto-closing incidents.",
+                  "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                  "is_image_slack_icon": false,
+                  "label": "Lawrence Jones",
+                  "literal": "SEV123",
+                  "reference": "incident.severity",
+                  "sort_key": "000020",
+                  "unavailable": false,
+                  "value": "abc123"
+                }
+              }
+            ],
+            "params": [
+              {
+                "array": true,
+                "default_value": {
+                  "array_value": [
+                    {
+                      "catalog_entry": {
+                        "archived_at": "2021-08-17T14:28:57.801578Z",
+                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                        "catalog_entry_name": "Primary escalation",
+                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                      },
+                      "helptext": "Collection of standalone automations like auto-closing incidents.",
+                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                      "is_image_slack_icon": false,
+                      "label": "Lawrence Jones",
+                      "literal": "SEV123",
+                      "reference": "incident.severity",
+                      "sort_key": "000020",
+                      "unavailable": false,
+                      "value": "abc123"
+                    }
+                  ],
+                  "value": {
+                    "catalog_entry": {
+                      "archived_at": "2021-08-17T14:28:57.801578Z",
+                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "catalog_entry_name": "Primary escalation",
+                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                    },
+                    "helptext": "Collection of standalone automations like auto-closing incidents.",
+                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                    "is_image_slack_icon": false,
+                    "label": "Lawrence Jones",
+                    "literal": "SEV123",
+                    "reference": "incident.severity",
+                    "sort_key": "000020",
+                    "unavailable": false,
+                    "value": "abc123"
+                  }
+                },
+                "description": "What slack channel should we send the message to?",
+                "infer_reference": true,
+                "label": "To date",
+                "name": "severity",
+                "optional": true,
+                "type": "IncidentSeverity"
+              }
+            ],
+            "subject": {
+              "icon": "action",
+              "label": "Incident Severity",
+              "reference": "incident.severity"
+            }
+          }
+        ]
+      },
+      "required": [
+        "conditions"
       ]
     },
     "ConditionOperationV2ResponseBody": {
@@ -29699,30 +29979,34 @@
       "title": "WorkflowPayloadRequestBody",
       "type": "object",
       "properties": {
-        "conditions": {
+        "condition_groups": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ConditionPayloadV2RequestBody"
+            "$ref": "#/definitions/ConditionGroupPayloadRequestBody"
           },
           "description": "List of conditions to apply to the workflow",
           "example": [
             {
-              "operation": "one_of",
-              "param_bindings": [
+              "conditions": [
                 {
-                  "array_value": [
+                  "operation": "one_of",
+                  "param_bindings": [
                     {
-                      "literal": "SEV123",
-                      "reference": "incident.severity"
+                      "array_value": [
+                        {
+                          "literal": "SEV123",
+                          "reference": "incident.severity"
+                        }
+                      ],
+                      "value": {
+                        "literal": "SEV123",
+                        "reference": "incident.severity"
+                      }
                     }
                   ],
-                  "value": {
-                    "literal": "SEV123",
-                    "reference": "incident.severity"
-                  }
+                  "subject": "incident.severity"
                 }
-              ],
-              "subject": "incident.severity"
+              ]
             }
           ]
         },
@@ -29916,27 +30200,36 @@
               ]
             }
           ]
+        },
+        "terraform_repo_url": {
+          "type": "string",
+          "description": "The url of the external repository where this workflow is managed",
+          "example": "https://github.com/my-company/incident-io-workflows"
         }
       },
       "example": {
-        "conditions": [
+        "condition_groups": [
           {
-            "operation": "one_of",
-            "param_bindings": [
+            "conditions": [
               {
-                "array_value": [
+                "operation": "one_of",
+                "param_bindings": [
                   {
-                    "literal": "SEV123",
-                    "reference": "incident.severity"
+                    "array_value": [
+                      {
+                        "literal": "SEV123",
+                        "reference": "incident.severity"
+                      }
+                    ],
+                    "value": {
+                      "literal": "SEV123",
+                      "reference": "incident.severity"
+                    }
                   }
                 ],
-                "value": {
-                  "literal": "SEV123",
-                  "reference": "incident.severity"
-                }
+                "subject": "incident.severity"
               }
-            ],
-            "subject": "incident.severity"
+            ]
           }
         ],
         "conditions_apply_over_delay": false,
@@ -30070,12 +30363,13 @@
               }
             ]
           }
-        ]
+        ],
+        "terraform_repo_url": "https://github.com/my-company/incident-io-workflows"
       },
       "required": [
         "name",
         "once_for",
-        "conditions",
+        "condition_groups",
         "steps",
         "include_private_incidents",
         "include_test_incidents",
@@ -30095,64 +30389,42 @@
       "title": "WorkflowResponseBody",
       "type": "object",
       "properties": {
-        "conditions": {
+        "condition_groups": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ConditionV2ResponseBody"
+            "$ref": "#/definitions/ConditionGroupResponseBody"
           },
           "description": "Conditions that apply to the workflow trigger",
           "example": [
             {
-              "operation": {
-                "label": "Lawrence Jones",
-                "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-              },
-              "param_bindings": [
+              "conditions": [
                 {
-                  "array_value": [
-                    {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
+                  "operation": {
                     "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                }
-              ],
-              "params": [
-                {
-                  "array": true,
-                  "default_value": {
-                    "array_value": [
-                      {
+                    "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                  },
+                  "param_bindings": [
+                    {
+                      "array_value": [
+                        {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      ],
+                      "value": {
                         "catalog_entry": {
                           "archived_at": "2021-08-17T14:28:57.801578Z",
                           "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -30169,38 +30441,64 @@
                         "unavailable": false,
                         "value": "abc123"
                       }
-                    ],
-                    "value": {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
                     }
-                  },
-                  "description": "What slack channel should we send the message to?",
-                  "infer_reference": true,
-                  "label": "To date",
-                  "name": "severity",
-                  "optional": true,
-                  "type": "IncidentSeverity"
+                  ],
+                  "params": [
+                    {
+                      "array": true,
+                      "default_value": {
+                        "array_value": [
+                          {
+                            "catalog_entry": {
+                              "archived_at": "2021-08-17T14:28:57.801578Z",
+                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
+                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                            },
+                            "helptext": "Collection of standalone automations like auto-closing incidents.",
+                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                            "is_image_slack_icon": false,
+                            "label": "Lawrence Jones",
+                            "literal": "SEV123",
+                            "reference": "incident.severity",
+                            "sort_key": "000020",
+                            "unavailable": false,
+                            "value": "abc123"
+                          }
+                        ],
+                        "value": {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      },
+                      "description": "What slack channel should we send the message to?",
+                      "infer_reference": true,
+                      "label": "To date",
+                      "name": "severity",
+                      "optional": true,
+                      "type": "IncidentSeverity"
+                    }
+                  ],
+                  "subject": {
+                    "icon": "action",
+                    "label": "Incident Severity",
+                    "reference": "incident.severity"
+                  }
                 }
-              ],
-              "subject": {
-                "icon": "action",
-                "label": "Incident Severity",
-                "reference": "incident.severity"
-              }
+              ]
             }
           ]
         },
@@ -30739,6 +31037,11 @@
             }
           ]
         },
+        "terraform_repo_url": {
+          "type": "string",
+          "description": "The url of the external repository where this workflow is managed",
+          "example": "https://github.com/my-company/incident-io-workflows"
+        },
         "trigger": {
           "$ref": "#/definitions/TriggerSlimResponseBody"
         },
@@ -30756,58 +31059,36 @@
         }
       },
       "example": {
-        "conditions": [
+        "condition_groups": [
           {
-            "operation": {
-              "label": "Lawrence Jones",
-              "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-            },
-            "param_bindings": [
+            "conditions": [
               {
-                "array_value": [
-                  {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
-                    "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                ],
-                "value": {
-                  "catalog_entry": {
-                    "archived_at": "2021-08-17T14:28:57.801578Z",
-                    "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                    "catalog_entry_name": "Primary escalation",
-                    "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                  },
-                  "helptext": "Collection of standalone automations like auto-closing incidents.",
-                  "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                  "is_image_slack_icon": false,
+                "operation": {
                   "label": "Lawrence Jones",
-                  "literal": "SEV123",
-                  "reference": "incident.severity",
-                  "sort_key": "000020",
-                  "unavailable": false,
-                  "value": "abc123"
-                }
-              }
-            ],
-            "params": [
-              {
-                "array": true,
-                "default_value": {
-                  "array_value": [
-                    {
+                  "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                },
+                "param_bindings": [
+                  {
+                    "array_value": [
+                      {
+                        "catalog_entry": {
+                          "archived_at": "2021-08-17T14:28:57.801578Z",
+                          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "catalog_entry_name": "Primary escalation",
+                          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                        },
+                        "helptext": "Collection of standalone automations like auto-closing incidents.",
+                        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                        "is_image_slack_icon": false,
+                        "label": "Lawrence Jones",
+                        "literal": "SEV123",
+                        "reference": "incident.severity",
+                        "sort_key": "000020",
+                        "unavailable": false,
+                        "value": "abc123"
+                      }
+                    ],
+                    "value": {
                       "catalog_entry": {
                         "archived_at": "2021-08-17T14:28:57.801578Z",
                         "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -30824,38 +31105,64 @@
                       "unavailable": false,
                       "value": "abc123"
                     }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
-                    "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
                   }
-                },
-                "description": "What slack channel should we send the message to?",
-                "infer_reference": true,
-                "label": "To date",
-                "name": "severity",
-                "optional": true,
-                "type": "IncidentSeverity"
+                ],
+                "params": [
+                  {
+                    "array": true,
+                    "default_value": {
+                      "array_value": [
+                        {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      ],
+                      "value": {
+                        "catalog_entry": {
+                          "archived_at": "2021-08-17T14:28:57.801578Z",
+                          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "catalog_entry_name": "Primary escalation",
+                          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                        },
+                        "helptext": "Collection of standalone automations like auto-closing incidents.",
+                        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                        "is_image_slack_icon": false,
+                        "label": "Lawrence Jones",
+                        "literal": "SEV123",
+                        "reference": "incident.severity",
+                        "sort_key": "000020",
+                        "unavailable": false,
+                        "value": "abc123"
+                      }
+                    },
+                    "description": "What slack channel should we send the message to?",
+                    "infer_reference": true,
+                    "label": "To date",
+                    "name": "severity",
+                    "optional": true,
+                    "type": "IncidentSeverity"
+                  }
+                ],
+                "subject": {
+                  "icon": "action",
+                  "label": "Incident Severity",
+                  "reference": "incident.severity"
+                }
               }
-            ],
-            "subject": {
-              "icon": "action",
-              "label": "Incident Severity",
-              "reference": "incident.severity"
-            }
+            ]
           }
         ],
         "conditions_apply_over_delay": false,
@@ -31308,6 +31615,7 @@
             ]
           }
         ],
+        "terraform_repo_url": "https://github.com/my-company/incident-io-workflows",
         "trigger": {
           "group_label": "general",
           "icon": "action",
@@ -31325,7 +31633,7 @@
         "once_for",
         "version",
         "expressions",
-        "conditions",
+        "condition_groups",
         "steps",
         "include_private_incidents",
         "include_test_incidents",
@@ -31470,64 +31778,42 @@
       "title": "WorkflowSlimResponseBody",
       "type": "object",
       "properties": {
-        "conditions": {
+        "condition_groups": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ConditionV2ResponseBody"
+            "$ref": "#/definitions/ConditionGroupResponseBody"
           },
           "description": "Conditions that apply to the workflow trigger",
           "example": [
             {
-              "operation": {
-                "label": "Lawrence Jones",
-                "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-              },
-              "param_bindings": [
+              "conditions": [
                 {
-                  "array_value": [
-                    {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
+                  "operation": {
                     "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                }
-              ],
-              "params": [
-                {
-                  "array": true,
-                  "default_value": {
-                    "array_value": [
-                      {
+                    "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                  },
+                  "param_bindings": [
+                    {
+                      "array_value": [
+                        {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      ],
+                      "value": {
                         "catalog_entry": {
                           "archived_at": "2021-08-17T14:28:57.801578Z",
                           "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -31544,38 +31830,64 @@
                         "unavailable": false,
                         "value": "abc123"
                       }
-                    ],
-                    "value": {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
                     }
-                  },
-                  "description": "What slack channel should we send the message to?",
-                  "infer_reference": true,
-                  "label": "To date",
-                  "name": "severity",
-                  "optional": true,
-                  "type": "IncidentSeverity"
+                  ],
+                  "params": [
+                    {
+                      "array": true,
+                      "default_value": {
+                        "array_value": [
+                          {
+                            "catalog_entry": {
+                              "archived_at": "2021-08-17T14:28:57.801578Z",
+                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
+                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                            },
+                            "helptext": "Collection of standalone automations like auto-closing incidents.",
+                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                            "is_image_slack_icon": false,
+                            "label": "Lawrence Jones",
+                            "literal": "SEV123",
+                            "reference": "incident.severity",
+                            "sort_key": "000020",
+                            "unavailable": false,
+                            "value": "abc123"
+                          }
+                        ],
+                        "value": {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      },
+                      "description": "What slack channel should we send the message to?",
+                      "infer_reference": true,
+                      "label": "To date",
+                      "name": "severity",
+                      "optional": true,
+                      "type": "IncidentSeverity"
+                    }
+                  ],
+                  "subject": {
+                    "icon": "action",
+                    "label": "Incident Severity",
+                    "reference": "incident.severity"
+                  }
                 }
-              ],
-              "subject": {
-                "icon": "action",
-                "label": "Incident Severity",
-                "reference": "incident.severity"
-              }
+              ]
             }
           ]
         },
@@ -32011,6 +32323,11 @@
             }
           ]
         },
+        "terraform_repo_url": {
+          "type": "string",
+          "description": "The url of the external repository where this workflow is managed",
+          "example": "https://github.com/my-company/incident-io-workflows"
+        },
         "trigger": {
           "$ref": "#/definitions/TriggerSlimResponseBody"
         },
@@ -32034,58 +32351,36 @@
         }
       },
       "example": {
-        "conditions": [
+        "condition_groups": [
           {
-            "operation": {
-              "label": "Lawrence Jones",
-              "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-            },
-            "param_bindings": [
+            "conditions": [
               {
-                "array_value": [
-                  {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
-                    "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                ],
-                "value": {
-                  "catalog_entry": {
-                    "archived_at": "2021-08-17T14:28:57.801578Z",
-                    "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                    "catalog_entry_name": "Primary escalation",
-                    "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                  },
-                  "helptext": "Collection of standalone automations like auto-closing incidents.",
-                  "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                  "is_image_slack_icon": false,
+                "operation": {
                   "label": "Lawrence Jones",
-                  "literal": "SEV123",
-                  "reference": "incident.severity",
-                  "sort_key": "000020",
-                  "unavailable": false,
-                  "value": "abc123"
-                }
-              }
-            ],
-            "params": [
-              {
-                "array": true,
-                "default_value": {
-                  "array_value": [
-                    {
+                  "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                },
+                "param_bindings": [
+                  {
+                    "array_value": [
+                      {
+                        "catalog_entry": {
+                          "archived_at": "2021-08-17T14:28:57.801578Z",
+                          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "catalog_entry_name": "Primary escalation",
+                          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                        },
+                        "helptext": "Collection of standalone automations like auto-closing incidents.",
+                        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                        "is_image_slack_icon": false,
+                        "label": "Lawrence Jones",
+                        "literal": "SEV123",
+                        "reference": "incident.severity",
+                        "sort_key": "000020",
+                        "unavailable": false,
+                        "value": "abc123"
+                      }
+                    ],
+                    "value": {
                       "catalog_entry": {
                         "archived_at": "2021-08-17T14:28:57.801578Z",
                         "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -32102,38 +32397,64 @@
                       "unavailable": false,
                       "value": "abc123"
                     }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
-                    "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
                   }
-                },
-                "description": "What slack channel should we send the message to?",
-                "infer_reference": true,
-                "label": "To date",
-                "name": "severity",
-                "optional": true,
-                "type": "IncidentSeverity"
+                ],
+                "params": [
+                  {
+                    "array": true,
+                    "default_value": {
+                      "array_value": [
+                        {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      ],
+                      "value": {
+                        "catalog_entry": {
+                          "archived_at": "2021-08-17T14:28:57.801578Z",
+                          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "catalog_entry_name": "Primary escalation",
+                          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                        },
+                        "helptext": "Collection of standalone automations like auto-closing incidents.",
+                        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                        "is_image_slack_icon": false,
+                        "label": "Lawrence Jones",
+                        "literal": "SEV123",
+                        "reference": "incident.severity",
+                        "sort_key": "000020",
+                        "unavailable": false,
+                        "value": "abc123"
+                      }
+                    },
+                    "description": "What slack channel should we send the message to?",
+                    "infer_reference": true,
+                    "label": "To date",
+                    "name": "severity",
+                    "optional": true,
+                    "type": "IncidentSeverity"
+                  }
+                ],
+                "subject": {
+                  "icon": "action",
+                  "label": "Incident Severity",
+                  "reference": "incident.severity"
+                }
               }
-            ],
-            "subject": {
-              "icon": "action",
-              "label": "Incident Severity",
-              "reference": "incident.severity"
-            }
+            ]
           }
         ],
         "conditions_apply_over_delay": false,
@@ -32493,6 +32814,7 @@
             "name": "pagerduty.escalate"
           }
         ],
+        "terraform_repo_url": "https://github.com/my-company/incident-io-workflows",
         "trigger": {
           "group_label": "general",
           "icon": "action",
@@ -32510,7 +32832,7 @@
         "once_for",
         "version",
         "expressions",
-        "conditions",
+        "condition_groups",
         "steps",
         "include_private_incidents",
         "include_test_incidents",
@@ -32648,24 +32970,28 @@
         "folder": "My folder 01",
         "trigger": "incident.updated",
         "workflow": {
-          "conditions": [
+          "condition_groups": [
             {
-              "operation": "one_of",
-              "param_bindings": [
+              "conditions": [
                 {
-                  "array_value": [
+                  "operation": "one_of",
+                  "param_bindings": [
                     {
-                      "literal": "SEV123",
-                      "reference": "incident.severity"
+                      "array_value": [
+                        {
+                          "literal": "SEV123",
+                          "reference": "incident.severity"
+                        }
+                      ],
+                      "value": {
+                        "literal": "SEV123",
+                        "reference": "incident.severity"
+                      }
                     }
                   ],
-                  "value": {
-                    "literal": "SEV123",
-                    "reference": "incident.severity"
-                  }
+                  "subject": "incident.severity"
                 }
-              ],
-              "subject": "incident.severity"
+              ]
             }
           ],
           "conditions_apply_over_delay": false,
@@ -32799,7 +33125,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "terraform_repo_url": "https://github.com/my-company/incident-io-workflows"
         }
       },
       "required": [
@@ -32811,7 +33138,7 @@
         "once_for",
         "version",
         "expressions",
-        "conditions",
+        "condition_groups",
         "steps",
         "include_private_incidents",
         "include_test_incidents",
@@ -32832,58 +33159,36 @@
       },
       "example": {
         "workflow": {
-          "conditions": [
+          "condition_groups": [
             {
-              "operation": {
-                "label": "Lawrence Jones",
-                "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-              },
-              "param_bindings": [
+              "conditions": [
                 {
-                  "array_value": [
-                    {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
+                  "operation": {
                     "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                }
-              ],
-              "params": [
-                {
-                  "array": true,
-                  "default_value": {
-                    "array_value": [
-                      {
+                    "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                  },
+                  "param_bindings": [
+                    {
+                      "array_value": [
+                        {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      ],
+                      "value": {
                         "catalog_entry": {
                           "archived_at": "2021-08-17T14:28:57.801578Z",
                           "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -32900,38 +33205,64 @@
                         "unavailable": false,
                         "value": "abc123"
                       }
-                    ],
-                    "value": {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
                     }
-                  },
-                  "description": "What slack channel should we send the message to?",
-                  "infer_reference": true,
-                  "label": "To date",
-                  "name": "severity",
-                  "optional": true,
-                  "type": "IncidentSeverity"
+                  ],
+                  "params": [
+                    {
+                      "array": true,
+                      "default_value": {
+                        "array_value": [
+                          {
+                            "catalog_entry": {
+                              "archived_at": "2021-08-17T14:28:57.801578Z",
+                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
+                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                            },
+                            "helptext": "Collection of standalone automations like auto-closing incidents.",
+                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                            "is_image_slack_icon": false,
+                            "label": "Lawrence Jones",
+                            "literal": "SEV123",
+                            "reference": "incident.severity",
+                            "sort_key": "000020",
+                            "unavailable": false,
+                            "value": "abc123"
+                          }
+                        ],
+                        "value": {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      },
+                      "description": "What slack channel should we send the message to?",
+                      "infer_reference": true,
+                      "label": "To date",
+                      "name": "severity",
+                      "optional": true,
+                      "type": "IncidentSeverity"
+                    }
+                  ],
+                  "subject": {
+                    "icon": "action",
+                    "label": "Incident Severity",
+                    "reference": "incident.severity"
+                  }
                 }
-              ],
-              "subject": {
-                "icon": "action",
-                "label": "Incident Severity",
-                "reference": "incident.severity"
-              }
+              ]
             }
           ],
           "conditions_apply_over_delay": false,
@@ -33384,6 +33715,7 @@
               ]
             }
           ],
+          "terraform_repo_url": "https://github.com/my-company/incident-io-workflows",
           "trigger": {
             "group_label": "general",
             "icon": "action",
@@ -33484,58 +33816,36 @@
       },
       "example": {
         "workflow": {
-          "conditions": [
+          "condition_groups": [
             {
-              "operation": {
-                "label": "Lawrence Jones",
-                "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-              },
-              "param_bindings": [
+              "conditions": [
                 {
-                  "array_value": [
-                    {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
+                  "operation": {
                     "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                }
-              ],
-              "params": [
-                {
-                  "array": true,
-                  "default_value": {
-                    "array_value": [
-                      {
+                    "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                  },
+                  "param_bindings": [
+                    {
+                      "array_value": [
+                        {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      ],
+                      "value": {
                         "catalog_entry": {
                           "archived_at": "2021-08-17T14:28:57.801578Z",
                           "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -33552,38 +33862,64 @@
                         "unavailable": false,
                         "value": "abc123"
                       }
-                    ],
-                    "value": {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
                     }
-                  },
-                  "description": "What slack channel should we send the message to?",
-                  "infer_reference": true,
-                  "label": "To date",
-                  "name": "severity",
-                  "optional": true,
-                  "type": "IncidentSeverity"
+                  ],
+                  "params": [
+                    {
+                      "array": true,
+                      "default_value": {
+                        "array_value": [
+                          {
+                            "catalog_entry": {
+                              "archived_at": "2021-08-17T14:28:57.801578Z",
+                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
+                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                            },
+                            "helptext": "Collection of standalone automations like auto-closing incidents.",
+                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                            "is_image_slack_icon": false,
+                            "label": "Lawrence Jones",
+                            "literal": "SEV123",
+                            "reference": "incident.severity",
+                            "sort_key": "000020",
+                            "unavailable": false,
+                            "value": "abc123"
+                          }
+                        ],
+                        "value": {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      },
+                      "description": "What slack channel should we send the message to?",
+                      "infer_reference": true,
+                      "label": "To date",
+                      "name": "severity",
+                      "optional": true,
+                      "type": "IncidentSeverity"
+                    }
+                  ],
+                  "subject": {
+                    "icon": "action",
+                    "label": "Incident Severity",
+                    "reference": "incident.severity"
+                  }
                 }
-              ],
-              "subject": {
-                "icon": "action",
-                "label": "Incident Severity",
-                "reference": "incident.severity"
-              }
+              ]
             }
           ],
           "conditions_apply_over_delay": false,
@@ -34036,6 +34372,7 @@
               ]
             }
           ],
+          "terraform_repo_url": "https://github.com/my-company/incident-io-workflows",
           "trigger": {
             "group_label": "general",
             "icon": "action",
@@ -34060,58 +34397,36 @@
       },
       "example": {
         "workflow": {
-          "conditions": [
+          "condition_groups": [
             {
-              "operation": {
-                "label": "Lawrence Jones",
-                "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-              },
-              "param_bindings": [
+              "conditions": [
                 {
-                  "array_value": [
-                    {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
+                  "operation": {
                     "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                }
-              ],
-              "params": [
-                {
-                  "array": true,
-                  "default_value": {
-                    "array_value": [
-                      {
+                    "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                  },
+                  "param_bindings": [
+                    {
+                      "array_value": [
+                        {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      ],
+                      "value": {
                         "catalog_entry": {
                           "archived_at": "2021-08-17T14:28:57.801578Z",
                           "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -34128,38 +34443,64 @@
                         "unavailable": false,
                         "value": "abc123"
                       }
-                    ],
-                    "value": {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
                     }
-                  },
-                  "description": "What slack channel should we send the message to?",
-                  "infer_reference": true,
-                  "label": "To date",
-                  "name": "severity",
-                  "optional": true,
-                  "type": "IncidentSeverity"
+                  ],
+                  "params": [
+                    {
+                      "array": true,
+                      "default_value": {
+                        "array_value": [
+                          {
+                            "catalog_entry": {
+                              "archived_at": "2021-08-17T14:28:57.801578Z",
+                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
+                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                            },
+                            "helptext": "Collection of standalone automations like auto-closing incidents.",
+                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                            "is_image_slack_icon": false,
+                            "label": "Lawrence Jones",
+                            "literal": "SEV123",
+                            "reference": "incident.severity",
+                            "sort_key": "000020",
+                            "unavailable": false,
+                            "value": "abc123"
+                          }
+                        ],
+                        "value": {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      },
+                      "description": "What slack channel should we send the message to?",
+                      "infer_reference": true,
+                      "label": "To date",
+                      "name": "severity",
+                      "optional": true,
+                      "type": "IncidentSeverity"
+                    }
+                  ],
+                  "subject": {
+                    "icon": "action",
+                    "label": "Incident Severity",
+                    "reference": "incident.severity"
+                  }
                 }
-              ],
-              "subject": {
-                "icon": "action",
-                "label": "Incident Severity",
-                "reference": "incident.severity"
-              }
+              ]
             }
           ],
           "conditions_apply_over_delay": false,
@@ -34612,6 +34953,7 @@
               ]
             }
           ],
+          "terraform_repo_url": "https://github.com/my-company/incident-io-workflows",
           "trigger": {
             "group_label": "general",
             "icon": "action",
@@ -34931,58 +35273,36 @@
           },
           "example": [
             {
-              "conditions": [
+              "condition_groups": [
                 {
-                  "operation": {
-                    "label": "Lawrence Jones",
-                    "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-                  },
-                  "param_bindings": [
+                  "conditions": [
                     {
-                      "array_value": [
-                        {
-                          "catalog_entry": {
-                            "archived_at": "2021-08-17T14:28:57.801578Z",
-                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                            "catalog_entry_name": "Primary escalation",
-                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                          },
-                          "helptext": "Collection of standalone automations like auto-closing incidents.",
-                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                          "is_image_slack_icon": false,
-                          "label": "Lawrence Jones",
-                          "literal": "SEV123",
-                          "reference": "incident.severity",
-                          "sort_key": "000020",
-                          "unavailable": false,
-                          "value": "abc123"
-                        }
-                      ],
-                      "value": {
-                        "catalog_entry": {
-                          "archived_at": "2021-08-17T14:28:57.801578Z",
-                          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                          "catalog_entry_name": "Primary escalation",
-                          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                        },
-                        "helptext": "Collection of standalone automations like auto-closing incidents.",
-                        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                        "is_image_slack_icon": false,
+                      "operation": {
                         "label": "Lawrence Jones",
-                        "literal": "SEV123",
-                        "reference": "incident.severity",
-                        "sort_key": "000020",
-                        "unavailable": false,
-                        "value": "abc123"
-                      }
-                    }
-                  ],
-                  "params": [
-                    {
-                      "array": true,
-                      "default_value": {
-                        "array_value": [
-                          {
+                        "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                      },
+                      "param_bindings": [
+                        {
+                          "array_value": [
+                            {
+                              "catalog_entry": {
+                                "archived_at": "2021-08-17T14:28:57.801578Z",
+                                "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                                "catalog_entry_name": "Primary escalation",
+                                "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                              },
+                              "helptext": "Collection of standalone automations like auto-closing incidents.",
+                              "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                              "is_image_slack_icon": false,
+                              "label": "Lawrence Jones",
+                              "literal": "SEV123",
+                              "reference": "incident.severity",
+                              "sort_key": "000020",
+                              "unavailable": false,
+                              "value": "abc123"
+                            }
+                          ],
+                          "value": {
                             "catalog_entry": {
                               "archived_at": "2021-08-17T14:28:57.801578Z",
                               "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -34999,38 +35319,64 @@
                             "unavailable": false,
                             "value": "abc123"
                           }
-                        ],
-                        "value": {
-                          "catalog_entry": {
-                            "archived_at": "2021-08-17T14:28:57.801578Z",
-                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                            "catalog_entry_name": "Primary escalation",
-                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                          },
-                          "helptext": "Collection of standalone automations like auto-closing incidents.",
-                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                          "is_image_slack_icon": false,
-                          "label": "Lawrence Jones",
-                          "literal": "SEV123",
-                          "reference": "incident.severity",
-                          "sort_key": "000020",
-                          "unavailable": false,
-                          "value": "abc123"
                         }
-                      },
-                      "description": "What slack channel should we send the message to?",
-                      "infer_reference": true,
-                      "label": "To date",
-                      "name": "severity",
-                      "optional": true,
-                      "type": "IncidentSeverity"
+                      ],
+                      "params": [
+                        {
+                          "array": true,
+                          "default_value": {
+                            "array_value": [
+                              {
+                                "catalog_entry": {
+                                  "archived_at": "2021-08-17T14:28:57.801578Z",
+                                  "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                                  "catalog_entry_name": "Primary escalation",
+                                  "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                                },
+                                "helptext": "Collection of standalone automations like auto-closing incidents.",
+                                "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                                "is_image_slack_icon": false,
+                                "label": "Lawrence Jones",
+                                "literal": "SEV123",
+                                "reference": "incident.severity",
+                                "sort_key": "000020",
+                                "unavailable": false,
+                                "value": "abc123"
+                              }
+                            ],
+                            "value": {
+                              "catalog_entry": {
+                                "archived_at": "2021-08-17T14:28:57.801578Z",
+                                "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                                "catalog_entry_name": "Primary escalation",
+                                "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                              },
+                              "helptext": "Collection of standalone automations like auto-closing incidents.",
+                              "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                              "is_image_slack_icon": false,
+                              "label": "Lawrence Jones",
+                              "literal": "SEV123",
+                              "reference": "incident.severity",
+                              "sort_key": "000020",
+                              "unavailable": false,
+                              "value": "abc123"
+                            }
+                          },
+                          "description": "What slack channel should we send the message to?",
+                          "infer_reference": true,
+                          "label": "To date",
+                          "name": "severity",
+                          "optional": true,
+                          "type": "IncidentSeverity"
+                        }
+                      ],
+                      "subject": {
+                        "icon": "action",
+                        "label": "Incident Severity",
+                        "reference": "incident.severity"
+                      }
                     }
-                  ],
-                  "subject": {
-                    "icon": "action",
-                    "label": "Incident Severity",
-                    "reference": "incident.severity"
-                  }
+                  ]
                 }
               ],
               "conditions_apply_over_delay": false,
@@ -35390,6 +35736,7 @@
                   "name": "pagerduty.escalate"
                 }
               ],
+              "terraform_repo_url": "https://github.com/my-company/incident-io-workflows",
               "trigger": {
                 "group_label": "general",
                 "icon": "action",
@@ -35405,58 +35752,36 @@
       "example": {
         "workflows": [
           {
-            "conditions": [
+            "condition_groups": [
               {
-                "operation": {
-                  "label": "Lawrence Jones",
-                  "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-                },
-                "param_bindings": [
+                "conditions": [
                   {
-                    "array_value": [
-                      {
-                        "catalog_entry": {
-                          "archived_at": "2021-08-17T14:28:57.801578Z",
-                          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                          "catalog_entry_name": "Primary escalation",
-                          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                        },
-                        "helptext": "Collection of standalone automations like auto-closing incidents.",
-                        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                        "is_image_slack_icon": false,
-                        "label": "Lawrence Jones",
-                        "literal": "SEV123",
-                        "reference": "incident.severity",
-                        "sort_key": "000020",
-                        "unavailable": false,
-                        "value": "abc123"
-                      }
-                    ],
-                    "value": {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
+                    "operation": {
                       "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  }
-                ],
-                "params": [
-                  {
-                    "array": true,
-                    "default_value": {
-                      "array_value": [
-                        {
+                      "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                    },
+                    "param_bindings": [
+                      {
+                        "array_value": [
+                          {
+                            "catalog_entry": {
+                              "archived_at": "2021-08-17T14:28:57.801578Z",
+                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
+                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                            },
+                            "helptext": "Collection of standalone automations like auto-closing incidents.",
+                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                            "is_image_slack_icon": false,
+                            "label": "Lawrence Jones",
+                            "literal": "SEV123",
+                            "reference": "incident.severity",
+                            "sort_key": "000020",
+                            "unavailable": false,
+                            "value": "abc123"
+                          }
+                        ],
+                        "value": {
                           "catalog_entry": {
                             "archived_at": "2021-08-17T14:28:57.801578Z",
                             "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -35473,38 +35798,64 @@
                           "unavailable": false,
                           "value": "abc123"
                         }
-                      ],
-                      "value": {
-                        "catalog_entry": {
-                          "archived_at": "2021-08-17T14:28:57.801578Z",
-                          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                          "catalog_entry_name": "Primary escalation",
-                          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                        },
-                        "helptext": "Collection of standalone automations like auto-closing incidents.",
-                        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                        "is_image_slack_icon": false,
-                        "label": "Lawrence Jones",
-                        "literal": "SEV123",
-                        "reference": "incident.severity",
-                        "sort_key": "000020",
-                        "unavailable": false,
-                        "value": "abc123"
                       }
-                    },
-                    "description": "What slack channel should we send the message to?",
-                    "infer_reference": true,
-                    "label": "To date",
-                    "name": "severity",
-                    "optional": true,
-                    "type": "IncidentSeverity"
+                    ],
+                    "params": [
+                      {
+                        "array": true,
+                        "default_value": {
+                          "array_value": [
+                            {
+                              "catalog_entry": {
+                                "archived_at": "2021-08-17T14:28:57.801578Z",
+                                "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                                "catalog_entry_name": "Primary escalation",
+                                "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                              },
+                              "helptext": "Collection of standalone automations like auto-closing incidents.",
+                              "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                              "is_image_slack_icon": false,
+                              "label": "Lawrence Jones",
+                              "literal": "SEV123",
+                              "reference": "incident.severity",
+                              "sort_key": "000020",
+                              "unavailable": false,
+                              "value": "abc123"
+                            }
+                          ],
+                          "value": {
+                            "catalog_entry": {
+                              "archived_at": "2021-08-17T14:28:57.801578Z",
+                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
+                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                            },
+                            "helptext": "Collection of standalone automations like auto-closing incidents.",
+                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                            "is_image_slack_icon": false,
+                            "label": "Lawrence Jones",
+                            "literal": "SEV123",
+                            "reference": "incident.severity",
+                            "sort_key": "000020",
+                            "unavailable": false,
+                            "value": "abc123"
+                          }
+                        },
+                        "description": "What slack channel should we send the message to?",
+                        "infer_reference": true,
+                        "label": "To date",
+                        "name": "severity",
+                        "optional": true,
+                        "type": "IncidentSeverity"
+                      }
+                    ],
+                    "subject": {
+                      "icon": "action",
+                      "label": "Incident Severity",
+                      "reference": "incident.severity"
+                    }
                   }
-                ],
-                "subject": {
-                  "icon": "action",
-                  "label": "Incident Severity",
-                  "reference": "incident.severity"
-                }
+                ]
               }
             ],
             "conditions_apply_over_delay": false,
@@ -35864,6 +36215,7 @@
                 "name": "pagerduty.escalate"
               }
             ],
+            "terraform_repo_url": "https://github.com/my-company/incident-io-workflows",
             "trigger": {
               "group_label": "general",
               "icon": "action",
@@ -36012,58 +36364,36 @@
       },
       "example": {
         "workflow": {
-          "conditions": [
+          "condition_groups": [
             {
-              "operation": {
-                "label": "Lawrence Jones",
-                "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-              },
-              "param_bindings": [
+              "conditions": [
                 {
-                  "array_value": [
-                    {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
+                  "operation": {
                     "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                }
-              ],
-              "params": [
-                {
-                  "array": true,
-                  "default_value": {
-                    "array_value": [
-                      {
+                    "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                  },
+                  "param_bindings": [
+                    {
+                      "array_value": [
+                        {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      ],
+                      "value": {
                         "catalog_entry": {
                           "archived_at": "2021-08-17T14:28:57.801578Z",
                           "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -36080,38 +36410,64 @@
                         "unavailable": false,
                         "value": "abc123"
                       }
-                    ],
-                    "value": {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
                     }
-                  },
-                  "description": "What slack channel should we send the message to?",
-                  "infer_reference": true,
-                  "label": "To date",
-                  "name": "severity",
-                  "optional": true,
-                  "type": "IncidentSeverity"
+                  ],
+                  "params": [
+                    {
+                      "array": true,
+                      "default_value": {
+                        "array_value": [
+                          {
+                            "catalog_entry": {
+                              "archived_at": "2021-08-17T14:28:57.801578Z",
+                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
+                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                            },
+                            "helptext": "Collection of standalone automations like auto-closing incidents.",
+                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                            "is_image_slack_icon": false,
+                            "label": "Lawrence Jones",
+                            "literal": "SEV123",
+                            "reference": "incident.severity",
+                            "sort_key": "000020",
+                            "unavailable": false,
+                            "value": "abc123"
+                          }
+                        ],
+                        "value": {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      },
+                      "description": "What slack channel should we send the message to?",
+                      "infer_reference": true,
+                      "label": "To date",
+                      "name": "severity",
+                      "optional": true,
+                      "type": "IncidentSeverity"
+                    }
+                  ],
+                  "subject": {
+                    "icon": "action",
+                    "label": "Incident Severity",
+                    "reference": "incident.severity"
+                  }
                 }
-              ],
-              "subject": {
-                "icon": "action",
-                "label": "Incident Severity",
-                "reference": "incident.severity"
-              }
+              ]
             }
           ],
           "conditions_apply_over_delay": false,
@@ -36564,6 +36920,7 @@
               ]
             }
           ],
+          "terraform_repo_url": "https://github.com/my-company/incident-io-workflows",
           "trigger": {
             "group_label": "general",
             "icon": "action",
@@ -36626,58 +36983,36 @@
       },
       "example": {
         "workflow": {
-          "conditions": [
+          "condition_groups": [
             {
-              "operation": {
-                "label": "Lawrence Jones",
-                "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-              },
-              "param_bindings": [
+              "conditions": [
                 {
-                  "array_value": [
-                    {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
+                  "operation": {
                     "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                }
-              ],
-              "params": [
-                {
-                  "array": true,
-                  "default_value": {
-                    "array_value": [
-                      {
+                    "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                  },
+                  "param_bindings": [
+                    {
+                      "array_value": [
+                        {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      ],
+                      "value": {
                         "catalog_entry": {
                           "archived_at": "2021-08-17T14:28:57.801578Z",
                           "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -36694,38 +37029,64 @@
                         "unavailable": false,
                         "value": "abc123"
                       }
-                    ],
-                    "value": {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
                     }
-                  },
-                  "description": "What slack channel should we send the message to?",
-                  "infer_reference": true,
-                  "label": "To date",
-                  "name": "severity",
-                  "optional": true,
-                  "type": "IncidentSeverity"
+                  ],
+                  "params": [
+                    {
+                      "array": true,
+                      "default_value": {
+                        "array_value": [
+                          {
+                            "catalog_entry": {
+                              "archived_at": "2021-08-17T14:28:57.801578Z",
+                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
+                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                            },
+                            "helptext": "Collection of standalone automations like auto-closing incidents.",
+                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                            "is_image_slack_icon": false,
+                            "label": "Lawrence Jones",
+                            "literal": "SEV123",
+                            "reference": "incident.severity",
+                            "sort_key": "000020",
+                            "unavailable": false,
+                            "value": "abc123"
+                          }
+                        ],
+                        "value": {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      },
+                      "description": "What slack channel should we send the message to?",
+                      "infer_reference": true,
+                      "label": "To date",
+                      "name": "severity",
+                      "optional": true,
+                      "type": "IncidentSeverity"
+                    }
+                  ],
+                  "subject": {
+                    "icon": "action",
+                    "label": "Incident Severity",
+                    "reference": "incident.severity"
+                  }
                 }
-              ],
-              "subject": {
-                "icon": "action",
-                "label": "Incident Severity",
-                "reference": "incident.severity"
-              }
+              ]
             }
           ],
           "conditions_apply_over_delay": false,
@@ -37178,6 +37539,7 @@
               ]
             }
           ],
+          "terraform_repo_url": "https://github.com/my-company/incident-io-workflows",
           "trigger": {
             "group_label": "general",
             "icon": "action",
@@ -37212,7 +37574,7 @@
         "once_for",
         "version",
         "expressions",
-        "conditions",
+        "condition_groups",
         "steps",
         "include_private_incidents",
         "include_test_incidents",
@@ -37233,58 +37595,36 @@
       },
       "example": {
         "workflow": {
-          "conditions": [
+          "condition_groups": [
             {
-              "operation": {
-                "label": "Lawrence Jones",
-                "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-              },
-              "param_bindings": [
+              "conditions": [
                 {
-                  "array_value": [
-                    {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
+                  "operation": {
                     "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                }
-              ],
-              "params": [
-                {
-                  "array": true,
-                  "default_value": {
-                    "array_value": [
-                      {
+                    "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                  },
+                  "param_bindings": [
+                    {
+                      "array_value": [
+                        {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      ],
+                      "value": {
                         "catalog_entry": {
                           "archived_at": "2021-08-17T14:28:57.801578Z",
                           "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -37301,38 +37641,64 @@
                         "unavailable": false,
                         "value": "abc123"
                       }
-                    ],
-                    "value": {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
                     }
-                  },
-                  "description": "What slack channel should we send the message to?",
-                  "infer_reference": true,
-                  "label": "To date",
-                  "name": "severity",
-                  "optional": true,
-                  "type": "IncidentSeverity"
+                  ],
+                  "params": [
+                    {
+                      "array": true,
+                      "default_value": {
+                        "array_value": [
+                          {
+                            "catalog_entry": {
+                              "archived_at": "2021-08-17T14:28:57.801578Z",
+                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
+                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                            },
+                            "helptext": "Collection of standalone automations like auto-closing incidents.",
+                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                            "is_image_slack_icon": false,
+                            "label": "Lawrence Jones",
+                            "literal": "SEV123",
+                            "reference": "incident.severity",
+                            "sort_key": "000020",
+                            "unavailable": false,
+                            "value": "abc123"
+                          }
+                        ],
+                        "value": {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      },
+                      "description": "What slack channel should we send the message to?",
+                      "infer_reference": true,
+                      "label": "To date",
+                      "name": "severity",
+                      "optional": true,
+                      "type": "IncidentSeverity"
+                    }
+                  ],
+                  "subject": {
+                    "icon": "action",
+                    "label": "Incident Severity",
+                    "reference": "incident.severity"
+                  }
                 }
-              ],
-              "subject": {
-                "icon": "action",
-                "label": "Incident Severity",
-                "reference": "incident.severity"
-              }
+              ]
             }
           ],
           "conditions_apply_over_delay": false,
@@ -37785,6 +38151,7 @@
               ]
             }
           ],
+          "terraform_repo_url": "https://github.com/my-company/incident-io-workflows",
           "trigger": {
             "group_label": "general",
             "icon": "action",
@@ -37826,24 +38193,28 @@
         "pending_run_strategy": "cancel",
         "trigger": "incident.updated",
         "workflow": {
-          "conditions": [
+          "condition_groups": [
             {
-              "operation": "one_of",
-              "param_bindings": [
+              "conditions": [
                 {
-                  "array_value": [
+                  "operation": "one_of",
+                  "param_bindings": [
                     {
-                      "literal": "SEV123",
-                      "reference": "incident.severity"
+                      "array_value": [
+                        {
+                          "literal": "SEV123",
+                          "reference": "incident.severity"
+                        }
+                      ],
+                      "value": {
+                        "literal": "SEV123",
+                        "reference": "incident.severity"
+                      }
                     }
                   ],
-                  "value": {
-                    "literal": "SEV123",
-                    "reference": "incident.severity"
-                  }
+                  "subject": "incident.severity"
                 }
-              ],
-              "subject": "incident.severity"
+              ]
             }
           ],
           "conditions_apply_over_delay": false,
@@ -37977,7 +38348,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "terraform_repo_url": "https://github.com/my-company/incident-io-workflows"
         }
       },
       "required": [
@@ -37988,7 +38360,7 @@
         "once_for",
         "version",
         "expressions",
-        "conditions",
+        "condition_groups",
         "steps",
         "include_private_incidents",
         "include_test_incidents",
@@ -38009,58 +38381,36 @@
       },
       "example": {
         "workflow": {
-          "conditions": [
+          "condition_groups": [
             {
-              "operation": {
-                "label": "Lawrence Jones",
-                "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-              },
-              "param_bindings": [
+              "conditions": [
                 {
-                  "array_value": [
-                    {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
+                  "operation": {
                     "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                }
-              ],
-              "params": [
-                {
-                  "array": true,
-                  "default_value": {
-                    "array_value": [
-                      {
+                    "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
+                  },
+                  "param_bindings": [
+                    {
+                      "array_value": [
+                        {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      ],
+                      "value": {
                         "catalog_entry": {
                           "archived_at": "2021-08-17T14:28:57.801578Z",
                           "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
@@ -38077,38 +38427,64 @@
                         "unavailable": false,
                         "value": "abc123"
                       }
-                    ],
-                    "value": {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
                     }
-                  },
-                  "description": "What slack channel should we send the message to?",
-                  "infer_reference": true,
-                  "label": "To date",
-                  "name": "severity",
-                  "optional": true,
-                  "type": "IncidentSeverity"
+                  ],
+                  "params": [
+                    {
+                      "array": true,
+                      "default_value": {
+                        "array_value": [
+                          {
+                            "catalog_entry": {
+                              "archived_at": "2021-08-17T14:28:57.801578Z",
+                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "catalog_entry_name": "Primary escalation",
+                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                            },
+                            "helptext": "Collection of standalone automations like auto-closing incidents.",
+                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                            "is_image_slack_icon": false,
+                            "label": "Lawrence Jones",
+                            "literal": "SEV123",
+                            "reference": "incident.severity",
+                            "sort_key": "000020",
+                            "unavailable": false,
+                            "value": "abc123"
+                          }
+                        ],
+                        "value": {
+                          "catalog_entry": {
+                            "archived_at": "2021-08-17T14:28:57.801578Z",
+                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "catalog_entry_name": "Primary escalation",
+                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+                          },
+                          "helptext": "Collection of standalone automations like auto-closing incidents.",
+                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                          "is_image_slack_icon": false,
+                          "label": "Lawrence Jones",
+                          "literal": "SEV123",
+                          "reference": "incident.severity",
+                          "sort_key": "000020",
+                          "unavailable": false,
+                          "value": "abc123"
+                        }
+                      },
+                      "description": "What slack channel should we send the message to?",
+                      "infer_reference": true,
+                      "label": "To date",
+                      "name": "severity",
+                      "optional": true,
+                      "type": "IncidentSeverity"
+                    }
+                  ],
+                  "subject": {
+                    "icon": "action",
+                    "label": "Incident Severity",
+                    "reference": "incident.severity"
+                  }
                 }
-              ],
-              "subject": {
-                "icon": "action",
-                "label": "Incident Severity",
-                "reference": "incident.severity"
-              }
+              ]
             }
           ],
           "conditions_apply_over_delay": false,
@@ -38561,6 +38937,7 @@
               ]
             }
           ],
+          "terraform_repo_url": "https://github.com/my-company/incident-io-workflows",
           "trigger": {
             "group_label": "general",
             "icon": "action",
