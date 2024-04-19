@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -16,7 +17,7 @@ var (
 )
 
 type IncidentWorkflowResource struct {
-	_ *client.ClientWithResponses
+	client *client.ClientWithResponses
 }
 
 func NewIncidentWorkflowResource() resource.Resource {
@@ -72,17 +73,17 @@ type IncidentEngineConditionGroupModel struct{} // TODO(CAT-248)
 
 type IncidentWorkflowStepConfigModel struct{} // TODO(CAT-249)
 
-func (i *IncidentWorkflowResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (r *IncidentWorkflowResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_workflow"
 }
 
-func (i *IncidentWorkflowResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Workflows V2"),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "id"),
-				Required:            true,
+				Computed:            true,
 			},
 			"name": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "name"),
@@ -90,6 +91,7 @@ func (i *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"folder": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "folder"),
+				Optional:            true,
 			},
 			"version": schema.Int64Attribute{
 				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "version"),
@@ -144,9 +146,11 @@ func (i *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"delay_for_seconds": schema.Int64Attribute{
 				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "delay_for_seconds"),
+				Optional:            true,
 			},
 			"conditions_apply_over_delay": schema.BoolAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "conditions_apply_over_delay"),
+				Optional:            true,
 			},
 			"include_private_incidents": schema.BoolAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "include_private_incidents"),
@@ -166,9 +170,11 @@ func (i *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"runs_from": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "runs_from"),
+				Optional:            true,
 			},
 			"terraform_repo_url": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "terraform_repo_url"),
+				Optional:            true,
 			},
 			"is_draft": schema.BoolAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "is_draft"),
@@ -176,27 +182,46 @@ func (i *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"disabled_at": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "disabled_at"),
+				Optional:            true, // computed?
 			},
 		},
 	}
 }
 
-func (i *IncidentWorkflowResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	panic("unimplemented")
 }
 
-func (i *IncidentWorkflowResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	panic("unimplemented")
 }
 
-func (i *IncidentWorkflowResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *IncidentWorkflowResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	panic("unimplemented")
 }
 
-func (i *IncidentWorkflowResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *IncidentWorkflowResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	panic("unimplemented")
 }
 
-func (i *IncidentWorkflowResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *IncidentWorkflowResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	panic("unimplemented")
+}
+
+func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	if req.ProviderData == nil {
+		return
+	}
+
+	client, ok := req.ProviderData.(*client.ClientWithResponses)
+	if !ok {
+		resp.Diagnostics.AddError(
+			"Unexpected Resource Configure Type",
+			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+		)
+
+		return
+	}
+
+	r.client = client
 }
