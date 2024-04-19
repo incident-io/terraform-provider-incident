@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -30,7 +31,7 @@ type IncidentWorkflowResourceModel struct {
 	Folder  types.String `tfsdk:"folder"`
 	Version types.Int64  `tfsdk:"version"`
 
-	Trigger         IncidentWorkflowTriggerSlimModel    `tfsdk:"trigger"`
+	Trigger         types.String                        `tfsdk:"trigger"`
 	OnceFor         []IncidentEngineReferenceModel      `tfsdk:"once_for"`
 	Expressions     []IncidentEngineExpressionModel     `tfsdk:"expressions"`
 	ConditionGroups []IncidentEngineConditionGroupModel `tfsdk:"condition_groups"`
@@ -47,13 +48,6 @@ type IncidentWorkflowResourceModel struct {
 	IsDraft                       types.Bool   `tfsdk:"is_draft"`
 
 	DisabledAt types.String `tfsdk:"disabled_at"`
-}
-
-type IncidentWorkflowTriggerSlimModel struct {
-	Name       types.String `tfsdk:"name"`
-	Icon       types.String `tfsdk:"icon"`
-	Label      types.String `tfsdk:"label"`
-	GroupLabel types.String `tfsdk:"group_label"`
 }
 
 type IncidentEngineReferenceModel struct {
@@ -82,23 +76,23 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 		MarkdownDescription: apischema.TagDocstring("Workflows V2"),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowResponseBody", "id"),
 				Computed:            true,
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "name"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "name"),
 				Required:            true,
 			},
 			"folder": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "folder"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "folder"),
 				Optional:            true,
 			},
 			"version": schema.Int64Attribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "version"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "version"),
 				Required:            true,
 			},
 			"trigger": schema.SingleNestedAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "trigger"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "trigger"),
 				Required:            true,
 				Attributes: map[string]schema.Attribute{
 					"name":        schema.StringAttribute{},
@@ -108,7 +102,7 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"once_for": schema.SetNestedAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "once_for"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "once_for"),
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -124,64 +118,64 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"expressions": schema.SetNestedAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "expressions"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "expressions"),
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{},
 				},
 			},
 			"condition_groups": schema.SetNestedAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "condition_groups"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "condition_groups"),
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{},
 				},
 			},
 			"steps": schema.SetNestedAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "steps"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "steps"),
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{},
 				},
 			},
 			"delay_for_seconds": schema.Int64Attribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "delay_for_seconds"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "delay_for_seconds"),
 				Optional:            true,
 			},
 			"conditions_apply_over_delay": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "conditions_apply_over_delay"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "conditions_apply_over_delay"),
 				Optional:            true,
 			},
 			"include_private_incidents": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "include_private_incidents"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "include_private_incidents"),
 				Required:            true,
 			},
 			"include_test_incidents": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "include_test_incidents"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "include_test_incidents"),
 				Required:            true,
 			},
 			"include_retrospective_incidents": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "include_retrospective_incidents"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "include_retrospective_incidents"),
 				Required:            true,
 			},
 			"runs_on_incidents": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "runs_on_incidents"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "runs_on_incidents"),
 				Required:            true,
 			},
 			"runs_from": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "runs_from"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "runs_from"),
 				Optional:            true,
 			},
 			"terraform_repo_url": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "terraform_repo_url"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "terraform_repo_url"),
 				Optional:            true,
 			},
 			"is_draft": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "is_draft"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "is_draft"),
 				Required:            true,
 			},
 			"disabled_at": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowPayloadRequestBody", "disabled_at"),
+				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "disabled_at"),
 				Optional:            true, // computed?
 			},
 		},
@@ -189,7 +183,34 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 }
 
 func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	panic("unimplemented")
+	var data *IncidentWorkflowResourceModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	payload := client.CreateWorkflowRequestBody{
+		Trigger: data.Trigger.ValueString(),
+		Workflow: client.WorkflowPayload{
+			Name: data.Name.ValueString(),
+		},
+	}
+	if folder := data.Folder.ValueString(); folder != "" {
+		payload.Folder = &folder
+	}
+
+	result, err := r.client.WorkflowsV2CreateWorkflowWithResponse(ctx, payload)
+	if err == nil && result.StatusCode() >= 400 {
+		err = fmt.Errorf(string(result.Body))
+	}
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create workflow, got error: %s", err))
+		return
+	}
+
+	tflog.Trace(ctx, fmt.Sprintf("created a workflow resource with id=%s", result.JSON201.Workflow.Id))
+	data = r.buildModel(result.JSON201.Workflow)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
@@ -224,4 +245,8 @@ func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.C
 	}
 
 	r.client = client
+}
+
+func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *IncidentWorkflowResourceModel {
+	return nil
 }
