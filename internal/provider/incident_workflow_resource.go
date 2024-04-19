@@ -100,19 +100,32 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 }
 
 func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var state *IncidentWorkflowResourceModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	var data *IncidentWorkflowResourceModel
-	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
 	payload := client.WorkflowsV2UpdateWorkflowJSONRequestBody{
 		Workflow: client.WorkflowPayload{
-			Name: data.Name.ValueString(),
+			Name:             data.Name.ValueString(),
+			TerraformRepoUrl: data.TerraformRepoURL.ValueStringPointer(),
+			OnceFor:          []string{"incident.url"},
+			ConditionGroups:  []client.ExpressionFilterOptsPayloadV2{},
+			Steps:            []client.StepConfigPayload{},
+			Expressions:      []client.ExpressionPayloadV2{},
+			RunsOnIncidents:  "newly_created",
+			IsDraft:          true,
 		},
 	}
 
-	result, err := r.client.WorkflowsV2UpdateWorkflowWithResponse(ctx, data.ID.ValueString(), payload)
+	result, err := r.client.WorkflowsV2UpdateWorkflowWithResponse(ctx, state.ID.ValueString(), payload)
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
