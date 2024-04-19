@@ -4,7 +4,9 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
@@ -14,7 +16,11 @@ var (
 )
 
 type IncidentWorkflowResource struct {
-	client *client.ClientWithResponses
+	_ *client.ClientWithResponses
+}
+
+func NewIncidentWorkflowResource() resource.Resource {
+	return &IncidentWorkflowResource{}
 }
 
 type IncidentWorkflowResourceModel struct {
@@ -57,37 +63,73 @@ type IncidentEngineReferenceModel struct {
 	Icon       types.String `tfsdk:"icon"`
 }
 
-// Create implements resource.Resource.
-func (i *IncidentWorkflowResource) Create(context.Context, resource.CreateRequest, *resource.CreateResponse) {
+func (i *IncidentWorkflowResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_workflow"
+}
+
+func (i *IncidentWorkflowResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		MarkdownDescription: apischema.TagDocstring("Workflows V2"),
+		Attributes: map[string]schema.Attribute{
+			"id":   schema.StringAttribute{},
+			"name": schema.StringAttribute{},
+			"trigger": schema.SingleNestedAttribute{
+				Required: true,
+				Attributes: map[string]schema.Attribute{
+					"name":        schema.StringAttribute{},
+					"icon":        schema.StringAttribute{},
+					"label":       schema.StringAttribute{},
+					"group_label": schema.StringAttribute{},
+				},
+			},
+			"folder":                          schema.StringAttribute{},
+			"version":                         schema.Int64Attribute{},
+			"delay_for_seconds":               schema.Int64Attribute{},
+			"conditions_apply_over_delay":     schema.BoolAttribute{},
+			"include_private_incidents":       schema.BoolAttribute{},
+			"include_test_incidents":          schema.BoolAttribute{},
+			"include_retrospective_incidents": schema.BoolAttribute{},
+			"runs_on_incidents":               schema.BoolAttribute{},
+			"runs_from":                       schema.StringAttribute{},
+			"terraform_repo_url":              schema.StringAttribute{},
+			"once_for": schema.SetNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"key":         schema.StringAttribute{},
+						"label":       schema.StringAttribute{},
+						"node_label":  schema.StringAttribute{},
+						"type":        schema.StringAttribute{},
+						"hide_filter": schema.BoolAttribute{},
+						"array":       schema.BoolAttribute{},
+						"parent":      schema.StringAttribute{},
+						"icon":        schema.StringAttribute{},
+					},
+				},
+			},
+			"is_draft":    schema.BoolAttribute{},
+			"created_at":  schema.StringAttribute{},
+			"updated_at":  schema.StringAttribute{},
+			"disabled_at": schema.StringAttribute{},
+		},
+	}
+}
+
+func (i *IncidentWorkflowResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	panic("unimplemented")
 }
 
-// Delete implements resource.Resource.
-func (i *IncidentWorkflowResource) Delete(context.Context, resource.DeleteRequest, *resource.DeleteResponse) {
+func (i *IncidentWorkflowResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	panic("unimplemented")
 }
 
-// Metadata implements resource.Resource.
-func (i *IncidentWorkflowResource) Metadata(context.Context, resource.MetadataRequest, *resource.MetadataResponse) {
+func (i *IncidentWorkflowResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	panic("unimplemented")
 }
 
-// Read implements resource.Resource.
-func (i *IncidentWorkflowResource) Read(context.Context, resource.ReadRequest, *resource.ReadResponse) {
+func (i *IncidentWorkflowResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	panic("unimplemented")
 }
 
-// Schema implements resource.Resource.
-func (i *IncidentWorkflowResource) Schema(context.Context, resource.SchemaRequest, *resource.SchemaResponse) {
-	panic("unimplemented")
-}
-
-// Update implements resource.Resource.
-func (i *IncidentWorkflowResource) Update(context.Context, resource.UpdateRequest, *resource.UpdateResponse) {
-	panic("unimplemented")
-}
-
-// ImportState implements resource.ResourceWithImportState.
-func (i *IncidentWorkflowResource) ImportState(context.Context, resource.ImportStateRequest, *resource.ImportStateResponse) {
+func (i *IncidentWorkflowResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	panic("unimplemented")
 }
