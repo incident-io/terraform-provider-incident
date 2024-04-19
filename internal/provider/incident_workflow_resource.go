@@ -43,30 +43,19 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 		MarkdownDescription: apischema.TagDocstring("Workflows V2"),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowResponseBody", "id"),
-				Computed:            true,
+				Computed: true,
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "name"),
-				Required:            true,
+				Required: true,
 			},
 			"folder": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "folder"),
-				Optional:            true,
+				Optional: true,
 			},
-			"trigger": schema.SingleNestedAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "trigger"),
-				Required:            true,
-				Attributes: map[string]schema.Attribute{
-					"name":        schema.StringAttribute{},
-					"icon":        schema.StringAttribute{},
-					"label":       schema.StringAttribute{},
-					"group_label": schema.StringAttribute{},
-				},
+			"trigger": schema.StringAttribute{
+				Required: true,
 			},
 			"terraform_repo_url": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowsV2CreateWorkflowRequestBody", "terraform_repo_url"),
-				Optional:            true,
+				Optional: true,
 			},
 		},
 	}
@@ -119,6 +108,7 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 			Name: data.Name.ValueString(),
 		},
 	}
+
 	result, err := r.client.WorkflowsV2UpdateWorkflowWithResponse(ctx, data.ID.ValueString(), payload)
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
