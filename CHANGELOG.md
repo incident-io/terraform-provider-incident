@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add an initial workflow resource
+
 ## 3.2.1
 
 - Add support for setting the source_repo_url on catalog types
