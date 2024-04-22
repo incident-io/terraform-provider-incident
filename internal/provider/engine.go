@@ -2,9 +2,9 @@ package provider
 
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
-type IncidentEngineConditionGroups = []IncidentEngineConditions
+type IncidentEngineConditionGroups = []IncidentEngineConditionGroup
 
-type IncidentEngineConditions struct {
+type IncidentEngineConditionGroup struct {
 	Conditions []IncidentEngineCondition `tfsdk:"conditions"`
 }
 

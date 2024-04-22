@@ -200,11 +200,13 @@ func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.C
 	r.client = client
 }
 
+// buildModel converts from the response type to the terraform model/schema type.
 func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *IncidentWorkflowResourceModel {
 	model := &IncidentWorkflowResourceModel{
-		ID:      types.StringValue(workflow.Id),
-		Name:    types.StringValue(workflow.Name),
-		Trigger: types.StringValue(workflow.Trigger.Name),
+		ID:              types.StringValue(workflow.Id),
+		Name:            types.StringValue(workflow.Name),
+		Trigger:         types.StringValue(workflow.Trigger.Name),
+		ConditionGroups: r.buildConditionGroups(workflow.ConditionGroups),
 	}
 	if workflow.Folder != nil {
 		model.Folder = types.StringValue(*workflow.Folder)
@@ -215,6 +217,59 @@ func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *Inciden
 	return model
 }
 
+func (r *IncidentWorkflowResource) buildConditionGroups(groups []client.ExpressionFilterOptsV2) IncidentEngineConditionGroups {
+	var out IncidentEngineConditionGroups
+
+	for _, g := range groups {
+		conditions := []IncidentEngineCondition{}
+
+		for _, c := range g.Conditions {
+			conditions = append(conditions, IncidentEngineCondition{
+				Operation:     types.StringValue(c.Operation.Value),
+				ParamBindings: r.buildParamBindings(c.ParamBindings),
+				Subject:       types.StringValue(c.Subject.Reference),
+			})
+		}
+
+		out = append(out, IncidentEngineConditionGroup{Conditions: conditions})
+	}
+
+	return out
+}
+
+func (r *IncidentWorkflowResource) buildParamBindings(pbs []client.EngineParamBindingV2) []IncidentEngineParamBinding {
+	var out []IncidentEngineParamBinding
+
+	for _, pb := range pbs {
+		var arrayValue []IncidentEngineParamBindingValue
+		if pb.ArrayValue != nil {
+			for _, v := range *pb.ArrayValue {
+				arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+					Literal:   types.StringPointerValue(v.Literal),
+					Reference: types.StringPointerValue(v.Reference),
+				})
+			}
+		}
+
+		var value *IncidentEngineParamBindingValue
+		if pb.Value != nil {
+			value = &IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(pb.Value.Literal),
+				Reference: types.StringPointerValue(pb.Value.Reference),
+			}
+		}
+
+		out = append(out, IncidentEngineParamBinding{
+			ArrayValue: arrayValue,
+			Value:      value,
+		})
+	}
+
+	return out
+}
+
+// toPayloadConditionGrouos converts from the terraform model to the http payload type.
+// The payload type is different from the response type, which includes more information such as labels.
 func toPayloadConditionGrouos(groups IncidentEngineConditionGroups) []client.ExpressionFilterOptsPayloadV2 {
 	var payload []client.ExpressionFilterOptsPayloadV2
 
