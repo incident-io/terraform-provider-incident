@@ -42,6 +42,15 @@ func (r *IncidentWorkflowResource) Metadata(ctx context.Context, req resource.Me
 }
 
 func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+	paramBindingAttributes := map[string]schema.Attribute{
+		"literal": schema.StringAttribute{
+			Optional: true,
+		},
+		"reference": schema.StringAttribute{
+			Optional: true,
+		},
+	}
+
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Workflows V2"),
 		Attributes: map[string]schema.Attribute{
@@ -62,6 +71,43 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"terraform_repo_url": schema.StringAttribute{
 				Required: true,
+			},
+			"condition_groups": schema.SetNestedAttribute{
+				Required: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"conditions": schema.SetNestedAttribute{
+							Required: true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"operation": schema.StringAttribute{
+										Required: true,
+									},
+									"param_bindings": schema.SetNestedAttribute{
+										Required: true,
+										NestedObject: schema.NestedAttributeObject{
+											Attributes: map[string]schema.Attribute{
+												"array_value": schema.SetNestedAttribute{
+													Optional: true,
+													NestedObject: schema.NestedAttributeObject{
+														Attributes: paramBindingAttributes,
+													},
+												},
+												"value": schema.SingleNestedAttribute{
+													Optional:   true,
+													Attributes: paramBindingAttributes,
+												},
+											},
+										},
+									},
+									"subject": schema.StringAttribute{
+										Required: true,
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	}
@@ -123,7 +169,7 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 			Name:             data.Name.ValueString(),
 			TerraformRepoUrl: data.TerraformRepoURL.ValueStringPointer(),
 			OnceFor:          []string{"incident.url"},
-			ConditionGroups:  []client.ExpressionFilterOptsPayloadV2{},
+			ConditionGroups:  toPayloadConditionGrouos(data.ConditionGroups),
 			Steps:            []client.StepConfigPayload{},
 			Expressions:      []client.ExpressionPayloadV2{},
 			RunsOnIncidents:  "newly_created",
