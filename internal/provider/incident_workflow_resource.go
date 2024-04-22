@@ -80,7 +80,7 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 			Name:             data.Name.ValueString(),
 			TerraformRepoUrl: data.TerraformRepoURL.ValueStringPointer(),
 			OnceFor:          []string{"incident.url"},
-			ConditionGroups:  []client.ExpressionFilterOptsPayloadV2{},
+			ConditionGroups:  toPayloadConditionGrouos(data.ConditionGroups),
 			Steps:            []client.StepConfigPayload{},
 			Expressions:      []client.ExpressionPayloadV2{},
 			RunsOnIncidents:  "newly_created",
@@ -213,4 +213,55 @@ func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *Inciden
 		model.TerraformRepoURL = types.StringValue(*workflow.TerraformRepoUrl)
 	}
 	return model
+}
+
+func toPayloadConditionGrouos(groups IncidentEngineConditionGroups) []client.ExpressionFilterOptsPayloadV2 {
+	var payload []client.ExpressionFilterOptsPayloadV2
+
+	for _, group := range groups {
+		var conditions []client.ConditionPayloadV2
+
+		for _, condition := range group.Conditions {
+			conditions = append(conditions, client.ConditionPayloadV2{
+				Operation:     condition.Operation.ValueString(),
+				ParamBindings: toPayloadParamBindings(condition.ParamBindings),
+				Subject:       condition.Subject.ValueString(),
+			})
+		}
+
+		payload = append(payload, client.ExpressionFilterOptsPayloadV2{
+			Conditions: conditions,
+		})
+	}
+
+	return payload
+}
+
+func toPayloadParamBindings(pbs []IncidentEngineParamBinding) []client.EngineParamBindingPayloadV2 {
+	var paramBindings []client.EngineParamBindingPayloadV2
+
+	for _, binding := range pbs {
+		arrayValue := []client.EngineParamBindingValuePayloadV2{}
+		for _, v := range binding.ArrayValue {
+			arrayValue = append(arrayValue, client.EngineParamBindingValuePayloadV2{
+				Literal:   v.Literal.ValueStringPointer(),
+				Reference: v.Reference.ValueStringPointer(),
+			})
+		}
+
+		var value *client.EngineParamBindingValuePayloadV2
+		if binding.Value != nil {
+			value = &client.EngineParamBindingValuePayloadV2{
+				Literal:   binding.Value.Literal.ValueStringPointer(),
+				Reference: binding.Value.Reference.ValueStringPointer(),
+			}
+		}
+
+		paramBindings = append(paramBindings, client.EngineParamBindingPayloadV2{
+			ArrayValue: &arrayValue,
+			Value:      value,
+		})
+	}
+
+	return paramBindings
 }
