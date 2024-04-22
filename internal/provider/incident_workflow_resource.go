@@ -29,11 +29,12 @@ func NewIncidentWorkflowResource() resource.Resource {
 }
 
 type IncidentWorkflowResourceModel struct {
-	ID               types.String `tfsdk:"id"`
-	Name             types.String `tfsdk:"name"`
-	Folder           types.String `tfsdk:"folder"`
-	Trigger          types.String `tfsdk:"trigger"`
-	TerraformRepoURL types.String `tfsdk:"terraform_repo_url"`
+	ID               types.String                  `tfsdk:"id"`
+	Name             types.String                  `tfsdk:"name"`
+	Folder           types.String                  `tfsdk:"folder"`
+	Trigger          types.String                  `tfsdk:"trigger"`
+	TerraformRepoURL types.String                  `tfsdk:"terraform_repo_url"`
+	ConditionGroups  IncidentEngineConditionGroups `tfsdk:"condition_groups"`
 }
 
 func (r *IncidentWorkflowResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
