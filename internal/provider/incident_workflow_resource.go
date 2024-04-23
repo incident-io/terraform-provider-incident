@@ -620,10 +620,10 @@ func toPayloadExpressions(expressions []IncidentEngineExpression) []client.Expre
 
 	for _, e := range expressions {
 		expression := client.ExpressionPayloadV2{
-			Label:         e.Label.String(),
+			Label:         e.Label.ValueString(),
 			Operations:    toPayloadOperations(e.Operations),
-			Reference:     e.Reference.String(),
-			RootReference: e.RootReference.String(),
+			Reference:     e.Reference.ValueString(),
+			RootReference: e.RootReference.ValueString(),
 		}
 		if e.ElseBranch != nil {
 			expression.ElseBranch = &client.ExpressionElseBranchPayloadV2{
@@ -641,7 +641,7 @@ func toPayloadOperations(operations []IncidentEngineExpressionOperation) []clien
 
 	for _, o := range operations {
 		operation := client.ExpressionOperationPayloadV2{
-			OperationType: client.ExpressionOperationPayloadV2OperationType(o.OperationType.String()),
+			OperationType: client.ExpressionOperationPayloadV2OperationType(o.OperationType.ValueString()),
 		}
 		if o.Branches != nil {
 			operation.Branches = &client.ExpressionBranchesOptsPayloadV2{
@@ -656,13 +656,13 @@ func toPayloadOperations(operations []IncidentEngineExpressionOperation) []clien
 		}
 		if o.Navigate != nil {
 			operation.Navigate = &client.ExpressionNavigateOptsPayloadV2{
-				Reference: o.Navigate.Reference.String(),
+				Reference: o.Navigate.Reference.ValueString(),
 			}
 		}
 		if o.Parse != nil {
 			operation.Parse = &client.ExpressionParseOptsV2{
 				Returns: toPayloadReturns(o.Parse.Returns),
-				Source:  o.Parse.Source.String(),
+				Source:  o.Parse.Source.ValueString(),
 			}
 		}
 		out = append(out, operation)

@@ -25,6 +25,8 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 						"incident_workflow.example", "condition_groups.0.conditions.0.param_bindings.0.array_value.0.literal", incidentWorkflowDefault().ConditionParam),
 					resource.TestCheckResourceAttr(
 						"incident_workflow.example", "steps.0.param_bindings.1.array_value.0.literal", incidentWorkflowDefault().StepFollowUpName),
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "expressions.0.label", incidentWorkflowDefault().ExpressionLabel),
 				),
 			},
 			// Import
@@ -63,6 +65,16 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 						"incident_workflow.example", "steps.0.param_bindings.1.array_value.0.literal", "Organise postmortem meeting"),
 				),
 			},
+			// Update expression and check new state
+			{
+				Config: testAccIncidentWorkflowResourceConfig(&workflowTemplateOverrides{
+					ExpressionLabel: "Active participants count",
+				}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "expressions.0.label", "Active participants count"),
+				),
+			},
 			// (Clean-up)
 		},
 	})
@@ -72,6 +84,7 @@ type workflowTemplateOverrides struct {
 	Name             string
 	ConditionParam   string
 	StepFollowUpName string
+	ExpressionLabel  string
 }
 
 var incidentWorkflowTemplate = template.Must(template.New("incident_workflow").Funcs(sprig.TxtFuncMap()).Parse(`
@@ -83,6 +96,7 @@ resource "incident_workflow" "example" {
 		{
 			conditions = [
 				{
+					subject = "incident.status.category"
 					operation = "one_of"
 					param_bindings = [
 						{
@@ -93,7 +107,6 @@ resource "incident_workflow" "example" {
 							]
 						}
 					]
-					subject = "incident.status.category"
 				}
 			]
 		}
@@ -120,20 +133,25 @@ resource "incident_workflow" "example" {
 	]
 	expressions = [
 		{
-			"label" = "My Expression"
-			operations = []
-			reference = "status"
-			root_reference = "incident"
+			label = {{ quote .ExpressionLabel }}
+			operations = [
+				{
+					operation_type = "count"
+				}
+			]
+			reference = "participants_cnt"
+			root_reference = "incident.active_participants"
 		}
 	]
 }
-`)) // TODO test locally and UT
+`))
 
 func incidentWorkflowDefault() workflowTemplateOverrides {
 	return workflowTemplateOverrides{
 		Name:             "My Test Workflow",
 		ConditionParam:   "open",
 		StepFollowUpName: "Write postmortem",
+		ExpressionLabel:  "Count active participants",
 	}
 }
 
