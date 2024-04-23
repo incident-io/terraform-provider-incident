@@ -59,7 +59,7 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 		},
 	}
 
-	paramBindingsAttribute := schema.SetNestedAttribute{
+	paramBindingsAttribute := schema.ListNestedAttribute{
 		Required: true,
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: map[string]schema.Attribute{
@@ -119,7 +119,7 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 					},
 				},
 			},
-			"steps": schema.SetNestedAttribute{
+			"steps": schema.ListNestedAttribute{
 				Required: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -400,7 +400,7 @@ func toPayloadParamBindings(pbs []IncidentEngineParamBinding) []client.EnginePar
 	var paramBindings []client.EngineParamBindingPayloadV2
 
 	for _, binding := range pbs {
-		arrayValue := []client.EngineParamBindingValuePayloadV2{}
+		var arrayValue []client.EngineParamBindingValuePayloadV2
 		for _, v := range binding.ArrayValue {
 			arrayValue = append(arrayValue, client.EngineParamBindingValuePayloadV2{
 				Literal:   v.Literal.ValueStringPointer(),
