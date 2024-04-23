@@ -17,6 +17,7 @@ A draft version of the public API for workflows. For now, this is a carbon copy 
 
 ### Required
 
+- `condition_groups` (Attributes Set) (see [below for nested schema](#nestedatt--condition_groups))
 - `name` (String)
 - `terraform_repo_url` (String)
 - `trigger` (String)
@@ -28,5 +29,46 @@ A draft version of the public API for workflows. For now, this is a carbon copy 
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+<a id="nestedatt--condition_groups"></a>
+### Nested Schema for `condition_groups`
+
+Required:
+
+- `conditions` (Attributes Set) (see [below for nested schema](#nestedatt--condition_groups--conditions))
+
+<a id="nestedatt--condition_groups--conditions"></a>
+### Nested Schema for `condition_groups.conditions`
+
+Required:
+
+- `operation` (String)
+- `param_bindings` (Attributes Set) (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings))
+- `subject` (String)
+
+<a id="nestedatt--condition_groups--conditions--param_bindings"></a>
+### Nested Schema for `condition_groups.conditions.param_bindings`
+
+Optional:
+
+- `array_value` (Attributes Set) (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--array_value))
+- `value` (Attributes) (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--value))
+
+<a id="nestedatt--condition_groups--conditions--param_bindings--array_value"></a>
+### Nested Schema for `condition_groups.conditions.param_bindings.value`
+
+Optional:
+
+- `literal` (String)
+- `reference` (String)
+
+
+<a id="nestedatt--condition_groups--conditions--param_bindings--value"></a>
+### Nested Schema for `condition_groups.conditions.param_bindings.value`
+
+Optional:
+
+- `literal` (String)
+- `reference` (String)
 
 
