@@ -2,7 +2,6 @@ package provider
 
 import (
 	"bytes"
-	"fmt"
 	"reflect"
 	"testing"
 	"text/template"
@@ -25,8 +24,7 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"incident_workflow.example", "condition_groups.0.conditions.0.param_bindings.0.array_value.0.literal", incidentWorkflowDefault().ConditionParam),
 					resource.TestCheckResourceAttr(
-						"incident_workflow.example", "steps.0.param_bindings.1.value.literal",
-						fmt.Sprintf("{\"content\":[{\"content\":[{\"text\":\"%s\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}", incidentWorkflowDefault().StepSlackMessage)),
+						"incident_workflow.example", "steps.0.param_bindings.1.array_value.0.literal", incidentWorkflowDefault().StepFollowUpName),
 				),
 			},
 			// Import
@@ -58,12 +56,11 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 			// Update step and check new state
 			{
 				Config: testAccIncidentWorkflowResourceConfig(&workflowTemplateOverrides{
-					StepSlackMessage: "Don't forget to write a postmortem!",
+					StepFollowUpName: "Organise postmortem meeting",
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_workflow.example", "steps.0.param_bindings.1.value.literal",
-						"{\"content\":[{\"content\":[{\"text\":\"Don't forget to write a postmortem!\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"),
+						"incident_workflow.example", "steps.0.param_bindings.1.array_value.0.literal", "Organise postmortem meeting"),
 				),
 			},
 			// (Clean-up)
@@ -74,7 +71,7 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 type workflowTemplateOverrides struct {
 	Name             string
 	ConditionParam   string
-	StepSlackMessage string
+	StepFollowUpName string
 }
 
 var incidentWorkflowTemplate = template.Must(template.New("incident_workflow").Funcs(sprig.TxtFuncMap()).Parse(`
@@ -103,17 +100,19 @@ resource "incident_workflow" "example" {
 	]
 	steps = [
 		{
-			name = "slack.post_message"
+			name = "incident.create_follow_ups"
 			param_bindings = [
 				{
 					value = {
-						reference = "incident.slack_channel"
+						reference = "incident"
 					}
 				},
 				{
-					value = {
-						literal = "{\"content\":[{\"content\":[{\"text\":\"{{ .StepSlackMessage }}\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
-					}
+					array_value = [
+						{
+							literal = {{ quote .StepFollowUpName }}
+						}
+					]
 				},
 				{}
 			]
@@ -126,7 +125,7 @@ func incidentWorkflowDefault() workflowTemplateOverrides {
 	return workflowTemplateOverrides{
 		Name:             "My Test Workflow",
 		ConditionParam:   "open",
-		StepSlackMessage: "This is a slack message!",
+		StepFollowUpName: "Write postmortem",
 	}
 }
 
