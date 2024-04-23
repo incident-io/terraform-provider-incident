@@ -126,7 +126,7 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 			Name:             data.Name.ValueString(),
 			TerraformRepoUrl: data.TerraformRepoURL.ValueStringPointer(),
 			OnceFor:          []string{"incident.url"},
-			ConditionGroups:  toPayloadConditionGrouos(data.ConditionGroups),
+			ConditionGroups:  toPayloadConditionGroups(data.ConditionGroups),
 			Steps:            []client.StepConfigPayload{},
 			Expressions:      []client.ExpressionPayloadV2{},
 			RunsOnIncidents:  "newly_created",
@@ -271,9 +271,9 @@ func (r *IncidentWorkflowResource) buildConditionGroups(groups []client.Expressi
 
 		for _, c := range g.Conditions {
 			conditions = append(conditions, IncidentEngineCondition{
+				Subject:       types.StringValue(c.Subject.Reference),
 				Operation:     types.StringValue(c.Operation.Value),
 				ParamBindings: r.buildParamBindings(c.ParamBindings),
-				Subject:       types.StringValue(c.Subject.Reference),
 			})
 		}
 
@@ -314,9 +314,9 @@ func (r *IncidentWorkflowResource) buildParamBindings(pbs []client.EngineParamBi
 	return out
 }
 
-// toPayloadConditionGrouos converts from the terraform model to the http payload type.
+// toPayloadConditionGroups converts from the terraform model to the http payload type.
 // The payload type is different from the response type, which includes more information such as labels.
-func toPayloadConditionGrouos(groups IncidentEngineConditionGroups) []client.ExpressionFilterOptsPayloadV2 {
+func toPayloadConditionGroups(groups IncidentEngineConditionGroups) []client.ExpressionFilterOptsPayloadV2 {
 	var payload []client.ExpressionFilterOptsPayloadV2
 
 	for _, group := range groups {
@@ -324,9 +324,9 @@ func toPayloadConditionGrouos(groups IncidentEngineConditionGroups) []client.Exp
 
 		for _, condition := range group.Conditions {
 			conditions = append(conditions, client.ConditionPayloadV2{
+				Subject:       condition.Subject.ValueString(),
 				Operation:     condition.Operation.ValueString(),
 				ParamBindings: toPayloadParamBindings(condition.ParamBindings),
-				Subject:       condition.Subject.ValueString(),
 			})
 		}
 
