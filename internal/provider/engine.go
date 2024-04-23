@@ -39,8 +39,8 @@ type IncidentEngineElseBranch struct {
 
 type IncidentEngineExpressionOperation struct {
 	Branches *IncidentEngineExpressionBranchesOpts `tfsdk:"branches"`
-	Filter   IncidentEngineExpressionFilterOpts    `tfsdk:"filter"`
-	Navigate IncidentEngineExpressionNavigateOpts  `tfsdk:"navigate"`
+	Filter   *IncidentEngineExpressionFilterOpts   `tfsdk:"filter"`
+	Navigate *IncidentEngineExpressionNavigateOpts `tfsdk:"navigate"`
 
 	OperationType types.String                      `tfsdk:"operation_type"`
 	Parse         IncidentEngineExpressionParseOpts `tfsdk:"parse"`

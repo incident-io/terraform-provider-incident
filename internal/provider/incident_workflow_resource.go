@@ -282,6 +282,7 @@ func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *Inciden
 		Trigger:         types.StringValue(workflow.Trigger.Name),
 		ConditionGroups: r.buildConditionGroups(workflow.ConditionGroups),
 		Steps:           r.buildSteps(workflow.Steps),
+		Expressions:     r.buildExpressions(workflow.Expressions),
 	}
 	if workflow.Folder != nil {
 		model.Folder = types.StringValue(*workflow.Folder)
@@ -296,17 +297,23 @@ func (r *IncidentWorkflowResource) buildConditionGroups(groups []client.Expressi
 	var out IncidentEngineConditionGroups
 
 	for _, g := range groups {
-		conditions := []IncidentEngineCondition{}
+		out = append(out, IncidentEngineConditionGroup{
+			Conditions: r.buildConditions(g.Conditions),
+		})
+	}
 
-		for _, c := range g.Conditions {
-			conditions = append(conditions, IncidentEngineCondition{
-				Subject:       types.StringValue(c.Subject.Reference),
-				Operation:     types.StringValue(c.Operation.Value),
-				ParamBindings: r.buildParamBindings(c.ParamBindings),
-			})
-		}
+	return out
+}
 
-		out = append(out, IncidentEngineConditionGroup{Conditions: conditions})
+func (r *IncidentWorkflowResource) buildConditions(conditions []client.ConditionV2) []IncidentEngineCondition {
+	var out []IncidentEngineCondition
+
+	for _, c := range conditions {
+		out = append(out, IncidentEngineCondition{
+			Subject:       types.StringValue(c.Subject.Reference),
+			Operation:     types.StringValue(c.Operation.Value),
+			ParamBindings: r.buildParamBindings(c.ParamBindings),
+		})
 	}
 
 	return out
@@ -331,31 +338,100 @@ func (r *IncidentWorkflowResource) buildParamBindings(pbs []client.EngineParamBi
 	var out []IncidentEngineParamBinding
 
 	for _, pb := range pbs {
-		var arrayValue []IncidentEngineParamBindingValue
-		if pb.ArrayValue != nil {
-			for _, v := range *pb.ArrayValue {
-				arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
-					Literal:   types.StringPointerValue(v.Literal),
-					Reference: types.StringPointerValue(v.Reference),
-				})
-			}
-		}
+		out = append(out, r.buildParamBinding(pb))
+	}
 
-		var value *IncidentEngineParamBindingValue
-		if pb.Value != nil {
-			value = &IncidentEngineParamBindingValue{
-				Literal:   types.StringPointerValue(pb.Value.Literal),
-				Reference: types.StringPointerValue(pb.Value.Reference),
-			}
-		}
+	return out
+}
 
-		out = append(out, IncidentEngineParamBinding{
-			ArrayValue: arrayValue,
-			Value:      value,
+func (r *IncidentWorkflowResource) buildParamBinding(pb client.EngineParamBindingV2) IncidentEngineParamBinding {
+	var arrayValue []IncidentEngineParamBindingValue
+	if pb.ArrayValue != nil {
+		for _, v := range *pb.ArrayValue {
+			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(v.Literal),
+				Reference: types.StringPointerValue(v.Reference),
+			})
+		}
+	}
+
+	var value *IncidentEngineParamBindingValue
+	if pb.Value != nil {
+		value = &IncidentEngineParamBindingValue{
+			Literal:   types.StringPointerValue(pb.Value.Literal),
+			Reference: types.StringPointerValue(pb.Value.Reference),
+		}
+	}
+
+	return IncidentEngineParamBinding{
+		ArrayValue: arrayValue,
+		Value:      value,
+	}
+}
+
+func (r *IncidentWorkflowResource) buildExpressions(expressions []client.ExpressionV2) []IncidentEngineExpression {
+	var out []IncidentEngineExpression
+
+	for _, e := range expressions {
+		out = append(out, IncidentEngineExpression{
+			ElseBranch: IncidentEngineElseBranch{
+				Result: r.buildParamBinding(e.ElseBranch.Result),
+			},
+			ID:            types.StringValue(e.Id),
+			Label:         types.StringValue(e.Label),
+			Operations:    r.buildOperations(e.Operations),
+			Reference:     types.StringValue(e.Reference),
+			RootReference: types.StringValue(e.RootReference),
 		})
 	}
 
 	return out
+}
+
+func (r *IncidentWorkflowResource) buildOperations(operations []client.ExpressionOperationV2) []IncidentEngineExpressionOperation {
+	var out []IncidentEngineExpressionOperation
+
+	for _, o := range operations {
+		out = append(out, IncidentEngineExpressionOperation{
+			Branches: &IncidentEngineExpressionBranchesOpts{
+				Branches: r.buildBranches(o.Branches.Branches),
+				Returns:  r.buildReturns(o.Branches.Returns),
+			},
+			Filter: &IncidentEngineExpressionFilterOpts{
+				Conditions: r.buildConditions(o.Filter.Conditions),
+			},
+			Navigate: &IncidentEngineExpressionNavigateOpts{
+				Reference: types.StringValue(o.Navigate.Reference),
+			},
+			OperationType: types.StringValue(string(o.OperationType)),
+			Parse: IncidentEngineExpressionParseOpts{
+				Returns: r.buildReturns(o.Parse.Returns),
+				Source:  types.StringValue(o.Parse.Source),
+			},
+		})
+	}
+
+	return out
+}
+
+func (r *IncidentWorkflowResource) buildBranches(branches []client.ExpressionBranchV2) []IncidentEngineBranch {
+	var out []IncidentEngineBranch
+
+	for _, b := range branches {
+		out = append(out, IncidentEngineBranch{
+			Conditions: r.buildConditions(b.Conditions),
+			Result:     r.buildParamBinding(b.Result),
+		})
+	}
+
+	return out
+}
+
+func (r *IncidentWorkflowResource) buildReturns(returns client.ReturnsMetaV2) IncidentEngineReturnsMeta {
+	return IncidentEngineReturnsMeta{
+		Array: types.BoolValue(returns.Array),
+		Type:  types.StringValue(returns.Type),
+	}
 }
 
 // toPayloadConditionGroups converts from the terraform model to the http payload type.
