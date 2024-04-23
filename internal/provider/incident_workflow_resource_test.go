@@ -23,6 +23,8 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 						"incident_workflow.example", "name", incidentWorkflowDefault().Name),
 					resource.TestCheckResourceAttr(
 						"incident_workflow.example", "condition_groups.0.conditions.0.param_bindings.0.array_value.0.literal", incidentWorkflowDefault().ConditionParam),
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "steps.0.param_bindings.1.array_value.0.literal", incidentWorkflowDefault().StepFollowUpName),
 				),
 			},
 			// Import
@@ -51,47 +53,79 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 						"incident_workflow.example", "condition_groups.0.conditions.0.param_bindings.0.array_value.0.literal", "closed"),
 				),
 			},
+			// Update step and check new state
+			{
+				Config: testAccIncidentWorkflowResourceConfig(&workflowTemplateOverrides{
+					StepFollowUpName: "Organise postmortem meeting",
+				}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "steps.0.param_bindings.1.array_value.0.literal", "Organise postmortem meeting"),
+				),
+			},
 			// (Clean-up)
 		},
 	})
 }
 
 type workflowTemplateOverrides struct {
-	Name           string
-	ConditionParam string
+	Name             string
+	ConditionParam   string
+	StepFollowUpName string
 }
 
 var incidentWorkflowTemplate = template.Must(template.New("incident_workflow").Funcs(sprig.TxtFuncMap()).Parse(`
 resource "incident_workflow" "example" {
-  name               = {{ quote .Name }}
-  trigger            = "incident.updated"
-  terraform_repo_url = "https://github.com/incident-io/test"
-  condition_groups = [
-	{
-	  conditions = [
-		 {
-			operation = "one_of"
-			param_bindings = [
-			  {
-				 array_value = [
-					{
-					  literal = {{ quote .ConditionParam }}
-					}
-				 ]
-			  }
+	name               = {{ quote .Name }}
+	trigger            = "incident.updated"
+	terraform_repo_url = "https://github.com/incident-io/test"
+	condition_groups 	 = [
+		{
+			conditions = [
+				{
+					operation = "one_of"
+					param_bindings = [
+						{
+							array_value = [
+								{
+									literal = {{ quote .ConditionParam }}
+								}
+							]
+						}
+					]
+					subject = "incident.status.category"
+				}
 			]
-			subject = "incident.status.category"
-		 }
-	  ]
-	}
- ]
+		}
+	]
+	steps = [
+		{
+			name = "incident.create_follow_ups"
+			param_bindings = [
+				{
+					value = {
+						reference = "incident"
+					}
+				},
+				{
+					array_value = [
+						{
+							literal = {{ quote .StepFollowUpName }}
+						}
+					]
+				},
+				{}
+			]
+		}
+	]
 }
 `))
 
 func incidentWorkflowDefault() workflowTemplateOverrides {
 	return workflowTemplateOverrides{
-		Name:           "My Test Workflow",
-		ConditionParam: "open",
+		Name:             "My Test Workflow",
+		ConditionParam:   "open",
+		StepFollowUpName: "Write postmortem",
 	}
 }
 

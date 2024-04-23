@@ -19,6 +19,7 @@ A draft version of the public API for workflows. For now, this is a carbon copy 
 
 - `condition_groups` (Attributes Set) (see [below for nested schema](#nestedatt--condition_groups))
 - `name` (String)
+- `steps` (Attributes List) (see [below for nested schema](#nestedatt--steps))
 - `terraform_repo_url` (String)
 - `trigger` (String)
 
@@ -43,7 +44,7 @@ Required:
 Required:
 
 - `operation` (String)
-- `param_bindings` (Attributes Set) (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings))
+- `param_bindings` (Attributes List) (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings))
 - `subject` (String)
 
 <a id="nestedatt--condition_groups--conditions--param_bindings"></a>
@@ -65,6 +66,51 @@ Optional:
 
 <a id="nestedatt--condition_groups--conditions--param_bindings--value"></a>
 ### Nested Schema for `condition_groups.conditions.param_bindings.value`
+
+Optional:
+
+- `literal` (String)
+- `reference` (String)
+
+
+
+
+
+<a id="nestedatt--steps"></a>
+### Nested Schema for `steps`
+
+Required:
+
+- `name` (String)
+- `param_bindings` (Attributes List) (see [below for nested schema](#nestedatt--steps--param_bindings))
+
+Optional:
+
+- `for_each` (String)
+
+Read-Only:
+
+- `id` (String)
+
+<a id="nestedatt--steps--param_bindings"></a>
+### Nested Schema for `steps.param_bindings`
+
+Optional:
+
+- `array_value` (Attributes Set) (see [below for nested schema](#nestedatt--steps--param_bindings--array_value))
+- `value` (Attributes) (see [below for nested schema](#nestedatt--steps--param_bindings--value))
+
+<a id="nestedatt--steps--param_bindings--array_value"></a>
+### Nested Schema for `steps.param_bindings.array_value`
+
+Optional:
+
+- `literal` (String)
+- `reference` (String)
+
+
+<a id="nestedatt--steps--param_bindings--value"></a>
+### Nested Schema for `steps.param_bindings.value`
 
 Optional:
 
