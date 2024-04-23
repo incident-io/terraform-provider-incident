@@ -169,7 +169,7 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 			Name:             data.Name.ValueString(),
 			TerraformRepoUrl: data.TerraformRepoURL.ValueStringPointer(),
 			OnceFor:          []string{"incident.url"},
-			ConditionGroups:  toPayloadConditionGrouos(data.ConditionGroups),
+			ConditionGroups:  toPayloadConditionGroups(data.ConditionGroups),
 			Steps:            []client.StepConfigPayload{},
 			Expressions:      []client.ExpressionPayloadV2{},
 			RunsOnIncidents:  "newly_created",
