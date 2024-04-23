@@ -2,6 +2,7 @@ package provider
 
 import (
 	"bytes"
+	"fmt"
 	"reflect"
 	"testing"
 	"text/template"
@@ -23,6 +24,9 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 						"incident_workflow.example", "name", incidentWorkflowDefault().Name),
 					resource.TestCheckResourceAttr(
 						"incident_workflow.example", "condition_groups.0.conditions.0.param_bindings.0.array_value.0.literal", incidentWorkflowDefault().ConditionParam),
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "steps.0.param_bindings.1.value.literal",
+						fmt.Sprintf("{\"content\":[{\"content\":[{\"text\":\"%s\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}", incidentWorkflowDefault().StepSlackMessage)),
 				),
 			},
 			// Import
@@ -51,47 +55,68 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 						"incident_workflow.example", "condition_groups.0.conditions.0.param_bindings.0.array_value.0.literal", "closed"),
 				),
 			},
+			// Test another step
 			// (Clean-up)
 		},
 	})
 }
 
 type workflowTemplateOverrides struct {
-	Name           string
-	ConditionParam string
+	Name             string
+	ConditionParam   string
+	StepSlackMessage string
 }
 
 var incidentWorkflowTemplate = template.Must(template.New("incident_workflow").Funcs(sprig.TxtFuncMap()).Parse(`
 resource "incident_workflow" "example" {
-  name               = {{ quote .Name }}
-  trigger            = "incident.updated"
-  terraform_repo_url = "https://github.com/incident-io/test"
-  condition_groups = [
-	{
-	  conditions = [
-		 {
-			operation = "one_of"
-			param_bindings = [
-			  {
-				 array_value = [
-					{
-					  literal = {{ quote .ConditionParam }}
-					}
-				 ]
-			  }
+	name               = {{ quote .Name }}
+	trigger            = "incident.updated"
+	terraform_repo_url = "https://github.com/incident-io/test"
+	condition_groups 	 = [
+		{
+			conditions = [
+				{
+					operation = "one_of"
+					param_bindings = [
+						{
+							array_value = [
+								{
+									literal = {{ quote .ConditionParam }}
+								}
+							]
+						}
+					]
+					subject = "incident.status.category"
+				}
 			]
-			subject = "incident.status.category"
-		 }
-	  ]
-	}
- ]
+		}
+	]
+	steps = [
+		{
+			name = "slack.post_message"
+			param_bindings = [
+				{
+					value = {
+						reference = "incident.slack_channel"
+					}
+				},
+				{
+					value = {
+						literal = "{\"content\":[{\"content\":[{\"text\":\"{{ .StepSlackMessage }}\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
+					}
+				},
+				{}
+			]
+		}
+	]
 }
 `))
 
 func incidentWorkflowDefault() workflowTemplateOverrides {
 	return workflowTemplateOverrides{
-		Name:           "My Test Workflow",
-		ConditionParam: "open",
+		Name:             "My Test Workflow",
+		ConditionParam:   "open",
+		StepSlackMessage: "This is a slack message!",
 	}
 }
 
