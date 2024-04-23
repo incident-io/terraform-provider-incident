@@ -35,6 +35,14 @@ type IncidentWorkflowResourceModel struct {
 	Trigger          types.String                  `tfsdk:"trigger"`
 	TerraformRepoURL types.String                  `tfsdk:"terraform_repo_url"`
 	ConditionGroups  IncidentEngineConditionGroups `tfsdk:"condition_groups"`
+	Steps            []IncidentWorkflowStep        `tfsdk:"steps"`
+}
+
+type IncidentWorkflowStep struct {
+	ForEach       types.String                 `tfsdk:"for_each"`
+	Id            types.String                 `tfsdk:"id"`
+	Name          types.String                 `tfsdk:"name"`
+	ParamBindings []IncidentEngineParamBinding `tfsdk:"param_bindings"`
 }
 
 func (r *IncidentWorkflowResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -42,12 +50,30 @@ func (r *IncidentWorkflowResource) Metadata(ctx context.Context, req resource.Me
 }
 
 func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-	paramBindingAttributes := map[string]schema.Attribute{
+	paramBindingValueAttributes := map[string]schema.Attribute{
 		"literal": schema.StringAttribute{
 			Optional: true,
 		},
 		"reference": schema.StringAttribute{
 			Optional: true,
+		},
+	}
+
+	paramBindingsAttribute := schema.SetNestedAttribute{
+		Required: true,
+		NestedObject: schema.NestedAttributeObject{
+			Attributes: map[string]schema.Attribute{
+				"array_value": schema.SetNestedAttribute{
+					Optional: true,
+					NestedObject: schema.NestedAttributeObject{
+						Attributes: paramBindingValueAttributes,
+					},
+				},
+				"value": schema.SingleNestedAttribute{
+					Optional:   true,
+					Attributes: paramBindingValueAttributes,
+				},
+			},
 		},
 	}
 
@@ -83,29 +109,30 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 									"operation": schema.StringAttribute{
 										Required: true,
 									},
-									"param_bindings": schema.SetNestedAttribute{
-										Required: true,
-										NestedObject: schema.NestedAttributeObject{
-											Attributes: map[string]schema.Attribute{
-												"array_value": schema.SetNestedAttribute{
-													Optional: true,
-													NestedObject: schema.NestedAttributeObject{
-														Attributes: paramBindingAttributes,
-													},
-												},
-												"value": schema.SingleNestedAttribute{
-													Optional:   true,
-													Attributes: paramBindingAttributes,
-												},
-											},
-										},
-									},
+									"param_bindings": paramBindingsAttribute,
 									"subject": schema.StringAttribute{
 										Required: true,
 									},
 								},
 							},
 						},
+					},
+				},
+			},
+			"steps": schema.SetNestedAttribute{
+				Required: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"for_each": schema.StringAttribute{
+							Optional: true,
+						},
+						"id": schema.StringAttribute{
+							Computed: true,
+						},
+						"name": schema.StringAttribute{
+							Required: true,
+						},
+						"param_bindings": paramBindingsAttribute,
 					},
 				},
 			},
@@ -127,7 +154,7 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 			TerraformRepoUrl: data.TerraformRepoURL.ValueStringPointer(),
 			OnceFor:          []string{"incident.url"},
 			ConditionGroups:  toPayloadConditionGroups(data.ConditionGroups),
-			Steps:            []client.StepConfigPayload{},
+			Steps:            toPayloadSteps(data.Steps),
 			Expressions:      []client.ExpressionPayloadV2{},
 			RunsOnIncidents:  "newly_created",
 			IsDraft:          true,
@@ -170,7 +197,7 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 			TerraformRepoUrl: data.TerraformRepoURL.ValueStringPointer(),
 			OnceFor:          []string{"incident.url"},
 			ConditionGroups:  toPayloadConditionGroups(data.ConditionGroups),
-			Steps:            []client.StepConfigPayload{},
+			Steps:            toPayloadSteps(data.Steps),
 			Expressions:      []client.ExpressionPayloadV2{},
 			RunsOnIncidents:  "newly_created",
 			IsDraft:          true,
@@ -253,6 +280,7 @@ func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *Inciden
 		Name:            types.StringValue(workflow.Name),
 		Trigger:         types.StringValue(workflow.Trigger.Name),
 		ConditionGroups: r.buildConditionGroups(workflow.ConditionGroups),
+		Steps:           r.buildSteps(workflow.Steps),
 	}
 	if workflow.Folder != nil {
 		model.Folder = types.StringValue(*workflow.Folder)
@@ -278,6 +306,21 @@ func (r *IncidentWorkflowResource) buildConditionGroups(groups []client.Expressi
 		}
 
 		out = append(out, IncidentEngineConditionGroup{Conditions: conditions})
+	}
+
+	return out
+}
+
+func (r *IncidentWorkflowResource) buildSteps(steps []client.StepConfig) []IncidentWorkflowStep {
+	var out []IncidentWorkflowStep
+
+	for _, s := range steps {
+		out = append(out, IncidentWorkflowStep{
+			ForEach:       types.StringPointerValue(s.ForEach),
+			Id:            types.StringValue(s.Id),
+			Name:          types.StringValue(s.Name),
+			ParamBindings: r.buildParamBindings(s.ParamBindings),
+		})
 	}
 
 	return out
@@ -336,6 +379,21 @@ func toPayloadConditionGroups(groups IncidentEngineConditionGroups) []client.Exp
 	}
 
 	return payload
+}
+
+func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayload {
+	var out []client.StepConfigPayload
+
+	for _, step := range steps {
+		out = append(out, client.StepConfigPayload{
+			ForEach:       step.ForEach.ValueStringPointer(),
+			Id:            step.Id.ValueStringPointer(),
+			Name:          step.Name.ValueString(),
+			ParamBindings: toPayloadParamBindings(step.ParamBindings),
+		})
+	}
+
+	return out
 }
 
 func toPayloadParamBindings(pbs []IncidentEngineParamBinding) []client.EngineParamBindingPayloadV2 {
