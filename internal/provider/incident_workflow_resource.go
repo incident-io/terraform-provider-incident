@@ -36,11 +36,12 @@ type IncidentWorkflowResourceModel struct {
 	TerraformRepoURL types.String                  `tfsdk:"terraform_repo_url"`
 	ConditionGroups  IncidentEngineConditionGroups `tfsdk:"condition_groups"`
 	Steps            []IncidentWorkflowStep        `tfsdk:"steps"`
+	Expressions      []IncidentEngineExpression    `tfsdk:"expressions"`
 }
 
 type IncidentWorkflowStep struct {
 	ForEach       types.String                 `tfsdk:"for_each"`
-	Id            types.String                 `tfsdk:"id"`
+	ID            types.String                 `tfsdk:"id"`
 	Name          types.String                 `tfsdk:"name"`
 	ParamBindings []IncidentEngineParamBinding `tfsdk:"param_bindings"`
 }
@@ -317,7 +318,7 @@ func (r *IncidentWorkflowResource) buildSteps(steps []client.StepConfig) []Incid
 	for _, s := range steps {
 		out = append(out, IncidentWorkflowStep{
 			ForEach:       types.StringPointerValue(s.ForEach),
-			Id:            types.StringValue(s.Id),
+			ID:            types.StringValue(s.Id),
 			Name:          types.StringValue(s.Name),
 			ParamBindings: r.buildParamBindings(s.ParamBindings),
 		})
@@ -387,7 +388,7 @@ func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayload {
 	for _, step := range steps {
 		out = append(out, client.StepConfigPayload{
 			ForEach:       step.ForEach.ValueStringPointer(),
-			Id:            step.Id.ValueStringPointer(),
+			Id:            step.ID.ValueStringPointer(),
 			Name:          step.Name.ValueString(),
 			ParamBindings: toPayloadParamBindings(step.ParamBindings),
 		})
