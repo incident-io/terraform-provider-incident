@@ -156,7 +156,7 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 			OnceFor:          []string{"incident.url"},
 			ConditionGroups:  toPayloadConditionGroups(data.ConditionGroups),
 			Steps:            toPayloadSteps(data.Steps),
-			Expressions:      []client.ExpressionPayloadV2{},
+			Expressions:      toPayloadExpressions(data.Expressions),
 			RunsOnIncidents:  "newly_created",
 			IsDraft:          true,
 		},
@@ -199,7 +199,7 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 			OnceFor:          []string{"incident.url"},
 			ConditionGroups:  toPayloadConditionGroups(data.ConditionGroups),
 			Steps:            toPayloadSteps(data.Steps),
-			Expressions:      []client.ExpressionPayloadV2{},
+			Expressions:      toPayloadExpressions(data.Expressions),
 			RunsOnIncidents:  "newly_created",
 			IsDraft:          true,
 		},
@@ -364,22 +364,26 @@ func toPayloadConditionGroups(groups IncidentEngineConditionGroups) []client.Exp
 	var payload []client.ExpressionFilterOptsPayloadV2
 
 	for _, group := range groups {
-		var conditions []client.ConditionPayloadV2
-
-		for _, condition := range group.Conditions {
-			conditions = append(conditions, client.ConditionPayloadV2{
-				Subject:       condition.Subject.ValueString(),
-				Operation:     condition.Operation.ValueString(),
-				ParamBindings: toPayloadParamBindings(condition.ParamBindings),
-			})
-		}
-
 		payload = append(payload, client.ExpressionFilterOptsPayloadV2{
-			Conditions: conditions,
+			Conditions: toPayloadConditions(group.Conditions),
 		})
 	}
 
 	return payload
+}
+
+func toPayloadConditions(conditions []IncidentEngineCondition) []client.ConditionPayloadV2 {
+	var out []client.ConditionPayloadV2
+
+	for _, c := range conditions {
+		out = append(out, client.ConditionPayloadV2{
+			Subject:       c.Subject.ValueString(),
+			Operation:     c.Operation.ValueString(),
+			ParamBindings: toPayloadParamBindings(c.ParamBindings),
+		})
+	}
+
+	return out
 }
 
 func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayload {
@@ -401,27 +405,96 @@ func toPayloadParamBindings(pbs []IncidentEngineParamBinding) []client.EnginePar
 	var paramBindings []client.EngineParamBindingPayloadV2
 
 	for _, binding := range pbs {
-		var arrayValue []client.EngineParamBindingValuePayloadV2
-		for _, v := range binding.ArrayValue {
-			arrayValue = append(arrayValue, client.EngineParamBindingValuePayloadV2{
-				Literal:   v.Literal.ValueStringPointer(),
-				Reference: v.Reference.ValueStringPointer(),
-			})
-		}
-
-		var value *client.EngineParamBindingValuePayloadV2
-		if binding.Value != nil {
-			value = &client.EngineParamBindingValuePayloadV2{
-				Literal:   binding.Value.Literal.ValueStringPointer(),
-				Reference: binding.Value.Reference.ValueStringPointer(),
-			}
-		}
-
-		paramBindings = append(paramBindings, client.EngineParamBindingPayloadV2{
-			ArrayValue: &arrayValue,
-			Value:      value,
-		})
+		paramBindings = append(paramBindings, toPayloadParamBinding(binding))
 	}
 
 	return paramBindings
+}
+
+func toPayloadParamBinding(binding IncidentEngineParamBinding) client.EngineParamBindingPayloadV2 {
+	var arrayValue []client.EngineParamBindingValuePayloadV2
+	for _, v := range binding.ArrayValue {
+		arrayValue = append(arrayValue, *toPayloadParamBindingValue(&v))
+	}
+
+	var value *client.EngineParamBindingValuePayloadV2
+	if binding.Value != nil {
+		value = toPayloadParamBindingValue(binding.Value)
+	}
+
+	return client.EngineParamBindingPayloadV2{
+		ArrayValue: &arrayValue,
+		Value:      value,
+	}
+}
+
+func toPayloadParamBindingValue(v *IncidentEngineParamBindingValue) *client.EngineParamBindingValuePayloadV2 {
+	return &client.EngineParamBindingValuePayloadV2{
+		Literal:   v.Literal.ValueStringPointer(),
+		Reference: v.Reference.ValueStringPointer(),
+	}
+}
+
+func toPayloadExpressions(expressions []IncidentEngineExpression) []client.ExpressionPayloadV2 {
+	var out []client.ExpressionPayloadV2
+
+	for _, e := range expressions {
+		out = append(out, client.ExpressionPayloadV2{
+			ElseBranch: &client.ExpressionElseBranchPayloadV2{
+				Result: toPayloadParamBinding(e.ElseBranch.Result),
+			},
+			Label:         e.Label.String(),
+			Operations:    toPayloadOperations(e.Operations),
+			Reference:     e.Reference.String(),
+			RootReference: e.RootReference.String(),
+		})
+	}
+
+	return out
+}
+
+func toPayloadOperations(operations []IncidentEngineExpressionOperation) []client.ExpressionOperationPayloadV2 {
+	var out []client.ExpressionOperationPayloadV2
+
+	for _, o := range operations {
+		out = append(out, client.ExpressionOperationPayloadV2{
+			Branches: &client.ExpressionBranchesOptsPayloadV2{
+				Branches: toPayloadBranches(o.Branches.Branches),
+				Returns:  toPayloadReturns(o.Branches.Returns),
+			},
+			Filter: &client.ExpressionFilterOptsPayloadV2{
+				Conditions: toPayloadConditions(o.Filter.Conditions),
+			},
+			Navigate: &client.ExpressionNavigateOptsPayloadV2{
+				Reference: o.Navigate.Reference.String(),
+			},
+			OperationType: client.ExpressionOperationPayloadV2OperationType(o.OperationType.String()),
+			Parse: &client.ExpressionParseOptsV2{
+				Returns: toPayloadReturns(o.Parse.Returns),
+				Source:  o.Parse.Source.String(),
+			},
+		})
+	}
+
+	return out
+}
+
+func toPayloadBranches(branches []IncidentEngineBranch) []client.ExpressionBranchPayloadV2 {
+	var out []client.ExpressionBranchPayloadV2
+
+	for _, b := range branches {
+		out = append(out, client.ExpressionBranchPayloadV2{
+			Conditions: toPayloadConditions(b.Conditions),
+			Result:     toPayloadParamBinding(b.Result),
+		})
+	}
+
+	return out
+}
+
+func toPayloadReturns(returns IncidentEngineReturnsMeta) client.ReturnsMetaV2 {
+	return client.ReturnsMetaV2{
+		Array: returns.Array.ValueBool(),
+		Type:  returns.Type.ValueString(),
+	}
 }
