@@ -55,7 +55,17 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 						"incident_workflow.example", "condition_groups.0.conditions.0.param_bindings.0.array_value.0.literal", "closed"),
 				),
 			},
-			// Test another step
+			// Update step and check new state
+			{
+				Config: testAccIncidentWorkflowResourceConfig(&workflowTemplateOverrides{
+					StepSlackMessage: "Don't forget to write a postmortem!",
+				}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "steps.0.param_bindings.1.value.literal",
+						"{\"content\":[{\"content\":[{\"text\":\"Don't forget to write a postmortem!\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"),
+				),
+			},
 			// (Clean-up)
 		},
 	})
