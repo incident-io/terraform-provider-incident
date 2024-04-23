@@ -60,20 +60,49 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 		},
 	}
 
+	paramBindingAttributes := map[string]schema.Attribute{
+		"array_value": schema.SetNestedAttribute{
+			Optional: true,
+			NestedObject: schema.NestedAttributeObject{
+				Attributes: paramBindingValueAttributes,
+			},
+		},
+		"value": schema.SingleNestedAttribute{
+			Optional:   true,
+			Attributes: paramBindingValueAttributes,
+		},
+	}
+
 	paramBindingsAttribute := schema.ListNestedAttribute{
 		Required: true,
 		NestedObject: schema.NestedAttributeObject{
+			Attributes: paramBindingAttributes,
+		},
+	}
+
+	conditionsAttribute := schema.SetNestedAttribute{
+		Required: true,
+		NestedObject: schema.NestedAttributeObject{
 			Attributes: map[string]schema.Attribute{
-				"array_value": schema.SetNestedAttribute{
-					Optional: true,
-					NestedObject: schema.NestedAttributeObject{
-						Attributes: paramBindingValueAttributes,
-					},
+				"operation": schema.StringAttribute{
+					Required: true,
 				},
-				"value": schema.SingleNestedAttribute{
-					Optional:   true,
-					Attributes: paramBindingValueAttributes,
+				"param_bindings": paramBindingsAttribute,
+				"subject": schema.StringAttribute{
+					Required: true,
 				},
+			},
+		},
+	}
+
+	returnsAttribute := schema.SingleNestedAttribute{
+		Required: true,
+		Attributes: map[string]schema.Attribute{
+			"array": schema.BoolAttribute{
+				Required: true,
+			},
+			"type": schema.StringAttribute{
+				Required: true,
 			},
 		},
 	}
@@ -103,20 +132,7 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 				Required: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"conditions": schema.SetNestedAttribute{
-							Required: true,
-							NestedObject: schema.NestedAttributeObject{
-								Attributes: map[string]schema.Attribute{
-									"operation": schema.StringAttribute{
-										Required: true,
-									},
-									"param_bindings": paramBindingsAttribute,
-									"subject": schema.StringAttribute{
-										Required: true,
-									},
-								},
-							},
-						},
+						"conditions": conditionsAttribute,
 					},
 				},
 			},
@@ -137,7 +153,82 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 					},
 				},
 			},
-			// TODO add expressions to schema, test locally, unit test
+			"expressions": schema.ListNestedAttribute{
+				Required: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"else_branch": schema.SingleNestedAttribute{
+							Optional: true,
+							Attributes: map[string]schema.Attribute{
+								"result": schema.SingleNestedAttribute{
+									Required:   true,
+									Attributes: paramBindingAttributes,
+								},
+							},
+						},
+						"id": schema.StringAttribute{
+							Computed: true,
+						},
+						"label": schema.StringAttribute{
+							Required: true,
+						},
+						"operations": schema.ListNestedAttribute{
+							Required: true,
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"branches": schema.SingleNestedAttribute{
+										Optional: true,
+										Attributes: map[string]schema.Attribute{
+											"branches": schema.ListNestedAttribute{
+												Required: true,
+												NestedObject: schema.NestedAttributeObject{
+													Attributes: map[string]schema.Attribute{
+														"conditions": conditionsAttribute,
+														"result":     paramBindingsAttribute,
+													},
+												},
+											},
+											"returns": returnsAttribute,
+										},
+									},
+									"filter": schema.SingleNestedAttribute{
+										Optional: true,
+										Attributes: map[string]schema.Attribute{
+											"conditions": conditionsAttribute,
+										},
+									},
+									"navigate": schema.SingleNestedAttribute{
+										Optional: true,
+										Attributes: map[string]schema.Attribute{
+											"reference": schema.StringAttribute{
+												Required: true,
+											},
+										},
+									},
+									"operation_type": schema.StringAttribute{
+										Required: true,
+									},
+									"parse": schema.SingleNestedAttribute{
+										Optional: true,
+										Attributes: map[string]schema.Attribute{
+											"returns": returnsAttribute,
+											"source": schema.StringAttribute{
+												Required: true,
+											},
+										},
+									},
+								},
+							},
+						},
+						"reference": schema.StringAttribute{
+							Required: true,
+						},
+						"root_reference": schema.StringAttribute{
+							Required: true,
+						},
+					},
+				},
+			},
 		},
 	}
 }

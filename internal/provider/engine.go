@@ -28,7 +28,7 @@ type IncidentEngineExpression struct {
 	ElseBranch    *IncidentEngineElseBranch           `tfsdk:"else_branch"`
 	ID            types.String                        `tfsdk:"id"` // rmv?
 	Label         types.String                        `tfsdk:"label"`
-	Operations    []IncidentEngineExpressionOperation `tfsdk:"operation"`
+	Operations    []IncidentEngineExpressionOperation `tfsdk:"operations"`
 	Reference     types.String                        `tfsdk:"reference"`
 	RootReference types.String                        `tfsdk:"root_reference"`
 }

@@ -118,8 +118,16 @@ resource "incident_workflow" "example" {
 			]
 		}
 	]
+	expressions = [
+		{
+			"label" = "My Expression"
+			operations = []
+			reference = "status"
+			root_reference = "incident"
+		}
+	]
 }
-`))
+`)) // TODO test locally and UT
 
 func incidentWorkflowDefault() workflowTemplateOverrides {
 	return workflowTemplateOverrides{
