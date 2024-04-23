@@ -25,7 +25,7 @@ type IncidentEngineParamBindingValue struct {
 }
 
 type IncidentEngineExpression struct {
-	ElseBranch    IncidentEngineElseBranch            `tfsdk:"else_branch"`
+	ElseBranch    *IncidentEngineElseBranch           `tfsdk:"else_branch"`
 	ID            types.String                        `tfsdk:"id"` // rmv?
 	Label         types.String                        `tfsdk:"label"`
 	Operations    []IncidentEngineExpressionOperation `tfsdk:"operation"`
@@ -42,8 +42,8 @@ type IncidentEngineExpressionOperation struct {
 	Filter   *IncidentEngineExpressionFilterOpts   `tfsdk:"filter"`
 	Navigate *IncidentEngineExpressionNavigateOpts `tfsdk:"navigate"`
 
-	OperationType types.String                      `tfsdk:"operation_type"`
-	Parse         IncidentEngineExpressionParseOpts `tfsdk:"parse"`
+	OperationType types.String                       `tfsdk:"operation_type"`
+	Parse         *IncidentEngineExpressionParseOpts `tfsdk:"parse"`
 }
 
 type IncidentEngineExpressionBranchesOpts struct {

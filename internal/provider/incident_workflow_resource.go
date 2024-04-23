@@ -137,6 +137,7 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 					},
 				},
 			},
+			// TODO add expressions to schema, test locally, unit test
 		},
 	}
 }
@@ -373,16 +374,19 @@ func (r *IncidentWorkflowResource) buildExpressions(expressions []client.Express
 	var out []IncidentEngineExpression
 
 	for _, e := range expressions {
-		out = append(out, IncidentEngineExpression{
-			ElseBranch: IncidentEngineElseBranch{
-				Result: r.buildParamBinding(e.ElseBranch.Result),
-			},
+		expression := IncidentEngineExpression{
 			ID:            types.StringValue(e.Id),
 			Label:         types.StringValue(e.Label),
 			Operations:    r.buildOperations(e.Operations),
 			Reference:     types.StringValue(e.Reference),
 			RootReference: types.StringValue(e.RootReference),
-		})
+		}
+		if e.ElseBranch != nil {
+			expression.ElseBranch = &IncidentEngineElseBranch{
+				Result: r.buildParamBinding(e.ElseBranch.Result),
+			}
+		}
+		out = append(out, expression)
 	}
 
 	return out
@@ -392,23 +396,32 @@ func (r *IncidentWorkflowResource) buildOperations(operations []client.Expressio
 	var out []IncidentEngineExpressionOperation
 
 	for _, o := range operations {
-		out = append(out, IncidentEngineExpressionOperation{
-			Branches: &IncidentEngineExpressionBranchesOpts{
+		operation := IncidentEngineExpressionOperation{
+			OperationType: types.StringValue(string(o.OperationType)),
+		}
+		if o.Branches != nil {
+			operation.Branches = &IncidentEngineExpressionBranchesOpts{
 				Branches: r.buildBranches(o.Branches.Branches),
 				Returns:  r.buildReturns(o.Branches.Returns),
-			},
-			Filter: &IncidentEngineExpressionFilterOpts{
+			}
+		}
+		if o.Filter != nil {
+			operation.Filter = &IncidentEngineExpressionFilterOpts{
 				Conditions: r.buildConditions(o.Filter.Conditions),
-			},
-			Navigate: &IncidentEngineExpressionNavigateOpts{
+			}
+		}
+		if o.Navigate != nil {
+			operation.Navigate = &IncidentEngineExpressionNavigateOpts{
 				Reference: types.StringValue(o.Navigate.Reference),
-			},
-			OperationType: types.StringValue(string(o.OperationType)),
-			Parse: IncidentEngineExpressionParseOpts{
+			}
+		}
+		if o.Parse != nil {
+			operation.Parse = &IncidentEngineExpressionParseOpts{
 				Returns: r.buildReturns(o.Parse.Returns),
 				Source:  types.StringValue(o.Parse.Source),
-			},
-		})
+			}
+		}
+		out = append(out, operation)
 	}
 
 	return out
@@ -515,15 +528,18 @@ func toPayloadExpressions(expressions []IncidentEngineExpression) []client.Expre
 	var out []client.ExpressionPayloadV2
 
 	for _, e := range expressions {
-		out = append(out, client.ExpressionPayloadV2{
-			ElseBranch: &client.ExpressionElseBranchPayloadV2{
-				Result: toPayloadParamBinding(e.ElseBranch.Result),
-			},
+		expression := client.ExpressionPayloadV2{
 			Label:         e.Label.String(),
 			Operations:    toPayloadOperations(e.Operations),
 			Reference:     e.Reference.String(),
 			RootReference: e.RootReference.String(),
-		})
+		}
+		if e.ElseBranch != nil {
+			expression.ElseBranch = &client.ExpressionElseBranchPayloadV2{
+				Result: toPayloadParamBinding(e.ElseBranch.Result),
+			}
+		}
+		out = append(out, expression)
 	}
 
 	return out
@@ -533,23 +549,32 @@ func toPayloadOperations(operations []IncidentEngineExpressionOperation) []clien
 	var out []client.ExpressionOperationPayloadV2
 
 	for _, o := range operations {
-		out = append(out, client.ExpressionOperationPayloadV2{
-			Branches: &client.ExpressionBranchesOptsPayloadV2{
+		operation := client.ExpressionOperationPayloadV2{
+			OperationType: client.ExpressionOperationPayloadV2OperationType(o.OperationType.String()),
+		}
+		if o.Branches != nil {
+			operation.Branches = &client.ExpressionBranchesOptsPayloadV2{
 				Branches: toPayloadBranches(o.Branches.Branches),
 				Returns:  toPayloadReturns(o.Branches.Returns),
-			},
-			Filter: &client.ExpressionFilterOptsPayloadV2{
+			}
+		}
+		if o.Filter != nil {
+			operation.Filter = &client.ExpressionFilterOptsPayloadV2{
 				Conditions: toPayloadConditions(o.Filter.Conditions),
-			},
-			Navigate: &client.ExpressionNavigateOptsPayloadV2{
+			}
+		}
+		if o.Navigate != nil {
+			operation.Navigate = &client.ExpressionNavigateOptsPayloadV2{
 				Reference: o.Navigate.Reference.String(),
-			},
-			OperationType: client.ExpressionOperationPayloadV2OperationType(o.OperationType.String()),
-			Parse: &client.ExpressionParseOptsV2{
+			}
+		}
+		if o.Parse != nil {
+			operation.Parse = &client.ExpressionParseOptsV2{
 				Returns: toPayloadReturns(o.Parse.Returns),
 				Source:  o.Parse.Source.String(),
-			},
-		})
+			}
+		}
+		out = append(out, operation)
 	}
 
 	return out
