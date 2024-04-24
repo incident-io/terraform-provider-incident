@@ -123,7 +123,7 @@ Required:
 Required:
 
 - `conditions` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--conditions))
-- `result` (Attributes List) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result))
+- `result` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result))
 
 <a id="nestedatt--expressions--operations--branches--returns--conditions"></a>
 ### Nested Schema for `expressions.operations.branches.returns.conditions`
