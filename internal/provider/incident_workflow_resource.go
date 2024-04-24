@@ -184,7 +184,10 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 												NestedObject: schema.NestedAttributeObject{
 													Attributes: map[string]schema.Attribute{
 														"conditions": conditionsAttribute,
-														"result":     paramBindingsAttribute,
+														"result": schema.SingleNestedAttribute{
+															Required:   true,
+															Attributes: paramBindingAttributes,
+														},
 													},
 												},
 											},
