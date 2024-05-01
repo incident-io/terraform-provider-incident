@@ -101,6 +101,9 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 		if len(result.JSON200.Users) == 0 {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "User not found"))
 			return
+		} else if len(result.JSON200.Users) > 1 {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "Multiple users found"))
+			return
 		}
 		user = &result.JSON200.Users[0]
 	} else if !data.SlackUserID.IsNull() {
@@ -116,6 +119,9 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 		}
 		if len(result.JSON200.Users) == 0 {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "User not found"))
+			return
+		} else if len(result.JSON200.Users) > 1 {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "Multiple users found"))
 			return
 		}
 		user = &result.JSON200.Users[0]
