@@ -71,10 +71,10 @@ func (i *IncidentUserDataSource) Metadata(ctx context.Context, req datasource.Me
 func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var data IncidentUserDataSourceModel
 	req.Config.Get(ctx, &data)
+	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
 	var user *client.UserWithRolesV2
 	if !data.ID.IsNull() {
-		resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 		if resp.Diagnostics.HasError() {
 			return
 		}
