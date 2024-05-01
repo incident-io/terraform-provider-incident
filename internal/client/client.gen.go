@@ -423,6 +423,35 @@ const (
 	IncidentV2VisibilityPublic  IncidentV2Visibility = "public"
 )
 
+// Defines values for ScheduleRotationHandoverV2IntervalType.
+const (
+	Daily  ScheduleRotationHandoverV2IntervalType = "daily"
+	Hourly ScheduleRotationHandoverV2IntervalType = "hourly"
+	Weekly ScheduleRotationHandoverV2IntervalType = "weekly"
+)
+
+// Defines values for ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday.
+const (
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayFriday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "friday"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayMonday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "monday"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdaySaturday  ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "saturday"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdaySunday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "sunday"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayThursday  ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "thursday"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayTuesday   ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "tuesday"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayWednesday ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "wednesday"
+)
+
+// Defines values for ScheduleRotationWorkingIntervalV2Weekday.
+const (
+	ScheduleRotationWorkingIntervalV2WeekdayFriday    ScheduleRotationWorkingIntervalV2Weekday = "friday"
+	ScheduleRotationWorkingIntervalV2WeekdayMonday    ScheduleRotationWorkingIntervalV2Weekday = "monday"
+	ScheduleRotationWorkingIntervalV2WeekdaySaturday  ScheduleRotationWorkingIntervalV2Weekday = "saturday"
+	ScheduleRotationWorkingIntervalV2WeekdaySunday    ScheduleRotationWorkingIntervalV2Weekday = "sunday"
+	ScheduleRotationWorkingIntervalV2WeekdayThursday  ScheduleRotationWorkingIntervalV2Weekday = "thursday"
+	ScheduleRotationWorkingIntervalV2WeekdayTuesday   ScheduleRotationWorkingIntervalV2Weekday = "tuesday"
+	ScheduleRotationWorkingIntervalV2WeekdayWednesday ScheduleRotationWorkingIntervalV2Weekday = "wednesday"
+)
+
 // Defines values for UpdateRequestBody2Required.
 const (
 	UpdateRequestBody2RequiredAlways        UpdateRequestBody2Required = "always"
@@ -608,6 +637,15 @@ type ActionV2Status string
 type ActorV2 struct {
 	ApiKey *APIKeyV2 `json:"api_key,omitempty"`
 	User   *UserV1   `json:"user,omitempty"`
+}
+
+// AfterPaginationMetaResultV2 defines model for AfterPaginationMetaResultV2.
+type AfterPaginationMetaResultV2 struct {
+	// After The time, if it exists, of the last entry's end time
+	After string `json:"after"`
+
+	// AfterUrl The URL to fetch the next page of entries
+	AfterUrl string `json:"after_url"`
 }
 
 // CatalogEntryReferenceV2 defines model for CatalogEntryReferenceV2.
@@ -937,6 +975,11 @@ type CreateRequestBody10Visibility string
 
 // CreateRequestBody11 defines model for CreateRequestBody11.
 type CreateRequestBody11 struct {
+	Schedule ScheduleCreatePayloadV2 `json:"schedule"`
+}
+
+// CreateRequestBody12 defines model for CreateRequestBody12.
+type CreateRequestBody12 struct {
 	// Description Description of the severity
 	Description string `json:"description"`
 
@@ -2010,11 +2053,23 @@ type ListResponseBody15 struct {
 
 // ListResponseBody16 defines model for ListResponseBody16.
 type ListResponseBody16 struct {
-	Severities []SeverityV2 `json:"severities"`
+	PaginationMeta  *AfterPaginationMetaResultV2 `json:"pagination_meta,omitempty"`
+	ScheduleEntries ScheduleEntriesListPayloadV2 `json:"schedule_entries"`
 }
 
 // ListResponseBody17 defines model for ListResponseBody17.
 type ListResponseBody17 struct {
+	PaginationMeta *PaginationMetaResultWithTotal `json:"pagination_meta,omitempty"`
+	Schedules      []ScheduleV2                   `json:"schedules"`
+}
+
+// ListResponseBody18 defines model for ListResponseBody18.
+type ListResponseBody18 struct {
+	Severities []SeverityV2 `json:"severities"`
+}
+
+// ListResponseBody19 defines model for ListResponseBody19.
+type ListResponseBody19 struct {
 	PaginationMeta PaginationMetaResult `json:"pagination_meta"`
 	Users          []UserWithRolesV2    `json:"users"`
 }
@@ -2107,6 +2162,201 @@ type RetrospectiveIncidentOptionsV2 struct {
 	SlackChannelId *string `json:"slack_channel_id,omitempty"`
 }
 
+// ScheduleConfigCreatePayloadV2 defines model for ScheduleConfigCreatePayloadV2.
+type ScheduleConfigCreatePayloadV2 struct {
+	Rotations *[]ScheduleRotationCreatePayloadV2 `json:"rotations,omitempty"`
+}
+
+// ScheduleConfigUpdatePayloadV2 defines model for ScheduleConfigUpdatePayloadV2.
+type ScheduleConfigUpdatePayloadV2 struct {
+	Rotations *[]ScheduleRotationUpdatePayloadV2 `json:"rotations,omitempty"`
+}
+
+// ScheduleConfigV2 defines model for ScheduleConfigV2.
+type ScheduleConfigV2 struct {
+	// Rotations Rotas in this schedule
+	Rotations []ScheduleRotationV2 `json:"rotations"`
+}
+
+// ScheduleCreatePayloadV2 defines model for ScheduleCreatePayloadV2.
+type ScheduleCreatePayloadV2 struct {
+	Config *ScheduleConfigCreatePayloadV2 `json:"config,omitempty"`
+
+	// Name Name of the schedule
+	Name *string `json:"name,omitempty"`
+
+	// Timezone Timezone of the schedule
+	Timezone *string `json:"timezone,omitempty"`
+}
+
+// ScheduleEntriesListPayloadV2 defines model for ScheduleEntriesListPayloadV2.
+type ScheduleEntriesListPayloadV2 struct {
+	Final     []ScheduleEntryV2 `json:"final"`
+	Overrides []ScheduleEntryV2 `json:"overrides"`
+	Scheduled []ScheduleEntryV2 `json:"scheduled"`
+}
+
+// ScheduleEntryV2 defines model for ScheduleEntryV2.
+type ScheduleEntryV2 struct {
+	EndAt time.Time `json:"end_at"`
+
+	// EntryId Unique identifier of the schedule entry
+	EntryId *string `json:"entry_id,omitempty"`
+
+	// Fingerprint A unique identifier for this entry, used to determine a unique shift
+	Fingerprint *string `json:"fingerprint,omitempty"`
+
+	// LayerId If present, the layer this entry applies to on the rota
+	LayerId *string `json:"layer_id,omitempty"`
+
+	// RotationId If present, the rotation this entry applies to on the schedule
+	RotationId *string   `json:"rotation_id,omitempty"`
+	StartAt    time.Time `json:"start_at"`
+	User       *UserV1   `json:"user,omitempty"`
+}
+
+// ScheduleLayerCreatePayloadV2 defines model for ScheduleLayerCreatePayloadV2.
+type ScheduleLayerCreatePayloadV2 struct {
+	// Id Unique identifier of the layer
+	Id *string `json:"id,omitempty"`
+
+	// Name Name of the layer
+	Name string `json:"name"`
+}
+
+// ScheduleLayerV2 defines model for ScheduleLayerV2.
+type ScheduleLayerV2 struct {
+	// Id Unique identifier of the layer
+	Id *string `json:"id,omitempty"`
+
+	// Name Name of the layer
+	Name *string `json:"name,omitempty"`
+}
+
+// ScheduleRotationCreatePayloadV2 defines model for ScheduleRotationCreatePayloadV2.
+type ScheduleRotationCreatePayloadV2 struct {
+	EffectiveFrom   *time.Time                    `json:"effective_from,omitempty"`
+	HandoverStartAt *time.Time                    `json:"handover_start_at,omitempty"`
+	Handovers       *[]ScheduleRotationHandoverV2 `json:"handovers,omitempty"`
+
+	// Id Unique identifier of the rotation
+	Id     *string                         `json:"id,omitempty"`
+	Layers *[]ScheduleLayerCreatePayloadV2 `json:"layers,omitempty"`
+
+	// Name Name of the rotation
+	Name            string                               `json:"name"`
+	Users           *[]UserReferencePayloadV1            `json:"users,omitempty"`
+	WorkingInterval *[]ScheduleRotationWorkingIntervalV2 `json:"working_interval,omitempty"`
+}
+
+// ScheduleRotationHandoverV2 defines model for ScheduleRotationHandoverV2.
+type ScheduleRotationHandoverV2 struct {
+	Interval     *int64                                  `json:"interval,omitempty"`
+	IntervalType *ScheduleRotationHandoverV2IntervalType `json:"interval_type,omitempty"`
+}
+
+// ScheduleRotationHandoverV2IntervalType defines model for ScheduleRotationHandoverV2.IntervalType.
+type ScheduleRotationHandoverV2IntervalType string
+
+// ScheduleRotationUpdatePayloadV2 defines model for ScheduleRotationUpdatePayloadV2.
+type ScheduleRotationUpdatePayloadV2 struct {
+	EffectiveFrom   *time.Time                    `json:"effective_from,omitempty"`
+	HandoverStartAt *time.Time                    `json:"handover_start_at,omitempty"`
+	Handovers       *[]ScheduleRotationHandoverV2 `json:"handovers,omitempty"`
+
+	// Id Unique identifier of the rotation
+	Id     *string            `json:"id,omitempty"`
+	Layers *[]ScheduleLayerV2 `json:"layers,omitempty"`
+
+	// Name Name of the rotation
+	Name            *string                                           `json:"name,omitempty"`
+	Users           *[]UserReferencePayloadV1                         `json:"users,omitempty"`
+	WorkingInterval *[]ScheduleRotationWorkingIntervalUpdatePayloadV2 `json:"working_interval,omitempty"`
+}
+
+// ScheduleRotationV2 defines model for ScheduleRotationV2.
+type ScheduleRotationV2 struct {
+	// EffectiveFrom When this rotation config will be effective from
+	EffectiveFrom *time.Time `json:"effective_from,omitempty"`
+
+	// HandoverStartAt Defines the next moment we'll trigger a handover
+	HandoverStartAt time.Time `json:"handover_start_at"`
+
+	// Handovers Defines the handover intervals for this rota, in order they should apply
+	Handovers []ScheduleRotationHandoverV2 `json:"handovers"`
+
+	// Id Unique internal ID of the rotation
+	Id string `json:"id"`
+
+	// Layers Controls how many people are on-call concurrently
+	Layers []ScheduleLayerV2 `json:"layers"`
+
+	// Name Human readable name synced from external provider
+	Name            string                               `json:"name"`
+	Users           *[]UserV1                            `json:"users,omitempty"`
+	WorkingInterval *[]ScheduleRotationWorkingIntervalV2 `json:"working_interval,omitempty"`
+}
+
+// ScheduleRotationWorkingIntervalUpdatePayloadV2 defines model for ScheduleRotationWorkingIntervalUpdatePayloadV2.
+type ScheduleRotationWorkingIntervalUpdatePayloadV2 struct {
+	// EndTime End time of the interval, in 24hr format
+	EndTime *string `json:"end_time,omitempty"`
+
+	// StartTime Start time of the interval, in 24hr format
+	StartTime *string `json:"start_time,omitempty"`
+
+	// Weekday Weekday this interval applies to
+	Weekday *ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday `json:"weekday,omitempty"`
+}
+
+// ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday Weekday this interval applies to
+type ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday string
+
+// ScheduleRotationWorkingIntervalV2 defines model for ScheduleRotationWorkingIntervalV2.
+type ScheduleRotationWorkingIntervalV2 struct {
+	// EndTime End time of the interval, in 24hr format
+	EndTime string `json:"end_time"`
+
+	// StartTime Start time of the interval, in 24hr format
+	StartTime string `json:"start_time"`
+
+	// Weekday Weekday this interval applies to
+	Weekday ScheduleRotationWorkingIntervalV2Weekday `json:"weekday"`
+}
+
+// ScheduleRotationWorkingIntervalV2Weekday Weekday this interval applies to
+type ScheduleRotationWorkingIntervalV2Weekday string
+
+// ScheduleUpdatePayloadV2 defines model for ScheduleUpdatePayloadV2.
+type ScheduleUpdatePayloadV2 struct {
+	Config *ScheduleConfigUpdatePayloadV2 `json:"config,omitempty"`
+
+	// Name Name of the schedule
+	Name *string `json:"name,omitempty"`
+
+	// Timezone Timezone of the schedule
+	Timezone *string `json:"timezone,omitempty"`
+}
+
+// ScheduleV2 defines model for ScheduleV2.
+type ScheduleV2 struct {
+	Config    *ScheduleConfigV2 `json:"config,omitempty"`
+	CreatedAt time.Time         `json:"created_at"`
+
+	// CurrentShifts Shifts that are on-going for this schedule, if a native schedule
+	CurrentShifts *[]ScheduleEntryV2 `json:"current_shifts,omitempty"`
+
+	// Id Unique internal ID of the schedule
+	Id string `json:"id"`
+
+	// Name Human readable name synced from external provider
+	Name string `json:"name"`
+
+	// Timezone Timezone of the schedule, as interpreted at the point of generating the report
+	Timezone  string    `json:"timezone"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
 // SeverityV2 defines model for SeverityV2.
 type SeverityV2 struct {
 	// CreatedAt When the action was created
@@ -2161,11 +2411,16 @@ type ShowResponseBody13 struct {
 
 // ShowResponseBody14 defines model for ShowResponseBody14.
 type ShowResponseBody14 struct {
-	Severity SeverityV2 `json:"severity"`
+	Schedule ScheduleV2 `json:"schedule"`
 }
 
 // ShowResponseBody15 defines model for ShowResponseBody15.
 type ShowResponseBody15 struct {
+	Severity SeverityV2 `json:"severity"`
+}
+
+// ShowResponseBody16 defines model for ShowResponseBody16.
+type ShowResponseBody16 struct {
 	User UserWithRolesV2 `json:"user"`
 }
 
@@ -2318,6 +2573,11 @@ type UpdateRequestBody6 struct {
 
 	// Name Unique name of this status
 	Name string `json:"name"`
+}
+
+// UpdateRequestBody7 defines model for UpdateRequestBody7.
+type UpdateRequestBody7 struct {
+	Schedule ScheduleUpdatePayloadV2 `json:"schedule"`
 }
 
 // UpdateTypeRequestBody defines model for UpdateTypeRequestBody.
@@ -2551,6 +2811,27 @@ type IncidentsV2ListParams struct {
 	Mode *map[string][]string `form:"mode,omitempty" json:"mode,omitempty"`
 }
 
+// ScheduleEntriesV2ListParams defines parameters for ScheduleEntriesV2List.
+type ScheduleEntriesV2ListParams struct {
+	// ScheduleId The ID of the schedule to get entries for.
+	ScheduleId string `form:"schedule_id" json:"schedule_id"`
+
+	// EntryWindowStart The start of the window to get entries for.
+	EntryWindowStart *time.Time `form:"entry_window_start,omitempty" json:"entry_window_start,omitempty"`
+
+	// EntryWindowEnd The end of the window to get entries for.
+	EntryWindowEnd *time.Time `form:"entry_window_end,omitempty" json:"entry_window_end,omitempty"`
+}
+
+// SchedulesV2ListParams defines parameters for SchedulesV2List.
+type SchedulesV2ListParams struct {
+	// PageSize number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A schedule's ID. This endpoint will return a list of schedules after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
 // UsersV2ListParams defines parameters for UsersV2List.
 type UsersV2ListParams struct {
 	// Email Filter by email address
@@ -2603,10 +2884,10 @@ type IncidentStatusesV1UpdateJSONRequestBody = UpdateRequestBody6
 type IncidentsV1CreateJSONRequestBody = CreateRequestBody9
 
 // SeveritiesV1CreateJSONRequestBody defines body for SeveritiesV1Create for application/json ContentType.
-type SeveritiesV1CreateJSONRequestBody = CreateRequestBody11
+type SeveritiesV1CreateJSONRequestBody = CreateRequestBody12
 
 // SeveritiesV1UpdateJSONRequestBody defines body for SeveritiesV1Update for application/json ContentType.
-type SeveritiesV1UpdateJSONRequestBody = CreateRequestBody11
+type SeveritiesV1UpdateJSONRequestBody = CreateRequestBody12
 
 // AlertEventsV2CreateHTTPJSONRequestBody defines body for AlertEventsV2CreateHTTP for application/json ContentType.
 type AlertEventsV2CreateHTTPJSONRequestBody = CreateHTTPRequestBody
@@ -2643,6 +2924,12 @@ type IncidentsV2CreateJSONRequestBody = CreateRequestBody10
 
 // IncidentsV2EditJSONRequestBody defines body for IncidentsV2Edit for application/json ContentType.
 type IncidentsV2EditJSONRequestBody = EditRequestBody
+
+// SchedulesV2CreateJSONRequestBody defines body for SchedulesV2Create for application/json ContentType.
+type SchedulesV2CreateJSONRequestBody = CreateRequestBody11
+
+// SchedulesV2UpdateJSONRequestBody defines body for SchedulesV2Update for application/json ContentType.
+type SchedulesV2UpdateJSONRequestBody = UpdateRequestBody7
 
 // RequestEditorFn  is the function signature for the RequestEditor callback function
 type RequestEditorFn func(ctx context.Context, req *http.Request) error
@@ -2990,6 +3277,28 @@ type ClientInterface interface {
 	IncidentsV2EditWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	IncidentsV2Edit(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ScheduleEntriesV2List request
+	ScheduleEntriesV2List(ctx context.Context, params *ScheduleEntriesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2List request
+	SchedulesV2List(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2Create request with any body
+	SchedulesV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SchedulesV2Create(ctx context.Context, body SchedulesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2Destroy request
+	SchedulesV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2Show request
+	SchedulesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2Update request with any body
+	SchedulesV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SchedulesV2Update(ctx context.Context, id string, body SchedulesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// UsersV2List request
 	UsersV2List(ctx context.Context, params *UsersV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -4188,6 +4497,102 @@ func (c *Client) IncidentsV2EditWithBody(ctx context.Context, id string, content
 
 func (c *Client) IncidentsV2Edit(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewIncidentsV2EditRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ScheduleEntriesV2List(ctx context.Context, params *ScheduleEntriesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewScheduleEntriesV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2List(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2Create(ctx context.Context, body SchedulesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2DestroyRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2Update(ctx context.Context, id string, body SchedulesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2UpdateRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -7368,6 +7773,299 @@ func NewIncidentsV2EditRequestWithBody(server string, id string, contentType str
 	return req, nil
 }
 
+// NewScheduleEntriesV2ListRequest generates requests for ScheduleEntriesV2List
+func NewScheduleEntriesV2ListRequest(server string, params *ScheduleEntriesV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedule_entries")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if queryFrag, err := runtime.StyleParamWithLocation("form", true, "schedule_id", runtime.ParamLocationQuery, params.ScheduleId); err != nil {
+		return nil, err
+	} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+		return nil, err
+	} else {
+		for k, v := range parsed {
+			for _, v2 := range v {
+				queryValues.Add(k, v2)
+			}
+		}
+	}
+
+	if params.EntryWindowStart != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "entry_window_start", runtime.ParamLocationQuery, *params.EntryWindowStart); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.EntryWindowEnd != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "entry_window_end", runtime.ParamLocationQuery, *params.EntryWindowEnd); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV2ListRequest generates requests for SchedulesV2List
+func NewSchedulesV2ListRequest(server string, params *SchedulesV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.PageSize != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.After != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV2CreateRequest calls the generic SchedulesV2Create builder with application/json body
+func NewSchedulesV2CreateRequest(server string, body SchedulesV2CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSchedulesV2CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewSchedulesV2CreateRequestWithBody generates requests for SchedulesV2Create with any type of body
+func NewSchedulesV2CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewSchedulesV2DestroyRequest generates requests for SchedulesV2Destroy
+func NewSchedulesV2DestroyRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV2ShowRequest generates requests for SchedulesV2Show
+func NewSchedulesV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV2UpdateRequest calls the generic SchedulesV2Update builder with application/json body
+func NewSchedulesV2UpdateRequest(server string, id string, body SchedulesV2UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSchedulesV2UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewSchedulesV2UpdateRequestWithBody generates requests for SchedulesV2Update with any type of body
+func NewSchedulesV2UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewUsersV2ListRequest generates requests for UsersV2List
 func NewUsersV2ListRequest(server string, params *UsersV2ListParams) (*http.Request, error) {
 	var err error
@@ -7813,6 +8511,28 @@ type ClientWithResponsesInterface interface {
 	IncidentsV2EditWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error)
 
 	IncidentsV2EditWithResponse(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error)
+
+	// ScheduleEntriesV2List request
+	ScheduleEntriesV2ListWithResponse(ctx context.Context, params *ScheduleEntriesV2ListParams, reqEditors ...RequestEditorFn) (*ScheduleEntriesV2ListResponse, error)
+
+	// SchedulesV2List request
+	SchedulesV2ListWithResponse(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListResponse, error)
+
+	// SchedulesV2Create request with any body
+	SchedulesV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2CreateResponse, error)
+
+	SchedulesV2CreateWithResponse(ctx context.Context, body SchedulesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2CreateResponse, error)
+
+	// SchedulesV2Destroy request
+	SchedulesV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV2DestroyResponse, error)
+
+	// SchedulesV2Show request
+	SchedulesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV2ShowResponse, error)
+
+	// SchedulesV2Update request with any body
+	SchedulesV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateResponse, error)
+
+	SchedulesV2UpdateWithResponse(ctx context.Context, id string, body SchedulesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateResponse, error)
 
 	// UsersV2List request
 	UsersV2ListWithResponse(ctx context.Context, params *UsersV2ListParams, reqEditors ...RequestEditorFn) (*UsersV2ListResponse, error)
@@ -8588,7 +9308,7 @@ func (r UtilitiesV1OpenAPIV3Response) StatusCode() int {
 type SeveritiesV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody16
+	JSON200      *ListResponseBody18
 }
 
 // Status returns HTTPResponse.Status
@@ -8610,7 +9330,7 @@ func (r SeveritiesV1ListResponse) StatusCode() int {
 type SeveritiesV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *ShowResponseBody14
+	JSON201      *ShowResponseBody15
 }
 
 // Status returns HTTPResponse.Status
@@ -8653,7 +9373,7 @@ func (r SeveritiesV1DeleteResponse) StatusCode() int {
 type SeveritiesV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody14
+	JSON200      *ShowResponseBody15
 }
 
 // Status returns HTTPResponse.Status
@@ -8675,7 +9395,7 @@ func (r SeveritiesV1ShowResponse) StatusCode() int {
 type SeveritiesV1UpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody14
+	JSON200      *ShowResponseBody15
 }
 
 // Status returns HTTPResponse.Status
@@ -9438,10 +10158,141 @@ func (r IncidentsV2EditResponse) StatusCode() int {
 	return 0
 }
 
-type UsersV2ListResponse struct {
+type ScheduleEntriesV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListResponseBody16
+}
+
+// Status returns HTTPResponse.Status
+func (r ScheduleEntriesV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ScheduleEntriesV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *ListResponseBody17
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *ShowResponseBody14
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2DestroyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2DestroyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2DestroyResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ShowResponseBody14
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ShowResponseBody14
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UsersV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListResponseBody19
 }
 
 // Status returns HTTPResponse.Status
@@ -9463,7 +10314,7 @@ func (r UsersV2ListResponse) StatusCode() int {
 type UsersV2ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody15
+	JSON200      *ShowResponseBody16
 }
 
 // Status returns HTTPResponse.Status
@@ -10356,6 +11207,76 @@ func (c *ClientWithResponses) IncidentsV2EditWithResponse(ctx context.Context, i
 	return ParseIncidentsV2EditResponse(rsp)
 }
 
+// ScheduleEntriesV2ListWithResponse request returning *ScheduleEntriesV2ListResponse
+func (c *ClientWithResponses) ScheduleEntriesV2ListWithResponse(ctx context.Context, params *ScheduleEntriesV2ListParams, reqEditors ...RequestEditorFn) (*ScheduleEntriesV2ListResponse, error) {
+	rsp, err := c.ScheduleEntriesV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseScheduleEntriesV2ListResponse(rsp)
+}
+
+// SchedulesV2ListWithResponse request returning *SchedulesV2ListResponse
+func (c *ClientWithResponses) SchedulesV2ListWithResponse(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListResponse, error) {
+	rsp, err := c.SchedulesV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2ListResponse(rsp)
+}
+
+// SchedulesV2CreateWithBodyWithResponse request with arbitrary body returning *SchedulesV2CreateResponse
+func (c *ClientWithResponses) SchedulesV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2CreateResponse, error) {
+	rsp, err := c.SchedulesV2CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2CreateResponse(rsp)
+}
+
+func (c *ClientWithResponses) SchedulesV2CreateWithResponse(ctx context.Context, body SchedulesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2CreateResponse, error) {
+	rsp, err := c.SchedulesV2Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2CreateResponse(rsp)
+}
+
+// SchedulesV2DestroyWithResponse request returning *SchedulesV2DestroyResponse
+func (c *ClientWithResponses) SchedulesV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV2DestroyResponse, error) {
+	rsp, err := c.SchedulesV2Destroy(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2DestroyResponse(rsp)
+}
+
+// SchedulesV2ShowWithResponse request returning *SchedulesV2ShowResponse
+func (c *ClientWithResponses) SchedulesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV2ShowResponse, error) {
+	rsp, err := c.SchedulesV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2ShowResponse(rsp)
+}
+
+// SchedulesV2UpdateWithBodyWithResponse request with arbitrary body returning *SchedulesV2UpdateResponse
+func (c *ClientWithResponses) SchedulesV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateResponse, error) {
+	rsp, err := c.SchedulesV2UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2UpdateResponse(rsp)
+}
+
+func (c *ClientWithResponses) SchedulesV2UpdateWithResponse(ctx context.Context, id string, body SchedulesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateResponse, error) {
+	rsp, err := c.SchedulesV2Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2UpdateResponse(rsp)
+}
+
 // UsersV2ListWithResponse request returning *UsersV2ListResponse
 func (c *ClientWithResponses) UsersV2ListWithResponse(ctx context.Context, params *UsersV2ListParams, reqEditors ...RequestEditorFn) (*UsersV2ListResponse, error) {
 	rsp, err := c.UsersV2List(ctx, params, reqEditors...)
@@ -11239,7 +12160,7 @@ func ParseSeveritiesV1ListResponse(rsp *http.Response) (*SeveritiesV1ListRespons
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody16
+		var dest ListResponseBody18
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -11265,7 +12186,7 @@ func ParseSeveritiesV1CreateResponse(rsp *http.Response) (*SeveritiesV1CreateRes
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest ShowResponseBody14
+		var dest ShowResponseBody15
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -11307,7 +12228,7 @@ func ParseSeveritiesV1ShowResponse(rsp *http.Response) (*SeveritiesV1ShowRespons
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody14
+		var dest ShowResponseBody15
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -11333,7 +12254,7 @@ func ParseSeveritiesV1UpdateResponse(rsp *http.Response) (*SeveritiesV1UpdateRes
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody14
+		var dest ShowResponseBody15
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -12188,6 +13109,152 @@ func ParseIncidentsV2EditResponse(rsp *http.Response) (*IncidentsV2EditResponse,
 	return response, nil
 }
 
+// ParseScheduleEntriesV2ListResponse parses an HTTP response from a ScheduleEntriesV2ListWithResponse call
+func ParseScheduleEntriesV2ListResponse(rsp *http.Response) (*ScheduleEntriesV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ScheduleEntriesV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListResponseBody16
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2ListResponse parses an HTTP response from a SchedulesV2ListWithResponse call
+func ParseSchedulesV2ListResponse(rsp *http.Response) (*SchedulesV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListResponseBody17
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2CreateResponse parses an HTTP response from a SchedulesV2CreateWithResponse call
+func ParseSchedulesV2CreateResponse(rsp *http.Response) (*SchedulesV2CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest ShowResponseBody14
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2DestroyResponse parses an HTTP response from a SchedulesV2DestroyWithResponse call
+func ParseSchedulesV2DestroyResponse(rsp *http.Response) (*SchedulesV2DestroyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2DestroyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2ShowResponse parses an HTTP response from a SchedulesV2ShowWithResponse call
+func ParseSchedulesV2ShowResponse(rsp *http.Response) (*SchedulesV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ShowResponseBody14
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2UpdateResponse parses an HTTP response from a SchedulesV2UpdateWithResponse call
+func ParseSchedulesV2UpdateResponse(rsp *http.Response) (*SchedulesV2UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ShowResponseBody14
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseUsersV2ListResponse parses an HTTP response from a UsersV2ListWithResponse call
 func ParseUsersV2ListResponse(rsp *http.Response) (*UsersV2ListResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -12203,7 +13270,7 @@ func ParseUsersV2ListResponse(rsp *http.Response) (*UsersV2ListResponse, error) 
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody17
+		var dest ListResponseBody19
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -12229,7 +13296,7 @@ func ParseUsersV2ShowResponse(rsp *http.Response) (*UsersV2ShowResponse, error) 
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody15
+		var dest ShowResponseBody16
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

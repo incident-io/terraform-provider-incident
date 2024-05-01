@@ -2124,7 +2124,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ListResponseBody16"
+                  "$ref": "#/components/schemas/ListResponseBody18"
                 },
                 "example": {
                   "severities": [
@@ -2155,7 +2155,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateRequestBody11"
+                "$ref": "#/components/schemas/CreateRequestBody12"
               },
               "example": {
                 "description": "Issues with **low impact**.",
@@ -2171,7 +2171,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ShowResponseBody14"
+                  "$ref": "#/components/schemas/ShowResponseBody15"
                 },
                 "example": {
                   "severity": {
@@ -2244,7 +2244,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ShowResponseBody14"
+                  "$ref": "#/components/schemas/ShowResponseBody15"
                 },
                 "example": {
                   "severity": {
@@ -2287,7 +2287,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateRequestBody11"
+                "$ref": "#/components/schemas/CreateRequestBody12"
               },
               "example": {
                 "description": "Issues with **low impact**.",
@@ -2303,7 +2303,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ShowResponseBody14"
+                  "$ref": "#/components/schemas/ShowResponseBody15"
                 },
                 "example": {
                   "severity": {
@@ -5456,6 +5456,662 @@
         }
       }
     },
+    "/v2/schedule_entries": {
+      "get": {
+        "tags": [
+          "Schedule Entries V2"
+        ],
+        "summary": "List Schedule Entries V2",
+        "description": "Get a list of schedule entries.",
+        "operationId": "Schedule Entries V2#List",
+        "parameters": [
+          {
+            "name": "schedule_id",
+            "in": "query",
+            "description": "The ID of the schedule to get entries for.",
+            "allowEmptyValue": true,
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The ID of the schedule to get entries for.",
+              "example": "01FDAG4SAP5TYPT98WGR2N7W91"
+            },
+            "example": "01FDAG4SAP5TYPT98WGR2N7W91"
+          },
+          {
+            "name": "entry_window_start",
+            "in": "query",
+            "description": "The start of the window to get entries for.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string",
+              "description": "The start of the window to get entries for.",
+              "example": "2021-01-01T00:00:00Z",
+              "format": "date-time"
+            },
+            "example": "2021-01-01T00:00:00Z"
+          },
+          {
+            "name": "entry_window_end",
+            "in": "query",
+            "description": "The end of the window to get entries for.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string",
+              "description": "The end of the window to get entries for.",
+              "example": "2021-01-01T00:00:00Z",
+              "format": "date-time"
+            },
+            "example": "2021-01-01T00:00:00Z"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResponseBody16"
+                },
+                "example": {
+                  "pagination_meta": {
+                    "after": "abc123",
+                    "after_url": "abc123"
+                  },
+                  "schedule_entries": {
+                    "final": [
+                      {
+                        "end_at": "2021-08-17T13:28:57.801578Z",
+                        "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                        "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "start_at": "2021-08-17T13:28:57.801578Z",
+                        "user": {
+                          "email": "lisa@incident.io",
+                          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "name": "Lisa Karlin Curtis",
+                          "role": "viewer",
+                          "slack_user_id": "U02AYNF2XJM"
+                        }
+                      }
+                    ],
+                    "overrides": [
+                      {
+                        "end_at": "2021-08-17T13:28:57.801578Z",
+                        "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                        "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "start_at": "2021-08-17T13:28:57.801578Z",
+                        "user": {
+                          "email": "lisa@incident.io",
+                          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "name": "Lisa Karlin Curtis",
+                          "role": "viewer",
+                          "slack_user_id": "U02AYNF2XJM"
+                        }
+                      }
+                    ],
+                    "scheduled": [
+                      {
+                        "end_at": "2021-08-17T13:28:57.801578Z",
+                        "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                        "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "start_at": "2021-08-17T13:28:57.801578Z",
+                        "user": {
+                          "email": "lisa@incident.io",
+                          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "name": "Lisa Karlin Curtis",
+                          "role": "viewer",
+                          "slack_user_id": "U02AYNF2XJM"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/schedules": {
+      "get": {
+        "tags": [
+          "Schedules V2"
+        ],
+        "summary": "List Schedules V2",
+        "description": "List configured schedules.",
+        "operationId": "Schedules V2#List",
+        "parameters": [
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "number of records to return",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "integer",
+              "description": "number of records to return",
+              "default": 25,
+              "example": 25,
+              "format": "int64"
+            },
+            "example": 25
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "description": "A schedule's ID. This endpoint will return a list of schedules after this ID in relation to the API response order.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string",
+              "description": "A schedule's ID. This endpoint will return a list of schedules after this ID in relation to the API response order.",
+              "example": "01FDAG4SAP5TYPT98WGR2N7W91"
+            },
+            "example": "01FDAG4SAP5TYPT98WGR2N7W91"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResponseBody17"
+                },
+                "example": {
+                  "pagination_meta": {
+                    "after": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "page_size": 25,
+                    "total_record_count": 238
+                  },
+                  "schedules": [
+                    {
+                      "config": {
+                        "rotations": [
+                          {
+                            "effective_from": "2021-08-17T13:28:57.801578Z",
+                            "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                            "handovers": [
+                              {
+                                "interval": 1,
+                                "interval_type": "daily"
+                              }
+                            ],
+                            "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                            "layers": [
+                              {
+                                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                                "name": "Layer 1"
+                              }
+                            ],
+                            "name": "Primary On-Call Schedule",
+                            "users": [
+                              {
+                                "email": "lisa@incident.io",
+                                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                                "name": "Lisa Karlin Curtis",
+                                "role": "viewer",
+                                "slack_user_id": "U02AYNF2XJM"
+                              }
+                            ],
+                            "working_interval": [
+                              {
+                                "end_time": "17:00",
+                                "start_time": "09:00",
+                                "weekday": "tuesday"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "created_at": "2021-08-17T13:28:57.801578Z",
+                      "current_shifts": [
+                        {
+                          "end_at": "2021-08-17T13:28:57.801578Z",
+                          "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                          "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                          "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                          "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                          "start_at": "2021-08-17T13:28:57.801578Z",
+                          "user": {
+                            "email": "lisa@incident.io",
+                            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                            "name": "Lisa Karlin Curtis",
+                            "role": "viewer",
+                            "slack_user_id": "U02AYNF2XJM"
+                          }
+                        }
+                      ],
+                      "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                      "name": "Primary On-Call Schedule",
+                      "timezone": "Europe/London",
+                      "updated_at": "2021-08-17T13:28:57.801578Z"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Schedules V2"
+        ],
+        "summary": "Create Schedules V2",
+        "description": "Create a new schedule.",
+        "operationId": "Schedules V2#Create",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRequestBody11"
+              },
+              "example": {
+                "schedule": {
+                  "config": {
+                    "rotations": [
+                      {
+                        "effective_from": "2021-08-17T13:28:57.801578Z",
+                        "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                        "handovers": [
+                          {
+                            "interval": 1,
+                            "interval_type": "daily"
+                          }
+                        ],
+                        "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "layers": [
+                          {
+                            "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                            "name": "Layer 1"
+                          }
+                        ],
+                        "name": "My Rotation",
+                        "users": [
+                          {
+                            "email": "bob@example.com",
+                            "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                            "slack_user_id": "USER123"
+                          }
+                        ],
+                        "working_interval": [
+                          {
+                            "end_time": "17:00",
+                            "start_time": "09:00",
+                            "weekday": "tuesday"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "name": "My Schedule",
+                  "timezone": "America/Los_Angeles"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowResponseBody14"
+                },
+                "example": {
+                  "schedule": {
+                    "config": {
+                      "rotations": [
+                        {
+                          "effective_from": "2021-08-17T13:28:57.801578Z",
+                          "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                          "handovers": [
+                            {
+                              "interval": 1,
+                              "interval_type": "daily"
+                            }
+                          ],
+                          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                          "layers": [
+                            {
+                              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                              "name": "Layer 1"
+                            }
+                          ],
+                          "name": "Primary On-Call Schedule",
+                          "users": [
+                            {
+                              "email": "lisa@incident.io",
+                              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "name": "Lisa Karlin Curtis",
+                              "role": "viewer",
+                              "slack_user_id": "U02AYNF2XJM"
+                            }
+                          ],
+                          "working_interval": [
+                            {
+                              "end_time": "17:00",
+                              "start_time": "09:00",
+                              "weekday": "tuesday"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "created_at": "2021-08-17T13:28:57.801578Z",
+                    "current_shifts": [
+                      {
+                        "end_at": "2021-08-17T13:28:57.801578Z",
+                        "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                        "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "start_at": "2021-08-17T13:28:57.801578Z",
+                        "user": {
+                          "email": "lisa@incident.io",
+                          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "name": "Lisa Karlin Curtis",
+                          "role": "viewer",
+                          "slack_user_id": "U02AYNF2XJM"
+                        }
+                      }
+                    ],
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "name": "Primary On-Call Schedule",
+                    "timezone": "Europe/London",
+                    "updated_at": "2021-08-17T13:28:57.801578Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/schedules/{id}": {
+      "delete": {
+        "tags": [
+          "Schedules V2"
+        ],
+        "summary": "Destroy Schedules V2",
+        "description": "Archives a single schedule.",
+        "operationId": "Schedules V2#Destroy",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique internal ID of the schedule",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Unique internal ID of the schedule",
+              "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+            },
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted response."
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Schedules V2"
+        ],
+        "summary": "Show Schedules V2",
+        "description": "Get a sigle schedule.",
+        "operationId": "Schedules V2#Show",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique internal ID of the schedule",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Unique internal ID of the schedule",
+              "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+            },
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowResponseBody14"
+                },
+                "example": {
+                  "schedule": {
+                    "config": {
+                      "rotations": [
+                        {
+                          "effective_from": "2021-08-17T13:28:57.801578Z",
+                          "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                          "handovers": [
+                            {
+                              "interval": 1,
+                              "interval_type": "daily"
+                            }
+                          ],
+                          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                          "layers": [
+                            {
+                              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                              "name": "Layer 1"
+                            }
+                          ],
+                          "name": "Primary On-Call Schedule",
+                          "users": [
+                            {
+                              "email": "lisa@incident.io",
+                              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "name": "Lisa Karlin Curtis",
+                              "role": "viewer",
+                              "slack_user_id": "U02AYNF2XJM"
+                            }
+                          ],
+                          "working_interval": [
+                            {
+                              "end_time": "17:00",
+                              "start_time": "09:00",
+                              "weekday": "tuesday"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "created_at": "2021-08-17T13:28:57.801578Z",
+                    "current_shifts": [
+                      {
+                        "end_at": "2021-08-17T13:28:57.801578Z",
+                        "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                        "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "start_at": "2021-08-17T13:28:57.801578Z",
+                        "user": {
+                          "email": "lisa@incident.io",
+                          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "name": "Lisa Karlin Curtis",
+                          "role": "viewer",
+                          "slack_user_id": "U02AYNF2XJM"
+                        }
+                      }
+                    ],
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "name": "Primary On-Call Schedule",
+                    "timezone": "Europe/London",
+                    "updated_at": "2021-08-17T13:28:57.801578Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Schedules V2"
+        ],
+        "summary": "Update Schedules V2",
+        "description": "Update a schedule.",
+        "operationId": "Schedules V2#Update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The schedule ID to update.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The schedule ID to update.",
+              "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+            },
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRequestBody7"
+              },
+              "example": {
+                "schedule": {
+                  "config": {
+                    "rotations": [
+                      {
+                        "effective_from": "2021-08-17T13:28:57.801578Z",
+                        "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                        "handovers": [
+                          {
+                            "interval": 1,
+                            "interval_type": "daily"
+                          }
+                        ],
+                        "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "layers": [
+                          {
+                            "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                            "name": "Layer 1"
+                          }
+                        ],
+                        "name": "My Rotation",
+                        "users": [
+                          {
+                            "email": "bob@example.com",
+                            "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                            "slack_user_id": "USER123"
+                          }
+                        ],
+                        "working_interval": [
+                          {
+                            "end_time": "17:00",
+                            "start_time": "09:00",
+                            "weekday": "tuesday"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "name": "My Schedule",
+                  "timezone": "America/Los_Angeles"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowResponseBody14"
+                },
+                "example": {
+                  "schedule": {
+                    "config": {
+                      "rotations": [
+                        {
+                          "effective_from": "2021-08-17T13:28:57.801578Z",
+                          "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                          "handovers": [
+                            {
+                              "interval": 1,
+                              "interval_type": "daily"
+                            }
+                          ],
+                          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                          "layers": [
+                            {
+                              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                              "name": "Layer 1"
+                            }
+                          ],
+                          "name": "Primary On-Call Schedule",
+                          "users": [
+                            {
+                              "email": "lisa@incident.io",
+                              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                              "name": "Lisa Karlin Curtis",
+                              "role": "viewer",
+                              "slack_user_id": "U02AYNF2XJM"
+                            }
+                          ],
+                          "working_interval": [
+                            {
+                              "end_time": "17:00",
+                              "start_time": "09:00",
+                              "weekday": "tuesday"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "created_at": "2021-08-17T13:28:57.801578Z",
+                    "current_shifts": [
+                      {
+                        "end_at": "2021-08-17T13:28:57.801578Z",
+                        "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                        "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "start_at": "2021-08-17T13:28:57.801578Z",
+                        "user": {
+                          "email": "lisa@incident.io",
+                          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "name": "Lisa Karlin Curtis",
+                          "role": "viewer",
+                          "slack_user_id": "U02AYNF2XJM"
+                        }
+                      }
+                    ],
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "name": "Primary On-Call Schedule",
+                    "timezone": "Europe/London",
+                    "updated_at": "2021-08-17T13:28:57.801578Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/users": {
       "get": {
         "tags": [
@@ -5523,7 +6179,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ListResponseBody17"
+                  "$ref": "#/components/schemas/ListResponseBody19"
                 },
                 "example": {
                   "pagination_meta": {
@@ -5588,7 +6244,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ShowResponseBody15"
+                  "$ref": "#/components/schemas/ShowResponseBody16"
                 },
                 "example": {
                   "user": {
@@ -5911,6 +6567,29 @@
             "slack_user_id": "U02AYNF2XJM"
           }
         }
+      },
+      "AfterPaginationMetaResultV2": {
+        "type": "object",
+        "properties": {
+          "after": {
+            "type": "string",
+            "description": "The time, if it exists, of the last entry's end time",
+            "example": "abc123"
+          },
+          "after_url": {
+            "type": "string",
+            "description": "The URL to fetch the next page of entries",
+            "example": "abc123"
+          }
+        },
+        "example": {
+          "after": "abc123",
+          "after_url": "abc123"
+        },
+        "required": [
+          "after",
+          "after_url"
+        ]
       },
       "AllResponseBody": {
         "type": "object",
@@ -7906,6 +8585,59 @@
         ]
       },
       "CreateRequestBody11": {
+        "type": "object",
+        "properties": {
+          "schedule": {
+            "$ref": "#/components/schemas/ScheduleCreatePayloadV2"
+          }
+        },
+        "example": {
+          "schedule": {
+            "config": {
+              "rotations": [
+                {
+                  "effective_from": "2021-08-17T13:28:57.801578Z",
+                  "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                  "handovers": [
+                    {
+                      "interval": 1,
+                      "interval_type": "daily"
+                    }
+                  ],
+                  "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                  "layers": [
+                    {
+                      "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                      "name": "Layer 1"
+                    }
+                  ],
+                  "name": "My Rotation",
+                  "users": [
+                    {
+                      "email": "bob@example.com",
+                      "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                      "slack_user_id": "USER123"
+                    }
+                  ],
+                  "working_interval": [
+                    {
+                      "end_time": "17:00",
+                      "start_time": "09:00",
+                      "weekday": "tuesday"
+                    }
+                  ]
+                }
+              ]
+            },
+            "name": "My Schedule",
+            "timezone": "America/Los_Angeles"
+          }
+        },
+        "required": [
+          "schedule"
+        ]
+      },
+      "CreateRequestBody12": {
         "type": "object",
         "properties": {
           "description": {
@@ -12704,6 +13436,231 @@
       "ListResponseBody16": {
         "type": "object",
         "properties": {
+          "pagination_meta": {
+            "$ref": "#/components/schemas/AfterPaginationMetaResultV2"
+          },
+          "schedule_entries": {
+            "$ref": "#/components/schemas/ScheduleEntriesListPayloadV2"
+          }
+        },
+        "example": {
+          "pagination_meta": {
+            "after": "abc123",
+            "after_url": "abc123"
+          },
+          "schedule_entries": {
+            "final": [
+              {
+                "end_at": "2021-08-17T13:28:57.801578Z",
+                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "start_at": "2021-08-17T13:28:57.801578Z",
+                "user": {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                }
+              }
+            ],
+            "overrides": [
+              {
+                "end_at": "2021-08-17T13:28:57.801578Z",
+                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "start_at": "2021-08-17T13:28:57.801578Z",
+                "user": {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                }
+              }
+            ],
+            "scheduled": [
+              {
+                "end_at": "2021-08-17T13:28:57.801578Z",
+                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "start_at": "2021-08-17T13:28:57.801578Z",
+                "user": {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                }
+              }
+            ]
+          }
+        },
+        "required": [
+          "schedule_entries"
+        ]
+      },
+      "ListResponseBody17": {
+        "type": "object",
+        "properties": {
+          "pagination_meta": {
+            "$ref": "#/components/schemas/PaginationMetaResultWithTotal"
+          },
+          "schedules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleV2"
+            },
+            "example": [
+              {
+                "config": {
+                  "rotations": [
+                    {
+                      "effective_from": "2021-08-17T13:28:57.801578Z",
+                      "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                      "handovers": [
+                        {
+                          "interval": 1,
+                          "interval_type": "daily"
+                        }
+                      ],
+                      "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                      "layers": [
+                        {
+                          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                          "name": "Layer 1"
+                        }
+                      ],
+                      "name": "Primary On-Call Schedule",
+                      "users": [
+                        {
+                          "email": "lisa@incident.io",
+                          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                          "name": "Lisa Karlin Curtis",
+                          "role": "viewer",
+                          "slack_user_id": "U02AYNF2XJM"
+                        }
+                      ],
+                      "working_interval": [
+                        {
+                          "end_time": "17:00",
+                          "start_time": "09:00",
+                          "weekday": "tuesday"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "created_at": "2021-08-17T13:28:57.801578Z",
+                "current_shifts": [
+                  {
+                    "end_at": "2021-08-17T13:28:57.801578Z",
+                    "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                    "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "start_at": "2021-08-17T13:28:57.801578Z",
+                    "user": {
+                      "email": "lisa@incident.io",
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Lisa Karlin Curtis",
+                      "role": "viewer",
+                      "slack_user_id": "U02AYNF2XJM"
+                    }
+                  }
+                ],
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "name": "Primary On-Call Schedule",
+                "timezone": "Europe/London",
+                "updated_at": "2021-08-17T13:28:57.801578Z"
+              }
+            ]
+          }
+        },
+        "example": {
+          "pagination_meta": {
+            "after": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "page_size": 25,
+            "total_record_count": 238
+          },
+          "schedules": [
+            {
+              "config": {
+                "rotations": [
+                  {
+                    "effective_from": "2021-08-17T13:28:57.801578Z",
+                    "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                    "handovers": [
+                      {
+                        "interval": 1,
+                        "interval_type": "daily"
+                      }
+                    ],
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "layers": [
+                      {
+                        "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                        "name": "Layer 1"
+                      }
+                    ],
+                    "name": "Primary On-Call Schedule",
+                    "users": [
+                      {
+                        "email": "lisa@incident.io",
+                        "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                        "name": "Lisa Karlin Curtis",
+                        "role": "viewer",
+                        "slack_user_id": "U02AYNF2XJM"
+                      }
+                    ],
+                    "working_interval": [
+                      {
+                        "end_time": "17:00",
+                        "start_time": "09:00",
+                        "weekday": "tuesday"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "created_at": "2021-08-17T13:28:57.801578Z",
+              "current_shifts": [
+                {
+                  "end_at": "2021-08-17T13:28:57.801578Z",
+                  "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                  "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                  "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                  "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                  "start_at": "2021-08-17T13:28:57.801578Z",
+                  "user": {
+                    "email": "lisa@incident.io",
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "name": "Lisa Karlin Curtis",
+                    "role": "viewer",
+                    "slack_user_id": "U02AYNF2XJM"
+                  }
+                }
+              ],
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "name": "Primary On-Call Schedule",
+              "timezone": "Europe/London",
+              "updated_at": "2021-08-17T13:28:57.801578Z"
+            }
+          ]
+        },
+        "required": [
+          "schedules"
+        ]
+      },
+      "ListResponseBody18": {
+        "type": "object",
+        "properties": {
           "severities": {
             "type": "array",
             "items": {
@@ -12737,7 +13694,7 @@
           "severities"
         ]
       },
-      "ListResponseBody17": {
+      "ListResponseBody19": {
         "type": "object",
         "properties": {
           "pagination_meta": {
@@ -14616,6 +15573,1170 @@
           "slack_channel_id": "abc123"
         }
       },
+      "ScheduleConfigCreatePayloadV2": {
+        "type": "object",
+        "properties": {
+          "rotations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleRotationCreatePayloadV2"
+            },
+            "example": [
+              {
+                "effective_from": "2021-08-17T13:28:57.801578Z",
+                "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                "handovers": [
+                  {
+                    "interval": 1,
+                    "interval_type": "daily"
+                  }
+                ],
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layers": [
+                  {
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "name": "Layer 1"
+                  }
+                ],
+                "name": "My Rotation",
+                "users": [
+                  {
+                    "email": "bob@example.com",
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "slack_user_id": "USER123"
+                  }
+                ],
+                "working_interval": [
+                  {
+                    "end_time": "17:00",
+                    "start_time": "09:00",
+                    "weekday": "tuesday"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "example": {
+          "rotations": [
+            {
+              "effective_from": "2021-08-17T13:28:57.801578Z",
+              "handover_start_at": "2021-08-17T13:28:57.801578Z",
+              "handovers": [
+                {
+                  "interval": 1,
+                  "interval_type": "daily"
+                }
+              ],
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "layers": [
+                {
+                  "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                  "name": "Layer 1"
+                }
+              ],
+              "name": "My Rotation",
+              "users": [
+                {
+                  "email": "bob@example.com",
+                  "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                  "slack_user_id": "USER123"
+                }
+              ],
+              "working_interval": [
+                {
+                  "end_time": "17:00",
+                  "start_time": "09:00",
+                  "weekday": "tuesday"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "ScheduleConfigUpdatePayloadV2": {
+        "type": "object",
+        "properties": {
+          "rotations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleRotationUpdatePayloadV2"
+            },
+            "example": [
+              {
+                "effective_from": "2021-08-17T13:28:57.801578Z",
+                "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                "handovers": [
+                  {
+                    "interval": 1,
+                    "interval_type": "daily"
+                  }
+                ],
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layers": [
+                  {
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "name": "Layer 1"
+                  }
+                ],
+                "name": "My Rotation",
+                "users": [
+                  {
+                    "email": "bob@example.com",
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "slack_user_id": "USER123"
+                  }
+                ],
+                "working_interval": [
+                  {
+                    "end_time": "17:00",
+                    "start_time": "09:00",
+                    "weekday": "tuesday"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "example": {
+          "rotations": [
+            {
+              "effective_from": "2021-08-17T13:28:57.801578Z",
+              "handover_start_at": "2021-08-17T13:28:57.801578Z",
+              "handovers": [
+                {
+                  "interval": 1,
+                  "interval_type": "daily"
+                }
+              ],
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "layers": [
+                {
+                  "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                  "name": "Layer 1"
+                }
+              ],
+              "name": "My Rotation",
+              "users": [
+                {
+                  "email": "bob@example.com",
+                  "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                  "slack_user_id": "USER123"
+                }
+              ],
+              "working_interval": [
+                {
+                  "end_time": "17:00",
+                  "start_time": "09:00",
+                  "weekday": "tuesday"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "ScheduleConfigV2": {
+        "type": "object",
+        "properties": {
+          "rotations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleRotationV2"
+            },
+            "description": "Rotas in this schedule",
+            "example": [
+              {
+                "effective_from": "2021-08-17T13:28:57.801578Z",
+                "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                "handovers": [
+                  {
+                    "interval": 1,
+                    "interval_type": "daily"
+                  }
+                ],
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layers": [
+                  {
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "name": "Layer 1"
+                  }
+                ],
+                "name": "Primary On-Call Schedule",
+                "users": [
+                  {
+                    "email": "lisa@incident.io",
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "name": "Lisa Karlin Curtis",
+                    "role": "viewer",
+                    "slack_user_id": "U02AYNF2XJM"
+                  }
+                ],
+                "working_interval": [
+                  {
+                    "end_time": "17:00",
+                    "start_time": "09:00",
+                    "weekday": "tuesday"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "example": {
+          "rotations": [
+            {
+              "effective_from": "2021-08-17T13:28:57.801578Z",
+              "handover_start_at": "2021-08-17T13:28:57.801578Z",
+              "handovers": [
+                {
+                  "interval": 1,
+                  "interval_type": "daily"
+                }
+              ],
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "layers": [
+                {
+                  "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                  "name": "Layer 1"
+                }
+              ],
+              "name": "Primary On-Call Schedule",
+              "users": [
+                {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                }
+              ],
+              "working_interval": [
+                {
+                  "end_time": "17:00",
+                  "start_time": "09:00",
+                  "weekday": "tuesday"
+                }
+              ]
+            }
+          ]
+        },
+        "required": [
+          "rotations",
+          "version"
+        ]
+      },
+      "ScheduleCreatePayloadV2": {
+        "type": "object",
+        "properties": {
+          "config": {
+            "$ref": "#/components/schemas/ScheduleConfigCreatePayloadV2"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the schedule",
+            "example": "My Schedule"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Timezone of the schedule",
+            "example": "America/Los_Angeles"
+          }
+        },
+        "example": {
+          "config": {
+            "rotations": [
+              {
+                "effective_from": "2021-08-17T13:28:57.801578Z",
+                "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                "handovers": [
+                  {
+                    "interval": 1,
+                    "interval_type": "daily"
+                  }
+                ],
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layers": [
+                  {
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "name": "Layer 1"
+                  }
+                ],
+                "name": "My Rotation",
+                "users": [
+                  {
+                    "email": "bob@example.com",
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "slack_user_id": "USER123"
+                  }
+                ],
+                "working_interval": [
+                  {
+                    "end_time": "17:00",
+                    "start_time": "09:00",
+                    "weekday": "tuesday"
+                  }
+                ]
+              }
+            ]
+          },
+          "name": "My Schedule",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "ScheduleEntriesListPayloadV2": {
+        "type": "object",
+        "properties": {
+          "final": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleEntryV2"
+            },
+            "example": [
+              {
+                "end_at": "2021-08-17T13:28:57.801578Z",
+                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "start_at": "2021-08-17T13:28:57.801578Z",
+                "user": {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                }
+              }
+            ]
+          },
+          "overrides": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleEntryV2"
+            },
+            "example": [
+              {
+                "end_at": "2021-08-17T13:28:57.801578Z",
+                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "start_at": "2021-08-17T13:28:57.801578Z",
+                "user": {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                }
+              }
+            ]
+          },
+          "scheduled": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleEntryV2"
+            },
+            "example": [
+              {
+                "end_at": "2021-08-17T13:28:57.801578Z",
+                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "start_at": "2021-08-17T13:28:57.801578Z",
+                "user": {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                }
+              }
+            ]
+          }
+        },
+        "example": {
+          "final": [
+            {
+              "end_at": "2021-08-17T13:28:57.801578Z",
+              "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+              "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "start_at": "2021-08-17T13:28:57.801578Z",
+              "user": {
+                "email": "lisa@incident.io",
+                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "name": "Lisa Karlin Curtis",
+                "role": "viewer",
+                "slack_user_id": "U02AYNF2XJM"
+              }
+            }
+          ],
+          "overrides": [
+            {
+              "end_at": "2021-08-17T13:28:57.801578Z",
+              "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+              "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "start_at": "2021-08-17T13:28:57.801578Z",
+              "user": {
+                "email": "lisa@incident.io",
+                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "name": "Lisa Karlin Curtis",
+                "role": "viewer",
+                "slack_user_id": "U02AYNF2XJM"
+              }
+            }
+          ],
+          "scheduled": [
+            {
+              "end_at": "2021-08-17T13:28:57.801578Z",
+              "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+              "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "start_at": "2021-08-17T13:28:57.801578Z",
+              "user": {
+                "email": "lisa@incident.io",
+                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "name": "Lisa Karlin Curtis",
+                "role": "viewer",
+                "slack_user_id": "U02AYNF2XJM"
+              }
+            }
+          ]
+        },
+        "required": [
+          "scheduled",
+          "overrides",
+          "final"
+        ]
+      },
+      "ScheduleEntryV2": {
+        "type": "object",
+        "properties": {
+          "end_at": {
+            "type": "string",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          },
+          "entry_id": {
+            "type": "string",
+            "description": "Unique identifier of the schedule entry",
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          },
+          "fingerprint": {
+            "type": "string",
+            "description": "A unique identifier for this entry, used to determine a unique shift",
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          },
+          "layer_id": {
+            "type": "string",
+            "description": "If present, the layer this entry applies to on the rota",
+            "example": "01G0J1EXE7AXZ2C93K61WBPYNH"
+          },
+          "rotation_id": {
+            "type": "string",
+            "description": "If present, the rotation this entry applies to on the schedule",
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          },
+          "start_at": {
+            "type": "string",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserV1"
+          }
+        },
+        "example": {
+          "end_at": "2021-08-17T13:28:57.801578Z",
+          "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+          "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "start_at": "2021-08-17T13:28:57.801578Z",
+          "user": {
+            "email": "lisa@incident.io",
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Lisa Karlin Curtis",
+            "role": "viewer",
+            "slack_user_id": "U02AYNF2XJM"
+          }
+        },
+        "required": [
+          "external_user_id",
+          "start_at",
+          "end_at"
+        ]
+      },
+      "ScheduleLayerCreatePayloadV2": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the layer",
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the layer",
+            "example": "Layer 1"
+          }
+        },
+        "example": {
+          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "name": "Layer 1"
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "ScheduleLayerV2": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the layer",
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the layer",
+            "example": "Layer 1"
+          }
+        },
+        "example": {
+          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "name": "Layer 1"
+        }
+      },
+      "ScheduleRotationCreatePayloadV2": {
+        "type": "object",
+        "properties": {
+          "effective_from": {
+            "type": "string",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          },
+          "handover_start_at": {
+            "type": "string",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          },
+          "handovers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleRotationHandoverV2"
+            },
+            "example": [
+              {
+                "interval": 1,
+                "interval_type": "daily"
+              }
+            ]
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the rotation",
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleLayerCreatePayloadV2"
+            },
+            "example": [
+              {
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "name": "Layer 1"
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the rotation",
+            "example": "My Rotation"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserReferencePayloadV1"
+            },
+            "example": [
+              {
+                "email": "bob@example.com",
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "slack_user_id": "USER123"
+              }
+            ]
+          },
+          "working_interval": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleRotationWorkingIntervalV2"
+            },
+            "example": [
+              {
+                "end_time": "17:00",
+                "start_time": "09:00",
+                "weekday": "tuesday"
+              }
+            ]
+          }
+        },
+        "example": {
+          "effective_from": "2021-08-17T13:28:57.801578Z",
+          "handover_start_at": "2021-08-17T13:28:57.801578Z",
+          "handovers": [
+            {
+              "interval": 1,
+              "interval_type": "daily"
+            }
+          ],
+          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "layers": [
+            {
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "name": "Layer 1"
+            }
+          ],
+          "name": "My Rotation",
+          "users": [
+            {
+              "email": "bob@example.com",
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "slack_user_id": "USER123"
+            }
+          ],
+          "working_interval": [
+            {
+              "end_time": "17:00",
+              "start_time": "09:00",
+              "weekday": "tuesday"
+            }
+          ]
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "ScheduleRotationHandoverV2": {
+        "type": "object",
+        "properties": {
+          "interval": {
+            "type": "integer",
+            "example": 1,
+            "format": "int64"
+          },
+          "interval_type": {
+            "type": "string",
+            "example": "daily",
+            "enum": [
+              "hourly",
+              "daily",
+              "weekly"
+            ]
+          }
+        },
+        "example": {
+          "interval": 1,
+          "interval_type": "daily"
+        }
+      },
+      "ScheduleRotationUpdatePayloadV2": {
+        "type": "object",
+        "properties": {
+          "effective_from": {
+            "type": "string",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          },
+          "handover_start_at": {
+            "type": "string",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          },
+          "handovers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleRotationHandoverV2"
+            },
+            "example": [
+              {
+                "interval": 1,
+                "interval_type": "daily"
+              }
+            ]
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the rotation",
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleLayerV2"
+            },
+            "example": [
+              {
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "name": "Layer 1"
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the rotation",
+            "example": "My Rotation"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserReferencePayloadV1"
+            },
+            "example": [
+              {
+                "email": "bob@example.com",
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "slack_user_id": "USER123"
+              }
+            ]
+          },
+          "working_interval": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleRotationWorkingIntervalUpdatePayloadV2"
+            },
+            "example": [
+              {
+                "end_time": "17:00",
+                "start_time": "09:00",
+                "weekday": "tuesday"
+              }
+            ]
+          }
+        },
+        "example": {
+          "effective_from": "2021-08-17T13:28:57.801578Z",
+          "handover_start_at": "2021-08-17T13:28:57.801578Z",
+          "handovers": [
+            {
+              "interval": 1,
+              "interval_type": "daily"
+            }
+          ],
+          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "layers": [
+            {
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "name": "Layer 1"
+            }
+          ],
+          "name": "My Rotation",
+          "users": [
+            {
+              "email": "bob@example.com",
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "slack_user_id": "USER123"
+            }
+          ],
+          "working_interval": [
+            {
+              "end_time": "17:00",
+              "start_time": "09:00",
+              "weekday": "tuesday"
+            }
+          ]
+        }
+      },
+      "ScheduleRotationV2": {
+        "type": "object",
+        "properties": {
+          "effective_from": {
+            "type": "string",
+            "description": "When this rotation config will be effective from",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          },
+          "handover_start_at": {
+            "type": "string",
+            "description": "Defines the next moment we'll trigger a handover",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          },
+          "handovers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleRotationHandoverV2"
+            },
+            "description": "Defines the handover intervals for this rota, in order they should apply",
+            "example": [
+              {
+                "interval": 1,
+                "interval_type": "daily"
+              }
+            ]
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique internal ID of the rotation",
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleLayerV2"
+            },
+            "description": "Controls how many people are on-call concurrently",
+            "example": [
+              {
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "name": "Layer 1"
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Human readable name synced from external provider",
+            "example": "Primary On-Call Schedule"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserV1"
+            },
+            "example": [
+              {
+                "email": "lisa@incident.io",
+                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "name": "Lisa Karlin Curtis",
+                "role": "viewer",
+                "slack_user_id": "U02AYNF2XJM"
+              }
+            ]
+          },
+          "working_interval": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleRotationWorkingIntervalV2"
+            },
+            "example": [
+              {
+                "end_time": "17:00",
+                "start_time": "09:00",
+                "weekday": "tuesday"
+              }
+            ]
+          }
+        },
+        "example": {
+          "effective_from": "2021-08-17T13:28:57.801578Z",
+          "handover_start_at": "2021-08-17T13:28:57.801578Z",
+          "handovers": [
+            {
+              "interval": 1,
+              "interval_type": "daily"
+            }
+          ],
+          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "layers": [
+            {
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "name": "Layer 1"
+            }
+          ],
+          "name": "Primary On-Call Schedule",
+          "users": [
+            {
+              "email": "lisa@incident.io",
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Lisa Karlin Curtis",
+              "role": "viewer",
+              "slack_user_id": "U02AYNF2XJM"
+            }
+          ],
+          "working_interval": [
+            {
+              "end_time": "17:00",
+              "start_time": "09:00",
+              "weekday": "tuesday"
+            }
+          ]
+        },
+        "required": [
+          "id",
+          "name",
+          "layers",
+          "user_ids",
+          "working_intervals",
+          "handover_start_at",
+          "handovers"
+        ]
+      },
+      "ScheduleRotationWorkingIntervalUpdatePayloadV2": {
+        "type": "object",
+        "properties": {
+          "end_time": {
+            "type": "string",
+            "description": "End time of the interval, in 24hr format",
+            "example": "17:00"
+          },
+          "start_time": {
+            "type": "string",
+            "description": "Start time of the interval, in 24hr format",
+            "example": "09:00"
+          },
+          "weekday": {
+            "type": "string",
+            "description": "Weekday this interval applies to",
+            "example": "tuesday",
+            "enum": [
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday",
+              "saturday",
+              "sunday"
+            ]
+          }
+        },
+        "example": {
+          "end_time": "17:00",
+          "start_time": "09:00",
+          "weekday": "tuesday"
+        }
+      },
+      "ScheduleRotationWorkingIntervalV2": {
+        "type": "object",
+        "properties": {
+          "end_time": {
+            "type": "string",
+            "description": "End time of the interval, in 24hr format",
+            "example": "17:00"
+          },
+          "start_time": {
+            "type": "string",
+            "description": "Start time of the interval, in 24hr format",
+            "example": "09:00"
+          },
+          "weekday": {
+            "type": "string",
+            "description": "Weekday this interval applies to",
+            "example": "tuesday",
+            "enum": [
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday",
+              "saturday",
+              "sunday"
+            ]
+          }
+        },
+        "example": {
+          "end_time": "17:00",
+          "start_time": "09:00",
+          "weekday": "tuesday"
+        },
+        "required": [
+          "weekday",
+          "start_time",
+          "end_time"
+        ]
+      },
+      "ScheduleUpdatePayloadV2": {
+        "type": "object",
+        "properties": {
+          "config": {
+            "$ref": "#/components/schemas/ScheduleConfigUpdatePayloadV2"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the schedule",
+            "example": "My Schedule"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Timezone of the schedule",
+            "example": "America/Los_Angeles"
+          }
+        },
+        "example": {
+          "config": {
+            "rotations": [
+              {
+                "effective_from": "2021-08-17T13:28:57.801578Z",
+                "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                "handovers": [
+                  {
+                    "interval": 1,
+                    "interval_type": "daily"
+                  }
+                ],
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layers": [
+                  {
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "name": "Layer 1"
+                  }
+                ],
+                "name": "My Rotation",
+                "users": [
+                  {
+                    "email": "bob@example.com",
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "slack_user_id": "USER123"
+                  }
+                ],
+                "working_interval": [
+                  {
+                    "end_time": "17:00",
+                    "start_time": "09:00",
+                    "weekday": "tuesday"
+                  }
+                ]
+              }
+            ]
+          },
+          "name": "My Schedule",
+          "timezone": "America/Los_Angeles"
+        }
+      },
+      "ScheduleV2": {
+        "type": "object",
+        "properties": {
+          "config": {
+            "$ref": "#/components/schemas/ScheduleConfigV2"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          },
+          "current_shifts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleEntryV2"
+            },
+            "description": "Shifts that are on-going for this schedule, if a native schedule",
+            "example": [
+              {
+                "end_at": "2021-08-17T13:28:57.801578Z",
+                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "start_at": "2021-08-17T13:28:57.801578Z",
+                "user": {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                }
+              }
+            ]
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique internal ID of the schedule",
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human readable name synced from external provider",
+            "example": "Primary On-Call Schedule"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Timezone of the schedule, as interpreted at the point of generating the report",
+            "example": "Europe/London"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          }
+        },
+        "example": {
+          "config": {
+            "rotations": [
+              {
+                "effective_from": "2021-08-17T13:28:57.801578Z",
+                "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                "handovers": [
+                  {
+                    "interval": 1,
+                    "interval_type": "daily"
+                  }
+                ],
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layers": [
+                  {
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                    "name": "Layer 1"
+                  }
+                ],
+                "name": "Primary On-Call Schedule",
+                "users": [
+                  {
+                    "email": "lisa@incident.io",
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "name": "Lisa Karlin Curtis",
+                    "role": "viewer",
+                    "slack_user_id": "U02AYNF2XJM"
+                  }
+                ],
+                "working_interval": [
+                  {
+                    "end_time": "17:00",
+                    "start_time": "09:00",
+                    "weekday": "tuesday"
+                  }
+                ]
+              }
+            ]
+          },
+          "created_at": "2021-08-17T13:28:57.801578Z",
+          "current_shifts": [
+            {
+              "end_at": "2021-08-17T13:28:57.801578Z",
+              "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+              "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "start_at": "2021-08-17T13:28:57.801578Z",
+              "user": {
+                "email": "lisa@incident.io",
+                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "name": "Lisa Karlin Curtis",
+                "role": "viewer",
+                "slack_user_id": "U02AYNF2XJM"
+              }
+            }
+          ],
+          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "name": "Primary On-Call Schedule",
+          "timezone": "Europe/London",
+          "updated_at": "2021-08-17T13:28:57.801578Z"
+        },
+        "required": [
+          "id",
+          "name",
+          "timezone",
+          "external_provider",
+          "external_provider_id",
+          "created_at",
+          "updated_at"
+        ]
+      },
       "ScimGroupRoleMappingsUpdatedV1ResponseBody": {
         "type": "object",
         "properties": {
@@ -15233,6 +17354,81 @@
       "ShowResponseBody14": {
         "type": "object",
         "properties": {
+          "schedule": {
+            "$ref": "#/components/schemas/ScheduleV2"
+          }
+        },
+        "example": {
+          "schedule": {
+            "config": {
+              "rotations": [
+                {
+                  "effective_from": "2021-08-17T13:28:57.801578Z",
+                  "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                  "handovers": [
+                    {
+                      "interval": 1,
+                      "interval_type": "daily"
+                    }
+                  ],
+                  "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                  "layers": [
+                    {
+                      "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                      "name": "Layer 1"
+                    }
+                  ],
+                  "name": "Primary On-Call Schedule",
+                  "users": [
+                    {
+                      "email": "lisa@incident.io",
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Lisa Karlin Curtis",
+                      "role": "viewer",
+                      "slack_user_id": "U02AYNF2XJM"
+                    }
+                  ],
+                  "working_interval": [
+                    {
+                      "end_time": "17:00",
+                      "start_time": "09:00",
+                      "weekday": "tuesday"
+                    }
+                  ]
+                }
+              ]
+            },
+            "created_at": "2021-08-17T13:28:57.801578Z",
+            "current_shifts": [
+              {
+                "end_at": "2021-08-17T13:28:57.801578Z",
+                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "start_at": "2021-08-17T13:28:57.801578Z",
+                "user": {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                }
+              }
+            ],
+            "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+            "name": "Primary On-Call Schedule",
+            "timezone": "Europe/London",
+            "updated_at": "2021-08-17T13:28:57.801578Z"
+          }
+        },
+        "required": [
+          "schedule"
+        ]
+      },
+      "ShowResponseBody15": {
+        "type": "object",
+        "properties": {
           "severity": {
             "$ref": "#/components/schemas/SeverityV2"
           }
@@ -15251,7 +17447,7 @@
           "severity"
         ]
       },
-      "ShowResponseBody15": {
+      "ShowResponseBody16": {
         "type": "object",
         "properties": {
           "user": {
@@ -15834,6 +18030,65 @@
           "updated_at"
         ]
       },
+      "UpdateRequestBody7": {
+        "type": "object",
+        "properties": {
+          "schedule": {
+            "$ref": "#/components/schemas/ScheduleUpdatePayloadV2"
+          }
+        },
+        "example": {
+          "schedule": {
+            "config": {
+              "rotations": [
+                {
+                  "effective_from": "2021-08-17T13:28:57.801578Z",
+                  "handover_start_at": "2021-08-17T13:28:57.801578Z",
+                  "handovers": [
+                    {
+                      "interval": 1,
+                      "interval_type": "daily"
+                    }
+                  ],
+                  "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                  "layers": [
+                    {
+                      "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                      "name": "Layer 1"
+                    }
+                  ],
+                  "name": "My Rotation",
+                  "users": [
+                    {
+                      "email": "bob@example.com",
+                      "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                      "slack_user_id": "USER123"
+                    }
+                  ],
+                  "working_interval": [
+                    {
+                      "end_time": "17:00",
+                      "start_time": "09:00",
+                      "weekday": "tuesday"
+                    }
+                  ]
+                }
+              ]
+            },
+            "name": "My Schedule",
+            "timezone": "America/Los_Angeles"
+          }
+        },
+        "required": [
+          "schedule",
+          "name",
+          "timezone",
+          "external_provider",
+          "external_provider_id",
+          "created_at",
+          "updated_at"
+        ]
+      },
       "UpdateTypeRequestBody": {
         "type": "object",
         "properties": {
@@ -16239,7 +18494,7 @@
         "properties": {
           "actor_user_id": {
             "type": "string",
-            "description": "The ID of the user who performed this action",
+            "description": "The ID of the user who performed this action. If the action was not taken by a user, for example it was taken by a Workflow, this will be empty.",
             "example": "abc123"
           },
           "incident_id": {
@@ -16353,6 +18608,14 @@
     {
       "name": "Incidents V2",
       "description": "Create and read incidents.\n\nIncidents are a core resource, on which many other resources (actions, etc) are created.\n\nCare should be taken around these endpoints, as automation that creates duplicate\nincidents can be distracting, and impact reporting.\n"
+    },
+    {
+      "name": "Schedule Entries V2",
+      "description": "\nBeta: List your historic and future schedule entries.\n"
+    },
+    {
+      "name": "Schedules V2",
+      "description": "Beta: \nView and manage schedules.\nManage your full schedule of on-call rotations, including the users and rotation configuration.\n"
     },
     {
       "name": "Severities V1",
