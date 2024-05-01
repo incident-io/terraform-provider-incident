@@ -72,21 +72,59 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 	var data IncidentUserDataSourceModel
 	req.Config.Get(ctx, &data)
 
-	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
+	var user *client.UserWithRolesV2
+	if !data.ID.IsNull() {
+		resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		result, err := i.client.UsersV2ShowWithResponse(ctx, data.ID.ValueString())
+		if err == nil && result.StatusCode() >= 400 {
+			err = fmt.Errorf(string(result.Body))
+		}
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
+			return
+		}
+		user = &result.JSON200.User
+	} else if !data.Email.IsNull() {
+		result, err := i.client.UsersV2ListWithResponse(ctx, &client.UsersV2ListParams{
+			Email: data.Email.ValueStringPointer(),
+		})
+		if err == nil && result.StatusCode() >= 400 {
+			err = fmt.Errorf(string(result.Body))
+		}
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
+			return
+		}
+		if len(result.JSON200.Users) == 0 {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "User not found"))
+			return
+		}
+		user = &result.JSON200.Users[0]
+	} else if !data.SlackUserId.IsNull() {
+		result, err := i.client.UsersV2ListWithResponse(ctx, &client.UsersV2ListParams{
+			SlackUserId: data.SlackUserId.ValueStringPointer(),
+		})
+		if err == nil && result.StatusCode() >= 400 {
+			err = fmt.Errorf(string(result.Body))
+		}
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
+			return
+		}
+		if len(result.JSON200.Users) == 0 {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "User not found"))
+			return
+		}
+		user = &result.JSON200.Users[0]
+	} else {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "No ID, Email or SlackUserId provided"))
 		return
 	}
 
-	result, err := i.client.UsersV2ShowWithResponse(ctx, data.ID.ValueString())
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
-		return
-	}
-
-	modelResp := i.buildModel(result.JSON200.User)
+	modelResp := i.buildModel(*user)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
 }
 
@@ -150,10 +188,10 @@ func (i *IncidentUserDataSource) Schema(ctx context.Context, req datasource.Sche
 				},
 			},
 			"email": schema.StringAttribute{
-				Computed: true,
+				Optional: true,
 			},
 			"id": schema.StringAttribute{
-				Required: true,
+				Optional: true,
 			},
 			"name": schema.StringAttribute{
 				Computed: true,
@@ -162,7 +200,7 @@ func (i *IncidentUserDataSource) Schema(ctx context.Context, req datasource.Sche
 				Computed: true,
 			},
 			"slack_user_id": schema.StringAttribute{
-				Computed: true,
+				Optional: true,
 			},
 		},
 	}
