@@ -783,6 +783,7 @@
                 "github_pull_request",
                 "gitlab_merge_request",
                 "sentry_issue",
+                "jira_issue",
                 "atlassian_statuspage_incident",
                 "zendesk_ticket",
                 "google_calendar_event",
@@ -4313,6 +4314,7 @@
                       "created_at": "2021-08-17T13:28:57.801578Z",
                       "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                       "incident_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "merged_into_incident_id": "abc123",
                       "message": "We're working on a fix, hoping to ship in the next 30 minutes",
                       "new_incident_status": {
                         "category": "triage",
@@ -5463,6 +5465,30 @@
         "description": "List users for an organisation.",
         "operationId": "Users V2#List",
         "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Filter by email address",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string",
+              "description": "Filter by email address",
+              "example": "john.doe@incident.io"
+            },
+            "example": "john.doe@incident.io"
+          },
+          {
+            "name": "slack_user_id",
+            "in": "query",
+            "description": "Filter by Slack user ID",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string",
+              "description": "Filter by Slack user ID",
+              "example": "U12345678"
+            },
+            "example": "U12345678"
+          },
           {
             "name": "page_size",
             "in": "query",
@@ -7410,6 +7436,7 @@
           "annotations",
           "created_at",
           "updated_at",
+          "engine_resource_type",
           "mode"
         ]
       },
@@ -8069,6 +8096,7 @@
                   "github_pull_request",
                   "gitlab_merge_request",
                   "sentry_issue",
+                  "jira_issue",
                   "atlassian_statuspage_incident",
                   "zendesk_ticket",
                   "google_calendar_event",
@@ -8137,7 +8165,7 @@
           },
           "instructions": {
             "type": "string",
-            "description": "Provided to whoever is nominated for the role",
+            "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
             "example": "Take point on the incident; Make sure people are clear on responsibilities"
           },
           "name": {
@@ -8153,7 +8181,7 @@
           },
           "shortform": {
             "type": "string",
-            "description": "Short human readable name for Slack",
+            "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
             "example": "lead",
             "minLength": 1
           }
@@ -8189,7 +8217,7 @@
           },
           "instructions": {
             "type": "string",
-            "description": "Provided to whoever is nominated for the role",
+            "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
             "example": "Take point on the incident; Make sure people are clear on responsibilities"
           },
           "name": {
@@ -8200,7 +8228,7 @@
           },
           "shortform": {
             "type": "string",
-            "description": "Short human readable name for Slack",
+            "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
             "example": "lead",
             "minLength": 1
           }
@@ -9571,6 +9599,7 @@
               "github_pull_request",
               "gitlab_merge_request",
               "sentry_issue",
+              "jira_issue",
               "atlassian_statuspage_incident",
               "zendesk_ticket",
               "google_calendar_event",
@@ -9783,7 +9812,9 @@
                 "global_access",
                 "catalog_viewer",
                 "catalog_editor",
-                "incident_memberships_editor"
+                "incident_memberships_editor",
+                "schedules_editor",
+                "schedules_reader"
               ]
             },
             "description": "Which roles have been enabled for this key",
@@ -10076,7 +10107,7 @@
           },
           "incident_role_id": {
             "type": "string",
-            "description": "Unique ID of an incident role",
+            "description": "Unique ID of an incident role. Note that the 'reporter' role can only be assigned when creating an incident.",
             "example": "01FH5TZRWMNAFB0DZ23FD1TV96"
           }
         },
@@ -10156,7 +10187,7 @@
         "properties": {
           "created_at": {
             "type": "string",
-            "description": "When the action was created",
+            "description": "When the role was created",
             "example": "2021-08-17T13:28:57.801578Z",
             "format": "date-time"
           },
@@ -10173,7 +10204,7 @@
           },
           "instructions": {
             "type": "string",
-            "description": "Provided to whoever is nominated for the role",
+            "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
             "example": "Take point on the incident; Make sure people are clear on responsibilities"
           },
           "name": {
@@ -10199,13 +10230,13 @@
           },
           "shortform": {
             "type": "string",
-            "description": "Short human readable name for Slack",
+            "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
             "example": "lead",
             "minLength": 1
           },
           "updated_at": {
             "type": "string",
-            "description": "When the action was last updated",
+            "description": "When the role was last updated",
             "example": "2021-08-17T13:28:57.801578Z",
             "format": "date-time"
           }
@@ -10238,7 +10269,7 @@
         "properties": {
           "created_at": {
             "type": "string",
-            "description": "When the action was created",
+            "description": "When the role was created",
             "example": "2021-08-17T13:28:57.801578Z",
             "format": "date-time"
           },
@@ -10255,7 +10286,7 @@
           },
           "instructions": {
             "type": "string",
-            "description": "Provided to whoever is nominated for the role",
+            "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
             "example": "Take point on the incident; Make sure people are clear on responsibilities"
           },
           "name": {
@@ -10276,13 +10307,13 @@
           },
           "shortform": {
             "type": "string",
-            "description": "Short human readable name for Slack",
+            "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
             "example": "lead",
             "minLength": 1
           },
           "updated_at": {
             "type": "string",
-            "description": "When the action was last updated",
+            "description": "When the role was last updated",
             "example": "2021-08-17T13:28:57.801578Z",
             "format": "date-time"
           }
@@ -10608,6 +10639,11 @@
             "description": "The incident this update relates to",
             "example": "01FCNDV6P870EA6S7TK1DSYDG0"
           },
+          "merged_into_incident_id": {
+            "type": "string",
+            "description": "The ID of the incident that this incident was merged into, if it was merged in to another incident",
+            "example": "abc123"
+          },
           "message": {
             "type": "string",
             "description": "Message that explains the context behind the update",
@@ -10627,6 +10663,7 @@
           "created_at": "2021-08-17T13:28:57.801578Z",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "incident_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "merged_into_incident_id": "abc123",
           "message": "We're working on a fix, hoping to ship in the next 30 minutes",
           "new_incident_status": {
             "category": "triage",
@@ -10804,7 +10841,7 @@
           },
           "slack_channel_id": {
             "type": "string",
-            "description": "ID of the Slack channel in the organisation Slack workspace",
+            "description": "ID of the Slack channel in the organisation Slack workspace. Note that the channel is sometimes created asynchronously, so may not be present when the incident is just created.",
             "example": "C02AW36C1M5"
           },
           "slack_channel_name": {
@@ -11181,7 +11218,7 @@
           },
           "slack_channel_id": {
             "type": "string",
-            "description": "ID of the Slack channel in the organisation Slack workspace",
+            "description": "ID of the Slack channel in the organisation Slack workspace. Note that the channel is sometimes created asynchronously, so may not be present when the incident is just created.",
             "example": "C02AW36C1M5"
           },
           "slack_channel_name": {
@@ -11992,6 +12029,7 @@
                 "created_at": "2021-08-17T13:28:57.801578Z",
                 "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                 "incident_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "merged_into_incident_id": "abc123",
                 "message": "We're working on a fix, hoping to ship in the next 30 minutes",
                 "new_incident_status": {
                   "category": "triage",
@@ -12036,6 +12074,7 @@
               "created_at": "2021-08-17T13:28:57.801578Z",
               "id": "01FCNDV6P870EA6S7TK1DSYDG0",
               "incident_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "merged_into_incident_id": "abc123",
               "message": "We're working on a fix, hoping to ship in the next 30 minutes",
               "new_incident_status": {
                 "category": "triage",
@@ -15685,7 +15724,7 @@
           },
           "instructions": {
             "type": "string",
-            "description": "Provided to whoever is nominated for the role",
+            "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
             "example": "Take point on the incident; Make sure people are clear on responsibilities"
           },
           "name": {
@@ -15701,7 +15740,7 @@
           },
           "shortform": {
             "type": "string",
-            "description": "Short human readable name for Slack",
+            "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
             "example": "lead",
             "minLength": 1
           }
@@ -15735,7 +15774,7 @@
           },
           "instructions": {
             "type": "string",
-            "description": "Provided to whoever is nominated for the role",
+            "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
             "example": "Take point on the incident; Make sure people are clear on responsibilities"
           },
           "name": {
@@ -15746,7 +15785,7 @@
           },
           "shortform": {
             "type": "string",
-            "description": "Short human readable name for Slack",
+            "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
             "example": "lead",
             "minLength": 1
           }
@@ -15944,6 +15983,7 @@
           "annotations",
           "created_at",
           "updated_at",
+          "engine_resource_type",
           "mode"
         ]
       },

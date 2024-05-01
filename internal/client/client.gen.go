@@ -174,6 +174,7 @@ const (
 	CreateRequestBody4ResourceResourceTypeGithubPullRequest           CreateRequestBody4ResourceResourceType = "github_pull_request"
 	CreateRequestBody4ResourceResourceTypeGitlabMergeRequest          CreateRequestBody4ResourceResourceType = "gitlab_merge_request"
 	CreateRequestBody4ResourceResourceTypeGoogleCalendarEvent         CreateRequestBody4ResourceResourceType = "google_calendar_event"
+	CreateRequestBody4ResourceResourceTypeJiraIssue                   CreateRequestBody4ResourceResourceType = "jira_issue"
 	CreateRequestBody4ResourceResourceTypeOpsgenieAlert               CreateRequestBody4ResourceResourceType = "opsgenie_alert"
 	CreateRequestBody4ResourceResourceTypePagerDutyIncident           CreateRequestBody4ResourceResourceType = "pager_duty_incident"
 	CreateRequestBody4ResourceResourceTypeScrubbed                    CreateRequestBody4ResourceResourceType = "scrubbed"
@@ -322,6 +323,7 @@ const (
 	ExternalResourceV1ResourceTypeGithubPullRequest           ExternalResourceV1ResourceType = "github_pull_request"
 	ExternalResourceV1ResourceTypeGitlabMergeRequest          ExternalResourceV1ResourceType = "gitlab_merge_request"
 	ExternalResourceV1ResourceTypeGoogleCalendarEvent         ExternalResourceV1ResourceType = "google_calendar_event"
+	ExternalResourceV1ResourceTypeJiraIssue                   ExternalResourceV1ResourceType = "jira_issue"
 	ExternalResourceV1ResourceTypeOpsgenieAlert               ExternalResourceV1ResourceType = "opsgenie_alert"
 	ExternalResourceV1ResourceTypePagerDutyIncident           ExternalResourceV1ResourceType = "pager_duty_incident"
 	ExternalResourceV1ResourceTypeScrubbed                    ExternalResourceV1ResourceType = "scrubbed"
@@ -347,6 +349,8 @@ const (
 	IdentityV1RolesIncidentEditor            IdentityV1Roles = "incident_editor"
 	IdentityV1RolesIncidentMembershipsEditor IdentityV1Roles = "incident_memberships_editor"
 	IdentityV1RolesManageSettings            IdentityV1Roles = "manage_settings"
+	IdentityV1RolesSchedulesEditor           IdentityV1Roles = "schedules_editor"
+	IdentityV1RolesSchedulesReader           IdentityV1Roles = "schedules_reader"
 	IdentityV1RolesViewer                    IdentityV1Roles = "viewer"
 )
 
@@ -504,6 +508,7 @@ const (
 	GithubPullRequest           IncidentAttachmentsV1ListParamsResourceType = "github_pull_request"
 	GitlabMergeRequest          IncidentAttachmentsV1ListParamsResourceType = "gitlab_merge_request"
 	GoogleCalendarEvent         IncidentAttachmentsV1ListParamsResourceType = "google_calendar_event"
+	JiraIssue                   IncidentAttachmentsV1ListParamsResourceType = "jira_issue"
 	OpsgenieAlert               IncidentAttachmentsV1ListParamsResourceType = "opsgenie_alert"
 	PagerDutyIncident           IncidentAttachmentsV1ListParamsResourceType = "pager_duty_incident"
 	Scrubbed                    IncidentAttachmentsV1ListParamsResourceType = "scrubbed"
@@ -1023,7 +1028,7 @@ type CreateRequestBody6 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
-	// Instructions Provided to whoever is nominated for the role
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 	Instructions string `json:"instructions"`
 
 	// Name Human readable name of the incident role
@@ -1032,7 +1037,7 @@ type CreateRequestBody6 struct {
 	// Required DEPRECATED: this will always be false.
 	Required bool `json:"required"`
 
-	// Shortform Short human readable name for Slack
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
 	Shortform string `json:"shortform"`
 }
 
@@ -1041,13 +1046,13 @@ type CreateRequestBody7 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
-	// Instructions Provided to whoever is nominated for the role
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 	Instructions string `json:"instructions"`
 
 	// Name Human readable name of the incident role
 	Name string `json:"name"`
 
-	// Shortform Short human readable name for Slack
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
 	Shortform string `json:"shortform"`
 }
 
@@ -1607,7 +1612,7 @@ type IncidentMembership struct {
 type IncidentRoleAssignmentPayloadV1 struct {
 	Assignee UserReferencePayloadV1 `json:"assignee"`
 
-	// IncidentRoleId Unique ID of an incident role
+	// IncidentRoleId Unique ID of an incident role. Note that the 'reporter' role can only be assigned when creating an incident.
 	IncidentRoleId string `json:"incident_role_id"`
 }
 
@@ -1627,7 +1632,7 @@ type IncidentRoleAssignmentV1 struct {
 
 // IncidentRoleV1 defines model for IncidentRoleV1.
 type IncidentRoleV1 struct {
-	// CreatedAt When the action was created
+	// CreatedAt When the role was created
 	CreatedAt time.Time `json:"created_at"`
 
 	// Description Describes the purpose of the role
@@ -1636,7 +1641,7 @@ type IncidentRoleV1 struct {
 	// Id Unique identifier for the role
 	Id string `json:"id"`
 
-	// Instructions Provided to whoever is nominated for the role
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 	Instructions string `json:"instructions"`
 
 	// Name Human readable name of the incident role
@@ -1648,10 +1653,10 @@ type IncidentRoleV1 struct {
 	// RoleType Type of incident role
 	RoleType IncidentRoleV1RoleType `json:"role_type"`
 
-	// Shortform Short human readable name for Slack
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
 	Shortform string `json:"shortform"`
 
-	// UpdatedAt When the action was last updated
+	// UpdatedAt When the role was last updated
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
@@ -1660,7 +1665,7 @@ type IncidentRoleV1RoleType string
 
 // IncidentRoleV2 defines model for IncidentRoleV2.
 type IncidentRoleV2 struct {
-	// CreatedAt When the action was created
+	// CreatedAt When the role was created
 	CreatedAt time.Time `json:"created_at"`
 
 	// Description Describes the purpose of the role
@@ -1669,7 +1674,7 @@ type IncidentRoleV2 struct {
 	// Id Unique identifier for the role
 	Id string `json:"id"`
 
-	// Instructions Provided to whoever is nominated for the role
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 	Instructions string `json:"instructions"`
 
 	// Name Human readable name of the incident role
@@ -1678,10 +1683,10 @@ type IncidentRoleV2 struct {
 	// RoleType Type of incident role
 	RoleType IncidentRoleV2RoleType `json:"role_type"`
 
-	// Shortform Short human readable name for Slack
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
 	Shortform string `json:"shortform"`
 
-	// UpdatedAt When the action was last updated
+	// UpdatedAt When the role was last updated
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
@@ -1794,6 +1799,9 @@ type IncidentUpdateV2 struct {
 	// IncidentId The incident this update relates to
 	IncidentId string `json:"incident_id"`
 
+	// MergedIntoIncidentId The ID of the incident that this incident was merged into, if it was merged in to another incident
+	MergedIntoIncidentId *string `json:"merged_into_incident_id,omitempty"`
+
 	// Message Message that explains the context behind the update
 	Message           *string          `json:"message,omitempty"`
 	NewIncidentStatus IncidentStatusV1 `json:"new_incident_status"`
@@ -1836,7 +1844,7 @@ type IncidentV1 struct {
 	Reference string      `json:"reference"`
 	Severity  *SeverityV2 `json:"severity,omitempty"`
 
-	// SlackChannelId ID of the Slack channel in the organisation Slack workspace
+	// SlackChannelId ID of the Slack channel in the organisation Slack workspace. Note that the channel is sometimes created asynchronously, so may not be present when the incident is just created.
 	SlackChannelId string `json:"slack_channel_id"`
 
 	// SlackChannelName Name of the slack channel
@@ -1913,7 +1921,7 @@ type IncidentV2 struct {
 	Reference string      `json:"reference"`
 	Severity  *SeverityV2 `json:"severity,omitempty"`
 
-	// SlackChannelId ID of the Slack channel in the organisation Slack workspace
+	// SlackChannelId ID of the Slack channel in the organisation Slack workspace. Note that the channel is sometimes created asynchronously, so may not be present when the incident is just created.
 	SlackChannelId string `json:"slack_channel_id"`
 
 	// SlackChannelName Name of the slack channel
@@ -2275,7 +2283,7 @@ type UpdateRequestBody4 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
-	// Instructions Provided to whoever is nominated for the role
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 	Instructions string `json:"instructions"`
 
 	// Name Human readable name of the incident role
@@ -2284,7 +2292,7 @@ type UpdateRequestBody4 struct {
 	// Required DEPRECATED: this will always be false.
 	Required *bool `json:"required,omitempty"`
 
-	// Shortform Short human readable name for Slack
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
 	Shortform string `json:"shortform"`
 }
 
@@ -2293,13 +2301,13 @@ type UpdateRequestBody5 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
-	// Instructions Provided to whoever is nominated for the role
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 	Instructions string `json:"instructions"`
 
 	// Name Human readable name of the incident role
 	Name string `json:"name"`
 
-	// Shortform Short human readable name for Slack
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
 	Shortform string `json:"shortform"`
 }
 
@@ -2545,6 +2553,12 @@ type IncidentsV2ListParams struct {
 
 // UsersV2ListParams defines parameters for UsersV2List.
 type UsersV2ListParams struct {
+	// Email Filter by email address
+	Email *string `form:"email,omitempty" json:"email,omitempty"`
+
+	// SlackUserId Filter by Slack user ID
+	SlackUserId *string `form:"slack_user_id,omitempty" json:"slack_user_id,omitempty"`
+
 	// PageSize Integer number of records to return
 	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
 
@@ -7374,6 +7388,38 @@ func NewUsersV2ListRequest(server string, params *UsersV2ListParams) (*http.Requ
 	}
 
 	queryValues := queryURL.Query()
+
+	if params.Email != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "email", runtime.ParamLocationQuery, *params.Email); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.SlackUserId != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "slack_user_id", runtime.ParamLocationQuery, *params.SlackUserId); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
 
 	if params.PageSize != nil {
 

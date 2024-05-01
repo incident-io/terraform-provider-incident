@@ -532,6 +532,7 @@
               "github_pull_request",
               "gitlab_merge_request",
               "sentry_issue",
+              "jira_issue",
               "atlassian_statuspage_incident",
               "zendesk_ticket",
               "google_calendar_event",
@@ -1979,6 +1980,7 @@
                 "annotations",
                 "created_at",
                 "updated_at",
+                "engine_resource_type",
                 "mode"
               ]
             }
@@ -2742,6 +2744,20 @@
         "description": "List users for an organisation.",
         "operationId": "Users V2#List",
         "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Filter by email address",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "slack_user_id",
+            "in": "query",
+            "description": "Filter by Slack user ID",
+            "required": false,
+            "type": "string"
+          },
           {
             "name": "page_size",
             "in": "query",
@@ -13832,6 +13848,7 @@
         "annotations",
         "created_at",
         "updated_at",
+        "engine_resource_type",
         "mode"
       ]
     },
@@ -15007,6 +15024,7 @@
         "annotations",
         "created_at",
         "updated_at",
+        "engine_resource_type",
         "mode"
       ]
     },
@@ -16745,7 +16763,7 @@
       "properties": {
         "created_at": {
           "type": "string",
-          "description": "When the action was created",
+          "description": "When the role was created",
           "example": "2021-08-17T13:28:57.801578Z",
           "format": "date-time"
         },
@@ -16762,7 +16780,7 @@
         },
         "instructions": {
           "type": "string",
-          "description": "Provided to whoever is nominated for the role",
+          "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
           "example": "Take point on the incident; Make sure people are clear on responsibilities"
         },
         "name": {
@@ -16788,13 +16806,13 @@
         },
         "shortform": {
           "type": "string",
-          "description": "Short human readable name for Slack",
+          "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
           "example": "lead",
           "minLength": 1
         },
         "updated_at": {
           "type": "string",
-          "description": "When the action was last updated",
+          "description": "When the role was last updated",
           "example": "2021-08-17T13:28:57.801578Z",
           "format": "date-time"
         }
@@ -17128,6 +17146,7 @@
             "github_pull_request",
             "gitlab_merge_request",
             "sentry_issue",
+            "jira_issue",
             "atlassian_statuspage_incident",
             "zendesk_ticket",
             "google_calendar_event",
@@ -17442,7 +17461,9 @@
               "global_access",
               "catalog_viewer",
               "catalog_editor",
-              "incident_memberships_editor"
+              "incident_memberships_editor",
+              "schedules_editor",
+              "schedules_reader"
             ]
           },
           "description": "Which roles have been enabled for this key",
@@ -17529,6 +17550,7 @@
                 "github_pull_request",
                 "gitlab_merge_request",
                 "sentry_issue",
+                "jira_issue",
                 "atlassian_statuspage_incident",
                 "zendesk_ticket",
                 "google_calendar_event",
@@ -17942,7 +17964,7 @@
         },
         "incident_role_id": {
           "type": "string",
-          "description": "Unique ID of an incident role",
+          "description": "Unique ID of an incident role. Note that the 'reporter' role can only be assigned when creating an incident.",
           "example": "01FH5TZRWMNAFB0DZ23FD1TV96"
         }
       },
@@ -18060,7 +18082,7 @@
       "properties": {
         "created_at": {
           "type": "string",
-          "description": "When the action was created",
+          "description": "When the role was created",
           "example": "2021-08-17T13:28:57.801578Z",
           "format": "date-time"
         },
@@ -18077,7 +18099,7 @@
         },
         "instructions": {
           "type": "string",
-          "description": "Provided to whoever is nominated for the role",
+          "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
           "example": "Take point on the incident; Make sure people are clear on responsibilities"
         },
         "name": {
@@ -18103,13 +18125,13 @@
         },
         "shortform": {
           "type": "string",
-          "description": "Short human readable name for Slack",
+          "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
           "example": "lead",
           "minLength": 1
         },
         "updated_at": {
           "type": "string",
-          "description": "When the action was last updated",
+          "description": "When the role was last updated",
           "example": "2021-08-17T13:28:57.801578Z",
           "format": "date-time"
         }
@@ -18143,7 +18165,7 @@
       "properties": {
         "created_at": {
           "type": "string",
-          "description": "When the action was created",
+          "description": "When the role was created",
           "example": "2021-08-17T13:28:57.801578Z",
           "format": "date-time"
         },
@@ -18160,7 +18182,7 @@
         },
         "instructions": {
           "type": "string",
-          "description": "Provided to whoever is nominated for the role",
+          "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
           "example": "Take point on the incident; Make sure people are clear on responsibilities"
         },
         "name": {
@@ -18181,13 +18203,13 @@
         },
         "shortform": {
           "type": "string",
-          "description": "Short human readable name for Slack",
+          "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
           "example": "lead",
           "minLength": 1
         },
         "updated_at": {
           "type": "string",
-          "description": "When the action was last updated",
+          "description": "When the role was last updated",
           "example": "2021-08-17T13:28:57.801578Z",
           "format": "date-time"
         }
@@ -18226,7 +18248,7 @@
         },
         "instructions": {
           "type": "string",
-          "description": "Provided to whoever is nominated for the role",
+          "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
           "example": "Take point on the incident; Make sure people are clear on responsibilities"
         },
         "name": {
@@ -18242,7 +18264,7 @@
         },
         "shortform": {
           "type": "string",
-          "description": "Short human readable name for Slack",
+          "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
           "example": "lead",
           "minLength": 1
         }
@@ -18372,7 +18394,7 @@
         },
         "instructions": {
           "type": "string",
-          "description": "Provided to whoever is nominated for the role",
+          "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
           "example": "Take point on the incident; Make sure people are clear on responsibilities"
         },
         "name": {
@@ -18388,7 +18410,7 @@
         },
         "shortform": {
           "type": "string",
-          "description": "Short human readable name for Slack",
+          "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
           "example": "lead",
           "minLength": 1
         }
@@ -18448,7 +18470,7 @@
         },
         "instructions": {
           "type": "string",
-          "description": "Provided to whoever is nominated for the role",
+          "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
           "example": "Take point on the incident; Make sure people are clear on responsibilities"
         },
         "name": {
@@ -18459,7 +18481,7 @@
         },
         "shortform": {
           "type": "string",
-          "description": "Short human readable name for Slack",
+          "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
           "example": "lead",
           "minLength": 1
         }
@@ -18583,7 +18605,7 @@
         },
         "instructions": {
           "type": "string",
-          "description": "Provided to whoever is nominated for the role",
+          "description": "Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.",
           "example": "Take point on the incident; Make sure people are clear on responsibilities"
         },
         "name": {
@@ -18594,7 +18616,7 @@
         },
         "shortform": {
           "type": "string",
-          "description": "Short human readable name for Slack",
+          "description": "Short human readable name for Slack. Note that this will be empty for the 'reporter' role.",
           "example": "lead",
           "minLength": 1
         }
@@ -19388,6 +19410,11 @@
           "description": "The incident this update relates to",
           "example": "01FCNDV6P870EA6S7TK1DSYDG0"
         },
+        "merged_into_incident_id": {
+          "type": "string",
+          "description": "The ID of the incident that this incident was merged into, if it was merged in to another incident",
+          "example": "abc123"
+        },
         "message": {
           "type": "string",
           "description": "Message that explains the context behind the update",
@@ -19407,6 +19434,7 @@
         "created_at": "2021-08-17T13:28:57.801578Z",
         "id": "01FCNDV6P870EA6S7TK1DSYDG0",
         "incident_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+        "merged_into_incident_id": "abc123",
         "message": "We're working on a fix, hoping to ship in the next 30 minutes",
         "new_incident_status": {
           "category": "triage",
@@ -19462,6 +19490,7 @@
               "created_at": "2021-08-17T13:28:57.801578Z",
               "id": "01FCNDV6P870EA6S7TK1DSYDG0",
               "incident_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "merged_into_incident_id": "abc123",
               "message": "We're working on a fix, hoping to ship in the next 30 minutes",
               "new_incident_status": {
                 "category": "triage",
@@ -19506,6 +19535,7 @@
             "created_at": "2021-08-17T13:28:57.801578Z",
             "id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "incident_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "merged_into_incident_id": "abc123",
             "message": "We're working on a fix, hoping to ship in the next 30 minutes",
             "new_incident_status": {
               "category": "triage",
@@ -19685,7 +19715,7 @@
         },
         "slack_channel_id": {
           "type": "string",
-          "description": "ID of the Slack channel in the organisation Slack workspace",
+          "description": "ID of the Slack channel in the organisation Slack workspace. Note that the channel is sometimes created asynchronously, so may not be present when the incident is just created.",
           "example": "C02AW36C1M5"
         },
         "slack_channel_name": {
@@ -20063,7 +20093,7 @@
         },
         "slack_channel_id": {
           "type": "string",
-          "description": "ID of the Slack channel in the organisation Slack workspace",
+          "description": "ID of the Slack channel in the organisation Slack workspace. Note that the channel is sometimes created asynchronously, so may not be present when the incident is just created.",
           "example": "C02AW36C1M5"
         },
         "slack_channel_name": {
@@ -24835,12 +24865,12 @@
       "description": "Manage incident actions.\n\nIncident actions are used during an incident, to track work such as 'restart the database' or 'contact the customer'.\n\nYou can manage actions in the incident Slack channel with <code>/incident actions</code>, or on\nthe incident homepage.\n"
     },
     {
-      "name": "Alert Events V2",
-      "description": "Create alerts within incident.io.\n\nThe alerts API allows you to create alerts within incident.io by posting alert events. You\ncan use alerts to automatically trigger incidents.\n\nTo create an alert, you must first configure an alert source in the incident.io dashboard.\n"
-    },
-    {
       "name": "Audit logs",
       "description": "To give you visibility over the changes that are made within your incident.io account, we use an audit log. Our audit log is powered by <a href=\"https://workos.com\" target=\"_blank\">WorkOS</a>. The log is available for customers on our [Enterprise plan](https://incident.io/pricing).\n\nThe audit log contains information about any configuration changes, as well as changes to a user's permissions (e.g. being given a new role, or access to a private incident).\n\nEach entry will have an actor (the person or system that made the change) and one or more targets (a thing that was modified by this change). It will also include the Location and User Agent of the actor, where applicable.\n\nEach entry will conform to a schema, which is documented here. Each entry also has a version, so that if our schema changes over time you’ll still be able to parse old events.\n\nWe’ll retain these entries for one year.\n\nAudit log entries start from 18 April, 2023 (there are no entries available from before that date).\n\n## Viewing your audit log\n\nYou can view your audit log via our [security settings](https://app.incident.io/settings/security) page.\n\nFrom there, you'll be able to:\n\n- View the entries via a web interface (filterable by target, event type, actor and date)\n- Export the entries for a given time period to a CSV\n- Set up a log stream to a provider of your choice (e.g. Splunk or an Amazon S3 bucket)\n\n## Understanding actors\n\nEach entry will have an actor associated with it, which is one of 5 types:\n\n### Users\n\nThis is for changes triggered by the actions of a particular user in your account.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"user\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Kelsey Mills\",\n    \"metadata\": {\n      \"user_base_role_slug\": \"admin\",\n      \"user_custom_role_slugs\": \"engineering,security\"\n    }\n  }\n```\n\n### API Keys\n\nThis is for changes triggered by an API key.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"api_key\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Lisa's development key\",\n    \"metadata\": {\n      \"api_key_roles\": \"incident_creator,global_access\"\n    }\n  }\n```\n\n### Integrations\n\nThis is for changes triggered by a system. Sometimes that will be a third party system (e.g. a user might be created\nvia Slack) or sometimes it might be something triggered from inside incident.io (e.g. a severity created as part of setup).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"system\",\n    \"id\": \"incident_setup\",\n    \"name\": \"incident.io (setup)\",\n    \"metadata\": {}\n  }\n```\n\n### Workflows\n\nThis is for changes triggered by a workflow: for example, a workflow that invites users to a private incident.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"workflow\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Auto-invite security team to private incidents\",\n    \"metadata\": {}\n  }\n```\n\n### External resources\n\nThis is for changes triggered by a specific [external resource](https://api-docs.incident.io/tag/Incident-Attachments-V1) (also known as an attachment).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"external_resource\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"#1234 Increased API latency\",\n    \"metadata\": {\n      \"external_resource_type\": \"pager_duty_incident\",\n      \"external_resource_external_id\": \"q1234\"\n    }\n  }\n```\n"
+    },
+    {
+      "name": "Alert Events V2",
+      "description": "Create alerts within incident.io.\n\nThe alerts API allows you to create alerts within incident.io by posting alert events. You\ncan use alerts to automatically trigger incidents.\n\nTo create an alert, you must first configure an alert source in the incident.io dashboard.\n"
     },
     {
       "name": "Catalog V2",
