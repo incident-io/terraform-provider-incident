@@ -41,7 +41,7 @@ type IncidentUserRequest struct {
 
 type RBACRole struct {
 	Description types.String `tfsdk:"description"`
-	Id          types.String `tfsdk:"id"`
+	ID          types.String `tfsdk:"id"`
 	Name        types.String `tfsdk:"name"`
 	Slug        types.String `tfsdk:"slug"`
 }
@@ -103,9 +103,9 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 			return
 		}
 		user = &result.JSON200.Users[0]
-	} else if !data.SlackUserId.IsNull() {
+	} else if !data.SlackUserID.IsNull() {
 		result, err := i.client.UsersV2ListWithResponse(ctx, &client.UsersV2ListParams{
-			SlackUserId: data.SlackUserId.ValueStringPointer(),
+			SlackUserId: data.SlackUserID.ValueStringPointer(),
 		})
 		if err == nil && result.StatusCode() >= 400 {
 			err = fmt.Errorf(string(result.Body))
@@ -136,14 +136,14 @@ func (r *IncidentUserDataSource) buildModel(userType client.UserWithRolesV2) *In
 	model := &IncidentUserDataSourceModel{
 		BaseRole: &RBACRole{
 			Description: types.StringValue(roleDesc),
-			Id:          types.StringValue(userType.BaseRole.Id),
+			ID:          types.StringValue(userType.BaseRole.Id),
 			Name:        types.StringValue(userType.BaseRole.Name),
 			Slug:        types.StringValue(userType.BaseRole.Slug),
 		},
 		CustomRoles: lo.Map(userType.CustomRoles, func(role client.RBACRoleV2, _ int) *RBACRole {
 			return &RBACRole{
 				Description: types.StringPointerValue(role.Description),
-				Id:          types.StringValue(role.Id),
+				ID:          types.StringValue(role.Id),
 				Name:        types.StringValue(role.Name),
 				Slug:        types.StringValue(role.Slug),
 			}
@@ -152,7 +152,7 @@ func (r *IncidentUserDataSource) buildModel(userType client.UserWithRolesV2) *In
 		ID:          types.StringValue(userType.Id),
 		Name:        types.StringValue(userType.Name),
 		Role:        types.StringValue(string(userType.Role)),
-		SlackUserId: types.StringPointerValue(userType.SlackUserId),
+		SlackUserID: types.StringPointerValue(userType.SlackUserId),
 	}
 
 	return model
