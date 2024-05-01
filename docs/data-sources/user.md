@@ -25,31 +25,7 @@ Users all have a single base role, and can be assigned multiple custom roles. Th
 
 ### Read-Only
 
-- `base_role` (Attributes) (see [below for nested schema](#nestedatt--base_role))
-- `custom_roles` (Attributes List) (see [below for nested schema](#nestedatt--custom_roles))
 - `id` (String) The ID of this resource.
 - `name` (String)
-- `role` (String)
-
-<a id="nestedatt--base_role"></a>
-### Nested Schema for `base_role`
-
-Read-Only:
-
-- `description` (String)
-- `id` (String)
-- `name` (String)
-- `slug` (String)
-
-
-<a id="nestedatt--custom_roles"></a>
-### Nested Schema for `custom_roles`
-
-Read-Only:
-
-- `description` (String)
-- `id` (String)
-- `name` (String)
-- `slug` (String)
 
 

@@ -35,13 +35,6 @@ type IncidentUserRequest struct {
 	ID types.String `tfsdk:"id"`
 }
 
-type RBACRole struct {
-	Description types.String `tfsdk:"description"`
-	ID          types.String `tfsdk:"id"`
-	Name        types.String `tfsdk:"name"`
-	Slug        types.String `tfsdk:"slug"`
-}
-
 func (i *IncidentUserDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -66,7 +59,6 @@ func (i *IncidentUserDataSource) Metadata(ctx context.Context, req datasource.Me
 
 func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var data IncidentUserDataSourceModel
-	req.Config.Get(ctx, &data)
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
 	var user *client.UserWithRolesV2
