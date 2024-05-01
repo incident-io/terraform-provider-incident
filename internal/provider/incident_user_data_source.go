@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/samber/lo"
 )
 
 var (
@@ -26,12 +25,9 @@ type IncidentUserDataSource struct {
 }
 
 type IncidentUserDataSourceModel struct {
-	BaseRole    *RBACRole    `tfsdk:"base_role" json:"base_role"`
-	CustomRoles []*RBACRole  `tfsdk:"custom_roles" json:"custom_roles"`
 	Email       types.String `tfsdk:"email" json:"email"`
 	ID          types.String `tfsdk:"id" json:"id"`
 	Name        types.String `tfsdk:"name" json:"name"`
-	Role        types.String `tfsdk:"role" json:"role"`
 	SlackUserID types.String `tfsdk:"slack_user_id" json:"slack_user_id"`
 }
 
@@ -135,29 +131,10 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 }
 
 func (r *IncidentUserDataSource) buildModel(userType client.UserWithRolesV2) *IncidentUserDataSourceModel {
-	var roleDesc string
-	if userType.BaseRole.Description != nil {
-		roleDesc = *userType.BaseRole.Description
-	}
 	model := &IncidentUserDataSourceModel{
-		BaseRole: &RBACRole{
-			Description: types.StringValue(roleDesc),
-			ID:          types.StringValue(userType.BaseRole.Id),
-			Name:        types.StringValue(userType.BaseRole.Name),
-			Slug:        types.StringValue(userType.BaseRole.Slug),
-		},
-		CustomRoles: lo.Map(userType.CustomRoles, func(role client.RBACRoleV2, _ int) *RBACRole {
-			return &RBACRole{
-				Description: types.StringPointerValue(role.Description),
-				ID:          types.StringValue(role.Id),
-				Name:        types.StringValue(role.Name),
-				Slug:        types.StringValue(role.Slug),
-			}
-		}),
 		Email:       types.StringPointerValue(userType.Email),
 		ID:          types.StringValue(userType.Id),
 		Name:        types.StringValue(userType.Name),
-		Role:        types.StringValue(string(userType.Role)),
 		SlackUserID: types.StringPointerValue(userType.SlackUserId),
 	}
 
@@ -165,34 +142,9 @@ func (r *IncidentUserDataSource) buildModel(userType client.UserWithRolesV2) *In
 }
 
 func (i *IncidentUserDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
-	rbacRoleAttribute := map[string]schema.Attribute{
-		"description": schema.StringAttribute{
-			Computed: true,
-		},
-		"id": schema.StringAttribute{
-			Computed: true,
-		},
-		"name": schema.StringAttribute{
-			Computed: true,
-		},
-		"slug": schema.StringAttribute{
-			Computed: true,
-		},
-	}
-
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Users V2"),
 		Attributes: map[string]schema.Attribute{
-			"base_role": schema.SingleNestedAttribute{
-				Computed:   true,
-				Attributes: rbacRoleAttribute,
-			},
-			"custom_roles": schema.ListNestedAttribute{
-				Computed: true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: rbacRoleAttribute,
-				},
-			},
 			"email": schema.StringAttribute{
 				Optional: true,
 			},
@@ -200,9 +152,6 @@ func (i *IncidentUserDataSource) Schema(ctx context.Context, req datasource.Sche
 				Optional: true,
 			},
 			"name": schema.StringAttribute{
-				Computed: true,
-			},
-			"role": schema.StringAttribute{
 				Computed: true,
 			},
 			"slack_user_id": schema.StringAttribute{
