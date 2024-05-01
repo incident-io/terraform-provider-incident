@@ -32,7 +32,7 @@ type IncidentUserDataSourceModel struct {
 	ID          types.String `tfsdk:"id" json:"id"`
 	Name        types.String `tfsdk:"name" json:"name"`
 	Role        types.String `tfsdk:"role" json:"role"`
-	SlackUserId types.String `tfsdk:"slack_user_id" json:"slack_user_id"`
+	SlackUserID types.String `tfsdk:"slack_user_id" json:"slack_user_id"`
 }
 
 type IncidentUserRequest struct {
