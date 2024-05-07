@@ -154,7 +154,6 @@ func generateRotationsArray(rotations []client.ScheduleRotationV2) string {
 		result += "  {\n"
 		result += "    id              = " + quote(rotation[0].Id) + "\n"
 		result += "    name            = " + quote(rotation[0].Name) + "\n"
-		result += "    handover_start_at = " + quote(rotation[0].HandoverStartAt.Format(time.RFC3339)) + "\n"
 		result += "    versions        = " + generateVersionsArray(rotation) + "\n"
 		result += "  },\n"
 	}
@@ -170,6 +169,7 @@ func generateVersionsArray(versions []client.ScheduleRotationV2) string {
 		if version.EffectiveFrom != nil {
 			result += "    effective_from   = " + quote(version.EffectiveFrom.Format(time.RFC3339)) + "\n"
 		}
+		result += "    handover_start_at = " + quote(version.HandoverStartAt.Format(time.RFC3339)) + "\n"
 		result += "    handovers       = " + generateHandoversArray(version.Handovers) + "\n"
 		result += "    layers          = " + generateLayersArray(version.Layers) + "\n"
 		result += "    users           = " + generateUsersArray(version.Users) + "\n"

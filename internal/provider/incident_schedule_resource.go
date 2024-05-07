@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -34,14 +35,14 @@ type IncidentScheduleResourceModel struct {
 }
 
 type Rotation struct {
-	ID              types.String      `tfsdk:"id"`
-	HandoverStartAt types.String      `tfsdk:"handover_start_at"`
-	Name            types.String      `tfsdk:"name"`
-	Versions        []RotationVersion `tfsdk:"versions"`
+	ID       types.String      `tfsdk:"id"`
+	Name     types.String      `tfsdk:"name"`
+	Versions []RotationVersion `tfsdk:"versions"`
 }
 
 type RotationVersion struct {
 	EffectiveFrom    types.String      `tfsdk:"effective_from"`
+	HandoverStartAt  types.String      `tfsdk:"handover_start_at"`
 	Handovers        []Handover        `tfsdk:"handovers"`
 	Users            []types.String    `tfsdk:"users"`
 	WorkingIntervals []WorkingInterval `tfsdk:"working_intervals"`
@@ -97,9 +98,6 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 						"name": schema.StringAttribute{
 							Required: true,
 						},
-						"handover_start_at": schema.StringAttribute{
-							Required: true,
-						},
 						"versions": schema.ListNestedAttribute{
 							Required: true,
 							NestedObject: schema.NestedAttributeObject{
@@ -110,6 +108,9 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 									},
 									"effective_from": schema.StringAttribute{
 										Optional: true,
+									},
+									"handover_start_at": schema.StringAttribute{
+										Required: true,
 									},
 									"working_intervals": schema.ListNestedAttribute{
 										Optional: true,
@@ -314,13 +315,13 @@ func buildScheduleCreatePayload(data *IncidentScheduleResourceModel, resp *resou
 				})
 			}
 
-			handoverStartAt, err := time.Parse(time.RFC3339, rotation.HandoverStartAt.ValueString())
+			handoverStartAt, err := time.Parse(time.RFC3339, version.HandoverStartAt.ValueString())
 			if err != nil {
-				resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create schedule, got error: %s", err))
+				resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create schedule, handover start in invalid format: %s", err))
 				return nil, err
 			}
 
-			effectiveFrom := buildEffectiveFrom(version.EffectiveFrom)
+			effectiveFrom := buildEffectiveFrom(resp.Diagnostics, version.EffectiveFrom)
 			handovers := buildHandoversArray(version.Handovers)
 			users := buildUsersArray(version.Users)
 
@@ -361,13 +362,13 @@ func buildScheduleUpdatePayload(data *IncidentScheduleResourceModel, resp *resou
 				})
 			}
 
-			handoverStartAt, err := time.Parse(time.RFC3339, rotation.HandoverStartAt.ValueString())
+			handoverStartAt, err := time.Parse(time.RFC3339, version.HandoverStartAt.ValueString())
 			if err != nil {
-				resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create schedule, got error: %s", err))
+				resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create schedule, handover start in invalid format: %s", err))
 				return nil, err
 			}
 
-			effectiveFrom := buildEffectiveFrom(version.EffectiveFrom)
+			effectiveFrom := buildEffectiveFrom(resp.Diagnostics, version.EffectiveFrom)
 			handovers := buildHandoversArray(version.Handovers)
 			users := buildUsersArray(version.Users)
 
@@ -408,13 +409,14 @@ func buildHandoversArray(handovers []Handover) []client.ScheduleRotationHandover
 }
 
 // buildEffectiveFrom converts a string to a time.Time pointer.
-func buildEffectiveFrom(effectiveFrom types.String) *time.Time {
+func buildEffectiveFrom(diagnostics diag.Diagnostics, effectiveFrom types.String) *time.Time {
 	if effectiveFrom.IsNull() {
 		return nil
 	}
 
 	effectiveFromParsed, err := time.Parse(time.RFC3339, effectiveFrom.ValueString())
 	if err != nil {
+		diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create schedule, effective from in invalid format: %s", err))
 		return nil
 	}
 
@@ -430,16 +432,14 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 	})
 
 	type RotationName struct {
-		ID              string
-		Name            string
-		HandoverStartAt time.Time
+		ID   string
+		Name string
 	}
 
 	rotationNames := lo.Map(schedule.Config.Rotations, func(rotation client.ScheduleRotationV2, _ int) RotationName {
 		return RotationName{
-			ID:              rotation.Id,
-			Name:            rotation.Name,
-			HandoverStartAt: rotation.HandoverStartAt,
+			ID:   rotation.Id,
+			Name: rotation.Name,
 		}
 	})
 
@@ -450,11 +450,9 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 		ID:       types.StringValue(schedule.Id),
 		Timezone: types.StringValue(schedule.Timezone),
 		Rotations: lo.Map(rotationNames, func(rotation RotationName, _ int) Rotation {
-			handoverStartAt := rotation.HandoverStartAt.Format(time.RFC3339)
 			newRotation := Rotation{
-				ID:              types.StringValue(rotation.ID),
-				Name:            types.StringValue(rotation.Name),
-				HandoverStartAt: types.StringValue(handoverStartAt),
+				ID:   types.StringValue(rotation.ID),
+				Name: types.StringValue(rotation.Name),
 				Versions: lo.Map(rotationsGroupedByID[rotation.ID], func(rotation client.ScheduleRotationV2, idx int) RotationVersion {
 					var workingIntervals []WorkingInterval
 					if rotation.WorkingInterval != nil {
@@ -498,12 +496,15 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 						effectiveFrom = types.StringNull()
 					}
 
+					handoverStartAt := types.StringValue(rotation.HandoverStartAt.Format(time.RFC3339))
+
 					return RotationVersion{
 						EffectiveFrom:    effectiveFrom,
 						Handovers:        handovers,
 						Users:            users,
 						WorkingIntervals: workingIntervals,
 						Layers:           layers,
+						HandoverStartAt:  handoverStartAt,
 					}
 				}),
 			}
