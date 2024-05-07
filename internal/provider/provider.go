@@ -30,6 +30,11 @@ type IncidentProviderModel struct {
 	APIKey   types.String `tfsdk:"api_key"`
 }
 
+type IncidentProviderData struct {
+	Client           *client.ClientWithResponses
+	TerraformVersion string
+}
+
 func New(version string) func() provider.Provider {
 	return func() provider.Provider {
 		return &IncidentProvider{
@@ -118,8 +123,14 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 		panic(err)
 	}
 
-	resp.DataSourceData = client
-	resp.ResourceData = client
+	resp.DataSourceData = &IncidentProviderData{
+		Client:           client,
+		TerraformVersion: req.TerraformVersion,
+	}
+	resp.ResourceData = &IncidentProviderData{
+		Client:           client,
+		TerraformVersion: req.TerraformVersion,
+	}
 }
 
 func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Resource {

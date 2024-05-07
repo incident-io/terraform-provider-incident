@@ -40,7 +40,7 @@ func (i *IncidentUserDataSource) Configure(ctx context.Context, req datasource.C
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.ClientWithResponses)
+	client, ok := req.ProviderData.(*IncidentProviderData)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source User",
@@ -50,7 +50,7 @@ func (i *IncidentUserDataSource) Configure(ctx context.Context, req datasource.C
 		return
 	}
 
-	i.client = client
+	i.client = client.Client
 }
 
 func (i *IncidentUserDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {

@@ -24,7 +24,8 @@ var (
 )
 
 type IncidentScheduleResource struct {
-	client *client.ClientWithResponses
+	client           *client.ClientWithResponses
+	terraformVersion string
 }
 
 type IncidentScheduleResourceModel struct {
@@ -170,7 +171,7 @@ func (r *IncidentScheduleResource) Configure(ctx context.Context, req resource.C
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.ClientWithResponses)
+	client, ok := req.ProviderData.(*IncidentProviderData)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -180,7 +181,8 @@ func (r *IncidentScheduleResource) Configure(ctx context.Context, req resource.C
 		return
 	}
 
-	r.client = client
+	r.client = client.Client
+	r.terraformVersion = client.TerraformVersion
 }
 
 func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -198,6 +200,9 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 
 	result, err := r.client.SchedulesV2CreateWithResponse(ctx, client.SchedulesV2CreateJSONRequestBody{
 		Schedule: client.ScheduleCreatePayloadV2{
+			Annotations: &map[string]string{
+				"incident.io/terraform/version": r.terraformVersion,
+			},
 			Name:     data.Name.ValueStringPointer(),
 			Timezone: data.Timezone.ValueStringPointer(),
 			Config: &client.ScheduleConfigCreatePayloadV2{
@@ -256,6 +261,9 @@ func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.Upda
 
 	result, err := r.client.SchedulesV2UpdateWithResponse(ctx, old.ID.ValueString(), client.SchedulesV2UpdateJSONRequestBody{
 		Schedule: client.ScheduleUpdatePayloadV2{
+			Annotations: &map[string]string{
+				"incident.io/terraform/version": r.terraformVersion,
+			},
 			Name:     old.Name.ValueStringPointer(),
 			Timezone: old.Timezone.ValueStringPointer(),
 			Config: &client.ScheduleConfigUpdatePayloadV2{

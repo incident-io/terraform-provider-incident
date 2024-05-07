@@ -2738,11 +2738,11 @@
     "/v2/schedule_entries": {
       "get": {
         "tags": [
-          "Schedule Entries V2"
+          "Schedules V2"
         ],
-        "summary": "List Schedule Entries V2",
+        "summary": "ListScheduleEntries Schedules V2",
         "description": "Get a list of schedule entries.",
-        "operationId": "Schedule Entries V2#List",
+        "operationId": "Schedules V2#ListScheduleEntries",
         "parameters": [
           {
             "name": "schedule_id",
@@ -2772,7 +2772,7 @@
           "200": {
             "description": "OK response.",
             "schema": {
-              "$ref": "#/definitions/ScheduleEntriesV2ListResponseBody",
+              "$ref": "#/definitions/SchedulesV2ListScheduleEntriesResponseBody",
               "required": [
                 "schedule_entries"
               ]
@@ -2919,6 +2919,7 @@
                 "timezone",
                 "external_provider",
                 "external_provider_id",
+                "annotations",
                 "created_at",
                 "updated_at"
               ]
@@ -17718,7 +17719,9 @@
               "catalog_editor",
               "incident_memberships_editor",
               "schedules_editor",
-              "schedules_reader"
+              "schedules_reader",
+              "workflows_editor",
+              "private_workflows_editor"
             ]
           },
           "description": "Which roles have been enabled for this key",
@@ -22862,6 +22865,17 @@
       "title": "ScheduleCreatePayloadV2RequestBody",
       "type": "object",
       "properties": {
+        "annotations": {
+          "type": "object",
+          "description": "Annotations that can track metadata about the schedule",
+          "example": {
+            "incident.io/terraform/version": "version-of-terraform"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "example": "abc123"
+          }
+        },
         "config": {
           "$ref": "#/definitions/ScheduleConfigCreatePayloadV2RequestBody"
         },
@@ -22877,6 +22891,9 @@
         }
       },
       "example": {
+        "annotations": {
+          "incident.io/terraform/version": "version-of-terraform"
+        },
         "config": {
           "rotations": [
             {
@@ -23048,80 +23065,6 @@
         "scheduled",
         "overrides",
         "final"
-      ]
-    },
-    "ScheduleEntriesV2ListResponseBody": {
-      "title": "ScheduleEntriesV2ListResponseBody",
-      "type": "object",
-      "properties": {
-        "pagination_meta": {
-          "$ref": "#/definitions/AfterPaginationMetaResultV2ResponseBody"
-        },
-        "schedule_entries": {
-          "$ref": "#/definitions/ScheduleEntriesListPayloadV2ResponseBody"
-        }
-      },
-      "example": {
-        "pagination_meta": {
-          "after": "abc123",
-          "after_url": "abc123"
-        },
-        "schedule_entries": {
-          "final": [
-            {
-              "end_at": "2021-08-17T13:28:57.801578Z",
-              "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
-              "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
-              "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
-              "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
-              "start_at": "2021-08-17T13:28:57.801578Z",
-              "user": {
-                "email": "lisa@incident.io",
-                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                "name": "Lisa Karlin Curtis",
-                "role": "viewer",
-                "slack_user_id": "U02AYNF2XJM"
-              }
-            }
-          ],
-          "overrides": [
-            {
-              "end_at": "2021-08-17T13:28:57.801578Z",
-              "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
-              "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
-              "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
-              "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
-              "start_at": "2021-08-17T13:28:57.801578Z",
-              "user": {
-                "email": "lisa@incident.io",
-                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                "name": "Lisa Karlin Curtis",
-                "role": "viewer",
-                "slack_user_id": "U02AYNF2XJM"
-              }
-            }
-          ],
-          "scheduled": [
-            {
-              "end_at": "2021-08-17T13:28:57.801578Z",
-              "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
-              "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
-              "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
-              "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
-              "start_at": "2021-08-17T13:28:57.801578Z",
-              "user": {
-                "email": "lisa@incident.io",
-                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                "name": "Lisa Karlin Curtis",
-                "role": "viewer",
-                "slack_user_id": "U02AYNF2XJM"
-              }
-            }
-          ]
-        }
-      },
-      "required": [
-        "schedule_entries"
       ]
     },
     "ScheduleEntryV2ResponseBody": {
@@ -23757,6 +23700,17 @@
       "title": "ScheduleUpdatePayloadV2RequestBody",
       "type": "object",
       "properties": {
+        "annotations": {
+          "type": "object",
+          "description": "Annotations that can track metadata about the schedule",
+          "example": {
+            "incident.io/terraform/version": "version-of-terraform"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "example": "abc123"
+          }
+        },
         "config": {
           "$ref": "#/definitions/ScheduleConfigUpdatePayloadV2RequestBody"
         },
@@ -23772,6 +23726,9 @@
         }
       },
       "example": {
+        "annotations": {
+          "incident.io/terraform/version": "version-of-terraform"
+        },
         "config": {
           "rotations": [
             {
@@ -23816,6 +23773,17 @@
       "title": "ScheduleV2ResponseBody",
       "type": "object",
       "properties": {
+        "annotations": {
+          "type": "object",
+          "description": "Annotations that can track metadata about this schedule",
+          "example": {
+            "incident.io/terraform/version": "version-of-terraform"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "example": "abc123"
+          }
+        },
         "config": {
           "$ref": "#/definitions/ScheduleConfigV2ResponseBody"
         },
@@ -23870,6 +23838,9 @@
         }
       },
       "example": {
+        "annotations": {
+          "incident.io/terraform/version": "version-of-terraform"
+        },
         "config": {
           "rotations": [
             {
@@ -23937,6 +23908,7 @@
         "timezone",
         "external_provider",
         "external_provider_id",
+        "annotations",
         "created_at",
         "updated_at"
       ]
@@ -23951,6 +23923,9 @@
       },
       "example": {
         "schedule": {
+          "annotations": {
+            "incident.io/terraform/version": "version-of-terraform"
+          },
           "config": {
             "rotations": [
               {
@@ -24005,6 +23980,9 @@
       },
       "example": {
         "schedule": {
+          "annotations": {
+            "incident.io/terraform/version": "version-of-terraform"
+          },
           "config": {
             "rotations": [
               {
@@ -24085,6 +24063,9 @@
           },
           "example": [
             {
+              "annotations": {
+                "incident.io/terraform/version": "version-of-terraform"
+              },
               "config": {
                 "rotations": [
                   {
@@ -24157,6 +24138,9 @@
         },
         "schedules": [
           {
+            "annotations": {
+              "incident.io/terraform/version": "version-of-terraform"
+            },
             "config": {
               "rotations": [
                 {
@@ -24224,6 +24208,80 @@
         "schedules"
       ]
     },
+    "SchedulesV2ListScheduleEntriesResponseBody": {
+      "title": "SchedulesV2ListScheduleEntriesResponseBody",
+      "type": "object",
+      "properties": {
+        "pagination_meta": {
+          "$ref": "#/definitions/AfterPaginationMetaResultV2ResponseBody"
+        },
+        "schedule_entries": {
+          "$ref": "#/definitions/ScheduleEntriesListPayloadV2ResponseBody"
+        }
+      },
+      "example": {
+        "pagination_meta": {
+          "after": "abc123",
+          "after_url": "abc123"
+        },
+        "schedule_entries": {
+          "final": [
+            {
+              "end_at": "2021-08-17T13:28:57.801578Z",
+              "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+              "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "start_at": "2021-08-17T13:28:57.801578Z",
+              "user": {
+                "email": "lisa@incident.io",
+                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "name": "Lisa Karlin Curtis",
+                "role": "viewer",
+                "slack_user_id": "U02AYNF2XJM"
+              }
+            }
+          ],
+          "overrides": [
+            {
+              "end_at": "2021-08-17T13:28:57.801578Z",
+              "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+              "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "start_at": "2021-08-17T13:28:57.801578Z",
+              "user": {
+                "email": "lisa@incident.io",
+                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "name": "Lisa Karlin Curtis",
+                "role": "viewer",
+                "slack_user_id": "U02AYNF2XJM"
+              }
+            }
+          ],
+          "scheduled": [
+            {
+              "end_at": "2021-08-17T13:28:57.801578Z",
+              "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+              "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+              "start_at": "2021-08-17T13:28:57.801578Z",
+              "user": {
+                "email": "lisa@incident.io",
+                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "name": "Lisa Karlin Curtis",
+                "role": "viewer",
+                "slack_user_id": "U02AYNF2XJM"
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "schedule_entries"
+      ]
+    },
     "SchedulesV2ShowResponseBody": {
       "title": "SchedulesV2ShowResponseBody",
       "type": "object",
@@ -24234,6 +24292,9 @@
       },
       "example": {
         "schedule": {
+          "annotations": {
+            "incident.io/terraform/version": "version-of-terraform"
+          },
           "config": {
             "rotations": [
               {
@@ -24310,6 +24371,9 @@
       },
       "example": {
         "schedule": {
+          "annotations": {
+            "incident.io/terraform/version": "version-of-terraform"
+          },
           "config": {
             "rotations": [
               {
@@ -24356,6 +24420,7 @@
         "timezone",
         "external_provider",
         "external_provider_id",
+        "annotations",
         "created_at",
         "updated_at"
       ]
@@ -24370,6 +24435,9 @@
       },
       "example": {
         "schedule": {
+          "annotations": {
+            "incident.io/terraform/version": "version-of-terraform"
+          },
           "config": {
             "rotations": [
               {
@@ -27019,10 +27087,6 @@
     {
       "name": "Incidents V2",
       "description": "Create and read incidents.\n\nIncidents are a core resource, on which many other resources (actions, etc) are created.\n\nCare should be taken around these endpoints, as automation that creates duplicate\nincidents can be distracting, and impact reporting.\n"
-    },
-    {
-      "name": "Schedule Entries V2",
-      "description": "\nBeta: List your historic and future schedule entries.\n"
     },
     {
       "name": "Schedules V2",
