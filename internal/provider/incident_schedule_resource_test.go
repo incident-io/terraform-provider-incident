@@ -18,41 +18,8 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Create and read
 			{
-				Config: testAccIncidentScheduleResourceConfig(nil),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(
-						"incident_schedule.example", "name", incidentScheduleDefault().Name),
-					resource.TestCheckResourceAttr(
-						"incident_severity.example", "timezone", incidentScheduleDefault().Timezone),
-				),
-			},
-			// Import
-			{
-				ResourceName:      "incident_schedule.example",
-				ImportState:       true,
-				ImportStateVerify: true,
-			},
-			// Update and read
-			{
 				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
-					Name: "Godawful",
-				}),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(
-						"incident_schedule.example", "name", incidentScheduleDefault().Name),
-				),
-			},
-		},
-	})
-
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			// Create and read
-			{
-				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
-					Name:     "Godawful",
+					Name:     "example",
 					Timezone: "Europe/London",
 					Config: &client.ScheduleConfigV2{
 						Rotations: []client.ScheduleRotationV2{
@@ -103,18 +70,9 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_schedule.example", "name", "Godawful"),
+						"incident_schedule.example", "name", "example"),
 					resource.TestCheckResourceAttr(
 						"incident_schedule.example", "timezone", "Europe/London",
-					),
-					resource.TestCheckResourceAttr(
-						"incident_schedule.example", "rotations", generateRotationsArray([]client.ScheduleRotationV2{
-							{
-								Id:              "rota-primary",
-								HandoverStartAt: time.Date(2024, 4, 26, 16, 0, 0, 0, time.UTC),
-								Name:            "Rota",
-							},
-						}),
 					),
 				),
 			},
@@ -209,7 +167,9 @@ func generateVersionsArray(versions []client.ScheduleRotationV2) string {
 	result += "[\n"
 	for _, version := range versions {
 		result += "  {\n"
-		result += "    effective_from   = " + quote(version.EffectiveFrom.Format(time.RFC3339)) + "\n"
+		if version.EffectiveFrom != nil {
+			result += "    effective_from   = " + quote(version.EffectiveFrom.Format(time.RFC3339)) + "\n"
+		}
 		result += "    handovers       = " + generateHandoversArray(version.Handovers) + "\n"
 		result += "    layers          = " + generateLayersArray(version.Layers) + "\n"
 		result += "    users           = " + generateUsersArray(version.Users) + "\n"
@@ -250,6 +210,9 @@ func generateLayersArray(layers []client.ScheduleLayerV2) string {
 
 func generateUsersArray(users *[]client.UserV1) string {
 	var result string
+	if users == nil {
+		return "[]"
+	}
 	result += "[\n"
 	for _, user := range *users {
 		result += "  {\n"

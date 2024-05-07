@@ -483,8 +483,7 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 						}
 					})
 
-					var users []types.String
-
+					users := []types.String{}
 					if rotation.Users != nil {
 						users = lo.Map(lo.FromPtr(rotation.Users), func(user client.UserV1, _ int) types.String {
 							return types.StringValue(user.Id)
