@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.2.3
+
+- Docs update to include examples of `incident_schedule` resource
+
 ## 3.2.2
 
 - Adds supports for on-call schedules using the `incident_schedule` resource
