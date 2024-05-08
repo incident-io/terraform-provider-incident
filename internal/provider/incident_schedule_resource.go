@@ -24,7 +24,8 @@ var (
 )
 
 type IncidentScheduleResource struct {
-	client *client.ClientWithResponses
+	client           *client.ClientWithResponses
+	terraformVersion string
 }
 
 type IncidentScheduleResourceModel struct {
@@ -82,9 +83,11 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				MarkdownDescription: apischema.Docstring("ScheduleV2ResponseBody", "id"),
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:            true,
+				MarkdownDescription: apischema.Docstring("ScheduleV2ResponseBody", "name"),
 			},
 			"timezone": schema.StringAttribute{
 				Required: true,
@@ -93,27 +96,33 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"id": schema.StringAttribute{
-							Required: true,
+							Required:            true,
+							MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "id"),
 						},
 						"name": schema.StringAttribute{
-							Required: true,
+							Required:            true,
+							MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "name"),
 						},
 						"versions": schema.ListNestedAttribute{
 							Required: true,
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"users": schema.ListAttribute{
-										Required:    true,
-										ElementType: types.StringType,
+										Required:            true,
+										ElementType:         types.StringType,
+										MarkdownDescription: apischema.Docstring("UserReferencePayloadV1RequestBody", "id"),
 									},
 									"effective_from": schema.StringAttribute{
-										Optional: true,
+										Optional:            true,
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "effective_from"),
 									},
 									"handover_start_at": schema.StringAttribute{
-										Required: true,
+										Required:            true,
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "handover_start_at"),
 									},
 									"working_intervals": schema.ListNestedAttribute{
-										Optional: true,
+										Optional:            true,
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "working_interval"),
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"start": schema.StringAttribute{
@@ -129,7 +138,8 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 										},
 									},
 									"layers": schema.ListNestedAttribute{
-										Required: true,
+										Required:            true,
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "layers"),
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"id": schema.StringAttribute{
@@ -142,7 +152,8 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 										},
 									},
 									"handovers": schema.ListNestedAttribute{
-										Optional: true,
+										Optional:            true,
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "handovers"),
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"interval": schema.Int64Attribute{
@@ -170,7 +181,7 @@ func (r *IncidentScheduleResource) Configure(ctx context.Context, req resource.C
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.ClientWithResponses)
+	client, ok := req.ProviderData.(*IncidentProviderData)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -180,7 +191,8 @@ func (r *IncidentScheduleResource) Configure(ctx context.Context, req resource.C
 		return
 	}
 
-	r.client = client
+	r.client = client.Client
+	r.terraformVersion = client.TerraformVersion
 }
 
 func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -198,6 +210,9 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 
 	result, err := r.client.SchedulesV2CreateWithResponse(ctx, client.SchedulesV2CreateJSONRequestBody{
 		Schedule: client.ScheduleCreatePayloadV2{
+			Annotations: &map[string]string{
+				"incident.io/terraform/version": r.terraformVersion,
+			},
 			Name:     data.Name.ValueStringPointer(),
 			Timezone: data.Timezone.ValueStringPointer(),
 			Config: &client.ScheduleConfigCreatePayloadV2{
@@ -256,6 +271,9 @@ func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.Upda
 
 	result, err := r.client.SchedulesV2UpdateWithResponse(ctx, old.ID.ValueString(), client.SchedulesV2UpdateJSONRequestBody{
 		Schedule: client.ScheduleUpdatePayloadV2{
+			Annotations: &map[string]string{
+				"incident.io/terraform/version": r.terraformVersion,
+			},
 			Name:     old.Name.ValueStringPointer(),
 			Timezone: old.Timezone.ValueStringPointer(),
 			Config: &client.ScheduleConfigUpdatePayloadV2{

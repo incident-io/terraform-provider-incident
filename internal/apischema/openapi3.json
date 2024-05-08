@@ -2124,7 +2124,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ListResponseBody18"
+                  "$ref": "#/components/schemas/ListResponseBody17"
                 },
                 "example": {
                   "severities": [
@@ -5459,11 +5459,11 @@
     "/v2/schedule_entries": {
       "get": {
         "tags": [
-          "Schedule Entries V2"
+          "Schedules V2"
         ],
-        "summary": "List Schedule Entries V2",
+        "summary": "ListScheduleEntries Schedules V2",
         "description": "Get a list of schedule entries.",
-        "operationId": "Schedule Entries V2#List",
+        "operationId": "Schedules V2#ListScheduleEntries",
         "parameters": [
           {
             "name": "schedule_id",
@@ -5511,7 +5511,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ListResponseBody16"
+                  "$ref": "#/components/schemas/ListScheduleEntriesResponseBody"
                 },
                 "example": {
                   "pagination_meta": {
@@ -5620,7 +5620,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ListResponseBody17"
+                  "$ref": "#/components/schemas/ListResponseBody16"
                 },
                 "example": {
                   "pagination_meta": {
@@ -5630,6 +5630,9 @@
                   },
                   "schedules": [
                     {
+                      "annotations": {
+                        "incident.io/terraform/version": "version-of-terraform"
+                      },
                       "config": {
                         "rotations": [
                           {
@@ -5714,6 +5717,9 @@
               },
               "example": {
                 "schedule": {
+                  "annotations": {
+                    "incident.io/terraform/version": "version-of-terraform"
+                  },
                   "config": {
                     "rotations": [
                       {
@@ -5767,6 +5773,9 @@
                 },
                 "example": {
                   "schedule": {
+                    "annotations": {
+                      "incident.io/terraform/version": "version-of-terraform"
+                    },
                     "config": {
                       "rotations": [
                         {
@@ -5894,6 +5903,9 @@
                 },
                 "example": {
                   "schedule": {
+                    "annotations": {
+                      "incident.io/terraform/version": "version-of-terraform"
+                    },
                     "config": {
                       "rotations": [
                         {
@@ -5991,6 +6003,9 @@
               },
               "example": {
                 "schedule": {
+                  "annotations": {
+                    "incident.io/terraform/version": "version-of-terraform"
+                  },
                   "config": {
                     "rotations": [
                       {
@@ -6044,6 +6059,9 @@
                 },
                 "example": {
                   "schedule": {
+                    "annotations": {
+                      "incident.io/terraform/version": "version-of-terraform"
+                    },
                     "config": {
                       "rotations": [
                         {
@@ -6179,7 +6197,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ListResponseBody19"
+                  "$ref": "#/components/schemas/ListResponseBody18"
                 },
                 "example": {
                   "pagination_meta": {
@@ -8593,6 +8611,9 @@
         },
         "example": {
           "schedule": {
+            "annotations": {
+              "incident.io/terraform/version": "version-of-terraform"
+            },
             "config": {
               "rotations": [
                 {
@@ -10546,7 +10567,9 @@
                 "catalog_editor",
                 "incident_memberships_editor",
                 "schedules_editor",
-                "schedules_reader"
+                "schedules_reader",
+                "workflows_editor",
+                "private_workflows_editor"
               ]
             },
             "description": "Which roles have been enabled for this key",
@@ -13437,79 +13460,6 @@
         "type": "object",
         "properties": {
           "pagination_meta": {
-            "$ref": "#/components/schemas/AfterPaginationMetaResultV2"
-          },
-          "schedule_entries": {
-            "$ref": "#/components/schemas/ScheduleEntriesListPayloadV2"
-          }
-        },
-        "example": {
-          "pagination_meta": {
-            "after": "abc123",
-            "after_url": "abc123"
-          },
-          "schedule_entries": {
-            "final": [
-              {
-                "end_at": "2021-08-17T13:28:57.801578Z",
-                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
-                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
-                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
-                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
-                "start_at": "2021-08-17T13:28:57.801578Z",
-                "user": {
-                  "email": "lisa@incident.io",
-                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                  "name": "Lisa Karlin Curtis",
-                  "role": "viewer",
-                  "slack_user_id": "U02AYNF2XJM"
-                }
-              }
-            ],
-            "overrides": [
-              {
-                "end_at": "2021-08-17T13:28:57.801578Z",
-                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
-                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
-                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
-                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
-                "start_at": "2021-08-17T13:28:57.801578Z",
-                "user": {
-                  "email": "lisa@incident.io",
-                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                  "name": "Lisa Karlin Curtis",
-                  "role": "viewer",
-                  "slack_user_id": "U02AYNF2XJM"
-                }
-              }
-            ],
-            "scheduled": [
-              {
-                "end_at": "2021-08-17T13:28:57.801578Z",
-                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
-                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
-                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
-                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
-                "start_at": "2021-08-17T13:28:57.801578Z",
-                "user": {
-                  "email": "lisa@incident.io",
-                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                  "name": "Lisa Karlin Curtis",
-                  "role": "viewer",
-                  "slack_user_id": "U02AYNF2XJM"
-                }
-              }
-            ]
-          }
-        },
-        "required": [
-          "schedule_entries"
-        ]
-      },
-      "ListResponseBody17": {
-        "type": "object",
-        "properties": {
-          "pagination_meta": {
             "$ref": "#/components/schemas/PaginationMetaResultWithTotal"
           },
           "schedules": {
@@ -13519,6 +13469,9 @@
             },
             "example": [
               {
+                "annotations": {
+                  "incident.io/terraform/version": "version-of-terraform"
+                },
                 "config": {
                   "rotations": [
                     {
@@ -13591,6 +13544,9 @@
           },
           "schedules": [
             {
+              "annotations": {
+                "incident.io/terraform/version": "version-of-terraform"
+              },
               "config": {
                 "rotations": [
                   {
@@ -13658,7 +13614,7 @@
           "schedules"
         ]
       },
-      "ListResponseBody18": {
+      "ListResponseBody17": {
         "type": "object",
         "properties": {
           "severities": {
@@ -13694,7 +13650,7 @@
           "severities"
         ]
       },
-      "ListResponseBody19": {
+      "ListResponseBody18": {
         "type": "object",
         "properties": {
           "pagination_meta": {
@@ -14156,6 +14112,79 @@
         },
         "required": [
           "incident_roles"
+        ]
+      },
+      "ListScheduleEntriesResponseBody": {
+        "type": "object",
+        "properties": {
+          "pagination_meta": {
+            "$ref": "#/components/schemas/AfterPaginationMetaResultV2"
+          },
+          "schedule_entries": {
+            "$ref": "#/components/schemas/ScheduleEntriesListPayloadV2"
+          }
+        },
+        "example": {
+          "pagination_meta": {
+            "after": "abc123",
+            "after_url": "abc123"
+          },
+          "schedule_entries": {
+            "final": [
+              {
+                "end_at": "2021-08-17T13:28:57.801578Z",
+                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "start_at": "2021-08-17T13:28:57.801578Z",
+                "user": {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                }
+              }
+            ],
+            "overrides": [
+              {
+                "end_at": "2021-08-17T13:28:57.801578Z",
+                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "start_at": "2021-08-17T13:28:57.801578Z",
+                "user": {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                }
+              }
+            ],
+            "scheduled": [
+              {
+                "end_at": "2021-08-17T13:28:57.801578Z",
+                "entry_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "fingerprint": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+                "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+                "start_at": "2021-08-17T13:28:57.801578Z",
+                "user": {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                }
+              }
+            ]
+          }
+        },
+        "required": [
+          "schedule_entries"
         ]
       },
       "ListTypesResponseBody": {
@@ -15828,6 +15857,17 @@
       "ScheduleCreatePayloadV2": {
         "type": "object",
         "properties": {
+          "annotations": {
+            "type": "object",
+            "description": "Annotations that can track metadata about the schedule",
+            "example": {
+              "incident.io/terraform/version": "version-of-terraform"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "example": "abc123"
+            }
+          },
           "config": {
             "$ref": "#/components/schemas/ScheduleConfigCreatePayloadV2"
           },
@@ -15843,6 +15883,9 @@
           }
         },
         "example": {
+          "annotations": {
+            "incident.io/terraform/version": "version-of-terraform"
+          },
           "config": {
             "rotations": [
               {
@@ -16554,6 +16597,17 @@
       "ScheduleUpdatePayloadV2": {
         "type": "object",
         "properties": {
+          "annotations": {
+            "type": "object",
+            "description": "Annotations that can track metadata about the schedule",
+            "example": {
+              "incident.io/terraform/version": "version-of-terraform"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "example": "abc123"
+            }
+          },
           "config": {
             "$ref": "#/components/schemas/ScheduleConfigUpdatePayloadV2"
           },
@@ -16569,6 +16623,9 @@
           }
         },
         "example": {
+          "annotations": {
+            "incident.io/terraform/version": "version-of-terraform"
+          },
           "config": {
             "rotations": [
               {
@@ -16612,6 +16669,17 @@
       "ScheduleV2": {
         "type": "object",
         "properties": {
+          "annotations": {
+            "type": "object",
+            "description": "Annotations that can track metadata about this schedule",
+            "example": {
+              "incident.io/terraform/version": "version-of-terraform"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "example": "abc123"
+            }
+          },
           "config": {
             "$ref": "#/components/schemas/ScheduleConfigV2"
           },
@@ -16666,6 +16734,9 @@
           }
         },
         "example": {
+          "annotations": {
+            "incident.io/terraform/version": "version-of-terraform"
+          },
           "config": {
             "rotations": [
               {
@@ -16733,6 +16804,7 @@
           "timezone",
           "external_provider",
           "external_provider_id",
+          "annotations",
           "created_at",
           "updated_at"
         ]
@@ -17360,6 +17432,9 @@
         },
         "example": {
           "schedule": {
+            "annotations": {
+              "incident.io/terraform/version": "version-of-terraform"
+            },
             "config": {
               "rotations": [
                 {
@@ -18039,6 +18114,9 @@
         },
         "example": {
           "schedule": {
+            "annotations": {
+              "incident.io/terraform/version": "version-of-terraform"
+            },
             "config": {
               "rotations": [
                 {
@@ -18085,6 +18163,7 @@
           "timezone",
           "external_provider",
           "external_provider_id",
+          "annotations",
           "created_at",
           "updated_at"
         ]
@@ -18608,10 +18687,6 @@
     {
       "name": "Incidents V2",
       "description": "Create and read incidents.\n\nIncidents are a core resource, on which many other resources (actions, etc) are created.\n\nCare should be taken around these endpoints, as automation that creates duplicate\nincidents can be distracting, and impact reporting.\n"
-    },
-    {
-      "name": "Schedule Entries V2",
-      "description": "\nBeta: List your historic and future schedule entries.\n"
     },
     {
       "name": "Schedules V2",

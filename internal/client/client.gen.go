@@ -349,9 +349,11 @@ const (
 	IdentityV1RolesIncidentEditor            IdentityV1Roles = "incident_editor"
 	IdentityV1RolesIncidentMembershipsEditor IdentityV1Roles = "incident_memberships_editor"
 	IdentityV1RolesManageSettings            IdentityV1Roles = "manage_settings"
+	IdentityV1RolesPrivateWorkflowsEditor    IdentityV1Roles = "private_workflows_editor"
 	IdentityV1RolesSchedulesEditor           IdentityV1Roles = "schedules_editor"
 	IdentityV1RolesSchedulesReader           IdentityV1Roles = "schedules_reader"
 	IdentityV1RolesViewer                    IdentityV1Roles = "viewer"
+	IdentityV1RolesWorkflowsEditor           IdentityV1Roles = "workflows_editor"
 )
 
 // Defines values for IncidentRoleV1RoleType.
@@ -2053,23 +2055,17 @@ type ListResponseBody15 struct {
 
 // ListResponseBody16 defines model for ListResponseBody16.
 type ListResponseBody16 struct {
-	PaginationMeta  *AfterPaginationMetaResultV2 `json:"pagination_meta,omitempty"`
-	ScheduleEntries ScheduleEntriesListPayloadV2 `json:"schedule_entries"`
-}
-
-// ListResponseBody17 defines model for ListResponseBody17.
-type ListResponseBody17 struct {
 	PaginationMeta *PaginationMetaResultWithTotal `json:"pagination_meta,omitempty"`
 	Schedules      []ScheduleV2                   `json:"schedules"`
 }
 
-// ListResponseBody18 defines model for ListResponseBody18.
-type ListResponseBody18 struct {
+// ListResponseBody17 defines model for ListResponseBody17.
+type ListResponseBody17 struct {
 	Severities []SeverityV2 `json:"severities"`
 }
 
-// ListResponseBody19 defines model for ListResponseBody19.
-type ListResponseBody19 struct {
+// ListResponseBody18 defines model for ListResponseBody18.
+type ListResponseBody18 struct {
 	PaginationMeta PaginationMetaResult `json:"pagination_meta"`
 	Users          []UserWithRolesV2    `json:"users"`
 }
@@ -2113,6 +2109,12 @@ type ListResponseBody8 struct {
 // ListResponseBody9 defines model for ListResponseBody9.
 type ListResponseBody9 struct {
 	IncidentRoles []IncidentRoleV2 `json:"incident_roles"`
+}
+
+// ListScheduleEntriesResponseBody defines model for ListScheduleEntriesResponseBody.
+type ListScheduleEntriesResponseBody struct {
+	PaginationMeta  *AfterPaginationMetaResultV2 `json:"pagination_meta,omitempty"`
+	ScheduleEntries ScheduleEntriesListPayloadV2 `json:"schedule_entries"`
 }
 
 // ListTypesResponseBody defines model for ListTypesResponseBody.
@@ -2180,7 +2182,9 @@ type ScheduleConfigV2 struct {
 
 // ScheduleCreatePayloadV2 defines model for ScheduleCreatePayloadV2.
 type ScheduleCreatePayloadV2 struct {
-	Config *ScheduleConfigCreatePayloadV2 `json:"config,omitempty"`
+	// Annotations Annotations that can track metadata about the schedule
+	Annotations *map[string]string             `json:"annotations,omitempty"`
+	Config      *ScheduleConfigCreatePayloadV2 `json:"config,omitempty"`
 
 	// Name Name of the schedule
 	Name *string `json:"name,omitempty"`
@@ -2329,7 +2333,9 @@ type ScheduleRotationWorkingIntervalV2Weekday string
 
 // ScheduleUpdatePayloadV2 defines model for ScheduleUpdatePayloadV2.
 type ScheduleUpdatePayloadV2 struct {
-	Config *ScheduleConfigUpdatePayloadV2 `json:"config,omitempty"`
+	// Annotations Annotations that can track metadata about the schedule
+	Annotations *map[string]string             `json:"annotations,omitempty"`
+	Config      *ScheduleConfigUpdatePayloadV2 `json:"config,omitempty"`
 
 	// Name Name of the schedule
 	Name *string `json:"name,omitempty"`
@@ -2340,8 +2346,10 @@ type ScheduleUpdatePayloadV2 struct {
 
 // ScheduleV2 defines model for ScheduleV2.
 type ScheduleV2 struct {
-	Config    *ScheduleConfigV2 `json:"config,omitempty"`
-	CreatedAt time.Time         `json:"created_at"`
+	// Annotations Annotations that can track metadata about this schedule
+	Annotations map[string]string `json:"annotations"`
+	Config      *ScheduleConfigV2 `json:"config,omitempty"`
+	CreatedAt   time.Time         `json:"created_at"`
 
 	// CurrentShifts Shifts that are on-going for this schedule, if a native schedule
 	CurrentShifts *[]ScheduleEntryV2 `json:"current_shifts,omitempty"`
@@ -2811,8 +2819,8 @@ type IncidentsV2ListParams struct {
 	Mode *map[string][]string `form:"mode,omitempty" json:"mode,omitempty"`
 }
 
-// ScheduleEntriesV2ListParams defines parameters for ScheduleEntriesV2List.
-type ScheduleEntriesV2ListParams struct {
+// SchedulesV2ListScheduleEntriesParams defines parameters for SchedulesV2ListScheduleEntries.
+type SchedulesV2ListScheduleEntriesParams struct {
 	// ScheduleId The ID of the schedule to get entries for.
 	ScheduleId string `form:"schedule_id" json:"schedule_id"`
 
@@ -3278,8 +3286,8 @@ type ClientInterface interface {
 
 	IncidentsV2Edit(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// ScheduleEntriesV2List request
-	ScheduleEntriesV2List(ctx context.Context, params *ScheduleEntriesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// SchedulesV2ListScheduleEntries request
+	SchedulesV2ListScheduleEntries(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// SchedulesV2List request
 	SchedulesV2List(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -4507,8 +4515,8 @@ func (c *Client) IncidentsV2Edit(ctx context.Context, id string, body IncidentsV
 	return c.Client.Do(req)
 }
 
-func (c *Client) ScheduleEntriesV2List(ctx context.Context, params *ScheduleEntriesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewScheduleEntriesV2ListRequest(c.Server, params)
+func (c *Client) SchedulesV2ListScheduleEntries(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2ListScheduleEntriesRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -7773,8 +7781,8 @@ func NewIncidentsV2EditRequestWithBody(server string, id string, contentType str
 	return req, nil
 }
 
-// NewScheduleEntriesV2ListRequest generates requests for ScheduleEntriesV2List
-func NewScheduleEntriesV2ListRequest(server string, params *ScheduleEntriesV2ListParams) (*http.Request, error) {
+// NewSchedulesV2ListScheduleEntriesRequest generates requests for SchedulesV2ListScheduleEntries
+func NewSchedulesV2ListScheduleEntriesRequest(server string, params *SchedulesV2ListScheduleEntriesParams) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -8512,8 +8520,8 @@ type ClientWithResponsesInterface interface {
 
 	IncidentsV2EditWithResponse(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error)
 
-	// ScheduleEntriesV2List request
-	ScheduleEntriesV2ListWithResponse(ctx context.Context, params *ScheduleEntriesV2ListParams, reqEditors ...RequestEditorFn) (*ScheduleEntriesV2ListResponse, error)
+	// SchedulesV2ListScheduleEntries request
+	SchedulesV2ListScheduleEntriesWithResponse(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListScheduleEntriesResponse, error)
 
 	// SchedulesV2List request
 	SchedulesV2ListWithResponse(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListResponse, error)
@@ -9308,7 +9316,7 @@ func (r UtilitiesV1OpenAPIV3Response) StatusCode() int {
 type SeveritiesV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody18
+	JSON200      *ListResponseBody17
 }
 
 // Status returns HTTPResponse.Status
@@ -10158,14 +10166,14 @@ func (r IncidentsV2EditResponse) StatusCode() int {
 	return 0
 }
 
-type ScheduleEntriesV2ListResponse struct {
+type SchedulesV2ListScheduleEntriesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody16
+	JSON200      *ListScheduleEntriesResponseBody
 }
 
 // Status returns HTTPResponse.Status
-func (r ScheduleEntriesV2ListResponse) Status() string {
+func (r SchedulesV2ListScheduleEntriesResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -10173,7 +10181,7 @@ func (r ScheduleEntriesV2ListResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r ScheduleEntriesV2ListResponse) StatusCode() int {
+func (r SchedulesV2ListScheduleEntriesResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -10183,7 +10191,7 @@ func (r ScheduleEntriesV2ListResponse) StatusCode() int {
 type SchedulesV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody17
+	JSON200      *ListResponseBody16
 }
 
 // Status returns HTTPResponse.Status
@@ -10292,7 +10300,7 @@ func (r SchedulesV2UpdateResponse) StatusCode() int {
 type UsersV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody19
+	JSON200      *ListResponseBody18
 }
 
 // Status returns HTTPResponse.Status
@@ -11207,13 +11215,13 @@ func (c *ClientWithResponses) IncidentsV2EditWithResponse(ctx context.Context, i
 	return ParseIncidentsV2EditResponse(rsp)
 }
 
-// ScheduleEntriesV2ListWithResponse request returning *ScheduleEntriesV2ListResponse
-func (c *ClientWithResponses) ScheduleEntriesV2ListWithResponse(ctx context.Context, params *ScheduleEntriesV2ListParams, reqEditors ...RequestEditorFn) (*ScheduleEntriesV2ListResponse, error) {
-	rsp, err := c.ScheduleEntriesV2List(ctx, params, reqEditors...)
+// SchedulesV2ListScheduleEntriesWithResponse request returning *SchedulesV2ListScheduleEntriesResponse
+func (c *ClientWithResponses) SchedulesV2ListScheduleEntriesWithResponse(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListScheduleEntriesResponse, error) {
+	rsp, err := c.SchedulesV2ListScheduleEntries(ctx, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseScheduleEntriesV2ListResponse(rsp)
+	return ParseSchedulesV2ListScheduleEntriesResponse(rsp)
 }
 
 // SchedulesV2ListWithResponse request returning *SchedulesV2ListResponse
@@ -12160,7 +12168,7 @@ func ParseSeveritiesV1ListResponse(rsp *http.Response) (*SeveritiesV1ListRespons
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody18
+		var dest ListResponseBody17
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -13109,22 +13117,22 @@ func ParseIncidentsV2EditResponse(rsp *http.Response) (*IncidentsV2EditResponse,
 	return response, nil
 }
 
-// ParseScheduleEntriesV2ListResponse parses an HTTP response from a ScheduleEntriesV2ListWithResponse call
-func ParseScheduleEntriesV2ListResponse(rsp *http.Response) (*ScheduleEntriesV2ListResponse, error) {
+// ParseSchedulesV2ListScheduleEntriesResponse parses an HTTP response from a SchedulesV2ListScheduleEntriesWithResponse call
+func ParseSchedulesV2ListScheduleEntriesResponse(rsp *http.Response) (*SchedulesV2ListScheduleEntriesResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &ScheduleEntriesV2ListResponse{
+	response := &SchedulesV2ListScheduleEntriesResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody16
+		var dest ListScheduleEntriesResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -13150,7 +13158,7 @@ func ParseSchedulesV2ListResponse(rsp *http.Response) (*SchedulesV2ListResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody17
+		var dest ListResponseBody16
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -13270,7 +13278,7 @@ func ParseUsersV2ListResponse(rsp *http.Response) (*UsersV2ListResponse, error) 
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody19
+		var dest ListResponseBody18
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

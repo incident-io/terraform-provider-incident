@@ -74,7 +74,7 @@ func (r *IncidentStatusResource) Configure(ctx context.Context, req resource.Con
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.ClientWithResponses)
+	client, ok := req.ProviderData.(*IncidentProviderData)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -84,7 +84,7 @@ func (r *IncidentStatusResource) Configure(ctx context.Context, req resource.Con
 		return
 	}
 
-	r.client = client
+	r.client = client.Client
 }
 
 func (r *IncidentStatusResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
