@@ -18,8 +18,8 @@ resource "incident_schedule" "testing_my_provider" {
 
   rotations = [{
     // A string ID for a schedule rotation
-    id                = "01HPFH8T92MPGSQS5C1SPAF4V0"
-    name              = "Testing Terraform"
+    id   = "01HPFH8T92MPGSQS5C1SPAF4V0"
+    name = "Testing Terraform"
     versions = [
       {
         // The date that the handover for this rotation version began
