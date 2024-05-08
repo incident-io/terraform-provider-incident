@@ -1,5 +1,10 @@
 ## Unreleased
 
+## 3.2.2
+
+- Adds supports for on-call schedules using the `incident_schedule` resource
+- Adds support for user looksups using the `incident_user` data source
+
 ## 3.2.1
 
 - Add support for setting the source_repo_url on catalog types
