@@ -53,12 +53,12 @@ const (
 
 // Defines values for CatalogTypeAttributeV2Mode.
 const (
-	CatalogTypeAttributeV2ModeBacklink CatalogTypeAttributeV2Mode = "backlink"
-	CatalogTypeAttributeV2ModeDynamic  CatalogTypeAttributeV2Mode = "dynamic"
-	CatalogTypeAttributeV2ModeEmpty    CatalogTypeAttributeV2Mode = ""
-	CatalogTypeAttributeV2ModeExternal CatalogTypeAttributeV2Mode = "external"
-	CatalogTypeAttributeV2ModeInternal CatalogTypeAttributeV2Mode = "internal"
-	CatalogTypeAttributeV2ModeManual   CatalogTypeAttributeV2Mode = "manual"
+	Backlink CatalogTypeAttributeV2Mode = "backlink"
+	Dynamic  CatalogTypeAttributeV2Mode = "dynamic"
+	Empty    CatalogTypeAttributeV2Mode = ""
+	External CatalogTypeAttributeV2Mode = "external"
+	Internal CatalogTypeAttributeV2Mode = "internal"
+	Manual   CatalogTypeAttributeV2Mode = "manual"
 )
 
 // Defines values for CatalogTypeV2Color.
@@ -98,67 +98,6 @@ const (
 	CatalogTypeV2IconTag        CatalogTypeV2Icon = "tag"
 	CatalogTypeV2IconUser       CatalogTypeV2Icon = "user"
 	CatalogTypeV2IconUsers      CatalogTypeV2Icon = "users"
-)
-
-// Defines values for ConditionSubjectV2Icon.
-const (
-	ConditionSubjectV2IconAction        ConditionSubjectV2Icon = "action"
-	ConditionSubjectV2IconAlert         ConditionSubjectV2Icon = "alert"
-	ConditionSubjectV2IconBolt          ConditionSubjectV2Icon = "bolt"
-	ConditionSubjectV2IconBook          ConditionSubjectV2Icon = "book"
-	ConditionSubjectV2IconBox           ConditionSubjectV2Icon = "box"
-	ConditionSubjectV2IconBriefcase     ConditionSubjectV2Icon = "briefcase"
-	ConditionSubjectV2IconBrowser       ConditionSubjectV2Icon = "browser"
-	ConditionSubjectV2IconBulb          ConditionSubjectV2Icon = "bulb"
-	ConditionSubjectV2IconCalendar      ConditionSubjectV2Icon = "calendar"
-	ConditionSubjectV2IconCheckmark     ConditionSubjectV2Icon = "checkmark"
-	ConditionSubjectV2IconClipboard     ConditionSubjectV2Icon = "clipboard"
-	ConditionSubjectV2IconClock         ConditionSubjectV2Icon = "clock"
-	ConditionSubjectV2IconClose         ConditionSubjectV2Icon = "close"
-	ConditionSubjectV2IconCog           ConditionSubjectV2Icon = "cog"
-	ConditionSubjectV2IconComponents    ConditionSubjectV2Icon = "components"
-	ConditionSubjectV2IconCustomField   ConditionSubjectV2Icon = "custom_field"
-	ConditionSubjectV2IconDatabase      ConditionSubjectV2Icon = "database"
-	ConditionSubjectV2IconDelete        ConditionSubjectV2Icon = "delete"
-	ConditionSubjectV2IconDoc           ConditionSubjectV2Icon = "doc"
-	ConditionSubjectV2IconEmail         ConditionSubjectV2Icon = "email"
-	ConditionSubjectV2IconEscalate      ConditionSubjectV2Icon = "escalate"
-	ConditionSubjectV2IconExclamation   ConditionSubjectV2Icon = "exclamation"
-	ConditionSubjectV2IconExport        ConditionSubjectV2Icon = "export"
-	ConditionSubjectV2IconExternalLink  ConditionSubjectV2Icon = "external-link"
-	ConditionSubjectV2IconFiles         ConditionSubjectV2Icon = "files"
-	ConditionSubjectV2IconFlag          ConditionSubjectV2Icon = "flag"
-	ConditionSubjectV2IconFolder        ConditionSubjectV2Icon = "folder"
-	ConditionSubjectV2IconFollowUps     ConditionSubjectV2Icon = "follow_ups"
-	ConditionSubjectV2IconGlobe         ConditionSubjectV2Icon = "globe"
-	ConditionSubjectV2IconIncident      ConditionSubjectV2Icon = "incident"
-	ConditionSubjectV2IconIncidentType  ConditionSubjectV2Icon = "incident_type"
-	ConditionSubjectV2IconKey           ConditionSubjectV2Icon = "key"
-	ConditionSubjectV2IconMerge         ConditionSubjectV2Icon = "merge"
-	ConditionSubjectV2IconMessage       ConditionSubjectV2Icon = "message"
-	ConditionSubjectV2IconMoney         ConditionSubjectV2Icon = "money"
-	ConditionSubjectV2IconMug           ConditionSubjectV2Icon = "mug"
-	ConditionSubjectV2IconNumberInput   ConditionSubjectV2Icon = "number-input"
-	ConditionSubjectV2IconPrivate       ConditionSubjectV2Icon = "private"
-	ConditionSubjectV2IconSearch        ConditionSubjectV2Icon = "search"
-	ConditionSubjectV2IconServer        ConditionSubjectV2Icon = "server"
-	ConditionSubjectV2IconSeverity      ConditionSubjectV2Icon = "severity"
-	ConditionSubjectV2IconSlackChannel  ConditionSubjectV2Icon = "slack_channel"
-	ConditionSubjectV2IconSlackTeam     ConditionSubjectV2Icon = "slack_team"
-	ConditionSubjectV2IconStar          ConditionSubjectV2Icon = "star"
-	ConditionSubjectV2IconStatus        ConditionSubjectV2Icon = "status"
-	ConditionSubjectV2IconStatusPage    ConditionSubjectV2Icon = "status-page"
-	ConditionSubjectV2IconStore         ConditionSubjectV2Icon = "store"
-	ConditionSubjectV2IconTag           ConditionSubjectV2Icon = "tag"
-	ConditionSubjectV2IconTest          ConditionSubjectV2Icon = "test"
-	ConditionSubjectV2IconText          ConditionSubjectV2Icon = "text"
-	ConditionSubjectV2IconTextAlignLeft ConditionSubjectV2Icon = "text-align-left"
-	ConditionSubjectV2IconTimestamp     ConditionSubjectV2Icon = "timestamp"
-	ConditionSubjectV2IconToggleLeft    ConditionSubjectV2Icon = "toggle-left"
-	ConditionSubjectV2IconTriage        ConditionSubjectV2Icon = "triage"
-	ConditionSubjectV2IconUser          ConditionSubjectV2Icon = "user"
-	ConditionSubjectV2IconUsers         ConditionSubjectV2Icon = "users"
-	ConditionSubjectV2IconWarning       ConditionSubjectV2Icon = "warning"
 )
 
 // Defines values for CreateHTTPRequestBodyStatus.
@@ -346,98 +285,11 @@ const (
 
 // Defines values for CustomFieldV2FieldType.
 const (
-	CustomFieldV2FieldTypeLink         CustomFieldV2FieldType = "link"
-	CustomFieldV2FieldTypeMultiSelect  CustomFieldV2FieldType = "multi_select"
-	CustomFieldV2FieldTypeNumeric      CustomFieldV2FieldType = "numeric"
-	CustomFieldV2FieldTypeSingleSelect CustomFieldV2FieldType = "single_select"
-	CustomFieldV2FieldTypeText         CustomFieldV2FieldType = "text"
-)
-
-// Defines values for EngineReferenceV2Icon.
-const (
-	EngineReferenceV2IconAction        EngineReferenceV2Icon = "action"
-	EngineReferenceV2IconAlert         EngineReferenceV2Icon = "alert"
-	EngineReferenceV2IconBolt          EngineReferenceV2Icon = "bolt"
-	EngineReferenceV2IconBook          EngineReferenceV2Icon = "book"
-	EngineReferenceV2IconBox           EngineReferenceV2Icon = "box"
-	EngineReferenceV2IconBriefcase     EngineReferenceV2Icon = "briefcase"
-	EngineReferenceV2IconBrowser       EngineReferenceV2Icon = "browser"
-	EngineReferenceV2IconBulb          EngineReferenceV2Icon = "bulb"
-	EngineReferenceV2IconCalendar      EngineReferenceV2Icon = "calendar"
-	EngineReferenceV2IconCheckmark     EngineReferenceV2Icon = "checkmark"
-	EngineReferenceV2IconClipboard     EngineReferenceV2Icon = "clipboard"
-	EngineReferenceV2IconClock         EngineReferenceV2Icon = "clock"
-	EngineReferenceV2IconClose         EngineReferenceV2Icon = "close"
-	EngineReferenceV2IconCog           EngineReferenceV2Icon = "cog"
-	EngineReferenceV2IconComponents    EngineReferenceV2Icon = "components"
-	EngineReferenceV2IconCustomField   EngineReferenceV2Icon = "custom_field"
-	EngineReferenceV2IconDatabase      EngineReferenceV2Icon = "database"
-	EngineReferenceV2IconDelete        EngineReferenceV2Icon = "delete"
-	EngineReferenceV2IconDoc           EngineReferenceV2Icon = "doc"
-	EngineReferenceV2IconEmail         EngineReferenceV2Icon = "email"
-	EngineReferenceV2IconEscalate      EngineReferenceV2Icon = "escalate"
-	EngineReferenceV2IconExclamation   EngineReferenceV2Icon = "exclamation"
-	EngineReferenceV2IconExport        EngineReferenceV2Icon = "export"
-	EngineReferenceV2IconExternalLink  EngineReferenceV2Icon = "external-link"
-	EngineReferenceV2IconFiles         EngineReferenceV2Icon = "files"
-	EngineReferenceV2IconFlag          EngineReferenceV2Icon = "flag"
-	EngineReferenceV2IconFolder        EngineReferenceV2Icon = "folder"
-	EngineReferenceV2IconFollowUps     EngineReferenceV2Icon = "follow_ups"
-	EngineReferenceV2IconGlobe         EngineReferenceV2Icon = "globe"
-	EngineReferenceV2IconIncident      EngineReferenceV2Icon = "incident"
-	EngineReferenceV2IconIncidentType  EngineReferenceV2Icon = "incident_type"
-	EngineReferenceV2IconKey           EngineReferenceV2Icon = "key"
-	EngineReferenceV2IconMerge         EngineReferenceV2Icon = "merge"
-	EngineReferenceV2IconMessage       EngineReferenceV2Icon = "message"
-	EngineReferenceV2IconMoney         EngineReferenceV2Icon = "money"
-	EngineReferenceV2IconMug           EngineReferenceV2Icon = "mug"
-	EngineReferenceV2IconNumberInput   EngineReferenceV2Icon = "number-input"
-	EngineReferenceV2IconPrivate       EngineReferenceV2Icon = "private"
-	EngineReferenceV2IconSearch        EngineReferenceV2Icon = "search"
-	EngineReferenceV2IconServer        EngineReferenceV2Icon = "server"
-	EngineReferenceV2IconSeverity      EngineReferenceV2Icon = "severity"
-	EngineReferenceV2IconSlackChannel  EngineReferenceV2Icon = "slack_channel"
-	EngineReferenceV2IconSlackTeam     EngineReferenceV2Icon = "slack_team"
-	EngineReferenceV2IconStar          EngineReferenceV2Icon = "star"
-	EngineReferenceV2IconStatus        EngineReferenceV2Icon = "status"
-	EngineReferenceV2IconStatusPage    EngineReferenceV2Icon = "status-page"
-	EngineReferenceV2IconStore         EngineReferenceV2Icon = "store"
-	EngineReferenceV2IconTag           EngineReferenceV2Icon = "tag"
-	EngineReferenceV2IconTest          EngineReferenceV2Icon = "test"
-	EngineReferenceV2IconText          EngineReferenceV2Icon = "text"
-	EngineReferenceV2IconTextAlignLeft EngineReferenceV2Icon = "text-align-left"
-	EngineReferenceV2IconTimestamp     EngineReferenceV2Icon = "timestamp"
-	EngineReferenceV2IconToggleLeft    EngineReferenceV2Icon = "toggle-left"
-	EngineReferenceV2IconTriage        EngineReferenceV2Icon = "triage"
-	EngineReferenceV2IconUser          EngineReferenceV2Icon = "user"
-	EngineReferenceV2IconUsers         EngineReferenceV2Icon = "users"
-	EngineReferenceV2IconWarning       EngineReferenceV2Icon = "warning"
-)
-
-// Defines values for ExpressionOperationPayloadV2OperationType.
-const (
-	ExpressionOperationPayloadV2OperationTypeBranches ExpressionOperationPayloadV2OperationType = "branches"
-	ExpressionOperationPayloadV2OperationTypeCount    ExpressionOperationPayloadV2OperationType = "count"
-	ExpressionOperationPayloadV2OperationTypeFilter   ExpressionOperationPayloadV2OperationType = "filter"
-	ExpressionOperationPayloadV2OperationTypeFirst    ExpressionOperationPayloadV2OperationType = "first"
-	ExpressionOperationPayloadV2OperationTypeMax      ExpressionOperationPayloadV2OperationType = "max"
-	ExpressionOperationPayloadV2OperationTypeMin      ExpressionOperationPayloadV2OperationType = "min"
-	ExpressionOperationPayloadV2OperationTypeNavigate ExpressionOperationPayloadV2OperationType = "navigate"
-	ExpressionOperationPayloadV2OperationTypeParse    ExpressionOperationPayloadV2OperationType = "parse"
-	ExpressionOperationPayloadV2OperationTypeRandom   ExpressionOperationPayloadV2OperationType = "random"
-)
-
-// Defines values for ExpressionOperationV2OperationType.
-const (
-	ExpressionOperationV2OperationTypeBranches ExpressionOperationV2OperationType = "branches"
-	ExpressionOperationV2OperationTypeCount    ExpressionOperationV2OperationType = "count"
-	ExpressionOperationV2OperationTypeFilter   ExpressionOperationV2OperationType = "filter"
-	ExpressionOperationV2OperationTypeFirst    ExpressionOperationV2OperationType = "first"
-	ExpressionOperationV2OperationTypeMax      ExpressionOperationV2OperationType = "max"
-	ExpressionOperationV2OperationTypeMin      ExpressionOperationV2OperationType = "min"
-	ExpressionOperationV2OperationTypeNavigate ExpressionOperationV2OperationType = "navigate"
-	ExpressionOperationV2OperationTypeParse    ExpressionOperationV2OperationType = "parse"
-	ExpressionOperationV2OperationTypeRandom   ExpressionOperationV2OperationType = "random"
+	Link         CustomFieldV2FieldType = "link"
+	MultiSelect  CustomFieldV2FieldType = "multi_select"
+	Numeric      CustomFieldV2FieldType = "numeric"
+	SingleSelect CustomFieldV2FieldType = "single_select"
+	Text         CustomFieldV2FieldType = "text"
 )
 
 // Defines values for ExternalIssueReferenceV1Provider.
@@ -497,7 +349,11 @@ const (
 	IdentityV1RolesIncidentEditor            IdentityV1Roles = "incident_editor"
 	IdentityV1RolesIncidentMembershipsEditor IdentityV1Roles = "incident_memberships_editor"
 	IdentityV1RolesManageSettings            IdentityV1Roles = "manage_settings"
+	IdentityV1RolesPrivateWorkflowsEditor    IdentityV1Roles = "private_workflows_editor"
+	IdentityV1RolesSchedulesEditor           IdentityV1Roles = "schedules_editor"
+	IdentityV1RolesSchedulesReader           IdentityV1Roles = "schedules_reader"
 	IdentityV1RolesViewer                    IdentityV1Roles = "viewer"
+	IdentityV1RolesWorkflowsEditor           IdentityV1Roles = "workflows_editor"
 )
 
 // Defines values for IncidentRoleV1RoleType.
@@ -569,192 +425,33 @@ const (
 	IncidentV2VisibilityPublic  IncidentV2Visibility = "public"
 )
 
-// Defines values for StepGroupLabel.
+// Defines values for ScheduleRotationHandoverV2IntervalType.
 const (
-	StepGroupLabelAnnounce    StepGroupLabel = "announce"
-	StepGroupLabelAssign      StepGroupLabel = "assign"
-	StepGroupLabelCommunicate StepGroupLabel = "communicate"
-	StepGroupLabelEscalate    StepGroupLabel = "escalate"
-	StepGroupLabelGeneral     StepGroupLabel = "general"
+	Daily  ScheduleRotationHandoverV2IntervalType = "daily"
+	Hourly ScheduleRotationHandoverV2IntervalType = "hourly"
+	Weekly ScheduleRotationHandoverV2IntervalType = "weekly"
 )
 
-// Defines values for StepReleaseChannel.
+// Defines values for ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday.
 const (
-	StepReleaseChannelDeprecated StepReleaseChannel = "deprecated"
-	StepReleaseChannelInternal   StepReleaseChannel = "internal"
-	StepReleaseChannelRapid      StepReleaseChannel = "rapid"
-	StepReleaseChannelStable     StepReleaseChannel = "stable"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayFriday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "friday"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayMonday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "monday"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdaySaturday  ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "saturday"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdaySunday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "sunday"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayThursday  ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "thursday"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayTuesday   ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "tuesday"
+	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayWednesday ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "wednesday"
 )
 
-// Defines values for StepConfigSlimGroupLabel.
+// Defines values for ScheduleRotationWorkingIntervalV2Weekday.
 const (
-	StepConfigSlimGroupLabelAnnounce    StepConfigSlimGroupLabel = "announce"
-	StepConfigSlimGroupLabelAssign      StepConfigSlimGroupLabel = "assign"
-	StepConfigSlimGroupLabelCommunicate StepConfigSlimGroupLabel = "communicate"
-	StepConfigSlimGroupLabelEscalate    StepConfigSlimGroupLabel = "escalate"
-	StepConfigSlimGroupLabelGeneral     StepConfigSlimGroupLabel = "general"
-)
-
-// Defines values for StepProgressStatus.
-const (
-	StepProgressStatusComplete StepProgressStatus = "complete"
-	StepProgressStatusError    StepProgressStatus = "error"
-	StepProgressStatusPending  StepProgressStatus = "pending"
-)
-
-// Defines values for StepSlimGroupLabel.
-const (
-	StepSlimGroupLabelAnnounce    StepSlimGroupLabel = "announce"
-	StepSlimGroupLabelAssign      StepSlimGroupLabel = "assign"
-	StepSlimGroupLabelCommunicate StepSlimGroupLabel = "communicate"
-	StepSlimGroupLabelEscalate    StepSlimGroupLabel = "escalate"
-	StepSlimGroupLabelGeneral     StepSlimGroupLabel = "general"
-)
-
-// Defines values for StepSlimReleaseChannel.
-const (
-	Deprecated StepSlimReleaseChannel = "deprecated"
-	Internal   StepSlimReleaseChannel = "internal"
-	Rapid      StepSlimReleaseChannel = "rapid"
-	Stable     StepSlimReleaseChannel = "stable"
-)
-
-// Defines values for TriggerGroupLabel.
-const (
-	TriggerGroupLabelGeneral         TriggerGroupLabel = "general"
-	TriggerGroupLabelOther           TriggerGroupLabel = "other"
-	TriggerGroupLabelSpecificChanges TriggerGroupLabel = "specific changes"
-	TriggerGroupLabelUserActions     TriggerGroupLabel = "user actions"
-)
-
-// Defines values for TriggerIcon.
-const (
-	TriggerIconAction        TriggerIcon = "action"
-	TriggerIconAlert         TriggerIcon = "alert"
-	TriggerIconBolt          TriggerIcon = "bolt"
-	TriggerIconBook          TriggerIcon = "book"
-	TriggerIconBox           TriggerIcon = "box"
-	TriggerIconBriefcase     TriggerIcon = "briefcase"
-	TriggerIconBrowser       TriggerIcon = "browser"
-	TriggerIconBulb          TriggerIcon = "bulb"
-	TriggerIconCalendar      TriggerIcon = "calendar"
-	TriggerIconCheckmark     TriggerIcon = "checkmark"
-	TriggerIconClipboard     TriggerIcon = "clipboard"
-	TriggerIconClock         TriggerIcon = "clock"
-	TriggerIconClose         TriggerIcon = "close"
-	TriggerIconCog           TriggerIcon = "cog"
-	TriggerIconComponents    TriggerIcon = "components"
-	TriggerIconCustomField   TriggerIcon = "custom_field"
-	TriggerIconDatabase      TriggerIcon = "database"
-	TriggerIconDelete        TriggerIcon = "delete"
-	TriggerIconDoc           TriggerIcon = "doc"
-	TriggerIconEmail         TriggerIcon = "email"
-	TriggerIconEscalate      TriggerIcon = "escalate"
-	TriggerIconExclamation   TriggerIcon = "exclamation"
-	TriggerIconExport        TriggerIcon = "export"
-	TriggerIconExternalLink  TriggerIcon = "external-link"
-	TriggerIconFiles         TriggerIcon = "files"
-	TriggerIconFlag          TriggerIcon = "flag"
-	TriggerIconFolder        TriggerIcon = "folder"
-	TriggerIconFollowUps     TriggerIcon = "follow_ups"
-	TriggerIconGlobe         TriggerIcon = "globe"
-	TriggerIconIncident      TriggerIcon = "incident"
-	TriggerIconIncidentType  TriggerIcon = "incident_type"
-	TriggerIconKey           TriggerIcon = "key"
-	TriggerIconMerge         TriggerIcon = "merge"
-	TriggerIconMessage       TriggerIcon = "message"
-	TriggerIconMoney         TriggerIcon = "money"
-	TriggerIconMug           TriggerIcon = "mug"
-	TriggerIconNumberInput   TriggerIcon = "number-input"
-	TriggerIconPrivate       TriggerIcon = "private"
-	TriggerIconSearch        TriggerIcon = "search"
-	TriggerIconServer        TriggerIcon = "server"
-	TriggerIconSeverity      TriggerIcon = "severity"
-	TriggerIconSlackChannel  TriggerIcon = "slack_channel"
-	TriggerIconSlackTeam     TriggerIcon = "slack_team"
-	TriggerIconStar          TriggerIcon = "star"
-	TriggerIconStatus        TriggerIcon = "status"
-	TriggerIconStatusPage    TriggerIcon = "status-page"
-	TriggerIconStore         TriggerIcon = "store"
-	TriggerIconTag           TriggerIcon = "tag"
-	TriggerIconTest          TriggerIcon = "test"
-	TriggerIconText          TriggerIcon = "text"
-	TriggerIconTextAlignLeft TriggerIcon = "text-align-left"
-	TriggerIconTimestamp     TriggerIcon = "timestamp"
-	TriggerIconToggleLeft    TriggerIcon = "toggle-left"
-	TriggerIconTriage        TriggerIcon = "triage"
-	TriggerIconUser          TriggerIcon = "user"
-	TriggerIconUsers         TriggerIcon = "users"
-	TriggerIconWarning       TriggerIcon = "warning"
-)
-
-// Defines values for TriggerSlimGroupLabel.
-const (
-	General         TriggerSlimGroupLabel = "general"
-	Other           TriggerSlimGroupLabel = "other"
-	SpecificChanges TriggerSlimGroupLabel = "specific changes"
-	UserActions     TriggerSlimGroupLabel = "user actions"
-)
-
-// Defines values for TriggerSlimIcon.
-const (
-	TriggerSlimIconAction        TriggerSlimIcon = "action"
-	TriggerSlimIconAlert         TriggerSlimIcon = "alert"
-	TriggerSlimIconBolt          TriggerSlimIcon = "bolt"
-	TriggerSlimIconBook          TriggerSlimIcon = "book"
-	TriggerSlimIconBox           TriggerSlimIcon = "box"
-	TriggerSlimIconBriefcase     TriggerSlimIcon = "briefcase"
-	TriggerSlimIconBrowser       TriggerSlimIcon = "browser"
-	TriggerSlimIconBulb          TriggerSlimIcon = "bulb"
-	TriggerSlimIconCalendar      TriggerSlimIcon = "calendar"
-	TriggerSlimIconCheckmark     TriggerSlimIcon = "checkmark"
-	TriggerSlimIconClipboard     TriggerSlimIcon = "clipboard"
-	TriggerSlimIconClock         TriggerSlimIcon = "clock"
-	TriggerSlimIconClose         TriggerSlimIcon = "close"
-	TriggerSlimIconCog           TriggerSlimIcon = "cog"
-	TriggerSlimIconComponents    TriggerSlimIcon = "components"
-	TriggerSlimIconCustomField   TriggerSlimIcon = "custom_field"
-	TriggerSlimIconDatabase      TriggerSlimIcon = "database"
-	TriggerSlimIconDelete        TriggerSlimIcon = "delete"
-	TriggerSlimIconDoc           TriggerSlimIcon = "doc"
-	TriggerSlimIconEmail         TriggerSlimIcon = "email"
-	TriggerSlimIconEscalate      TriggerSlimIcon = "escalate"
-	TriggerSlimIconExclamation   TriggerSlimIcon = "exclamation"
-	TriggerSlimIconExport        TriggerSlimIcon = "export"
-	TriggerSlimIconExternalLink  TriggerSlimIcon = "external-link"
-	TriggerSlimIconFiles         TriggerSlimIcon = "files"
-	TriggerSlimIconFlag          TriggerSlimIcon = "flag"
-	TriggerSlimIconFolder        TriggerSlimIcon = "folder"
-	TriggerSlimIconFollowUps     TriggerSlimIcon = "follow_ups"
-	TriggerSlimIconGlobe         TriggerSlimIcon = "globe"
-	TriggerSlimIconIncident      TriggerSlimIcon = "incident"
-	TriggerSlimIconIncidentType  TriggerSlimIcon = "incident_type"
-	TriggerSlimIconKey           TriggerSlimIcon = "key"
-	TriggerSlimIconMerge         TriggerSlimIcon = "merge"
-	TriggerSlimIconMessage       TriggerSlimIcon = "message"
-	TriggerSlimIconMoney         TriggerSlimIcon = "money"
-	TriggerSlimIconMug           TriggerSlimIcon = "mug"
-	TriggerSlimIconNumberInput   TriggerSlimIcon = "number-input"
-	TriggerSlimIconPrivate       TriggerSlimIcon = "private"
-	TriggerSlimIconSearch        TriggerSlimIcon = "search"
-	TriggerSlimIconServer        TriggerSlimIcon = "server"
-	TriggerSlimIconSeverity      TriggerSlimIcon = "severity"
-	TriggerSlimIconSlackChannel  TriggerSlimIcon = "slack_channel"
-	TriggerSlimIconSlackTeam     TriggerSlimIcon = "slack_team"
-	TriggerSlimIconStar          TriggerSlimIcon = "star"
-	TriggerSlimIconStatus        TriggerSlimIcon = "status"
-	TriggerSlimIconStatusPage    TriggerSlimIcon = "status-page"
-	TriggerSlimIconStore         TriggerSlimIcon = "store"
-	TriggerSlimIconTag           TriggerSlimIcon = "tag"
-	TriggerSlimIconTest          TriggerSlimIcon = "test"
-	TriggerSlimIconText          TriggerSlimIcon = "text"
-	TriggerSlimIconTextAlignLeft TriggerSlimIcon = "text-align-left"
-	TriggerSlimIconTimestamp     TriggerSlimIcon = "timestamp"
-	TriggerSlimIconToggleLeft    TriggerSlimIcon = "toggle-left"
-	TriggerSlimIconTriage        TriggerSlimIcon = "triage"
-	TriggerSlimIconUser          TriggerSlimIcon = "user"
-	TriggerSlimIconUsers         TriggerSlimIcon = "users"
-	TriggerSlimIconWarning       TriggerSlimIcon = "warning"
+	ScheduleRotationWorkingIntervalV2WeekdayFriday    ScheduleRotationWorkingIntervalV2Weekday = "friday"
+	ScheduleRotationWorkingIntervalV2WeekdayMonday    ScheduleRotationWorkingIntervalV2Weekday = "monday"
+	ScheduleRotationWorkingIntervalV2WeekdaySaturday  ScheduleRotationWorkingIntervalV2Weekday = "saturday"
+	ScheduleRotationWorkingIntervalV2WeekdaySunday    ScheduleRotationWorkingIntervalV2Weekday = "sunday"
+	ScheduleRotationWorkingIntervalV2WeekdayThursday  ScheduleRotationWorkingIntervalV2Weekday = "thursday"
+	ScheduleRotationWorkingIntervalV2WeekdayTuesday   ScheduleRotationWorkingIntervalV2Weekday = "tuesday"
+	ScheduleRotationWorkingIntervalV2WeekdayWednesday ScheduleRotationWorkingIntervalV2Weekday = "wednesday"
 )
 
 // Defines values for UpdateRequestBody2Required.
@@ -784,37 +481,30 @@ const (
 
 // Defines values for UpdateTypeRequestBodyIcon.
 const (
-	UpdateTypeRequestBodyIconBolt       UpdateTypeRequestBodyIcon = "bolt"
-	UpdateTypeRequestBodyIconBox        UpdateTypeRequestBodyIcon = "box"
-	UpdateTypeRequestBodyIconBriefcase  UpdateTypeRequestBodyIcon = "briefcase"
-	UpdateTypeRequestBodyIconBrowser    UpdateTypeRequestBodyIcon = "browser"
-	UpdateTypeRequestBodyIconBulb       UpdateTypeRequestBodyIcon = "bulb"
-	UpdateTypeRequestBodyIconCalendar   UpdateTypeRequestBodyIcon = "calendar"
-	UpdateTypeRequestBodyIconClock      UpdateTypeRequestBodyIcon = "clock"
-	UpdateTypeRequestBodyIconCog        UpdateTypeRequestBodyIcon = "cog"
-	UpdateTypeRequestBodyIconComponents UpdateTypeRequestBodyIcon = "components"
-	UpdateTypeRequestBodyIconDatabase   UpdateTypeRequestBodyIcon = "database"
-	UpdateTypeRequestBodyIconDoc        UpdateTypeRequestBodyIcon = "doc"
-	UpdateTypeRequestBodyIconEmail      UpdateTypeRequestBodyIcon = "email"
-	UpdateTypeRequestBodyIconFiles      UpdateTypeRequestBodyIcon = "files"
-	UpdateTypeRequestBodyIconFlag       UpdateTypeRequestBodyIcon = "flag"
-	UpdateTypeRequestBodyIconFolder     UpdateTypeRequestBodyIcon = "folder"
-	UpdateTypeRequestBodyIconGlobe      UpdateTypeRequestBodyIcon = "globe"
-	UpdateTypeRequestBodyIconMoney      UpdateTypeRequestBodyIcon = "money"
-	UpdateTypeRequestBodyIconServer     UpdateTypeRequestBodyIcon = "server"
-	UpdateTypeRequestBodyIconSeverity   UpdateTypeRequestBodyIcon = "severity"
-	UpdateTypeRequestBodyIconStar       UpdateTypeRequestBodyIcon = "star"
-	UpdateTypeRequestBodyIconStore      UpdateTypeRequestBodyIcon = "store"
-	UpdateTypeRequestBodyIconTag        UpdateTypeRequestBodyIcon = "tag"
-	UpdateTypeRequestBodyIconUser       UpdateTypeRequestBodyIcon = "user"
-	UpdateTypeRequestBodyIconUsers      UpdateTypeRequestBodyIcon = "users"
-)
-
-// Defines values for UpdateWorkflowRequestBodyPendingRunStrategy.
-const (
-	Cancel UpdateWorkflowRequestBodyPendingRunStrategy = "cancel"
-	Leave  UpdateWorkflowRequestBodyPendingRunStrategy = "leave"
-	Update UpdateWorkflowRequestBodyPendingRunStrategy = "update"
+	Bolt       UpdateTypeRequestBodyIcon = "bolt"
+	Box        UpdateTypeRequestBodyIcon = "box"
+	Briefcase  UpdateTypeRequestBodyIcon = "briefcase"
+	Browser    UpdateTypeRequestBodyIcon = "browser"
+	Bulb       UpdateTypeRequestBodyIcon = "bulb"
+	Calendar   UpdateTypeRequestBodyIcon = "calendar"
+	Clock      UpdateTypeRequestBodyIcon = "clock"
+	Cog        UpdateTypeRequestBodyIcon = "cog"
+	Components UpdateTypeRequestBodyIcon = "components"
+	Database   UpdateTypeRequestBodyIcon = "database"
+	Doc        UpdateTypeRequestBodyIcon = "doc"
+	Email      UpdateTypeRequestBodyIcon = "email"
+	Files      UpdateTypeRequestBodyIcon = "files"
+	Flag       UpdateTypeRequestBodyIcon = "flag"
+	Folder     UpdateTypeRequestBodyIcon = "folder"
+	Globe      UpdateTypeRequestBodyIcon = "globe"
+	Money      UpdateTypeRequestBodyIcon = "money"
+	Server     UpdateTypeRequestBodyIcon = "server"
+	Severity   UpdateTypeRequestBodyIcon = "severity"
+	Star       UpdateTypeRequestBodyIcon = "star"
+	Store      UpdateTypeRequestBodyIcon = "store"
+	Tag        UpdateTypeRequestBodyIcon = "tag"
+	User       UpdateTypeRequestBodyIcon = "user"
+	Users      UpdateTypeRequestBodyIcon = "users"
 )
 
 // Defines values for UserV1Role.
@@ -833,94 +523,6 @@ const (
 	Responder     UserWithRolesV2Role = "responder"
 	Unset         UserWithRolesV2Role = "unset"
 	Viewer        UserWithRolesV2Role = "viewer"
-)
-
-// Defines values for WorkflowRunsOnIncidents.
-const (
-	WorkflowRunsOnIncidentsNewlyCreated          WorkflowRunsOnIncidents = "newly_created"
-	WorkflowRunsOnIncidentsNewlyCreatedAndActive WorkflowRunsOnIncidents = "newly_created_and_active"
-)
-
-// Defines values for WorkflowPayloadRunsOnIncidents.
-const (
-	WorkflowPayloadRunsOnIncidentsNewlyCreated          WorkflowPayloadRunsOnIncidents = "newly_created"
-	WorkflowPayloadRunsOnIncidentsNewlyCreatedAndActive WorkflowPayloadRunsOnIncidents = "newly_created_and_active"
-)
-
-// Defines values for WorkflowSlimRunsOnIncidents.
-const (
-	NewlyCreated          WorkflowSlimRunsOnIncidents = "newly_created"
-	NewlyCreatedAndActive WorkflowSlimRunsOnIncidents = "newly_created_and_active"
-)
-
-// Defines values for WorkflowSlimWorkflowState.
-const (
-	WorkflowSlimWorkflowStateActive        WorkflowSlimWorkflowState = "active"
-	WorkflowSlimWorkflowStateDisabled      WorkflowSlimWorkflowState = "disabled"
-	WorkflowSlimWorkflowStateDisabledDraft WorkflowSlimWorkflowState = "disabled_draft"
-	WorkflowSlimWorkflowStateDraft         WorkflowSlimWorkflowState = "draft"
-	WorkflowSlimWorkflowStateError         WorkflowSlimWorkflowState = "error"
-)
-
-// Defines values for WorkflowTemplateIcon.
-const (
-	WorkflowTemplateIconAction        WorkflowTemplateIcon = "action"
-	WorkflowTemplateIconAlert         WorkflowTemplateIcon = "alert"
-	WorkflowTemplateIconBolt          WorkflowTemplateIcon = "bolt"
-	WorkflowTemplateIconBook          WorkflowTemplateIcon = "book"
-	WorkflowTemplateIconBox           WorkflowTemplateIcon = "box"
-	WorkflowTemplateIconBriefcase     WorkflowTemplateIcon = "briefcase"
-	WorkflowTemplateIconBrowser       WorkflowTemplateIcon = "browser"
-	WorkflowTemplateIconBulb          WorkflowTemplateIcon = "bulb"
-	WorkflowTemplateIconCalendar      WorkflowTemplateIcon = "calendar"
-	WorkflowTemplateIconCheckmark     WorkflowTemplateIcon = "checkmark"
-	WorkflowTemplateIconClipboard     WorkflowTemplateIcon = "clipboard"
-	WorkflowTemplateIconClock         WorkflowTemplateIcon = "clock"
-	WorkflowTemplateIconClose         WorkflowTemplateIcon = "close"
-	WorkflowTemplateIconCog           WorkflowTemplateIcon = "cog"
-	WorkflowTemplateIconComponents    WorkflowTemplateIcon = "components"
-	WorkflowTemplateIconCustomField   WorkflowTemplateIcon = "custom_field"
-	WorkflowTemplateIconDatabase      WorkflowTemplateIcon = "database"
-	WorkflowTemplateIconDelete        WorkflowTemplateIcon = "delete"
-	WorkflowTemplateIconDoc           WorkflowTemplateIcon = "doc"
-	WorkflowTemplateIconEmail         WorkflowTemplateIcon = "email"
-	WorkflowTemplateIconEscalate      WorkflowTemplateIcon = "escalate"
-	WorkflowTemplateIconExclamation   WorkflowTemplateIcon = "exclamation"
-	WorkflowTemplateIconExport        WorkflowTemplateIcon = "export"
-	WorkflowTemplateIconExternalLink  WorkflowTemplateIcon = "external-link"
-	WorkflowTemplateIconFiles         WorkflowTemplateIcon = "files"
-	WorkflowTemplateIconFlag          WorkflowTemplateIcon = "flag"
-	WorkflowTemplateIconFolder        WorkflowTemplateIcon = "folder"
-	WorkflowTemplateIconFollowUps     WorkflowTemplateIcon = "follow_ups"
-	WorkflowTemplateIconGlobe         WorkflowTemplateIcon = "globe"
-	WorkflowTemplateIconIncident      WorkflowTemplateIcon = "incident"
-	WorkflowTemplateIconIncidentType  WorkflowTemplateIcon = "incident_type"
-	WorkflowTemplateIconKey           WorkflowTemplateIcon = "key"
-	WorkflowTemplateIconMerge         WorkflowTemplateIcon = "merge"
-	WorkflowTemplateIconMessage       WorkflowTemplateIcon = "message"
-	WorkflowTemplateIconMoney         WorkflowTemplateIcon = "money"
-	WorkflowTemplateIconMug           WorkflowTemplateIcon = "mug"
-	WorkflowTemplateIconNumberInput   WorkflowTemplateIcon = "number-input"
-	WorkflowTemplateIconPrivate       WorkflowTemplateIcon = "private"
-	WorkflowTemplateIconSearch        WorkflowTemplateIcon = "search"
-	WorkflowTemplateIconServer        WorkflowTemplateIcon = "server"
-	WorkflowTemplateIconSeverity      WorkflowTemplateIcon = "severity"
-	WorkflowTemplateIconSlackChannel  WorkflowTemplateIcon = "slack_channel"
-	WorkflowTemplateIconSlackTeam     WorkflowTemplateIcon = "slack_team"
-	WorkflowTemplateIconStar          WorkflowTemplateIcon = "star"
-	WorkflowTemplateIconStatus        WorkflowTemplateIcon = "status"
-	WorkflowTemplateIconStatusPage    WorkflowTemplateIcon = "status-page"
-	WorkflowTemplateIconStore         WorkflowTemplateIcon = "store"
-	WorkflowTemplateIconTag           WorkflowTemplateIcon = "tag"
-	WorkflowTemplateIconTest          WorkflowTemplateIcon = "test"
-	WorkflowTemplateIconText          WorkflowTemplateIcon = "text"
-	WorkflowTemplateIconTextAlignLeft WorkflowTemplateIcon = "text-align-left"
-	WorkflowTemplateIconTimestamp     WorkflowTemplateIcon = "timestamp"
-	WorkflowTemplateIconToggleLeft    WorkflowTemplateIcon = "toggle-left"
-	WorkflowTemplateIconTriage        WorkflowTemplateIcon = "triage"
-	WorkflowTemplateIconUser          WorkflowTemplateIcon = "user"
-	WorkflowTemplateIconUsers         WorkflowTemplateIcon = "users"
-	WorkflowTemplateIconWarning       WorkflowTemplateIcon = "warning"
 )
 
 // Defines values for ActionsV1ListParamsIncidentMode.
@@ -956,10 +558,10 @@ const (
 
 // Defines values for FollowUpsV2ListParamsIncidentMode.
 const (
-	FollowUpsV2ListParamsIncidentModeRetrospective FollowUpsV2ListParamsIncidentMode = "retrospective"
-	FollowUpsV2ListParamsIncidentModeStandard      FollowUpsV2ListParamsIncidentMode = "standard"
-	FollowUpsV2ListParamsIncidentModeTest          FollowUpsV2ListParamsIncidentMode = "test"
-	FollowUpsV2ListParamsIncidentModeTutorial      FollowUpsV2ListParamsIncidentMode = "tutorial"
+	Retrospective FollowUpsV2ListParamsIncidentMode = "retrospective"
+	Standard      FollowUpsV2ListParamsIncidentMode = "standard"
+	Test          FollowUpsV2ListParamsIncidentMode = "test"
+	Tutorial      FollowUpsV2ListParamsIncidentMode = "tutorial"
 )
 
 // APIKeyV2 defines model for APIKeyV2.
@@ -1039,19 +641,13 @@ type ActorV2 struct {
 	User   *UserV1   `json:"user,omitempty"`
 }
 
-// BecomeEligibleCTA defines model for BecomeEligibleCTA.
-type BecomeEligibleCTA struct {
-	// Description Description for the CTA button
-	Description *string `json:"description,omitempty"`
+// AfterPaginationMetaResultV2 defines model for AfterPaginationMetaResultV2.
+type AfterPaginationMetaResultV2 struct {
+	// After The time, if it exists, of the last entry's end time
+	After string `json:"after"`
 
-	// IsTalkToUs If true, open an intercom message instead of a link
-	IsTalkToUs bool `json:"is_talk_to_us"`
-
-	// Label Label for the CTA button
-	Label string `json:"label"`
-
-	// Url URL to send the user to
-	Url string `json:"url"`
+	// AfterUrl The URL to fetch the next page of entries
+	AfterUrl string `json:"after_url"`
 }
 
 // CatalogEntryReferenceV2 defines model for CatalogEntryReferenceV2.
@@ -1244,54 +840,6 @@ type CatalogTypeV2Color string
 // CatalogTypeV2Icon Sets the display icon of this type in the dashboard
 type CatalogTypeV2Icon string
 
-// ConditionOperationV2 defines model for ConditionOperationV2.
-type ConditionOperationV2 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Value Unique identifier for this option
-	Value string `json:"value"`
-}
-
-// ConditionPayloadV2 defines model for ConditionPayloadV2.
-type ConditionPayloadV2 struct {
-	// Operation The name of the operation on the subject
-	Operation string `json:"operation"`
-
-	// ParamBindings List of parameter bindings
-	ParamBindings []EngineParamBindingPayloadV2 `json:"param_bindings"`
-
-	// Subject The reference of the subject in the trigger scope
-	Subject string `json:"subject"`
-}
-
-// ConditionSubjectV2 defines model for ConditionSubjectV2.
-type ConditionSubjectV2 struct {
-	// Icon String telling the UI what icon to use for this field
-	Icon ConditionSubjectV2Icon `json:"icon"`
-
-	// Label Human readable identifier for the subject
-	Label string `json:"label"`
-
-	// Reference Reference into the scope for the value of the subject
-	Reference string `json:"reference"`
-}
-
-// ConditionSubjectV2Icon String telling the UI what icon to use for this field
-type ConditionSubjectV2Icon string
-
-// ConditionV2 defines model for ConditionV2.
-type ConditionV2 struct {
-	Operation ConditionOperationV2 `json:"operation"`
-
-	// ParamBindings Bindings for the operation parameters
-	ParamBindings []EngineParamBindingV2 `json:"param_bindings"`
-
-	// Params Type information for the operation parameters
-	Params  []EngineParamV2    `json:"params"`
-	Subject ConditionSubjectV2 `json:"subject"`
-}
-
 // CreateEntryRequestBody defines model for CreateEntryRequestBody.
 type CreateEntryRequestBody struct {
 	// Aliases Optional aliases that can be used to reference this entry
@@ -1429,6 +977,11 @@ type CreateRequestBody10Visibility string
 
 // CreateRequestBody11 defines model for CreateRequestBody11.
 type CreateRequestBody11 struct {
+	Schedule ScheduleCreatePayloadV2 `json:"schedule"`
+}
+
+// CreateRequestBody12 defines model for CreateRequestBody12.
+type CreateRequestBody12 struct {
 	// Description Description of the severity
 	Description string `json:"description"`
 
@@ -1520,7 +1073,7 @@ type CreateRequestBody6 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
-	// Instructions Provided to whoever is nominated for the role
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 	Instructions string `json:"instructions"`
 
 	// Name Human readable name of the incident role
@@ -1529,7 +1082,7 @@ type CreateRequestBody6 struct {
 	// Required DEPRECATED: this will always be false.
 	Required bool `json:"required"`
 
-	// Shortform Short human readable name for Slack
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
 	Shortform string `json:"shortform"`
 }
 
@@ -1538,13 +1091,13 @@ type CreateRequestBody7 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
-	// Instructions Provided to whoever is nominated for the role
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 	Instructions string `json:"instructions"`
 
 	// Name Human readable name of the incident role
 	Name string `json:"name"`
 
-	// Shortform Short human readable name for Slack
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
 	Shortform string `json:"shortform"`
 }
 
@@ -1660,35 +1213,6 @@ type CreateTypeRequestBodyIcon string
 // CreateTypeResponseBody defines model for CreateTypeResponseBody.
 type CreateTypeResponseBody struct {
 	CatalogType CatalogTypeV2 `json:"catalog_type"`
-}
-
-// CreateWorkflowRequestBody defines model for CreateWorkflowRequestBody.
-type CreateWorkflowRequestBody struct {
-	// Folder Folder to display the workflow in
-	Folder *string `json:"folder,omitempty"`
-
-	// Trigger Trigger to set on the workflow
-	Trigger  string          `json:"trigger"`
-	Workflow WorkflowPayload `json:"workflow"`
-}
-
-// CreateWorkflowResponseBody defines model for CreateWorkflowResponseBody.
-type CreateWorkflowResponseBody struct {
-	Workflow Workflow `json:"workflow"`
-}
-
-// CreateWorkflowRunRequestBody defines model for CreateWorkflowRunRequestBody.
-type CreateWorkflowRunRequestBody struct {
-	// Values Map of top-level scope variables to their literal value
-	Values *map[string]string `json:"values,omitempty"`
-
-	// WorkflowId Unique identifier for the underlying workflow
-	WorkflowId string `json:"workflow_id"`
-}
-
-// CreateWorkflowRunResponseBody defines model for CreateWorkflowRunResponseBody.
-type CreateWorkflowRunResponseBody struct {
-	WorkflowRun WorkflowRun `json:"workflow_run"`
 }
 
 // CustomFieldEntryPayloadV1 defines model for CustomFieldEntryPayloadV1.
@@ -1942,197 +1466,6 @@ type EngineParamBindingValueV2 struct {
 	Value *string `json:"value,omitempty"`
 }
 
-// EngineParamV2 defines model for EngineParamV2.
-type EngineParamV2 struct {
-	// Array Whether this parameter is an array
-	Array        bool                  `json:"array"`
-	DefaultValue *EngineParamBindingV2 `json:"default_value,omitempty"`
-
-	// Description A string describing the param
-	Description string `json:"description"`
-
-	// InferReference Whether this parameter should be inferred as a reference from the scope
-	InferReference bool `json:"infer_reference"`
-
-	// Label Human readable label for this parameter
-	Label string `json:"label"`
-
-	// Name The unique identifier for the parameter
-	Name string `json:"name"`
-
-	// Optional Whether this parameter is optional
-	Optional bool `json:"optional"`
-
-	// Type The type of the parameter
-	Type string `json:"type"`
-}
-
-// EngineReferenceV2 defines model for EngineReferenceV2.
-type EngineReferenceV2 struct {
-	// Array If true, the reference can refer to 0 to many items
-	Array bool `json:"array"`
-
-	// HideFilter If true, the reference should be blocked from being used as a condition filter
-	HideFilter bool `json:"hide_filter"`
-
-	// Icon String telling the UI what icon to use for this field. If unset, the frontend will default to the resource's icon in its form field config.
-	Icon *EngineReferenceV2Icon `json:"icon,omitempty"`
-
-	// Key Unique identifier of field will set
-	Key string `json:"key"`
-
-	// Label Human readable label for the field (with context)
-	Label string `json:"label"`
-
-	// NodeLabel Human readable label for just this node
-	NodeLabel string `json:"node_label"`
-
-	// Parent The key of this reference's parent
-	Parent *string `json:"parent,omitempty"`
-
-	// Type The type of this resource in the engine
-	Type string `json:"type"`
-}
-
-// EngineReferenceV2Icon String telling the UI what icon to use for this field. If unset, the frontend will default to the resource's icon in its form field config.
-type EngineReferenceV2Icon string
-
-// ExpressionBranchPayloadV2 defines model for ExpressionBranchPayloadV2.
-type ExpressionBranchPayloadV2 struct {
-	// Conditions When theses conditions are met, this branch will be evaluated
-	Conditions []ConditionPayloadV2        `json:"conditions"`
-	Result     EngineParamBindingPayloadV2 `json:"result"`
-}
-
-// ExpressionBranchV2 defines model for ExpressionBranchV2.
-type ExpressionBranchV2 struct {
-	// Conditions When theses conditions are met, this branch will be evaluated
-	Conditions []ConditionV2        `json:"conditions"`
-	Result     EngineParamBindingV2 `json:"result"`
-}
-
-// ExpressionBranchesOptsPayloadV2 defines model for ExpressionBranchesOptsPayloadV2.
-type ExpressionBranchesOptsPayloadV2 struct {
-	// Branches The branches to apply for this operation
-	Branches []ExpressionBranchPayloadV2 `json:"branches"`
-	Returns  ReturnsMetaV2               `json:"returns"`
-}
-
-// ExpressionBranchesOptsV2 defines model for ExpressionBranchesOptsV2.
-type ExpressionBranchesOptsV2 struct {
-	// Branches The branches to apply for this operation
-	Branches []ExpressionBranchV2 `json:"branches"`
-	Returns  ReturnsMetaV2        `json:"returns"`
-}
-
-// ExpressionElseBranchPayloadV2 defines model for ExpressionElseBranchPayloadV2.
-type ExpressionElseBranchPayloadV2 struct {
-	Result EngineParamBindingPayloadV2 `json:"result"`
-}
-
-// ExpressionElseBranchV2 defines model for ExpressionElseBranchV2.
-type ExpressionElseBranchV2 struct {
-	Result EngineParamBindingV2 `json:"result"`
-}
-
-// ExpressionFilterOptsPayloadV2 defines model for ExpressionFilterOptsPayloadV2.
-type ExpressionFilterOptsPayloadV2 struct {
-	// Conditions The conditions to apply to this filter
-	Conditions []ConditionPayloadV2 `json:"conditions"`
-}
-
-// ExpressionFilterOptsV2 defines model for ExpressionFilterOptsV2.
-type ExpressionFilterOptsV2 struct {
-	// Conditions The conditions to apply to this filter
-	Conditions []ConditionV2 `json:"conditions"`
-}
-
-// ExpressionNavigateOptsPayloadV2 defines model for ExpressionNavigateOptsPayloadV2.
-type ExpressionNavigateOptsPayloadV2 struct {
-	// Reference The reference that you want to navigate to
-	Reference string `json:"reference"`
-}
-
-// ExpressionNavigateOptsV2 defines model for ExpressionNavigateOptsV2.
-type ExpressionNavigateOptsV2 struct {
-	// Reference The reference within the scope to navigate to
-	Reference string `json:"reference"`
-
-	// ReferenceLabel The name of the reference to navigate to
-	ReferenceLabel string `json:"reference_label"`
-}
-
-// ExpressionOperationPayloadV2 defines model for ExpressionOperationPayloadV2.
-type ExpressionOperationPayloadV2 struct {
-	Branches *ExpressionBranchesOptsPayloadV2 `json:"branches,omitempty"`
-	Filter   *ExpressionFilterOptsPayloadV2   `json:"filter,omitempty"`
-	Navigate *ExpressionNavigateOptsPayloadV2 `json:"navigate,omitempty"`
-
-	// OperationType The type of the operation
-	OperationType ExpressionOperationPayloadV2OperationType `json:"operation_type"`
-	Parse         *ExpressionParseOptsV2                    `json:"parse,omitempty"`
-}
-
-// ExpressionOperationPayloadV2OperationType The type of the operation
-type ExpressionOperationPayloadV2OperationType string
-
-// ExpressionOperationV2 defines model for ExpressionOperationV2.
-type ExpressionOperationV2 struct {
-	Branches *ExpressionBranchesOptsV2 `json:"branches,omitempty"`
-	Filter   *ExpressionFilterOptsV2   `json:"filter,omitempty"`
-	Navigate *ExpressionNavigateOptsV2 `json:"navigate,omitempty"`
-
-	// OperationType The type of the operation
-	OperationType ExpressionOperationV2OperationType `json:"operation_type"`
-	Parse         *ExpressionParseOptsV2             `json:"parse,omitempty"`
-	Returns       ReturnsMetaV2                      `json:"returns"`
-}
-
-// ExpressionOperationV2OperationType The type of the operation
-type ExpressionOperationV2OperationType string
-
-// ExpressionParseOptsV2 defines model for ExpressionParseOptsV2.
-type ExpressionParseOptsV2 struct {
-	Returns ReturnsMetaV2 `json:"returns"`
-
-	// Source Source expression that is evaluated to a result
-	Source string `json:"source"`
-}
-
-// ExpressionPayloadV2 defines model for ExpressionPayloadV2.
-type ExpressionPayloadV2 struct {
-	ElseBranch *ExpressionElseBranchPayloadV2 `json:"else_branch,omitempty"`
-
-	// Label The human readable label of the expression
-	Label      string                         `json:"label"`
-	Operations []ExpressionOperationPayloadV2 `json:"operations"`
-
-	// Reference A short ID that can be used to reference the expression
-	Reference string `json:"reference"`
-
-	// RootReference The root reference for this expression (i.e. where the expression starts)
-	RootReference string `json:"root_reference"`
-}
-
-// ExpressionV2 defines model for ExpressionV2.
-type ExpressionV2 struct {
-	ElseBranch *ExpressionElseBranchV2 `json:"else_branch,omitempty"`
-
-	// Id The ID of the expression
-	Id string `json:"id"`
-
-	// Label The human readable label of the expression
-	Label      string                  `json:"label"`
-	Operations []ExpressionOperationV2 `json:"operations"`
-
-	// Reference A short ID that can be used to reference the expression
-	Reference string        `json:"reference"`
-	Returns   ReturnsMetaV2 `json:"returns"`
-
-	// RootReference The root reference for this expression (i.e. where the expression starts)
-	RootReference string `json:"root_reference"`
-}
-
 // ExternalIssueReferenceV1 defines model for ExternalIssueReferenceV1.
 type ExternalIssueReferenceV1 struct {
 	// IssueName Human readable ID for the issue
@@ -2324,7 +1657,7 @@ type IncidentMembership struct {
 type IncidentRoleAssignmentPayloadV1 struct {
 	Assignee UserReferencePayloadV1 `json:"assignee"`
 
-	// IncidentRoleId Unique ID of an incident role
+	// IncidentRoleId Unique ID of an incident role. Note that the 'reporter' role can only be assigned when creating an incident.
 	IncidentRoleId string `json:"incident_role_id"`
 }
 
@@ -2344,7 +1677,7 @@ type IncidentRoleAssignmentV1 struct {
 
 // IncidentRoleV1 defines model for IncidentRoleV1.
 type IncidentRoleV1 struct {
-	// CreatedAt When the action was created
+	// CreatedAt When the role was created
 	CreatedAt time.Time `json:"created_at"`
 
 	// Description Describes the purpose of the role
@@ -2353,7 +1686,7 @@ type IncidentRoleV1 struct {
 	// Id Unique identifier for the role
 	Id string `json:"id"`
 
-	// Instructions Provided to whoever is nominated for the role
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 	Instructions string `json:"instructions"`
 
 	// Name Human readable name of the incident role
@@ -2365,10 +1698,10 @@ type IncidentRoleV1 struct {
 	// RoleType Type of incident role
 	RoleType IncidentRoleV1RoleType `json:"role_type"`
 
-	// Shortform Short human readable name for Slack
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
 	Shortform string `json:"shortform"`
 
-	// UpdatedAt When the action was last updated
+	// UpdatedAt When the role was last updated
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
@@ -2377,7 +1710,7 @@ type IncidentRoleV1RoleType string
 
 // IncidentRoleV2 defines model for IncidentRoleV2.
 type IncidentRoleV2 struct {
-	// CreatedAt When the action was created
+	// CreatedAt When the role was created
 	CreatedAt time.Time `json:"created_at"`
 
 	// Description Describes the purpose of the role
@@ -2386,7 +1719,7 @@ type IncidentRoleV2 struct {
 	// Id Unique identifier for the role
 	Id string `json:"id"`
 
-	// Instructions Provided to whoever is nominated for the role
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 	Instructions string `json:"instructions"`
 
 	// Name Human readable name of the incident role
@@ -2395,10 +1728,10 @@ type IncidentRoleV2 struct {
 	// RoleType Type of incident role
 	RoleType IncidentRoleV2RoleType `json:"role_type"`
 
-	// Shortform Short human readable name for Slack
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
 	Shortform string `json:"shortform"`
 
-	// UpdatedAt When the action was last updated
+	// UpdatedAt When the role was last updated
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
@@ -2556,7 +1889,7 @@ type IncidentV1 struct {
 	Reference string      `json:"reference"`
 	Severity  *SeverityV2 `json:"severity,omitempty"`
 
-	// SlackChannelId ID of the Slack channel in the organisation Slack workspace
+	// SlackChannelId ID of the Slack channel in the organisation Slack workspace. Note that the channel is sometimes created asynchronously, so may not be present when the incident is just created.
 	SlackChannelId string `json:"slack_channel_id"`
 
 	// SlackChannelName Name of the slack channel
@@ -2633,7 +1966,7 @@ type IncidentV2 struct {
 	Reference string      `json:"reference"`
 	Severity  *SeverityV2 `json:"severity,omitempty"`
 
-	// SlackChannelId ID of the Slack channel in the organisation Slack workspace
+	// SlackChannelId ID of the Slack channel in the organisation Slack workspace. Note that the channel is sometimes created asynchronously, so may not be present when the incident is just created.
 	SlackChannelId string `json:"slack_channel_id"`
 
 	// SlackChannelName Name of the slack channel
@@ -2722,11 +2055,17 @@ type ListResponseBody15 struct {
 
 // ListResponseBody16 defines model for ListResponseBody16.
 type ListResponseBody16 struct {
-	Severities []SeverityV2 `json:"severities"`
+	PaginationMeta *PaginationMetaResultWithTotal `json:"pagination_meta,omitempty"`
+	Schedules      []ScheduleV2                   `json:"schedules"`
 }
 
 // ListResponseBody17 defines model for ListResponseBody17.
 type ListResponseBody17 struct {
+	Severities []SeverityV2 `json:"severities"`
+}
+
+// ListResponseBody18 defines model for ListResponseBody18.
+type ListResponseBody18 struct {
 	PaginationMeta PaginationMetaResult `json:"pagination_meta"`
 	Users          []UserWithRolesV2    `json:"users"`
 }
@@ -2772,34 +2111,15 @@ type ListResponseBody9 struct {
 	IncidentRoles []IncidentRoleV2 `json:"incident_roles"`
 }
 
-// ListStepsResponseBody defines model for ListStepsResponseBody.
-type ListStepsResponseBody struct {
-	Steps []StepSlim `json:"steps"`
-}
-
-// ListTriggersResponseBody defines model for ListTriggersResponseBody.
-type ListTriggersResponseBody struct {
-	Triggers []TriggerSlim `json:"triggers"`
+// ListScheduleEntriesResponseBody defines model for ListScheduleEntriesResponseBody.
+type ListScheduleEntriesResponseBody struct {
+	PaginationMeta  *AfterPaginationMetaResultV2 `json:"pagination_meta,omitempty"`
+	ScheduleEntries ScheduleEntriesListPayloadV2 `json:"schedule_entries"`
 }
 
 // ListTypesResponseBody defines model for ListTypesResponseBody.
 type ListTypesResponseBody struct {
 	CatalogTypes []CatalogTypeV2 `json:"catalog_types"`
-}
-
-// ListWorkflowRunsResponseBody defines model for ListWorkflowRunsResponseBody.
-type ListWorkflowRunsResponseBody struct {
-	WorkflowRuns []WorkflowRun `json:"workflow_runs"`
-}
-
-// ListWorkflowTemplatesResponseBody defines model for ListWorkflowTemplatesResponseBody.
-type ListWorkflowTemplatesResponseBody struct {
-	Templates []WorkflowTemplate `json:"templates"`
-}
-
-// ListWorkflowsResponseBody defines model for ListWorkflowsResponseBody.
-type ListWorkflowsResponseBody struct {
-	Workflows []WorkflowSlim `json:"workflows"`
 }
 
 // PaginationMetaResult defines model for PaginationMetaResult.
@@ -2844,13 +2164,205 @@ type RetrospectiveIncidentOptionsV2 struct {
 	SlackChannelId *string `json:"slack_channel_id,omitempty"`
 }
 
-// ReturnsMetaV2 defines model for ReturnsMetaV2.
-type ReturnsMetaV2 struct {
-	// Array Whether the return value should be single or multi-value
-	Array bool `json:"array"`
+// ScheduleConfigCreatePayloadV2 defines model for ScheduleConfigCreatePayloadV2.
+type ScheduleConfigCreatePayloadV2 struct {
+	Rotations *[]ScheduleRotationCreatePayloadV2 `json:"rotations,omitempty"`
+}
 
-	// Type Expected return type of this expression (what to try casting the result to)
-	Type string `json:"type"`
+// ScheduleConfigUpdatePayloadV2 defines model for ScheduleConfigUpdatePayloadV2.
+type ScheduleConfigUpdatePayloadV2 struct {
+	Rotations *[]ScheduleRotationUpdatePayloadV2 `json:"rotations,omitempty"`
+}
+
+// ScheduleConfigV2 defines model for ScheduleConfigV2.
+type ScheduleConfigV2 struct {
+	// Rotations Rotas in this schedule
+	Rotations []ScheduleRotationV2 `json:"rotations"`
+}
+
+// ScheduleCreatePayloadV2 defines model for ScheduleCreatePayloadV2.
+type ScheduleCreatePayloadV2 struct {
+	// Annotations Annotations that can track metadata about the schedule
+	Annotations *map[string]string             `json:"annotations,omitempty"`
+	Config      *ScheduleConfigCreatePayloadV2 `json:"config,omitempty"`
+
+	// Name Name of the schedule
+	Name *string `json:"name,omitempty"`
+
+	// Timezone Timezone of the schedule
+	Timezone *string `json:"timezone,omitempty"`
+}
+
+// ScheduleEntriesListPayloadV2 defines model for ScheduleEntriesListPayloadV2.
+type ScheduleEntriesListPayloadV2 struct {
+	Final     []ScheduleEntryV2 `json:"final"`
+	Overrides []ScheduleEntryV2 `json:"overrides"`
+	Scheduled []ScheduleEntryV2 `json:"scheduled"`
+}
+
+// ScheduleEntryV2 defines model for ScheduleEntryV2.
+type ScheduleEntryV2 struct {
+	EndAt time.Time `json:"end_at"`
+
+	// EntryId Unique identifier of the schedule entry
+	EntryId *string `json:"entry_id,omitempty"`
+
+	// Fingerprint A unique identifier for this entry, used to determine a unique shift
+	Fingerprint *string `json:"fingerprint,omitempty"`
+
+	// LayerId If present, the layer this entry applies to on the rota
+	LayerId *string `json:"layer_id,omitempty"`
+
+	// RotationId If present, the rotation this entry applies to on the schedule
+	RotationId *string   `json:"rotation_id,omitempty"`
+	StartAt    time.Time `json:"start_at"`
+	User       *UserV1   `json:"user,omitempty"`
+}
+
+// ScheduleLayerCreatePayloadV2 defines model for ScheduleLayerCreatePayloadV2.
+type ScheduleLayerCreatePayloadV2 struct {
+	// Id Unique identifier of the layer
+	Id *string `json:"id,omitempty"`
+
+	// Name Name of the layer
+	Name string `json:"name"`
+}
+
+// ScheduleLayerV2 defines model for ScheduleLayerV2.
+type ScheduleLayerV2 struct {
+	// Id Unique identifier of the layer
+	Id *string `json:"id,omitempty"`
+
+	// Name Name of the layer
+	Name *string `json:"name,omitempty"`
+}
+
+// ScheduleRotationCreatePayloadV2 defines model for ScheduleRotationCreatePayloadV2.
+type ScheduleRotationCreatePayloadV2 struct {
+	EffectiveFrom   *time.Time                    `json:"effective_from,omitempty"`
+	HandoverStartAt *time.Time                    `json:"handover_start_at,omitempty"`
+	Handovers       *[]ScheduleRotationHandoverV2 `json:"handovers,omitempty"`
+
+	// Id Unique identifier of the rotation
+	Id     *string                         `json:"id,omitempty"`
+	Layers *[]ScheduleLayerCreatePayloadV2 `json:"layers,omitempty"`
+
+	// Name Name of the rotation
+	Name            string                               `json:"name"`
+	Users           *[]UserReferencePayloadV1            `json:"users,omitempty"`
+	WorkingInterval *[]ScheduleRotationWorkingIntervalV2 `json:"working_interval,omitempty"`
+}
+
+// ScheduleRotationHandoverV2 defines model for ScheduleRotationHandoverV2.
+type ScheduleRotationHandoverV2 struct {
+	Interval     *int64                                  `json:"interval,omitempty"`
+	IntervalType *ScheduleRotationHandoverV2IntervalType `json:"interval_type,omitempty"`
+}
+
+// ScheduleRotationHandoverV2IntervalType defines model for ScheduleRotationHandoverV2.IntervalType.
+type ScheduleRotationHandoverV2IntervalType string
+
+// ScheduleRotationUpdatePayloadV2 defines model for ScheduleRotationUpdatePayloadV2.
+type ScheduleRotationUpdatePayloadV2 struct {
+	EffectiveFrom   *time.Time                    `json:"effective_from,omitempty"`
+	HandoverStartAt *time.Time                    `json:"handover_start_at,omitempty"`
+	Handovers       *[]ScheduleRotationHandoverV2 `json:"handovers,omitempty"`
+
+	// Id Unique identifier of the rotation
+	Id     *string            `json:"id,omitempty"`
+	Layers *[]ScheduleLayerV2 `json:"layers,omitempty"`
+
+	// Name Name of the rotation
+	Name            *string                                           `json:"name,omitempty"`
+	Users           *[]UserReferencePayloadV1                         `json:"users,omitempty"`
+	WorkingInterval *[]ScheduleRotationWorkingIntervalUpdatePayloadV2 `json:"working_interval,omitempty"`
+}
+
+// ScheduleRotationV2 defines model for ScheduleRotationV2.
+type ScheduleRotationV2 struct {
+	// EffectiveFrom When this rotation config will be effective from
+	EffectiveFrom *time.Time `json:"effective_from,omitempty"`
+
+	// HandoverStartAt Defines the next moment we'll trigger a handover
+	HandoverStartAt time.Time `json:"handover_start_at"`
+
+	// Handovers Defines the handover intervals for this rota, in order they should apply
+	Handovers []ScheduleRotationHandoverV2 `json:"handovers"`
+
+	// Id Unique internal ID of the rotation
+	Id string `json:"id"`
+
+	// Layers Controls how many people are on-call concurrently
+	Layers []ScheduleLayerV2 `json:"layers"`
+
+	// Name Human readable name synced from external provider
+	Name            string                               `json:"name"`
+	Users           *[]UserV1                            `json:"users,omitempty"`
+	WorkingInterval *[]ScheduleRotationWorkingIntervalV2 `json:"working_interval,omitempty"`
+}
+
+// ScheduleRotationWorkingIntervalUpdatePayloadV2 defines model for ScheduleRotationWorkingIntervalUpdatePayloadV2.
+type ScheduleRotationWorkingIntervalUpdatePayloadV2 struct {
+	// EndTime End time of the interval, in 24hr format
+	EndTime *string `json:"end_time,omitempty"`
+
+	// StartTime Start time of the interval, in 24hr format
+	StartTime *string `json:"start_time,omitempty"`
+
+	// Weekday Weekday this interval applies to
+	Weekday *ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday `json:"weekday,omitempty"`
+}
+
+// ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday Weekday this interval applies to
+type ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday string
+
+// ScheduleRotationWorkingIntervalV2 defines model for ScheduleRotationWorkingIntervalV2.
+type ScheduleRotationWorkingIntervalV2 struct {
+	// EndTime End time of the interval, in 24hr format
+	EndTime string `json:"end_time"`
+
+	// StartTime Start time of the interval, in 24hr format
+	StartTime string `json:"start_time"`
+
+	// Weekday Weekday this interval applies to
+	Weekday ScheduleRotationWorkingIntervalV2Weekday `json:"weekday"`
+}
+
+// ScheduleRotationWorkingIntervalV2Weekday Weekday this interval applies to
+type ScheduleRotationWorkingIntervalV2Weekday string
+
+// ScheduleUpdatePayloadV2 defines model for ScheduleUpdatePayloadV2.
+type ScheduleUpdatePayloadV2 struct {
+	// Annotations Annotations that can track metadata about the schedule
+	Annotations *map[string]string             `json:"annotations,omitempty"`
+	Config      *ScheduleConfigUpdatePayloadV2 `json:"config,omitempty"`
+
+	// Name Name of the schedule
+	Name *string `json:"name,omitempty"`
+
+	// Timezone Timezone of the schedule
+	Timezone *string `json:"timezone,omitempty"`
+}
+
+// ScheduleV2 defines model for ScheduleV2.
+type ScheduleV2 struct {
+	// Annotations Annotations that can track metadata about this schedule
+	Annotations map[string]string `json:"annotations"`
+	Config      *ScheduleConfigV2 `json:"config,omitempty"`
+	CreatedAt   time.Time         `json:"created_at"`
+
+	// CurrentShifts Shifts that are on-going for this schedule, if a native schedule
+	CurrentShifts *[]ScheduleEntryV2 `json:"current_shifts,omitempty"`
+
+	// Id Unique internal ID of the schedule
+	Id string `json:"id"`
+
+	// Name Human readable name synced from external provider
+	Name string `json:"name"`
+
+	// Timezone Timezone of the schedule, as interpreted at the point of generating the report
+	Timezone  string    `json:"timezone"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // SeverityV2 defines model for SeverityV2.
@@ -2907,11 +2419,16 @@ type ShowResponseBody13 struct {
 
 // ShowResponseBody14 defines model for ShowResponseBody14.
 type ShowResponseBody14 struct {
-	Severity SeverityV2 `json:"severity"`
+	Schedule ScheduleV2 `json:"schedule"`
 }
 
 // ShowResponseBody15 defines model for ShowResponseBody15.
 type ShowResponseBody15 struct {
+	Severity SeverityV2 `json:"severity"`
+}
+
+// ShowResponseBody16 defines model for ShowResponseBody16.
+type ShowResponseBody16 struct {
 	User UserWithRolesV2 `json:"user"`
 }
 
@@ -2954,218 +2471,6 @@ type ShowResponseBody8 struct {
 type ShowResponseBody9 struct {
 	IncidentStatus IncidentStatusV1 `json:"incident_status"`
 }
-
-// ShowStepResponseBody defines model for ShowStepResponseBody.
-type ShowStepResponseBody struct {
-	Step Step `json:"step"`
-}
-
-// ShowTriggerResponseBody defines model for ShowTriggerResponseBody.
-type ShowTriggerResponseBody struct {
-	Trigger Trigger `json:"trigger"`
-}
-
-// Step defines model for Step.
-type Step struct {
-	BecomeEligibleCta *BecomeEligibleCTA `json:"become_eligible_cta,omitempty"`
-
-	// Description Human readable description of what this step does
-	Description string `json:"description"`
-
-	// GroupLabel Human readable identifier for the group this step belongs to
-	GroupLabel StepGroupLabel `json:"group_label"`
-
-	// Label Human readable identifier for this step
-	Label string `json:"label"`
-
-	// Name Unique name of the step in the engine
-	Name string `json:"name"`
-
-	// OrganisationIsEligible Whether the current organisation can use this step
-	OrganisationIsEligible bool `json:"organisation_is_eligible"`
-
-	// Params Type information for the step parameters
-	Params []EngineParamV2 `json:"params"`
-
-	// ReleaseChannel Which release channel this step is on
-	ReleaseChannel StepReleaseChannel `json:"release_channel"`
-
-	// Warning Human readable warning applicable to the step
-	Warning *string `json:"warning,omitempty"`
-}
-
-// StepGroupLabel Human readable identifier for the group this step belongs to
-type StepGroupLabel string
-
-// StepReleaseChannel Which release channel this step is on
-type StepReleaseChannel string
-
-// StepConfig defines model for StepConfig.
-type StepConfig struct {
-	// Description Human readable description of what this step does
-	Description string `json:"description"`
-
-	// ForEach Reference to an expression that returns resources to run this step over
-	ForEach *string `json:"for_each,omitempty"`
-
-	// Id Unique ID of this step in a workflow
-	Id string `json:"id"`
-
-	// Label Human readable identifier for this step
-	Label string `json:"label"`
-
-	// Name Unique name of the step in the engine
-	Name string `json:"name"`
-
-	// ParamBindings Bindings for the step parameters
-	ParamBindings []EngineParamBindingV2 `json:"param_bindings"`
-
-	// Params Type information for the step parameters
-	Params []EngineParamV2 `json:"params"`
-}
-
-// StepConfigPayload defines model for StepConfigPayload.
-type StepConfigPayload struct {
-	// ForEach Reference to an expression that returns resources to run this step over
-	ForEach *string `json:"for_each,omitempty"`
-
-	// Id Unique ID of this step in a workflow
-	Id *string `json:"id,omitempty"`
-
-	// Name Unique name of the step in the engine
-	Name string `json:"name"`
-
-	// ParamBindings List of parameter bindings
-	ParamBindings []EngineParamBindingPayloadV2 `json:"param_bindings"`
-}
-
-// StepConfigSlim defines model for StepConfigSlim.
-type StepConfigSlim struct {
-	// GroupLabel Human readable identifier for the group this step belongs to
-	GroupLabel StepConfigSlimGroupLabel `json:"group_label"`
-
-	// Label Human readable identifier for this step
-	Label string `json:"label"`
-
-	// Name Unique name of the step in the engine
-	Name string `json:"name"`
-}
-
-// StepConfigSlimGroupLabel Human readable identifier for the group this step belongs to
-type StepConfigSlimGroupLabel string
-
-// StepProgress defines model for StepProgress.
-type StepProgress struct {
-	// CompletedAt Status of the step
-	CompletedAt *time.Time `json:"completed_at,omitempty"`
-
-	// Status Status of the step
-	Status StepProgressStatus `json:"status"`
-
-	// Step Name of the step
-	Step string `json:"step"`
-}
-
-// StepProgressStatus Status of the step
-type StepProgressStatus string
-
-// StepSlim defines model for StepSlim.
-type StepSlim struct {
-	BecomeEligibleCta *BecomeEligibleCTA `json:"become_eligible_cta,omitempty"`
-
-	// Description Human readable description of what this step does
-	Description string `json:"description"`
-
-	// GroupLabel Human readable identifier for the group this step belongs to
-	GroupLabel StepSlimGroupLabel `json:"group_label"`
-
-	// Label Human readable identifier for this step
-	Label string `json:"label"`
-
-	// Name Unique name of the step in the engine
-	Name string `json:"name"`
-
-	// OrganisationIsEligible Whether the current organisation can use this step
-	OrganisationIsEligible bool `json:"organisation_is_eligible"`
-
-	// Params Type information for the step parameters
-	Params []EngineParamV2 `json:"params"`
-
-	// ReleaseChannel Which release channel this step is on
-	ReleaseChannel StepSlimReleaseChannel `json:"release_channel"`
-}
-
-// StepSlimGroupLabel Human readable identifier for the group this step belongs to
-type StepSlimGroupLabel string
-
-// StepSlimReleaseChannel Which release channel this step is on
-type StepSlimReleaseChannel string
-
-// TemplateEligibilityInformation defines model for TemplateEligibilityInformation.
-type TemplateEligibilityInformation struct {
-	// IneligibleCallToActionPath Path to redirect the user to if they want to make this template available
-	IneligibleCallToActionPath string `json:"ineligible_call_to_action_path"`
-
-	// IneligibleCallToActionText Text to tell the user what to do next to use this template
-	IneligibleCallToActionText string `json:"ineligible_call_to_action_text"`
-
-	// IneligibleExplanationText Explanation of why this template isn't available.
-	IneligibleExplanationText string `json:"ineligible_explanation_text"`
-
-	// IsEligible Whether this org can use this template
-	IsEligible bool `json:"is_eligible"`
-}
-
-// Trigger defines model for Trigger.
-type Trigger struct {
-	// DefaultOnceFor the default OnceFor associated with this trigger
-	DefaultOnceFor []EngineReferenceV2 `json:"default_once_for"`
-
-	// GroupLabel Human readable identifier for the group this trigger belongs to
-	GroupLabel TriggerGroupLabel `json:"group_label"`
-
-	// Icon String telling the UI what icon to use for this field
-	Icon TriggerIcon `json:"icon"`
-
-	// Label Human readable identifier for this trigger
-	Label string `json:"label"`
-
-	// Name Unique name of the trigger inside of the engine
-	Name string `json:"name"`
-
-	// Scope All references provided in the trigger scope
-	Scope []EngineReferenceV2 `json:"scope"`
-
-	// WhenDescription Human readable description of when the trigger fires
-	WhenDescription string `json:"when_description"`
-}
-
-// TriggerGroupLabel Human readable identifier for the group this trigger belongs to
-type TriggerGroupLabel string
-
-// TriggerIcon String telling the UI what icon to use for this field
-type TriggerIcon string
-
-// TriggerSlim defines model for TriggerSlim.
-type TriggerSlim struct {
-	// GroupLabel Human readable identifier for the group this trigger belongs to
-	GroupLabel TriggerSlimGroupLabel `json:"group_label"`
-
-	// Icon String telling the UI what icon to use for this field
-	Icon TriggerSlimIcon `json:"icon"`
-
-	// Label Human readable identifier for this trigger
-	Label string `json:"label"`
-
-	// Name Unique name of the trigger inside of the engine
-	Name string `json:"name"`
-}
-
-// TriggerSlimGroupLabel Human readable identifier for the group this trigger belongs to
-type TriggerSlimGroupLabel string
-
-// TriggerSlimIcon String telling the UI what icon to use for this field
-type TriggerSlimIcon string
 
 // UpdateEntryRequestBody defines model for UpdateEntryRequestBody.
 type UpdateEntryRequestBody struct {
@@ -3241,7 +2546,7 @@ type UpdateRequestBody4 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
-	// Instructions Provided to whoever is nominated for the role
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 	Instructions string `json:"instructions"`
 
 	// Name Human readable name of the incident role
@@ -3250,7 +2555,7 @@ type UpdateRequestBody4 struct {
 	// Required DEPRECATED: this will always be false.
 	Required *bool `json:"required,omitempty"`
 
-	// Shortform Short human readable name for Slack
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
 	Shortform string `json:"shortform"`
 }
 
@@ -3259,13 +2564,13 @@ type UpdateRequestBody5 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
-	// Instructions Provided to whoever is nominated for the role
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 	Instructions string `json:"instructions"`
 
 	// Name Human readable name of the incident role
 	Name string `json:"name"`
 
-	// Shortform Short human readable name for Slack
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
 	Shortform string `json:"shortform"`
 }
 
@@ -3276,6 +2581,11 @@ type UpdateRequestBody6 struct {
 
 	// Name Unique name of this status
 	Name string `json:"name"`
+}
+
+// UpdateRequestBody7 defines model for UpdateRequestBody7.
+type UpdateRequestBody7 struct {
+	Schedule ScheduleUpdatePayloadV2 `json:"schedule"`
 }
 
 // UpdateTypeRequestBody defines model for UpdateTypeRequestBody.
@@ -3313,25 +2623,6 @@ type UpdateTypeSchemaRequestBody struct {
 	Attributes []CatalogTypeAttributePayloadV2 `json:"attributes"`
 	Version    int64                           `json:"version"`
 }
-
-// UpdateWorkflowFolderRequestBody defines model for UpdateWorkflowFolderRequestBody.
-type UpdateWorkflowFolderRequestBody struct {
-	// Folder Folder to display the workflow in
-	Folder *string `json:"folder,omitempty"`
-}
-
-// UpdateWorkflowRequestBody defines model for UpdateWorkflowRequestBody.
-type UpdateWorkflowRequestBody struct {
-	// PendingRunStrategy If this workflow had a delay before, what should we do with any scheduled but not yet executed runs?
-	PendingRunStrategy *UpdateWorkflowRequestBodyPendingRunStrategy `json:"pending_run_strategy,omitempty"`
-
-	// Trigger Trigger to set on the workflow
-	Trigger  string          `json:"trigger"`
-	Workflow WorkflowPayload `json:"workflow"`
-}
-
-// UpdateWorkflowRequestBodyPendingRunStrategy If this workflow had a delay before, what should we do with any scheduled but not yet executed runs?
-type UpdateWorkflowRequestBodyPendingRunStrategy string
 
 // UserReferencePayloadV1 defines model for UserReferencePayloadV1.
 type UserReferencePayloadV1 struct {
@@ -3389,257 +2680,6 @@ type UserWithRolesV2 struct {
 
 // UserWithRolesV2Role DEPRECATED: Role of the user as of March 9th 2023, this value is no longer updated.
 type UserWithRolesV2Role string
-
-// ValidateStepRequestBody defines model for ValidateStepRequestBody.
-type ValidateStepRequestBody struct {
-	Step StepConfigPayload `json:"step"`
-}
-
-// Workflow defines model for Workflow.
-type Workflow struct {
-	// ConditionGroups Conditions that apply to the workflow trigger
-	ConditionGroups []ExpressionFilterOptsV2 `json:"condition_groups"`
-
-	// ConditionsApplyOverDelay If this workflow is delayed, whether the conditions should be rechecked between trigger firing and execution
-	ConditionsApplyOverDelay *bool `json:"conditions_apply_over_delay,omitempty"`
-
-	// CreatedAt When the resource was created
-	CreatedAt time.Time `json:"created_at"`
-
-	// DelayForSeconds Delay in seconds between trigger firing and running the workflow
-	DelayForSeconds *int64 `json:"delay_for_seconds,omitempty"`
-
-	// DisabledAt Whether the workflow is disabled, and if so, when
-	DisabledAt *time.Time `json:"disabled_at,omitempty"`
-
-	// Expressions Expressions that make variables available in the scope
-	Expressions []ExpressionV2 `json:"expressions"`
-
-	// Folder Folder to display the workflow in
-	Folder *string `json:"folder,omitempty"`
-
-	// Id Unique identifier for the workflow
-	Id string `json:"id"`
-
-	// IncludePrivateIncidents Whether to include private incidents
-	IncludePrivateIncidents bool `json:"include_private_incidents"`
-
-	// IncludeRetrospectiveIncidents Whether to include retrospective incidents
-	IncludeRetrospectiveIncidents bool `json:"include_retrospective_incidents"`
-
-	// IncludeTestIncidents Whether to include test incidents
-	IncludeTestIncidents bool `json:"include_test_incidents"`
-
-	// IsDraft Whether this workflow is a draft
-	IsDraft bool `json:"is_draft"`
-
-	// Name Name provided by the user when creating the workflow
-	Name string `json:"name"`
-
-	// OnceFor This workflow will run 'once for' a list of references
-	OnceFor []EngineReferenceV2 `json:"once_for"`
-
-	// OrganisationId Unique identifier for the organisation that owns this workflow
-	OrganisationId string `json:"organisation_id"`
-
-	// RunsFrom The time from which this workflow will run on incidents
-	RunsFrom *time.Time `json:"runs_from,omitempty"`
-
-	// RunsOnIncidents Which incidents should the workflow be applied to?
-	RunsOnIncidents WorkflowRunsOnIncidents `json:"runs_on_incidents"`
-
-	// Steps Steps that are executed as part of the workflow
-	Steps []StepConfig `json:"steps"`
-
-	// TerraformRepoUrl The url of the external repository where this workflow is managed
-	TerraformRepoUrl *string     `json:"terraform_repo_url,omitempty"`
-	Trigger          TriggerSlim `json:"trigger"`
-
-	// UpdatedAt When the resource was last updated
-	UpdatedAt time.Time `json:"updated_at"`
-
-	// Version Revision of the workflow, uniquely identifying it's version
-	Version int64 `json:"version"`
-}
-
-// WorkflowRunsOnIncidents Which incidents should the workflow be applied to?
-type WorkflowRunsOnIncidents string
-
-// WorkflowPayload defines model for WorkflowPayload.
-type WorkflowPayload struct {
-	// ConditionGroups List of conditions to apply to the workflow
-	ConditionGroups []ExpressionFilterOptsPayloadV2 `json:"condition_groups"`
-
-	// ConditionsApplyOverDelay If this workflow is delayed, whether the conditions should be rechecked between trigger firing and execution
-	ConditionsApplyOverDelay *bool `json:"conditions_apply_over_delay,omitempty"`
-
-	// DelayForSeconds Delay in seconds between trigger firing and running the workflow
-	DelayForSeconds *int64 `json:"delay_for_seconds,omitempty"`
-
-	// Expressions The expressions to use in the workflow
-	Expressions []ExpressionPayloadV2 `json:"expressions"`
-
-	// IncludePrivateIncidents Whether to include private incidents
-	IncludePrivateIncidents bool `json:"include_private_incidents"`
-
-	// IncludeRetrospectiveIncidents Whether to include retrospective incidents
-	IncludeRetrospectiveIncidents bool `json:"include_retrospective_incidents"`
-
-	// IncludeTestIncidents Whether to include test incidents
-	IncludeTestIncidents bool `json:"include_test_incidents"`
-
-	// IsDraft Whether this workflow is a draft
-	IsDraft bool `json:"is_draft"`
-
-	// Name Name provided by the user when creating the workflow
-	Name string `json:"name"`
-
-	// OnceFor Once For strategy to apply to this workflow
-	OnceFor []string `json:"once_for"`
-
-	// RunsOnIncidents Which incidents should the workflow be applied to?
-	RunsOnIncidents WorkflowPayloadRunsOnIncidents `json:"runs_on_incidents"`
-
-	// Steps List of step to execute as part of the workflow
-	Steps []StepConfigPayload `json:"steps"`
-
-	// TerraformRepoUrl The url of the external repository where this workflow is managed
-	TerraformRepoUrl *string `json:"terraform_repo_url,omitempty"`
-}
-
-// WorkflowPayloadRunsOnIncidents Which incidents should the workflow be applied to?
-type WorkflowPayloadRunsOnIncidents string
-
-// WorkflowRun defines model for WorkflowRun.
-type WorkflowRun struct {
-	// CancelledAt If the run was cancelled, this is when
-	CancelledAt *time.Time `json:"cancelled_at,omitempty"`
-
-	// CreatedAt When the resource was created
-	CreatedAt time.Time `json:"created_at"`
-
-	// EnqueuedAt When the run was enqueued for execution
-	EnqueuedAt *time.Time `json:"enqueued_at,omitempty"`
-
-	// Error Error produced by the workflow, if it failed
-	Error *string `json:"error,omitempty"`
-
-	// Id Unique identifier for the workflow run
-	Id string `json:"id"`
-
-	// IncidentId If this run was against a specific incident, this is the ID of that incident
-	IncidentId *string `json:"incident_id,omitempty"`
-
-	// IncidentReference If this run was against a specific incident, this is the reference of that incident
-	IncidentReference *string `json:"incident_reference,omitempty"`
-
-	// OnceFor Once for configuration for this workflow
-	OnceFor *[]string `json:"once_for,omitempty"`
-
-	// OrganisationId Unique identifier for the organisation that owns this workflow run
-	OrganisationId string `json:"organisation_id"`
-
-	// Progress Status of each step as it is worked
-	Progress []StepProgress `json:"progress"`
-
-	// ScheduledAt When the run was scheduled for
-	ScheduledAt time.Time `json:"scheduled_at"`
-
-	// UpdatedAt When the resource was last updated
-	UpdatedAt time.Time `json:"updated_at"`
-
-	// WorkflowId Unique identifier for the underlying workflow
-	WorkflowId string `json:"workflow_id"`
-
-	// WorkflowVersionId Unique identifier of the workflow version
-	WorkflowVersionId string `json:"workflow_version_id"`
-}
-
-// WorkflowSlim defines model for WorkflowSlim.
-type WorkflowSlim struct {
-	// ConditionGroups Conditions that apply to the workflow trigger
-	ConditionGroups []ExpressionFilterOptsV2 `json:"condition_groups"`
-
-	// ConditionsApplyOverDelay If this workflow is delayed, whether the conditions should be rechecked between trigger firing and execution
-	ConditionsApplyOverDelay *bool `json:"conditions_apply_over_delay,omitempty"`
-
-	// DelayForSeconds Delay in seconds between trigger firing and running the workflow
-	DelayForSeconds *int64 `json:"delay_for_seconds,omitempty"`
-
-	// ErrorString If present, this includes an error that was encountered trying to serialize the workflow
-	ErrorString *string `json:"error_string,omitempty"`
-
-	// Expressions Expressions that make variables available in the scope
-	Expressions []ExpressionV2 `json:"expressions"`
-
-	// Folder Folder to display the workflow in
-	Folder *string `json:"folder,omitempty"`
-
-	// Id Unique identifier for the workflow
-	Id string `json:"id"`
-
-	// IncludePrivateIncidents Whether to include private incidents
-	IncludePrivateIncidents bool `json:"include_private_incidents"`
-
-	// IncludeRetrospectiveIncidents Whether to include retrospective incidents
-	IncludeRetrospectiveIncidents bool `json:"include_retrospective_incidents"`
-
-	// IncludeTestIncidents Whether to include test incidents
-	IncludeTestIncidents bool `json:"include_test_incidents"`
-
-	// Name Name provided by the user when creating the workflow
-	Name string `json:"name"`
-
-	// OnceFor This workflow will run 'once for' a list of references
-	OnceFor []EngineReferenceV2 `json:"once_for"`
-
-	// OrganisationId Unique identifier for the organisation that owns this workflow
-	OrganisationId string `json:"organisation_id"`
-
-	// RunsFrom The time from which this workflow will run on incidents
-	RunsFrom *time.Time `json:"runs_from,omitempty"`
-
-	// RunsOnIncidents Which incidents should the workflow be applied to?
-	RunsOnIncidents WorkflowSlimRunsOnIncidents `json:"runs_on_incidents"`
-
-	// Steps Steps that are executed as part of the workflow
-	Steps []StepConfigSlim `json:"steps"`
-
-	// TerraformRepoUrl The url of the external repository where this workflow is managed
-	TerraformRepoUrl *string     `json:"terraform_repo_url,omitempty"`
-	Trigger          TriggerSlim `json:"trigger"`
-
-	// Version Revision of the workflow, uniquely identifying it's version
-	Version int64 `json:"version"`
-
-	// WorkflowState The state of the workflow
-	WorkflowState WorkflowSlimWorkflowState `json:"workflow_state"`
-}
-
-// WorkflowSlimRunsOnIncidents Which incidents should the workflow be applied to?
-type WorkflowSlimRunsOnIncidents string
-
-// WorkflowSlimWorkflowState The state of the workflow
-type WorkflowSlimWorkflowState string
-
-// WorkflowTemplate defines model for WorkflowTemplate.
-type WorkflowTemplate struct {
-	// Description Human readable description for the template
-	Description string                         `json:"description"`
-	Eligibility TemplateEligibilityInformation `json:"eligibility"`
-
-	// Icon String telling the UI what icon to use for this template
-	Icon WorkflowTemplateIcon `json:"icon"`
-
-	// Label Human readable label for the template
-	Label string `json:"label"`
-
-	// Name Unique identifier for the template
-	Name string `json:"name"`
-}
-
-// WorkflowTemplateIcon String telling the UI what icon to use for this template
-type WorkflowTemplateIcon string
 
 // ActionsV1ListParams defines parameters for ActionsV1List.
 type ActionsV1ListParams struct {
@@ -3779,31 +2819,40 @@ type IncidentsV2ListParams struct {
 	Mode *map[string][]string `form:"mode,omitempty" json:"mode,omitempty"`
 }
 
+// SchedulesV2ListScheduleEntriesParams defines parameters for SchedulesV2ListScheduleEntries.
+type SchedulesV2ListScheduleEntriesParams struct {
+	// ScheduleId The ID of the schedule to get entries for.
+	ScheduleId string `form:"schedule_id" json:"schedule_id"`
+
+	// EntryWindowStart The start of the window to get entries for.
+	EntryWindowStart *time.Time `form:"entry_window_start,omitempty" json:"entry_window_start,omitempty"`
+
+	// EntryWindowEnd The end of the window to get entries for.
+	EntryWindowEnd *time.Time `form:"entry_window_end,omitempty" json:"entry_window_end,omitempty"`
+}
+
+// SchedulesV2ListParams defines parameters for SchedulesV2List.
+type SchedulesV2ListParams struct {
+	// PageSize number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A schedule's ID. This endpoint will return a list of schedules after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
 // UsersV2ListParams defines parameters for UsersV2List.
 type UsersV2ListParams struct {
+	// Email Filter by email address
+	Email *string `form:"email,omitempty" json:"email,omitempty"`
+
+	// SlackUserId Filter by Slack user ID
+	SlackUserId *string `form:"slack_user_id,omitempty" json:"slack_user_id,omitempty"`
+
 	// PageSize Integer number of records to return
 	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// After An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.
 	After *string `form:"after,omitempty" json:"after,omitempty"`
-}
-
-// WorkflowsV2ListWorkflowsParams defines parameters for WorkflowsV2ListWorkflows.
-type WorkflowsV2ListWorkflowsParams struct {
-	// IncidentType If provided, will filter workflows for those applicable to the incident type
-	IncidentType *string `form:"incident_type,omitempty" json:"incident_type,omitempty"`
-}
-
-// WorkflowsV2ShowStepParams defines parameters for WorkflowsV2ShowStep.
-type WorkflowsV2ShowStepParams struct {
-	// Trigger What trigger should we use to render any default values
-	Trigger string `form:"trigger" json:"trigger"`
-}
-
-// WorkflowsV2ListWorkflowRunsParams defines parameters for WorkflowsV2ListWorkflowRuns.
-type WorkflowsV2ListWorkflowRunsParams struct {
-	// WorkflowId Unique identifier for the workflow
-	WorkflowId string `form:"workflow_id" json:"workflow_id"`
 }
 
 // CustomFieldOptionsV1CreateJSONRequestBody defines body for CustomFieldOptionsV1Create for application/json ContentType.
@@ -3843,10 +2892,10 @@ type IncidentStatusesV1UpdateJSONRequestBody = UpdateRequestBody6
 type IncidentsV1CreateJSONRequestBody = CreateRequestBody9
 
 // SeveritiesV1CreateJSONRequestBody defines body for SeveritiesV1Create for application/json ContentType.
-type SeveritiesV1CreateJSONRequestBody = CreateRequestBody11
+type SeveritiesV1CreateJSONRequestBody = CreateRequestBody12
 
 // SeveritiesV1UpdateJSONRequestBody defines body for SeveritiesV1Update for application/json ContentType.
-type SeveritiesV1UpdateJSONRequestBody = CreateRequestBody11
+type SeveritiesV1UpdateJSONRequestBody = CreateRequestBody12
 
 // AlertEventsV2CreateHTTPJSONRequestBody defines body for AlertEventsV2CreateHTTP for application/json ContentType.
 type AlertEventsV2CreateHTTPJSONRequestBody = CreateHTTPRequestBody
@@ -3884,20 +2933,11 @@ type IncidentsV2CreateJSONRequestBody = CreateRequestBody10
 // IncidentsV2EditJSONRequestBody defines body for IncidentsV2Edit for application/json ContentType.
 type IncidentsV2EditJSONRequestBody = EditRequestBody
 
-// WorkflowsV2CreateWorkflowJSONRequestBody defines body for WorkflowsV2CreateWorkflow for application/json ContentType.
-type WorkflowsV2CreateWorkflowJSONRequestBody = CreateWorkflowRequestBody
+// SchedulesV2CreateJSONRequestBody defines body for SchedulesV2Create for application/json ContentType.
+type SchedulesV2CreateJSONRequestBody = CreateRequestBody11
 
-// WorkflowsV2ValidateStepJSONRequestBody defines body for WorkflowsV2ValidateStep for application/json ContentType.
-type WorkflowsV2ValidateStepJSONRequestBody = ValidateStepRequestBody
-
-// WorkflowsV2CreateWorkflowRunJSONRequestBody defines body for WorkflowsV2CreateWorkflowRun for application/json ContentType.
-type WorkflowsV2CreateWorkflowRunJSONRequestBody = CreateWorkflowRunRequestBody
-
-// WorkflowsV2UpdateWorkflowJSONRequestBody defines body for WorkflowsV2UpdateWorkflow for application/json ContentType.
-type WorkflowsV2UpdateWorkflowJSONRequestBody = UpdateWorkflowRequestBody
-
-// WorkflowsV2UpdateWorkflowFolderJSONRequestBody defines body for WorkflowsV2UpdateWorkflowFolder for application/json ContentType.
-type WorkflowsV2UpdateWorkflowFolderJSONRequestBody = UpdateWorkflowFolderRequestBody
+// SchedulesV2UpdateJSONRequestBody defines body for SchedulesV2Update for application/json ContentType.
+type SchedulesV2UpdateJSONRequestBody = UpdateRequestBody7
 
 // RequestEditorFn  is the function signature for the RequestEditor callback function
 type RequestEditorFn func(ctx context.Context, req *http.Request) error
@@ -4246,75 +3286,33 @@ type ClientInterface interface {
 
 	IncidentsV2Edit(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// SchedulesV2ListScheduleEntries request
+	SchedulesV2ListScheduleEntries(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2List request
+	SchedulesV2List(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2Create request with any body
+	SchedulesV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SchedulesV2Create(ctx context.Context, body SchedulesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2Destroy request
+	SchedulesV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2Show request
+	SchedulesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2Update request with any body
+	SchedulesV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SchedulesV2Update(ctx context.Context, id string, body SchedulesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// UsersV2List request
 	UsersV2List(ctx context.Context, params *UsersV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// UsersV2Show request
 	UsersV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2ListWorkflows request
-	WorkflowsV2ListWorkflows(ctx context.Context, params *WorkflowsV2ListWorkflowsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2CreateWorkflow request with any body
-	WorkflowsV2CreateWorkflowWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	WorkflowsV2CreateWorkflow(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2ListSteps request
-	WorkflowsV2ListSteps(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2ValidateStep request with any body
-	WorkflowsV2ValidateStepWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	WorkflowsV2ValidateStep(ctx context.Context, body WorkflowsV2ValidateStepJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2ShowStep request
-	WorkflowsV2ShowStep(ctx context.Context, name string, params *WorkflowsV2ShowStepParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2ListTriggers request
-	WorkflowsV2ListTriggers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2ShowTrigger request
-	WorkflowsV2ShowTrigger(ctx context.Context, name string, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2ListWorkflowRuns request
-	WorkflowsV2ListWorkflowRuns(ctx context.Context, params *WorkflowsV2ListWorkflowRunsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2CreateWorkflowRun request with any body
-	WorkflowsV2CreateWorkflowRunWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	WorkflowsV2CreateWorkflowRun(ctx context.Context, body WorkflowsV2CreateWorkflowRunJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2ShowWorkflowRun request
-	WorkflowsV2ShowWorkflowRun(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2ListWorkflowTemplates request
-	WorkflowsV2ListWorkflowTemplates(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2ShowWorkflowTemplate request
-	WorkflowsV2ShowWorkflowTemplate(ctx context.Context, name string, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2DestroyWorkflow request
-	WorkflowsV2DestroyWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2ShowWorkflow request
-	WorkflowsV2ShowWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2UpdateWorkflow request with any body
-	WorkflowsV2UpdateWorkflowWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	WorkflowsV2UpdateWorkflow(ctx context.Context, id string, body WorkflowsV2UpdateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2DisableWorkflow request
-	WorkflowsV2DisableWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2EnableWorkflow request
-	WorkflowsV2EnableWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// WorkflowsV2UpdateWorkflowFolder request with any body
-	WorkflowsV2UpdateWorkflowFolderWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	WorkflowsV2UpdateWorkflowFolder(ctx context.Context, id string, body WorkflowsV2UpdateWorkflowFolderJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) ActionsV1List(ctx context.Context, params *ActionsV1ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -5517,6 +4515,102 @@ func (c *Client) IncidentsV2Edit(ctx context.Context, id string, body IncidentsV
 	return c.Client.Do(req)
 }
 
+func (c *Client) SchedulesV2ListScheduleEntries(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2ListScheduleEntriesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2List(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2Create(ctx context.Context, body SchedulesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2DestroyRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2Update(ctx context.Context, id string, body SchedulesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) UsersV2List(ctx context.Context, params *UsersV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUsersV2ListRequest(c.Server, params)
 	if err != nil {
@@ -5531,282 +4625,6 @@ func (c *Client) UsersV2List(ctx context.Context, params *UsersV2ListParams, req
 
 func (c *Client) UsersV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUsersV2ShowRequest(c.Server, id)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ListWorkflows(ctx context.Context, params *WorkflowsV2ListWorkflowsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ListWorkflowsRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2CreateWorkflowWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2CreateWorkflowRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2CreateWorkflow(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2CreateWorkflowRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ListSteps(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ListStepsRequest(c.Server)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ValidateStepWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ValidateStepRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ValidateStep(ctx context.Context, body WorkflowsV2ValidateStepJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ValidateStepRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ShowStep(ctx context.Context, name string, params *WorkflowsV2ShowStepParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ShowStepRequest(c.Server, name, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ListTriggers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ListTriggersRequest(c.Server)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ShowTrigger(ctx context.Context, name string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ShowTriggerRequest(c.Server, name)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ListWorkflowRuns(ctx context.Context, params *WorkflowsV2ListWorkflowRunsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ListWorkflowRunsRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2CreateWorkflowRunWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2CreateWorkflowRunRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2CreateWorkflowRun(ctx context.Context, body WorkflowsV2CreateWorkflowRunJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2CreateWorkflowRunRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ShowWorkflowRun(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ShowWorkflowRunRequest(c.Server, id)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ListWorkflowTemplates(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ListWorkflowTemplatesRequest(c.Server)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ShowWorkflowTemplate(ctx context.Context, name string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ShowWorkflowTemplateRequest(c.Server, name)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2DestroyWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2DestroyWorkflowRequest(c.Server, id)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2ShowWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ShowWorkflowRequest(c.Server, id)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2UpdateWorkflowWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2UpdateWorkflowRequestWithBody(c.Server, id, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2UpdateWorkflow(ctx context.Context, id string, body WorkflowsV2UpdateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2UpdateWorkflowRequest(c.Server, id, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2DisableWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2DisableWorkflowRequest(c.Server, id)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2EnableWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2EnableWorkflowRequest(c.Server, id)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2UpdateWorkflowFolderWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2UpdateWorkflowFolderRequestWithBody(c.Server, id, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) WorkflowsV2UpdateWorkflowFolder(ctx context.Context, id string, body WorkflowsV2UpdateWorkflowFolderJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2UpdateWorkflowFolderRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -8963,6 +7781,299 @@ func NewIncidentsV2EditRequestWithBody(server string, id string, contentType str
 	return req, nil
 }
 
+// NewSchedulesV2ListScheduleEntriesRequest generates requests for SchedulesV2ListScheduleEntries
+func NewSchedulesV2ListScheduleEntriesRequest(server string, params *SchedulesV2ListScheduleEntriesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedule_entries")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if queryFrag, err := runtime.StyleParamWithLocation("form", true, "schedule_id", runtime.ParamLocationQuery, params.ScheduleId); err != nil {
+		return nil, err
+	} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+		return nil, err
+	} else {
+		for k, v := range parsed {
+			for _, v2 := range v {
+				queryValues.Add(k, v2)
+			}
+		}
+	}
+
+	if params.EntryWindowStart != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "entry_window_start", runtime.ParamLocationQuery, *params.EntryWindowStart); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.EntryWindowEnd != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "entry_window_end", runtime.ParamLocationQuery, *params.EntryWindowEnd); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV2ListRequest generates requests for SchedulesV2List
+func NewSchedulesV2ListRequest(server string, params *SchedulesV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.PageSize != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.After != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV2CreateRequest calls the generic SchedulesV2Create builder with application/json body
+func NewSchedulesV2CreateRequest(server string, body SchedulesV2CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSchedulesV2CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewSchedulesV2CreateRequestWithBody generates requests for SchedulesV2Create with any type of body
+func NewSchedulesV2CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewSchedulesV2DestroyRequest generates requests for SchedulesV2Destroy
+func NewSchedulesV2DestroyRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV2ShowRequest generates requests for SchedulesV2Show
+func NewSchedulesV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV2UpdateRequest calls the generic SchedulesV2Update builder with application/json body
+func NewSchedulesV2UpdateRequest(server string, id string, body SchedulesV2UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSchedulesV2UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewSchedulesV2UpdateRequestWithBody generates requests for SchedulesV2Update with any type of body
+func NewSchedulesV2UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewUsersV2ListRequest generates requests for UsersV2List
 func NewUsersV2ListRequest(server string, params *UsersV2ListParams) (*http.Request, error) {
 	var err error
@@ -8983,6 +8094,38 @@ func NewUsersV2ListRequest(server string, params *UsersV2ListParams) (*http.Requ
 	}
 
 	queryValues := queryURL.Query()
+
+	if params.Email != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "email", runtime.ParamLocationQuery, *params.Email); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.SlackUserId != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "slack_user_id", runtime.ParamLocationQuery, *params.SlackUserId); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
 
 	if params.PageSize != nil {
 
@@ -9056,679 +8199,6 @@ func NewUsersV2ShowRequest(server string, id string) (*http.Request, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2ListWorkflowsRequest generates requests for WorkflowsV2ListWorkflows
-func NewWorkflowsV2ListWorkflowsRequest(server string, params *WorkflowsV2ListWorkflowsParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	queryValues := queryURL.Query()
-
-	if params.IncidentType != nil {
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "incident_type", runtime.ParamLocationQuery, *params.IncidentType); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	queryURL.RawQuery = queryValues.Encode()
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2CreateWorkflowRequest calls the generic WorkflowsV2CreateWorkflow builder with application/json body
-func NewWorkflowsV2CreateWorkflowRequest(server string, body WorkflowsV2CreateWorkflowJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewWorkflowsV2CreateWorkflowRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewWorkflowsV2CreateWorkflowRequestWithBody generates requests for WorkflowsV2CreateWorkflow with any type of body
-func NewWorkflowsV2CreateWorkflowRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewWorkflowsV2ListStepsRequest generates requests for WorkflowsV2ListSteps
-func NewWorkflowsV2ListStepsRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/steps")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2ValidateStepRequest calls the generic WorkflowsV2ValidateStep builder with application/json body
-func NewWorkflowsV2ValidateStepRequest(server string, body WorkflowsV2ValidateStepJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewWorkflowsV2ValidateStepRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewWorkflowsV2ValidateStepRequestWithBody generates requests for WorkflowsV2ValidateStep with any type of body
-func NewWorkflowsV2ValidateStepRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/steps/validate")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewWorkflowsV2ShowStepRequest generates requests for WorkflowsV2ShowStep
-func NewWorkflowsV2ShowStepRequest(server string, name string, params *WorkflowsV2ShowStepParams) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "name", runtime.ParamLocationPath, name)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/steps/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	queryValues := queryURL.Query()
-
-	if queryFrag, err := runtime.StyleParamWithLocation("form", true, "trigger", runtime.ParamLocationQuery, params.Trigger); err != nil {
-		return nil, err
-	} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-		return nil, err
-	} else {
-		for k, v := range parsed {
-			for _, v2 := range v {
-				queryValues.Add(k, v2)
-			}
-		}
-	}
-
-	queryURL.RawQuery = queryValues.Encode()
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2ListTriggersRequest generates requests for WorkflowsV2ListTriggers
-func NewWorkflowsV2ListTriggersRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/triggers")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2ShowTriggerRequest generates requests for WorkflowsV2ShowTrigger
-func NewWorkflowsV2ShowTriggerRequest(server string, name string) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "name", runtime.ParamLocationPath, name)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/triggers/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2ListWorkflowRunsRequest generates requests for WorkflowsV2ListWorkflowRuns
-func NewWorkflowsV2ListWorkflowRunsRequest(server string, params *WorkflowsV2ListWorkflowRunsParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/workflow_runs")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	queryValues := queryURL.Query()
-
-	if queryFrag, err := runtime.StyleParamWithLocation("form", true, "workflow_id", runtime.ParamLocationQuery, params.WorkflowId); err != nil {
-		return nil, err
-	} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-		return nil, err
-	} else {
-		for k, v := range parsed {
-			for _, v2 := range v {
-				queryValues.Add(k, v2)
-			}
-		}
-	}
-
-	queryURL.RawQuery = queryValues.Encode()
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2CreateWorkflowRunRequest calls the generic WorkflowsV2CreateWorkflowRun builder with application/json body
-func NewWorkflowsV2CreateWorkflowRunRequest(server string, body WorkflowsV2CreateWorkflowRunJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewWorkflowsV2CreateWorkflowRunRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewWorkflowsV2CreateWorkflowRunRequestWithBody generates requests for WorkflowsV2CreateWorkflowRun with any type of body
-func NewWorkflowsV2CreateWorkflowRunRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/workflow_runs")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewWorkflowsV2ShowWorkflowRunRequest generates requests for WorkflowsV2ShowWorkflowRun
-func NewWorkflowsV2ShowWorkflowRunRequest(server string, id string) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/workflow_runs/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2ListWorkflowTemplatesRequest generates requests for WorkflowsV2ListWorkflowTemplates
-func NewWorkflowsV2ListWorkflowTemplatesRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/workflow_templates")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2ShowWorkflowTemplateRequest generates requests for WorkflowsV2ShowWorkflowTemplate
-func NewWorkflowsV2ShowWorkflowTemplateRequest(server string, name string) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "name", runtime.ParamLocationPath, name)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/workflow_templates/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2DestroyWorkflowRequest generates requests for WorkflowsV2DestroyWorkflow
-func NewWorkflowsV2DestroyWorkflowRequest(server string, id string) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2ShowWorkflowRequest generates requests for WorkflowsV2ShowWorkflow
-func NewWorkflowsV2ShowWorkflowRequest(server string, id string) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2UpdateWorkflowRequest calls the generic WorkflowsV2UpdateWorkflow builder with application/json body
-func NewWorkflowsV2UpdateWorkflowRequest(server string, id string, body WorkflowsV2UpdateWorkflowJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewWorkflowsV2UpdateWorkflowRequestWithBody(server, id, "application/json", bodyReader)
-}
-
-// NewWorkflowsV2UpdateWorkflowRequestWithBody generates requests for WorkflowsV2UpdateWorkflow with any type of body
-func NewWorkflowsV2UpdateWorkflowRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PUT", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewWorkflowsV2DisableWorkflowRequest generates requests for WorkflowsV2DisableWorkflow
-func NewWorkflowsV2DisableWorkflowRequest(server string, id string) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/%s/actions/disable", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2EnableWorkflowRequest generates requests for WorkflowsV2EnableWorkflow
-func NewWorkflowsV2EnableWorkflowRequest(server string, id string) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/%s/actions/enable", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewWorkflowsV2UpdateWorkflowFolderRequest calls the generic WorkflowsV2UpdateWorkflowFolder builder with application/json body
-func NewWorkflowsV2UpdateWorkflowFolderRequest(server string, id string, body WorkflowsV2UpdateWorkflowFolderJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewWorkflowsV2UpdateWorkflowFolderRequestWithBody(server, id, "application/json", bodyReader)
-}
-
-// NewWorkflowsV2UpdateWorkflowFolderRequestWithBody generates requests for WorkflowsV2UpdateWorkflowFolder with any type of body
-func NewWorkflowsV2UpdateWorkflowFolderRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v2/workflows/%s/actions/folder", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -10050,75 +8520,33 @@ type ClientWithResponsesInterface interface {
 
 	IncidentsV2EditWithResponse(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error)
 
+	// SchedulesV2ListScheduleEntries request
+	SchedulesV2ListScheduleEntriesWithResponse(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListScheduleEntriesResponse, error)
+
+	// SchedulesV2List request
+	SchedulesV2ListWithResponse(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListResponse, error)
+
+	// SchedulesV2Create request with any body
+	SchedulesV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2CreateResponse, error)
+
+	SchedulesV2CreateWithResponse(ctx context.Context, body SchedulesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2CreateResponse, error)
+
+	// SchedulesV2Destroy request
+	SchedulesV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV2DestroyResponse, error)
+
+	// SchedulesV2Show request
+	SchedulesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV2ShowResponse, error)
+
+	// SchedulesV2Update request with any body
+	SchedulesV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateResponse, error)
+
+	SchedulesV2UpdateWithResponse(ctx context.Context, id string, body SchedulesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateResponse, error)
+
 	// UsersV2List request
 	UsersV2ListWithResponse(ctx context.Context, params *UsersV2ListParams, reqEditors ...RequestEditorFn) (*UsersV2ListResponse, error)
 
 	// UsersV2Show request
 	UsersV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*UsersV2ShowResponse, error)
-
-	// WorkflowsV2ListWorkflows request
-	WorkflowsV2ListWorkflowsWithResponse(ctx context.Context, params *WorkflowsV2ListWorkflowsParams, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowsResponse, error)
-
-	// WorkflowsV2CreateWorkflow request with any body
-	WorkflowsV2CreateWorkflowWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error)
-
-	WorkflowsV2CreateWorkflowWithResponse(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error)
-
-	// WorkflowsV2ListSteps request
-	WorkflowsV2ListStepsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*WorkflowsV2ListStepsResponse, error)
-
-	// WorkflowsV2ValidateStep request with any body
-	WorkflowsV2ValidateStepWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2ValidateStepResponse, error)
-
-	WorkflowsV2ValidateStepWithResponse(ctx context.Context, body WorkflowsV2ValidateStepJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2ValidateStepResponse, error)
-
-	// WorkflowsV2ShowStep request
-	WorkflowsV2ShowStepWithResponse(ctx context.Context, name string, params *WorkflowsV2ShowStepParams, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowStepResponse, error)
-
-	// WorkflowsV2ListTriggers request
-	WorkflowsV2ListTriggersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*WorkflowsV2ListTriggersResponse, error)
-
-	// WorkflowsV2ShowTrigger request
-	WorkflowsV2ShowTriggerWithResponse(ctx context.Context, name string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowTriggerResponse, error)
-
-	// WorkflowsV2ListWorkflowRuns request
-	WorkflowsV2ListWorkflowRunsWithResponse(ctx context.Context, params *WorkflowsV2ListWorkflowRunsParams, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowRunsResponse, error)
-
-	// WorkflowsV2CreateWorkflowRun request with any body
-	WorkflowsV2CreateWorkflowRunWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowRunResponse, error)
-
-	WorkflowsV2CreateWorkflowRunWithResponse(ctx context.Context, body WorkflowsV2CreateWorkflowRunJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowRunResponse, error)
-
-	// WorkflowsV2ShowWorkflowRun request
-	WorkflowsV2ShowWorkflowRunWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowRunResponse, error)
-
-	// WorkflowsV2ListWorkflowTemplates request
-	WorkflowsV2ListWorkflowTemplatesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowTemplatesResponse, error)
-
-	// WorkflowsV2ShowWorkflowTemplate request
-	WorkflowsV2ShowWorkflowTemplateWithResponse(ctx context.Context, name string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowTemplateResponse, error)
-
-	// WorkflowsV2DestroyWorkflow request
-	WorkflowsV2DestroyWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2DestroyWorkflowResponse, error)
-
-	// WorkflowsV2ShowWorkflow request
-	WorkflowsV2ShowWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowResponse, error)
-
-	// WorkflowsV2UpdateWorkflow request with any body
-	WorkflowsV2UpdateWorkflowWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowResponse, error)
-
-	WorkflowsV2UpdateWorkflowWithResponse(ctx context.Context, id string, body WorkflowsV2UpdateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowResponse, error)
-
-	// WorkflowsV2DisableWorkflow request
-	WorkflowsV2DisableWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2DisableWorkflowResponse, error)
-
-	// WorkflowsV2EnableWorkflow request
-	WorkflowsV2EnableWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2EnableWorkflowResponse, error)
-
-	// WorkflowsV2UpdateWorkflowFolder request with any body
-	WorkflowsV2UpdateWorkflowFolderWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowFolderResponse, error)
-
-	WorkflowsV2UpdateWorkflowFolderWithResponse(ctx context.Context, id string, body WorkflowsV2UpdateWorkflowFolderJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowFolderResponse, error)
 }
 
 type ActionsV1ListResponse struct {
@@ -10888,7 +9316,7 @@ func (r UtilitiesV1OpenAPIV3Response) StatusCode() int {
 type SeveritiesV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody16
+	JSON200      *ListResponseBody17
 }
 
 // Status returns HTTPResponse.Status
@@ -10910,7 +9338,7 @@ func (r SeveritiesV1ListResponse) StatusCode() int {
 type SeveritiesV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *ShowResponseBody14
+	JSON201      *ShowResponseBody15
 }
 
 // Status returns HTTPResponse.Status
@@ -10953,7 +9381,7 @@ func (r SeveritiesV1DeleteResponse) StatusCode() int {
 type SeveritiesV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody14
+	JSON200      *ShowResponseBody15
 }
 
 // Status returns HTTPResponse.Status
@@ -10975,7 +9403,7 @@ func (r SeveritiesV1ShowResponse) StatusCode() int {
 type SeveritiesV1UpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody14
+	JSON200      *ShowResponseBody15
 }
 
 // Status returns HTTPResponse.Status
@@ -11738,10 +10166,141 @@ func (r IncidentsV2EditResponse) StatusCode() int {
 	return 0
 }
 
+type SchedulesV2ListScheduleEntriesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListScheduleEntriesResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2ListScheduleEntriesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2ListScheduleEntriesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListResponseBody16
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *ShowResponseBody14
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2DestroyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2DestroyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2DestroyResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ShowResponseBody14
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ShowResponseBody14
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type UsersV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody17
+	JSON200      *ListResponseBody18
 }
 
 // Status returns HTTPResponse.Status
@@ -11763,7 +10322,7 @@ func (r UsersV2ListResponse) StatusCode() int {
 type UsersV2ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody15
+	JSON200      *ShowResponseBody16
 }
 
 // Status returns HTTPResponse.Status
@@ -11776,400 +10335,6 @@ func (r UsersV2ShowResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r UsersV2ShowResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2ListWorkflowsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *ListWorkflowsResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2ListWorkflowsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2ListWorkflowsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2CreateWorkflowResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON201      *CreateWorkflowResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2CreateWorkflowResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2CreateWorkflowResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2ListStepsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *ListStepsResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2ListStepsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2ListStepsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2ValidateStepResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2ValidateStepResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2ValidateStepResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2ShowStepResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *ShowStepResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2ShowStepResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2ShowStepResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2ListTriggersResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *ListTriggersResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2ListTriggersResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2ListTriggersResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2ShowTriggerResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *ShowTriggerResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2ShowTriggerResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2ShowTriggerResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2ListWorkflowRunsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *ListWorkflowRunsResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2ListWorkflowRunsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2ListWorkflowRunsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2CreateWorkflowRunResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *CreateWorkflowRunResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2CreateWorkflowRunResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2CreateWorkflowRunResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2ShowWorkflowRunResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *CreateWorkflowRunResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2ShowWorkflowRunResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2ShowWorkflowRunResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2ListWorkflowTemplatesResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *ListWorkflowTemplatesResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2ListWorkflowTemplatesResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2ListWorkflowTemplatesResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2ShowWorkflowTemplateResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *CreateWorkflowResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2ShowWorkflowTemplateResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2ShowWorkflowTemplateResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2DestroyWorkflowResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2DestroyWorkflowResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2DestroyWorkflowResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2ShowWorkflowResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *CreateWorkflowResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2ShowWorkflowResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2ShowWorkflowResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2UpdateWorkflowResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *CreateWorkflowResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2UpdateWorkflowResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2UpdateWorkflowResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2DisableWorkflowResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *CreateWorkflowResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2DisableWorkflowResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2DisableWorkflowResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2EnableWorkflowResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *CreateWorkflowResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2EnableWorkflowResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2EnableWorkflowResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type WorkflowsV2UpdateWorkflowFolderResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *CreateWorkflowResponseBody
-}
-
-// Status returns HTTPResponse.Status
-func (r WorkflowsV2UpdateWorkflowFolderResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r WorkflowsV2UpdateWorkflowFolderResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -13050,6 +11215,76 @@ func (c *ClientWithResponses) IncidentsV2EditWithResponse(ctx context.Context, i
 	return ParseIncidentsV2EditResponse(rsp)
 }
 
+// SchedulesV2ListScheduleEntriesWithResponse request returning *SchedulesV2ListScheduleEntriesResponse
+func (c *ClientWithResponses) SchedulesV2ListScheduleEntriesWithResponse(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListScheduleEntriesResponse, error) {
+	rsp, err := c.SchedulesV2ListScheduleEntries(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2ListScheduleEntriesResponse(rsp)
+}
+
+// SchedulesV2ListWithResponse request returning *SchedulesV2ListResponse
+func (c *ClientWithResponses) SchedulesV2ListWithResponse(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListResponse, error) {
+	rsp, err := c.SchedulesV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2ListResponse(rsp)
+}
+
+// SchedulesV2CreateWithBodyWithResponse request with arbitrary body returning *SchedulesV2CreateResponse
+func (c *ClientWithResponses) SchedulesV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2CreateResponse, error) {
+	rsp, err := c.SchedulesV2CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2CreateResponse(rsp)
+}
+
+func (c *ClientWithResponses) SchedulesV2CreateWithResponse(ctx context.Context, body SchedulesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2CreateResponse, error) {
+	rsp, err := c.SchedulesV2Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2CreateResponse(rsp)
+}
+
+// SchedulesV2DestroyWithResponse request returning *SchedulesV2DestroyResponse
+func (c *ClientWithResponses) SchedulesV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV2DestroyResponse, error) {
+	rsp, err := c.SchedulesV2Destroy(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2DestroyResponse(rsp)
+}
+
+// SchedulesV2ShowWithResponse request returning *SchedulesV2ShowResponse
+func (c *ClientWithResponses) SchedulesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV2ShowResponse, error) {
+	rsp, err := c.SchedulesV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2ShowResponse(rsp)
+}
+
+// SchedulesV2UpdateWithBodyWithResponse request with arbitrary body returning *SchedulesV2UpdateResponse
+func (c *ClientWithResponses) SchedulesV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateResponse, error) {
+	rsp, err := c.SchedulesV2UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2UpdateResponse(rsp)
+}
+
+func (c *ClientWithResponses) SchedulesV2UpdateWithResponse(ctx context.Context, id string, body SchedulesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateResponse, error) {
+	rsp, err := c.SchedulesV2Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2UpdateResponse(rsp)
+}
+
 // UsersV2ListWithResponse request returning *UsersV2ListResponse
 func (c *ClientWithResponses) UsersV2ListWithResponse(ctx context.Context, params *UsersV2ListParams, reqEditors ...RequestEditorFn) (*UsersV2ListResponse, error) {
 	rsp, err := c.UsersV2List(ctx, params, reqEditors...)
@@ -13066,208 +11301,6 @@ func (c *ClientWithResponses) UsersV2ShowWithResponse(ctx context.Context, id st
 		return nil, err
 	}
 	return ParseUsersV2ShowResponse(rsp)
-}
-
-// WorkflowsV2ListWorkflowsWithResponse request returning *WorkflowsV2ListWorkflowsResponse
-func (c *ClientWithResponses) WorkflowsV2ListWorkflowsWithResponse(ctx context.Context, params *WorkflowsV2ListWorkflowsParams, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowsResponse, error) {
-	rsp, err := c.WorkflowsV2ListWorkflows(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ListWorkflowsResponse(rsp)
-}
-
-// WorkflowsV2CreateWorkflowWithBodyWithResponse request with arbitrary body returning *WorkflowsV2CreateWorkflowResponse
-func (c *ClientWithResponses) WorkflowsV2CreateWorkflowWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error) {
-	rsp, err := c.WorkflowsV2CreateWorkflowWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2CreateWorkflowResponse(rsp)
-}
-
-func (c *ClientWithResponses) WorkflowsV2CreateWorkflowWithResponse(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error) {
-	rsp, err := c.WorkflowsV2CreateWorkflow(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2CreateWorkflowResponse(rsp)
-}
-
-// WorkflowsV2ListStepsWithResponse request returning *WorkflowsV2ListStepsResponse
-func (c *ClientWithResponses) WorkflowsV2ListStepsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*WorkflowsV2ListStepsResponse, error) {
-	rsp, err := c.WorkflowsV2ListSteps(ctx, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ListStepsResponse(rsp)
-}
-
-// WorkflowsV2ValidateStepWithBodyWithResponse request with arbitrary body returning *WorkflowsV2ValidateStepResponse
-func (c *ClientWithResponses) WorkflowsV2ValidateStepWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2ValidateStepResponse, error) {
-	rsp, err := c.WorkflowsV2ValidateStepWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ValidateStepResponse(rsp)
-}
-
-func (c *ClientWithResponses) WorkflowsV2ValidateStepWithResponse(ctx context.Context, body WorkflowsV2ValidateStepJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2ValidateStepResponse, error) {
-	rsp, err := c.WorkflowsV2ValidateStep(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ValidateStepResponse(rsp)
-}
-
-// WorkflowsV2ShowStepWithResponse request returning *WorkflowsV2ShowStepResponse
-func (c *ClientWithResponses) WorkflowsV2ShowStepWithResponse(ctx context.Context, name string, params *WorkflowsV2ShowStepParams, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowStepResponse, error) {
-	rsp, err := c.WorkflowsV2ShowStep(ctx, name, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ShowStepResponse(rsp)
-}
-
-// WorkflowsV2ListTriggersWithResponse request returning *WorkflowsV2ListTriggersResponse
-func (c *ClientWithResponses) WorkflowsV2ListTriggersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*WorkflowsV2ListTriggersResponse, error) {
-	rsp, err := c.WorkflowsV2ListTriggers(ctx, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ListTriggersResponse(rsp)
-}
-
-// WorkflowsV2ShowTriggerWithResponse request returning *WorkflowsV2ShowTriggerResponse
-func (c *ClientWithResponses) WorkflowsV2ShowTriggerWithResponse(ctx context.Context, name string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowTriggerResponse, error) {
-	rsp, err := c.WorkflowsV2ShowTrigger(ctx, name, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ShowTriggerResponse(rsp)
-}
-
-// WorkflowsV2ListWorkflowRunsWithResponse request returning *WorkflowsV2ListWorkflowRunsResponse
-func (c *ClientWithResponses) WorkflowsV2ListWorkflowRunsWithResponse(ctx context.Context, params *WorkflowsV2ListWorkflowRunsParams, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowRunsResponse, error) {
-	rsp, err := c.WorkflowsV2ListWorkflowRuns(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ListWorkflowRunsResponse(rsp)
-}
-
-// WorkflowsV2CreateWorkflowRunWithBodyWithResponse request with arbitrary body returning *WorkflowsV2CreateWorkflowRunResponse
-func (c *ClientWithResponses) WorkflowsV2CreateWorkflowRunWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowRunResponse, error) {
-	rsp, err := c.WorkflowsV2CreateWorkflowRunWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2CreateWorkflowRunResponse(rsp)
-}
-
-func (c *ClientWithResponses) WorkflowsV2CreateWorkflowRunWithResponse(ctx context.Context, body WorkflowsV2CreateWorkflowRunJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowRunResponse, error) {
-	rsp, err := c.WorkflowsV2CreateWorkflowRun(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2CreateWorkflowRunResponse(rsp)
-}
-
-// WorkflowsV2ShowWorkflowRunWithResponse request returning *WorkflowsV2ShowWorkflowRunResponse
-func (c *ClientWithResponses) WorkflowsV2ShowWorkflowRunWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowRunResponse, error) {
-	rsp, err := c.WorkflowsV2ShowWorkflowRun(ctx, id, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ShowWorkflowRunResponse(rsp)
-}
-
-// WorkflowsV2ListWorkflowTemplatesWithResponse request returning *WorkflowsV2ListWorkflowTemplatesResponse
-func (c *ClientWithResponses) WorkflowsV2ListWorkflowTemplatesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowTemplatesResponse, error) {
-	rsp, err := c.WorkflowsV2ListWorkflowTemplates(ctx, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ListWorkflowTemplatesResponse(rsp)
-}
-
-// WorkflowsV2ShowWorkflowTemplateWithResponse request returning *WorkflowsV2ShowWorkflowTemplateResponse
-func (c *ClientWithResponses) WorkflowsV2ShowWorkflowTemplateWithResponse(ctx context.Context, name string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowTemplateResponse, error) {
-	rsp, err := c.WorkflowsV2ShowWorkflowTemplate(ctx, name, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ShowWorkflowTemplateResponse(rsp)
-}
-
-// WorkflowsV2DestroyWorkflowWithResponse request returning *WorkflowsV2DestroyWorkflowResponse
-func (c *ClientWithResponses) WorkflowsV2DestroyWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2DestroyWorkflowResponse, error) {
-	rsp, err := c.WorkflowsV2DestroyWorkflow(ctx, id, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2DestroyWorkflowResponse(rsp)
-}
-
-// WorkflowsV2ShowWorkflowWithResponse request returning *WorkflowsV2ShowWorkflowResponse
-func (c *ClientWithResponses) WorkflowsV2ShowWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowResponse, error) {
-	rsp, err := c.WorkflowsV2ShowWorkflow(ctx, id, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2ShowWorkflowResponse(rsp)
-}
-
-// WorkflowsV2UpdateWorkflowWithBodyWithResponse request with arbitrary body returning *WorkflowsV2UpdateWorkflowResponse
-func (c *ClientWithResponses) WorkflowsV2UpdateWorkflowWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowResponse, error) {
-	rsp, err := c.WorkflowsV2UpdateWorkflowWithBody(ctx, id, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2UpdateWorkflowResponse(rsp)
-}
-
-func (c *ClientWithResponses) WorkflowsV2UpdateWorkflowWithResponse(ctx context.Context, id string, body WorkflowsV2UpdateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowResponse, error) {
-	rsp, err := c.WorkflowsV2UpdateWorkflow(ctx, id, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2UpdateWorkflowResponse(rsp)
-}
-
-// WorkflowsV2DisableWorkflowWithResponse request returning *WorkflowsV2DisableWorkflowResponse
-func (c *ClientWithResponses) WorkflowsV2DisableWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2DisableWorkflowResponse, error) {
-	rsp, err := c.WorkflowsV2DisableWorkflow(ctx, id, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2DisableWorkflowResponse(rsp)
-}
-
-// WorkflowsV2EnableWorkflowWithResponse request returning *WorkflowsV2EnableWorkflowResponse
-func (c *ClientWithResponses) WorkflowsV2EnableWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2EnableWorkflowResponse, error) {
-	rsp, err := c.WorkflowsV2EnableWorkflow(ctx, id, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2EnableWorkflowResponse(rsp)
-}
-
-// WorkflowsV2UpdateWorkflowFolderWithBodyWithResponse request with arbitrary body returning *WorkflowsV2UpdateWorkflowFolderResponse
-func (c *ClientWithResponses) WorkflowsV2UpdateWorkflowFolderWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowFolderResponse, error) {
-	rsp, err := c.WorkflowsV2UpdateWorkflowFolderWithBody(ctx, id, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2UpdateWorkflowFolderResponse(rsp)
-}
-
-func (c *ClientWithResponses) WorkflowsV2UpdateWorkflowFolderWithResponse(ctx context.Context, id string, body WorkflowsV2UpdateWorkflowFolderJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowFolderResponse, error) {
-	rsp, err := c.WorkflowsV2UpdateWorkflowFolder(ctx, id, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseWorkflowsV2UpdateWorkflowFolderResponse(rsp)
 }
 
 // ParseActionsV1ListResponse parses an HTTP response from a ActionsV1ListWithResponse call
@@ -14135,7 +12168,7 @@ func ParseSeveritiesV1ListResponse(rsp *http.Response) (*SeveritiesV1ListRespons
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody16
+		var dest ListResponseBody17
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -14161,7 +12194,7 @@ func ParseSeveritiesV1CreateResponse(rsp *http.Response) (*SeveritiesV1CreateRes
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest ShowResponseBody14
+		var dest ShowResponseBody15
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -14203,7 +12236,7 @@ func ParseSeveritiesV1ShowResponse(rsp *http.Response) (*SeveritiesV1ShowRespons
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody14
+		var dest ShowResponseBody15
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -14229,7 +12262,7 @@ func ParseSeveritiesV1UpdateResponse(rsp *http.Response) (*SeveritiesV1UpdateRes
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody14
+		var dest ShowResponseBody15
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -15084,6 +13117,152 @@ func ParseIncidentsV2EditResponse(rsp *http.Response) (*IncidentsV2EditResponse,
 	return response, nil
 }
 
+// ParseSchedulesV2ListScheduleEntriesResponse parses an HTTP response from a SchedulesV2ListScheduleEntriesWithResponse call
+func ParseSchedulesV2ListScheduleEntriesResponse(rsp *http.Response) (*SchedulesV2ListScheduleEntriesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2ListScheduleEntriesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListScheduleEntriesResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2ListResponse parses an HTTP response from a SchedulesV2ListWithResponse call
+func ParseSchedulesV2ListResponse(rsp *http.Response) (*SchedulesV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListResponseBody16
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2CreateResponse parses an HTTP response from a SchedulesV2CreateWithResponse call
+func ParseSchedulesV2CreateResponse(rsp *http.Response) (*SchedulesV2CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest ShowResponseBody14
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2DestroyResponse parses an HTTP response from a SchedulesV2DestroyWithResponse call
+func ParseSchedulesV2DestroyResponse(rsp *http.Response) (*SchedulesV2DestroyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2DestroyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2ShowResponse parses an HTTP response from a SchedulesV2ShowWithResponse call
+func ParseSchedulesV2ShowResponse(rsp *http.Response) (*SchedulesV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ShowResponseBody14
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2UpdateResponse parses an HTTP response from a SchedulesV2UpdateWithResponse call
+func ParseSchedulesV2UpdateResponse(rsp *http.Response) (*SchedulesV2UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ShowResponseBody14
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseUsersV2ListResponse parses an HTTP response from a UsersV2ListWithResponse call
 func ParseUsersV2ListResponse(rsp *http.Response) (*UsersV2ListResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -15099,7 +13278,7 @@ func ParseUsersV2ListResponse(rsp *http.Response) (*UsersV2ListResponse, error) 
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody17
+		var dest ListResponseBody18
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -15125,455 +13304,7 @@ func ParseUsersV2ShowResponse(rsp *http.Response) (*UsersV2ShowResponse, error) 
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody15
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2ListWorkflowsResponse parses an HTTP response from a WorkflowsV2ListWorkflowsWithResponse call
-func ParseWorkflowsV2ListWorkflowsResponse(rsp *http.Response) (*WorkflowsV2ListWorkflowsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2ListWorkflowsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListWorkflowsResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2CreateWorkflowResponse parses an HTTP response from a WorkflowsV2CreateWorkflowWithResponse call
-func ParseWorkflowsV2CreateWorkflowResponse(rsp *http.Response) (*WorkflowsV2CreateWorkflowResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2CreateWorkflowResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest CreateWorkflowResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON201 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2ListStepsResponse parses an HTTP response from a WorkflowsV2ListStepsWithResponse call
-func ParseWorkflowsV2ListStepsResponse(rsp *http.Response) (*WorkflowsV2ListStepsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2ListStepsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListStepsResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2ValidateStepResponse parses an HTTP response from a WorkflowsV2ValidateStepWithResponse call
-func ParseWorkflowsV2ValidateStepResponse(rsp *http.Response) (*WorkflowsV2ValidateStepResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2ValidateStepResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2ShowStepResponse parses an HTTP response from a WorkflowsV2ShowStepWithResponse call
-func ParseWorkflowsV2ShowStepResponse(rsp *http.Response) (*WorkflowsV2ShowStepResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2ShowStepResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowStepResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2ListTriggersResponse parses an HTTP response from a WorkflowsV2ListTriggersWithResponse call
-func ParseWorkflowsV2ListTriggersResponse(rsp *http.Response) (*WorkflowsV2ListTriggersResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2ListTriggersResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListTriggersResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2ShowTriggerResponse parses an HTTP response from a WorkflowsV2ShowTriggerWithResponse call
-func ParseWorkflowsV2ShowTriggerResponse(rsp *http.Response) (*WorkflowsV2ShowTriggerResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2ShowTriggerResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowTriggerResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2ListWorkflowRunsResponse parses an HTTP response from a WorkflowsV2ListWorkflowRunsWithResponse call
-func ParseWorkflowsV2ListWorkflowRunsResponse(rsp *http.Response) (*WorkflowsV2ListWorkflowRunsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2ListWorkflowRunsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListWorkflowRunsResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2CreateWorkflowRunResponse parses an HTTP response from a WorkflowsV2CreateWorkflowRunWithResponse call
-func ParseWorkflowsV2CreateWorkflowRunResponse(rsp *http.Response) (*WorkflowsV2CreateWorkflowRunResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2CreateWorkflowRunResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CreateWorkflowRunResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2ShowWorkflowRunResponse parses an HTTP response from a WorkflowsV2ShowWorkflowRunWithResponse call
-func ParseWorkflowsV2ShowWorkflowRunResponse(rsp *http.Response) (*WorkflowsV2ShowWorkflowRunResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2ShowWorkflowRunResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CreateWorkflowRunResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2ListWorkflowTemplatesResponse parses an HTTP response from a WorkflowsV2ListWorkflowTemplatesWithResponse call
-func ParseWorkflowsV2ListWorkflowTemplatesResponse(rsp *http.Response) (*WorkflowsV2ListWorkflowTemplatesResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2ListWorkflowTemplatesResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListWorkflowTemplatesResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2ShowWorkflowTemplateResponse parses an HTTP response from a WorkflowsV2ShowWorkflowTemplateWithResponse call
-func ParseWorkflowsV2ShowWorkflowTemplateResponse(rsp *http.Response) (*WorkflowsV2ShowWorkflowTemplateResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2ShowWorkflowTemplateResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CreateWorkflowResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2DestroyWorkflowResponse parses an HTTP response from a WorkflowsV2DestroyWorkflowWithResponse call
-func ParseWorkflowsV2DestroyWorkflowResponse(rsp *http.Response) (*WorkflowsV2DestroyWorkflowResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2DestroyWorkflowResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2ShowWorkflowResponse parses an HTTP response from a WorkflowsV2ShowWorkflowWithResponse call
-func ParseWorkflowsV2ShowWorkflowResponse(rsp *http.Response) (*WorkflowsV2ShowWorkflowResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2ShowWorkflowResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CreateWorkflowResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2UpdateWorkflowResponse parses an HTTP response from a WorkflowsV2UpdateWorkflowWithResponse call
-func ParseWorkflowsV2UpdateWorkflowResponse(rsp *http.Response) (*WorkflowsV2UpdateWorkflowResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2UpdateWorkflowResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CreateWorkflowResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2DisableWorkflowResponse parses an HTTP response from a WorkflowsV2DisableWorkflowWithResponse call
-func ParseWorkflowsV2DisableWorkflowResponse(rsp *http.Response) (*WorkflowsV2DisableWorkflowResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2DisableWorkflowResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CreateWorkflowResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2EnableWorkflowResponse parses an HTTP response from a WorkflowsV2EnableWorkflowWithResponse call
-func ParseWorkflowsV2EnableWorkflowResponse(rsp *http.Response) (*WorkflowsV2EnableWorkflowResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2EnableWorkflowResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CreateWorkflowResponseBody
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseWorkflowsV2UpdateWorkflowFolderResponse parses an HTTP response from a WorkflowsV2UpdateWorkflowFolderWithResponse call
-func ParseWorkflowsV2UpdateWorkflowFolderResponse(rsp *http.Response) (*WorkflowsV2UpdateWorkflowFolderResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &WorkflowsV2UpdateWorkflowFolderResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CreateWorkflowResponseBody
+		var dest ShowResponseBody16
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

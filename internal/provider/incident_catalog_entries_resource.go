@@ -153,7 +153,7 @@ func (r *IncidentCatalogEntriesResource) Configure(ctx context.Context, req reso
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.ClientWithResponses)
+	client, ok := req.ProviderData.(*IncidentProviderData)
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -163,7 +163,7 @@ func (r *IncidentCatalogEntriesResource) Configure(ctx context.Context, req reso
 		return
 	}
 
-	r.client = client
+	r.client = client.Client
 }
 
 func (r *IncidentCatalogEntriesResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
