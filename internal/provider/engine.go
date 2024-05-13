@@ -1,6 +1,11 @@
 package provider
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
+
+// Types
 
 type IncidentEngineConditionGroups = []IncidentEngineConditionGroup
 
@@ -23,6 +28,8 @@ type IncidentEngineParamBindingValue struct {
 	Literal   types.String `tfsdk:"literal"`
 	Reference types.String `tfsdk:"reference"`
 }
+
+type IncidentEngineExpressions []IncidentEngineExpression
 
 type IncidentEngineExpression struct {
 	ElseBranch    *IncidentEngineElseBranch           `tfsdk:"else_branch"`
@@ -52,8 +59,8 @@ type IncidentEngineExpressionBranchesOpts struct {
 }
 
 type IncidentEngineBranch struct {
-	Conditions []IncidentEngineCondition  `tfsdk:"conditions"`
-	Result     IncidentEngineParamBinding `tfsdk:"result"`
+	ConditionGroups []IncidentEngineConditionGroup `tfsdk:"condition_groups"`
+	Result          IncidentEngineParamBinding     `tfsdk:"result"`
 }
 
 type IncidentEngineReturnsMeta struct {
@@ -62,7 +69,7 @@ type IncidentEngineReturnsMeta struct {
 }
 
 type IncidentEngineExpressionFilterOpts struct {
-	Conditions []IncidentEngineCondition `tfsdk:"conditions"`
+	ConditionGroups []IncidentEngineConditionGroup `tfsdk:"condition_groups"`
 }
 
 type IncidentEngineExpressionNavigateOpts struct {
@@ -72,4 +79,151 @@ type IncidentEngineExpressionNavigateOpts struct {
 type IncidentEngineExpressionParseOpts struct {
 	Returns IncidentEngineReturnsMeta `tfsdk:"returns"`
 	Source  types.String              `tfsdk:"source"`
+}
+
+// Attributes
+
+var paramBindingValueAttributes = map[string]schema.Attribute{
+	"literal": schema.StringAttribute{
+		Optional: true,
+	},
+	"reference": schema.StringAttribute{
+		Optional: true,
+	},
+}
+
+var paramBindingAttributes = map[string]schema.Attribute{
+	"array_value": schema.SetNestedAttribute{
+		Optional: true,
+		NestedObject: schema.NestedAttributeObject{
+			Attributes: paramBindingValueAttributes,
+		},
+	},
+	"value": schema.SingleNestedAttribute{
+		Optional:   true,
+		Attributes: paramBindingValueAttributes,
+	},
+}
+
+var paramBindingsAttribute = schema.ListNestedAttribute{
+	Required: true,
+	NestedObject: schema.NestedAttributeObject{
+		Attributes: paramBindingAttributes,
+	},
+}
+
+var conditionsAttribute = schema.SetNestedAttribute{
+	Required: true,
+	NestedObject: schema.NestedAttributeObject{
+		Attributes: map[string]schema.Attribute{
+			"operation": schema.StringAttribute{
+				Required: true,
+			},
+			"param_bindings": paramBindingsAttribute,
+			"subject": schema.StringAttribute{
+				Required: true,
+			},
+		},
+	},
+}
+
+var conditionGroupsAttribute = schema.SetNestedAttribute{
+	Required: true,
+	NestedObject: schema.NestedAttributeObject{
+		Attributes: map[string]schema.Attribute{
+			"conditions": conditionsAttribute,
+		},
+	},
+}
+
+var returnsAttribute = schema.SingleNestedAttribute{
+	Required: true,
+	Attributes: map[string]schema.Attribute{
+		"array": schema.BoolAttribute{
+			Required: true,
+		},
+		"type": schema.StringAttribute{
+			Required: true,
+		},
+	},
+}
+
+var expressionsAttribute = schema.SetNestedAttribute{
+	Required: true,
+	NestedObject: schema.NestedAttributeObject{
+		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				Computed: true,
+			},
+			"label": schema.StringAttribute{
+				Required: true,
+			},
+			"reference": schema.StringAttribute{
+				Required: true,
+			},
+			"root_reference": schema.StringAttribute{
+				Required: true,
+			},
+			"else_branch": schema.SingleNestedAttribute{
+				Optional: true,
+				Attributes: map[string]schema.Attribute{
+					"result": schema.SingleNestedAttribute{
+						Required:   true,
+						Attributes: paramBindingAttributes,
+					},
+				},
+			},
+			"operations": schema.ListNestedAttribute{
+				Required: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"branches": schema.SingleNestedAttribute{
+							Optional: true,
+							Attributes: map[string]schema.Attribute{
+								"branches": schema.ListNestedAttribute{
+									Required: true,
+									NestedObject: schema.NestedAttributeObject{
+										Attributes: map[string]schema.Attribute{
+											"condition_groups": conditionGroupsAttribute,
+											"result": schema.SingleNestedAttribute{
+												Required:   true,
+												Attributes: paramBindingAttributes,
+											},
+										},
+									},
+								},
+								"returns": returnsAttribute,
+							},
+						},
+						"filter": schema.SingleNestedAttribute{
+							Optional: true,
+							Attributes: map[string]schema.Attribute{
+								"condition_groups": conditionGroupsAttribute,
+							},
+						},
+						"navigate": schema.SingleNestedAttribute{
+							Optional: true,
+							Attributes: map[string]schema.Attribute{
+								"reference": schema.StringAttribute{
+									Required: true,
+								},
+							},
+						},
+						"operation_type": schema.StringAttribute{
+							Required: true,
+						},
+						"parse": schema.SingleNestedAttribute{
+							Optional: true,
+							Attributes: map[string]schema.Attribute{
+								"returns": returnsAttribute,
+								"source": schema.StringAttribute{
+									Required: true,
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	},
 }

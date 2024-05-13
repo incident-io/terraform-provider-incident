@@ -3,12 +3,12 @@
 page_title: "incident_workflow Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  A draft version of the public API for workflows. For now, this is a carbon copy of our private API
+  A draft version of the public API for workflows.
 ---
 
 # incident_workflow (Resource)
 
-A draft version of the public API for workflows. For now, this is a carbon copy of our private API
+A draft version of the public API for workflows.
 
 
 
@@ -18,15 +18,22 @@ A draft version of the public API for workflows. For now, this is a carbon copy 
 ### Required
 
 - `condition_groups` (Attributes Set) (see [below for nested schema](#nestedatt--condition_groups))
-- `expressions` (Attributes List) (see [below for nested schema](#nestedatt--expressions))
+- `continue_on_step_error` (Boolean)
+- `expressions` (Attributes Set) (see [below for nested schema](#nestedatt--expressions))
+- `include_private_incidents` (Boolean)
 - `name` (String)
+- `once_for` (List of String)
+- `runs_on_incident_modes` (List of String)
+- `runs_on_incidents` (String)
+- `state` (String)
 - `steps` (Attributes List) (see [below for nested schema](#nestedatt--steps))
-- `terraform_repo_url` (String)
 - `trigger` (String)
 
 ### Optional
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--delay))
 - `folder` (String)
+- `managed_source_url` (String)
 
 ### Read-Only
 
@@ -122,42 +129,50 @@ Required:
 
 Required:
 
-- `conditions` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--conditions))
+- `condition_groups` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups))
 - `result` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result))
 
-<a id="nestedatt--expressions--operations--branches--returns--conditions"></a>
-### Nested Schema for `expressions.operations.branches.returns.conditions`
+<a id="nestedatt--expressions--operations--branches--returns--condition_groups"></a>
+### Nested Schema for `expressions.operations.branches.returns.condition_groups`
+
+Required:
+
+- `conditions` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions))
+
+<a id="nestedatt--expressions--operations--branches--returns--condition_groups--conditions"></a>
+### Nested Schema for `expressions.operations.branches.returns.condition_groups.conditions`
 
 Required:
 
 - `operation` (String)
-- `param_bindings` (Attributes List) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--conditions--param_bindings))
+- `param_bindings` (Attributes List) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--param_bindings))
 - `subject` (String)
 
-<a id="nestedatt--expressions--operations--branches--returns--conditions--param_bindings"></a>
-### Nested Schema for `expressions.operations.branches.returns.conditions.subject`
+<a id="nestedatt--expressions--operations--branches--returns--condition_groups--conditions--param_bindings"></a>
+### Nested Schema for `expressions.operations.branches.returns.condition_groups.conditions.subject`
 
 Optional:
 
-- `array_value` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--conditions--subject--array_value))
-- `value` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--conditions--subject--value))
+- `array_value` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--array_value))
+- `value` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--value))
 
-<a id="nestedatt--expressions--operations--branches--returns--conditions--subject--array_value"></a>
-### Nested Schema for `expressions.operations.branches.returns.conditions.subject.value`
+<a id="nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--array_value"></a>
+### Nested Schema for `expressions.operations.branches.returns.condition_groups.conditions.subject.value`
+
+Optional:
+
+- `literal` (String)
+- `reference` (String)
+
+
+<a id="nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--value"></a>
+### Nested Schema for `expressions.operations.branches.returns.condition_groups.conditions.subject.value`
 
 Optional:
 
 - `literal` (String)
 - `reference` (String)
 
-
-<a id="nestedatt--expressions--operations--branches--returns--conditions--subject--value"></a>
-### Nested Schema for `expressions.operations.branches.returns.conditions.subject.value`
-
-Optional:
-
-- `literal` (String)
-- `reference` (String)
 
 
 
@@ -205,41 +220,49 @@ Required:
 
 Required:
 
-- `conditions` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--filter--conditions))
+- `condition_groups` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups))
 
-<a id="nestedatt--expressions--operations--filter--conditions"></a>
-### Nested Schema for `expressions.operations.filter.conditions`
+<a id="nestedatt--expressions--operations--filter--condition_groups"></a>
+### Nested Schema for `expressions.operations.filter.condition_groups`
+
+Required:
+
+- `conditions` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions))
+
+<a id="nestedatt--expressions--operations--filter--condition_groups--conditions"></a>
+### Nested Schema for `expressions.operations.filter.condition_groups.conditions`
 
 Required:
 
 - `operation` (String)
-- `param_bindings` (Attributes List) (see [below for nested schema](#nestedatt--expressions--operations--filter--conditions--param_bindings))
+- `param_bindings` (Attributes List) (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings))
 - `subject` (String)
 
-<a id="nestedatt--expressions--operations--filter--conditions--param_bindings"></a>
-### Nested Schema for `expressions.operations.filter.conditions.param_bindings`
+<a id="nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings"></a>
+### Nested Schema for `expressions.operations.filter.condition_groups.conditions.subject`
 
 Optional:
 
-- `array_value` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--filter--conditions--param_bindings--array_value))
-- `value` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--filter--conditions--param_bindings--value))
+- `array_value` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--subject--array_value))
+- `value` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--subject--value))
 
-<a id="nestedatt--expressions--operations--filter--conditions--param_bindings--array_value"></a>
-### Nested Schema for `expressions.operations.filter.conditions.param_bindings.value`
+<a id="nestedatt--expressions--operations--filter--condition_groups--conditions--subject--array_value"></a>
+### Nested Schema for `expressions.operations.filter.condition_groups.conditions.subject.value`
+
+Optional:
+
+- `literal` (String)
+- `reference` (String)
+
+
+<a id="nestedatt--expressions--operations--filter--condition_groups--conditions--subject--value"></a>
+### Nested Schema for `expressions.operations.filter.condition_groups.conditions.subject.value`
 
 Optional:
 
 - `literal` (String)
 - `reference` (String)
 
-
-<a id="nestedatt--expressions--operations--filter--conditions--param_bindings--value"></a>
-### Nested Schema for `expressions.operations.filter.conditions.param_bindings.value`
-
-Optional:
-
-- `literal` (String)
-- `reference` (String)
 
 
 
@@ -348,5 +371,16 @@ Optional:
 
 - `literal` (String)
 - `reference` (String)
+
+
+
+
+<a id="nestedatt--delay"></a>
+### Nested Schema for `delay`
+
+Required:
+
+- `conditions_apply_over_delay` (Boolean)
+- `delay_for_seconds` (Number)
 
 
