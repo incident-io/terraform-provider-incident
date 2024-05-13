@@ -98,6 +98,7 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 						},
 						"id": schema.StringAttribute{
 							Optional: true,
+							Computed: true,
 						},
 						"name": schema.StringAttribute{
 							Required: true,
