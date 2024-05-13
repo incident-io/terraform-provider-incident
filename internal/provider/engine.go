@@ -3,6 +3,7 @@ package provider
 import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 )
 
 // Types
@@ -85,50 +86,59 @@ type IncidentEngineExpressionParseOpts struct {
 
 var paramBindingValueAttributes = map[string]schema.Attribute{
 	"literal": schema.StringAttribute{
-		Optional: true,
+		MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2ResponseBody", "literal"),
+		Optional:            true,
 	},
 	"reference": schema.StringAttribute{
-		Optional: true,
+		MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2ResponseBody", "reference"),
+		Optional:            true,
 	},
 }
 
 var paramBindingAttributes = map[string]schema.Attribute{
 	"array_value": schema.SetNestedAttribute{
-		Optional: true,
+		MarkdownDescription: "The array of literal or reference parameter values",
+		Optional:            true,
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: paramBindingValueAttributes,
 		},
 	},
 	"value": schema.SingleNestedAttribute{
-		Optional:   true,
-		Attributes: paramBindingValueAttributes,
+		MarkdownDescription: "The literal or reference value of the parameter",
+		Optional:            true,
+		Attributes:          paramBindingValueAttributes,
 	},
 }
 
 var paramBindingsAttribute = schema.ListNestedAttribute{
-	Required: true,
+	MarkdownDescription: apischema.Docstring("ConditionV2ResponseBody", "param_bindings"),
+	Required:            true,
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: paramBindingAttributes,
 	},
 }
 
 var conditionsAttribute = schema.SetNestedAttribute{
-	Required: true,
+	MarkdownDescription: "The prerequisite conditions that must all be met",
+	Required:            true,
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
 			"operation": schema.StringAttribute{
-				Required: true,
+				MarkdownDescription: "The logical operation to be applied",
+				Required:            true,
 			},
 			"param_bindings": paramBindingsAttribute,
 			"subject": schema.StringAttribute{
-				Required: true,
+				MarkdownDescription: "The subject of the condition",
+				Required:            true,
 			},
 		},
 	},
 }
 
 var conditionGroupsAttribute = schema.SetNestedAttribute{
-	Required: true,
+	MarkdownDescription: "Groups of prerequisite conditions. All conditions in at leasy one group must be met",
+	Required:            true,
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
 			"conditions": conditionsAttribute,
@@ -137,13 +147,16 @@ var conditionGroupsAttribute = schema.SetNestedAttribute{
 }
 
 var returnsAttribute = schema.SingleNestedAttribute{
-	Required: true,
+	MarkdownDescription: "The return type of an operation",
+	Required:            true,
 	Attributes: map[string]schema.Attribute{
 		"array": schema.BoolAttribute{
-			Required: true,
+			MarkdownDescription: apischema.Docstring("ReturnsMetaV2ResponseBody", "array"),
+			Required:            true,
 		},
 		"type": schema.StringAttribute{
-			Required: true,
+			MarkdownDescription: apischema.Docstring("ReturnsMetaV2ResponseBody", "type"),
+			Required:            true,
 		},
 	},
 }
@@ -153,41 +166,51 @@ var expressionsAttribute = schema.SetNestedAttribute{
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				MarkdownDescription: apischema.Docstring("ExpressionV2ResponseBody", "id"),
+				Computed:            true,
 			},
 			"label": schema.StringAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("ExpressionV2ResponseBody", "label"),
+				Required:            true,
 			},
 			"reference": schema.StringAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("ExpressionV2ResponseBody", "reference"),
+				Required:            true,
 			},
 			"root_reference": schema.StringAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("ExpressionV2ResponseBody", "root_reference"),
+				Required:            true,
 			},
 			"else_branch": schema.SingleNestedAttribute{
-				Optional: true,
+				MarkdownDescription: "The else branch to resort to if all operations fail",
+				Optional:            true,
 				Attributes: map[string]schema.Attribute{
 					"result": schema.SingleNestedAttribute{
-						Required:   true,
-						Attributes: paramBindingAttributes,
+						MarkdownDescription: "The result assumed if the else branch is reached",
+						Required:            true,
+						Attributes:          paramBindingAttributes,
 					},
 				},
 			},
 			"operations": schema.ListNestedAttribute{
-				Required: true,
+				MarkdownDescription: "The operations to execute in sequence for this expression",
+				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"branches": schema.SingleNestedAttribute{
-							Optional: true,
+							MarkdownDescription: "An operation type that allows for a value to be set conditionally by a series of logical branches",
+							Optional:            true,
 							Attributes: map[string]schema.Attribute{
 								"branches": schema.ListNestedAttribute{
-									Required: true,
+									MarkdownDescription: apischema.Docstring("ExpressionBranchesOptsV2ResponseBody", "branches"),
+									Required:            true,
 									NestedObject: schema.NestedAttributeObject{
 										Attributes: map[string]schema.Attribute{
 											"condition_groups": conditionGroupsAttribute,
 											"result": schema.SingleNestedAttribute{
-												Required:   true,
-												Attributes: paramBindingAttributes,
+												MarkdownDescription: "The result assumed if the condition groups are met",
+												Required:            true,
+												Attributes:          paramBindingAttributes,
 											},
 										},
 									},
@@ -196,13 +219,15 @@ var expressionsAttribute = schema.SetNestedAttribute{
 							},
 						},
 						"filter": schema.SingleNestedAttribute{
-							Optional: true,
+							MarkdownDescription: "An operation type that allows values to be filtered out by conditions",
+							Optional:            true,
 							Attributes: map[string]schema.Attribute{
 								"condition_groups": conditionGroupsAttribute,
 							},
 						},
 						"navigate": schema.SingleNestedAttribute{
-							Optional: true,
+							MarkdownDescription: "An operation type that allows attributes of a type to be accessed by reference",
+							Optional:            true,
 							Attributes: map[string]schema.Attribute{
 								"reference": schema.StringAttribute{
 									Required: true,
@@ -210,7 +235,8 @@ var expressionsAttribute = schema.SetNestedAttribute{
 							},
 						},
 						"operation_type": schema.StringAttribute{
-							Required: true,
+							MarkdownDescription: "Indicates which operation type to execute",
+							Required:            true,
 						},
 						"parse": schema.SingleNestedAttribute{
 							Optional: true,
