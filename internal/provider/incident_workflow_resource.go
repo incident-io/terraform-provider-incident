@@ -49,9 +49,6 @@ type IncidentWorkflowResourceModel struct {
 	State                   types.String                  `tfsdk:"state"`
 }
 
-// 	IncludePrivateIncidents bool `json:"include_private_incidents"`
-// 	IncludeRetrospectiveIncidents bool `json:"include_retrospective_incidents"`
-
 type IncidentWorkflowStep struct {
 	ForEach       types.String                 `tfsdk:"for_each"`
 	ID            types.String                 `tfsdk:"id"`
@@ -455,6 +452,7 @@ func (r *IncidentWorkflowResource) buildExpressions(expressions []client.Express
 			ID:            types.StringValue(e.Id),
 			Label:         types.StringValue(e.Label),
 			Operations:    r.buildOperations(e.Operations),
+			Reference:     types.StringValue(e.Reference),
 			RootReference: types.StringValue(e.RootReference),
 		}
 		if e.ElseBranch != nil {
@@ -462,7 +460,7 @@ func (r *IncidentWorkflowResource) buildExpressions(expressions []client.Express
 				Result: r.buildParamBinding(e.ElseBranch.Result),
 			}
 		}
-		out[e.Reference] = expression
+		out = append(out, expression)
 	}
 
 	return out
@@ -603,11 +601,11 @@ func toPayloadParamBindingValue(v *IncidentEngineParamBindingValue) *client.Engi
 func toPayloadExpressions(expressions IncidentEngineExpressions) []client.ExpressionPayloadV2 {
 	out := []client.ExpressionPayloadV2{}
 
-	for ref, e := range expressions {
+	for _, e := range expressions {
 		expression := client.ExpressionPayloadV2{
 			Label:         e.Label.ValueString(),
 			Operations:    toPayloadOperations(e.Operations),
-			Reference:     ref,
+			Reference:     e.Reference.ValueString(),
 			RootReference: e.RootReference.ValueString(),
 		}
 		if e.ElseBranch != nil {

@@ -29,13 +29,14 @@ type IncidentEngineParamBindingValue struct {
 	Reference types.String `tfsdk:"reference"`
 }
 
-type IncidentEngineExpressions map[string]IncidentEngineExpression
+type IncidentEngineExpressions []IncidentEngineExpression
 
 type IncidentEngineExpression struct {
 	ElseBranch    *IncidentEngineElseBranch           `tfsdk:"else_branch"`
 	ID            types.String                        `tfsdk:"id"`
 	Label         types.String                        `tfsdk:"label"`
 	Operations    []IncidentEngineExpressionOperation `tfsdk:"operations"`
+	Reference     types.String                        `tfsdk:"reference"`
 	RootReference types.String                        `tfsdk:"root_reference"`
 }
 
@@ -147,10 +148,22 @@ var returnsAttribute = schema.SingleNestedAttribute{
 	},
 }
 
-var expressionsAttribute = schema.MapNestedAttribute{
+var expressionsAttribute = schema.SetNestedAttribute{
 	Required: true,
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				Computed: true,
+			},
+			"label": schema.StringAttribute{
+				Required: true,
+			},
+			"reference": schema.StringAttribute{
+				Required: true,
+			},
+			"root_reference": schema.StringAttribute{
+				Required: true,
+			},
 			"else_branch": schema.SingleNestedAttribute{
 				Optional: true,
 				Attributes: map[string]schema.Attribute{
@@ -159,12 +172,6 @@ var expressionsAttribute = schema.MapNestedAttribute{
 						Attributes: paramBindingAttributes,
 					},
 				},
-			},
-			"id": schema.StringAttribute{
-				Computed: true,
-			},
-			"label": schema.StringAttribute{
-				Required: true,
 			},
 			"operations": schema.ListNestedAttribute{
 				Required: true,
@@ -216,9 +223,6 @@ var expressionsAttribute = schema.MapNestedAttribute{
 						},
 					},
 				},
-			},
-			"root_reference": schema.StringAttribute{
-				Required: true,
 			},
 		},
 	},

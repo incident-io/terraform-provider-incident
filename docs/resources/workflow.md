@@ -19,7 +19,7 @@ A draft version of the public API for workflows.
 
 - `condition_groups` (Attributes Set) (see [below for nested schema](#nestedatt--condition_groups))
 - `continue_on_step_error` (Boolean)
-- `expressions` (Attributes Map) (see [below for nested schema](#nestedatt--expressions))
+- `expressions` (Attributes Set) (see [below for nested schema](#nestedatt--expressions))
 - `include_private_incidents` (Boolean)
 - `name` (String)
 - `once_for` (List of String)
@@ -91,6 +91,7 @@ Required:
 
 - `label` (String)
 - `operations` (Attributes List) (see [below for nested schema](#nestedatt--expressions--operations))
+- `reference` (String)
 - `root_reference` (String)
 
 Optional:
