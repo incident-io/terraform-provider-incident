@@ -1822,6 +1822,9 @@ type ExpressionParseOptsV2 struct {
 type ExpressionPayloadV2 struct {
 	ElseBranch *ExpressionElseBranchPayloadV2 `json:"else_branch,omitempty"`
 
+	// Id The ID of the expression
+	Id *string `json:"id,omitempty"`
+
 	// Label The human readable label of the expression
 	Label      string                         `json:"label"`
 	Operations []ExpressionOperationPayloadV2 `json:"operations"`

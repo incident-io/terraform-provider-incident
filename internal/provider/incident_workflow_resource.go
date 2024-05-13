@@ -604,6 +604,7 @@ func toPayloadExpressions(expressions IncidentEngineExpressions) []client.Expres
 
 	for _, e := range expressions {
 		expression := client.ExpressionPayloadV2{
+			Id:            e.ID.ValueStringPointer(),
 			Label:         e.Label.ValueString(),
 			Operations:    toPayloadOperations(e.Operations),
 			Reference:     e.Reference.ValueString(),
