@@ -342,9 +342,6 @@ Required:
 Optional:
 
 - `for_each` (String)
-
-Read-Only:
-
 - `id` (String)
 
 <a id="nestedatt--steps--param_bindings"></a>
