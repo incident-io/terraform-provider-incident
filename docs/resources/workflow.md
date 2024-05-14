@@ -17,9 +17,9 @@ A draft version of the public API for workflows.
 
 ### Required
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be met (see [below for nested schema](#nestedatt--condition_groups))
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--condition_groups))
 - `continue_on_step_error` (Boolean) Whether to continue executing the workflow if a step fails
-- `expressions` (Attributes Set) The expressions to be executed and prepared for steps and conditions (see [below for nested schema](#nestedatt--expressions))
+- `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
 - `include_private_incidents` (Boolean) Whether to include private incidents
 - `name` (String) The human-readable name of the workflow
 - `once_for` (List of String) This workflow will run 'once for' a list of references
@@ -44,7 +44,7 @@ A draft version of the public API for workflows.
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be met (see [below for nested schema](#nestedatt--condition_groups--conditions))
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--condition_groups--conditions))
 
 <a id="nestedatt--condition_groups--conditions"></a>
 ### Nested Schema for `condition_groups.conditions`
@@ -53,7 +53,7 @@ Required:
 
 - `operation` (String) The logical operation to be applied
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings))
-- `subject` (String) The subject of the condition
+- `subject` (String) The subject of the condition, on which the operation is applied
 
 <a id="nestedatt--condition_groups--conditions--param_bindings"></a>
 ### Nested Schema for `condition_groups.conditions.param_bindings`
@@ -61,7 +61,7 @@ Required:
 Optional:
 
 - `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference value of the parameter (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--condition_groups--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `condition_groups.conditions.param_bindings.value`
@@ -114,7 +114,7 @@ Optional:
 - `branches` (Attributes) An operation type that allows for a value to be set conditionally by a series of logical branches (see [below for nested schema](#nestedatt--expressions--operations--branches))
 - `filter` (Attributes) An operation type that allows values to be filtered out by conditions (see [below for nested schema](#nestedatt--expressions--operations--filter))
 - `navigate` (Attributes) An operation type that allows attributes of a type to be accessed by reference (see [below for nested schema](#nestedatt--expressions--operations--navigate))
-- `parse` (Attributes) An operation type that allows a value to parsed from with a JSON object (see [below for nested schema](#nestedatt--expressions--operations--parse))
+- `parse` (Attributes) An operation type that allows a value to parsed from within a JSON object (see [below for nested schema](#nestedatt--expressions--operations--parse))
 
 <a id="nestedatt--expressions--operations--branches"></a>
 ### Nested Schema for `expressions.operations.branches`
@@ -129,15 +129,15 @@ Required:
 
 Required:
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be met (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups))
-- `result` (Attributes) The result assumed if the condition groups are met (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result))
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups))
+- `result` (Attributes) The result assumed if the condition groups are satisfied (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result))
 
 <a id="nestedatt--expressions--operations--branches--returns--condition_groups"></a>
 ### Nested Schema for `expressions.operations.branches.returns.condition_groups`
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be met (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions))
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions))
 
 <a id="nestedatt--expressions--operations--branches--returns--condition_groups--conditions"></a>
 ### Nested Schema for `expressions.operations.branches.returns.condition_groups.conditions`
@@ -146,7 +146,7 @@ Required:
 
 - `operation` (String) The logical operation to be applied
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--param_bindings))
-- `subject` (String) The subject of the condition
+- `subject` (String) The subject of the condition, on which the operation is applied
 
 <a id="nestedatt--expressions--operations--branches--returns--condition_groups--conditions--param_bindings"></a>
 ### Nested Schema for `expressions.operations.branches.returns.condition_groups.conditions.subject`
@@ -154,7 +154,7 @@ Required:
 Optional:
 
 - `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--array_value))
-- `value` (Attributes) The literal or reference value of the parameter (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--value))
 
 <a id="nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--array_value"></a>
 ### Nested Schema for `expressions.operations.branches.returns.condition_groups.conditions.subject.value`
@@ -183,7 +183,7 @@ Optional:
 Optional:
 
 - `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result--array_value))
-- `value` (Attributes) The literal or reference value of the parameter (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result--value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result--value))
 
 <a id="nestedatt--expressions--operations--branches--returns--result--array_value"></a>
 ### Nested Schema for `expressions.operations.branches.returns.result.value`
@@ -220,14 +220,14 @@ Required:
 
 Required:
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be met (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups))
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups))
 
 <a id="nestedatt--expressions--operations--filter--condition_groups"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups`
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be met (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions))
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions))
 
 <a id="nestedatt--expressions--operations--filter--condition_groups--conditions"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups.conditions`
@@ -236,7 +236,7 @@ Required:
 
 - `operation` (String) The logical operation to be applied
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings))
-- `subject` (String) The subject of the condition
+- `subject` (String) The subject of the condition, on which the operation is applied
 
 <a id="nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups.conditions.subject`
@@ -244,7 +244,7 @@ Required:
 Optional:
 
 - `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--subject--array_value))
-- `value` (Attributes) The literal or reference value of the parameter (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--subject--value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--subject--value))
 
 <a id="nestedatt--expressions--operations--filter--condition_groups--conditions--subject--array_value"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups.conditions.subject.value`
@@ -282,7 +282,7 @@ Required:
 Required:
 
 - `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--expressions--operations--parse--returns))
-- `source` (String)
+- `source` (String) The ES5 Javascript expression to execute
 
 <a id="nestedatt--expressions--operations--parse--returns"></a>
 ### Nested Schema for `expressions.operations.parse.source`
@@ -308,7 +308,7 @@ Required:
 Optional:
 
 - `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--else_branch--result--array_value))
-- `value` (Attributes) The literal or reference value of the parameter (see [below for nested schema](#nestedatt--expressions--else_branch--result--value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--else_branch--result--value))
 
 <a id="nestedatt--expressions--else_branch--result--array_value"></a>
 ### Nested Schema for `expressions.else_branch.result.value`
@@ -353,7 +353,7 @@ Read-Only:
 Optional:
 
 - `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--steps--param_bindings--array_value))
-- `value` (Attributes) The literal or reference value of the parameter (see [below for nested schema](#nestedatt--steps--param_bindings--value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--steps--param_bindings--value))
 
 <a id="nestedatt--steps--param_bindings--array_value"></a>
 ### Nested Schema for `steps.param_bindings.array_value`

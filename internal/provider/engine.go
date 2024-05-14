@@ -104,7 +104,7 @@ var paramBindingAttributes = map[string]schema.Attribute{
 		},
 	},
 	"value": schema.SingleNestedAttribute{
-		MarkdownDescription: "The literal or reference value of the parameter",
+		MarkdownDescription: "The literal or reference parameter value",
 		Optional:            true,
 		Attributes:          paramBindingValueAttributes,
 	},
@@ -119,7 +119,7 @@ var paramBindingsAttribute = schema.ListNestedAttribute{
 }
 
 var conditionsAttribute = schema.SetNestedAttribute{
-	MarkdownDescription: "The prerequisite conditions that must all be met",
+	MarkdownDescription: "The prerequisite conditions that must all be satisfied",
 	Required:            true,
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
@@ -129,7 +129,7 @@ var conditionsAttribute = schema.SetNestedAttribute{
 			},
 			"param_bindings": paramBindingsAttribute,
 			"subject": schema.StringAttribute{
-				MarkdownDescription: "The subject of the condition",
+				MarkdownDescription: "The subject of the condition, on which the operation is applied",
 				Required:            true,
 			},
 		},
@@ -137,7 +137,7 @@ var conditionsAttribute = schema.SetNestedAttribute{
 }
 
 var conditionGroupsAttribute = schema.SetNestedAttribute{
-	MarkdownDescription: "Groups of prerequisite conditions. All conditions in at least one group must be met",
+	MarkdownDescription: "Groups of prerequisite conditions. All conditions in at least one group must be satisfied",
 	Required:            true,
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
@@ -162,7 +162,7 @@ var returnsAttribute = schema.SingleNestedAttribute{
 }
 
 var expressionsAttribute = schema.SetNestedAttribute{
-	MarkdownDescription: "The expressions to be executed and prepared for steps and conditions",
+	MarkdownDescription: "The expressions to be prepared for use by steps and conditions",
 	Required:            true,
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
@@ -209,7 +209,7 @@ var expressionsAttribute = schema.SetNestedAttribute{
 										Attributes: map[string]schema.Attribute{
 											"condition_groups": conditionGroupsAttribute,
 											"result": schema.SingleNestedAttribute{
-												MarkdownDescription: "The result assumed if the condition groups are met",
+												MarkdownDescription: "The result assumed if the condition groups are satisfied",
 												Required:            true,
 												Attributes:          paramBindingAttributes,
 											},
@@ -240,12 +240,13 @@ var expressionsAttribute = schema.SetNestedAttribute{
 							Required:            true,
 						},
 						"parse": schema.SingleNestedAttribute{
-							MarkdownDescription: "An operation type that allows a value to parsed from with a JSON object",
+							MarkdownDescription: "An operation type that allows a value to parsed from within a JSON object",
 							Optional:            true,
 							Attributes: map[string]schema.Attribute{
 								"returns": returnsAttribute,
 								"source": schema.StringAttribute{
-									Required: true,
+									MarkdownDescription: "The ES5 Javascript expression to execute",
+									Required:            true,
 								},
 							},
 						},
