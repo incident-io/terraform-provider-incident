@@ -3,12 +3,15 @@
 page_title: "incident_workflow Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  A draft version of the public API for workflows.
+  Manage workflows.
+  Workflows allow you to automate certain actions and behaviors based on specific triggers.
 ---
 
 # incident_workflow (Resource)
 
-A draft version of the public API for workflows.
+Manage workflows.
+
+Workflows allow you to automate certain actions and behaviors based on specific triggers.
 
 
 
@@ -24,10 +27,10 @@ A draft version of the public API for workflows.
 - `name` (String) The human-readable name of the workflow
 - `once_for` (List of String) This workflow will run 'once for' a list of references
 - `runs_on_incident_modes` (List of String) Incidents in these modes will be affected by the workflow
-- `runs_on_incidents` (String) Which incidents should the workflow be applied to?
+- `runs_on_incidents` (String) Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
 - `state` (String) The state of the workflow (e.g. is it draft, or disabled)
 - `steps` (Attributes List) Steps that are executed as part of the workflow (see [below for nested schema](#nestedatt--steps))
-- `trigger` (String) Unique name of the trigger inside of the engine
+- `trigger` (String) Unique name of the trigger
 
 ### Optional
 

@@ -6589,6 +6589,7 @@
                         }
                       }
                     },
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                     "label": "Team Slack channel",
                     "operations": [
                       {
@@ -7340,6 +7341,7 @@
                         }
                       }
                     },
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                     "label": "Team Slack channel",
                     "operations": [
                       {
@@ -11346,6 +11348,7 @@
                     }
                   }
                 },
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                 "label": "Team Slack channel",
                 "operations": [
                   {
@@ -11489,7 +11492,7 @@
           },
           "runs_on_incidents": {
             "type": "string",
-            "description": "Which incidents should the workflow be applied to?",
+            "description": "Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)",
             "example": "newly_created",
             "enum": [
               "newly_created",
@@ -11590,6 +11593,7 @@
                   }
                 }
               },
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
               "label": "Team Slack channel",
               "operations": [
                 {
@@ -13483,6 +13487,11 @@
           "else_branch": {
             "$ref": "#/components/schemas/ExpressionElseBranchPayloadV2"
           },
+          "id": {
+            "type": "string",
+            "description": "The ID of the expression",
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          },
           "label": {
             "type": "string",
             "description": "The human readable label of the expression",
@@ -13607,6 +13616,7 @@
               }
             }
           },
+          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
           "label": "Team Slack channel",
           "operations": [
             {
@@ -22398,7 +22408,7 @@
           },
           "name": {
             "type": "string",
-            "description": "Unique name of the trigger inside of the engine",
+            "description": "Unique name of the trigger",
             "example": "incident.updated"
           }
         },
@@ -23035,6 +23045,7 @@
                     }
                   }
                 },
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                 "label": "Team Slack channel",
                 "operations": [
                   {
@@ -23178,7 +23189,7 @@
           },
           "runs_on_incidents": {
             "type": "string",
-            "description": "Which incidents should the workflow be applied to?",
+            "description": "Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)",
             "example": "newly_created",
             "enum": [
               "newly_created",
@@ -23274,6 +23285,7 @@
                   }
                 }
               },
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
               "label": "Team Slack channel",
               "operations": [
                 {
@@ -23976,7 +23988,7 @@
           },
           "runs_on_incidents": {
             "type": "string",
-            "description": "Which incidents should the workflow be applied to?",
+            "description": "Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)",
             "example": "newly_created",
             "enum": [
               "newly_created",
@@ -24564,7 +24576,7 @@
           },
           "runs_on_incidents": {
             "type": "string",
-            "description": "Which incidents should the workflow be applied to?",
+            "description": "Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)",
             "example": "newly_created",
             "enum": [
               "newly_created",
@@ -24926,7 +24938,7 @@
     },
     {
       "name": "Workflows V2",
-      "description": "A draft version of the public API for workflows."
+      "description": "Manage workflows.\n\nWorkflows allow you to automate certain actions and behaviors based on specific triggers."
     },
     {
       "name": "Audit logs",
