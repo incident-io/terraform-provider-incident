@@ -11492,7 +11492,7 @@
           },
           "runs_on_incidents": {
             "type": "string",
-            "description": "Which incidents should the workflow be applied to?",
+            "description": "Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)",
             "example": "newly_created",
             "enum": [
               "newly_created",
@@ -22408,7 +22408,7 @@
           },
           "name": {
             "type": "string",
-            "description": "Unique name of the trigger inside of the engine",
+            "description": "Unique name of the trigger",
             "example": "incident.updated"
           }
         },
@@ -23189,7 +23189,7 @@
           },
           "runs_on_incidents": {
             "type": "string",
-            "description": "Which incidents should the workflow be applied to?",
+            "description": "Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)",
             "example": "newly_created",
             "enum": [
               "newly_created",
@@ -23988,7 +23988,7 @@
           },
           "runs_on_incidents": {
             "type": "string",
-            "description": "Which incidents should the workflow be applied to?",
+            "description": "Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)",
             "example": "newly_created",
             "enum": [
               "newly_created",
@@ -24576,7 +24576,7 @@
           },
           "runs_on_incidents": {
             "type": "string",
-            "description": "Which incidents should the workflow be applied to?",
+            "description": "Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)",
             "example": "newly_created",
             "enum": [
               "newly_created",
@@ -24938,7 +24938,7 @@
     },
     {
       "name": "Workflows V2",
-      "description": "A draft version of the public API for workflows."
+      "description": "Manage workflows.\n\nWorkflows allow you to automate certain actions and behaviors based on specific triggers."
     },
     {
       "name": "Audit logs",

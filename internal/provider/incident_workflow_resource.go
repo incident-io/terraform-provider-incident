@@ -66,34 +66,39 @@ func (r *IncidentWorkflowResource) Metadata(ctx context.Context, req resource.Me
 }
 
 func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Workflows V2"),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "id"),
+				Computed:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "name"),
+				Required:            true,
 			},
 			"folder": schema.StringAttribute{
-				Optional: true,
+				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "folder"),
+				Optional:            true,
 			},
 			"trigger": schema.StringAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("TriggerSlimResponseBody", "name"),
+				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"managed_source_url": schema.StringAttribute{
-				Optional: true,
+				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "managed_source_url"),
+				Optional:            true,
 			},
 			"condition_groups": conditionGroupsAttribute,
 			"steps": schema.ListNestedAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "steps"),
+				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"for_each": schema.StringAttribute{
@@ -111,35 +116,44 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"expressions": expressionsAttribute,
 			"once_for": schema.ListAttribute{
-				Required:    true,
-				ElementType: types.StringType,
+				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "once_for"),
+				Required:            true,
+				ElementType:         types.StringType,
 			},
 			"include_private_incidents": schema.BoolAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "include_private_incidents"),
+				Required:            true,
 			},
 			"continue_on_step_error": schema.BoolAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "continue_on_step_error"),
+				Required:            true,
 			},
 			"delay": schema.SingleNestedAttribute{
-				Optional: true,
+				MarkdownDescription: "Configuration controlling workflow delay behaviour",
+				Optional:            true,
 				Attributes: map[string]schema.Attribute{
 					"conditions_apply_over_delay": schema.BoolAttribute{
-						Required: true,
+						MarkdownDescription: apischema.Docstring("WorkflowDelayRequestBody", "conditions_apply_over_delay"),
+						Required:            true,
 					},
-					"delay_for_seconds": schema.Int64Attribute{
-						Required: true,
+					"for_seconds": schema.Int64Attribute{
+						MarkdownDescription: apischema.Docstring("WorkflowDelayRequestBody", "for_seconds"),
+						Required:            true,
 					},
 				},
 			},
 			"runs_on_incidents": schema.StringAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "runs_on_incidents"),
+				Required:            true,
 			},
 			"runs_on_incident_modes": schema.ListAttribute{
-				Required:    true,
-				ElementType: types.StringType,
+				MarkdownDescription: "Incidents in these modes will be affected by the workflow",
+				Required:            true,
+				ElementType:         types.StringType,
 			},
 			"state": schema.StringAttribute{
-				Required: true,
+				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "state"),
+				Required:            true,
 			},
 		},
 	}

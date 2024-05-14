@@ -3,12 +3,15 @@
 page_title: "incident_workflow Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  A draft version of the public API for workflows.
+  Manage workflows.
+  Workflows allow you to automate certain actions and behaviors based on specific triggers.
 ---
 
 # incident_workflow (Resource)
 
-A draft version of the public API for workflows.
+Manage workflows.
+
+Workflows allow you to automate certain actions and behaviors based on specific triggers.
 
 
 
@@ -17,59 +20,59 @@ A draft version of the public API for workflows.
 
 ### Required
 
-- `condition_groups` (Attributes Set) (see [below for nested schema](#nestedatt--condition_groups))
-- `continue_on_step_error` (Boolean)
-- `expressions` (Attributes Set) (see [below for nested schema](#nestedatt--expressions))
-- `include_private_incidents` (Boolean)
-- `name` (String)
-- `once_for` (List of String)
-- `runs_on_incident_modes` (List of String)
-- `runs_on_incidents` (String)
-- `state` (String)
-- `steps` (Attributes List) (see [below for nested schema](#nestedatt--steps))
-- `trigger` (String)
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--condition_groups))
+- `continue_on_step_error` (Boolean) Whether to continue executing the workflow if a step fails
+- `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
+- `include_private_incidents` (Boolean) Whether to include private incidents
+- `name` (String) The human-readable name of the workflow
+- `once_for` (List of String) This workflow will run 'once for' a list of references
+- `runs_on_incident_modes` (List of String) Incidents in these modes will be affected by the workflow
+- `runs_on_incidents` (String) Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
+- `state` (String) The state of the workflow (e.g. is it draft, or disabled)
+- `steps` (Attributes List) Steps that are executed as part of the workflow (see [below for nested schema](#nestedatt--steps))
+- `trigger` (String) Unique name of the trigger
 
 ### Optional
 
-- `delay` (Attributes) (see [below for nested schema](#nestedatt--delay))
-- `folder` (String)
-- `managed_source_url` (String)
+- `delay` (Attributes) Configuration controlling workflow delay behaviour (see [below for nested schema](#nestedatt--delay))
+- `folder` (String) Folder to display the workflow in
+- `managed_source_url` (String) The url of the external repository where this workflow is managed
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique identifier for the workflow
 
 <a id="nestedatt--condition_groups"></a>
 ### Nested Schema for `condition_groups`
 
 Required:
 
-- `conditions` (Attributes Set) (see [below for nested schema](#nestedatt--condition_groups--conditions))
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--condition_groups--conditions))
 
 <a id="nestedatt--condition_groups--conditions"></a>
 ### Nested Schema for `condition_groups.conditions`
 
 Required:
 
-- `operation` (String)
-- `param_bindings` (Attributes List) (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings))
-- `subject` (String)
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
 
 <a id="nestedatt--condition_groups--conditions--param_bindings"></a>
 ### Nested Schema for `condition_groups.conditions.param_bindings`
 
 Optional:
 
-- `array_value` (Attributes Set) (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--array_value))
-- `value` (Attributes) (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--value))
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--condition_groups--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `condition_groups.conditions.param_bindings.value`
 
 Optional:
 
-- `literal` (String)
-- `reference` (String)
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 <a id="nestedatt--condition_groups--conditions--param_bindings--value"></a>
@@ -77,8 +80,8 @@ Optional:
 
 Optional:
 
-- `literal` (String)
-- `reference` (String)
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 
@@ -89,77 +92,77 @@ Optional:
 
 Required:
 
-- `id` (String)
-- `label` (String)
-- `operations` (Attributes List) (see [below for nested schema](#nestedatt--expressions--operations))
-- `reference` (String)
-- `root_reference` (String)
+- `id` (String) The ID of the expression
+- `label` (String) The human readable label of the expression
+- `operations` (Attributes List) The operations to execute in sequence for this expression (see [below for nested schema](#nestedatt--expressions--operations))
+- `reference` (String) A short ID that can be used to reference the expression
+- `root_reference` (String) The root reference for this expression (i.e. where the expression starts)
 
 Optional:
 
-- `else_branch` (Attributes) (see [below for nested schema](#nestedatt--expressions--else_branch))
+- `else_branch` (Attributes) The else branch to resort to if all operations fail (see [below for nested schema](#nestedatt--expressions--else_branch))
 
 <a id="nestedatt--expressions--operations"></a>
 ### Nested Schema for `expressions.operations`
 
 Required:
 
-- `operation_type` (String)
+- `operation_type` (String) Indicates which operation type to execute
 
 Optional:
 
-- `branches` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--branches))
-- `filter` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--filter))
-- `navigate` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--navigate))
-- `parse` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--parse))
+- `branches` (Attributes) An operation type that allows for a value to be set conditionally by a series of logical branches (see [below for nested schema](#nestedatt--expressions--operations--branches))
+- `filter` (Attributes) An operation type that allows values to be filtered out by conditions (see [below for nested schema](#nestedatt--expressions--operations--filter))
+- `navigate` (Attributes) An operation type that allows attributes of a type to be accessed by reference (see [below for nested schema](#nestedatt--expressions--operations--navigate))
+- `parse` (Attributes) An operation type that allows a value to parsed from within a JSON object (see [below for nested schema](#nestedatt--expressions--operations--parse))
 
 <a id="nestedatt--expressions--operations--branches"></a>
 ### Nested Schema for `expressions.operations.branches`
 
 Required:
 
-- `branches` (Attributes List) (see [below for nested schema](#nestedatt--expressions--operations--branches--branches))
-- `returns` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns))
+- `branches` (Attributes List) The branches to apply for this operation (see [below for nested schema](#nestedatt--expressions--operations--branches--branches))
+- `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--expressions--operations--branches--returns))
 
 <a id="nestedatt--expressions--operations--branches--branches"></a>
 ### Nested Schema for `expressions.operations.branches.returns`
 
 Required:
 
-- `condition_groups` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups))
-- `result` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result))
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups))
+- `result` (Attributes) The result assumed if the condition groups are satisfied (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result))
 
 <a id="nestedatt--expressions--operations--branches--returns--condition_groups"></a>
 ### Nested Schema for `expressions.operations.branches.returns.condition_groups`
 
 Required:
 
-- `conditions` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions))
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions))
 
 <a id="nestedatt--expressions--operations--branches--returns--condition_groups--conditions"></a>
 ### Nested Schema for `expressions.operations.branches.returns.condition_groups.conditions`
 
 Required:
 
-- `operation` (String)
-- `param_bindings` (Attributes List) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--param_bindings))
-- `subject` (String)
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
 
 <a id="nestedatt--expressions--operations--branches--returns--condition_groups--conditions--param_bindings"></a>
 ### Nested Schema for `expressions.operations.branches.returns.condition_groups.conditions.subject`
 
 Optional:
 
-- `array_value` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--array_value))
-- `value` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--value))
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--value))
 
 <a id="nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--array_value"></a>
 ### Nested Schema for `expressions.operations.branches.returns.condition_groups.conditions.subject.value`
 
 Optional:
 
-- `literal` (String)
-- `reference` (String)
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 <a id="nestedatt--expressions--operations--branches--returns--condition_groups--conditions--subject--value"></a>
@@ -167,8 +170,8 @@ Optional:
 
 Optional:
 
-- `literal` (String)
-- `reference` (String)
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 
@@ -179,16 +182,16 @@ Optional:
 
 Optional:
 
-- `array_value` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result--array_value))
-- `value` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result--value))
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result--value))
 
 <a id="nestedatt--expressions--operations--branches--returns--result--array_value"></a>
 ### Nested Schema for `expressions.operations.branches.returns.result.value`
 
 Optional:
 
-- `literal` (String)
-- `reference` (String)
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 <a id="nestedatt--expressions--operations--branches--returns--result--value"></a>
@@ -196,8 +199,8 @@ Optional:
 
 Optional:
 
-- `literal` (String)
-- `reference` (String)
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 
@@ -207,8 +210,8 @@ Optional:
 
 Required:
 
-- `array` (Boolean)
-- `type` (String)
+- `array` (Boolean) Whether the return value should be single or multi-value
+- `type` (String) Expected return type of this expression (what to try casting the result to)
 
 
 
@@ -217,39 +220,39 @@ Required:
 
 Required:
 
-- `condition_groups` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups))
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups))
 
 <a id="nestedatt--expressions--operations--filter--condition_groups"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups`
 
 Required:
 
-- `conditions` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions))
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions))
 
 <a id="nestedatt--expressions--operations--filter--condition_groups--conditions"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups.conditions`
 
 Required:
 
-- `operation` (String)
-- `param_bindings` (Attributes List) (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings))
-- `subject` (String)
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
 
 <a id="nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups.conditions.subject`
 
 Optional:
 
-- `array_value` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--subject--array_value))
-- `value` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--subject--value))
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--subject--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--subject--value))
 
 <a id="nestedatt--expressions--operations--filter--condition_groups--conditions--subject--array_value"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups.conditions.subject.value`
 
 Optional:
 
-- `literal` (String)
-- `reference` (String)
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 <a id="nestedatt--expressions--operations--filter--condition_groups--conditions--subject--value"></a>
@@ -257,8 +260,8 @@ Optional:
 
 Optional:
 
-- `literal` (String)
-- `reference` (String)
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 
@@ -278,16 +281,16 @@ Required:
 
 Required:
 
-- `returns` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--parse--returns))
-- `source` (String)
+- `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--expressions--operations--parse--returns))
+- `source` (String) The ES5 Javascript expression to execute
 
 <a id="nestedatt--expressions--operations--parse--returns"></a>
 ### Nested Schema for `expressions.operations.parse.source`
 
 Required:
 
-- `array` (Boolean)
-- `type` (String)
+- `array` (Boolean) Whether the return value should be single or multi-value
+- `type` (String) Expected return type of this expression (what to try casting the result to)
 
 
 
@@ -297,23 +300,23 @@ Required:
 
 Required:
 
-- `result` (Attributes) (see [below for nested schema](#nestedatt--expressions--else_branch--result))
+- `result` (Attributes) The result assumed if the else branch is reached (see [below for nested schema](#nestedatt--expressions--else_branch--result))
 
 <a id="nestedatt--expressions--else_branch--result"></a>
 ### Nested Schema for `expressions.else_branch.result`
 
 Optional:
 
-- `array_value` (Attributes Set) (see [below for nested schema](#nestedatt--expressions--else_branch--result--array_value))
-- `value` (Attributes) (see [below for nested schema](#nestedatt--expressions--else_branch--result--value))
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--else_branch--result--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--else_branch--result--value))
 
 <a id="nestedatt--expressions--else_branch--result--array_value"></a>
 ### Nested Schema for `expressions.else_branch.result.value`
 
 Optional:
 
-- `literal` (String)
-- `reference` (String)
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 <a id="nestedatt--expressions--else_branch--result--value"></a>
@@ -321,8 +324,8 @@ Optional:
 
 Optional:
 
-- `literal` (String)
-- `reference` (String)
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 
@@ -335,7 +338,7 @@ Required:
 
 - `id` (String)
 - `name` (String)
-- `param_bindings` (Attributes List) (see [below for nested schema](#nestedatt--steps--param_bindings))
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--steps--param_bindings))
 
 Optional:
 
@@ -346,16 +349,16 @@ Optional:
 
 Optional:
 
-- `array_value` (Attributes Set) (see [below for nested schema](#nestedatt--steps--param_bindings--array_value))
-- `value` (Attributes) (see [below for nested schema](#nestedatt--steps--param_bindings--value))
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--steps--param_bindings--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--steps--param_bindings--value))
 
 <a id="nestedatt--steps--param_bindings--array_value"></a>
 ### Nested Schema for `steps.param_bindings.array_value`
 
 Optional:
 
-- `literal` (String)
-- `reference` (String)
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 <a id="nestedatt--steps--param_bindings--value"></a>
@@ -363,8 +366,8 @@ Optional:
 
 Optional:
 
-- `literal` (String)
-- `reference` (String)
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 
@@ -374,7 +377,7 @@ Optional:
 
 Required:
 
-- `conditions_apply_over_delay` (Boolean)
-- `delay_for_seconds` (Number)
+- `conditions_apply_over_delay` (Boolean) If this workflow is delayed, whether the conditions should be rechecked between trigger firing and execution
+- `for_seconds` (Number) Delay in seconds between trigger firing and running the workflow
 
 
