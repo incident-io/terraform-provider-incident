@@ -113,6 +113,7 @@ resource "incident_workflow" "example" {
 	]
 	steps = [
 		{
+			id = "01HXVEA7Y0VWQBJB4F2X8WNRW6"
 			name = "incident.create_follow_ups"
 			param_bindings = [
 				{
@@ -133,6 +134,7 @@ resource "incident_workflow" "example" {
 	]
 	expressions = [
 		{
+			id = "01HXVEB7E3Z1Q1Z7QYDZ8ABDWM"
 			label = {{ quote .ExpressionLabel }}
 			operations = [
 				{

@@ -72,6 +72,9 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"name": schema.StringAttribute{
 				Required: true,
@@ -97,8 +100,7 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 							Optional: true,
 						},
 						"id": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
+							Required: true,
 						},
 						"name": schema.StringAttribute{
 							Required: true,

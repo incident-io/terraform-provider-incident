@@ -153,8 +153,7 @@ var expressionsAttribute = schema.SetNestedAttribute{
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
-				Optional: true,
+				Required: true,
 			},
 			"label": schema.StringAttribute{
 				Required: true,
