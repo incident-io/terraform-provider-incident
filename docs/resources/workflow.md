@@ -89,6 +89,7 @@ Optional:
 
 Required:
 
+- `id` (String)
 - `label` (String)
 - `operations` (Attributes List) (see [below for nested schema](#nestedatt--expressions--operations))
 - `reference` (String)
@@ -97,10 +98,6 @@ Required:
 Optional:
 
 - `else_branch` (Attributes) (see [below for nested schema](#nestedatt--expressions--else_branch))
-
-Read-Only:
-
-- `id` (String)
 
 <a id="nestedatt--expressions--operations"></a>
 ### Nested Schema for `expressions.operations`
@@ -336,13 +333,13 @@ Optional:
 
 Required:
 
+- `id` (String)
 - `name` (String)
 - `param_bindings` (Attributes List) (see [below for nested schema](#nestedatt--steps--param_bindings))
 
 Optional:
 
 - `for_each` (String)
-- `id` (String)
 
 <a id="nestedatt--steps--param_bindings"></a>
 ### Nested Schema for `steps.param_bindings`
