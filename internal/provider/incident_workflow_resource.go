@@ -72,6 +72,9 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 			"id": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "id"),
 				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"name": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "name"),
@@ -102,7 +105,7 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 							Optional: true,
 						},
 						"id": schema.StringAttribute{
-							Computed: true,
+							Required: true,
 						},
 						"name": schema.StringAttribute{
 							Required: true,
@@ -617,6 +620,7 @@ func toPayloadExpressions(expressions IncidentEngineExpressions) []client.Expres
 
 	for _, e := range expressions {
 		expression := client.ExpressionPayloadV2{
+			Id:            e.ID.ValueStringPointer(),
 			Label:         e.Label.ValueString(),
 			Operations:    toPayloadOperations(e.Operations),
 			Reference:     e.Reference.ValueString(),

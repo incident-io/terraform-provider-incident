@@ -168,7 +168,7 @@ var expressionsAttribute = schema.SetNestedAttribute{
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("ExpressionV2ResponseBody", "id"),
-				Computed:            true,
+				Required:            true,
 			},
 			"label": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("ExpressionV2ResponseBody", "label"),

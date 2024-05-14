@@ -92,6 +92,7 @@ Optional:
 
 Required:
 
+- `id` (String) The ID of the expression
 - `label` (String) The human readable label of the expression
 - `operations` (Attributes List) The operations to execute in sequence for this expression (see [below for nested schema](#nestedatt--expressions--operations))
 - `reference` (String) A short ID that can be used to reference the expression
@@ -100,10 +101,6 @@ Required:
 Optional:
 
 - `else_branch` (Attributes) The else branch to resort to if all operations fail (see [below for nested schema](#nestedatt--expressions--else_branch))
-
-Read-Only:
-
-- `id` (String) The ID of the expression
 
 <a id="nestedatt--expressions--operations"></a>
 ### Nested Schema for `expressions.operations`
@@ -339,16 +336,13 @@ Optional:
 
 Required:
 
+- `id` (String)
 - `name` (String)
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--steps--param_bindings))
 
 Optional:
 
 - `for_each` (String)
-
-Read-Only:
-
-- `id` (String)
 
 <a id="nestedatt--steps--param_bindings"></a>
 ### Nested Schema for `steps.param_bindings`

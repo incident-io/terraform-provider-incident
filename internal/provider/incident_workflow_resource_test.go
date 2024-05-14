@@ -91,7 +91,7 @@ var incidentWorkflowTemplate = template.Must(template.New("incident_workflow").F
 resource "incident_workflow" "example" {
 	name               = {{ quote .Name }}
 	trigger            = "incident.updated"
-	terraform_repo_url = "https://github.com/incident-io/test"
+	managed_source_url = "https://github.com/incident-io/test"
 	condition_groups 	 = [
 		{
 			conditions = [
@@ -113,6 +113,7 @@ resource "incident_workflow" "example" {
 	]
 	steps = [
 		{
+			id = "01HXVEA7Y0VWQBJB4F2X8WNRW6"
 			name = "incident.create_follow_ups"
 			param_bindings = [
 				{
@@ -133,6 +134,7 @@ resource "incident_workflow" "example" {
 	]
 	expressions = [
 		{
+			id = "01HXVEB7E3Z1Q1Z7QYDZ8ABDWM"
 			label = {{ quote .ExpressionLabel }}
 			operations = [
 				{
@@ -143,6 +145,12 @@ resource "incident_workflow" "example" {
 			root_reference = "incident.active_participants"
 		}
 	]
+	once_for = ["incident"]
+	include_private_incidents = false
+	continue_on_step_error = false
+	runs_on_incidents = "newly_created"
+	runs_on_incident_modes = ["standard"]
+	state = "draft"
 }
 `))
 
