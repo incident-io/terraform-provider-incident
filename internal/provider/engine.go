@@ -137,7 +137,7 @@ var conditionsAttribute = schema.SetNestedAttribute{
 }
 
 var conditionGroupsAttribute = schema.SetNestedAttribute{
-	MarkdownDescription: "Groups of prerequisite conditions. All conditions in at leasy one group must be met",
+	MarkdownDescription: "Groups of prerequisite conditions. All conditions in at least one group must be met",
 	Required:            true,
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
@@ -162,7 +162,8 @@ var returnsAttribute = schema.SingleNestedAttribute{
 }
 
 var expressionsAttribute = schema.SetNestedAttribute{
-	Required: true,
+	MarkdownDescription: "The expressions to be executed and prepared for steps and conditions",
+	Required:            true,
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -239,7 +240,8 @@ var expressionsAttribute = schema.SetNestedAttribute{
 							Required:            true,
 						},
 						"parse": schema.SingleNestedAttribute{
-							Optional: true,
+							MarkdownDescription: "An operation type that allows a value to parsed from with a JSON object",
+							Optional:            true,
 							Attributes: map[string]schema.Attribute{
 								"returns": returnsAttribute,
 								"source": schema.StringAttribute{

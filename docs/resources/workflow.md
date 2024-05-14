@@ -17,9 +17,9 @@ A draft version of the public API for workflows.
 
 ### Required
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at leasy one group must be met (see [below for nested schema](#nestedatt--condition_groups))
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be met (see [below for nested schema](#nestedatt--condition_groups))
 - `continue_on_step_error` (Boolean) Whether to continue executing the workflow if a step fails
-- `expressions` (Attributes Set) (see [below for nested schema](#nestedatt--expressions))
+- `expressions` (Attributes Set) The expressions to be executed and prepared for steps and conditions (see [below for nested schema](#nestedatt--expressions))
 - `include_private_incidents` (Boolean) Whether to include private incidents
 - `name` (String) The human-readable name of the workflow
 - `once_for` (List of String) This workflow will run 'once for' a list of references
@@ -114,7 +114,7 @@ Optional:
 - `branches` (Attributes) An operation type that allows for a value to be set conditionally by a series of logical branches (see [below for nested schema](#nestedatt--expressions--operations--branches))
 - `filter` (Attributes) An operation type that allows values to be filtered out by conditions (see [below for nested schema](#nestedatt--expressions--operations--filter))
 - `navigate` (Attributes) An operation type that allows attributes of a type to be accessed by reference (see [below for nested schema](#nestedatt--expressions--operations--navigate))
-- `parse` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--parse))
+- `parse` (Attributes) An operation type that allows a value to parsed from with a JSON object (see [below for nested schema](#nestedatt--expressions--operations--parse))
 
 <a id="nestedatt--expressions--operations--branches"></a>
 ### Nested Schema for `expressions.operations.branches`
@@ -129,7 +129,7 @@ Required:
 
 Required:
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at leasy one group must be met (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups))
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be met (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--condition_groups))
 - `result` (Attributes) The result assumed if the condition groups are met (see [below for nested schema](#nestedatt--expressions--operations--branches--returns--result))
 
 <a id="nestedatt--expressions--operations--branches--returns--condition_groups"></a>
@@ -220,7 +220,7 @@ Required:
 
 Required:
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at leasy one group must be met (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups))
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be met (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups))
 
 <a id="nestedatt--expressions--operations--filter--condition_groups"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups`
