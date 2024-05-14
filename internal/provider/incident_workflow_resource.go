@@ -72,6 +72,9 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"name": schema.StringAttribute{
 				Required: true,
@@ -97,7 +100,7 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 							Optional: true,
 						},
 						"id": schema.StringAttribute{
-							Computed: true,
+							Required: true,
 						},
 						"name": schema.StringAttribute{
 							Required: true,
@@ -603,6 +606,7 @@ func toPayloadExpressions(expressions IncidentEngineExpressions) []client.Expres
 
 	for _, e := range expressions {
 		expression := client.ExpressionPayloadV2{
+			Id:            e.ID.ValueStringPointer(),
 			Label:         e.Label.ValueString(),
 			Operations:    toPayloadOperations(e.Operations),
 			Reference:     e.Reference.ValueString(),

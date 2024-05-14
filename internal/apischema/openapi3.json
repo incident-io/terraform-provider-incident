@@ -6589,6 +6589,7 @@
                         }
                       }
                     },
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                     "label": "Team Slack channel",
                     "operations": [
                       {
@@ -7340,6 +7341,7 @@
                         }
                       }
                     },
+                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                     "label": "Team Slack channel",
                     "operations": [
                       {
@@ -11346,6 +11348,7 @@
                     }
                   }
                 },
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                 "label": "Team Slack channel",
                 "operations": [
                   {
@@ -11590,6 +11593,7 @@
                   }
                 }
               },
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
               "label": "Team Slack channel",
               "operations": [
                 {
@@ -13483,6 +13487,11 @@
           "else_branch": {
             "$ref": "#/components/schemas/ExpressionElseBranchPayloadV2"
           },
+          "id": {
+            "type": "string",
+            "description": "The ID of the expression",
+            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+          },
           "label": {
             "type": "string",
             "description": "The human readable label of the expression",
@@ -13607,6 +13616,7 @@
               }
             }
           },
+          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
           "label": "Team Slack channel",
           "operations": [
             {
@@ -23035,6 +23045,7 @@
                     }
                   }
                 },
+                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                 "label": "Team Slack channel",
                 "operations": [
                   {
@@ -23274,6 +23285,7 @@
                   }
                 }
               },
+              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
               "label": "Team Slack channel",
               "operations": [
                 {
