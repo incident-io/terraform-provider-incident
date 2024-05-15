@@ -36,7 +36,6 @@ Workflows allow you to automate certain actions and behaviors based on specific 
 
 - `delay` (Attributes) Configuration controlling workflow delay behaviour (see [below for nested schema](#nestedatt--delay))
 - `folder` (String) Folder to display the workflow in
-- `managed_source_url` (String) The url of the external repository where this workflow is managed
 
 ### Read-Only
 

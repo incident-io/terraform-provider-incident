@@ -91,7 +91,6 @@ var incidentWorkflowTemplate = template.Must(template.New("incident_workflow").F
 resource "incident_workflow" "example" {
 	name               = {{ quote .Name }}
 	trigger            = "incident.updated"
-	managed_source_url = "https://github.com/incident-io/test"
 	condition_groups 	 = [
 		{
 			conditions = [
