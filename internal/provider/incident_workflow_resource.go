@@ -36,7 +36,6 @@ type IncidentWorkflowResourceModel struct {
 	Name                    types.String                  `tfsdk:"name"`
 	Folder                  types.String                  `tfsdk:"folder"`
 	Trigger                 types.String                  `tfsdk:"trigger"`
-	ManagedSourceUrl        types.String                  `tfsdk:"managed_source_url"`
 	ConditionGroups         IncidentEngineConditionGroups `tfsdk:"condition_groups"`
 	Steps                   []IncidentWorkflowStep        `tfsdk:"steps"`
 	Expressions             IncidentEngineExpressions     `tfsdk:"expressions"`
@@ -90,10 +89,6 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-			},
-			"managed_source_url": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "managed_source_url"),
-				Optional:            true,
 			},
 			"condition_groups": conditionGroupsAttribute,
 			"steps": schema.ListNestedAttribute{
@@ -179,7 +174,6 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 	payload := client.CreateWorkflowRequestBody{
 		Trigger:                 data.Trigger.ValueString(),
 		Name:                    data.Name.ValueString(),
-		ManagedSourceUrl:        data.ManagedSourceUrl.ValueStringPointer(),
 		OnceFor:                 onceFor,
 		ConditionGroups:         toPayloadConditionGroups(data.ConditionGroups),
 		Steps:                   toPayloadSteps(data.Steps),
@@ -241,7 +235,6 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 
 	payload := client.WorkflowsV2UpdateWorkflowJSONRequestBody{
 		Name:                    data.Name.ValueString(),
-		ManagedSourceUrl:        data.ManagedSourceUrl.ValueStringPointer(),
 		ConditionGroups:         toPayloadConditionGroups(data.ConditionGroups),
 		Steps:                   toPayloadSteps(data.Steps),
 		Expressions:             toPayloadExpressions(data.Expressions),
@@ -352,9 +345,6 @@ func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *Inciden
 	}
 	if workflow.Folder != nil {
 		model.Folder = types.StringValue(*workflow.Folder)
-	}
-	if workflow.ManagedSourceUrl != nil {
-		model.ManagedSourceUrl = types.StringValue(*workflow.ManagedSourceUrl)
 	}
 	if workflow.Delay != nil {
 		model.Delay = &IncidentWorkflowDelay{
