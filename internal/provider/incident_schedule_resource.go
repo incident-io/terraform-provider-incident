@@ -308,6 +308,7 @@ func (r *IncidentScheduleResource) Delete(ctx context.Context, req resource.Dele
 }
 
 func (r *IncidentScheduleResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	claimResource(ctx, r.client, req, resp, client.ManagedResourceV2ResourceTypeSchedule, r.terraformVersion)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 

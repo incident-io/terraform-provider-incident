@@ -5456,6 +5456,56 @@
         }
       }
     },
+    "/v2/managed_resources": {
+      "post": {
+        "tags": [
+          "Managed Resources V2"
+        ],
+        "summary": "CreateManagedResource Managed Resources V2",
+        "description": "Called by external providers such as Terraform, this can 'claim' an incident.io resource as being managed externally.",
+        "operationId": "Managed Resources V2#CreateManagedResource",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateManagedResourceRequestBody"
+              },
+              "example": {
+                "annotations": {
+                  "incident.io/terraform/version": "3.0.0"
+                },
+                "resource_id": "abc123",
+                "resource_type": "schedule"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateManagedResourceResponseBody"
+                },
+                "example": {
+                  "managed_resource": {
+                    "annotations": {
+                      "incident.io/terraform/version": "3.0.0"
+                    },
+                    "managed_by": "dashboard",
+                    "resource_id": "abc123",
+                    "resource_type": "schedule",
+                    "source_url": "https://github.com/my-company/infrastructure"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/schedule_entries": {
       "get": {
         "tags": [
@@ -5631,7 +5681,7 @@
                   "schedules": [
                     {
                       "annotations": {
-                        "incident.io/terraform/version": "version-of-terraform"
+                        "incident.io/terraform/version": "3.0.0"
                       },
                       "config": {
                         "rotations": [
@@ -5774,7 +5824,7 @@
                 "example": {
                   "schedule": {
                     "annotations": {
-                      "incident.io/terraform/version": "version-of-terraform"
+                      "incident.io/terraform/version": "3.0.0"
                     },
                     "config": {
                       "rotations": [
@@ -5904,7 +5954,7 @@
                 "example": {
                   "schedule": {
                     "annotations": {
-                      "incident.io/terraform/version": "version-of-terraform"
+                      "incident.io/terraform/version": "3.0.0"
                     },
                     "config": {
                       "rotations": [
@@ -6060,7 +6110,7 @@
                 "example": {
                   "schedule": {
                     "annotations": {
-                      "incident.io/terraform/version": "version-of-terraform"
+                      "incident.io/terraform/version": "3.0.0"
                     },
                     "config": {
                       "rotations": [
@@ -6490,7 +6540,6 @@
                       "folder": "My folder 01",
                       "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                       "include_private_incidents": true,
-                      "managed_source_url": "https://github.com/my-company/incident-io-workflows",
                       "name": "My workflow",
                       "once_for": [
                         {
@@ -6542,7 +6591,7 @@
               },
               "example": {
                 "annotations": {
-                  "abc123": "abc123"
+                  "incident.io/terraform/version": "3.0.0"
                 },
                 "condition_groups": [
                   {
@@ -6684,7 +6733,6 @@
                 ],
                 "folder": "My folder 01",
                 "include_private_incidents": true,
-                "managed_source_url": "https://github.com/my-company/incident-io-workflows",
                 "name": "My workflow",
                 "once_for": [
                   "incident.url"
@@ -6730,10 +6778,14 @@
                   "$ref": "#/components/schemas/ShowWorkflowResponseBody"
                 },
                 "example": {
-                  "workflow": {
+                  "management_meta": {
                     "annotations": {
-                      "abc123": "abc123"
+                      "incident.io/terraform/version": "3.0.0"
                     },
+                    "managed_by": "dashboard",
+                    "source_url": "https://github.com/my-company/infrastructure"
+                  },
+                  "workflow": {
                     "condition_groups": [
                       {
                         "conditions": [
@@ -6912,7 +6964,6 @@
                     "folder": "My folder 01",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "include_private_incidents": true,
-                    "managed_source_url": "https://github.com/my-company/incident-io-workflows",
                     "name": "My workflow",
                     "once_for": [
                       {
@@ -7024,10 +7075,14 @@
                   "$ref": "#/components/schemas/ShowWorkflowResponseBody"
                 },
                 "example": {
-                  "workflow": {
+                  "management_meta": {
                     "annotations": {
-                      "abc123": "abc123"
+                      "incident.io/terraform/version": "3.0.0"
                     },
+                    "managed_by": "dashboard",
+                    "source_url": "https://github.com/my-company/infrastructure"
+                  },
+                  "workflow": {
                     "condition_groups": [
                       {
                         "conditions": [
@@ -7206,7 +7261,6 @@
                     "folder": "My folder 01",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "include_private_incidents": true,
-                    "managed_source_url": "https://github.com/my-company/incident-io-workflows",
                     "name": "My workflow",
                     "once_for": [
                       {
@@ -7294,7 +7348,7 @@
               },
               "example": {
                 "annotations": {
-                  "abc123": "abc123"
+                  "incident.io/terraform/version": "3.0.0"
                 },
                 "condition_groups": [
                   {
@@ -7436,7 +7490,6 @@
                 ],
                 "folder": "My folder 01",
                 "include_private_incidents": true,
-                "managed_source_url": "https://github.com/my-company/incident-io-workflows",
                 "name": "My workflow",
                 "once_for": [
                   "incident.url"
@@ -7481,10 +7534,14 @@
                   "$ref": "#/components/schemas/ShowWorkflowResponseBody"
                 },
                 "example": {
-                  "workflow": {
+                  "management_meta": {
                     "annotations": {
-                      "abc123": "abc123"
+                      "incident.io/terraform/version": "3.0.0"
                     },
+                    "managed_by": "dashboard",
+                    "source_url": "https://github.com/my-company/infrastructure"
+                  },
+                  "workflow": {
                     "condition_groups": [
                       {
                         "conditions": [
@@ -7663,7 +7720,6 @@
                     "folder": "My folder 01",
                     "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                     "include_private_incidents": true,
-                    "managed_source_url": "https://github.com/my-company/incident-io-workflows",
                     "name": "My workflow",
                     "once_for": [
                       {
@@ -8095,13 +8151,13 @@
             "$ref": "#/components/schemas/ActionV1"
           },
           "public_incident.incident_created_v2": {
-            "$ref": "#/components/schemas/IncidentV2"
+            "$ref": "#/components/schemas/WebhookIncidentV2"
           },
           "public_incident.incident_status_updated_v2": {
             "$ref": "#/components/schemas/IncidentWithStatusChangeV2"
           },
           "public_incident.incident_updated_v2": {
-            "$ref": "#/components/schemas/IncidentV2"
+            "$ref": "#/components/schemas/WebhookIncidentV2"
           }
         },
         "example": {
@@ -8351,6 +8407,9 @@
             "permalink": "https://app.incident.io/incidents/123",
             "postmortem_document_url": "https://docs.google.com/my_doc_id",
             "reference": "INC-123",
+            "related_incidents": [
+              "INC-237"
+            ],
             "severity": {
               "created_at": "2021-08-17T13:28:57.801578Z",
               "description": "Issues with **low impact**.",
@@ -8667,6 +8726,9 @@
             "permalink": "https://app.incident.io/incidents/123",
             "postmortem_document_url": "https://docs.google.com/my_doc_id",
             "reference": "INC-123",
+            "related_incidents": [
+              "INC-237"
+            ],
             "severity": {
               "created_at": "2021-08-17T13:28:57.801578Z",
               "description": "Issues with **low impact**.",
@@ -10263,6 +10325,71 @@
           "deduplication_key"
         ]
       },
+      "CreateManagedResourceRequestBody": {
+        "type": "object",
+        "properties": {
+          "annotations": {
+            "type": "object",
+            "description": "Annotations that track metadata about this resource",
+            "example": {
+              "incident.io/terraform/version": "3.0.0"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "example": "abc123"
+            }
+          },
+          "resource_id": {
+            "type": "string",
+            "description": "The ID of the resource that this relates to",
+            "example": "abc123"
+          },
+          "resource_type": {
+            "type": "string",
+            "description": "The type of resource that this is",
+            "example": "schedule",
+            "enum": [
+              "workflow",
+              "schedule"
+            ]
+          }
+        },
+        "example": {
+          "annotations": {
+            "incident.io/terraform/version": "3.0.0"
+          },
+          "resource_id": "abc123",
+          "resource_type": "schedule"
+        },
+        "required": [
+          "annotations",
+          "resource_type",
+          "resource_id",
+          "managed_by"
+        ]
+      },
+      "CreateManagedResourceResponseBody": {
+        "type": "object",
+        "properties": {
+          "managed_resource": {
+            "$ref": "#/components/schemas/ManagedResourceV2"
+          }
+        },
+        "example": {
+          "managed_resource": {
+            "annotations": {
+              "incident.io/terraform/version": "3.0.0"
+            },
+            "managed_by": "dashboard",
+            "resource_id": "abc123",
+            "resource_type": "schedule",
+            "source_url": "https://github.com/my-company/infrastructure"
+          }
+        },
+        "required": [
+          "managed_resource"
+        ]
+      },
       "CreateRequestBody": {
         "type": "object",
         "properties": {
@@ -11278,9 +11405,9 @@
         "properties": {
           "annotations": {
             "type": "object",
-            "description": "Annotations that track internal metadata about this workflow",
+            "description": "Annotations that track metadata about this resource",
             "example": {
-              "abc123": "abc123"
+              "incident.io/terraform/version": "3.0.0"
             },
             "additionalProperties": {
               "type": "string",
@@ -11452,11 +11579,6 @@
             "description": "Whether to include private incidents",
             "example": true
           },
-          "managed_source_url": {
-            "type": "string",
-            "description": "The url of the external repository where this workflow is managed",
-            "example": "https://github.com/my-company/incident-io-workflows"
-          },
           "name": {
             "type": "string",
             "description": "The human-readable name of the workflow",
@@ -11546,7 +11668,7 @@
         },
         "example": {
           "annotations": {
-            "abc123": "abc123"
+            "incident.io/terraform/version": "3.0.0"
           },
           "condition_groups": [
             {
@@ -11688,7 +11810,6 @@
           ],
           "folder": "My folder 01",
           "include_private_incidents": true,
-          "managed_source_url": "https://github.com/my-company/incident-io-workflows",
           "name": "My workflow",
           "once_for": [
             "incident.url"
@@ -13489,7 +13610,7 @@
           },
           "id": {
             "type": "string",
-            "description": "The ID of the expression",
+            "description": "The ID of the expression. This must be a valid ULID.",
             "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
           },
           "label": {
@@ -13709,6 +13830,7 @@
           "root_reference": "incident.status"
         },
         "required": [
+          "id",
           "label",
           "reference",
           "root_reference",
@@ -17225,7 +17347,7 @@
             "example": [
               {
                 "annotations": {
-                  "incident.io/terraform/version": "version-of-terraform"
+                  "incident.io/terraform/version": "3.0.0"
                 },
                 "config": {
                   "rotations": [
@@ -17300,7 +17422,7 @@
           "schedules": [
             {
               "annotations": {
-                "incident.io/terraform/version": "version-of-terraform"
+                "incident.io/terraform/version": "3.0.0"
               },
               "config": {
                 "rotations": [
@@ -18224,7 +18346,6 @@
                 "folder": "My folder 01",
                 "id": "01FCNDV6P870EA6S7TK1DSYDG0",
                 "include_private_incidents": true,
-                "managed_source_url": "https://github.com/my-company/incident-io-workflows",
                 "name": "My workflow",
                 "once_for": [
                   {
@@ -18437,7 +18558,6 @@
               "folder": "My folder 01",
               "id": "01FCNDV6P870EA6S7TK1DSYDG0",
               "include_private_incidents": true,
-              "managed_source_url": "https://github.com/my-company/incident-io-workflows",
               "name": "My workflow",
               "once_for": [
                 {
@@ -18470,6 +18590,108 @@
         },
         "required": [
           "workflows"
+        ]
+      },
+      "ManagedResourceV2": {
+        "type": "object",
+        "properties": {
+          "annotations": {
+            "type": "object",
+            "description": "Annotations that track metadata about this resource",
+            "example": {
+              "incident.io/terraform/version": "3.0.0"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "example": "abc123"
+            }
+          },
+          "managed_by": {
+            "type": "string",
+            "description": "How is this resource managed",
+            "example": "dashboard",
+            "enum": [
+              "dashboard",
+              "terraform",
+              "external"
+            ]
+          },
+          "resource_id": {
+            "type": "string",
+            "description": "The ID of the resource that this relates to",
+            "example": "abc123"
+          },
+          "resource_type": {
+            "type": "string",
+            "description": "The type of resource that this is",
+            "example": "schedule",
+            "enum": [
+              "workflow",
+              "schedule"
+            ]
+          },
+          "source_url": {
+            "type": "string",
+            "description": "The url of the external repository where this resource is managed (if there is one)",
+            "example": "https://github.com/my-company/infrastructure"
+          }
+        },
+        "example": {
+          "annotations": {
+            "incident.io/terraform/version": "3.0.0"
+          },
+          "managed_by": "dashboard",
+          "resource_id": "abc123",
+          "resource_type": "schedule",
+          "source_url": "https://github.com/my-company/infrastructure"
+        },
+        "required": [
+          "resource_type",
+          "resource_id",
+          "managed_by",
+          "annotations"
+        ]
+      },
+      "ManagementMetaV2": {
+        "type": "object",
+        "properties": {
+          "annotations": {
+            "type": "object",
+            "description": "Annotations that track metadata about this resource",
+            "example": {
+              "incident.io/terraform/version": "3.0.0"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "example": "abc123"
+            }
+          },
+          "managed_by": {
+            "type": "string",
+            "description": "How is this resource managed",
+            "example": "dashboard",
+            "enum": [
+              "dashboard",
+              "terraform",
+              "external"
+            ]
+          },
+          "source_url": {
+            "type": "string",
+            "description": "The url of the external repository where this resource is managed (if there is one)",
+            "example": "https://github.com/my-company/infrastructure"
+          }
+        },
+        "example": {
+          "annotations": {
+            "incident.io/terraform/version": "3.0.0"
+          },
+          "managed_by": "dashboard",
+          "source_url": "https://github.com/my-company/infrastructure"
+        },
+        "required": [
+          "annotations",
+          "managed_by"
         ]
       },
       "PaginationMetaResult": {
@@ -20885,9 +21107,9 @@
         "properties": {
           "annotations": {
             "type": "object",
-            "description": "Annotations that can track metadata about this schedule",
+            "description": "Annotations that track metadata about this resource",
             "example": {
-              "incident.io/terraform/version": "version-of-terraform"
+              "incident.io/terraform/version": "3.0.0"
             },
             "additionalProperties": {
               "type": "string",
@@ -20949,7 +21171,7 @@
         },
         "example": {
           "annotations": {
-            "incident.io/terraform/version": "version-of-terraform"
+            "incident.io/terraform/version": "3.0.0"
           },
           "config": {
             "rotations": [
@@ -21013,12 +21235,12 @@
           "updated_at": "2021-08-17T13:28:57.801578Z"
         },
         "required": [
+          "annotations",
           "id",
           "name",
           "timezone",
           "external_provider",
           "external_provider_id",
-          "annotations",
           "created_at",
           "updated_at"
         ]
@@ -21647,7 +21869,7 @@
         "example": {
           "schedule": {
             "annotations": {
-              "incident.io/terraform/version": "version-of-terraform"
+              "incident.io/terraform/version": "3.0.0"
             },
             "config": {
               "rotations": [
@@ -21989,15 +22211,22 @@
       "ShowWorkflowResponseBody": {
         "type": "object",
         "properties": {
+          "management_meta": {
+            "$ref": "#/components/schemas/ManagementMetaV2"
+          },
           "workflow": {
             "$ref": "#/components/schemas/Workflow"
           }
         },
         "example": {
-          "workflow": {
+          "management_meta": {
             "annotations": {
-              "abc123": "abc123"
+              "incident.io/terraform/version": "3.0.0"
             },
+            "managed_by": "dashboard",
+            "source_url": "https://github.com/my-company/infrastructure"
+          },
+          "workflow": {
             "condition_groups": [
               {
                 "conditions": [
@@ -22176,7 +22405,6 @@
             "folder": "My folder 01",
             "id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "include_private_incidents": true,
-            "managed_source_url": "https://github.com/my-company/incident-io-workflows",
             "name": "My workflow",
             "once_for": [
               {
@@ -22225,7 +22453,8 @@
           }
         },
         "required": [
-          "workflow"
+          "workflow",
+          "management_meta"
         ]
       },
       "StepConfig": {
@@ -22316,7 +22545,7 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique ID of this step in a workflow",
+            "description": "Unique ID of this step in a workflow. This must be a valid ULID.",
             "example": "abc123"
           },
           "name": {
@@ -22366,6 +22595,7 @@
           ]
         },
         "required": [
+          "id",
           "name",
           "param_bindings",
           "label",
@@ -22808,11 +23038,11 @@
         },
         "required": [
           "schedule",
+          "annotations",
           "name",
           "timezone",
           "external_provider",
           "external_provider_id",
-          "annotations",
           "created_at",
           "updated_at"
         ]
@@ -22975,9 +23205,9 @@
         "properties": {
           "annotations": {
             "type": "object",
-            "description": "Annotations that track internal metadata about this workflow",
+            "description": "Annotations that track metadata about this resource",
             "example": {
-              "abc123": "abc123"
+              "incident.io/terraform/version": "3.0.0"
             },
             "additionalProperties": {
               "type": "string",
@@ -23149,11 +23379,6 @@
             "description": "Whether to include private incidents",
             "example": true
           },
-          "managed_source_url": {
-            "type": "string",
-            "description": "The url of the external repository where this workflow is managed",
-            "example": "https://github.com/my-company/incident-io-workflows"
-          },
           "name": {
             "type": "string",
             "description": "The human-readable name of the workflow",
@@ -23238,7 +23463,7 @@
         },
         "example": {
           "annotations": {
-            "abc123": "abc123"
+            "incident.io/terraform/version": "3.0.0"
           },
           "condition_groups": [
             {
@@ -23380,7 +23605,6 @@
           ],
           "folder": "My folder 01",
           "include_private_incidents": true,
-          "managed_source_url": "https://github.com/my-company/incident-io-workflows",
           "name": "My workflow",
           "once_for": [
             "incident.url"
@@ -23701,6 +23925,426 @@
           "user_id"
         ]
       },
+      "WebhookIncidentV2": {
+        "type": "object",
+        "properties": {
+          "call_url": {
+            "type": "string",
+            "description": "The call URL attached to this incident",
+            "example": "https://zoom.us/foo"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "When the incident was created",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          },
+          "creator": {
+            "$ref": "#/components/schemas/ActorV2"
+          },
+          "custom_field_entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomFieldEntryV1"
+            },
+            "description": "Custom field entries for this incident",
+            "example": [
+              {
+                "custom_field": {
+                  "description": "Which team is impacted by this issue",
+                  "field_type": "single_select",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Affected Team",
+                  "options": [
+                    {
+                      "custom_field_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "sort_key": 10,
+                      "value": "Product"
+                    }
+                  ]
+                },
+                "values": [
+                  {
+                    "value_catalog_entry": {
+                      "aliases": [
+                        "lawrence@incident.io",
+                        "lawrence"
+                      ],
+                      "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "name": "Primary On-call"
+                    },
+                    "value_link": "https://google.com/",
+                    "value_numeric": "123.456",
+                    "value_option": {
+                      "custom_field_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                      "sort_key": 10,
+                      "value": "Product"
+                    },
+                    "value_text": "This is my text field, I hope you like it"
+                  }
+                ]
+              }
+            ]
+          },
+          "duration_metrics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IncidentDurationMetricWithValueV2"
+            },
+            "description": "Incident duration metrics and their measurements for this incident",
+            "example": [
+              {
+                "duration_metric": {
+                  "id": "01FCNDV6P870EA6S7TK1DSYD5H",
+                  "name": "Lasted"
+                },
+                "value_seconds": 1
+              }
+            ]
+          },
+          "external_issue_reference": {
+            "$ref": "#/components/schemas/ExternalIssueReferenceV2"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the incident",
+            "example": "01FDAG4SAP5TYPT98WGR2N7W91"
+          },
+          "incident_role_assignments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IncidentRoleAssignmentV1"
+            },
+            "description": "A list of who is assigned to each role for this incident",
+            "example": [
+              {
+                "assignee": {
+                  "email": "lisa@incident.io",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "name": "Lisa Karlin Curtis",
+                  "role": "viewer",
+                  "slack_user_id": "U02AYNF2XJM"
+                },
+                "role": {
+                  "created_at": "2021-08-17T13:28:57.801578Z",
+                  "description": "The person currently coordinating the incident",
+                  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                  "instructions": "Take point on the incident; Make sure people are clear on responsibilities",
+                  "name": "Incident Lead",
+                  "required": false,
+                  "role_type": "lead",
+                  "shortform": "lead",
+                  "updated_at": "2021-08-17T13:28:57.801578Z"
+                }
+              }
+            ]
+          },
+          "incident_status": {
+            "$ref": "#/components/schemas/IncidentStatusV1"
+          },
+          "incident_timestamp_values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IncidentTimestampWithValueV2"
+            },
+            "description": "Incident lifecycle events and when they occurred",
+            "example": [
+              {
+                "incident_timestamp": {
+                  "id": "01FCNDV6P870EA6S7TK1DSYD5H",
+                  "name": "Impact started",
+                  "rank": 1
+                },
+                "value": {
+                  "value": "2021-08-17T13:28:57.801578Z"
+                }
+              }
+            ]
+          },
+          "incident_type": {
+            "$ref": "#/components/schemas/IncidentTypeV1"
+          },
+          "mode": {
+            "type": "string",
+            "description": "Whether the incident is real, a test, a tutorial, or importing as a retrospective incident",
+            "example": "standard",
+            "enum": [
+              "standard",
+              "retrospective",
+              "test",
+              "tutorial"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Explanation of the incident",
+            "example": "Our database is sad"
+          },
+          "permalink": {
+            "type": "string",
+            "description": "A permanent link to the homepage for this incident",
+            "example": "https://app.incident.io/incidents/123"
+          },
+          "postmortem_document_url": {
+            "type": "string",
+            "description": "Description of the incident",
+            "example": "https://docs.google.com/my_doc_id"
+          },
+          "reference": {
+            "type": "string",
+            "description": "Reference to this incident, as displayed across the product",
+            "example": "INC-123"
+          },
+          "related_incidents": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "abc123"
+            },
+            "description": "Incident IDs of incidents related to this incident",
+            "example": [
+              "INC-237"
+            ]
+          },
+          "severity": {
+            "$ref": "#/components/schemas/SeverityV2"
+          },
+          "slack_channel_id": {
+            "type": "string",
+            "description": "ID of the Slack channel in the organisation Slack workspace. Note that the channel is sometimes created asynchronously, so may not be present when the incident is just created.",
+            "example": "C02AW36C1M5"
+          },
+          "slack_channel_name": {
+            "type": "string",
+            "description": "Name of the slack channel",
+            "example": "inc-165-green-parrot"
+          },
+          "slack_team_id": {
+            "type": "string",
+            "description": "ID of the Slack team / workspace. This is only required if you are using a Slack Enterprise Grid with multiple teams.",
+            "example": "T02A1FSLE8J"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Detailed description of the incident",
+            "example": "Our database is really really sad, and we don't know why yet."
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "When the incident was last updated",
+            "example": "2021-08-17T13:28:57.801578Z",
+            "format": "date-time"
+          },
+          "visibility": {
+            "type": "string",
+            "description": "Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/en/articles/5947963-can-we-mark-incidents-as-sensitive-and-restrict-access).",
+            "example": "public",
+            "enum": [
+              "public",
+              "private"
+            ]
+          },
+          "workload_minutes_late": {
+            "type": "number",
+            "description": "Amount of time spent on the incident in late hours",
+            "example": 40.7,
+            "format": "double"
+          },
+          "workload_minutes_sleeping": {
+            "type": "number",
+            "description": "Amount of time spent on the incident in sleeping hours",
+            "example": 0,
+            "format": "double"
+          },
+          "workload_minutes_total": {
+            "type": "number",
+            "description": "Amount of time spent on the incident in total",
+            "example": 60.7,
+            "format": "double"
+          },
+          "workload_minutes_working": {
+            "type": "number",
+            "description": "Amount of time spent on the incident in working hours",
+            "example": 20,
+            "format": "double"
+          }
+        },
+        "example": {
+          "call_url": "https://zoom.us/foo",
+          "created_at": "2021-08-17T13:28:57.801578Z",
+          "creator": {
+            "api_key": {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "My test API key"
+            },
+            "user": {
+              "email": "lisa@incident.io",
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Lisa Karlin Curtis",
+              "role": "viewer",
+              "slack_user_id": "U02AYNF2XJM"
+            }
+          },
+          "custom_field_entries": [
+            {
+              "custom_field": {
+                "description": "Which team is impacted by this issue",
+                "field_type": "single_select",
+                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "name": "Affected Team",
+                "options": [
+                  {
+                    "custom_field_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "sort_key": 10,
+                    "value": "Product"
+                  }
+                ]
+              },
+              "values": [
+                {
+                  "value_catalog_entry": {
+                    "aliases": [
+                      "lawrence@incident.io",
+                      "lawrence"
+                    ],
+                    "external_id": "761722cd-d1d7-477b-ac7e-90f9e079dc33",
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "name": "Primary On-call"
+                  },
+                  "value_link": "https://google.com/",
+                  "value_numeric": "123.456",
+                  "value_option": {
+                    "custom_field_id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                    "sort_key": 10,
+                    "value": "Product"
+                  },
+                  "value_text": "This is my text field, I hope you like it"
+                }
+              ]
+            }
+          ],
+          "duration_metrics": [
+            {
+              "duration_metric": {
+                "id": "01FCNDV6P870EA6S7TK1DSYD5H",
+                "name": "Lasted"
+              },
+              "value_seconds": 1
+            }
+          ],
+          "external_issue_reference": {
+            "issue_name": "INC-123",
+            "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
+            "provider": "asana"
+          },
+          "id": "01FDAG4SAP5TYPT98WGR2N7W91",
+          "incident_role_assignments": [
+            {
+              "assignee": {
+                "email": "lisa@incident.io",
+                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "name": "Lisa Karlin Curtis",
+                "role": "viewer",
+                "slack_user_id": "U02AYNF2XJM"
+              },
+              "role": {
+                "created_at": "2021-08-17T13:28:57.801578Z",
+                "description": "The person currently coordinating the incident",
+                "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+                "instructions": "Take point on the incident; Make sure people are clear on responsibilities",
+                "name": "Incident Lead",
+                "required": false,
+                "role_type": "lead",
+                "shortform": "lead",
+                "updated_at": "2021-08-17T13:28:57.801578Z"
+              }
+            }
+          ],
+          "incident_status": {
+            "category": "triage",
+            "created_at": "2021-08-17T13:28:57.801578Z",
+            "description": "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
+            "id": "01FCNDV6P870EA6S7TK1DSYD5H",
+            "name": "Closed",
+            "rank": 4,
+            "updated_at": "2021-08-17T13:28:57.801578Z"
+          },
+          "incident_timestamp_values": [
+            {
+              "incident_timestamp": {
+                "id": "01FCNDV6P870EA6S7TK1DSYD5H",
+                "name": "Impact started",
+                "rank": 1
+              },
+              "value": {
+                "value": "2021-08-17T13:28:57.801578Z"
+              }
+            }
+          ],
+          "incident_type": {
+            "create_in_triage": "always",
+            "created_at": "2021-08-17T13:28:57.801578Z",
+            "description": "Customer facing production outages",
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "is_default": false,
+            "name": "Production Outage",
+            "private_incidents_only": false,
+            "updated_at": "2021-08-17T13:28:57.801578Z"
+          },
+          "mode": "standard",
+          "name": "Our database is sad",
+          "permalink": "https://app.incident.io/incidents/123",
+          "postmortem_document_url": "https://docs.google.com/my_doc_id",
+          "reference": "INC-123",
+          "related_incidents": [
+            "INC-237"
+          ],
+          "severity": {
+            "created_at": "2021-08-17T13:28:57.801578Z",
+            "description": "Issues with **low impact**.",
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Minor",
+            "rank": 1,
+            "updated_at": "2021-08-17T13:28:57.801578Z"
+          },
+          "slack_channel_id": "C02AW36C1M5",
+          "slack_channel_name": "inc-165-green-parrot",
+          "slack_team_id": "T02A1FSLE8J",
+          "summary": "Our database is really really sad, and we don't know why yet.",
+          "updated_at": "2021-08-17T13:28:57.801578Z",
+          "visibility": "public",
+          "workload_minutes_late": 40.7,
+          "workload_minutes_sleeping": 0,
+          "workload_minutes_total": 60.7,
+          "workload_minutes_working": 20
+        },
+        "required": [
+          "incident_status",
+          "id",
+          "external_id",
+          "reference",
+          "name",
+          "idempotency_key",
+          "did_opt_out_of_post_incident_flow",
+          "visibility",
+          "mode",
+          "organisation_id",
+          "creator",
+          "last_activity_at",
+          "incident_role_assignments",
+          "custom_field_entries",
+          "slack_team_id",
+          "slack_channel_id",
+          "created_at",
+          "updated_at",
+          "reported_at"
+        ]
+      },
       "WebhookPrivateResourceV2": {
         "type": "object",
         "properties": {
@@ -23720,17 +24364,6 @@
       "Workflow": {
         "type": "object",
         "properties": {
-          "annotations": {
-            "type": "object",
-            "description": "Annotations that track internal metadata about this workflow",
-            "example": {
-              "abc123": "abc123"
-            },
-            "additionalProperties": {
-              "type": "string",
-              "example": "abc123"
-            }
-          },
           "condition_groups": {
             "type": "array",
             "items": {
@@ -23938,11 +24571,6 @@
             "description": "Whether to include private incidents",
             "example": true
           },
-          "managed_source_url": {
-            "type": "string",
-            "description": "The url of the external repository where this workflow is managed",
-            "example": "https://github.com/my-company/incident-io-workflows"
-          },
           "name": {
             "type": "string",
             "description": "The human-readable name of the workflow",
@@ -24048,9 +24676,6 @@
           }
         },
         "example": {
-          "annotations": {
-            "abc123": "abc123"
-          },
           "condition_groups": [
             {
               "conditions": [
@@ -24229,7 +24854,6 @@
           "folder": "My folder 01",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "include_private_incidents": true,
-          "managed_source_url": "https://github.com/my-company/incident-io-workflows",
           "name": "My workflow",
           "once_for": [
             {
@@ -24526,11 +25150,6 @@
             "description": "Whether to include private incidents",
             "example": true
           },
-          "managed_source_url": {
-            "type": "string",
-            "description": "The url of the external repository where this workflow is managed",
-            "example": "https://github.com/my-company/incident-io-workflows"
-          },
           "name": {
             "type": "string",
             "description": "The human-readable name of the workflow",
@@ -24796,7 +25415,6 @@
           "folder": "My folder 01",
           "id": "01FCNDV6P870EA6S7TK1DSYDG0",
           "include_private_incidents": true,
-          "managed_source_url": "https://github.com/my-company/incident-io-workflows",
           "name": "My workflow",
           "once_for": [
             {
@@ -24915,6 +25533,10 @@
     {
       "name": "Incidents V2",
       "description": "Create and read incidents.\n\nIncidents are a core resource, on which many other resources (actions, etc) are created.\n\nCare should be taken around these endpoints, as automation that creates duplicate\nincidents can be distracting, and impact reporting.\n"
+    },
+    {
+      "name": "Managed Resources V2",
+      "description": "Manage how resources are managed.\n\nAllows callers to set whether a resource is being managed externally, and where the source configuration is.\n"
     },
     {
       "name": "Schedules V2",

@@ -305,6 +305,7 @@ func (r *IncidentWorkflowResource) Delete(ctx context.Context, req resource.Dele
 }
 
 func (r *IncidentWorkflowResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	claimResource(ctx, r.client, req, resp, client.ManagedResourceV2ResourceTypeWorkflow, r.terraformVersion)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
@@ -562,7 +563,7 @@ func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayload {
 	for _, step := range steps {
 		out = append(out, client.StepConfigPayload{
 			ForEach:       step.ForEach.ValueStringPointer(),
-			Id:            step.ID.ValueStringPointer(),
+			Id:            step.ID.ValueString(),
 			Name:          step.Name.ValueString(),
 			ParamBindings: toPayloadParamBindings(step.ParamBindings),
 		})
@@ -610,7 +611,7 @@ func toPayloadExpressions(expressions IncidentEngineExpressions) []client.Expres
 
 	for _, e := range expressions {
 		expression := client.ExpressionPayloadV2{
-			Id:            e.ID.ValueStringPointer(),
+			Id:            e.ID.ValueString(),
 			Label:         e.Label.ValueString(),
 			Operations:    toPayloadOperations(e.Operations),
 			Reference:     e.Reference.ValueString(),

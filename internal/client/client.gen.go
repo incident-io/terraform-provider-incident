@@ -53,12 +53,12 @@ const (
 
 // Defines values for CatalogTypeAttributeV2Mode.
 const (
-	Backlink CatalogTypeAttributeV2Mode = "backlink"
-	Dynamic  CatalogTypeAttributeV2Mode = "dynamic"
-	Empty    CatalogTypeAttributeV2Mode = ""
-	External CatalogTypeAttributeV2Mode = "external"
-	Internal CatalogTypeAttributeV2Mode = "internal"
-	Manual   CatalogTypeAttributeV2Mode = "manual"
+	CatalogTypeAttributeV2ModeBacklink CatalogTypeAttributeV2Mode = "backlink"
+	CatalogTypeAttributeV2ModeDynamic  CatalogTypeAttributeV2Mode = "dynamic"
+	CatalogTypeAttributeV2ModeEmpty    CatalogTypeAttributeV2Mode = ""
+	CatalogTypeAttributeV2ModeExternal CatalogTypeAttributeV2Mode = "external"
+	CatalogTypeAttributeV2ModeInternal CatalogTypeAttributeV2Mode = "internal"
+	CatalogTypeAttributeV2ModeManual   CatalogTypeAttributeV2Mode = "manual"
 )
 
 // Defines values for CatalogTypeV2Color.
@@ -119,6 +119,12 @@ const (
 // Defines values for CreateHTTPResponseBodyStatus.
 const (
 	Success CreateHTTPResponseBodyStatus = "success"
+)
+
+// Defines values for CreateManagedResourceRequestBodyResourceType.
+const (
+	CreateManagedResourceRequestBodyResourceTypeSchedule CreateManagedResourceRequestBodyResourceType = "schedule"
+	CreateManagedResourceRequestBodyResourceTypeWorkflow CreateManagedResourceRequestBodyResourceType = "workflow"
 )
 
 // Defines values for CreateRequestBody10Mode.
@@ -470,6 +476,26 @@ const (
 const (
 	IncidentV2VisibilityPrivate IncidentV2Visibility = "private"
 	IncidentV2VisibilityPublic  IncidentV2Visibility = "public"
+)
+
+// Defines values for ManagedResourceV2ManagedBy.
+const (
+	ManagedResourceV2ManagedByDashboard ManagedResourceV2ManagedBy = "dashboard"
+	ManagedResourceV2ManagedByExternal  ManagedResourceV2ManagedBy = "external"
+	ManagedResourceV2ManagedByTerraform ManagedResourceV2ManagedBy = "terraform"
+)
+
+// Defines values for ManagedResourceV2ResourceType.
+const (
+	ManagedResourceV2ResourceTypeSchedule ManagedResourceV2ResourceType = "schedule"
+	ManagedResourceV2ResourceTypeWorkflow ManagedResourceV2ResourceType = "workflow"
+)
+
+// Defines values for ManagementMetaV2ManagedBy.
+const (
+	Dashboard ManagementMetaV2ManagedBy = "dashboard"
+	External  ManagementMetaV2ManagedBy = "external"
+	Terraform ManagementMetaV2ManagedBy = "terraform"
 )
 
 // Defines values for ScheduleRotationHandoverV2IntervalType.
@@ -1111,6 +1137,26 @@ type CreateHTTPResponseBodyMessage string
 // CreateHTTPResponseBodyStatus Status of the event
 type CreateHTTPResponseBodyStatus string
 
+// CreateManagedResourceRequestBody defines model for CreateManagedResourceRequestBody.
+type CreateManagedResourceRequestBody struct {
+	// Annotations Annotations that track metadata about this resource
+	Annotations map[string]string `json:"annotations"`
+
+	// ResourceId The ID of the resource that this relates to
+	ResourceId string `json:"resource_id"`
+
+	// ResourceType The type of resource that this is
+	ResourceType CreateManagedResourceRequestBodyResourceType `json:"resource_type"`
+}
+
+// CreateManagedResourceRequestBodyResourceType The type of resource that this is
+type CreateManagedResourceRequestBodyResourceType string
+
+// CreateManagedResourceResponseBody defines model for CreateManagedResourceResponseBody.
+type CreateManagedResourceResponseBody struct {
+	ManagedResource ManagedResourceV2 `json:"managed_resource"`
+}
+
 // CreateRequestBody defines model for CreateRequestBody.
 type CreateRequestBody struct {
 	// CustomFieldId ID of the custom field this option belongs to
@@ -1417,7 +1463,7 @@ type CreateTypeResponseBody struct {
 
 // CreateWorkflowRequestBody defines model for CreateWorkflowRequestBody.
 type CreateWorkflowRequestBody struct {
-	// Annotations Annotations that track internal metadata about this workflow
+	// Annotations Annotations that track metadata about this resource
 	Annotations *map[string]string `json:"annotations,omitempty"`
 
 	// ConditionGroups List of conditions to apply to the workflow
@@ -1436,9 +1482,6 @@ type CreateWorkflowRequestBody struct {
 	// IncludePrivateIncidents Whether to include private incidents
 	IncludePrivateIncidents bool `json:"include_private_incidents"`
 
-	// ManagedSourceUrl The url of the external repository where this workflow is managed
-	ManagedSourceUrl *string `json:"managed_source_url,omitempty"`
-
 	// Name The human-readable name of the workflow
 	Name string `json:"name"`
 
@@ -1448,7 +1491,7 @@ type CreateWorkflowRequestBody struct {
 	// RunsOnIncidentModes Which modes of incident this should run on (defaults to just standard incidents)
 	RunsOnIncidentModes []CreateWorkflowRequestBodyRunsOnIncidentModes `json:"runs_on_incident_modes"`
 
-	// RunsOnIncidents Which incidents should the workflow be applied to?
+	// RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
 	RunsOnIncidents CreateWorkflowRequestBodyRunsOnIncidents `json:"runs_on_incidents"`
 
 	// State The state of the workflow (e.g. is it draft, or disabled)
@@ -1464,7 +1507,7 @@ type CreateWorkflowRequestBody struct {
 // CreateWorkflowRequestBodyRunsOnIncidentModes defines model for CreateWorkflowRequestBody.RunsOnIncidentModes.
 type CreateWorkflowRequestBodyRunsOnIncidentModes string
 
-// CreateWorkflowRequestBodyRunsOnIncidents Which incidents should the workflow be applied to?
+// CreateWorkflowRequestBodyRunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
 type CreateWorkflowRequestBodyRunsOnIncidents string
 
 // CreateWorkflowRequestBodyState The state of the workflow (e.g. is it draft, or disabled)
@@ -1822,8 +1865,8 @@ type ExpressionParseOptsV2 struct {
 type ExpressionPayloadV2 struct {
 	ElseBranch *ExpressionElseBranchPayloadV2 `json:"else_branch,omitempty"`
 
-	// Id The ID of the expression
-	Id *string `json:"id,omitempty"`
+	// Id The ID of the expression. This must be a valid ULID.
+	Id string `json:"id"`
 
 	// Label The human readable label of the expression
 	Label      string                         `json:"label"`
@@ -2516,6 +2559,45 @@ type ListWorkflowsResponseBody struct {
 	Workflows []WorkflowSlim `json:"workflows"`
 }
 
+// ManagedResourceV2 defines model for ManagedResourceV2.
+type ManagedResourceV2 struct {
+	// Annotations Annotations that track metadata about this resource
+	Annotations map[string]string `json:"annotations"`
+
+	// ManagedBy How is this resource managed
+	ManagedBy ManagedResourceV2ManagedBy `json:"managed_by"`
+
+	// ResourceId The ID of the resource that this relates to
+	ResourceId string `json:"resource_id"`
+
+	// ResourceType The type of resource that this is
+	ResourceType ManagedResourceV2ResourceType `json:"resource_type"`
+
+	// SourceUrl The url of the external repository where this resource is managed (if there is one)
+	SourceUrl *string `json:"source_url,omitempty"`
+}
+
+// ManagedResourceV2ManagedBy How is this resource managed
+type ManagedResourceV2ManagedBy string
+
+// ManagedResourceV2ResourceType The type of resource that this is
+type ManagedResourceV2ResourceType string
+
+// ManagementMetaV2 defines model for ManagementMetaV2.
+type ManagementMetaV2 struct {
+	// Annotations Annotations that track metadata about this resource
+	Annotations map[string]string `json:"annotations"`
+
+	// ManagedBy How is this resource managed
+	ManagedBy ManagementMetaV2ManagedBy `json:"managed_by"`
+
+	// SourceUrl The url of the external repository where this resource is managed (if there is one)
+	SourceUrl *string `json:"source_url,omitempty"`
+}
+
+// ManagementMetaV2ManagedBy How is this resource managed
+type ManagementMetaV2ManagedBy string
+
 // PaginationMetaResult defines model for PaginationMetaResult.
 type PaginationMetaResult struct {
 	// After If provided, pass this as the 'after' param to load the next page
@@ -2749,7 +2831,7 @@ type ScheduleUpdatePayloadV2 struct {
 
 // ScheduleV2 defines model for ScheduleV2.
 type ScheduleV2 struct {
-	// Annotations Annotations that can track metadata about this schedule
+	// Annotations Annotations that track metadata about this resource
 	Annotations map[string]string `json:"annotations"`
 	Config      *ScheduleConfigV2 `json:"config,omitempty"`
 	CreatedAt   time.Time         `json:"created_at"`
@@ -2877,7 +2959,8 @@ type ShowResponseBody9 struct {
 
 // ShowWorkflowResponseBody defines model for ShowWorkflowResponseBody.
 type ShowWorkflowResponseBody struct {
-	Workflow Workflow `json:"workflow"`
+	ManagementMeta ManagementMetaV2 `json:"management_meta"`
+	Workflow       Workflow         `json:"workflow"`
 }
 
 // StepConfig defines model for StepConfig.
@@ -2903,8 +2986,8 @@ type StepConfigPayload struct {
 	// ForEach Reference to an expression that returns resources to run this step over
 	ForEach *string `json:"for_each,omitempty"`
 
-	// Id Unique ID of this step in a workflow
-	Id *string `json:"id,omitempty"`
+	// Id Unique ID of this step in a workflow. This must be a valid ULID.
+	Id string `json:"id"`
 
 	// Name Unique name of the step in the engine
 	Name string `json:"name"`
@@ -2927,7 +3010,7 @@ type TriggerSlim struct {
 	// Label Human readable identifier for this trigger
 	Label string `json:"label"`
 
-	// Name Unique name of the trigger inside of the engine
+	// Name Unique name of the trigger
 	Name string `json:"name"`
 }
 
@@ -3085,7 +3168,7 @@ type UpdateTypeSchemaRequestBody struct {
 
 // UpdateWorkflowRequestBody defines model for UpdateWorkflowRequestBody.
 type UpdateWorkflowRequestBody struct {
-	// Annotations Annotations that track internal metadata about this workflow
+	// Annotations Annotations that track metadata about this resource
 	Annotations *map[string]string `json:"annotations,omitempty"`
 
 	// ConditionGroups List of conditions to apply to the workflow
@@ -3104,9 +3187,6 @@ type UpdateWorkflowRequestBody struct {
 	// IncludePrivateIncidents Whether to include private incidents
 	IncludePrivateIncidents bool `json:"include_private_incidents"`
 
-	// ManagedSourceUrl The url of the external repository where this workflow is managed
-	ManagedSourceUrl *string `json:"managed_source_url,omitempty"`
-
 	// Name The human-readable name of the workflow
 	Name string `json:"name"`
 
@@ -3116,7 +3196,7 @@ type UpdateWorkflowRequestBody struct {
 	// RunsOnIncidentModes Which modes of incident this should run on (defaults to just standard incidents)
 	RunsOnIncidentModes []UpdateWorkflowRequestBodyRunsOnIncidentModes `json:"runs_on_incident_modes"`
 
-	// RunsOnIncidents Which incidents should the workflow be applied to?
+	// RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
 	RunsOnIncidents UpdateWorkflowRequestBodyRunsOnIncidents `json:"runs_on_incidents"`
 
 	// State The state of the workflow (e.g. is it draft, or disabled)
@@ -3129,7 +3209,7 @@ type UpdateWorkflowRequestBody struct {
 // UpdateWorkflowRequestBodyRunsOnIncidentModes defines model for UpdateWorkflowRequestBody.RunsOnIncidentModes.
 type UpdateWorkflowRequestBodyRunsOnIncidentModes string
 
-// UpdateWorkflowRequestBodyRunsOnIncidents Which incidents should the workflow be applied to?
+// UpdateWorkflowRequestBodyRunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
 type UpdateWorkflowRequestBodyRunsOnIncidents string
 
 // UpdateWorkflowRequestBodyState The state of the workflow (e.g. is it draft, or disabled)
@@ -3194,9 +3274,6 @@ type UserWithRolesV2Role string
 
 // Workflow defines model for Workflow.
 type Workflow struct {
-	// Annotations Annotations that track internal metadata about this workflow
-	Annotations *map[string]string `json:"annotations,omitempty"`
-
 	// ConditionGroups Conditions that apply to the workflow trigger
 	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
 
@@ -3216,9 +3293,6 @@ type Workflow struct {
 	// IncludePrivateIncidents Whether to include private incidents
 	IncludePrivateIncidents bool `json:"include_private_incidents"`
 
-	// ManagedSourceUrl The url of the external repository where this workflow is managed
-	ManagedSourceUrl *string `json:"managed_source_url,omitempty"`
-
 	// Name The human-readable name of the workflow
 	Name string `json:"name"`
 
@@ -3231,7 +3305,7 @@ type Workflow struct {
 	// RunsOnIncidentModes Which modes of incident this should run on (defaults to just standard incidents)
 	RunsOnIncidentModes []WorkflowRunsOnIncidentModes `json:"runs_on_incident_modes"`
 
-	// RunsOnIncidents Which incidents should the workflow be applied to?
+	// RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
 	RunsOnIncidents WorkflowRunsOnIncidents `json:"runs_on_incidents"`
 
 	// State The state of the workflow (e.g. is it draft, or disabled)
@@ -3248,7 +3322,7 @@ type Workflow struct {
 // WorkflowRunsOnIncidentModes defines model for Workflow.RunsOnIncidentModes.
 type WorkflowRunsOnIncidentModes string
 
-// WorkflowRunsOnIncidents Which incidents should the workflow be applied to?
+// WorkflowRunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
 type WorkflowRunsOnIncidents string
 
 // WorkflowState The state of the workflow (e.g. is it draft, or disabled)
@@ -3284,9 +3358,6 @@ type WorkflowSlim struct {
 	// IncludePrivateIncidents Whether to include private incidents
 	IncludePrivateIncidents bool `json:"include_private_incidents"`
 
-	// ManagedSourceUrl The url of the external repository where this workflow is managed
-	ManagedSourceUrl *string `json:"managed_source_url,omitempty"`
-
 	// Name The human-readable name of the workflow
 	Name string `json:"name"`
 
@@ -3299,7 +3370,7 @@ type WorkflowSlim struct {
 	// RunsOnIncidentModes Which modes of incident this should run on (defaults to just standard incidents)
 	RunsOnIncidentModes []WorkflowSlimRunsOnIncidentModes `json:"runs_on_incident_modes"`
 
-	// RunsOnIncidents Which incidents should the workflow be applied to?
+	// RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
 	RunsOnIncidents WorkflowSlimRunsOnIncidents `json:"runs_on_incidents"`
 
 	// State The state of the workflow (e.g. is it draft, or disabled)
@@ -3316,7 +3387,7 @@ type WorkflowSlim struct {
 // WorkflowSlimRunsOnIncidentModes defines model for WorkflowSlim.RunsOnIncidentModes.
 type WorkflowSlimRunsOnIncidentModes string
 
-// WorkflowSlimRunsOnIncidents Which incidents should the workflow be applied to?
+// WorkflowSlimRunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
 type WorkflowSlimRunsOnIncidents string
 
 // WorkflowSlimState The state of the workflow (e.g. is it draft, or disabled)
@@ -3573,6 +3644,9 @@ type IncidentsV2CreateJSONRequestBody = CreateRequestBody10
 
 // IncidentsV2EditJSONRequestBody defines body for IncidentsV2Edit for application/json ContentType.
 type IncidentsV2EditJSONRequestBody = EditRequestBody
+
+// ManagedResourcesV2CreateManagedResourceJSONRequestBody defines body for ManagedResourcesV2CreateManagedResource for application/json ContentType.
+type ManagedResourcesV2CreateManagedResourceJSONRequestBody = CreateManagedResourceRequestBody
 
 // SchedulesV2CreateJSONRequestBody defines body for SchedulesV2Create for application/json ContentType.
 type SchedulesV2CreateJSONRequestBody = CreateRequestBody11
@@ -3932,6 +4006,11 @@ type ClientInterface interface {
 	IncidentsV2EditWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	IncidentsV2Edit(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ManagedResourcesV2CreateManagedResource request with any body
+	ManagedResourcesV2CreateManagedResourceWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	ManagedResourcesV2CreateManagedResource(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// SchedulesV2ListScheduleEntries request
 	SchedulesV2ListScheduleEntries(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -5171,6 +5250,30 @@ func (c *Client) IncidentsV2EditWithBody(ctx context.Context, id string, content
 
 func (c *Client) IncidentsV2Edit(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewIncidentsV2EditRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ManagedResourcesV2CreateManagedResourceWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewManagedResourcesV2CreateManagedResourceRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ManagedResourcesV2CreateManagedResource(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewManagedResourcesV2CreateManagedResourceRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -8531,6 +8634,46 @@ func NewIncidentsV2EditRequestWithBody(server string, id string, contentType str
 	return req, nil
 }
 
+// NewManagedResourcesV2CreateManagedResourceRequest calls the generic ManagedResourcesV2CreateManagedResource builder with application/json body
+func NewManagedResourcesV2CreateManagedResourceRequest(server string, body ManagedResourcesV2CreateManagedResourceJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewManagedResourcesV2CreateManagedResourceRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewManagedResourcesV2CreateManagedResourceRequestWithBody generates requests for ManagedResourcesV2CreateManagedResource with any type of body
+func NewManagedResourcesV2CreateManagedResourceRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/managed_resources")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewSchedulesV2ListScheduleEntriesRequest generates requests for SchedulesV2ListScheduleEntries
 func NewSchedulesV2ListScheduleEntriesRequest(server string, params *SchedulesV2ListScheduleEntriesParams) (*http.Request, error) {
 	var err error
@@ -9451,6 +9594,11 @@ type ClientWithResponsesInterface interface {
 	IncidentsV2EditWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error)
 
 	IncidentsV2EditWithResponse(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error)
+
+	// ManagedResourcesV2CreateManagedResource request with any body
+	ManagedResourcesV2CreateManagedResourceWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ManagedResourcesV2CreateManagedResourceResponse, error)
+
+	ManagedResourcesV2CreateManagedResourceWithResponse(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*ManagedResourcesV2CreateManagedResourceResponse, error)
 
 	// SchedulesV2ListScheduleEntries request
 	SchedulesV2ListScheduleEntriesWithResponse(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListScheduleEntriesResponse, error)
@@ -11117,6 +11265,28 @@ func (r IncidentsV2EditResponse) StatusCode() int {
 	return 0
 }
 
+type ManagedResourcesV2CreateManagedResourceResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CreateManagedResourceResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r ManagedResourcesV2CreateManagedResourceResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ManagedResourcesV2CreateManagedResourceResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type SchedulesV2ListScheduleEntriesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -12273,6 +12443,23 @@ func (c *ClientWithResponses) IncidentsV2EditWithResponse(ctx context.Context, i
 		return nil, err
 	}
 	return ParseIncidentsV2EditResponse(rsp)
+}
+
+// ManagedResourcesV2CreateManagedResourceWithBodyWithResponse request with arbitrary body returning *ManagedResourcesV2CreateManagedResourceResponse
+func (c *ClientWithResponses) ManagedResourcesV2CreateManagedResourceWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ManagedResourcesV2CreateManagedResourceResponse, error) {
+	rsp, err := c.ManagedResourcesV2CreateManagedResourceWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseManagedResourcesV2CreateManagedResourceResponse(rsp)
+}
+
+func (c *ClientWithResponses) ManagedResourcesV2CreateManagedResourceWithResponse(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*ManagedResourcesV2CreateManagedResourceResponse, error) {
+	rsp, err := c.ManagedResourcesV2CreateManagedResource(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseManagedResourcesV2CreateManagedResourceResponse(rsp)
 }
 
 // SchedulesV2ListScheduleEntriesWithResponse request returning *SchedulesV2ListScheduleEntriesResponse
@@ -14228,6 +14415,32 @@ func ParseIncidentsV2EditResponse(rsp *http.Response) (*IncidentsV2EditResponse,
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ShowResponseBody13
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseManagedResourcesV2CreateManagedResourceResponse parses an HTTP response from a ManagedResourcesV2CreateManagedResourceWithResponse call
+func ParseManagedResourcesV2CreateManagedResourceResponse(rsp *http.Response) (*ManagedResourcesV2CreateManagedResourceResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ManagedResourcesV2CreateManagedResourceResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CreateManagedResourceResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
