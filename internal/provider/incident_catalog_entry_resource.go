@@ -295,7 +295,7 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV2) *
 		// state, so we paper over the issue by instantiating an empty array value if we think
 		// we're seeing the weirdness.
 		if binding.Value == nil && binding.ArrayValue == nil {
-			binding.ArrayValue = lo.ToPtr([]client.EngineParamBindingValueV2{})
+			binding.ArrayValue = lo.ToPtr([]client.CatalogEntryEngineParamBindingValueV2{})
 		}
 
 		if binding.Value != nil {

@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.3.0
+
+- Add support for workflows using the `incident_workflow` resource
+
 ## 3.2.3
 
 - Docs update to include examples of `incident_schedule` resource

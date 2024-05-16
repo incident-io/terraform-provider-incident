@@ -522,7 +522,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 					for attributeID, value := range entry.AttributeValues {
 						current := client.EngineParamBindingPayloadV2{}
 						if value.ArrayValue != nil {
-							current.ArrayValue = lo.ToPtr(lo.Map(*value.ArrayValue, func(binding client.EngineParamBindingValueV2, _ int) client.EngineParamBindingValuePayloadV2 {
+							current.ArrayValue = lo.ToPtr(lo.Map(*value.ArrayValue, func(binding client.CatalogEntryEngineParamBindingValueV2, _ int) client.EngineParamBindingValuePayloadV2 {
 								return client.EngineParamBindingValuePayloadV2{
 									Literal: binding.Literal,
 								}

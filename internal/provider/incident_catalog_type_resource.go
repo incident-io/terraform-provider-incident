@@ -21,7 +21,8 @@ var (
 )
 
 type IncidentCatalogTypeResource struct {
-	client *client.ClientWithResponses
+	client           *client.ClientWithResponses
+	terraformVersion string
 }
 
 type IncidentCatalogTypeResourceModel struct {
@@ -91,6 +92,7 @@ func (r *IncidentCatalogTypeResource) Configure(ctx context.Context, req resourc
 	}
 
 	r.client = client.Client
+	r.terraformVersion = client.TerraformVersion
 }
 
 func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -103,6 +105,9 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 	requestBody := client.CreateTypeRequestBody{
 		Name:        data.Name.ValueString(),
 		Description: data.Description.ValueString(),
+		Annotations: &map[string]string{
+			"incident.io/terraform/version": r.terraformVersion,
+		},
 	}
 	if typeName := data.TypeName.ValueString(); typeName != "" {
 		requestBody.TypeName = &typeName
@@ -156,6 +161,9 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 		Name: data.Name.ValueString(),
 		// TypeName cannot be changed once set
 		Description: data.Description.ValueString(),
+		Annotations: &map[string]string{
+			"incident.io/terraform/version": r.terraformVersion,
+		},
 	}
 
 	if sourceRepoURL := data.SourceRepoURL.ValueString(); sourceRepoURL != "" {

@@ -34,6 +34,21 @@ const (
 	ActionV2StatusOutstanding ActionV2Status = "outstanding"
 )
 
+// Defines values for AlertResultDeduplicationKey.
+const (
+	UniqueKey AlertResultDeduplicationKey = "unique-key"
+)
+
+// Defines values for AlertResultMessage.
+const (
+	EventAcceptedForProcessing AlertResultMessage = "Event accepted for processing"
+)
+
+// Defines values for AlertResultStatus.
+const (
+	Success AlertResultStatus = "success"
+)
+
 // Defines values for CatalogResourceV2Category.
 const (
 	CatalogResourceV2CategoryCustom    CatalogResourceV2Category = "custom"
@@ -53,12 +68,12 @@ const (
 
 // Defines values for CatalogTypeAttributeV2Mode.
 const (
-	Backlink CatalogTypeAttributeV2Mode = "backlink"
-	Dynamic  CatalogTypeAttributeV2Mode = "dynamic"
-	Empty    CatalogTypeAttributeV2Mode = ""
-	External CatalogTypeAttributeV2Mode = "external"
-	Internal CatalogTypeAttributeV2Mode = "internal"
-	Manual   CatalogTypeAttributeV2Mode = "manual"
+	CatalogTypeAttributeV2ModeBacklink CatalogTypeAttributeV2Mode = "backlink"
+	CatalogTypeAttributeV2ModeDynamic  CatalogTypeAttributeV2Mode = "dynamic"
+	CatalogTypeAttributeV2ModeEmpty    CatalogTypeAttributeV2Mode = ""
+	CatalogTypeAttributeV2ModeExternal CatalogTypeAttributeV2Mode = "external"
+	CatalogTypeAttributeV2ModeInternal CatalogTypeAttributeV2Mode = "internal"
+	CatalogTypeAttributeV2ModeManual   CatalogTypeAttributeV2Mode = "manual"
 )
 
 // Defines values for CatalogTypeV2Color.
@@ -106,19 +121,10 @@ const (
 	Resolved CreateHTTPRequestBodyStatus = "resolved"
 )
 
-// Defines values for CreateHTTPResponseBodyDeduplicationKey.
+// Defines values for CreateManagedResourceRequestBodyResourceType.
 const (
-	UniqueKey CreateHTTPResponseBodyDeduplicationKey = "unique-key"
-)
-
-// Defines values for CreateHTTPResponseBodyMessage.
-const (
-	EventAcceptedForProcessing CreateHTTPResponseBodyMessage = "Event accepted for processing"
-)
-
-// Defines values for CreateHTTPResponseBodyStatus.
-const (
-	Success CreateHTTPResponseBodyStatus = "success"
+	CreateManagedResourceRequestBodyResourceTypeSchedule CreateManagedResourceRequestBodyResourceType = "schedule"
+	CreateManagedResourceRequestBodyResourceTypeWorkflow CreateManagedResourceRequestBodyResourceType = "workflow"
 )
 
 // Defines values for CreateRequestBody10Mode.
@@ -251,6 +257,27 @@ const (
 	CreateTypeRequestBodyIconUsers      CreateTypeRequestBodyIcon = "users"
 )
 
+// Defines values for CreateWorkflowRequestBodyRunsOnIncidentModes.
+const (
+	CreateWorkflowRequestBodyRunsOnIncidentModesRetrospective CreateWorkflowRequestBodyRunsOnIncidentModes = "retrospective"
+	CreateWorkflowRequestBodyRunsOnIncidentModesStandard      CreateWorkflowRequestBodyRunsOnIncidentModes = "standard"
+	CreateWorkflowRequestBodyRunsOnIncidentModesTest          CreateWorkflowRequestBodyRunsOnIncidentModes = "test"
+)
+
+// Defines values for CreateWorkflowRequestBodyRunsOnIncidents.
+const (
+	CreateWorkflowRequestBodyRunsOnIncidentsNewlyCreated          CreateWorkflowRequestBodyRunsOnIncidents = "newly_created"
+	CreateWorkflowRequestBodyRunsOnIncidentsNewlyCreatedAndActive CreateWorkflowRequestBodyRunsOnIncidents = "newly_created_and_active"
+)
+
+// Defines values for CreateWorkflowRequestBodyState.
+const (
+	CreateWorkflowRequestBodyStateActive   CreateWorkflowRequestBodyState = "active"
+	CreateWorkflowRequestBodyStateDisabled CreateWorkflowRequestBodyState = "disabled"
+	CreateWorkflowRequestBodyStateDraft    CreateWorkflowRequestBodyState = "draft"
+	CreateWorkflowRequestBodyStateError    CreateWorkflowRequestBodyState = "error"
+)
+
 // Defines values for CustomFieldTypeInfoV1FieldType.
 const (
 	CustomFieldTypeInfoV1FieldTypeLink         CustomFieldTypeInfoV1FieldType = "link"
@@ -290,6 +317,32 @@ const (
 	Numeric      CustomFieldV2FieldType = "numeric"
 	SingleSelect CustomFieldV2FieldType = "single_select"
 	Text         CustomFieldV2FieldType = "text"
+)
+
+// Defines values for ExpressionOperationPayloadV2OperationType.
+const (
+	ExpressionOperationPayloadV2OperationTypeBranches ExpressionOperationPayloadV2OperationType = "branches"
+	ExpressionOperationPayloadV2OperationTypeCount    ExpressionOperationPayloadV2OperationType = "count"
+	ExpressionOperationPayloadV2OperationTypeFilter   ExpressionOperationPayloadV2OperationType = "filter"
+	ExpressionOperationPayloadV2OperationTypeFirst    ExpressionOperationPayloadV2OperationType = "first"
+	ExpressionOperationPayloadV2OperationTypeMax      ExpressionOperationPayloadV2OperationType = "max"
+	ExpressionOperationPayloadV2OperationTypeMin      ExpressionOperationPayloadV2OperationType = "min"
+	ExpressionOperationPayloadV2OperationTypeNavigate ExpressionOperationPayloadV2OperationType = "navigate"
+	ExpressionOperationPayloadV2OperationTypeParse    ExpressionOperationPayloadV2OperationType = "parse"
+	ExpressionOperationPayloadV2OperationTypeRandom   ExpressionOperationPayloadV2OperationType = "random"
+)
+
+// Defines values for ExpressionOperationV2OperationType.
+const (
+	ExpressionOperationV2OperationTypeBranches ExpressionOperationV2OperationType = "branches"
+	ExpressionOperationV2OperationTypeCount    ExpressionOperationV2OperationType = "count"
+	ExpressionOperationV2OperationTypeFilter   ExpressionOperationV2OperationType = "filter"
+	ExpressionOperationV2OperationTypeFirst    ExpressionOperationV2OperationType = "first"
+	ExpressionOperationV2OperationTypeMax      ExpressionOperationV2OperationType = "max"
+	ExpressionOperationV2OperationTypeMin      ExpressionOperationV2OperationType = "min"
+	ExpressionOperationV2OperationTypeNavigate ExpressionOperationV2OperationType = "navigate"
+	ExpressionOperationV2OperationTypeParse    ExpressionOperationV2OperationType = "parse"
+	ExpressionOperationV2OperationTypeRandom   ExpressionOperationV2OperationType = "random"
 )
 
 // Defines values for ExternalIssueReferenceV1Provider.
@@ -425,6 +478,26 @@ const (
 	IncidentV2VisibilityPublic  IncidentV2Visibility = "public"
 )
 
+// Defines values for ManagedResourceV2ManagedBy.
+const (
+	ManagedResourceV2ManagedByDashboard ManagedResourceV2ManagedBy = "dashboard"
+	ManagedResourceV2ManagedByExternal  ManagedResourceV2ManagedBy = "external"
+	ManagedResourceV2ManagedByTerraform ManagedResourceV2ManagedBy = "terraform"
+)
+
+// Defines values for ManagedResourceV2ResourceType.
+const (
+	ManagedResourceV2ResourceTypeSchedule ManagedResourceV2ResourceType = "schedule"
+	ManagedResourceV2ResourceTypeWorkflow ManagedResourceV2ResourceType = "workflow"
+)
+
+// Defines values for ManagementMetaV2ManagedBy.
+const (
+	Dashboard ManagementMetaV2ManagedBy = "dashboard"
+	External  ManagementMetaV2ManagedBy = "external"
+	Terraform ManagementMetaV2ManagedBy = "terraform"
+)
+
 // Defines values for ScheduleRotationHandoverV2IntervalType.
 const (
 	Daily  ScheduleRotationHandoverV2IntervalType = "daily"
@@ -507,6 +580,27 @@ const (
 	Users      UpdateTypeRequestBodyIcon = "users"
 )
 
+// Defines values for UpdateWorkflowRequestBodyRunsOnIncidentModes.
+const (
+	UpdateWorkflowRequestBodyRunsOnIncidentModesRetrospective UpdateWorkflowRequestBodyRunsOnIncidentModes = "retrospective"
+	UpdateWorkflowRequestBodyRunsOnIncidentModesStandard      UpdateWorkflowRequestBodyRunsOnIncidentModes = "standard"
+	UpdateWorkflowRequestBodyRunsOnIncidentModesTest          UpdateWorkflowRequestBodyRunsOnIncidentModes = "test"
+)
+
+// Defines values for UpdateWorkflowRequestBodyRunsOnIncidents.
+const (
+	UpdateWorkflowRequestBodyRunsOnIncidentsNewlyCreated          UpdateWorkflowRequestBodyRunsOnIncidents = "newly_created"
+	UpdateWorkflowRequestBodyRunsOnIncidentsNewlyCreatedAndActive UpdateWorkflowRequestBodyRunsOnIncidents = "newly_created_and_active"
+)
+
+// Defines values for UpdateWorkflowRequestBodyState.
+const (
+	UpdateWorkflowRequestBodyStateActive   UpdateWorkflowRequestBodyState = "active"
+	UpdateWorkflowRequestBodyStateDisabled UpdateWorkflowRequestBodyState = "disabled"
+	UpdateWorkflowRequestBodyStateDraft    UpdateWorkflowRequestBodyState = "draft"
+	UpdateWorkflowRequestBodyStateError    UpdateWorkflowRequestBodyState = "error"
+)
+
 // Defines values for UserV1Role.
 const (
 	UserV1RoleAdministrator UserV1Role = "administrator"
@@ -523,6 +617,48 @@ const (
 	Responder     UserWithRolesV2Role = "responder"
 	Unset         UserWithRolesV2Role = "unset"
 	Viewer        UserWithRolesV2Role = "viewer"
+)
+
+// Defines values for WorkflowRunsOnIncidentModes.
+const (
+	WorkflowRunsOnIncidentModesRetrospective WorkflowRunsOnIncidentModes = "retrospective"
+	WorkflowRunsOnIncidentModesStandard      WorkflowRunsOnIncidentModes = "standard"
+	WorkflowRunsOnIncidentModesTest          WorkflowRunsOnIncidentModes = "test"
+)
+
+// Defines values for WorkflowRunsOnIncidents.
+const (
+	WorkflowRunsOnIncidentsNewlyCreated          WorkflowRunsOnIncidents = "newly_created"
+	WorkflowRunsOnIncidentsNewlyCreatedAndActive WorkflowRunsOnIncidents = "newly_created_and_active"
+)
+
+// Defines values for WorkflowState.
+const (
+	WorkflowStateActive   WorkflowState = "active"
+	WorkflowStateDisabled WorkflowState = "disabled"
+	WorkflowStateDraft    WorkflowState = "draft"
+	WorkflowStateError    WorkflowState = "error"
+)
+
+// Defines values for WorkflowSlimRunsOnIncidentModes.
+const (
+	WorkflowSlimRunsOnIncidentModesRetrospective WorkflowSlimRunsOnIncidentModes = "retrospective"
+	WorkflowSlimRunsOnIncidentModesStandard      WorkflowSlimRunsOnIncidentModes = "standard"
+	WorkflowSlimRunsOnIncidentModesTest          WorkflowSlimRunsOnIncidentModes = "test"
+)
+
+// Defines values for WorkflowSlimRunsOnIncidents.
+const (
+	WorkflowSlimRunsOnIncidentsNewlyCreated          WorkflowSlimRunsOnIncidents = "newly_created"
+	WorkflowSlimRunsOnIncidentsNewlyCreatedAndActive WorkflowSlimRunsOnIncidents = "newly_created_and_active"
+)
+
+// Defines values for WorkflowSlimState.
+const (
+	WorkflowSlimStateActive   WorkflowSlimState = "active"
+	WorkflowSlimStateDisabled WorkflowSlimState = "disabled"
+	WorkflowSlimStateDraft    WorkflowSlimState = "draft"
+	WorkflowSlimStateError    WorkflowSlimState = "error"
 )
 
 // Defines values for ActionsV1ListParamsIncidentMode.
@@ -650,6 +786,66 @@ type AfterPaginationMetaResultV2 struct {
 	AfterUrl string `json:"after_url"`
 }
 
+// AlertResult defines model for AlertResult.
+type AlertResult struct {
+	// DeduplicationKey The deduplication key that the event has been processed with
+	DeduplicationKey AlertResultDeduplicationKey `json:"deduplication_key"`
+
+	// Message Human readable message giving detail about the event
+	Message AlertResultMessage `json:"message"`
+
+	// Status Status of the event
+	Status AlertResultStatus `json:"status"`
+}
+
+// AlertResultDeduplicationKey The deduplication key that the event has been processed with
+type AlertResultDeduplicationKey string
+
+// AlertResultMessage Human readable message giving detail about the event
+type AlertResultMessage string
+
+// AlertResultStatus Status of the event
+type AlertResultStatus string
+
+// CatalogEntryEngineParamBindingV2 defines model for CatalogEntryEngineParamBindingV2.
+type CatalogEntryEngineParamBindingV2 struct {
+	// ArrayValue If array_value is set, this helps render the values
+	ArrayValue *[]CatalogEntryEngineParamBindingValueV2 `json:"array_value,omitempty"`
+	Value      *CatalogEntryEngineParamBindingValueV2   `json:"value,omitempty"`
+}
+
+// CatalogEntryEngineParamBindingValueV2 defines model for CatalogEntryEngineParamBindingValueV2.
+type CatalogEntryEngineParamBindingValueV2 struct {
+	CatalogEntry *CatalogEntryReferenceV2 `json:"catalog_entry,omitempty"`
+
+	// Helptext Gives a description of the option to the user
+	Helptext *string `json:"helptext,omitempty"`
+
+	// ImageUrl If appropriate, URL to an image that can be displayed alongside the option
+	ImageUrl *string `json:"image_url,omitempty"`
+
+	// IsImageSlackIcon If true, the image_url is a Slack icon and should be displayed as such
+	IsImageSlackIcon *bool `json:"is_image_slack_icon,omitempty"`
+
+	// Label Human readable label to be displayed for user to select
+	Label string `json:"label"`
+
+	// Literal If set, this is the literal value of the step parameter
+	Literal *string `json:"literal,omitempty"`
+
+	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
+	Reference *string `json:"reference,omitempty"`
+
+	// SortKey Gives an indication of how to sort the options when displayed to the user
+	SortKey string `json:"sort_key"`
+
+	// Unavailable Unavailable is true if we've failed to build the value for this binding
+	Unavailable *bool `json:"unavailable,omitempty"`
+
+	// Value Either the reference or the literal: this field is designed purely to make working with react-select easier
+	Value *string `json:"value,omitempty"`
+}
+
 // CatalogEntryReferenceV2 defines model for CatalogEntryReferenceV2.
 type CatalogEntryReferenceV2 struct {
 	// ArchivedAt When this entry was archived
@@ -674,7 +870,7 @@ type CatalogEntryV2 struct {
 	ArchivedAt *time.Time `json:"archived_at,omitempty"`
 
 	// AttributeValues Values of this entry
-	AttributeValues map[string]EngineParamBindingV2 `json:"attribute_values"`
+	AttributeValues map[string]CatalogEntryEngineParamBindingV2 `json:"attribute_values"`
 
 	// CatalogTypeId ID of this catalog type
 	CatalogTypeId string `json:"catalog_type_id"`
@@ -840,6 +1036,57 @@ type CatalogTypeV2Color string
 // CatalogTypeV2Icon Sets the display icon of this type in the dashboard
 type CatalogTypeV2Icon string
 
+// ConditionGroupPayloadV2 defines model for ConditionGroupPayloadV2.
+type ConditionGroupPayloadV2 struct {
+	// Conditions List of conditions that should be AND-ed together
+	Conditions []ConditionPayloadV2 `json:"conditions"`
+}
+
+// ConditionGroupV2 defines model for ConditionGroupV2.
+type ConditionGroupV2 struct {
+	// Conditions List of conditions that should be AND-ed together
+	Conditions []ConditionV2 `json:"conditions"`
+}
+
+// ConditionOperationV2 defines model for ConditionOperationV2.
+type ConditionOperationV2 struct {
+	// Label Human readable label to be displayed for user to select
+	Label string `json:"label"`
+
+	// Value Unique identifier for this option
+	Value string `json:"value"`
+}
+
+// ConditionPayloadV2 defines model for ConditionPayloadV2.
+type ConditionPayloadV2 struct {
+	// Operation The name of the operation on the subject
+	Operation string `json:"operation"`
+
+	// ParamBindings List of parameter bindings
+	ParamBindings []EngineParamBindingPayloadV2 `json:"param_bindings"`
+
+	// Subject The reference of the subject in the trigger scope
+	Subject string `json:"subject"`
+}
+
+// ConditionSubjectV2 defines model for ConditionSubjectV2.
+type ConditionSubjectV2 struct {
+	// Label Human readable identifier for the subject
+	Label string `json:"label"`
+
+	// Reference Reference into the scope for the value of the subject
+	Reference string `json:"reference"`
+}
+
+// ConditionV2 defines model for ConditionV2.
+type ConditionV2 struct {
+	Operation ConditionOperationV2 `json:"operation"`
+
+	// ParamBindings Bindings for the operation parameters
+	ParamBindings []EngineParamBindingV2 `json:"param_bindings"`
+	Subject       ConditionSubjectV2     `json:"subject"`
+}
+
 // CreateEntryRequestBody defines model for CreateEntryRequestBody.
 type CreateEntryRequestBody struct {
 	// Aliases Optional aliases that can be used to reference this entry
@@ -890,26 +1137,25 @@ type CreateHTTPRequestBody struct {
 // CreateHTTPRequestBodyStatus Current status of this alert
 type CreateHTTPRequestBodyStatus string
 
-// CreateHTTPResponseBody defines model for CreateHTTPResponseBody.
-type CreateHTTPResponseBody struct {
-	// DeduplicationKey The deduplication key that the event has been processed with
-	DeduplicationKey CreateHTTPResponseBodyDeduplicationKey `json:"deduplication_key"`
+// CreateManagedResourceRequestBody defines model for CreateManagedResourceRequestBody.
+type CreateManagedResourceRequestBody struct {
+	// Annotations Annotations that track metadata about this resource
+	Annotations map[string]string `json:"annotations"`
 
-	// Message Human readable message giving detail about the event
-	Message CreateHTTPResponseBodyMessage `json:"message"`
+	// ResourceId The ID of the related resource
+	ResourceId string `json:"resource_id"`
 
-	// Status Status of the event
-	Status CreateHTTPResponseBodyStatus `json:"status"`
+	// ResourceType The type of the related resource
+	ResourceType CreateManagedResourceRequestBodyResourceType `json:"resource_type"`
 }
 
-// CreateHTTPResponseBodyDeduplicationKey The deduplication key that the event has been processed with
-type CreateHTTPResponseBodyDeduplicationKey string
+// CreateManagedResourceRequestBodyResourceType The type of the related resource
+type CreateManagedResourceRequestBodyResourceType string
 
-// CreateHTTPResponseBodyMessage Human readable message giving detail about the event
-type CreateHTTPResponseBodyMessage string
-
-// CreateHTTPResponseBodyStatus Status of the event
-type CreateHTTPResponseBodyStatus string
+// CreateManagedResourceResponseBody defines model for CreateManagedResourceResponseBody.
+type CreateManagedResourceResponseBody struct {
+	ManagedResource ManagedResourceV2 `json:"managed_resource"`
+}
 
 // CreateRequestBody defines model for CreateRequestBody.
 type CreateRequestBody struct {
@@ -1215,6 +1461,58 @@ type CreateTypeResponseBody struct {
 	CatalogType CatalogTypeV2 `json:"catalog_type"`
 }
 
+// CreateWorkflowRequestBody defines model for CreateWorkflowRequestBody.
+type CreateWorkflowRequestBody struct {
+	// Annotations Annotations that track metadata about this resource
+	Annotations *map[string]string `json:"annotations,omitempty"`
+
+	// ConditionGroups List of conditions to apply to the workflow
+	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
+
+	// ContinueOnStepError Whether to continue executing the workflow if a step fails
+	ContinueOnStepError bool           `json:"continue_on_step_error"`
+	Delay               *WorkflowDelay `json:"delay,omitempty"`
+
+	// Expressions The expressions used in the workflow
+	Expressions []ExpressionPayloadV2 `json:"expressions"`
+
+	// Folder Folder to display the workflow in
+	Folder *string `json:"folder,omitempty"`
+
+	// IncludePrivateIncidents Whether to include private incidents
+	IncludePrivateIncidents bool `json:"include_private_incidents"`
+
+	// Name The human-readable name of the workflow
+	Name string `json:"name"`
+
+	// OnceFor Once For strategy to apply to this workflow
+	OnceFor []string `json:"once_for"`
+
+	// RunsOnIncidentModes Which modes of incident this should run on (defaults to just standard incidents)
+	RunsOnIncidentModes []CreateWorkflowRequestBodyRunsOnIncidentModes `json:"runs_on_incident_modes"`
+
+	// RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
+	RunsOnIncidents CreateWorkflowRequestBodyRunsOnIncidents `json:"runs_on_incidents"`
+
+	// State The state of the workflow (e.g. is it draft, or disabled)
+	State *CreateWorkflowRequestBodyState `json:"state,omitempty"`
+
+	// Steps List of step to execute as part of the workflow
+	Steps []StepConfigPayload `json:"steps"`
+
+	// Trigger Trigger to set on the workflow
+	Trigger string `json:"trigger"`
+}
+
+// CreateWorkflowRequestBodyRunsOnIncidentModes defines model for CreateWorkflowRequestBody.RunsOnIncidentModes.
+type CreateWorkflowRequestBodyRunsOnIncidentModes string
+
+// CreateWorkflowRequestBodyRunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
+type CreateWorkflowRequestBodyRunsOnIncidents string
+
+// CreateWorkflowRequestBodyState The state of the workflow (e.g. is it draft, or disabled)
+type CreateWorkflowRequestBodyState string
+
 // CustomFieldEntryPayloadV1 defines model for CustomFieldEntryPayloadV1.
 type CustomFieldEntryPayloadV1 struct {
 	// CustomFieldId ID of the custom field this entry is linked against
@@ -1436,17 +1734,6 @@ type EngineParamBindingValuePayloadV2 struct {
 
 // EngineParamBindingValueV2 defines model for EngineParamBindingValueV2.
 type EngineParamBindingValueV2 struct {
-	CatalogEntry *CatalogEntryReferenceV2 `json:"catalog_entry,omitempty"`
-
-	// Helptext Gives a description of the option to the user
-	Helptext *string `json:"helptext,omitempty"`
-
-	// ImageUrl If appropriate, URL to an image that can be displayed alongside the option
-	ImageUrl *string `json:"image_url,omitempty"`
-
-	// IsImageSlackIcon If true, the image_url is a Slack icon and should be displayed as such
-	IsImageSlackIcon *bool `json:"is_image_slack_icon,omitempty"`
-
 	// Label Human readable label to be displayed for user to select
 	Label string `json:"label"`
 
@@ -1455,15 +1742,154 @@ type EngineParamBindingValueV2 struct {
 
 	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
 	Reference *string `json:"reference,omitempty"`
+}
 
-	// SortKey Gives an indication of how to sort the options when displayed to the user
-	SortKey string `json:"sort_key"`
+// EngineReferenceV2 defines model for EngineReferenceV2.
+type EngineReferenceV2 struct {
+	// Array If true, the reference can refer to 0 to many items
+	Array bool `json:"array"`
 
-	// Unavailable Unavailable is true if we've failed to build the value for this binding
-	Unavailable *bool `json:"unavailable,omitempty"`
+	// Key The key of the field this is a reference to
+	Key string `json:"key"`
 
-	// Value Either the reference or the literal: this field is designed purely to make working with react-select easier
-	Value *string `json:"value,omitempty"`
+	// Label Human readable label for the field (with context)
+	Label string `json:"label"`
+
+	// Type The type of this resource in the engine
+	Type string `json:"type"`
+}
+
+// ExpressionBranchPayloadV2 defines model for ExpressionBranchPayloadV2.
+type ExpressionBranchPayloadV2 struct {
+	// ConditionGroups When theses conditions are met, this branch will be evaluated
+	ConditionGroups []ConditionGroupPayloadV2   `json:"condition_groups"`
+	Result          EngineParamBindingPayloadV2 `json:"result"`
+}
+
+// ExpressionBranchV2 defines model for ExpressionBranchV2.
+type ExpressionBranchV2 struct {
+	// ConditionGroups When theses conditions are met, this branch will be evaluated
+	ConditionGroups []ConditionGroupV2   `json:"condition_groups"`
+	Result          EngineParamBindingV2 `json:"result"`
+}
+
+// ExpressionBranchesOptsPayloadV2 defines model for ExpressionBranchesOptsPayloadV2.
+type ExpressionBranchesOptsPayloadV2 struct {
+	// Branches The branches to apply for this operation
+	Branches []ExpressionBranchPayloadV2 `json:"branches"`
+	Returns  ReturnsMetaV2               `json:"returns"`
+}
+
+// ExpressionBranchesOptsV2 defines model for ExpressionBranchesOptsV2.
+type ExpressionBranchesOptsV2 struct {
+	// Branches The branches to apply for this operation
+	Branches []ExpressionBranchV2 `json:"branches"`
+	Returns  ReturnsMetaV2        `json:"returns"`
+}
+
+// ExpressionElseBranchPayloadV2 defines model for ExpressionElseBranchPayloadV2.
+type ExpressionElseBranchPayloadV2 struct {
+	Result EngineParamBindingPayloadV2 `json:"result"`
+}
+
+// ExpressionElseBranchV2 defines model for ExpressionElseBranchV2.
+type ExpressionElseBranchV2 struct {
+	Result EngineParamBindingV2 `json:"result"`
+}
+
+// ExpressionFilterOptsPayloadV2 defines model for ExpressionFilterOptsPayloadV2.
+type ExpressionFilterOptsPayloadV2 struct {
+	// ConditionGroups The conditions to apply to this filter
+	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
+}
+
+// ExpressionFilterOptsV2 defines model for ExpressionFilterOptsV2.
+type ExpressionFilterOptsV2 struct {
+	// ConditionGroups The conditions to apply to this filter
+	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+}
+
+// ExpressionNavigateOptsPayloadV2 defines model for ExpressionNavigateOptsPayloadV2.
+type ExpressionNavigateOptsPayloadV2 struct {
+	// Reference The reference that you want to navigate to
+	Reference string `json:"reference"`
+}
+
+// ExpressionNavigateOptsV2 defines model for ExpressionNavigateOptsV2.
+type ExpressionNavigateOptsV2 struct {
+	// Reference The reference within the scope to navigate to
+	Reference string `json:"reference"`
+
+	// ReferenceLabel The name of the reference to navigate to
+	ReferenceLabel string `json:"reference_label"`
+}
+
+// ExpressionOperationPayloadV2 defines model for ExpressionOperationPayloadV2.
+type ExpressionOperationPayloadV2 struct {
+	Branches *ExpressionBranchesOptsPayloadV2 `json:"branches,omitempty"`
+	Filter   *ExpressionFilterOptsPayloadV2   `json:"filter,omitempty"`
+	Navigate *ExpressionNavigateOptsPayloadV2 `json:"navigate,omitempty"`
+
+	// OperationType The type of the operation
+	OperationType ExpressionOperationPayloadV2OperationType `json:"operation_type"`
+	Parse         *ExpressionParseOptsV2                    `json:"parse,omitempty"`
+}
+
+// ExpressionOperationPayloadV2OperationType The type of the operation
+type ExpressionOperationPayloadV2OperationType string
+
+// ExpressionOperationV2 defines model for ExpressionOperationV2.
+type ExpressionOperationV2 struct {
+	Branches *ExpressionBranchesOptsV2 `json:"branches,omitempty"`
+	Filter   *ExpressionFilterOptsV2   `json:"filter,omitempty"`
+	Navigate *ExpressionNavigateOptsV2 `json:"navigate,omitempty"`
+
+	// OperationType The type of the operation
+	OperationType ExpressionOperationV2OperationType `json:"operation_type"`
+	Parse         *ExpressionParseOptsV2             `json:"parse,omitempty"`
+	Returns       ReturnsMetaV2                      `json:"returns"`
+}
+
+// ExpressionOperationV2OperationType The type of the operation
+type ExpressionOperationV2OperationType string
+
+// ExpressionParseOptsV2 defines model for ExpressionParseOptsV2.
+type ExpressionParseOptsV2 struct {
+	Returns ReturnsMetaV2 `json:"returns"`
+
+	// Source Source expression that is evaluated to a result
+	Source string `json:"source"`
+}
+
+// ExpressionPayloadV2 defines model for ExpressionPayloadV2.
+type ExpressionPayloadV2 struct {
+	ElseBranch *ExpressionElseBranchPayloadV2 `json:"else_branch,omitempty"`
+
+	// Label The human readable label of the expression
+	Label      string                         `json:"label"`
+	Operations []ExpressionOperationPayloadV2 `json:"operations"`
+
+	// Reference A short ID that can be used to reference the expression
+	Reference string `json:"reference"`
+
+	// RootReference The root reference for this expression (i.e. where the expression starts)
+	RootReference string `json:"root_reference"`
+}
+
+// ExpressionV2 defines model for ExpressionV2.
+type ExpressionV2 struct {
+	ElseBranch *ExpressionElseBranchV2 `json:"else_branch,omitempty"`
+
+	// Label The human readable label of the expression
+	Label      string                  `json:"label"`
+	Operations []ExpressionOperationV2 `json:"operations"`
+
+	// Reference A short ID that can be used to reference the expression
+	Reference string        `json:"reference"`
+	Returns   ReturnsMetaV2 `json:"returns"`
+
+	// RootReference The root reference for this expression (i.e. where the expression starts)
+	RootReference string `json:"root_reference"`
 }
 
 // ExternalIssueReferenceV1 defines model for ExternalIssueReferenceV1.
@@ -2122,6 +2548,50 @@ type ListTypesResponseBody struct {
 	CatalogTypes []CatalogTypeV2 `json:"catalog_types"`
 }
 
+// ListWorkflowsResponseBody defines model for ListWorkflowsResponseBody.
+type ListWorkflowsResponseBody struct {
+	Workflows []WorkflowSlim `json:"workflows"`
+}
+
+// ManagedResourceV2 defines model for ManagedResourceV2.
+type ManagedResourceV2 struct {
+	// Annotations Annotations that track metadata about this resource
+	Annotations map[string]string `json:"annotations"`
+
+	// ManagedBy How is this resource managed
+	ManagedBy ManagedResourceV2ManagedBy `json:"managed_by"`
+
+	// ResourceId The ID of the related resource
+	ResourceId string `json:"resource_id"`
+
+	// ResourceType The type of the related resource
+	ResourceType ManagedResourceV2ResourceType `json:"resource_type"`
+
+	// SourceUrl The url of the external repository where this resource is managed (if there is one)
+	SourceUrl *string `json:"source_url,omitempty"`
+}
+
+// ManagedResourceV2ManagedBy How is this resource managed
+type ManagedResourceV2ManagedBy string
+
+// ManagedResourceV2ResourceType The type of the related resource
+type ManagedResourceV2ResourceType string
+
+// ManagementMetaV2 defines model for ManagementMetaV2.
+type ManagementMetaV2 struct {
+	// Annotations Annotations that track metadata about this resource
+	Annotations map[string]string `json:"annotations"`
+
+	// ManagedBy How is this resource managed
+	ManagedBy ManagementMetaV2ManagedBy `json:"managed_by"`
+
+	// SourceUrl The url of the external repository where this resource is managed (if there is one)
+	SourceUrl *string `json:"source_url,omitempty"`
+}
+
+// ManagementMetaV2ManagedBy How is this resource managed
+type ManagementMetaV2ManagedBy string
+
 // PaginationMetaResult defines model for PaginationMetaResult.
 type PaginationMetaResult struct {
 	// After If provided, pass this as the 'after' param to load the next page
@@ -2162,6 +2632,15 @@ type RBACRoleV2 struct {
 type RetrospectiveIncidentOptionsV2 struct {
 	// SlackChannelId If the incident mode is 'retrospective', pass the ID of a Slack channel in your workspace to attach the incident to an existing channel, rather than creating a new one
 	SlackChannelId *string `json:"slack_channel_id,omitempty"`
+}
+
+// ReturnsMetaV2 defines model for ReturnsMetaV2.
+type ReturnsMetaV2 struct {
+	// Array Whether the return value should be single or multi-value
+	Array bool `json:"array"`
+
+	// Type Expected return type of this expression (what to try casting the result to)
+	Type string `json:"type"`
 }
 
 // ScheduleConfigCreatePayloadV2 defines model for ScheduleConfigCreatePayloadV2.
@@ -2346,7 +2825,7 @@ type ScheduleUpdatePayloadV2 struct {
 
 // ScheduleV2 defines model for ScheduleV2.
 type ScheduleV2 struct {
-	// Annotations Annotations that can track metadata about this schedule
+	// Annotations Annotations that track metadata about this resource
 	Annotations map[string]string `json:"annotations"`
 	Config      *ScheduleConfigV2 `json:"config,omitempty"`
 	CreatedAt   time.Time         `json:"created_at"`
@@ -2470,6 +2949,63 @@ type ShowResponseBody8 struct {
 // ShowResponseBody9 defines model for ShowResponseBody9.
 type ShowResponseBody9 struct {
 	IncidentStatus IncidentStatusV1 `json:"incident_status"`
+}
+
+// ShowWorkflowResponseBody defines model for ShowWorkflowResponseBody.
+type ShowWorkflowResponseBody struct {
+	ManagementMeta ManagementMetaV2 `json:"management_meta"`
+	Workflow       Workflow         `json:"workflow"`
+}
+
+// StepConfig defines model for StepConfig.
+type StepConfig struct {
+	// ForEach Reference to the loop variable to run this step over
+	ForEach *string `json:"for_each,omitempty"`
+
+	// Id Unique ID of this step in a workflow
+	Id string `json:"id"`
+
+	// Label Human readable identifier for this step
+	Label string `json:"label"`
+
+	// Name Unique name of the step in the engine
+	Name string `json:"name"`
+
+	// ParamBindings Bindings for the step parameters
+	ParamBindings []EngineParamBindingV2 `json:"param_bindings"`
+}
+
+// StepConfigPayload defines model for StepConfigPayload.
+type StepConfigPayload struct {
+	// ForEach Reference to an expression that returns resources to run this step over
+	ForEach *string `json:"for_each,omitempty"`
+
+	// Id Unique ID of this step in a workflow. This must be a valid ULID.
+	Id string `json:"id"`
+
+	// Name Unique name of the step in the engine
+	Name string `json:"name"`
+
+	// ParamBindings List of parameter bindings
+	ParamBindings []EngineParamBindingPayloadV2 `json:"param_bindings"`
+}
+
+// StepConfigSlim defines model for StepConfigSlim.
+type StepConfigSlim struct {
+	// Label Human readable identifier for this step
+	Label string `json:"label"`
+
+	// Name Unique name of the step in the engine
+	Name string `json:"name"`
+}
+
+// TriggerSlim defines model for TriggerSlim.
+type TriggerSlim struct {
+	// Label Human readable identifier for this trigger
+	Label string `json:"label"`
+
+	// Name Unique name of the trigger
+	Name string `json:"name"`
 }
 
 // UpdateEntryRequestBody defines model for UpdateEntryRequestBody.
@@ -2624,6 +3160,55 @@ type UpdateTypeSchemaRequestBody struct {
 	Version    int64                           `json:"version"`
 }
 
+// UpdateWorkflowRequestBody defines model for UpdateWorkflowRequestBody.
+type UpdateWorkflowRequestBody struct {
+	// Annotations Annotations that track metadata about this resource
+	Annotations *map[string]string `json:"annotations,omitempty"`
+
+	// ConditionGroups List of conditions to apply to the workflow
+	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
+
+	// ContinueOnStepError Whether to continue executing the workflow if a step fails
+	ContinueOnStepError bool           `json:"continue_on_step_error"`
+	Delay               *WorkflowDelay `json:"delay,omitempty"`
+
+	// Expressions The expressions used in the workflow
+	Expressions []ExpressionPayloadV2 `json:"expressions"`
+
+	// Folder Folder to display the workflow in
+	Folder *string `json:"folder,omitempty"`
+
+	// IncludePrivateIncidents Whether to include private incidents
+	IncludePrivateIncidents bool `json:"include_private_incidents"`
+
+	// Name The human-readable name of the workflow
+	Name string `json:"name"`
+
+	// OnceFor Once For strategy to apply to this workflow
+	OnceFor []string `json:"once_for"`
+
+	// RunsOnIncidentModes Which modes of incident this should run on (defaults to just standard incidents)
+	RunsOnIncidentModes []UpdateWorkflowRequestBodyRunsOnIncidentModes `json:"runs_on_incident_modes"`
+
+	// RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
+	RunsOnIncidents UpdateWorkflowRequestBodyRunsOnIncidents `json:"runs_on_incidents"`
+
+	// State The state of the workflow (e.g. is it draft, or disabled)
+	State *UpdateWorkflowRequestBodyState `json:"state,omitempty"`
+
+	// Steps List of step to execute as part of the workflow
+	Steps []StepConfigPayload `json:"steps"`
+}
+
+// UpdateWorkflowRequestBodyRunsOnIncidentModes defines model for UpdateWorkflowRequestBody.RunsOnIncidentModes.
+type UpdateWorkflowRequestBodyRunsOnIncidentModes string
+
+// UpdateWorkflowRequestBodyRunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
+type UpdateWorkflowRequestBodyRunsOnIncidents string
+
+// UpdateWorkflowRequestBodyState The state of the workflow (e.g. is it draft, or disabled)
+type UpdateWorkflowRequestBodyState string
+
 // UserReferencePayloadV1 defines model for UserReferencePayloadV1.
 type UserReferencePayloadV1 struct {
 	// Email The user's email address, matching the email on their Slack account
@@ -2680,6 +3265,127 @@ type UserWithRolesV2 struct {
 
 // UserWithRolesV2Role DEPRECATED: Role of the user as of March 9th 2023, this value is no longer updated.
 type UserWithRolesV2Role string
+
+// Workflow defines model for Workflow.
+type Workflow struct {
+	// ConditionGroups Conditions that apply to the workflow trigger
+	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+
+	// ContinueOnStepError Whether to continue executing the workflow if a step fails
+	ContinueOnStepError bool           `json:"continue_on_step_error"`
+	Delay               *WorkflowDelay `json:"delay,omitempty"`
+
+	// Expressions Expressions that make variables available in the scope
+	Expressions []ExpressionV2 `json:"expressions"`
+
+	// Folder Folder to display the workflow in
+	Folder *string `json:"folder,omitempty"`
+
+	// Id Unique identifier for the workflow
+	Id string `json:"id"`
+
+	// IncludePrivateIncidents Whether to include private incidents
+	IncludePrivateIncidents bool `json:"include_private_incidents"`
+
+	// Name The human-readable name of the workflow
+	Name string `json:"name"`
+
+	// OnceFor This workflow will run 'once for' a list of references
+	OnceFor []EngineReferenceV2 `json:"once_for"`
+
+	// RunsFrom The time from which this workflow will run on incidents
+	RunsFrom *time.Time `json:"runs_from,omitempty"`
+
+	// RunsOnIncidentModes Which modes of incident this should run on (defaults to just standard incidents)
+	RunsOnIncidentModes []WorkflowRunsOnIncidentModes `json:"runs_on_incident_modes"`
+
+	// RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
+	RunsOnIncidents WorkflowRunsOnIncidents `json:"runs_on_incidents"`
+
+	// State The state of the workflow (e.g. is it draft, or disabled)
+	State WorkflowState `json:"state"`
+
+	// Steps Steps that are executed as part of the workflow
+	Steps   []StepConfig `json:"steps"`
+	Trigger TriggerSlim  `json:"trigger"`
+
+	// Version Revision of the workflow, uniquely identifying its version
+	Version int64 `json:"version"`
+}
+
+// WorkflowRunsOnIncidentModes defines model for Workflow.RunsOnIncidentModes.
+type WorkflowRunsOnIncidentModes string
+
+// WorkflowRunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
+type WorkflowRunsOnIncidents string
+
+// WorkflowState The state of the workflow (e.g. is it draft, or disabled)
+type WorkflowState string
+
+// WorkflowDelay defines model for WorkflowDelay.
+type WorkflowDelay struct {
+	// ConditionsApplyOverDelay If this workflow is delayed, whether the conditions should be rechecked between trigger firing and execution
+	ConditionsApplyOverDelay bool `json:"conditions_apply_over_delay"`
+
+	// ForSeconds Delay in seconds between trigger firing and running the workflow
+	ForSeconds int64 `json:"for_seconds"`
+}
+
+// WorkflowSlim defines model for WorkflowSlim.
+type WorkflowSlim struct {
+	// ConditionGroups Conditions that apply to the workflow trigger
+	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+
+	// ContinueOnStepError Whether to continue executing the workflow if a step fails
+	ContinueOnStepError bool           `json:"continue_on_step_error"`
+	Delay               *WorkflowDelay `json:"delay,omitempty"`
+
+	// Expressions Expressions that make variables available in the scope
+	Expressions []ExpressionV2 `json:"expressions"`
+
+	// Folder Folder to display the workflow in
+	Folder *string `json:"folder,omitempty"`
+
+	// Id Unique identifier for the workflow
+	Id string `json:"id"`
+
+	// IncludePrivateIncidents Whether to include private incidents
+	IncludePrivateIncidents bool `json:"include_private_incidents"`
+
+	// Name The human-readable name of the workflow
+	Name string `json:"name"`
+
+	// OnceFor This workflow will run 'once for' a list of references
+	OnceFor []EngineReferenceV2 `json:"once_for"`
+
+	// RunsFrom The time from which this workflow will run on incidents
+	RunsFrom *time.Time `json:"runs_from,omitempty"`
+
+	// RunsOnIncidentModes Which modes of incident this should run on (defaults to just standard incidents)
+	RunsOnIncidentModes []WorkflowSlimRunsOnIncidentModes `json:"runs_on_incident_modes"`
+
+	// RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
+	RunsOnIncidents WorkflowSlimRunsOnIncidents `json:"runs_on_incidents"`
+
+	// State The state of the workflow (e.g. is it draft, or disabled)
+	State WorkflowSlimState `json:"state"`
+
+	// Steps Steps that are executed as part of the workflow
+	Steps   []StepConfigSlim `json:"steps"`
+	Trigger TriggerSlim      `json:"trigger"`
+
+	// Version Revision of the workflow, uniquely identifying its version
+	Version int64 `json:"version"`
+}
+
+// WorkflowSlimRunsOnIncidentModes defines model for WorkflowSlim.RunsOnIncidentModes.
+type WorkflowSlimRunsOnIncidentModes string
+
+// WorkflowSlimRunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
+type WorkflowSlimRunsOnIncidents string
+
+// WorkflowSlimState The state of the workflow (e.g. is it draft, or disabled)
+type WorkflowSlimState string
 
 // ActionsV1ListParams defines parameters for ActionsV1List.
 type ActionsV1ListParams struct {
@@ -2933,11 +3639,20 @@ type IncidentsV2CreateJSONRequestBody = CreateRequestBody10
 // IncidentsV2EditJSONRequestBody defines body for IncidentsV2Edit for application/json ContentType.
 type IncidentsV2EditJSONRequestBody = EditRequestBody
 
+// ManagedResourcesV2CreateManagedResourceJSONRequestBody defines body for ManagedResourcesV2CreateManagedResource for application/json ContentType.
+type ManagedResourcesV2CreateManagedResourceJSONRequestBody = CreateManagedResourceRequestBody
+
 // SchedulesV2CreateJSONRequestBody defines body for SchedulesV2Create for application/json ContentType.
 type SchedulesV2CreateJSONRequestBody = CreateRequestBody11
 
 // SchedulesV2UpdateJSONRequestBody defines body for SchedulesV2Update for application/json ContentType.
 type SchedulesV2UpdateJSONRequestBody = UpdateRequestBody7
+
+// WorkflowsV2CreateWorkflowJSONRequestBody defines body for WorkflowsV2CreateWorkflow for application/json ContentType.
+type WorkflowsV2CreateWorkflowJSONRequestBody = CreateWorkflowRequestBody
+
+// WorkflowsV2UpdateWorkflowJSONRequestBody defines body for WorkflowsV2UpdateWorkflow for application/json ContentType.
+type WorkflowsV2UpdateWorkflowJSONRequestBody = UpdateWorkflowRequestBody
 
 // RequestEditorFn  is the function signature for the RequestEditor callback function
 type RequestEditorFn func(ctx context.Context, req *http.Request) error
@@ -3286,6 +4001,11 @@ type ClientInterface interface {
 
 	IncidentsV2Edit(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ManagedResourcesV2CreateManagedResource request with any body
+	ManagedResourcesV2CreateManagedResourceWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	ManagedResourcesV2CreateManagedResource(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// SchedulesV2ListScheduleEntries request
 	SchedulesV2ListScheduleEntries(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -3313,6 +4033,25 @@ type ClientInterface interface {
 
 	// UsersV2Show request
 	UsersV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// WorkflowsV2ListWorkflows request
+	WorkflowsV2ListWorkflows(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// WorkflowsV2CreateWorkflow request with any body
+	WorkflowsV2CreateWorkflowWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	WorkflowsV2CreateWorkflow(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// WorkflowsV2DestroyWorkflow request
+	WorkflowsV2DestroyWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// WorkflowsV2ShowWorkflow request
+	WorkflowsV2ShowWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// WorkflowsV2UpdateWorkflow request with any body
+	WorkflowsV2UpdateWorkflowWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	WorkflowsV2UpdateWorkflow(ctx context.Context, id string, body WorkflowsV2UpdateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) ActionsV1List(ctx context.Context, params *ActionsV1ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -4515,6 +5254,30 @@ func (c *Client) IncidentsV2Edit(ctx context.Context, id string, body IncidentsV
 	return c.Client.Do(req)
 }
 
+func (c *Client) ManagedResourcesV2CreateManagedResourceWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewManagedResourcesV2CreateManagedResourceRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ManagedResourcesV2CreateManagedResource(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewManagedResourcesV2CreateManagedResourceRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) SchedulesV2ListScheduleEntries(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSchedulesV2ListScheduleEntriesRequest(c.Server, params)
 	if err != nil {
@@ -4625,6 +5388,90 @@ func (c *Client) UsersV2List(ctx context.Context, params *UsersV2ListParams, req
 
 func (c *Client) UsersV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUsersV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) WorkflowsV2ListWorkflows(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowsV2ListWorkflowsRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) WorkflowsV2CreateWorkflowWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowsV2CreateWorkflowRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) WorkflowsV2CreateWorkflow(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowsV2CreateWorkflowRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) WorkflowsV2DestroyWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowsV2DestroyWorkflowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) WorkflowsV2ShowWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowsV2ShowWorkflowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) WorkflowsV2UpdateWorkflowWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowsV2UpdateWorkflowRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) WorkflowsV2UpdateWorkflow(ctx context.Context, id string, body WorkflowsV2UpdateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowsV2UpdateWorkflowRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -7781,6 +8628,46 @@ func NewIncidentsV2EditRequestWithBody(server string, id string, contentType str
 	return req, nil
 }
 
+// NewManagedResourcesV2CreateManagedResourceRequest calls the generic ManagedResourcesV2CreateManagedResource builder with application/json body
+func NewManagedResourcesV2CreateManagedResourceRequest(server string, body ManagedResourcesV2CreateManagedResourceJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewManagedResourcesV2CreateManagedResourceRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewManagedResourcesV2CreateManagedResourceRequestWithBody generates requests for ManagedResourcesV2CreateManagedResource with any type of body
+func NewManagedResourcesV2CreateManagedResourceRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/managed_resources")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewSchedulesV2ListScheduleEntriesRequest generates requests for SchedulesV2ListScheduleEntries
 func NewSchedulesV2ListScheduleEntriesRequest(server string, params *SchedulesV2ListScheduleEntriesParams) (*http.Request, error) {
 	var err error
@@ -8203,6 +9090,188 @@ func NewUsersV2ShowRequest(server string, id string) (*http.Request, error) {
 	return req, nil
 }
 
+// NewWorkflowsV2ListWorkflowsRequest generates requests for WorkflowsV2ListWorkflows
+func NewWorkflowsV2ListWorkflowsRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/workflows")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewWorkflowsV2CreateWorkflowRequest calls the generic WorkflowsV2CreateWorkflow builder with application/json body
+func NewWorkflowsV2CreateWorkflowRequest(server string, body WorkflowsV2CreateWorkflowJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewWorkflowsV2CreateWorkflowRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewWorkflowsV2CreateWorkflowRequestWithBody generates requests for WorkflowsV2CreateWorkflow with any type of body
+func NewWorkflowsV2CreateWorkflowRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/workflows")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewWorkflowsV2DestroyWorkflowRequest generates requests for WorkflowsV2DestroyWorkflow
+func NewWorkflowsV2DestroyWorkflowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/workflows/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewWorkflowsV2ShowWorkflowRequest generates requests for WorkflowsV2ShowWorkflow
+func NewWorkflowsV2ShowWorkflowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/workflows/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewWorkflowsV2UpdateWorkflowRequest calls the generic WorkflowsV2UpdateWorkflow builder with application/json body
+func NewWorkflowsV2UpdateWorkflowRequest(server string, id string, body WorkflowsV2UpdateWorkflowJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewWorkflowsV2UpdateWorkflowRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewWorkflowsV2UpdateWorkflowRequestWithBody generates requests for WorkflowsV2UpdateWorkflow with any type of body
+func NewWorkflowsV2UpdateWorkflowRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/workflows/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 func (c *Client) applyEditors(ctx context.Context, req *http.Request, additionalEditors []RequestEditorFn) error {
 	for _, r := range c.RequestEditors {
 		if err := r(ctx, req); err != nil {
@@ -8520,6 +9589,11 @@ type ClientWithResponsesInterface interface {
 
 	IncidentsV2EditWithResponse(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error)
 
+	// ManagedResourcesV2CreateManagedResource request with any body
+	ManagedResourcesV2CreateManagedResourceWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ManagedResourcesV2CreateManagedResourceResponse, error)
+
+	ManagedResourcesV2CreateManagedResourceWithResponse(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*ManagedResourcesV2CreateManagedResourceResponse, error)
+
 	// SchedulesV2ListScheduleEntries request
 	SchedulesV2ListScheduleEntriesWithResponse(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListScheduleEntriesResponse, error)
 
@@ -8547,6 +9621,25 @@ type ClientWithResponsesInterface interface {
 
 	// UsersV2Show request
 	UsersV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*UsersV2ShowResponse, error)
+
+	// WorkflowsV2ListWorkflows request
+	WorkflowsV2ListWorkflowsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowsResponse, error)
+
+	// WorkflowsV2CreateWorkflow request with any body
+	WorkflowsV2CreateWorkflowWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error)
+
+	WorkflowsV2CreateWorkflowWithResponse(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error)
+
+	// WorkflowsV2DestroyWorkflow request
+	WorkflowsV2DestroyWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2DestroyWorkflowResponse, error)
+
+	// WorkflowsV2ShowWorkflow request
+	WorkflowsV2ShowWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowResponse, error)
+
+	// WorkflowsV2UpdateWorkflow request with any body
+	WorkflowsV2UpdateWorkflowWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowResponse, error)
+
+	WorkflowsV2UpdateWorkflowWithResponse(ctx context.Context, id string, body WorkflowsV2UpdateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowResponse, error)
 }
 
 type ActionsV1ListResponse struct {
@@ -9469,7 +10562,7 @@ func (r ActionsV2ShowResponse) StatusCode() int {
 type AlertEventsV2CreateHTTPResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON202      *CreateHTTPResponseBody
+	JSON202      *AlertResult
 }
 
 // Status returns HTTPResponse.Status
@@ -10166,6 +11259,28 @@ func (r IncidentsV2EditResponse) StatusCode() int {
 	return 0
 }
 
+type ManagedResourcesV2CreateManagedResourceResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CreateManagedResourceResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r ManagedResourcesV2CreateManagedResourceResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ManagedResourcesV2CreateManagedResourceResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type SchedulesV2ListScheduleEntriesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -10335,6 +11450,115 @@ func (r UsersV2ShowResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r UsersV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type WorkflowsV2ListWorkflowsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ListWorkflowsResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r WorkflowsV2ListWorkflowsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r WorkflowsV2ListWorkflowsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type WorkflowsV2CreateWorkflowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *ShowWorkflowResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r WorkflowsV2CreateWorkflowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r WorkflowsV2CreateWorkflowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type WorkflowsV2DestroyWorkflowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r WorkflowsV2DestroyWorkflowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r WorkflowsV2DestroyWorkflowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type WorkflowsV2ShowWorkflowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ShowWorkflowResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r WorkflowsV2ShowWorkflowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r WorkflowsV2ShowWorkflowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type WorkflowsV2UpdateWorkflowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ShowWorkflowResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r WorkflowsV2UpdateWorkflowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r WorkflowsV2UpdateWorkflowResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -11215,6 +12439,23 @@ func (c *ClientWithResponses) IncidentsV2EditWithResponse(ctx context.Context, i
 	return ParseIncidentsV2EditResponse(rsp)
 }
 
+// ManagedResourcesV2CreateManagedResourceWithBodyWithResponse request with arbitrary body returning *ManagedResourcesV2CreateManagedResourceResponse
+func (c *ClientWithResponses) ManagedResourcesV2CreateManagedResourceWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ManagedResourcesV2CreateManagedResourceResponse, error) {
+	rsp, err := c.ManagedResourcesV2CreateManagedResourceWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseManagedResourcesV2CreateManagedResourceResponse(rsp)
+}
+
+func (c *ClientWithResponses) ManagedResourcesV2CreateManagedResourceWithResponse(ctx context.Context, body ManagedResourcesV2CreateManagedResourceJSONRequestBody, reqEditors ...RequestEditorFn) (*ManagedResourcesV2CreateManagedResourceResponse, error) {
+	rsp, err := c.ManagedResourcesV2CreateManagedResource(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseManagedResourcesV2CreateManagedResourceResponse(rsp)
+}
+
 // SchedulesV2ListScheduleEntriesWithResponse request returning *SchedulesV2ListScheduleEntriesResponse
 func (c *ClientWithResponses) SchedulesV2ListScheduleEntriesWithResponse(ctx context.Context, params *SchedulesV2ListScheduleEntriesParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListScheduleEntriesResponse, error) {
 	rsp, err := c.SchedulesV2ListScheduleEntries(ctx, params, reqEditors...)
@@ -11301,6 +12542,67 @@ func (c *ClientWithResponses) UsersV2ShowWithResponse(ctx context.Context, id st
 		return nil, err
 	}
 	return ParseUsersV2ShowResponse(rsp)
+}
+
+// WorkflowsV2ListWorkflowsWithResponse request returning *WorkflowsV2ListWorkflowsResponse
+func (c *ClientWithResponses) WorkflowsV2ListWorkflowsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowsResponse, error) {
+	rsp, err := c.WorkflowsV2ListWorkflows(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseWorkflowsV2ListWorkflowsResponse(rsp)
+}
+
+// WorkflowsV2CreateWorkflowWithBodyWithResponse request with arbitrary body returning *WorkflowsV2CreateWorkflowResponse
+func (c *ClientWithResponses) WorkflowsV2CreateWorkflowWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error) {
+	rsp, err := c.WorkflowsV2CreateWorkflowWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseWorkflowsV2CreateWorkflowResponse(rsp)
+}
+
+func (c *ClientWithResponses) WorkflowsV2CreateWorkflowWithResponse(ctx context.Context, body WorkflowsV2CreateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2CreateWorkflowResponse, error) {
+	rsp, err := c.WorkflowsV2CreateWorkflow(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseWorkflowsV2CreateWorkflowResponse(rsp)
+}
+
+// WorkflowsV2DestroyWorkflowWithResponse request returning *WorkflowsV2DestroyWorkflowResponse
+func (c *ClientWithResponses) WorkflowsV2DestroyWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2DestroyWorkflowResponse, error) {
+	rsp, err := c.WorkflowsV2DestroyWorkflow(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseWorkflowsV2DestroyWorkflowResponse(rsp)
+}
+
+// WorkflowsV2ShowWorkflowWithResponse request returning *WorkflowsV2ShowWorkflowResponse
+func (c *ClientWithResponses) WorkflowsV2ShowWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowResponse, error) {
+	rsp, err := c.WorkflowsV2ShowWorkflow(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseWorkflowsV2ShowWorkflowResponse(rsp)
+}
+
+// WorkflowsV2UpdateWorkflowWithBodyWithResponse request with arbitrary body returning *WorkflowsV2UpdateWorkflowResponse
+func (c *ClientWithResponses) WorkflowsV2UpdateWorkflowWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowResponse, error) {
+	rsp, err := c.WorkflowsV2UpdateWorkflowWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseWorkflowsV2UpdateWorkflowResponse(rsp)
+}
+
+func (c *ClientWithResponses) WorkflowsV2UpdateWorkflowWithResponse(ctx context.Context, id string, body WorkflowsV2UpdateWorkflowJSONRequestBody, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowResponse, error) {
+	rsp, err := c.WorkflowsV2UpdateWorkflow(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseWorkflowsV2UpdateWorkflowResponse(rsp)
 }
 
 // ParseActionsV1ListResponse parses an HTTP response from a ActionsV1ListWithResponse call
@@ -12340,7 +13642,7 @@ func ParseAlertEventsV2CreateHTTPResponse(rsp *http.Response) (*AlertEventsV2Cre
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
-		var dest CreateHTTPResponseBody
+		var dest AlertResult
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -13117,6 +14419,32 @@ func ParseIncidentsV2EditResponse(rsp *http.Response) (*IncidentsV2EditResponse,
 	return response, nil
 }
 
+// ParseManagedResourcesV2CreateManagedResourceResponse parses an HTTP response from a ManagedResourcesV2CreateManagedResourceWithResponse call
+func ParseManagedResourcesV2CreateManagedResourceResponse(rsp *http.Response) (*ManagedResourcesV2CreateManagedResourceResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ManagedResourcesV2CreateManagedResourceResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CreateManagedResourceResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseSchedulesV2ListScheduleEntriesResponse parses an HTTP response from a SchedulesV2ListScheduleEntriesWithResponse call
 func ParseSchedulesV2ListScheduleEntriesResponse(rsp *http.Response) (*SchedulesV2ListScheduleEntriesResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -13305,6 +14633,126 @@ func ParseUsersV2ShowResponse(rsp *http.Response) (*UsersV2ShowResponse, error) 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ShowResponseBody16
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseWorkflowsV2ListWorkflowsResponse parses an HTTP response from a WorkflowsV2ListWorkflowsWithResponse call
+func ParseWorkflowsV2ListWorkflowsResponse(rsp *http.Response) (*WorkflowsV2ListWorkflowsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &WorkflowsV2ListWorkflowsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListWorkflowsResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseWorkflowsV2CreateWorkflowResponse parses an HTTP response from a WorkflowsV2CreateWorkflowWithResponse call
+func ParseWorkflowsV2CreateWorkflowResponse(rsp *http.Response) (*WorkflowsV2CreateWorkflowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &WorkflowsV2CreateWorkflowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest ShowWorkflowResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseWorkflowsV2DestroyWorkflowResponse parses an HTTP response from a WorkflowsV2DestroyWorkflowWithResponse call
+func ParseWorkflowsV2DestroyWorkflowResponse(rsp *http.Response) (*WorkflowsV2DestroyWorkflowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &WorkflowsV2DestroyWorkflowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseWorkflowsV2ShowWorkflowResponse parses an HTTP response from a WorkflowsV2ShowWorkflowWithResponse call
+func ParseWorkflowsV2ShowWorkflowResponse(rsp *http.Response) (*WorkflowsV2ShowWorkflowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &WorkflowsV2ShowWorkflowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ShowWorkflowResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseWorkflowsV2UpdateWorkflowResponse parses an HTTP response from a WorkflowsV2UpdateWorkflowWithResponse call
+func ParseWorkflowsV2UpdateWorkflowResponse(rsp *http.Response) (*WorkflowsV2UpdateWorkflowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &WorkflowsV2UpdateWorkflowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ShowWorkflowResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
