@@ -79,7 +79,7 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 			// (Clean-up)
 		},
 	})
-	// Complex case - looping steps, templated text, multiple expressions, varied once-for
+	// Complex case – looping steps, templated text, multiple expressions, varied once-for
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -89,7 +89,7 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 				Config: testAccIncidentWorkflowComplexResourceConfig(nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_workflow.complex_example", "name", "A Complicated Workflow"),
+						"incident_workflow.complex_example", "name", "Page CSMs of Tier 1 Affected Customers"),
 				),
 			},
 			// Import
@@ -176,218 +176,219 @@ resource "incident_workflow" "simple_example" {
 }
 `))
 
+// This workflow finds all the values of the `affected customers` field with tier 1, and pages their
+// CSM. It then sends a message to the incident channel explaining why the CSM has been paged, and threads the list of
+// affected customers.
 var incidentComplexWorkflowTemplate = template.Must(template.New("incident_workflow").Funcs(sprig.TxtFuncMap()).Parse(`
 resource "incident_workflow" "complex_example" {
-	name    = "A Complicated Workflow"
-	trigger = "slack.message_reaction_added"
-	expressions = [
-	  {
-		id             = "01HXW1GSKTZSM2Y2RXSY1B51V4"
-		label          = "Message sender"
-		reference      = "bbb16c82"
-		root_reference = "slack_message"
-		returns = {
-		  type  = "User"
-		  array = false
-		}
-		else_branch = {
-		  result = {
-			value = {
-			  # "Not Benji"
-			  literal = "01HM6QTYKB156EVB6D7S81DP6A"
-			}
-		  }
-		}
-		operations = [
-		  {
-			operation_type = "navigate"
-			returns = {
-			  type  = "User"
-			  array = false
-			}
-			navigate = {
-			  reference       = "sender"
-			  reference_label = "Sender"
-			}
-		  },
-		]
-	  },
-	  {
-		id             = "01HXW1GSKTZSM2Y2RXSZNFB0Z6"
-		label          = "Team members"
-		reference      = "965ccb60"
-		root_reference = "incident.role[\"01HM6HNBF08FSEZWW4CMA8HJ9E\"].catalog_attribute[\"01HWT283SV9BAEYF63PHAE0R2D\"]"
-		returns = {
-		  type  = "CatalogEntry[\"User\"]"
-		  array = true
-		}
-		else_branch = {
-		  result = {
-			array_value = [
-			  {
-				# "Not Benji"
-				literal = "01HM6QTYKB156EVB6D7S81DP6A"
-			  },
-			]
-		  }
-		}
-		operations = [
-		  {
-			operation_type = "navigate"
-			returns = {
-			  type  = "CatalogEntry[\"User\"]"
-			  array = true
-			}
-			navigate = {
-			  reference       = "catalog_attribute[\"01HSXG0GYNWP8MECBBKASYSYTS\"]"
-			  reference_label = "Members"
-			}
-		  },
-		]
-	  },
-	]
-	condition_groups = [
-	  {
-		conditions = [
-		  {
-			# "Incident → Status → Category"
-			subject   = "incident.status.category"
-			operation = "one_of"
-			param_bindings = [
-			  {
-				array_value = [
-				  {
-					# "Active"
-					literal = "active"
-				  },
-				]
-			  },
-			]
-		  },
-		  {
-			# "Message sender"
-			subject   = "expressions[\"bbb16c82\"]"
-			operation = "one_of"
-			param_bindings = [
-			  {
-				array_value = [
-				  {
-					# "Benjamin Sidi"
-					literal = "01HM6HNCS457WEV1GQC4JSDR0G"
-				  },
-				]
-			  },
-			]
-		  },
-		]
-	  },
-	]
-	steps = [
-	  {
-		# "Send message to a channel"
-		id       = "01HXS0K2769E020ZM5B2WR3Y4A"
-		name     = "slack.post_message"
-		for_each = "incident.active_participants"
-		param_bindings = [
-		  {
-			value = {
-			  # "Incident → Slack Channel"
-			  reference = "incident.slack_channel"
-			}
-		  },
-		  {
-			value = {
-			  # "Messaging Each Incident → Active Participant → Name...."
-			  literal = "{\"content\":[{\"content\":[{\"text\":\"Messaging \",\"type\":\"text\"},{\"attrs\":{\"label\":\"Each Incident → Active Participant → Name\",\"missing\":false,\"name\":\"loop_variable.name\"},\"type\":\"varSpec\"},{\"text\":\"....\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
-			}
-		  },
-		  {
-			value = {
-			  # "Emoji reaction"
-			  literal = "{\"content\":[{\"content\":[{\"attrs\":{\"label\":\"Emoji reaction\",\"missing\":false,\"name\":\"reaction\"},\"type\":\"varSpec\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
-			}
-		  },
-		]
-	  },
-	  {
-		# "Send direct message"
-		id       = "01HXS0K2769E020ZM5B5WGVKCM"
-		name     = "slack.send_message"
-		for_each = "incident.active_participants"
-		param_bindings = [
-		  {
-			array_value = [
-			  {
-				# "Incident → Active Participants"
-				reference = "loop_variable"
-			  },
-			]
-		  },
-		  {
-			value = {
-			  # "Suh Emoji reaction"
-			  literal = "{\"content\":[{\"content\":[{\"text\":\"Suh \",\"type\":\"text\"},{\"attrs\":{\"label\":\"Emoji reaction\",\"missing\":false,\"name\":\"reaction\"},\"type\":\"varSpec\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
-			}
-		  },
-		]
-	  },
-	  {
-		# "Pin message to timeline"
-		id   = "01HXS0K2769E020ZM5B6DR19S8"
-		name = "slack.pin_message"
-		param_bindings = [
-		  {
-			value = {
-			  # "Message"
-			  reference = "slack_message"
-			}
-		  },
-		  {
-			value = {
-			  # "Incident"
-			  reference = "incident"
-			}
-		  },
-		]
-	  },
-	  {
-		# "Invite user or group to the incident's channel"
-		id   = "01HXS0K2769E020ZM5B6NC83HH"
-		name = "slack.invite_user"
-		param_bindings = [
-		  {
-			value = {
-			  # "Incident"
-			  reference = "incident"
-			}
-		  },
-		  {
-			array_value = [
-			  {
-				# "Team members"
-				reference = "expressions[\"965ccb60\"]"
-			  },
-			]
-		  },
-		  {
-		  },
-		]
-	  },
-	]
-	once_for = [
-	  # "Message"
-	  "slack_message",
-	  # "Emoji reaction"
-	  "reaction",
-	]
-	include_private_incidents = false
-	continue_on_step_error    = false
-	runs_on_incidents         = "newly_created_and_active"
-	runs_on_incident_modes = [
-	  "standard",
-	]
-	state = "draft"
-  }
+  name    = "Page CSMs of Tier 1 Affected Customers"
+  trigger = "incident.updated"
+  expressions = [
+	# This expression finds all the CSMs of the affected customers
+    {
+      id             = "01HXXTX10FE2BPJR2DQAP4PJ3H"
+      label          = "CSMs of Tier 1 customers"
+      reference      = "f2d47f60"
+      root_reference = "incident.custom_field[\"01HXXTNJYBV9B37KTBBR8AM7ZX\"]"
+      returns = {
+        type  = "CatalogEntry[\"User\"]"
+        array = true
+      }
+      operations = [
+        {
+          operation_type = "filter"
+          returns = {
+            type  = "CatalogEntry[\"01HXXTH6QM3626M8Y5E3FV9DNP\"]"
+            array = true
+          }
+          filter = {
+            condition_groups = [
+              {
+                conditions = [
+                  {
+                    # "Incident → Affected Customers → Tier"
+                    subject   = "input.catalog_attribute[\"01HXXTH6RTH5JA69372JEHH13Y\"]"
+                    operation = "one_of"
+                    param_bindings = [
+                      {
+                        array_value = [
+                          {
+                            # "First tertile"
+                            literal = "01HSXFR18GEZKGSB15EF729VVF"
+                          },
+                        ]
+                      },
+                    ]
+                  },
+                ]
+              },
+            ]
+          }
+        },
+        {
+          operation_type = "navigate"
+          returns = {
+            type  = "CatalogEntry[\"User\"]"
+            array = true
+          }
+          navigate = {
+            reference       = "catalog_attribute[\"01HXXTH6RTH5JA69372MMAXTPP\"]"
+            reference_label = "CSM"
+          }
+        },
+      ]
+    },
+	# This expression finds all the affected customers, so we can thread the list to our message
+    {
+      id             = "01HXXTX10G798SJ373GWY9ZWNX"
+      label          = "Tier 1 affected customers"
+      reference      = "b1a797ec"
+      root_reference = "incident.custom_field[\"01HXXTNJYBV9B37KTBBR8AM7ZX\"]"
+      returns = {
+        type  = "CatalogEntry[\"01HXXTH6QM3626M8Y5E3FV9DNP\"]"
+        array = true
+      }
+      operations = [
+        {
+          operation_type = "filter"
+          returns = {
+            type  = "CatalogEntry[\"01HXXTH6QM3626M8Y5E3FV9DNP\"]"
+            array = true
+          }
+          filter = {
+            condition_groups = [
+              {
+                conditions = [
+                  {
+                    # "Incident → Affected Customers → Tier"
+                    subject   = "input.catalog_attribute[\"01HXXTH6RTH5JA69372JEHH13Y\"]"
+                    operation = "one_of"
+                    param_bindings = [
+                      {
+                        array_value = [
+                          {
+                            # "First tertile"
+                            literal = "01HSXFR18GEZKGSB15EF729VVF"
+                          },
+                        ]
+                      },
+                    ]
+                  },
+                ]
+              },
+            ]
+          }
+        },
+      ]
+    },
+  ]
+  # We only want to run this in major and critical incidents
+  condition_groups = [
+    {
+      conditions = [
+        {
+          # "Incident → Status → Category"
+          subject   = "incident.status.category"
+          operation = "one_of"
+          param_bindings = [
+            {
+              array_value = [
+                {
+                  # "Active"
+                  literal = "active"
+                },
+              ]
+            },
+          ]
+        },
+        {
+          # "Incident → Severity"
+          subject   = "incident.severity"
+          operation = "one_of"
+          param_bindings = [
+            {
+              array_value = [
+                {
+                  # "Critical"
+                  literal = "01HM6HNBF0FR92MVA2VQ8BGC6G"
+                },
+                {
+                  # "Major"
+                  literal = "01HM6HNBF0CYPVR5FEKGVCBMAY"
+                },
+              ]
+            },
+          ]
+        },
+      ]
+    },
+  ]
+  # We've got one loop with two steps: page the CSM, and write the message
+  steps = [
+    {
+      # "Escalate via incident.io"
+      id       = "01HXXTX0W5A896CXHZW20SJCV2"
+      name     = "escalate"
+      # This expression is the affected CSMs
+      for_each = "expressions[\"f2d47f60\"]"
+      param_bindings = [
+        {
+          value = {
+            # "Incident"
+            reference = "incident"
+          }
+        },
+        {
+        },
+        {
+          array_value = [
+            {
+              # "CSMs of Tier 1 customers"
+              reference = "loop_variable"
+            },
+          ]
+        },
+      ]
+    },
+    {
+      # "Send message to a channel"
+      id       = "01HXXTX0W5A896CXHZW43F08DJ"
+      name     = "slack.post_message"
+      for_each = "expressions[\"f2d47f60\"]"
+      param_bindings = [
+        {
+          value = {
+            # "Incident → Slack Channel"
+            reference = "incident.slack_channel"
+          }
+        },
+        {
+          value = {
+            literal = "{\"content\":[{\"content\":[{\"text\":\"Hi \",\"type\":\"text\"},{\"attrs\":{\"label\":\"Each CSMs of Tier 1 customer → Name\",\"missing\":false,\"name\":\"loop_variable.name\"},\"type\":\"varSpec\"},{\"text\":\", one or more of your tier 1 customers is affected by this incident. Affected customers are in :thread:.\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
+          }
+        },
+        {
+          value = {
+            literal = "{\"content\":[{\"content\":[{\"attrs\":{\"label\":\"Tier 1 affected customers\",\"missing\":false,\"name\":\"expressions[\\\"b1a797ec\\\"]\"},\"type\":\"varSpec\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
+          }
+        },
+      ]
+    },
+  ]
+  once_for = [
+    # "Incident"
+    "incident",
+    # "CSMs of Tier 1 customers"
+    "expressions[\"f2d47f60\"]",
+  ]
+  include_private_incidents = false
+  continue_on_step_error    = true
+  runs_on_incidents         = "newly_created_and_active"
+  runs_on_incident_modes = [
+    "standard",
+  ]
+  state = "draft"
+}
 `))
 
 func incidentWorkflowDefault() workflowTemplateOverrides {
