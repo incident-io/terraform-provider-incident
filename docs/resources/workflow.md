@@ -91,7 +91,6 @@ Optional:
 
 Required:
 
-- `id` (String) The ID of the expression
 - `label` (String) The human readable label of the expression
 - `operations` (Attributes List) The operations to execute in sequence for this expression (see [below for nested schema](#nestedatt--expressions--operations))
 - `reference` (String) A short ID that can be used to reference the expression
