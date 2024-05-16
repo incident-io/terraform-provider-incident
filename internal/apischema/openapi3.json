@@ -2517,7 +2517,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateHTTPResponseBody"
+                  "$ref": "#/components/schemas/AlertResult"
                 },
                 "example": {
                   "deduplication_key": "unique-key",
@@ -6417,7 +6417,6 @@
                               }
                             }
                           },
-                          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                           "label": "Team Slack channel",
                           "operations": [
                             {
@@ -6638,7 +6637,6 @@
                         }
                       }
                     },
-                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                     "label": "Team Slack channel",
                     "operations": [
                       {
@@ -6841,7 +6839,6 @@
                             }
                           }
                         },
-                        "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                         "label": "Team Slack channel",
                         "operations": [
                           {
@@ -7138,7 +7135,6 @@
                             }
                           }
                         },
-                        "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                         "label": "Team Slack channel",
                         "operations": [
                           {
@@ -7395,7 +7391,6 @@
                         }
                       }
                     },
-                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                     "label": "Team Slack channel",
                     "operations": [
                       {
@@ -7597,7 +7592,6 @@
                             }
                           }
                         },
-                        "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                         "label": "Team Slack channel",
                         "operations": [
                           {
@@ -8087,6 +8081,45 @@
         "required": [
           "after",
           "after_url"
+        ]
+      },
+      "AlertResult": {
+        "type": "object",
+        "properties": {
+          "deduplication_key": {
+            "type": "string",
+            "description": "The deduplication key that the event has been processed with",
+            "example": "unique-key",
+            "enum": [
+              "unique-key"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "description": "Human readable message giving detail about the event",
+            "example": "Event accepted for processing",
+            "enum": [
+              "Event accepted for processing"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the event",
+            "example": "success",
+            "enum": [
+              "success"
+            ]
+          }
+        },
+        "example": {
+          "deduplication_key": "unique-key",
+          "message": "Event accepted for processing",
+          "status": "success"
+        },
+        "required": [
+          "status",
+          "message",
+          "deduplication_key"
         ]
       },
       "AllResponseBody": {
@@ -10286,45 +10319,6 @@
           "status"
         ]
       },
-      "CreateHTTPResponseBody": {
-        "type": "object",
-        "properties": {
-          "deduplication_key": {
-            "type": "string",
-            "description": "The deduplication key that the event has been processed with",
-            "example": "unique-key",
-            "enum": [
-              "unique-key"
-            ]
-          },
-          "message": {
-            "type": "string",
-            "description": "Human readable message giving detail about the event",
-            "example": "Event accepted for processing",
-            "enum": [
-              "Event accepted for processing"
-            ]
-          },
-          "status": {
-            "type": "string",
-            "description": "Status of the event",
-            "example": "success",
-            "enum": [
-              "success"
-            ]
-          }
-        },
-        "example": {
-          "deduplication_key": "unique-key",
-          "message": "Event accepted for processing",
-          "status": "success"
-        },
-        "required": [
-          "status",
-          "message",
-          "deduplication_key"
-        ]
-      },
       "CreateManagedResourceRequestBody": {
         "type": "object",
         "properties": {
@@ -10341,12 +10335,12 @@
           },
           "resource_id": {
             "type": "string",
-            "description": "The ID of the resource that this relates to",
+            "description": "The ID of the related resource",
             "example": "abc123"
           },
           "resource_type": {
             "type": "string",
-            "description": "The type of resource that this is",
+            "description": "The type of the related resource",
             "example": "schedule",
             "enum": [
               "workflow",
@@ -11475,7 +11469,6 @@
                     }
                   }
                 },
-                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                 "label": "Team Slack channel",
                 "operations": [
                   {
@@ -11715,7 +11708,6 @@
                   }
                 }
               },
-              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
               "label": "Team Slack channel",
               "operations": [
                 {
@@ -13608,11 +13600,6 @@
           "else_branch": {
             "$ref": "#/components/schemas/ExpressionElseBranchPayloadV2"
           },
-          "id": {
-            "type": "string",
-            "description": "The ID of the expression. This must be a valid ULID.",
-            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
-          },
           "label": {
             "type": "string",
             "description": "The human readable label of the expression",
@@ -13737,7 +13724,6 @@
               }
             }
           },
-          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
           "label": "Team Slack channel",
           "operations": [
             {
@@ -13830,7 +13816,6 @@
           "root_reference": "incident.status"
         },
         "required": [
-          "id",
           "label",
           "reference",
           "root_reference",
@@ -13842,11 +13827,6 @@
         "properties": {
           "else_branch": {
             "$ref": "#/components/schemas/ExpressionElseBranchV2"
-          },
-          "id": {
-            "type": "string",
-            "description": "The ID of the expression",
-            "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
           },
           "label": {
             "type": "string",
@@ -14000,7 +13980,6 @@
               }
             }
           },
-          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
           "label": "Team Slack channel",
           "operations": [
             {
@@ -14120,12 +14099,12 @@
           "root_reference": "incident.status"
         },
         "required": [
-          "id",
           "label",
           "reference",
           "returns",
           "root_reference",
-          "operations"
+          "operations",
+          "id"
         ]
       },
       "ExternalIssueReferenceV1": {
@@ -18223,7 +18202,6 @@
                         }
                       }
                     },
-                    "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                     "label": "Team Slack channel",
                     "operations": [
                       {
@@ -18435,7 +18413,6 @@
                       }
                     }
                   },
-                  "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                   "label": "Team Slack channel",
                   "operations": [
                     {
@@ -18618,12 +18595,12 @@
           },
           "resource_id": {
             "type": "string",
-            "description": "The ID of the resource that this relates to",
+            "description": "The ID of the related resource",
             "example": "abc123"
           },
           "resource_type": {
             "type": "string",
-            "description": "The type of resource that this is",
+            "description": "The type of the related resource",
             "example": "schedule",
             "enum": [
               "workflow",
@@ -19417,7 +19394,7 @@
             ]
           },
           "public_incident.incident_created_v2": {
-            "$ref": "#/components/schemas/IncidentV2"
+            "$ref": "#/components/schemas/WebhookIncidentV2"
           }
         },
         "example": {
@@ -19551,6 +19528,9 @@
             "permalink": "https://app.incident.io/incidents/123",
             "postmortem_document_url": "https://docs.google.com/my_doc_id",
             "reference": "INC-123",
+            "related_incidents": [
+              "INC-237"
+            ],
             "severity": {
               "created_at": "2021-08-17T13:28:57.801578Z",
               "description": "Issues with **low impact**.",
@@ -19807,7 +19787,7 @@
             ]
           },
           "public_incident.incident_updated_v2": {
-            "$ref": "#/components/schemas/IncidentV2"
+            "$ref": "#/components/schemas/WebhookIncidentV2"
           }
         },
         "example": {
@@ -19941,6 +19921,9 @@
             "permalink": "https://app.incident.io/incidents/123",
             "postmortem_document_url": "https://docs.google.com/my_doc_id",
             "reference": "INC-123",
+            "related_incidents": [
+              "INC-237"
+            ],
             "severity": {
               "created_at": "2021-08-17T13:28:57.801578Z",
               "description": "Issues with **low impact**.",
@@ -22282,7 +22265,6 @@
                     }
                   }
                 },
-                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                 "label": "Team Slack channel",
                 "operations": [
                   {
@@ -23275,7 +23257,6 @@
                     }
                   }
                 },
-                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                 "label": "Team Slack channel",
                 "operations": [
                   {
@@ -23510,7 +23491,6 @@
                   }
                 }
               },
-              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
               "label": "Team Slack channel",
               "operations": [
                 {
@@ -24435,7 +24415,6 @@
                     }
                   }
                 },
-                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                 "label": "Team Slack channel",
                 "operations": [
                   {
@@ -24731,7 +24710,6 @@
                   }
                 }
               },
-              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
               "label": "Team Slack channel",
               "operations": [
                 {
@@ -25014,7 +24992,6 @@
                     }
                   }
                 },
-                "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
                 "label": "Team Slack channel",
                 "operations": [
                   {
@@ -25292,7 +25269,6 @@
                   }
                 }
               },
-              "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
               "label": "Team Slack channel",
               "operations": [
                 {
@@ -26131,6 +26107,9 @@
                     "permalink": "https://app.incident.io/incidents/123",
                     "postmortem_document_url": "https://docs.google.com/my_doc_id",
                     "reference": "INC-123",
+                    "related_incidents": [
+                      "INC-237"
+                    ],
                     "severity": {
                       "created_at": "2021-08-17T13:28:57.801578Z",
                       "description": "Issues with **low impact**.",
@@ -26497,6 +26476,9 @@
                     "permalink": "https://app.incident.io/incidents/123",
                     "postmortem_document_url": "https://docs.google.com/my_doc_id",
                     "reference": "INC-123",
+                    "related_incidents": [
+                      "INC-237"
+                    ],
                     "severity": {
                       "created_at": "2021-08-17T13:28:57.801578Z",
                       "description": "Issues with **low impact**.",

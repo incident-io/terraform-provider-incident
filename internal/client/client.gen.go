@@ -34,6 +34,21 @@ const (
 	ActionV2StatusOutstanding ActionV2Status = "outstanding"
 )
 
+// Defines values for AlertResultDeduplicationKey.
+const (
+	UniqueKey AlertResultDeduplicationKey = "unique-key"
+)
+
+// Defines values for AlertResultMessage.
+const (
+	EventAcceptedForProcessing AlertResultMessage = "Event accepted for processing"
+)
+
+// Defines values for AlertResultStatus.
+const (
+	Success AlertResultStatus = "success"
+)
+
 // Defines values for CatalogResourceV2Category.
 const (
 	CatalogResourceV2CategoryCustom    CatalogResourceV2Category = "custom"
@@ -104,21 +119,6 @@ const (
 const (
 	Firing   CreateHTTPRequestBodyStatus = "firing"
 	Resolved CreateHTTPRequestBodyStatus = "resolved"
-)
-
-// Defines values for CreateHTTPResponseBodyDeduplicationKey.
-const (
-	UniqueKey CreateHTTPResponseBodyDeduplicationKey = "unique-key"
-)
-
-// Defines values for CreateHTTPResponseBodyMessage.
-const (
-	EventAcceptedForProcessing CreateHTTPResponseBodyMessage = "Event accepted for processing"
-)
-
-// Defines values for CreateHTTPResponseBodyStatus.
-const (
-	Success CreateHTTPResponseBodyStatus = "success"
 )
 
 // Defines values for CreateManagedResourceRequestBodyResourceType.
@@ -786,6 +786,27 @@ type AfterPaginationMetaResultV2 struct {
 	AfterUrl string `json:"after_url"`
 }
 
+// AlertResult defines model for AlertResult.
+type AlertResult struct {
+	// DeduplicationKey The deduplication key that the event has been processed with
+	DeduplicationKey AlertResultDeduplicationKey `json:"deduplication_key"`
+
+	// Message Human readable message giving detail about the event
+	Message AlertResultMessage `json:"message"`
+
+	// Status Status of the event
+	Status AlertResultStatus `json:"status"`
+}
+
+// AlertResultDeduplicationKey The deduplication key that the event has been processed with
+type AlertResultDeduplicationKey string
+
+// AlertResultMessage Human readable message giving detail about the event
+type AlertResultMessage string
+
+// AlertResultStatus Status of the event
+type AlertResultStatus string
+
 // CatalogEntryEngineParamBindingV2 defines model for CatalogEntryEngineParamBindingV2.
 type CatalogEntryEngineParamBindingV2 struct {
 	// ArrayValue If array_value is set, this helps render the values
@@ -1116,40 +1137,19 @@ type CreateHTTPRequestBody struct {
 // CreateHTTPRequestBodyStatus Current status of this alert
 type CreateHTTPRequestBodyStatus string
 
-// CreateHTTPResponseBody defines model for CreateHTTPResponseBody.
-type CreateHTTPResponseBody struct {
-	// DeduplicationKey The deduplication key that the event has been processed with
-	DeduplicationKey CreateHTTPResponseBodyDeduplicationKey `json:"deduplication_key"`
-
-	// Message Human readable message giving detail about the event
-	Message CreateHTTPResponseBodyMessage `json:"message"`
-
-	// Status Status of the event
-	Status CreateHTTPResponseBodyStatus `json:"status"`
-}
-
-// CreateHTTPResponseBodyDeduplicationKey The deduplication key that the event has been processed with
-type CreateHTTPResponseBodyDeduplicationKey string
-
-// CreateHTTPResponseBodyMessage Human readable message giving detail about the event
-type CreateHTTPResponseBodyMessage string
-
-// CreateHTTPResponseBodyStatus Status of the event
-type CreateHTTPResponseBodyStatus string
-
 // CreateManagedResourceRequestBody defines model for CreateManagedResourceRequestBody.
 type CreateManagedResourceRequestBody struct {
 	// Annotations Annotations that track metadata about this resource
 	Annotations map[string]string `json:"annotations"`
 
-	// ResourceId The ID of the resource that this relates to
+	// ResourceId The ID of the related resource
 	ResourceId string `json:"resource_id"`
 
-	// ResourceType The type of resource that this is
+	// ResourceType The type of the related resource
 	ResourceType CreateManagedResourceRequestBodyResourceType `json:"resource_type"`
 }
 
-// CreateManagedResourceRequestBodyResourceType The type of resource that this is
+// CreateManagedResourceRequestBodyResourceType The type of the related resource
 type CreateManagedResourceRequestBodyResourceType string
 
 // CreateManagedResourceResponseBody defines model for CreateManagedResourceResponseBody.
@@ -1865,9 +1865,6 @@ type ExpressionParseOptsV2 struct {
 type ExpressionPayloadV2 struct {
 	ElseBranch *ExpressionElseBranchPayloadV2 `json:"else_branch,omitempty"`
 
-	// Id The ID of the expression. This must be a valid ULID.
-	Id string `json:"id"`
-
 	// Label The human readable label of the expression
 	Label      string                         `json:"label"`
 	Operations []ExpressionOperationPayloadV2 `json:"operations"`
@@ -1882,9 +1879,6 @@ type ExpressionPayloadV2 struct {
 // ExpressionV2 defines model for ExpressionV2.
 type ExpressionV2 struct {
 	ElseBranch *ExpressionElseBranchV2 `json:"else_branch,omitempty"`
-
-	// Id The ID of the expression
-	Id string `json:"id"`
 
 	// Label The human readable label of the expression
 	Label      string                  `json:"label"`
@@ -2567,10 +2561,10 @@ type ManagedResourceV2 struct {
 	// ManagedBy How is this resource managed
 	ManagedBy ManagedResourceV2ManagedBy `json:"managed_by"`
 
-	// ResourceId The ID of the resource that this relates to
+	// ResourceId The ID of the related resource
 	ResourceId string `json:"resource_id"`
 
-	// ResourceType The type of resource that this is
+	// ResourceType The type of the related resource
 	ResourceType ManagedResourceV2ResourceType `json:"resource_type"`
 
 	// SourceUrl The url of the external repository where this resource is managed (if there is one)
@@ -2580,7 +2574,7 @@ type ManagedResourceV2 struct {
 // ManagedResourceV2ManagedBy How is this resource managed
 type ManagedResourceV2ManagedBy string
 
-// ManagedResourceV2ResourceType The type of resource that this is
+// ManagedResourceV2ResourceType The type of the related resource
 type ManagedResourceV2ResourceType string
 
 // ManagementMetaV2 defines model for ManagementMetaV2.
@@ -10568,7 +10562,7 @@ func (r ActionsV2ShowResponse) StatusCode() int {
 type AlertEventsV2CreateHTTPResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON202      *CreateHTTPResponseBody
+	JSON202      *AlertResult
 }
 
 // Status returns HTTPResponse.Status
@@ -13648,7 +13642,7 @@ func ParseAlertEventsV2CreateHTTPResponse(rsp *http.Response) (*AlertEventsV2Cre
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
-		var dest CreateHTTPResponseBody
+		var dest AlertResult
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
