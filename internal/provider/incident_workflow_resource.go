@@ -66,7 +66,9 @@ func (r *IncidentWorkflowResource) Metadata(ctx context.Context, req resource.Me
 
 func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("Workflows V2"),
+		MarkdownDescription: `This resource is used to manage Workflows.
+		
+We'd generally recommend building workflows in our [web dashboard](https://app.incident.io/workflows), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing workflow and copy the resulting Terraform without persisting it. You can learn more in this [Loom](https://www.loom.com/share/b833d7d0fd114d6ba3f24d8c72e5208f?sid=c6d3cc3f-aa93-44ba-b12d-a0a4cbe09448).`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "id"),
