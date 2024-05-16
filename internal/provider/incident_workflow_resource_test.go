@@ -133,7 +133,6 @@ resource "incident_workflow" "example" {
 	]
 	expressions = [
 		{
-			id = "01HXVEB7E3Z1Q1Z7QYDZ8ABDWM"
 			label = {{ quote .ExpressionLabel }}
 			operations = [
 				{
