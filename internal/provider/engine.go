@@ -34,7 +34,6 @@ type IncidentEngineExpressions []IncidentEngineExpression
 
 type IncidentEngineExpression struct {
 	ElseBranch    *IncidentEngineElseBranch           `tfsdk:"else_branch"`
-	ID            types.String                        `tfsdk:"id"`
 	Label         types.String                        `tfsdk:"label"`
 	Operations    []IncidentEngineExpressionOperation `tfsdk:"operations"`
 	Reference     types.String                        `tfsdk:"reference"`

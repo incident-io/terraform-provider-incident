@@ -457,7 +457,6 @@ func (r *IncidentWorkflowResource) buildExpressions(expressions []client.Express
 
 	for _, e := range expressions {
 		expression := IncidentEngineExpression{
-			ID:            types.StringValue(e.Id),
 			Label:         types.StringValue(e.Label),
 			Operations:    r.buildOperations(e.Operations),
 			Reference:     types.StringValue(e.Reference),
@@ -611,7 +610,6 @@ func toPayloadExpressions(expressions IncidentEngineExpressions) []client.Expres
 
 	for _, e := range expressions {
 		expression := client.ExpressionPayloadV2{
-			Id:            e.ID.ValueString(),
 			Label:         e.Label.ValueString(),
 			Operations:    toPayloadOperations(e.Operations),
 			Reference:     e.Reference.ValueString(),
