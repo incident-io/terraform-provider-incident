@@ -10,7 +10,7 @@ description: |-
 
 # incident_schedule (Resource)
 
-Beta: 
+Beta:
 View and manage schedules.
 Manage your full schedule of on-call rotations, including the users and rotation configuration.
 
@@ -72,7 +72,7 @@ resource "incident_schedule" "primary_on_call" {
         ]
       },
       {
-        # The date that a schedule rotation versin came into effect
+        # The date that a schedule rotation version came into effect
         # Expects an RFC3339 formatted string
         effective_from = "2024-05-14T12:54:13Z"
 
@@ -174,5 +174,3 @@ Required:
 - `day` (String)
 - `end` (String)
 - `start` (String)
-
-
