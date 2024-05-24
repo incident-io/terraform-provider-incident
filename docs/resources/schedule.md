@@ -10,7 +10,7 @@ description: |-
 
 # incident_schedule (Resource)
 
-Beta:
+Beta: 
 View and manage schedules.
 Manage your full schedule of on-call rotations, including the users and rotation configuration.
 
@@ -174,3 +174,5 @@ Required:
 - `day` (String)
 - `end` (String)
 - `start` (String)
+
+
