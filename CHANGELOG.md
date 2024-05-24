@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.4.0
+
+- data source for `incident_catalog_type` to allow for lookups of catalog types
+
 ## 3.3.1
 
 - Docs update to include examples of `incident_workflow` resource
