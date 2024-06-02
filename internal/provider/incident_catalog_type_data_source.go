@@ -62,7 +62,7 @@ func (i *IncidentCatalogTypeDataSource) Configure(ctx context.Context, req datas
 	client, ok := req.ProviderData.(*IncidentProviderData)
 	if !ok {
 		resp.Diagnostics.AddError(
-			"Unexpected Data Source User",
+			"Unexpected Data Source Catalog Type",
 			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 
