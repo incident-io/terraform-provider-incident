@@ -1,5 +1,10 @@
 ## Unreleased
 
+## 3.5.0
+
+- data sources for `incident_custom_field` and `incident_custom_field_option`, contributed
+  by @mdb
+
 ## 3.4.0
 
 - data source for `incident_catalog_type` to allow for lookups of catalog types
