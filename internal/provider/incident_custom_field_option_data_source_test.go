@@ -40,7 +40,7 @@ resource "incident_custom_field" "affected_teams" {
 
 resource "incident_custom_field_option" "example" {
   custom_field_id = incident_custom_field.affected_teams.id
-  value           = {{ quote .Value }}
+  value           = {{ quote .ResourceValue }}
 }
 
 data "incident_custom_field_option" "by_value_and_custom_field_id" {

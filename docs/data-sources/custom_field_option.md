@@ -20,6 +20,12 @@ This data source provides information about a custom field option.
 - `custom_field_id` (String) ID of the custom field this option belongs to
 - `value` (String) Human readable name for the custom field option
 
+### Optional
+
+- `sort_key` (Number) Sort key used to order the custom field options correctly
+
 ### Read-Only
 
 - `id` (String) Unique identifier for the custom field option
+
+

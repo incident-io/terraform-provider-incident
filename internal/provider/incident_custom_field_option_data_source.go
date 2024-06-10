@@ -40,6 +40,10 @@ func (i *IncidentCustomFieldOptionDataSource) Schema(ctx context.Context, req da
 				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1ResponseBody", "value"),
 				Required:            true,
 			},
+			"sort_key": schema.Int64Attribute{
+				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1ResponseBody", "sort_key"),
+				Optional:            true,
+			},
 		},
 	}
 }
