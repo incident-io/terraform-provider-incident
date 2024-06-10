@@ -83,7 +83,7 @@ func (i *IncidentCustomFieldOptionDataSource) Read(ctx context.Context, req data
 	}
 
 	result, err := i.client.CustomFieldOptionsV1ListWithResponse(ctx, &client.CustomFieldOptionsV1ListParams{
-		CustomFieldId: data.CustomFieldID.String(),
+		CustomFieldId: data.CustomFieldID.ValueString(),
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
