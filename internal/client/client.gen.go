@@ -64,6 +64,7 @@ const (
 	CatalogTypeAttributePayloadV2ModeExternal CatalogTypeAttributePayloadV2Mode = "external"
 	CatalogTypeAttributePayloadV2ModeInternal CatalogTypeAttributePayloadV2Mode = "internal"
 	CatalogTypeAttributePayloadV2ModeManual   CatalogTypeAttributePayloadV2Mode = "manual"
+	CatalogTypeAttributePayloadV2ModePath     CatalogTypeAttributePayloadV2Mode = "path"
 )
 
 // Defines values for CatalogTypeAttributeV2Mode.
@@ -74,6 +75,7 @@ const (
 	CatalogTypeAttributeV2ModeExternal CatalogTypeAttributeV2Mode = "external"
 	CatalogTypeAttributeV2ModeInternal CatalogTypeAttributeV2Mode = "internal"
 	CatalogTypeAttributeV2ModeManual   CatalogTypeAttributeV2Mode = "manual"
+	CatalogTypeAttributeV2ModePath     CatalogTypeAttributeV2Mode = "path"
 )
 
 // Defines values for CatalogTypeV2Color.
@@ -319,6 +321,38 @@ const (
 	Text         CustomFieldV2FieldType = "text"
 )
 
+// Defines values for EscalationPathNodeLevelV2TimeToAckIntervalCondition.
+const (
+	EscalationPathNodeLevelV2TimeToAckIntervalConditionActive   EscalationPathNodeLevelV2TimeToAckIntervalCondition = "active"
+	EscalationPathNodeLevelV2TimeToAckIntervalConditionInactive EscalationPathNodeLevelV2TimeToAckIntervalCondition = "inactive"
+)
+
+// Defines values for EscalationPathNodePayloadV2Type.
+const (
+	EscalationPathNodePayloadV2TypeIfElse EscalationPathNodePayloadV2Type = "if_else"
+	EscalationPathNodePayloadV2TypeLevel  EscalationPathNodePayloadV2Type = "level"
+	EscalationPathNodePayloadV2TypeRepeat EscalationPathNodePayloadV2Type = "repeat"
+)
+
+// Defines values for EscalationPathNodeV2Type.
+const (
+	EscalationPathNodeV2TypeIfElse EscalationPathNodeV2Type = "if_else"
+	EscalationPathNodeV2TypeLevel  EscalationPathNodeV2Type = "level"
+	EscalationPathNodeV2TypeRepeat EscalationPathNodeV2Type = "repeat"
+)
+
+// Defines values for EscalationPathTargetV2Type.
+const (
+	EscalationPathTargetV2TypeSchedule EscalationPathTargetV2Type = "schedule"
+	EscalationPathTargetV2TypeUser     EscalationPathTargetV2Type = "user"
+)
+
+// Defines values for EscalationPathTargetV2Urgency.
+const (
+	High EscalationPathTargetV2Urgency = "high"
+	Low  EscalationPathTargetV2Urgency = "low"
+)
+
 // Defines values for ExpressionOperationPayloadV2OperationType.
 const (
 	ExpressionOperationPayloadV2OperationTypeBranches ExpressionOperationPayloadV2OperationType = "branches"
@@ -402,6 +436,7 @@ const (
 	IdentityV1RolesIncidentEditor            IdentityV1Roles = "incident_editor"
 	IdentityV1RolesIncidentMembershipsEditor IdentityV1Roles = "incident_memberships_editor"
 	IdentityV1RolesManageSettings            IdentityV1Roles = "manage_settings"
+	IdentityV1RolesOnCallEditor              IdentityV1Roles = "on_call_editor"
 	IdentityV1RolesPrivateWorkflowsEditor    IdentityV1Roles = "private_workflows_editor"
 	IdentityV1RolesSchedulesEditor           IdentityV1Roles = "schedules_editor"
 	IdentityV1RolesSchedulesReader           IdentityV1Roles = "schedules_reader"
@@ -507,24 +542,13 @@ const (
 
 // Defines values for ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday.
 const (
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayFriday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "friday"
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayMonday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "monday"
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdaySaturday  ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "saturday"
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdaySunday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "sunday"
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayThursday  ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "thursday"
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayTuesday   ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "tuesday"
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayWednesday ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "wednesday"
-)
-
-// Defines values for ScheduleRotationWorkingIntervalV2Weekday.
-const (
-	ScheduleRotationWorkingIntervalV2WeekdayFriday    ScheduleRotationWorkingIntervalV2Weekday = "friday"
-	ScheduleRotationWorkingIntervalV2WeekdayMonday    ScheduleRotationWorkingIntervalV2Weekday = "monday"
-	ScheduleRotationWorkingIntervalV2WeekdaySaturday  ScheduleRotationWorkingIntervalV2Weekday = "saturday"
-	ScheduleRotationWorkingIntervalV2WeekdaySunday    ScheduleRotationWorkingIntervalV2Weekday = "sunday"
-	ScheduleRotationWorkingIntervalV2WeekdayThursday  ScheduleRotationWorkingIntervalV2Weekday = "thursday"
-	ScheduleRotationWorkingIntervalV2WeekdayTuesday   ScheduleRotationWorkingIntervalV2Weekday = "tuesday"
-	ScheduleRotationWorkingIntervalV2WeekdayWednesday ScheduleRotationWorkingIntervalV2Weekday = "wednesday"
+	Friday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "friday"
+	Monday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "monday"
+	Saturday  ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "saturday"
+	Sunday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "sunday"
+	Thursday  ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "thursday"
+	Tuesday   ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "tuesday"
+	Wednesday ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "wednesday"
 )
 
 // Defines values for UpdateRequestBody2Required.
@@ -655,10 +679,10 @@ const (
 
 // Defines values for WorkflowSlimState.
 const (
-	WorkflowSlimStateActive   WorkflowSlimState = "active"
-	WorkflowSlimStateDisabled WorkflowSlimState = "disabled"
-	WorkflowSlimStateDraft    WorkflowSlimState = "draft"
-	WorkflowSlimStateError    WorkflowSlimState = "error"
+	Active   WorkflowSlimState = "active"
+	Disabled WorkflowSlimState = "disabled"
+	Draft    WorkflowSlimState = "draft"
+	Error    WorkflowSlimState = "error"
 )
 
 // Defines values for ActionsV1ListParamsIncidentMode.
@@ -688,6 +712,7 @@ const (
 const (
 	ActionsV2ListParamsIncidentModeRetrospective ActionsV2ListParamsIncidentMode = "retrospective"
 	ActionsV2ListParamsIncidentModeStandard      ActionsV2ListParamsIncidentMode = "standard"
+	ActionsV2ListParamsIncidentModeStream        ActionsV2ListParamsIncidentMode = "stream"
 	ActionsV2ListParamsIncidentModeTest          ActionsV2ListParamsIncidentMode = "test"
 	ActionsV2ListParamsIncidentModeTutorial      ActionsV2ListParamsIncidentMode = "tutorial"
 )
@@ -696,6 +721,7 @@ const (
 const (
 	Retrospective FollowUpsV2ListParamsIncidentMode = "retrospective"
 	Standard      FollowUpsV2ListParamsIncidentMode = "standard"
+	Stream        FollowUpsV2ListParamsIncidentMode = "stream"
 	Test          FollowUpsV2ListParamsIncidentMode = "test"
 	Tutorial      FollowUpsV2ListParamsIncidentMode = "tutorial"
 )
@@ -915,6 +941,21 @@ type CatalogResourceV2 struct {
 // CatalogResourceV2Category Which category of resource
 type CatalogResourceV2Category string
 
+// CatalogTypeAttributePathItemPayloadV2 defines model for CatalogTypeAttributePathItemPayloadV2.
+type CatalogTypeAttributePathItemPayloadV2 struct {
+	// AttributeId the ID of the attribute to use
+	AttributeId string `json:"attribute_id"`
+}
+
+// CatalogTypeAttributePathItemV2 defines model for CatalogTypeAttributePathItemV2.
+type CatalogTypeAttributePathItemV2 struct {
+	// AttributeId the ID of the attribute to use
+	AttributeId string `json:"attribute_id"`
+
+	// AttributeName the name of the attribute to use
+	AttributeName string `json:"attribute_name"`
+}
+
 // CatalogTypeAttributePayloadV2 defines model for CatalogTypeAttributePayloadV2.
 type CatalogTypeAttributePayloadV2 struct {
 	// Array Whether this attribute is an array
@@ -931,6 +972,9 @@ type CatalogTypeAttributePayloadV2 struct {
 
 	// Name Unique name of this attribute
 	Name string `json:"name"`
+
+	// Path The path to use (if this is an path)
+	Path *[]CatalogTypeAttributePathItemPayloadV2 `json:"path,omitempty"`
 
 	// Type Catalog type name for this attribute
 	Type string `json:"type"`
@@ -955,6 +999,9 @@ type CatalogTypeAttributeV2 struct {
 
 	// Name Unique name of this attribute
 	Name string `json:"name"`
+
+	// Path The path to use (if this is a path attribute)
+	Path *[]CatalogTypeAttributePathItemV2 `json:"path,omitempty"`
 
 	// Type Catalog type name for this attribute
 	Type string `json:"type"`
@@ -1038,18 +1085,27 @@ type CatalogTypeV2Icon string
 
 // ConditionGroupPayloadV2 defines model for ConditionGroupPayloadV2.
 type ConditionGroupPayloadV2 struct {
-	// Conditions List of conditions that should be AND-ed together
+	// Conditions All conditions in this list must be satisfied for the group to be satisfied
 	Conditions []ConditionPayloadV2 `json:"conditions"`
 }
 
 // ConditionGroupV2 defines model for ConditionGroupV2.
 type ConditionGroupV2 struct {
-	// Conditions List of conditions that should be AND-ed together
-	Conditions []ConditionV2 `json:"conditions"`
+	// Conditions All conditions in this list must be satisfied for the group to be satisfied
+	Conditions []ConditionV3 `json:"conditions"`
 }
 
 // ConditionOperationV2 defines model for ConditionOperationV2.
 type ConditionOperationV2 struct {
+	// Label Human readable label to be displayed for user to select
+	Label string `json:"label"`
+
+	// Value Unique identifier for this option
+	Value string `json:"value"`
+}
+
+// ConditionOperationV3 defines model for ConditionOperationV3.
+type ConditionOperationV3 struct {
 	// Label Human readable label to be displayed for user to select
 	Label string `json:"label"`
 
@@ -1078,6 +1134,15 @@ type ConditionSubjectV2 struct {
 	Reference string `json:"reference"`
 }
 
+// ConditionSubjectV3 defines model for ConditionSubjectV3.
+type ConditionSubjectV3 struct {
+	// Label Human readable identifier for the subject
+	Label string `json:"label"`
+
+	// Reference Reference into the scope for the value of the subject
+	Reference string `json:"reference"`
+}
+
 // ConditionV2 defines model for ConditionV2.
 type ConditionV2 struct {
 	Operation ConditionOperationV2 `json:"operation"`
@@ -1085,6 +1150,15 @@ type ConditionV2 struct {
 	// ParamBindings Bindings for the operation parameters
 	ParamBindings []EngineParamBindingV2 `json:"param_bindings"`
 	Subject       ConditionSubjectV2     `json:"subject"`
+}
+
+// ConditionV3 defines model for ConditionV3.
+type ConditionV3 struct {
+	Operation ConditionOperationV3 `json:"operation"`
+
+	// ParamBindings Bindings for the operation parameters
+	ParamBindings []EngineParamBindingV3 `json:"param_bindings"`
+	Subject       ConditionSubjectV3     `json:"subject"`
 }
 
 // CreateEntryRequestBody defines model for CreateEntryRequestBody.
@@ -1155,6 +1229,23 @@ type CreateManagedResourceRequestBodyResourceType string
 // CreateManagedResourceResponseBody defines model for CreateManagedResourceResponseBody.
 type CreateManagedResourceResponseBody struct {
 	ManagedResource ManagedResourceV2 `json:"managed_resource"`
+}
+
+// CreatePathRequestBody defines model for CreatePathRequestBody.
+type CreatePathRequestBody struct {
+	// Name The name of this escalation path, for the user's reference.
+	Name string `json:"name"`
+
+	// Path The nodes that form the levels and branches of this escalation path.
+	Path []EscalationPathNodePayloadV2 `json:"path"`
+
+	// WorkingHours The working hours for this escalation path.
+	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
+}
+
+// CreatePathResponseBody defines model for CreatePathResponseBody.
+type CreatePathResponseBody struct {
+	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
 // CreateRequestBody defines model for CreateRequestBody.
@@ -1723,6 +1814,13 @@ type EngineParamBindingV2 struct {
 	Value      *EngineParamBindingValueV2   `json:"value,omitempty"`
 }
 
+// EngineParamBindingV3 defines model for EngineParamBindingV3.
+type EngineParamBindingV3 struct {
+	// ArrayValue If array_value is set, this helps render the values
+	ArrayValue *[]EngineParamBindingValueV3 `json:"array_value,omitempty"`
+	Value      *EngineParamBindingValueV3   `json:"value,omitempty"`
+}
+
 // EngineParamBindingValuePayloadV2 defines model for EngineParamBindingValuePayloadV2.
 type EngineParamBindingValuePayloadV2 struct {
 	// Literal If set, this is the literal value of the step parameter
@@ -1734,6 +1832,18 @@ type EngineParamBindingValuePayloadV2 struct {
 
 // EngineParamBindingValueV2 defines model for EngineParamBindingValueV2.
 type EngineParamBindingValueV2 struct {
+	// Label Human readable label to be displayed for user to select
+	Label string `json:"label"`
+
+	// Literal If set, this is the literal value of the step parameter
+	Literal *string `json:"literal,omitempty"`
+
+	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
+	Reference *string `json:"reference,omitempty"`
+}
+
+// EngineParamBindingValueV3 defines model for EngineParamBindingValueV3.
+type EngineParamBindingValueV3 struct {
 	// Label Human readable label to be displayed for user to select
 	Label string `json:"label"`
 
@@ -1759,18 +1869,132 @@ type EngineReferenceV2 struct {
 	Type string `json:"type"`
 }
 
+// EscalationPathNodeIfElsePayloadV2 defines model for EscalationPathNodeIfElsePayloadV2.
+type EscalationPathNodeIfElsePayloadV2 struct {
+	// Conditions The condition that defines which branch to take
+	Conditions *[]ConditionPayloadV2 `json:"conditions,omitempty"`
+
+	// ElsePath The nodes that form the levels if our condition is not met
+	ElsePath []EscalationPathNodePayloadV2 `json:"else_path"`
+
+	// ThenPath The nodes that form the levels if our condition is met
+	ThenPath []EscalationPathNodePayloadV2 `json:"then_path"`
+}
+
+// EscalationPathNodeIfElseV2 defines model for EscalationPathNodeIfElseV2.
+type EscalationPathNodeIfElseV2 struct {
+	// Conditions The condition that defines which branch to take
+	Conditions []ConditionV2 `json:"conditions"`
+
+	// ElsePath The nodes that form the levels if our condition is not met
+	ElsePath []EscalationPathNodeV2 `json:"else_path"`
+
+	// ThenPath The nodes that form the levels if our condition is met
+	ThenPath []EscalationPathNodeV2 `json:"then_path"`
+}
+
+// EscalationPathNodeLevelV2 defines model for EscalationPathNodeLevelV2.
+type EscalationPathNodeLevelV2 struct {
+	// Targets The targets for this level
+	Targets []EscalationPathTargetV2 `json:"targets"`
+
+	// TimeToAckIntervalCondition If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+	TimeToAckIntervalCondition *EscalationPathNodeLevelV2TimeToAckIntervalCondition `json:"time_to_ack_interval_condition,omitempty"`
+
+	// TimeToAckSeconds How long should we wait for this level to acknowledge before escalating?
+	TimeToAckSeconds *int64 `json:"time_to_ack_seconds,omitempty"`
+
+	// TimeToAckWeekdayIntervalConfigId If the time to ack is relative to a time window, this identifies which window it is relative to
+	TimeToAckWeekdayIntervalConfigId *string `json:"time_to_ack_weekday_interval_config_id,omitempty"`
+}
+
+// EscalationPathNodeLevelV2TimeToAckIntervalCondition If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+type EscalationPathNodeLevelV2TimeToAckIntervalCondition string
+
+// EscalationPathNodePayloadV2 defines model for EscalationPathNodePayloadV2.
+type EscalationPathNodePayloadV2 struct {
+	// Id Unique internal ID of the escalation path node
+	Id     string                             `json:"id"`
+	IfElse *EscalationPathNodeIfElsePayloadV2 `json:"if_else,omitempty"`
+	Level  *EscalationPathNodeLevelV2         `json:"level,omitempty"`
+	Repeat *EscalationPathNodeRepeatV2        `json:"repeat,omitempty"`
+
+	// Type The type of this node: level or branch
+	Type EscalationPathNodePayloadV2Type `json:"type"`
+}
+
+// EscalationPathNodePayloadV2Type The type of this node: level or branch
+type EscalationPathNodePayloadV2Type string
+
+// EscalationPathNodeRepeatV2 defines model for EscalationPathNodeRepeatV2.
+type EscalationPathNodeRepeatV2 struct {
+	// RepeatTimes How many times to repeat these steps
+	RepeatTimes int64 `json:"repeat_times"`
+
+	// ToNode Which node ID we begin repeating from
+	ToNode string `json:"to_node"`
+}
+
+// EscalationPathNodeV2 defines model for EscalationPathNodeV2.
+type EscalationPathNodeV2 struct {
+	// Id Unique internal ID of the escalation path node
+	Id     string                      `json:"id"`
+	IfElse *EscalationPathNodeIfElseV2 `json:"if_else,omitempty"`
+	Level  *EscalationPathNodeLevelV2  `json:"level,omitempty"`
+	Repeat *EscalationPathNodeRepeatV2 `json:"repeat,omitempty"`
+
+	// Type The type of this node: level or branch
+	Type EscalationPathNodeV2Type `json:"type"`
+}
+
+// EscalationPathNodeV2Type The type of this node: level or branch
+type EscalationPathNodeV2Type string
+
+// EscalationPathTargetV2 defines model for EscalationPathTargetV2.
+type EscalationPathTargetV2 struct {
+	// Id Uniquely identifies an entity of this type
+	Id string `json:"id"`
+
+	// Type Controls what type of entity this target identifies, such as EscalationPolicy or User
+	Type EscalationPathTargetV2Type `json:"type"`
+
+	// Urgency The urgency of this escalation path target
+	Urgency EscalationPathTargetV2Urgency `json:"urgency"`
+}
+
+// EscalationPathTargetV2Type Controls what type of entity this target identifies, such as EscalationPolicy or User
+type EscalationPathTargetV2Type string
+
+// EscalationPathTargetV2Urgency The urgency of this escalation path target
+type EscalationPathTargetV2Urgency string
+
+// EscalationPathV2 defines model for EscalationPathV2.
+type EscalationPathV2 struct {
+	// Id Unique identifier for this escalation path.
+	Id string `json:"id"`
+
+	// Name The name of this escalation path, for the user's reference.
+	Name string `json:"name"`
+
+	// Path The nodes that form the levels and branches of this escalation path.
+	Path []EscalationPathNodeV2 `json:"path"`
+
+	// WorkingHours The working hours for this escalation path.
+	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
+}
+
 // ExpressionBranchPayloadV2 defines model for ExpressionBranchPayloadV2.
 type ExpressionBranchPayloadV2 struct {
-	// ConditionGroups When theses conditions are met, this branch will be evaluated
+	// ConditionGroups When one of these condition groups are satisfied, this branch will be evaluated
 	ConditionGroups []ConditionGroupPayloadV2   `json:"condition_groups"`
 	Result          EngineParamBindingPayloadV2 `json:"result"`
 }
 
 // ExpressionBranchV2 defines model for ExpressionBranchV2.
 type ExpressionBranchV2 struct {
-	// ConditionGroups When theses conditions are met, this branch will be evaluated
+	// ConditionGroups When one of these condition groups are satisfied, this branch will be evaluated
 	ConditionGroups []ConditionGroupV2   `json:"condition_groups"`
-	Result          EngineParamBindingV2 `json:"result"`
+	Result          EngineParamBindingV3 `json:"result"`
 }
 
 // ExpressionBranchesOptsPayloadV2 defines model for ExpressionBranchesOptsPayloadV2.
@@ -1794,18 +2018,18 @@ type ExpressionElseBranchPayloadV2 struct {
 
 // ExpressionElseBranchV2 defines model for ExpressionElseBranchV2.
 type ExpressionElseBranchV2 struct {
-	Result EngineParamBindingV2 `json:"result"`
+	Result EngineParamBindingV3 `json:"result"`
 }
 
 // ExpressionFilterOptsPayloadV2 defines model for ExpressionFilterOptsPayloadV2.
 type ExpressionFilterOptsPayloadV2 struct {
-	// ConditionGroups The conditions to apply to this filter
+	// ConditionGroups The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass.
 	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
 }
 
 // ExpressionFilterOptsV2 defines model for ExpressionFilterOptsV2.
 type ExpressionFilterOptsV2 struct {
-	// ConditionGroups The conditions to apply to this filter
+	// ConditionGroups The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass.
 	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
 }
 
@@ -2630,6 +2854,9 @@ type RBACRoleV2 struct {
 
 // RetrospectiveIncidentOptionsV2 defines model for RetrospectiveIncidentOptionsV2.
 type RetrospectiveIncidentOptionsV2 struct {
+	// PostmortemDocumentUrl If the incident mode is 'retrospective', pass the URL of the postmortem to attach it to the incident
+	PostmortemDocumentUrl *string `json:"postmortem_document_url,omitempty"`
+
 	// SlackChannelId If the incident mode is 'retrospective', pass the ID of a Slack channel in your workspace to attach the incident to an existing channel, rather than creating a new one
 	SlackChannelId *string `json:"slack_channel_id,omitempty"`
 }
@@ -2727,9 +2954,9 @@ type ScheduleRotationCreatePayloadV2 struct {
 	Layers *[]ScheduleLayerCreatePayloadV2 `json:"layers,omitempty"`
 
 	// Name Name of the rotation
-	Name            string                               `json:"name"`
-	Users           *[]UserReferencePayloadV1            `json:"users,omitempty"`
-	WorkingInterval *[]ScheduleRotationWorkingIntervalV2 `json:"working_interval,omitempty"`
+	Name            string                    `json:"name"`
+	Users           *[]UserReferencePayloadV1 `json:"users,omitempty"`
+	WorkingInterval *[]WeekdayIntervalV2      `json:"working_interval,omitempty"`
 }
 
 // ScheduleRotationHandoverV2 defines model for ScheduleRotationHandoverV2.
@@ -2775,9 +3002,9 @@ type ScheduleRotationV2 struct {
 	Layers []ScheduleLayerV2 `json:"layers"`
 
 	// Name Human readable name synced from external provider
-	Name            string                               `json:"name"`
-	Users           *[]UserV1                            `json:"users,omitempty"`
-	WorkingInterval *[]ScheduleRotationWorkingIntervalV2 `json:"working_interval,omitempty"`
+	Name            string               `json:"name"`
+	Users           *[]UserV1            `json:"users,omitempty"`
+	WorkingInterval *[]WeekdayIntervalV2 `json:"working_interval,omitempty"`
 }
 
 // ScheduleRotationWorkingIntervalUpdatePayloadV2 defines model for ScheduleRotationWorkingIntervalUpdatePayloadV2.
@@ -2794,21 +3021,6 @@ type ScheduleRotationWorkingIntervalUpdatePayloadV2 struct {
 
 // ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday Weekday this interval applies to
 type ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday string
-
-// ScheduleRotationWorkingIntervalV2 defines model for ScheduleRotationWorkingIntervalV2.
-type ScheduleRotationWorkingIntervalV2 struct {
-	// EndTime End time of the interval, in 24hr format
-	EndTime string `json:"end_time"`
-
-	// StartTime Start time of the interval, in 24hr format
-	StartTime string `json:"start_time"`
-
-	// Weekday Weekday this interval applies to
-	Weekday ScheduleRotationWorkingIntervalV2Weekday `json:"weekday"`
-}
-
-// ScheduleRotationWorkingIntervalV2Weekday Weekday this interval applies to
-type ScheduleRotationWorkingIntervalV2Weekday string
 
 // ScheduleUpdatePayloadV2 defines model for ScheduleUpdatePayloadV2.
 type ScheduleUpdatePayloadV2 struct {
@@ -2972,7 +3184,7 @@ type StepConfig struct {
 	Name string `json:"name"`
 
 	// ParamBindings Bindings for the step parameters
-	ParamBindings []EngineParamBindingV2 `json:"param_bindings"`
+	ParamBindings []EngineParamBindingV3 `json:"param_bindings"`
 }
 
 // StepConfigPayload defines model for StepConfigPayload.
@@ -3266,6 +3478,31 @@ type UserWithRolesV2 struct {
 // UserWithRolesV2Role DEPRECATED: Role of the user as of March 9th 2023, this value is no longer updated.
 type UserWithRolesV2Role string
 
+// WeekdayIntervalConfigV2 defines model for WeekdayIntervalConfigV2.
+type WeekdayIntervalConfigV2 struct {
+	// Id The unique identifier for this set of working intervals
+	Id string `json:"id"`
+
+	// Name A human readable label for this set of working intervals
+	Name string `json:"name"`
+
+	// Timezone How to interpret all the intervals
+	Timezone         string              `json:"timezone"`
+	WeekdayIntervals []WeekdayIntervalV2 `json:"weekday_intervals"`
+}
+
+// WeekdayIntervalV2 defines model for WeekdayIntervalV2.
+type WeekdayIntervalV2 struct {
+	// EndTime End time of the interval, in 24hr format
+	EndTime string `json:"end_time"`
+
+	// StartTime Start time of the interval, in 24hr format
+	StartTime string `json:"start_time"`
+
+	// Weekday Weekday this interval applies to
+	Weekday string `json:"weekday"`
+}
+
 // Workflow defines model for Workflow.
 type Workflow struct {
 	// ConditionGroups Conditions that apply to the workflow trigger
@@ -3509,6 +3746,9 @@ type IncidentsV2ListParams struct {
 	// StatusCategory Filter on the category of the incidents status. The accepted operators are 'one_of', or 'not_in'. If this is not provided, this value defaults to `{"one_of": ["triage", "active", "post-incident", "closed"] }`, meaning that canceled, declined and merged incidents are not included.
 	StatusCategory *map[string][]string `form:"status_category,omitempty" json:"status_category,omitempty"`
 
+	// CreatedAt Filter on incident created at timestamp. The accepted operators are 'gte', 'lte' and 'date_range'.
+	CreatedAt *map[string][]string `form:"created_at,omitempty" json:"created_at,omitempty"`
+
 	// Severity Filter on incident severity. The accepted operators are 'one_of', 'not_in', 'gte', 'lte'.
 	Severity *map[string][]string `form:"severity,omitempty" json:"severity,omitempty"`
 
@@ -3626,6 +3866,12 @@ type CustomFieldsV2CreateJSONRequestBody = CreateRequestBody3
 
 // CustomFieldsV2UpdateJSONRequestBody defines body for CustomFieldsV2Update for application/json ContentType.
 type CustomFieldsV2UpdateJSONRequestBody = UpdateRequestBody3
+
+// EscalationsV2CreatePathJSONRequestBody defines body for EscalationsV2CreatePath for application/json ContentType.
+type EscalationsV2CreatePathJSONRequestBody = CreatePathRequestBody
+
+// EscalationsV2UpdatePathJSONRequestBody defines body for EscalationsV2UpdatePath for application/json ContentType.
+type EscalationsV2UpdatePathJSONRequestBody = CreatePathRequestBody
 
 // IncidentRolesV2CreateJSONRequestBody defines body for IncidentRolesV2Create for application/json ContentType.
 type IncidentRolesV2CreateJSONRequestBody = CreateRequestBody7
@@ -3950,6 +4196,22 @@ type ClientInterface interface {
 	CustomFieldsV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	CustomFieldsV2Update(ctx context.Context, id string, body CustomFieldsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV2CreatePath request with any body
+	EscalationsV2CreatePathWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	EscalationsV2CreatePath(ctx context.Context, body EscalationsV2CreatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV2DestroyPath request
+	EscalationsV2DestroyPath(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV2ShowPath request
+	EscalationsV2ShowPath(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV2UpdatePath request with any body
+	EscalationsV2UpdatePathWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	EscalationsV2UpdatePath(ctx context.Context, id string, body EscalationsV2UpdatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// FollowUpsV2List request
 	FollowUpsV2List(ctx context.Context, params *FollowUpsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -5028,6 +5290,78 @@ func (c *Client) CustomFieldsV2UpdateWithBody(ctx context.Context, id string, co
 
 func (c *Client) CustomFieldsV2Update(ctx context.Context, id string, body CustomFieldsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewCustomFieldsV2UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EscalationsV2CreatePathWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2CreatePathRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EscalationsV2CreatePath(ctx context.Context, body EscalationsV2CreatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2CreatePathRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EscalationsV2DestroyPath(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2DestroyPathRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EscalationsV2ShowPath(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2ShowPathRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EscalationsV2UpdatePathWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2UpdatePathRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EscalationsV2UpdatePath(ctx context.Context, id string, body EscalationsV2UpdatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2UpdatePathRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -7913,6 +8247,161 @@ func NewCustomFieldsV2UpdateRequestWithBody(server string, id string, contentTyp
 	return req, nil
 }
 
+// NewEscalationsV2CreatePathRequest calls the generic EscalationsV2CreatePath builder with application/json body
+func NewEscalationsV2CreatePathRequest(server string, body EscalationsV2CreatePathJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationsV2CreatePathRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewEscalationsV2CreatePathRequestWithBody generates requests for EscalationsV2CreatePath with any type of body
+func NewEscalationsV2CreatePathRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalation_paths")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewEscalationsV2DestroyPathRequest generates requests for EscalationsV2DestroyPath
+func NewEscalationsV2DestroyPathRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalation_paths/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewEscalationsV2ShowPathRequest generates requests for EscalationsV2ShowPath
+func NewEscalationsV2ShowPathRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalation_paths/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewEscalationsV2UpdatePathRequest calls the generic EscalationsV2UpdatePath builder with application/json body
+func NewEscalationsV2UpdatePathRequest(server string, id string, body EscalationsV2UpdatePathJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationsV2UpdatePathRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewEscalationsV2UpdatePathRequestWithBody generates requests for EscalationsV2UpdatePath with any type of body
+func NewEscalationsV2UpdatePathRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalation_paths/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewFollowUpsV2ListRequest generates requests for FollowUpsV2List
 func NewFollowUpsV2ListRequest(server string, params *FollowUpsV2ListParams) (*http.Request, error) {
 	var err error
@@ -8404,6 +8893,22 @@ func NewIncidentsV2ListRequest(server string, params *IncidentsV2ListParams) (*h
 	if params.StatusCategory != nil {
 
 		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "status_category", runtime.ParamLocationQuery, *params.StatusCategory); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.CreatedAt != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "created_at", runtime.ParamLocationQuery, *params.CreatedAt); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err
@@ -9538,6 +10043,22 @@ type ClientWithResponsesInterface interface {
 	CustomFieldsV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CustomFieldsV2UpdateResponse, error)
 
 	CustomFieldsV2UpdateWithResponse(ctx context.Context, id string, body CustomFieldsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*CustomFieldsV2UpdateResponse, error)
+
+	// EscalationsV2CreatePath request with any body
+	EscalationsV2CreatePathWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2CreatePathResponse, error)
+
+	EscalationsV2CreatePathWithResponse(ctx context.Context, body EscalationsV2CreatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2CreatePathResponse, error)
+
+	// EscalationsV2DestroyPath request
+	EscalationsV2DestroyPathWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV2DestroyPathResponse, error)
+
+	// EscalationsV2ShowPath request
+	EscalationsV2ShowPathWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV2ShowPathResponse, error)
+
+	// EscalationsV2UpdatePath request with any body
+	EscalationsV2UpdatePathWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2UpdatePathResponse, error)
+
+	EscalationsV2UpdatePathWithResponse(ctx context.Context, id string, body EscalationsV2UpdatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2UpdatePathResponse, error)
 
 	// FollowUpsV2List request
 	FollowUpsV2ListWithResponse(ctx context.Context, params *FollowUpsV2ListParams, reqEditors ...RequestEditorFn) (*FollowUpsV2ListResponse, error)
@@ -10952,6 +11473,93 @@ func (r CustomFieldsV2UpdateResponse) StatusCode() int {
 	return 0
 }
 
+type EscalationsV2CreatePathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *CreatePathResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV2CreatePathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV2CreatePathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type EscalationsV2DestroyPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV2DestroyPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV2DestroyPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type EscalationsV2ShowPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CreatePathResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV2ShowPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV2ShowPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type EscalationsV2UpdatePathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CreatePathResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV2UpdatePathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV2UpdatePathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type FollowUpsV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -12279,6 +12887,58 @@ func (c *ClientWithResponses) CustomFieldsV2UpdateWithResponse(ctx context.Conte
 		return nil, err
 	}
 	return ParseCustomFieldsV2UpdateResponse(rsp)
+}
+
+// EscalationsV2CreatePathWithBodyWithResponse request with arbitrary body returning *EscalationsV2CreatePathResponse
+func (c *ClientWithResponses) EscalationsV2CreatePathWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2CreatePathResponse, error) {
+	rsp, err := c.EscalationsV2CreatePathWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2CreatePathResponse(rsp)
+}
+
+func (c *ClientWithResponses) EscalationsV2CreatePathWithResponse(ctx context.Context, body EscalationsV2CreatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2CreatePathResponse, error) {
+	rsp, err := c.EscalationsV2CreatePath(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2CreatePathResponse(rsp)
+}
+
+// EscalationsV2DestroyPathWithResponse request returning *EscalationsV2DestroyPathResponse
+func (c *ClientWithResponses) EscalationsV2DestroyPathWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV2DestroyPathResponse, error) {
+	rsp, err := c.EscalationsV2DestroyPath(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2DestroyPathResponse(rsp)
+}
+
+// EscalationsV2ShowPathWithResponse request returning *EscalationsV2ShowPathResponse
+func (c *ClientWithResponses) EscalationsV2ShowPathWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV2ShowPathResponse, error) {
+	rsp, err := c.EscalationsV2ShowPath(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2ShowPathResponse(rsp)
+}
+
+// EscalationsV2UpdatePathWithBodyWithResponse request with arbitrary body returning *EscalationsV2UpdatePathResponse
+func (c *ClientWithResponses) EscalationsV2UpdatePathWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2UpdatePathResponse, error) {
+	rsp, err := c.EscalationsV2UpdatePathWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2UpdatePathResponse(rsp)
+}
+
+func (c *ClientWithResponses) EscalationsV2UpdatePathWithResponse(ctx context.Context, id string, body EscalationsV2UpdatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2UpdatePathResponse, error) {
+	rsp, err := c.EscalationsV2UpdatePath(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2UpdatePathResponse(rsp)
 }
 
 // FollowUpsV2ListWithResponse request returning *FollowUpsV2ListResponse
@@ -14055,6 +14715,100 @@ func ParseCustomFieldsV2UpdateResponse(rsp *http.Response) (*CustomFieldsV2Updat
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ShowResponseBody5
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationsV2CreatePathResponse parses an HTTP response from a EscalationsV2CreatePathWithResponse call
+func ParseEscalationsV2CreatePathResponse(rsp *http.Response) (*EscalationsV2CreatePathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV2CreatePathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CreatePathResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationsV2DestroyPathResponse parses an HTTP response from a EscalationsV2DestroyPathWithResponse call
+func ParseEscalationsV2DestroyPathResponse(rsp *http.Response) (*EscalationsV2DestroyPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV2DestroyPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseEscalationsV2ShowPathResponse parses an HTTP response from a EscalationsV2ShowPathWithResponse call
+func ParseEscalationsV2ShowPathResponse(rsp *http.Response) (*EscalationsV2ShowPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV2ShowPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CreatePathResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationsV2UpdatePathResponse parses an HTTP response from a EscalationsV2UpdatePathWithResponse call
+func ParseEscalationsV2UpdatePathResponse(rsp *http.Response) (*EscalationsV2UpdatePathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV2UpdatePathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CreatePathResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

@@ -16,6 +16,9 @@ description: |-
   Examples might be a 'Service' type with an 'Alert channel' which you can point at a
   Slack channel, or 'Team' which specifies its 'Manager' and 'Technical Lead' as Slack
   users. You can then use these types to create powerful new workflows.
+  Consider using our official catalog importer https://github.com/incident-io/catalog-importer.
+  It can be used to sync catalog data from sources like local files or GitHub and push
+  them into the incident.io catalog without having to directly interact with our public API.
 ---
 
 # incident_catalog_type_attribute (Resource)
@@ -37,6 +40,10 @@ types, that are specifically tailored to your organisation.
 Examples might be a 'Service' type with an 'Alert channel' which you can point at a 
 Slack channel, or 'Team' which specifies its 'Manager' and 'Technical Lead' as Slack
 users. You can then use these types to create powerful new workflows.
+
+Consider using our official [catalog importer](https://github.com/incident-io/catalog-importer).
+It can be used to sync catalog data from sources like local files or GitHub and push 
+them into the incident.io catalog without having to directly interact with our public API.
 
 ## Example Usage
 
