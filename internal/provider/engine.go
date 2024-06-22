@@ -4,6 +4,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
 // Types
@@ -23,6 +24,56 @@ type IncidentEngineCondition struct {
 type IncidentEngineParamBinding struct {
 	ArrayValue []IncidentEngineParamBindingValue `tfsdk:"array_value"`
 	Value      *IncidentEngineParamBindingValue  `tfsdk:"value"`
+}
+
+func (IncidentEngineParamBinding) FromClientV2(pb client.EngineParamBindingV2) IncidentEngineParamBinding {
+	var arrayValue []IncidentEngineParamBindingValue
+	if pb.ArrayValue != nil {
+		for _, v := range *pb.ArrayValue {
+			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(v.Literal),
+				Reference: types.StringPointerValue(v.Reference),
+			})
+		}
+	}
+
+	var value *IncidentEngineParamBindingValue
+	if pb.Value != nil {
+		value = &IncidentEngineParamBindingValue{
+			Literal:   types.StringPointerValue(pb.Value.Literal),
+			Reference: types.StringPointerValue(pb.Value.Reference),
+		}
+	}
+
+	return IncidentEngineParamBinding{
+		ArrayValue: arrayValue,
+		Value:      value,
+	}
+}
+
+func (IncidentEngineParamBinding) FromClientV3(pb client.EngineParamBindingV3) IncidentEngineParamBinding {
+	var arrayValue []IncidentEngineParamBindingValue
+	if pb.ArrayValue != nil {
+		for _, v := range *pb.ArrayValue {
+			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(v.Literal),
+				Reference: types.StringPointerValue(v.Reference),
+			})
+		}
+	}
+
+	var value *IncidentEngineParamBindingValue
+	if pb.Value != nil {
+		value = &IncidentEngineParamBindingValue{
+			Literal:   types.StringPointerValue(pb.Value.Literal),
+			Reference: types.StringPointerValue(pb.Value.Reference),
+		}
+	}
+
+	return IncidentEngineParamBinding{
+		ArrayValue: arrayValue,
+		Value:      value,
+	}
 }
 
 type IncidentEngineParamBindingValue struct {
