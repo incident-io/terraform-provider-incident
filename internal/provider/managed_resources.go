@@ -8,7 +8,14 @@ import (
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
-func claimResource(ctx context.Context, apiClient *client.ClientWithResponses, req resource.ImportStateRequest, resp *resource.ImportStateResponse, resourceType client.ManagedResourceV2ResourceType, terraformVersion string) {
+func claimResource(
+	ctx context.Context,
+	apiClient *client.ClientWithResponses,
+	req resource.ImportStateRequest,
+	resp *resource.ImportStateResponse,
+	resourceType client.ManagedResourceV2ResourceType,
+	terraformVersion string,
+) {
 	payload := client.CreateManagedResourceRequestBody{
 		Annotations: map[string]string{
 			"incident.io/terraform/version": terraformVersion,

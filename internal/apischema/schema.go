@@ -3,7 +3,9 @@ package apischema
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/getkin/kin-openapi/openapi2"
 	"github.com/getkin/kin-openapi/openapi3"
 
@@ -45,9 +47,18 @@ func Property(definitionName, propertyName string) *openapi3.SchemaRef {
 		panic(fmt.Sprintf("definition %s has no property %s", definitionName, propertyName))
 	}
 
+	if strings.HasPrefix(property.Ref, "#/definitions/") {
+		return Def(strings.TrimPrefix(property.Ref, "#/definitions/"))
+	}
+
 	return property
 }
 
 func Docstring(definitionName, propertyName string) string {
-	return Property(definitionName, propertyName).Value.Description
+	p := Property(definitionName, propertyName)
+	if p.Value == nil {
+		panic(fmt.Sprintf("property %s has no value: %s", propertyName, spew.Sdump(p)))
+	}
+
+	return p.Value.Description
 }
