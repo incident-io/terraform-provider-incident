@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.6.0
+
+- `incident_escalation_path` for configuring escalation paths.
+
 ## 3.5.0
 
 - data sources for `incident_custom_field` and `incident_custom_field_option`, contributed
