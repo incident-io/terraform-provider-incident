@@ -1,5 +1,8 @@
 ## Unreleased
 
+## 3.7.0
+- Add support for path attributes on catalog types
+
 ## 3.6.0
 
 - `incident_escalation_path` for configuring escalation paths.

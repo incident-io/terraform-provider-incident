@@ -5,8 +5,11 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/davecgh/go-spew/spew"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -32,9 +35,10 @@ type IncidentCatalogTypeAttributesResourceModel struct {
 	Type              types.String `tfsdk:"type"`
 	Array             types.Bool   `tfsdk:"array"`
 	BacklinkAttribute types.String `tfsdk:"backlink_attribute"`
+	Path              types.List   `tfsdk:"path"`
 }
 
-func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute() client.CatalogTypeAttributePayloadV2 {
+func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.Context) client.CatalogTypeAttributePayloadV2 {
 	var array bool
 	if m.Array.IsUnknown() {
 		array = false
@@ -52,10 +56,27 @@ func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute() client.Cata
 	var (
 		mode              *client.CatalogTypeAttributePayloadV2Mode
 		backlinkAttribute *string
+		path              *[]client.CatalogTypeAttributePathItemPayloadV2
 	)
 	if !m.BacklinkAttribute.IsNull() {
 		backlinkAttribute = lo.ToPtr(m.BacklinkAttribute.ValueString())
 		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModeBacklink)
+	}
+	if !m.Path.IsUnknown() && !m.Path.IsNull() {
+		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModePath)
+
+		// Do a little dance to get the path into the right format.
+		pathAsStrings := []string{}
+		if diags := m.Path.ElementsAs(ctx, &pathAsStrings, false); diags.HasError() {
+			panic(spew.Sdump(diags.Errors()))
+		}
+
+		path = &[]client.CatalogTypeAttributePathItemPayloadV2{}
+		for _, item := range pathAsStrings {
+			*path = append(*path, client.CatalogTypeAttributePathItemPayloadV2{
+				AttributeId: item,
+			})
+		}
 	}
 
 	return client.CatalogTypeAttributePayloadV2{
@@ -65,6 +86,7 @@ func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute() client.Cata
 		Array:             array,
 		Mode:              mode,
 		BacklinkAttribute: backlinkAttribute,
+		Path:              path,
 	}
 }
 
@@ -110,6 +132,14 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 				Description: `If this is a backlink, the id of the attribute that it's linked from`,
 				Optional:    true,
 			},
+			"path": schema.ListAttribute{
+				Description: `If this is a path attribute, the path that we should use to pull the data`,
+				ElementType: types.StringType,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
+				Optional: true,
+			},
 		},
 	}
 }
@@ -143,17 +173,11 @@ func (r *IncidentCatalogTypeAttributeResource) Create(ctx context.Context, req r
 	err := r.lockFor(ctx, data.CatalogTypeID.ValueString(), func(ctx context.Context, catalogType client.CatalogTypeV2) error {
 		attributes := []client.CatalogTypeAttributePayloadV2{}
 		for _, attribute := range catalogType.Schema.Attributes {
-			attributes = append(attributes, client.CatalogTypeAttributePayloadV2{
-				Id:                lo.ToPtr(attribute.Id),
-				Name:              attribute.Name,
-				Type:              attribute.Type,
-				Array:             attribute.Array,
-				BacklinkAttribute: attribute.BacklinkAttribute,
-			})
+			attributes = append(attributes, r.attributeToPayload(attribute))
 		}
 
 		// Add our new attribute.
-		attributes = append(attributes, data.buildAttribute())
+		attributes = append(attributes, data.buildAttribute(ctx))
 
 		var err error
 		result, err = r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, catalogType.Id, client.UpdateTypeSchemaRequestBody{
@@ -176,7 +200,7 @@ func (r *IncidentCatalogTypeAttributeResource) Create(ctx context.Context, req r
 
 	var attributeID string
 	for _, attribute := range result.JSON200.CatalogType.Schema.Attributes {
-		if attribute.Name == data.buildAttribute().Name {
+		if attribute.Name == data.buildAttribute(ctx).Name {
 			attributeID = attribute.Id
 		}
 	}
@@ -230,26 +254,15 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 		for _, attribute := range catalogType.Schema.Attributes {
 			if attribute.Id == data.ID.ValueString() {
 				alreadyExists = true
-				attributes = append(attributes, data.buildAttribute())
+				attributes = append(attributes, data.buildAttribute(ctx))
 			} else {
-				var mode *client.CatalogTypeAttributePayloadV2Mode
-				if attribute.BacklinkAttribute != nil {
-					mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModeBacklink)
-				}
-
-				attributes = append(attributes, client.CatalogTypeAttributePayloadV2{
-					Id:                lo.ToPtr(attribute.Id),
-					Name:              attribute.Name,
-					Type:              attribute.Type,
-					Array:             attribute.Array,
-					BacklinkAttribute: attribute.BacklinkAttribute,
-					Mode:              mode,
-				})
+				attributes = append(attributes, r.attributeToPayload(attribute))
 			}
 		}
+
 		if !alreadyExists {
 			// We weren't here, so add us to the end.
-			attributes = append(attributes, data.buildAttribute())
+			attributes = append(attributes, data.buildAttribute(ctx))
 		}
 
 		tflog.Trace(ctx, fmt.Sprintf("Updating catalog type with attributes: %v", attributes))
@@ -277,7 +290,7 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 		attributeID = data.ID.ValueString()
 	} else {
 		for _, attribute := range result.JSON200.CatalogType.Schema.Attributes {
-			if attribute.Name == data.buildAttribute().Name {
+			if attribute.Name == data.buildAttribute(ctx).Name {
 				attributeID = attribute.Id
 			}
 		}
@@ -306,19 +319,7 @@ func (r *IncidentCatalogTypeAttributeResource) Delete(ctx context.Context, req r
 				continue
 			}
 
-			var mode *client.CatalogTypeAttributePayloadV2Mode
-			if attribute.BacklinkAttribute != nil {
-				mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModeBacklink)
-			}
-
-			attributes = append(attributes, client.CatalogTypeAttributePayloadV2{
-				Id:                lo.ToPtr(attribute.Id),
-				Name:              attribute.Name,
-				Type:              attribute.Type,
-				Array:             attribute.Array,
-				BacklinkAttribute: attribute.BacklinkAttribute,
-				Mode:              mode,
-			})
+			attributes = append(attributes, r.attributeToPayload(attribute))
 		}
 
 		result, err := r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.UpdateTypeSchemaRequestBody{
@@ -354,6 +355,16 @@ func (r *IncidentCatalogTypeAttributeResource) buildModel(catalogType client.Cat
 			if attribute.BacklinkAttribute != nil {
 				result.BacklinkAttribute = types.StringValue(*attribute.BacklinkAttribute)
 			}
+
+			result.Path = types.ListNull(types.StringType)
+			if attribute.Path != nil {
+				path := []attr.Value{}
+				for _, item := range *attribute.Path {
+					path = append(path, types.StringValue(item.AttributeId))
+				}
+				result.Path = types.ListValueMust(types.StringType, path)
+			}
+			break
 		}
 	}
 
@@ -387,4 +398,31 @@ func (r *IncidentCatalogTypeAttributeResource) lockFor(ctx context.Context, cata
 	}
 
 	return do(ctx, typeResult.JSON200.CatalogType)
+}
+
+func (*IncidentCatalogTypeAttributeResource) attributeToPayload(attribute client.CatalogTypeAttributeV2) client.CatalogTypeAttributePayloadV2 {
+	var mode *client.CatalogTypeAttributePayloadV2Mode
+	var path *[]client.CatalogTypeAttributePathItemPayloadV2
+	if attribute.BacklinkAttribute != nil {
+		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModeBacklink)
+	}
+	if attribute.Path != nil {
+		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModePath)
+		path = &[]client.CatalogTypeAttributePathItemPayloadV2{}
+		for _, item := range *attribute.Path {
+			*path = append(*path, client.CatalogTypeAttributePathItemPayloadV2{
+				AttributeId: item.AttributeId,
+			})
+		}
+	}
+
+	return client.CatalogTypeAttributePayloadV2{
+		Id:                lo.ToPtr(attribute.Id),
+		Name:              attribute.Name,
+		Type:              attribute.Type,
+		Array:             attribute.Array,
+		BacklinkAttribute: attribute.BacklinkAttribute,
+		Path:              path,
+		Mode:              mode,
+	}
 }
