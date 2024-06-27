@@ -1,7 +1,8 @@
 ## Unreleased
 
 ## 3.7.0
-- Add support for path attributes on catalog types
+- Add support for path attributes on the `incident_catalog_type_attribute` resource
+- Add support for categories on the `incident_catalog_type` resource
 
 ## 3.6.0
 

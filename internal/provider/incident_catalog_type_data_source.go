@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 	"github.com/samber/lo"
@@ -45,6 +46,11 @@ func (i *IncidentCatalogTypeDataSource) Schema(ctx context.Context, req datasour
 			"description": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CatalogTypeV2ResponseBody", "description"),
 				Computed:            true,
+			},
+			"categories": schema.ListAttribute{
+				MarkdownDescription: IncidentCatalogTypeResource{}.CategoryDescription(),
+				Optional:            true,
+				ElementType:         types.StringType,
 			},
 			"source_repo_url": schema.StringAttribute{
 				MarkdownDescription: "The url of the external repository where this type is managed. When set, users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.",

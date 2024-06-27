@@ -1976,6 +1976,7 @@
                 "ranked",
                 "schema",
                 "icon",
+                "categories",
                 "color",
                 "is_editable",
                 "annotations",
@@ -6841,7 +6842,7 @@
         },
         "description": {
           "type": "string",
-          "description": "Description that optionally adds more detail to title ",
+          "description": "Description that optionally adds more detail to title. Supports markdown.",
           "example": "We've detected a number of timeouts on hello.world.com, the service may be down. To fix..."
         },
         "metadata": {
@@ -14526,6 +14527,26 @@
             "example": "abc123"
           }
         },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "issue-tracker",
+            "enum": [
+              "customer",
+              "issue-tracker",
+              "product-feature",
+              "service",
+              "on-call",
+              "team",
+              "user"
+            ]
+          },
+          "description": "What categories is this type considered part of",
+          "example": [
+            "issue-tracker"
+          ]
+        },
         "color": {
           "type": "string",
           "description": "Sets the display color of this type in the dashboard",
@@ -14664,6 +14685,9 @@
         "annotations": {
           "incident.io/catalog-importer/id": "id-of-config"
         },
+        "categories": [
+          "issue-tracker"
+        ],
         "color": "yellow",
         "created_at": "2021-08-17T13:28:57.801578Z",
         "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -14712,6 +14736,7 @@
         "ranked",
         "schema",
         "icon",
+        "categories",
         "color",
         "is_editable",
         "annotations",
@@ -14894,6 +14919,26 @@
             "example": "abc123"
           }
         },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "issue-tracker",
+            "enum": [
+              "customer",
+              "issue-tracker",
+              "product-feature",
+              "service",
+              "on-call",
+              "team",
+              "user"
+            ]
+          },
+          "description": "What categories is this type considered part of",
+          "example": [
+            "issue-tracker"
+          ]
+        },
         "color": {
           "type": "string",
           "description": "Sets the display color of this type in the dashboard",
@@ -14969,6 +15014,9 @@
         "annotations": {
           "incident.io/catalog-importer/id": "id-of-config"
         },
+        "categories": [
+          "issue-tracker"
+        ],
         "color": "yellow",
         "description": "Represents Kubernetes clusters that we run inside of GKE.",
         "icon": "bolt",
@@ -14995,6 +15043,9 @@
           "annotations": {
             "incident.io/catalog-importer/id": "id-of-config"
           },
+          "categories": [
+            "issue-tracker"
+          ],
           "color": "yellow",
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -15173,6 +15224,9 @@
           "annotations": {
             "incident.io/catalog-importer/id": "id-of-config"
           },
+          "categories": [
+            "issue-tracker"
+          ],
           "color": "yellow",
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -15272,6 +15326,9 @@
               "annotations": {
                 "incident.io/catalog-importer/id": "id-of-config"
               },
+              "categories": [
+                "issue-tracker"
+              ],
               "color": "yellow",
               "created_at": "2021-08-17T13:28:57.801578Z",
               "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -15320,6 +15377,9 @@
             "annotations": {
               "incident.io/catalog-importer/id": "id-of-config"
             },
+            "categories": [
+              "issue-tracker"
+            ],
             "color": "yellow",
             "created_at": "2021-08-17T13:28:57.801578Z",
             "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -15435,6 +15495,9 @@
           "annotations": {
             "incident.io/catalog-importer/id": "id-of-config"
           },
+          "categories": [
+            "issue-tracker"
+          ],
           "color": "yellow",
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -15493,6 +15556,9 @@
           "annotations": {
             "incident.io/catalog-importer/id": "id-of-config"
           },
+          "categories": [
+            "issue-tracker"
+          ],
           "color": "yellow",
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -15689,6 +15755,9 @@
           "annotations": {
             "incident.io/catalog-importer/id": "id-of-config"
           },
+          "categories": [
+            "issue-tracker"
+          ],
           "color": "yellow",
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -15748,6 +15817,26 @@
             "type": "string",
             "example": "abc123"
           }
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "issue-tracker",
+            "enum": [
+              "customer",
+              "issue-tracker",
+              "product-feature",
+              "service",
+              "on-call",
+              "team",
+              "user"
+            ]
+          },
+          "description": "What categories is this type considered part of",
+          "example": [
+            "issue-tracker"
+          ]
         },
         "color": {
           "type": "string",
@@ -15819,6 +15908,9 @@
         "annotations": {
           "incident.io/catalog-importer/id": "id-of-config"
         },
+        "categories": [
+          "issue-tracker"
+        ],
         "color": "yellow",
         "description": "Represents Kubernetes clusters that we run inside of GKE.",
         "icon": "bolt",
@@ -15844,6 +15936,9 @@
           "annotations": {
             "incident.io/catalog-importer/id": "id-of-config"
           },
+          "categories": [
+            "issue-tracker"
+          ],
           "color": "yellow",
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -15947,6 +16042,7 @@
         "ranked",
         "schema",
         "icon",
+        "categories",
         "color",
         "is_editable",
         "annotations",
@@ -15970,6 +16066,9 @@
           "annotations": {
             "incident.io/catalog-importer/id": "id-of-config"
           },
+          "categories": [
+            "issue-tracker"
+          ],
           "color": "yellow",
           "created_at": "2021-08-17T13:28:57.801578Z",
           "description": "Represents Kubernetes clusters that we run inside of GKE.",
@@ -18975,7 +19074,8 @@
           "enum": [
             "if_else",
             "repeat",
-            "level"
+            "level",
+            "notify_channel"
           ]
         }
       },
@@ -19107,7 +19207,8 @@
           "enum": [
             "if_else",
             "repeat",
-            "level"
+            "level",
+            "notify_channel"
           ]
         }
       },
@@ -19187,7 +19288,8 @@
           "example": "user",
           "enum": [
             "schedule",
-            "user"
+            "user",
+            "slack_channel"
           ]
         },
         "urgency": {
@@ -19226,7 +19328,8 @@
           "example": "user",
           "enum": [
             "schedule",
-            "user"
+            "user",
+            "slack_channel"
           ]
         },
         "urgency": {

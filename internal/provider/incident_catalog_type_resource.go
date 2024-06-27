@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -13,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/samber/lo"
 )
 
 var (
@@ -26,11 +28,12 @@ type IncidentCatalogTypeResource struct {
 }
 
 type IncidentCatalogTypeResourceModel struct {
-	ID            types.String `tfsdk:"id"`
-	Name          types.String `tfsdk:"name"`
-	TypeName      types.String `tfsdk:"type_name"`
-	Description   types.String `tfsdk:"description"`
-	SourceRepoURL types.String `tfsdk:"source_repo_url"`
+	ID            types.String   `tfsdk:"id"`
+	Name          types.String   `tfsdk:"name"`
+	TypeName      types.String   `tfsdk:"type_name"`
+	Description   types.String   `tfsdk:"description"`
+	SourceRepoURL types.String   `tfsdk:"source_repo_url"`
+	Categories    []types.String `tfsdk:"categories"`
 }
 
 func NewIncidentCatalogTypeResource() resource.Resource {
@@ -39,6 +42,17 @@ func NewIncidentCatalogTypeResource() resource.Resource {
 
 func (r *IncidentCatalogTypeResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_catalog_type"
+}
+
+func (r IncidentCatalogTypeResource) CategoryDescription() string {
+	// Make a category description where we list all the possible values of categories
+	categories := []string{}
+	for _, category := range apischema.Property("CatalogTypeV2ResponseBody", "categories").Value.Items.Value.Enum {
+		categoryAsString, _ := category.(string)
+		categories = append(categories, "`"+categoryAsString+"`")
+	}
+
+	return fmt.Sprintf("The categories that this type belongs to, to be shown in the web dashboard. Possible values are: %s.", strings.Join(categories, ", "))
 }
 
 func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -67,6 +81,11 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 			"description": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "description"),
 				Required:            true,
+			},
+			"categories": schema.ListAttribute{
+				MarkdownDescription: r.CategoryDescription(),
+				Optional:            true,
+				ElementType:         types.StringType,
 			},
 			"source_repo_url": schema.StringAttribute{
 				MarkdownDescription: "The url of the external repository where this type is managed. When set, users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.",
@@ -115,6 +134,13 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 	if sourceRepoURL := data.SourceRepoURL.ValueString(); sourceRepoURL != "" {
 		requestBody.SourceRepoUrl = &sourceRepoURL
 	}
+
+	categories := []client.CreateTypeRequestBodyCategories{}
+	for _, category := range data.Categories {
+		categories = append(categories,
+			client.CreateTypeRequestBodyCategories(category.ValueString()))
+	}
+	requestBody.Categories = lo.ToPtr(categories)
 
 	result, err := r.client.CatalogV2CreateTypeWithResponse(ctx, requestBody)
 	if err == nil && result.StatusCode() >= 400 {
@@ -170,6 +196,13 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 		requestBody.SourceRepoUrl = &sourceRepoURL
 	}
 
+	categories := []client.UpdateTypeRequestBodyCategories{}
+	for _, category := range data.Categories {
+		categories = append(categories,
+			client.UpdateTypeRequestBodyCategories(category.ValueString()))
+	}
+	requestBody.Categories = lo.ToPtr(categories)
+
 	result, err := r.client.CatalogV2UpdateTypeWithResponse(ctx, data.ID.ValueString(), requestBody)
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
@@ -211,5 +244,13 @@ func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV
 	if catalogType.SourceRepoUrl != nil {
 		model.SourceRepoURL = types.StringValue(*catalogType.SourceRepoUrl)
 	}
+
+	if len(catalogType.Categories) > 0 {
+		model.Categories = []types.String{}
+		for _, category := range catalogType.Categories {
+			model.Categories = append(model.Categories, types.StringValue(string(category)))
+		}
+	}
+
 	return model
 }

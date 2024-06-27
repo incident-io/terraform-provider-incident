@@ -1499,6 +1499,7 @@ paths:
                         - ranked
                         - schema
                         - icon
+                        - categories
                         - color
                         - is_editable
                         - annotations
@@ -5140,7 +5141,7 @@ definitions:
                 example: "4293868629"
             description:
                 type: string
-                description: 'Description that optionally adds more detail to title '
+                description: Description that optionally adds more detail to title. Supports markdown.
                 example: We've detected a number of timeouts on hello.world.com, the service may be down. To fix...
             metadata:
                 type: object
@@ -10841,6 +10842,22 @@ definitions:
                 additionalProperties:
                     type: string
                     example: abc123
+            categories:
+                type: array
+                items:
+                    type: string
+                    example: issue-tracker
+                    enum:
+                        - customer
+                        - issue-tracker
+                        - product-feature
+                        - service
+                        - on-call
+                        - team
+                        - user
+                description: What categories is this type considered part of
+                example:
+                    - issue-tracker
             color:
                 type: string
                 description: Sets the display color of this type in the dashboard
@@ -10955,6 +10972,8 @@ definitions:
         example:
             annotations:
                 incident.io/catalog-importer/id: id-of-config
+            categories:
+                - issue-tracker
             color: yellow
             created_at: "2021-08-17T13:28:57.801578Z"
             description: Represents Kubernetes clusters that we run inside of GKE.
@@ -10994,6 +11013,7 @@ definitions:
             - ranked
             - schema
             - icon
+            - categories
             - color
             - is_editable
             - annotations
@@ -11130,6 +11150,22 @@ definitions:
                 additionalProperties:
                     type: string
                     example: abc123
+            categories:
+                type: array
+                items:
+                    type: string
+                    example: issue-tracker
+                    enum:
+                        - customer
+                        - issue-tracker
+                        - product-feature
+                        - service
+                        - on-call
+                        - team
+                        - user
+                description: What categories is this type considered part of
+                example:
+                    - issue-tracker
             color:
                 type: string
                 description: Sets the display color of this type in the dashboard
@@ -11194,6 +11230,8 @@ definitions:
         example:
             annotations:
                 incident.io/catalog-importer/id: id-of-config
+            categories:
+                - issue-tracker
             color: yellow
             description: Represents Kubernetes clusters that we run inside of GKE.
             icon: bolt
@@ -11214,6 +11252,8 @@ definitions:
             catalog_type:
                 annotations:
                     incident.io/catalog-importer/id: id-of-config
+                categories:
+                    - issue-tracker
                 color: yellow
                 created_at: "2021-08-17T13:28:57.801578Z"
                 description: Represents Kubernetes clusters that we run inside of GKE.
@@ -11350,6 +11390,8 @@ definitions:
             catalog_type:
                 annotations:
                     incident.io/catalog-importer/id: id-of-config
+                categories:
+                    - issue-tracker
                 color: yellow
                 created_at: "2021-08-17T13:28:57.801578Z"
                 description: Represents Kubernetes clusters that we run inside of GKE.
@@ -11421,6 +11463,8 @@ definitions:
                 example:
                     - annotations:
                         incident.io/catalog-importer/id: id-of-config
+                      categories:
+                        - issue-tracker
                       color: yellow
                       created_at: "2021-08-17T13:28:57.801578Z"
                       description: Represents Kubernetes clusters that we run inside of GKE.
@@ -11455,6 +11499,8 @@ definitions:
             catalog_types:
                 - annotations:
                     incident.io/catalog-importer/id: id-of-config
+                  categories:
+                    - issue-tracker
                   color: yellow
                   created_at: "2021-08-17T13:28:57.801578Z"
                   description: Represents Kubernetes clusters that we run inside of GKE.
@@ -11543,6 +11589,8 @@ definitions:
             catalog_type:
                 annotations:
                     incident.io/catalog-importer/id: id-of-config
+                categories:
+                    - issue-tracker
                 color: yellow
                 created_at: "2021-08-17T13:28:57.801578Z"
                 description: Represents Kubernetes clusters that we run inside of GKE.
@@ -11586,6 +11634,8 @@ definitions:
             catalog_type:
                 annotations:
                     incident.io/catalog-importer/id: id-of-config
+                categories:
+                    - issue-tracker
                 color: yellow
                 created_at: "2021-08-17T13:28:57.801578Z"
                 description: Represents Kubernetes clusters that we run inside of GKE.
@@ -11731,6 +11781,8 @@ definitions:
             catalog_type:
                 annotations:
                     incident.io/catalog-importer/id: id-of-config
+                categories:
+                    - issue-tracker
                 color: yellow
                 created_at: "2021-08-17T13:28:57.801578Z"
                 description: Represents Kubernetes clusters that we run inside of GKE.
@@ -11776,6 +11828,22 @@ definitions:
                 additionalProperties:
                     type: string
                     example: abc123
+            categories:
+                type: array
+                items:
+                    type: string
+                    example: issue-tracker
+                    enum:
+                        - customer
+                        - issue-tracker
+                        - product-feature
+                        - service
+                        - on-call
+                        - team
+                        - user
+                description: What categories is this type considered part of
+                example:
+                    - issue-tracker
             color:
                 type: string
                 description: Sets the display color of this type in the dashboard
@@ -11836,6 +11904,8 @@ definitions:
         example:
             annotations:
                 incident.io/catalog-importer/id: id-of-config
+            categories:
+                - issue-tracker
             color: yellow
             description: Represents Kubernetes clusters that we run inside of GKE.
             icon: bolt
@@ -11855,6 +11925,8 @@ definitions:
             catalog_type:
                 annotations:
                     incident.io/catalog-importer/id: id-of-config
+                categories:
+                    - issue-tracker
                 color: yellow
                 created_at: "2021-08-17T13:28:57.801578Z"
                 description: Represents Kubernetes clusters that we run inside of GKE.
@@ -11929,6 +12001,7 @@ definitions:
             - ranked
             - schema
             - icon
+            - categories
             - color
             - is_editable
             - annotations
@@ -11947,6 +12020,8 @@ definitions:
             catalog_type:
                 annotations:
                     incident.io/catalog-importer/id: id-of-config
+                categories:
+                    - issue-tracker
                 color: yellow
                 created_at: "2021-08-17T13:28:57.801578Z"
                 description: Represents Kubernetes clusters that we run inside of GKE.
@@ -14101,6 +14176,7 @@ definitions:
                     - if_else
                     - repeat
                     - level
+                    - notify_channel
         example:
             id: 01FCNDV6P870EA6S7TK1DSYDG0
             if_else:
@@ -14193,6 +14269,7 @@ definitions:
                     - if_else
                     - repeat
                     - level
+                    - notify_channel
         example:
             id: 01FCNDV6P870EA6S7TK1DSYDG0
             if_else:
@@ -14246,6 +14323,7 @@ definitions:
                 enum:
                     - schedule
                     - user
+                    - slack_channel
             urgency:
                 type: string
                 description: The urgency of this escalation path target
@@ -14276,6 +14354,7 @@ definitions:
                 enum:
                     - schedule
                     - user
+                    - slack_channel
             urgency:
                 type: string
                 description: The urgency of this escalation path target

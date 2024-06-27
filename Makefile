@@ -26,7 +26,7 @@ build:
 # Clients
 ################################################################################
 
-.PHONY: internal/client
+.PHONY: internal/client/client.gen.go
 
 internal/client/client.gen.go:
 	rm -rf $@
