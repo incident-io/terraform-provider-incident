@@ -78,6 +78,17 @@ const (
 	CatalogTypeAttributeV2ModePath     CatalogTypeAttributeV2Mode = "path"
 )
 
+// Defines values for CatalogTypeV2Categories.
+const (
+	CatalogTypeV2CategoriesCustomer       CatalogTypeV2Categories = "customer"
+	CatalogTypeV2CategoriesIssueTracker   CatalogTypeV2Categories = "issue-tracker"
+	CatalogTypeV2CategoriesOnCall         CatalogTypeV2Categories = "on-call"
+	CatalogTypeV2CategoriesProductFeature CatalogTypeV2Categories = "product-feature"
+	CatalogTypeV2CategoriesService        CatalogTypeV2Categories = "service"
+	CatalogTypeV2CategoriesTeam           CatalogTypeV2Categories = "team"
+	CatalogTypeV2CategoriesUser           CatalogTypeV2Categories = "user"
+)
+
 // Defines values for CatalogTypeV2Color.
 const (
 	CatalogTypeV2ColorBlue   CatalogTypeV2Color = "blue"
@@ -220,6 +231,17 @@ const (
 	CreateRequestBody9VisibilityPublic  CreateRequestBody9Visibility = "public"
 )
 
+// Defines values for CreateTypeRequestBodyCategories.
+const (
+	CreateTypeRequestBodyCategoriesCustomer       CreateTypeRequestBodyCategories = "customer"
+	CreateTypeRequestBodyCategoriesIssueTracker   CreateTypeRequestBodyCategories = "issue-tracker"
+	CreateTypeRequestBodyCategoriesOnCall         CreateTypeRequestBodyCategories = "on-call"
+	CreateTypeRequestBodyCategoriesProductFeature CreateTypeRequestBodyCategories = "product-feature"
+	CreateTypeRequestBodyCategoriesService        CreateTypeRequestBodyCategories = "service"
+	CreateTypeRequestBodyCategoriesTeam           CreateTypeRequestBodyCategories = "team"
+	CreateTypeRequestBodyCategoriesUser           CreateTypeRequestBodyCategories = "user"
+)
+
 // Defines values for CreateTypeRequestBodyColor.
 const (
 	CreateTypeRequestBodyColorBlue   CreateTypeRequestBodyColor = "blue"
@@ -329,22 +351,25 @@ const (
 
 // Defines values for EscalationPathNodePayloadV2Type.
 const (
-	EscalationPathNodePayloadV2TypeIfElse EscalationPathNodePayloadV2Type = "if_else"
-	EscalationPathNodePayloadV2TypeLevel  EscalationPathNodePayloadV2Type = "level"
-	EscalationPathNodePayloadV2TypeRepeat EscalationPathNodePayloadV2Type = "repeat"
+	EscalationPathNodePayloadV2TypeIfElse        EscalationPathNodePayloadV2Type = "if_else"
+	EscalationPathNodePayloadV2TypeLevel         EscalationPathNodePayloadV2Type = "level"
+	EscalationPathNodePayloadV2TypeNotifyChannel EscalationPathNodePayloadV2Type = "notify_channel"
+	EscalationPathNodePayloadV2TypeRepeat        EscalationPathNodePayloadV2Type = "repeat"
 )
 
 // Defines values for EscalationPathNodeV2Type.
 const (
-	EscalationPathNodeV2TypeIfElse EscalationPathNodeV2Type = "if_else"
-	EscalationPathNodeV2TypeLevel  EscalationPathNodeV2Type = "level"
-	EscalationPathNodeV2TypeRepeat EscalationPathNodeV2Type = "repeat"
+	EscalationPathNodeV2TypeIfElse        EscalationPathNodeV2Type = "if_else"
+	EscalationPathNodeV2TypeLevel         EscalationPathNodeV2Type = "level"
+	EscalationPathNodeV2TypeNotifyChannel EscalationPathNodeV2Type = "notify_channel"
+	EscalationPathNodeV2TypeRepeat        EscalationPathNodeV2Type = "repeat"
 )
 
 // Defines values for EscalationPathTargetV2Type.
 const (
-	EscalationPathTargetV2TypeSchedule EscalationPathTargetV2Type = "schedule"
-	EscalationPathTargetV2TypeUser     EscalationPathTargetV2Type = "user"
+	EscalationPathTargetV2TypeSchedule     EscalationPathTargetV2Type = "schedule"
+	EscalationPathTargetV2TypeSlackChannel EscalationPathTargetV2Type = "slack_channel"
+	EscalationPathTargetV2TypeUser         EscalationPathTargetV2Type = "user"
 )
 
 // Defines values for EscalationPathTargetV2Urgency.
@@ -565,6 +590,17 @@ const (
 	Never            UpdateRequestBody2RequiredV2 = "never"
 )
 
+// Defines values for UpdateTypeRequestBodyCategories.
+const (
+	UpdateTypeRequestBodyCategoriesCustomer       UpdateTypeRequestBodyCategories = "customer"
+	UpdateTypeRequestBodyCategoriesIssueTracker   UpdateTypeRequestBodyCategories = "issue-tracker"
+	UpdateTypeRequestBodyCategoriesOnCall         UpdateTypeRequestBodyCategories = "on-call"
+	UpdateTypeRequestBodyCategoriesProductFeature UpdateTypeRequestBodyCategories = "product-feature"
+	UpdateTypeRequestBodyCategoriesService        UpdateTypeRequestBodyCategories = "service"
+	UpdateTypeRequestBodyCategoriesTeam           UpdateTypeRequestBodyCategories = "team"
+	UpdateTypeRequestBodyCategoriesUser           UpdateTypeRequestBodyCategories = "user"
+)
+
 // Defines values for UpdateTypeRequestBodyColor.
 const (
 	Blue   UpdateTypeRequestBodyColor = "blue"
@@ -578,30 +614,30 @@ const (
 
 // Defines values for UpdateTypeRequestBodyIcon.
 const (
-	Bolt       UpdateTypeRequestBodyIcon = "bolt"
-	Box        UpdateTypeRequestBodyIcon = "box"
-	Briefcase  UpdateTypeRequestBodyIcon = "briefcase"
-	Browser    UpdateTypeRequestBodyIcon = "browser"
-	Bulb       UpdateTypeRequestBodyIcon = "bulb"
-	Calendar   UpdateTypeRequestBodyIcon = "calendar"
-	Clock      UpdateTypeRequestBodyIcon = "clock"
-	Cog        UpdateTypeRequestBodyIcon = "cog"
-	Components UpdateTypeRequestBodyIcon = "components"
-	Database   UpdateTypeRequestBodyIcon = "database"
-	Doc        UpdateTypeRequestBodyIcon = "doc"
-	Email      UpdateTypeRequestBodyIcon = "email"
-	Files      UpdateTypeRequestBodyIcon = "files"
-	Flag       UpdateTypeRequestBodyIcon = "flag"
-	Folder     UpdateTypeRequestBodyIcon = "folder"
-	Globe      UpdateTypeRequestBodyIcon = "globe"
-	Money      UpdateTypeRequestBodyIcon = "money"
-	Server     UpdateTypeRequestBodyIcon = "server"
-	Severity   UpdateTypeRequestBodyIcon = "severity"
-	Star       UpdateTypeRequestBodyIcon = "star"
-	Store      UpdateTypeRequestBodyIcon = "store"
-	Tag        UpdateTypeRequestBodyIcon = "tag"
-	User       UpdateTypeRequestBodyIcon = "user"
-	Users      UpdateTypeRequestBodyIcon = "users"
+	UpdateTypeRequestBodyIconBolt       UpdateTypeRequestBodyIcon = "bolt"
+	UpdateTypeRequestBodyIconBox        UpdateTypeRequestBodyIcon = "box"
+	UpdateTypeRequestBodyIconBriefcase  UpdateTypeRequestBodyIcon = "briefcase"
+	UpdateTypeRequestBodyIconBrowser    UpdateTypeRequestBodyIcon = "browser"
+	UpdateTypeRequestBodyIconBulb       UpdateTypeRequestBodyIcon = "bulb"
+	UpdateTypeRequestBodyIconCalendar   UpdateTypeRequestBodyIcon = "calendar"
+	UpdateTypeRequestBodyIconClock      UpdateTypeRequestBodyIcon = "clock"
+	UpdateTypeRequestBodyIconCog        UpdateTypeRequestBodyIcon = "cog"
+	UpdateTypeRequestBodyIconComponents UpdateTypeRequestBodyIcon = "components"
+	UpdateTypeRequestBodyIconDatabase   UpdateTypeRequestBodyIcon = "database"
+	UpdateTypeRequestBodyIconDoc        UpdateTypeRequestBodyIcon = "doc"
+	UpdateTypeRequestBodyIconEmail      UpdateTypeRequestBodyIcon = "email"
+	UpdateTypeRequestBodyIconFiles      UpdateTypeRequestBodyIcon = "files"
+	UpdateTypeRequestBodyIconFlag       UpdateTypeRequestBodyIcon = "flag"
+	UpdateTypeRequestBodyIconFolder     UpdateTypeRequestBodyIcon = "folder"
+	UpdateTypeRequestBodyIconGlobe      UpdateTypeRequestBodyIcon = "globe"
+	UpdateTypeRequestBodyIconMoney      UpdateTypeRequestBodyIcon = "money"
+	UpdateTypeRequestBodyIconServer     UpdateTypeRequestBodyIcon = "server"
+	UpdateTypeRequestBodyIconSeverity   UpdateTypeRequestBodyIcon = "severity"
+	UpdateTypeRequestBodyIconStar       UpdateTypeRequestBodyIcon = "star"
+	UpdateTypeRequestBodyIconStore      UpdateTypeRequestBodyIcon = "store"
+	UpdateTypeRequestBodyIconTag        UpdateTypeRequestBodyIcon = "tag"
+	UpdateTypeRequestBodyIconUser       UpdateTypeRequestBodyIcon = "user"
+	UpdateTypeRequestBodyIconUsers      UpdateTypeRequestBodyIcon = "users"
 )
 
 // Defines values for UpdateWorkflowRequestBodyRunsOnIncidentModes.
@@ -1024,6 +1060,9 @@ type CatalogTypeV2 struct {
 	// Annotations Annotations that can track metadata about this type
 	Annotations map[string]string `json:"annotations"`
 
+	// Categories What categories is this type considered part of
+	Categories []CatalogTypeV2Categories `json:"categories"`
+
 	// Color Sets the display color of this type in the dashboard
 	Color CatalogTypeV2Color `json:"color"`
 
@@ -1076,6 +1115,9 @@ type CatalogTypeV2 struct {
 	// UpdatedAt When this type was last updated
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+// CatalogTypeV2Categories defines model for CatalogTypeV2.Categories.
+type CatalogTypeV2Categories string
 
 // CatalogTypeV2Color Sets the display color of this type in the dashboard
 type CatalogTypeV2Color string
@@ -1192,7 +1234,7 @@ type CreateHTTPRequestBody struct {
 	// DeduplicationKey A deduplication key can be provided to uniquely reference this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config.
 	DeduplicationKey *string `json:"deduplication_key,omitempty"`
 
-	// Description Description that optionally adds more detail to title
+	// Description Description that optionally adds more detail to title. Supports markdown.
 	Description *string `json:"description,omitempty"`
 
 	// Metadata Any additional metadata that you've configured your alert source to parse
@@ -1519,6 +1561,9 @@ type CreateTypeRequestBody struct {
 	// Annotations Annotations that can track metadata about this type
 	Annotations *map[string]string `json:"annotations,omitempty"`
 
+	// Categories What categories is this type considered part of
+	Categories *[]CreateTypeRequestBodyCategories `json:"categories,omitempty"`
+
 	// Color Sets the display color of this type in the dashboard
 	Color *CreateTypeRequestBodyColor `json:"color,omitempty"`
 
@@ -1540,6 +1585,9 @@ type CreateTypeRequestBody struct {
 	// TypeName The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom["SomeName "]
 	TypeName *string `json:"type_name,omitempty"`
 }
+
+// CreateTypeRequestBodyCategories defines model for CreateTypeRequestBody.Categories.
+type CreateTypeRequestBodyCategories string
 
 // CreateTypeRequestBodyColor Sets the display color of this type in the dashboard
 type CreateTypeRequestBodyColor string
@@ -3341,6 +3389,9 @@ type UpdateTypeRequestBody struct {
 	// Annotations Annotations that can track metadata about this type
 	Annotations *map[string]string `json:"annotations,omitempty"`
 
+	// Categories What categories is this type considered part of
+	Categories *[]UpdateTypeRequestBodyCategories `json:"categories,omitempty"`
+
 	// Color Sets the display color of this type in the dashboard
 	Color *UpdateTypeRequestBodyColor `json:"color,omitempty"`
 
@@ -3359,6 +3410,9 @@ type UpdateTypeRequestBody struct {
 	// SourceRepoUrl The url of the external repository where this type is managed
 	SourceRepoUrl *string `json:"source_repo_url,omitempty"`
 }
+
+// UpdateTypeRequestBodyCategories defines model for UpdateTypeRequestBody.Categories.
+type UpdateTypeRequestBodyCategories string
 
 // UpdateTypeRequestBodyColor Sets the display color of this type in the dashboard
 type UpdateTypeRequestBodyColor string
