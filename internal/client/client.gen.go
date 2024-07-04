@@ -365,6 +365,14 @@ const (
 	EscalationPathNodeV2TypeRepeat        EscalationPathNodeV2Type = "repeat"
 )
 
+// Defines values for EscalationPathTargetV2ScheduleMode.
+const (
+	EscalationPathTargetV2ScheduleModeAllUsers        EscalationPathTargetV2ScheduleMode = "all_users"
+	EscalationPathTargetV2ScheduleModeAllUsersForRota EscalationPathTargetV2ScheduleMode = "all_users_for_rota"
+	EscalationPathTargetV2ScheduleModeCurrentlyOnCall EscalationPathTargetV2ScheduleMode = "currently_on_call"
+	EscalationPathTargetV2ScheduleModeEmpty           EscalationPathTargetV2ScheduleMode = ""
+)
+
 // Defines values for EscalationPathTargetV2Type.
 const (
 	EscalationPathTargetV2TypeSchedule     EscalationPathTargetV2Type = "schedule"
@@ -553,9 +561,9 @@ const (
 
 // Defines values for ManagementMetaV2ManagedBy.
 const (
-	Dashboard ManagementMetaV2ManagedBy = "dashboard"
-	External  ManagementMetaV2ManagedBy = "external"
-	Terraform ManagementMetaV2ManagedBy = "terraform"
+	ManagementMetaV2ManagedByDashboard ManagementMetaV2ManagedBy = "dashboard"
+	ManagementMetaV2ManagedByExternal  ManagementMetaV2ManagedBy = "external"
+	ManagementMetaV2ManagedByTerraform ManagementMetaV2ManagedBy = "terraform"
 )
 
 // Defines values for ScheduleRotationHandoverV2IntervalType.
@@ -1943,6 +1951,8 @@ type EscalationPathNodeIfElseV2 struct {
 
 // EscalationPathNodeLevelV2 defines model for EscalationPathNodeLevelV2.
 type EscalationPathNodeLevelV2 struct {
+	RoundRobinConfig *EscalationPathRoundRobinConfigV2 `json:"round_robin_config,omitempty"`
+
 	// Targets The targets for this level
 	Targets []EscalationPathTargetV2 `json:"targets"`
 
@@ -1998,10 +2008,22 @@ type EscalationPathNodeV2 struct {
 // EscalationPathNodeV2Type The type of this node: level or branch
 type EscalationPathNodeV2Type string
 
+// EscalationPathRoundRobinConfigV2 defines model for EscalationPathRoundRobinConfigV2.
+type EscalationPathRoundRobinConfigV2 struct {
+	// Enabled Whether round robin is enabled for this level
+	Enabled bool `json:"enabled"`
+
+	// RotateAfterSeconds How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+	RotateAfterSeconds *int64 `json:"rotate_after_seconds,omitempty"`
+}
+
 // EscalationPathTargetV2 defines model for EscalationPathTargetV2.
 type EscalationPathTargetV2 struct {
 	// Id Uniquely identifies an entity of this type
 	Id string `json:"id"`
+
+	// ScheduleMode Controls which users we select from a schedule when escalating to this target
+	ScheduleMode *EscalationPathTargetV2ScheduleMode `json:"schedule_mode,omitempty"`
 
 	// Type Controls what type of entity this target identifies, such as EscalationPolicy or User
 	Type EscalationPathTargetV2Type `json:"type"`
@@ -2009,6 +2031,9 @@ type EscalationPathTargetV2 struct {
 	// Urgency The urgency of this escalation path target
 	Urgency EscalationPathTargetV2Urgency `json:"urgency"`
 }
+
+// EscalationPathTargetV2ScheduleMode Controls which users we select from a schedule when escalating to this target
+type EscalationPathTargetV2ScheduleMode string
 
 // EscalationPathTargetV2Type Controls what type of entity this target identifies, such as EscalationPolicy or User
 type EscalationPathTargetV2Type string
@@ -2330,6 +2355,9 @@ type IncidentEditPayloadV2 struct {
 
 	// SeverityId Severity to change incident to
 	SeverityId *string `json:"severity_id,omitempty"`
+
+	// SlackChannelNameOverride Override the name of the incident Slack channel
+	SlackChannelNameOverride *string `json:"slack_channel_name_override,omitempty"`
 
 	// Summary Detailed description of the incident
 	Summary *string `json:"summary,omitempty"`
@@ -3802,6 +3830,9 @@ type IncidentsV2ListParams struct {
 
 	// CreatedAt Filter on incident created at timestamp. The accepted operators are 'gte', 'lte' and 'date_range'.
 	CreatedAt *map[string][]string `form:"created_at,omitempty" json:"created_at,omitempty"`
+
+	// UpdatedAt Filter on incident updated at timestamp. The accepted operators are 'gte', 'lte' and 'date_range'.
+	UpdatedAt *map[string][]string `form:"updated_at,omitempty" json:"updated_at,omitempty"`
 
 	// Severity Filter on incident severity. The accepted operators are 'one_of', 'not_in', 'gte', 'lte'.
 	Severity *map[string][]string `form:"severity,omitempty" json:"severity,omitempty"`
@@ -8963,6 +8994,22 @@ func NewIncidentsV2ListRequest(server string, params *IncidentsV2ListParams) (*h
 	if params.CreatedAt != nil {
 
 		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "created_at", runtime.ParamLocationQuery, *params.CreatedAt); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.UpdatedAt != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "updated_at", runtime.ParamLocationQuery, *params.UpdatedAt); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err

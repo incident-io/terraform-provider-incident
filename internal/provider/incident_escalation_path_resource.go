@@ -49,10 +49,11 @@ type IncidentEscalationPathNodeIfElse struct {
 }
 
 type IncidentEscalationPathNodeLevel struct {
-	Targets                          []IncidentEscalationPathTarget `tfsdk:"targets"`
-	TimeToAckIntervalCondition       types.String                   `tfsdk:"time_to_ack_interval_condition"`
-	TimeToAckSeconds                 types.Int64                    `tfsdk:"time_to_ack_seconds"`
-	TimeToAckWeekdayIntervalConfigID types.String                   `tfsdk:"time_to_ack_weekday_interval_config_id"`
+	Targets                          []IncidentEscalationPathTarget      `tfsdk:"targets"`
+	RoundRobinConfig                 *IncidentEscalationRoundRobinConfig `tfsdk:"round_robin_config"`
+	TimeToAckIntervalCondition       types.String                        `tfsdk:"time_to_ack_interval_condition"`
+	TimeToAckSeconds                 types.Int64                         `tfsdk:"time_to_ack_seconds"`
+	TimeToAckWeekdayIntervalConfigID types.String                        `tfsdk:"time_to_ack_weekday_interval_config_id"`
 }
 
 type IncidentEscalationPathNodeRepeat struct {
@@ -60,10 +61,16 @@ type IncidentEscalationPathNodeRepeat struct {
 	ToNode      types.String `tfsdk:"to_node"`
 }
 
+type IncidentEscalationRoundRobinConfig struct {
+	Enabled            types.Bool  `tfsdk:"enabled"`
+	RotateAfterSeconds types.Int64 `tfsdk:"rotate_after_seconds"`
+}
+
 type IncidentEscalationPathTarget struct {
-	ID      types.String `tfsdk:"id"`
-	Type    types.String `tfsdk:"type"`
-	Urgency types.String `tfsdk:"urgency"`
+	ID           types.String `tfsdk:"id"`
+	Type         types.String `tfsdk:"type"`
+	Urgency      types.String `tfsdk:"urgency"`
+	ScheduleMode types.String `tfsdk:"schedule_mode"`
 }
 
 func NewIncidentEscalationPathResource() resource.Resource {
@@ -143,6 +150,21 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2ResponseBody", "urgency"),
 									Required:            true,
 								},
+								"schedule_mode": schema.StringAttribute{
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2ResponseBody", "schedule_mode"),
+									Required:            true,
+								},
+							},
+						},
+					},
+					"round_robin_config": schema.SingleNestedAttribute{
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"enabled": schema.BoolAttribute{
+								Required: true,
+							},
+							"rotate_after_seconds": schema.Int64Attribute{
+								Optional: true,
 							},
 						},
 					},
@@ -369,11 +391,18 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 				Targets: lo.Map(node.Level.Targets,
 					func(target client.EscalationPathTargetV2, _ int) IncidentEscalationPathTarget {
 						return IncidentEscalationPathTarget{
-							ID:      types.StringValue(target.Id),
-							Type:    types.StringValue(string(target.Type)),
-							Urgency: types.StringValue(string(target.Urgency)),
+							ID:           types.StringValue(target.Id),
+							Type:         types.StringValue(string(target.Type)),
+							Urgency:      types.StringValue(string(target.Urgency)),
+							ScheduleMode: types.StringValue(string(*target.ScheduleMode)),
 						}
 					}),
+			}
+			if value := node.Level.RoundRobinConfig; value != nil {
+				elem.Level.RoundRobinConfig = &IncidentEscalationRoundRobinConfig{
+					Enabled:            types.BoolValue(value.Enabled),
+					RotateAfterSeconds: types.Int64Value(*value.RotateAfterSeconds),
+				}
 			}
 			if value := node.Level.TimeToAckSeconds; value != nil {
 				elem.Level.TimeToAckSeconds = types.Int64Value(*value)

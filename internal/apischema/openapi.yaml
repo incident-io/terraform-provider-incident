@@ -2031,11 +2031,11 @@ paths:
                 		curl --get 'https://api.incident.io/v2/incidents' \
                 			--data 'status[not_in]=ABC'
 
-                ### By created_at
+                ### By created_at or updated_at
 
-                Find all incidents created_at before or after a given date.
+                Find all incidents that follow specified date parameters for created_at and updated_at fields.
                 Possible values are "gte" (greater than or equal to) and "lte" (less than or equal to). The
-                following example finds all incidents created before or on 2021-01-02:
+                following example finds all incidents created before or on 2021-01-02T00:00:00Z:
 
                 		curl --get 'https://api.incident.io/v2/incidents' \
                 			--data 'created_at[lte]=2021-01-02'
@@ -2156,6 +2156,11 @@ paths:
                 - name: created_at
                   in: query
                   description: Filter on incident created at timestamp. The accepted operators are 'gte', 'lte' and 'date_range'.
+                  required: false
+                  type: map
+                - name: updated_at
+                  in: query
+                  description: Filter on incident updated at timestamp. The accepted operators are 'gte', 'lte' and 'date_range'.
                   required: false
                   type: map
                 - name: severity
@@ -13763,8 +13768,12 @@ definitions:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -13797,8 +13806,12 @@ definitions:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -13837,8 +13850,12 @@ definitions:
                     then_path:
                         - {}
                   level:
+                    round_robin_config:
+                        enabled: false
+                        rotate_after_seconds: 120
                     targets:
                         - id: lawrencejones
+                          schedule_mode: currently_on_call
                           type: user
                           urgency: high
                     time_to_ack_interval_condition: active
@@ -13866,8 +13883,12 @@ definitions:
                     then_path:
                         - {}
                   level:
+                    round_robin_config:
+                        enabled: false
+                        rotate_after_seconds: 120
                     targets:
                         - id: lawrencejones
+                          schedule_mode: currently_on_call
                           type: user
                           urgency: high
                     time_to_ack_interval_condition: active
@@ -13934,8 +13955,12 @@ definitions:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -13974,8 +13999,12 @@ definitions:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -14026,8 +14055,12 @@ definitions:
                     then_path:
                         - {}
                   level:
+                    round_robin_config:
+                        enabled: false
+                        rotate_after_seconds: 120
                     targets:
                         - id: lawrencejones
+                          schedule_mode: currently_on_call
                           type: user
                           urgency: high
                     time_to_ack_interval_condition: active
@@ -14061,8 +14094,12 @@ definitions:
                     then_path:
                         - {}
                   level:
+                    round_robin_config:
+                        enabled: false
+                        rotate_after_seconds: 120
                     targets:
                         - id: lawrencejones
+                          schedule_mode: currently_on_call
                           type: user
                           urgency: high
                     time_to_ack_interval_condition: active
@@ -14080,6 +14117,8 @@ definitions:
         title: EscalationPathNodeLevelV2RequestBody
         type: object
         properties:
+            round_robin_config:
+                $ref: '#/definitions/EscalationPathRoundRobinConfigV2RequestBody'
             targets:
                 type: array
                 items:
@@ -14087,6 +14126,7 @@ definitions:
                 description: The targets for this level
                 example:
                     - id: lawrencejones
+                      schedule_mode: currently_on_call
                       type: user
                       urgency: high
             time_to_ack_interval_condition:
@@ -14106,8 +14146,12 @@ definitions:
                 description: If the time to ack is relative to a time window, this identifies which window it is relative to
                 example: 01FCNDV6P870EA6S7TK1DSYDG0
         example:
+            round_robin_config:
+                enabled: false
+                rotate_after_seconds: 120
             targets:
                 - id: lawrencejones
+                  schedule_mode: currently_on_call
                   type: user
                   urgency: high
             time_to_ack_interval_condition: active
@@ -14119,6 +14163,8 @@ definitions:
         title: EscalationPathNodeLevelV2ResponseBody
         type: object
         properties:
+            round_robin_config:
+                $ref: '#/definitions/EscalationPathRoundRobinConfigV2ResponseBody'
             targets:
                 type: array
                 items:
@@ -14126,6 +14172,7 @@ definitions:
                 description: The targets for this level
                 example:
                     - id: lawrencejones
+                      schedule_mode: currently_on_call
                       type: user
                       urgency: high
             time_to_ack_interval_condition:
@@ -14145,8 +14192,12 @@ definitions:
                 description: If the time to ack is relative to a time window, this identifies which window it is relative to
                 example: 01FCNDV6P870EA6S7TK1DSYDG0
         example:
+            round_robin_config:
+                enabled: false
+                rotate_after_seconds: 120
             targets:
                 - id: lawrencejones
+                  schedule_mode: currently_on_call
                   type: user
                   urgency: high
             time_to_ack_interval_condition: active
@@ -14195,8 +14246,12 @@ definitions:
                 then_path:
                     - {}
             level:
+                round_robin_config:
+                    enabled: false
+                    rotate_after_seconds: 120
                 targets:
                     - id: lawrencejones
+                      schedule_mode: currently_on_call
                       type: user
                       urgency: high
                 time_to_ack_interval_condition: active
@@ -14294,8 +14349,12 @@ definitions:
                 then_path:
                     - {}
             level:
+                round_robin_config:
+                    enabled: false
+                    rotate_after_seconds: 120
                 targets:
                     - id: lawrencejones
+                      schedule_mode: currently_on_call
                       type: user
                       urgency: high
                 time_to_ack_interval_condition: active
@@ -14308,6 +14367,42 @@ definitions:
         required:
             - id
             - type
+    EscalationPathRoundRobinConfigV2RequestBody:
+        title: EscalationPathRoundRobinConfigV2RequestBody
+        type: object
+        properties:
+            enabled:
+                type: boolean
+                description: Whether round robin is enabled for this level
+                example: false
+            rotate_after_seconds:
+                type: integer
+                description: How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+                example: 120
+                format: int64
+        example:
+            enabled: false
+            rotate_after_seconds: 120
+        required:
+            - enabled
+    EscalationPathRoundRobinConfigV2ResponseBody:
+        title: EscalationPathRoundRobinConfigV2ResponseBody
+        type: object
+        properties:
+            enabled:
+                type: boolean
+                description: Whether round robin is enabled for this level
+                example: false
+            rotate_after_seconds:
+                type: integer
+                description: How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+                example: 120
+                format: int64
+        example:
+            enabled: false
+            rotate_after_seconds: 120
+        required:
+            - enabled
     EscalationPathTargetV2RequestBody:
         title: EscalationPathTargetV2RequestBody
         type: object
@@ -14316,6 +14411,15 @@ definitions:
                 type: string
                 description: Uniquely identifies an entity of this type
                 example: lawrencejones
+            schedule_mode:
+                type: string
+                description: Controls which users we select from a schedule when escalating to this target
+                example: currently_on_call
+                enum:
+                    - currently_on_call
+                    - all_users_for_rota
+                    - all_users
+                    - ""
             type:
                 type: string
                 description: Controls what type of entity this target identifies, such as EscalationPolicy or User
@@ -14333,6 +14437,7 @@ definitions:
                     - low
         example:
             id: lawrencejones
+            schedule_mode: currently_on_call
             type: user
             urgency: high
         required:
@@ -14347,6 +14452,15 @@ definitions:
                 type: string
                 description: Uniquely identifies an entity of this type
                 example: lawrencejones
+            schedule_mode:
+                type: string
+                description: Controls which users we select from a schedule when escalating to this target
+                example: currently_on_call
+                enum:
+                    - currently_on_call
+                    - all_users_for_rota
+                    - all_users
+                    - ""
             type:
                 type: string
                 description: Controls what type of entity this target identifies, such as EscalationPolicy or User
@@ -14364,6 +14478,7 @@ definitions:
                     - low
         example:
             id: lawrencejones
+            schedule_mode: currently_on_call
             type: user
             urgency: high
         required:
@@ -14411,8 +14526,12 @@ definitions:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -14462,8 +14581,12 @@ definitions:
                     then_path:
                         - {}
                   level:
+                    round_robin_config:
+                        enabled: false
+                        rotate_after_seconds: 120
                     targets:
                         - id: lawrencejones
+                          schedule_mode: currently_on_call
                           type: user
                           urgency: high
                     time_to_ack_interval_condition: active
@@ -14518,8 +14641,12 @@ definitions:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -14562,8 +14689,12 @@ definitions:
                     then_path:
                         - {}
                   level:
+                    round_robin_config:
+                        enabled: false
+                        rotate_after_seconds: 120
                     targets:
                         - id: lawrencejones
+                          schedule_mode: currently_on_call
                           type: user
                           urgency: high
                     time_to_ack_interval_condition: active
@@ -14618,8 +14749,12 @@ definitions:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -14673,8 +14808,12 @@ definitions:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -14725,8 +14864,12 @@ definitions:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -14769,8 +14912,12 @@ definitions:
                     then_path:
                         - {}
                   level:
+                    round_robin_config:
+                        enabled: false
+                        rotate_after_seconds: 120
                     targets:
                         - id: lawrencejones
+                          schedule_mode: currently_on_call
                           type: user
                           urgency: high
                     time_to_ack_interval_condition: active
@@ -14825,8 +14972,12 @@ definitions:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -16301,6 +16452,10 @@ definitions:
                 type: string
                 description: Severity to change incident to
                 example: 01FH5TZRWMNAFB0DZ23FD1TV96
+            slack_channel_name_override:
+                type: string
+                description: Override the name of the incident Slack channel
+                example: inc-123-database-down
             summary:
                 type: string
                 description: Detailed description of the incident
@@ -16329,6 +16484,7 @@ definitions:
                   value: "2021-08-17T13:28:57.801578Z"
             name: Our database is sad
             severity_id: 01FH5TZRWMNAFB0DZ23FD1TV96
+            slack_channel_name_override: inc-123-database-down
             summary: Our database is really really sad, and we don't know why yet.
     IncidentMembershipResponseBody:
         title: IncidentMembershipResponseBody
@@ -19199,6 +19355,7 @@ definitions:
                       value: "2021-08-17T13:28:57.801578Z"
                 name: Our database is sad
                 severity_id: 01FH5TZRWMNAFB0DZ23FD1TV96
+                slack_channel_name_override: inc-123-database-down
                 summary: Our database is really really sad, and we don't know why yet.
             notify_incident_channel: true
         required:

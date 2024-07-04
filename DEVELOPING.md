@@ -23,6 +23,18 @@ export INCIDENT_API_KEY="inc_development_<token>"
 
 This points the provider at your local instance via ngrok.
 
+If you need to regenerate the client, you first need to copy the following files over from `core/server/api/public/gen/http/`:
+
+```
+openapi.json
+openapi.yaml
+openapi3-secret.json
+openapi3.json
+openapi3.yaml
+```
+
+And then run `make internal/client/client.gen.go`
+
 ## Running tests
 
 The best way to develop against this provider is to write tests. You can run
@@ -58,15 +70,20 @@ There may be changes where you want to be running the provider itself, rather th
 just running tests. To do that you need to:
 
 1. Install Terraform:
+
 ```sh
 brew install hashicorp/tap/terraform
 ```
+
 2. Create yourself a project
+
 ```
 mkdir tmp/project
 
 ```
+
 3. Create a `dev.tfrc` file, inside `tmp/project` so that `terraform` uses your local version of the provider:
+
 ```
 provider_installation {
   dev_overrides {
@@ -76,7 +93,9 @@ provider_installation {
   direct {}
 }
 ```
+
 4. Create a `main.tf` file including any resources that you want to create (look in `examples/resources` for some nice examples)
+
 ```
 terraform {
   required_providers {
@@ -95,15 +114,21 @@ resource "incident_catalog_type" "service_tier" {
 }
 
 ```
+
 5. Build the provider binary
+
 ```sh
 make build
 ```
+
 6. Start your `terraform` server:
+
 ```
 TF_CLI_CONFIG_FILE=./dev.tfrc terraform init
 ```
+
 7. You can now plan and apply your Terraform configuration:
+
 ```
 TF_CLI_CONFIG_FILE=./dev.tfrc terraform plan
 
