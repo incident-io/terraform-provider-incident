@@ -357,9 +357,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -418,9 +421,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -467,9 +473,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--round_robin_config"></a>
@@ -591,9 +600,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -652,9 +664,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -701,9 +716,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -750,9 +768,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--round_robin_config"></a>
@@ -937,9 +958,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -998,9 +1022,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -1047,9 +1074,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--round_robin_config"></a>
@@ -1171,9 +1201,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -1232,9 +1265,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -1281,9 +1317,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -1330,9 +1369,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--round_robin_config"></a>
@@ -1379,9 +1421,12 @@ Optional:
 Required:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 - `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
 - `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
 
 
 <a id="nestedatt--path--level--round_robin_config"></a>
