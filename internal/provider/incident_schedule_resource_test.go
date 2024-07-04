@@ -43,7 +43,7 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 							{
 								Id:              "rota-primary",
 								HandoverStartAt: time.Date(2024, 4, 26, 16, 0, 0, 0, time.UTC),
-								EffectiveFrom:   lo.ToPtr(time.Now().Add(time.Hour * 24)),
+								EffectiveFrom:   lo.ToPtr(time.Now().Add(time.Hour * 24).UTC()),
 								Name:            "Rota",
 								Handovers: []client.ScheduleRotationHandoverV2{
 									{

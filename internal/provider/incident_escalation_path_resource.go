@@ -152,7 +152,8 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 								},
 								"schedule_mode": schema.StringAttribute{
 									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2ResponseBody", "schedule_mode"),
-									Required:            true,
+									Optional:            true,
+									Computed:            true,
 								},
 							},
 						},
