@@ -1,6 +1,12 @@
 ## Unreleased
 
+## 3.8.0
+
+- Add support for `schedule_mode` on the `incident_escalation_path` resource target parameter
+- Add support for `round_robin_config` on the `incident_escalation_path` resource level parameter
+
 ## 3.7.0
+
 - Add support for path attributes on the `incident_catalog_type_attribute` resource
 - Add support for categories on the `incident_catalog_type` resource
 
