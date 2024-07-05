@@ -362,7 +362,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -426,7 +426,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -478,7 +478,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--round_robin_config"></a>
@@ -605,7 +605,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -669,7 +669,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -721,7 +721,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -773,7 +773,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--then_path--repeat--round_robin_config"></a>
@@ -963,7 +963,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -1027,7 +1027,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -1079,7 +1079,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--round_robin_config"></a>
@@ -1206,7 +1206,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -1270,7 +1270,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -1322,7 +1322,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--round_robin_config"></a>
@@ -1374,7 +1374,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--if_else--else_path--repeat--round_robin_config"></a>
@@ -1426,7 +1426,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Controls which users we select from a schedule when escalating to this target
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 
 
 <a id="nestedatt--path--level--round_robin_config"></a>

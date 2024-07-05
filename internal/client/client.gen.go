@@ -2022,7 +2022,7 @@ type EscalationPathTargetV2 struct {
 	// Id Uniquely identifies an entity of this type
 	Id string `json:"id"`
 
-	// ScheduleMode Controls which users we select from a schedule when escalating to this target
+	// ScheduleMode Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 	ScheduleMode *EscalationPathTargetV2ScheduleMode `json:"schedule_mode,omitempty"`
 
 	// Type Controls what type of entity this target identifies, such as EscalationPolicy or User
@@ -2032,7 +2032,7 @@ type EscalationPathTargetV2 struct {
 	Urgency EscalationPathTargetV2Urgency `json:"urgency"`
 }
 
-// EscalationPathTargetV2ScheduleMode Controls which users we select from a schedule when escalating to this target
+// EscalationPathTargetV2ScheduleMode Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
 type EscalationPathTargetV2ScheduleMode string
 
 // EscalationPathTargetV2Type Controls what type of entity this target identifies, such as EscalationPolicy or User

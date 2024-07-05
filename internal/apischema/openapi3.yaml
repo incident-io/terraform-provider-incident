@@ -14656,7 +14656,7 @@ components:
                     example: lawrencejones
                 schedule_mode:
                     type: string
-                    description: Controls which users we select from a schedule when escalating to this target
+                    description: Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
                     example: currently_on_call
                     enum:
                         - currently_on_call
