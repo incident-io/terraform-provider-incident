@@ -1,7 +1,0 @@
-provider_installation {
-  dev_overrides {
-    "incident-io/incident" = "/Users/lucas/incident-io/terraform-provider-incident/bin"
-  }
-
-  direct {}
-}
