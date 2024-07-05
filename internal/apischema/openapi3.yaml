@@ -2946,8 +2946,12 @@ paths:
                                     then_path:
                                         - {}
                                   level:
+                                    round_robin_config:
+                                        enabled: false
+                                        rotate_after_seconds: 120
                                     targets:
                                         - id: lawrencejones
+                                          schedule_mode: currently_on_call
                                           type: user
                                           urgency: high
                                     time_to_ack_interval_condition: active
@@ -3000,8 +3004,12 @@ paths:
                                             then_path:
                                                 - {}
                                           level:
+                                            round_robin_config:
+                                                enabled: false
+                                                rotate_after_seconds: 120
                                             targets:
                                                 - id: lawrencejones
+                                                  schedule_mode: currently_on_call
                                                   type: user
                                                   urgency: high
                                             time_to_ack_interval_condition: active
@@ -3098,8 +3106,12 @@ paths:
                                             then_path:
                                                 - {}
                                           level:
+                                            round_robin_config:
+                                                enabled: false
+                                                rotate_after_seconds: 120
                                             targets:
                                                 - id: lawrencejones
+                                                  schedule_mode: currently_on_call
                                                   type: user
                                                   urgency: high
                                             time_to_ack_interval_condition: active
@@ -3163,8 +3175,12 @@ paths:
                                     then_path:
                                         - {}
                                   level:
+                                    round_robin_config:
+                                        enabled: false
+                                        rotate_after_seconds: 120
                                     targets:
                                         - id: lawrencejones
+                                          schedule_mode: currently_on_call
                                           type: user
                                           urgency: high
                                     time_to_ack_interval_condition: active
@@ -3217,8 +3233,12 @@ paths:
                                             then_path:
                                                 - {}
                                           level:
+                                            round_robin_config:
+                                                enabled: false
+                                                rotate_after_seconds: 120
                                             targets:
                                                 - id: lawrencejones
+                                                  schedule_mode: currently_on_call
                                                   type: user
                                                   urgency: high
                                             time_to_ack_interval_condition: active
@@ -3668,11 +3688,11 @@ paths:
                 		curl --get 'https://api.incident.io/v2/incidents' \
                 			--data 'status[not_in]=ABC'
 
-                ### By created_at
+                ### By created_at or updated_at
 
-                Find all incidents created_at before or after a given date.
+                Find all incidents that follow specified date parameters for created_at and updated_at fields.
                 Possible values are "gte" (greater than or equal to) and "lte" (less than or equal to). The
-                following example finds all incidents created before or on 2021-01-02:
+                following example finds all incidents created before or on 2021-01-02T00:00:00Z:
 
                 		curl --get 'https://api.incident.io/v2/incidents' \
                 			--data 'created_at[lte]=2021-01-02'
@@ -3848,6 +3868,26 @@ paths:
                             - some_value
                   example:
                     created_at[gte]:
+                        - "2024-05-01"
+                - name: updated_at
+                  in: query
+                  description: Filter on incident updated at timestamp. The accepted operators are 'gte', 'lte' and 'date_range'.
+                  allowEmptyValue: true
+                  schema:
+                    type: object
+                    description: Filter on incident updated at timestamp. The accepted operators are 'gte', 'lte' and 'date_range'.
+                    example:
+                        updated_at[gte]:
+                            - "2024-05-01"
+                    additionalProperties:
+                        type: array
+                        items:
+                            type: string
+                            example: some_value
+                        example:
+                            - some_value
+                  example:
+                    updated_at[gte]:
                         - "2024-05-01"
                 - name: severity
                   in: query
@@ -4462,6 +4502,7 @@ paths:
                                       value: "2021-08-17T13:28:57.801578Z"
                                 name: Our database is sad
                                 severity_id: 01FH5TZRWMNAFB0DZ23FD1TV96
+                                slack_channel_name_override: inc-123-database-down
                                 summary: Our database is really really sad, and we don't know why yet.
                             notify_incident_channel: true
             responses:
@@ -12172,8 +12213,12 @@ components:
                             then_path:
                                 - {}
                           level:
+                            round_robin_config:
+                                enabled: false
+                                rotate_after_seconds: 120
                             targets:
                                 - id: lawrencejones
+                                  schedule_mode: currently_on_call
                                   type: user
                                   urgency: high
                             time_to_ack_interval_condition: active
@@ -12216,8 +12261,12 @@ components:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -12271,8 +12320,12 @@ components:
                             then_path:
                                 - {}
                           level:
+                            round_robin_config:
+                                enabled: false
+                                rotate_after_seconds: 120
                             targets:
                                 - id: lawrencejones
+                                  schedule_mode: currently_on_call
                                   type: user
                                   urgency: high
                             time_to_ack_interval_condition: active
@@ -13812,6 +13865,7 @@ components:
                           value: "2021-08-17T13:28:57.801578Z"
                     name: Our database is sad
                     severity_id: 01FH5TZRWMNAFB0DZ23FD1TV96
+                    slack_channel_name_override: inc-123-database-down
                     summary: Our database is really really sad, and we don't know why yet.
                 notify_incident_channel: true
             required:
@@ -14047,8 +14101,12 @@ components:
                             then_path:
                                 - {}
                           level:
+                            round_robin_config:
+                                enabled: false
+                                rotate_after_seconds: 120
                             targets:
                                 - id: lawrencejones
+                                  schedule_mode: currently_on_call
                                   type: user
                                   urgency: high
                             time_to_ack_interval_condition: active
@@ -14081,8 +14139,12 @@ components:
                             then_path:
                                 - {}
                           level:
+                            round_robin_config:
+                                enabled: false
+                                rotate_after_seconds: 120
                             targets:
                                 - id: lawrencejones
+                                  schedule_mode: currently_on_call
                                   type: user
                                   urgency: high
                             time_to_ack_interval_condition: active
@@ -14121,8 +14183,12 @@ components:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -14150,8 +14216,12 @@ components:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -14217,8 +14287,12 @@ components:
                             then_path:
                                 - {}
                           level:
+                            round_robin_config:
+                                enabled: false
+                                rotate_after_seconds: 120
                             targets:
                                 - id: lawrencejones
+                                  schedule_mode: currently_on_call
                                   type: user
                                   urgency: high
                             time_to_ack_interval_condition: active
@@ -14257,8 +14331,12 @@ components:
                             then_path:
                                 - {}
                           level:
+                            round_robin_config:
+                                enabled: false
+                                rotate_after_seconds: 120
                             targets:
                                 - id: lawrencejones
+                                  schedule_mode: currently_on_call
                                   type: user
                                   urgency: high
                             time_to_ack_interval_condition: active
@@ -14309,8 +14387,12 @@ components:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -14344,8 +14426,12 @@ components:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -14362,6 +14448,8 @@ components:
         EscalationPathNodeLevelV2:
             type: object
             properties:
+                round_robin_config:
+                    $ref: '#/components/schemas/EscalationPathRoundRobinConfigV2'
                 targets:
                     type: array
                     items:
@@ -14369,6 +14457,7 @@ components:
                     description: The targets for this level
                     example:
                         - id: lawrencejones
+                          schedule_mode: currently_on_call
                           type: user
                           urgency: high
                 time_to_ack_interval_condition:
@@ -14388,8 +14477,12 @@ components:
                     description: If the time to ack is relative to a time window, this identifies which window it is relative to
                     example: 01FCNDV6P870EA6S7TK1DSYDG0
             example:
+                round_robin_config:
+                    enabled: false
+                    rotate_after_seconds: 120
                 targets:
                     - id: lawrencejones
+                      schedule_mode: currently_on_call
                       type: user
                       urgency: high
                 time_to_ack_interval_condition: active
@@ -14437,8 +14530,12 @@ components:
                     then_path:
                         - {}
                 level:
+                    round_robin_config:
+                        enabled: false
+                        rotate_after_seconds: 120
                     targets:
                         - id: lawrencejones
+                          schedule_mode: currently_on_call
                           type: user
                           urgency: high
                     time_to_ack_interval_condition: active
@@ -14515,8 +14612,12 @@ components:
                     then_path:
                         - {}
                 level:
+                    round_robin_config:
+                        enabled: false
+                        rotate_after_seconds: 120
                     targets:
                         - id: lawrencejones
+                          schedule_mode: currently_on_call
                           type: user
                           urgency: high
                     time_to_ack_interval_condition: active
@@ -14529,6 +14630,23 @@ components:
             required:
                 - id
                 - type
+        EscalationPathRoundRobinConfigV2:
+            type: object
+            properties:
+                enabled:
+                    type: boolean
+                    description: Whether round robin is enabled for this level
+                    example: false
+                rotate_after_seconds:
+                    type: integer
+                    description: How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+                    example: 120
+                    format: int64
+            example:
+                enabled: false
+                rotate_after_seconds: 120
+            required:
+                - enabled
         EscalationPathTargetV2:
             type: object
             properties:
@@ -14536,6 +14654,15 @@ components:
                     type: string
                     description: Uniquely identifies an entity of this type
                     example: lawrencejones
+                schedule_mode:
+                    type: string
+                    description: Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+                    example: currently_on_call
+                    enum:
+                        - currently_on_call
+                        - all_users_for_rota
+                        - all_users
+                        - ""
                 type:
                     type: string
                     description: Controls what type of entity this target identifies, such as EscalationPolicy or User
@@ -14553,6 +14680,7 @@ components:
                         - low
             example:
                 id: lawrencejones
+                schedule_mode: currently_on_call
                 type: user
                 urgency: high
             required:
@@ -14599,8 +14727,12 @@ components:
                             then_path:
                                 - {}
                           level:
+                            round_robin_config:
+                                enabled: false
+                                rotate_after_seconds: 120
                             targets:
                                 - id: lawrencejones
+                                  schedule_mode: currently_on_call
                                   type: user
                                   urgency: high
                             time_to_ack_interval_condition: active
@@ -14650,8 +14782,12 @@ components:
                         then_path:
                             - {}
                       level:
+                        round_robin_config:
+                            enabled: false
+                            rotate_after_seconds: 120
                         targets:
                             - id: lawrencejones
+                              schedule_mode: currently_on_call
                               type: user
                               urgency: high
                         time_to_ack_interval_condition: active
@@ -15912,6 +16048,10 @@ components:
                     type: string
                     description: Severity to change incident to
                     example: 01FH5TZRWMNAFB0DZ23FD1TV96
+                slack_channel_name_override:
+                    type: string
+                    description: Override the name of the incident Slack channel
+                    example: inc-123-database-down
                 summary:
                     type: string
                     description: Detailed description of the incident
@@ -15940,6 +16080,7 @@ components:
                       value: "2021-08-17T13:28:57.801578Z"
                 name: Our database is sad
                 severity_id: 01FH5TZRWMNAFB0DZ23FD1TV96
+                slack_channel_name_override: inc-123-database-down
                 summary: Our database is really really sad, and we don't know why yet.
         IncidentMembership:
             type: object
