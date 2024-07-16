@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -125,6 +126,11 @@ func (r *IncidentRoleResource) Read(ctx context.Context, req resource.ReadReques
 	result, err := r.client.IncidentRolesV2ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read incident role, got error: %s", err))
+		return
+	}
+
+	if result.StatusCode() >= 400 {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read incident role, got status code: %d", result.StatusCode()))
 		return
 	}
 
