@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -128,6 +129,11 @@ func (r *IncidentCustomFieldResource) Read(ctx context.Context, req resource.Rea
 	if result.StatusCode() == 404 {
 		resp.Diagnostics.AddWarning("Not Found", fmt.Sprintf("Unable to read custom field, got status code: %d", result.StatusCode()))
 		resp.State.RemoveResource(ctx)
+		return
+	}
+
+	if result.StatusCode() >= 400 {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read custom field, got status code: %d", result.StatusCode()))
 		return
 	}
 
