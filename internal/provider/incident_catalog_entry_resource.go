@@ -14,9 +14,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/samber/lo"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/samber/lo"
 )
 
 var (
@@ -221,6 +222,11 @@ func (r *IncidentCatalogEntryResource) Read(ctx context.Context, req resource.Re
 	if result.StatusCode() == 404 {
 		resp.Diagnostics.AddWarning("Not Found", fmt.Sprintf("Unable to read catalog entry, got status code: %d", result.StatusCode()))
 		resp.State.RemoveResource(ctx)
+		return
+	}
+
+	if result.StatusCode() >= 400 {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog entry, got status code: %d", result.StatusCode()))
 		return
 	}
 
