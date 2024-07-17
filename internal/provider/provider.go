@@ -113,12 +113,17 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 		if httpResp != nil && httpResp.StatusCode == http.StatusTooManyRequests {
 			retryAfter := httpResp.Header.Get("Retry-After")
 			if retryAfter != "" {
-				if retryAfterSeconds, err := time.ParseDuration(retryAfter + "s"); err == nil {
-					return retryAfterSeconds
+				retryAfterDate, err := time.Parse(time.RFC1123, retryAfter)
+				if err != nil {
+					// If we can't parse the Retry-After, lets just wait for 10 seconds
+					return 10
 				}
+
+				timeToWait := time.Until(retryAfterDate)
+
+				return timeToWait
 			}
 		}
-
 		// Fallback to the default backoff
 		return retryablehttp.DefaultBackoff(min, max, attemptNum, httpResp)
 	}
