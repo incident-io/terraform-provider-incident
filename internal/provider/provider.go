@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 
 	_ "embed"
 
 	"github.com/deepmap/oapi-codegen/pkg/securityprovider"
 	"github.com/hashicorp/go-cleanhttp"
+	"github.com/hashicorp/go-retryablehttp"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
@@ -104,14 +106,35 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 		panic(bearerTokenProviderErr)
 	}
 
-	base := cleanhttp.DefaultClient()
-	base.Transport = &loghttp.Transport{
+	base := retryablehttp.NewClient()
+	base.RetryMax = 10
+	base.Backoff = func(min, max time.Duration, attemptNum int, httpResp *http.Response) time.Duration {
+		// Retry for rate limits and server errors.
+		if httpResp != nil && httpResp.StatusCode == http.StatusTooManyRequests {
+			retryAfter := httpResp.Header.Get("Retry-After")
+			if retryAfter != "" {
+				retryAfterDate, err := time.Parse(time.RFC1123, retryAfter)
+				if err != nil {
+					// If we can't parse the Retry-After, lets just wait for 10 seconds
+					return 10
+				}
+
+				timeToWait := time.Until(retryAfterDate)
+
+				return timeToWait
+			}
+		}
+		// Fallback to the default backoff
+		return retryablehttp.DefaultBackoff(min, max, attemptNum, httpResp)
+	}
+
+	base.HTTPClient.Transport = &loghttp.Transport{
 		Transport: cleanhttp.DefaultTransport(),
 	}
 
 	client, err := client.NewClientWithResponses(
 		endpoint,
-		client.WithHTTPClient(base),
+		client.WithHTTPClient(base.StandardClient()),
 		client.WithRequestEditorFn(bearerTokenProvider.Intercept),
 		// Add a user-agent so we can tell which version these requests came from.
 		client.WithRequestEditorFn(func(ctx context.Context, req *http.Request) error {

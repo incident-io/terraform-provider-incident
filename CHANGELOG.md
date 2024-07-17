@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Retry on 429 responses from the API, respecting the Retry-After header
+
 ## 3.8.0
 
 - Add support for `schedule_mode` on the `incident_escalation_path` resource target parameter
