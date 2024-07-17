@@ -463,9 +463,10 @@ func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalation
 			elem.Level = &client.EscalationPathNodeLevelV2{
 				Targets: lo.Map(node.Level.Targets, func(target IncidentEscalationPathTarget, _ int) client.EscalationPathTargetV2 {
 					return client.EscalationPathTargetV2{
-						Id:      target.ID.ValueString(),
-						Type:    client.EscalationPathTargetV2Type(target.Type.ValueString()),
-						Urgency: client.EscalationPathTargetV2Urgency(target.Urgency.ValueString()),
+						Id:           target.ID.ValueString(),
+						Type:         client.EscalationPathTargetV2Type(target.Type.ValueString()),
+						Urgency:      client.EscalationPathTargetV2Urgency(target.Urgency.ValueString()),
+						ScheduleMode: lo.ToPtr(client.EscalationPathTargetV2ScheduleMode(target.ScheduleMode.ValueString())),
 					}
 				}),
 				TimeToAckIntervalCondition: intervalCondition,
@@ -473,6 +474,13 @@ func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalation
 					TimeToAckSeconds.ValueInt64Pointer(),
 				TimeToAckWeekdayIntervalConfigId: node.Level.
 					TimeToAckWeekdayIntervalConfigID.ValueStringPointer(),
+			}
+
+			if node.Level.RoundRobinConfig != nil {
+				elem.Level.RoundRobinConfig = &client.EscalationPathRoundRobinConfigV2{
+					Enabled:            node.Level.RoundRobinConfig.Enabled.ValueBool(),
+					RotateAfterSeconds: node.Level.RoundRobinConfig.RotateAfterSeconds.ValueInt64Pointer(),
+				}
 			}
 		}
 		if !reflect.ValueOf(node.Repeat).IsZero() {
