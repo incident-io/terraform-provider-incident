@@ -462,12 +462,17 @@ func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalation
 
 			elem.Level = &client.EscalationPathNodeLevelV2{
 				Targets: lo.Map(node.Level.Targets, func(target IncidentEscalationPathTarget, _ int) client.EscalationPathTargetV2 {
-					return client.EscalationPathTargetV2{
-						Id:           target.ID.ValueString(),
-						Type:         client.EscalationPathTargetV2Type(target.Type.ValueString()),
-						Urgency:      client.EscalationPathTargetV2Urgency(target.Urgency.ValueString()),
-						ScheduleMode: lo.ToPtr(client.EscalationPathTargetV2ScheduleMode(target.ScheduleMode.ValueString())),
+					targetPayload := client.EscalationPathTargetV2{
+						Id:      target.ID.ValueString(),
+						Type:    client.EscalationPathTargetV2Type(target.Type.ValueString()),
+						Urgency: client.EscalationPathTargetV2Urgency(target.Urgency.ValueString()),
 					}
+
+					if target.ScheduleMode.ValueString() != "" {
+						targetPayload.ScheduleMode = lo.ToPtr(client.EscalationPathTargetV2ScheduleMode(target.ScheduleMode.ValueString()))
+					}
+
+					return targetPayload
 				}),
 				TimeToAckIntervalCondition: intervalCondition,
 				TimeToAckSeconds: node.Level.
