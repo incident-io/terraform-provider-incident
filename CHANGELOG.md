@@ -1,5 +1,7 @@
 ## Unreleased
 
+## 3.8.1
+
 - Retry on 429 responses from the API, respecting the Retry-After header
 
 ## 3.8.0
