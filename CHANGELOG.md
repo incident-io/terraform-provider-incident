@@ -1,8 +1,16 @@
 ## Unreleased
 
-## 3.8.1
+## 3.8.3
 
 - Retry on 429 responses from the API, respecting the Retry-After header
+
+## 3.8.2
+
+- Fixed incorrect `produced an unexpected new value` errors when configuring escalation paths
+
+## 3.8.1
+
+- Improved handling of HTTP errors
 
 ## 3.8.0
 
