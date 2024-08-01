@@ -89,4 +89,9 @@ resource "incident_schedule" "primary_on_call" {
       },
     ]
   }]
+
+  # If you want to show a country's public holidays on your schedule, use a list of alpha-2 country codes.
+  holidays_public_config = {
+    country_codes = ["GB", "FR"]
+  }
 }
