@@ -77,7 +77,10 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 						"incident_schedule.example", "timezone", "Europe/London",
 					),
 					resource.TestCheckResourceAttr(
-						"incident_schedule.example", "holidays_public_config.country_codes", "[\"UK\",\"FR\"]",
+						"incident_schedule.example", "holidays_public_config.country_codes.0", "GB",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "holidays_public_config.country_codes.1", "FR",
 					),
 				),
 			},
