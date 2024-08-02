@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.8.4 
+
+- Add support for `holidays_public_config` on the `incident_schedule` resource
+
 ## 3.8.3
 
 - Retry on 429 responses from the API, respecting the Retry-After header
