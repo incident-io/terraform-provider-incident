@@ -688,11 +688,11 @@ paths:
                   schema:
                     $ref: '#/definitions/IncidentRolesV1UpdateRequestBody'
                     required:
-                        - condition_groups
                         - name
+                        - shortform
                         - description
                         - instructions
-                        - shortform
+                        - condition_groups
                         - role_type
                         - created_at
                         - updated_at
@@ -1201,6 +1201,122 @@ paths:
                             - status
                             - message
                             - deduplication_key
+            schemes:
+                - https
+    /v2/alert_routes:
+        post:
+            tags:
+                - Alert Routes V2
+            summary: Create Alert Routes V2
+            description: |
+                Create an alert route.
+
+                We recommend you create alert routes in the incident.io dashboard where we allow
+                previewing filter and grouping rules.
+            operationId: Alert Routes V2#Create
+            parameters:
+                - name: CreateRequestBody
+                  in: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/AlertRoutesV2CreateRequestBody'
+            responses:
+                "201":
+                    description: Created response.
+                    schema:
+                        $ref: '#/definitions/AlertRoutesV2CreateResponseBody'
+                        required:
+                            - alert_route
+            schemes:
+                - https
+    /v2/alert_routes/{id}:
+        get:
+            tags:
+                - Alert Routes V2
+            summary: Show Alert Routes V2
+            description: |
+                Show an alert route.
+
+                We recommend you create alert routes in the incident.io dashboard where we allow
+                previewing filter and grouping rules.
+            operationId: Alert Routes V2#Show
+            parameters:
+                - name: id
+                  in: path
+                  description: Unique identifier for this alert route config
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AlertRoutesV2ShowResponseBody'
+                        required:
+                            - alert_route
+            schemes:
+                - https
+        put:
+            tags:
+                - Alert Routes V2
+            summary: Update Alert Routes V2
+            description: |
+                Updates an alert route.
+
+                We recommend you create alert routes in the incident.io dashboard where we allow
+                previewing filter and grouping rules.
+            operationId: Alert Routes V2#Update
+            parameters:
+                - name: id
+                  in: path
+                  description: Unique identifier for this alert route config
+                  required: true
+                  type: string
+                - name: UpdateRequestBody
+                  in: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/AlertRoutesV2UpdateRequestBody'
+                    required:
+                        - name
+                        - condition_groups
+                        - grouping_keys
+                        - grouping_window_seconds
+                        - defer_time_seconds
+                        - escalation_bindings
+                        - auto_decline_enabled
+                        - enabled
+                        - incident_enabled
+                        - incident_condition_groups
+                        - alert_source_ids
+                        - auto_cancel_escalations
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AlertRoutesV2UpdateResponseBody'
+                        required:
+                            - alert_route
+            schemes:
+                - https
+        delete:
+            tags:
+                - Alert Routes V2
+            summary: Destroy Alert Routes V2
+            description: |
+                Archives an alert route.
+
+                We recommend you create alert routes in the incident.io dashboard where we allow
+                previewing filter and grouping rules.
+            operationId: Alert Routes V2#Destroy
+            parameters:
+                - name: id
+                  in: path
+                  description: Unique identifier for this alert route config
+                  required: true
+                  type: string
+            responses:
+                "204":
+                    description: No Content response.
             schemes:
                 - https
     /v2/catalog_entries:
@@ -1889,11 +2005,11 @@ paths:
                   schema:
                     $ref: '#/definitions/IncidentRolesV2UpdateRequestBody'
                     required:
-                        - condition_groups
                         - name
+                        - shortform
                         - description
                         - instructions
-                        - shortform
+                        - condition_groups
                         - role_type
                         - created_at
                         - updated_at
@@ -3222,6 +3338,90 @@ paths:
                     description: OK response.
                     schema:
                         $ref: '#/definitions/AuditLogsFollowUpPriorityUpdatedV1ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
+    /x-audit-logs/holiday_user_feed.created.1:
+        get:
+            tags:
+                - Audit logs
+            summary: HolidayUserFeedCreatedV1 Audit logs
+            description: This entry is created whenever a holiday user feed is created
+            operationId: Audit logs#HolidayUserFeedCreatedV1
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsHolidayUserFeedCreatedV1ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
+    /x-audit-logs/holiday_user_feed.deleted.1:
+        get:
+            tags:
+                - Audit logs
+            summary: HolidayUserFeedDeletedV1 Audit logs
+            description: This entry is created whenever a holiday user feed is deleted
+            operationId: Audit logs#HolidayUserFeedDeletedV1
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsHolidayUserFeedDeletedV1ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
+    /x-audit-logs/holiday_user_feed.updated.1:
+        get:
+            tags:
+                - Audit logs
+            summary: HolidayUserFeedUpdatedV1 Audit logs
+            description: This entry is created whenever a holiday user feed is updated
+            operationId: Audit logs#HolidayUserFeedUpdatedV1
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsHolidayUserFeedUpdatedV1ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
+    /x-audit-logs/incident_call_setting.updated.1:
+        get:
+            tags:
+                - Audit logs
+            summary: IncidentCallSettingUpdatedV1 Audit logs
+            description: This entry is created whenever an organisation's incident call settings are updated
+            operationId: Audit logs#IncidentCallSettingUpdatedV1
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsIncidentCallSettingUpdatedV1ResponseBody'
                         required:
                             - action
                             - occurred_at
@@ -5214,6 +5414,1800 @@ definitions:
             - status
             - message
             - deduplication_key
+    AlertRouteEscalationBindingPayloadV2RequestBody:
+        title: AlertRouteEscalationBindingPayloadV2RequestBody
+        type: object
+        properties:
+            binding:
+                $ref: '#/definitions/EngineParamBindingPayloadV2RequestBody'
+        example:
+            binding:
+                array_value:
+                    - literal: SEV123
+                      reference: incident.severity
+                value:
+                    literal: SEV123
+                    reference: incident.severity
+        required:
+            - binding
+    AlertRouteEscalationBindingV2ResponseBody:
+        title: AlertRouteEscalationBindingV2ResponseBody
+        type: object
+        properties:
+            binding:
+                $ref: '#/definitions/EngineParamBindingV2ResponseBody'
+        example:
+            binding:
+                array_value:
+                    - label: Lawrence Jones
+                      literal: SEV123
+                      reference: incident.severity
+                value:
+                    label: Lawrence Jones
+                    literal: SEV123
+                    reference: incident.severity
+        required:
+            - binding
+    AlertRouteIncidentTemplatePayloadV2RequestBody:
+        title: AlertRouteIncidentTemplatePayloadV2RequestBody
+        type: object
+        properties:
+            custom_field_priorities:
+                type: object
+                description: lookup of the priority options for each custom field in the template
+                example:
+                    abc123: abc123
+                additionalProperties:
+                    type: string
+                    example: abc123
+            custom_fields:
+                type: object
+                description: Custom field keys mapped to values
+                example:
+                    custom_field_10014:
+                        array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                        value:
+                            literal: SEV123
+                            reference: incident.severity
+                additionalProperties:
+                    $ref: '#/definitions/EngineParamBindingPayloadV2RequestBody'
+            incident_mode:
+                $ref: '#/definitions/EngineParamBindingPayloadV2RequestBody'
+            incident_type:
+                $ref: '#/definitions/EngineParamBindingPayloadV2RequestBody'
+            name:
+                $ref: '#/definitions/EngineParamBindingPayloadV2RequestBody'
+            priority_severity:
+                type: string
+                description: option defining whether to cause subsequent alerts to increase the severity
+                example: severity-first-wins
+                enum:
+                    - severity-first-wins
+                    - severity-max
+            severity:
+                $ref: '#/definitions/EngineParamBindingPayloadV2RequestBody'
+            summary:
+                $ref: '#/definitions/EngineParamBindingPayloadV2RequestBody'
+            workspace:
+                $ref: '#/definitions/EngineParamBindingPayloadV2RequestBody'
+        example:
+            custom_field_priorities:
+                abc123: abc123
+            custom_fields:
+                custom_field_10014:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+            incident_mode:
+                array_value:
+                    - literal: SEV123
+                      reference: incident.severity
+                value:
+                    literal: SEV123
+                    reference: incident.severity
+            incident_type:
+                array_value:
+                    - literal: SEV123
+                      reference: incident.severity
+                value:
+                    literal: SEV123
+                    reference: incident.severity
+            name:
+                array_value:
+                    - literal: SEV123
+                      reference: incident.severity
+                value:
+                    literal: SEV123
+                    reference: incident.severity
+            priority_severity: severity-first-wins
+            severity:
+                array_value:
+                    - literal: SEV123
+                      reference: incident.severity
+                value:
+                    literal: SEV123
+                    reference: incident.severity
+            summary:
+                array_value:
+                    - literal: SEV123
+                      reference: incident.severity
+                value:
+                    literal: SEV123
+                    reference: incident.severity
+            workspace:
+                array_value:
+                    - literal: SEV123
+                      reference: incident.severity
+                value:
+                    literal: SEV123
+                    reference: incident.severity
+        required:
+            - custom_field_priorities
+            - priority_severity
+    AlertRouteIncidentTemplateV2ResponseBody:
+        title: AlertRouteIncidentTemplateV2ResponseBody
+        type: object
+        properties:
+            custom_field_priorities:
+                type: object
+                description: lookup of the priority options for each custom field in the template
+                example:
+                    abc123: first-wins
+                additionalProperties:
+                    type: string
+                    example: first-wins
+                    enum:
+                        - first-wins
+                        - last-wins
+                        - append
+            custom_fields:
+                type: object
+                description: Custom field keys mapped to values
+                example:
+                    custom_field_10014:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                additionalProperties:
+                    $ref: '#/definitions/EngineParamBindingV2ResponseBody'
+            incident_mode:
+                $ref: '#/definitions/EngineParamBindingV2ResponseBody'
+            incident_type:
+                $ref: '#/definitions/EngineParamBindingV2ResponseBody'
+            name:
+                $ref: '#/definitions/EngineParamBindingV2ResponseBody'
+            priority_severity:
+                type: string
+                description: binding to use to resolve the workspace to create an incident in
+                example: severity-first-wins
+                enum:
+                    - severity-first-wins
+                    - severity-max
+            severity:
+                $ref: '#/definitions/EngineParamBindingV2ResponseBody'
+            summary:
+                $ref: '#/definitions/EngineParamBindingV2ResponseBody'
+            workspace:
+                $ref: '#/definitions/EngineParamBindingV2ResponseBody'
+        example:
+            custom_field_priorities:
+                abc123: first-wins
+            custom_fields:
+                custom_field_10014:
+                    array_value:
+                        - label: Lawrence Jones
+                          literal: SEV123
+                          reference: incident.severity
+                    value:
+                        label: Lawrence Jones
+                        literal: SEV123
+                        reference: incident.severity
+            incident_mode:
+                array_value:
+                    - label: Lawrence Jones
+                      literal: SEV123
+                      reference: incident.severity
+                value:
+                    label: Lawrence Jones
+                    literal: SEV123
+                    reference: incident.severity
+            incident_type:
+                array_value:
+                    - label: Lawrence Jones
+                      literal: SEV123
+                      reference: incident.severity
+                value:
+                    label: Lawrence Jones
+                    literal: SEV123
+                    reference: incident.severity
+            name:
+                array_value:
+                    - label: Lawrence Jones
+                      literal: SEV123
+                      reference: incident.severity
+                value:
+                    label: Lawrence Jones
+                    literal: SEV123
+                    reference: incident.severity
+            priority_severity: severity-first-wins
+            severity:
+                array_value:
+                    - label: Lawrence Jones
+                      literal: SEV123
+                      reference: incident.severity
+                value:
+                    label: Lawrence Jones
+                    literal: SEV123
+                    reference: incident.severity
+            summary:
+                array_value:
+                    - label: Lawrence Jones
+                      literal: SEV123
+                      reference: incident.severity
+                value:
+                    label: Lawrence Jones
+                    literal: SEV123
+                    reference: incident.severity
+            workspace:
+                array_value:
+                    - label: Lawrence Jones
+                      literal: SEV123
+                      reference: incident.severity
+                value:
+                    label: Lawrence Jones
+                    literal: SEV123
+                    reference: incident.severity
+        required:
+            - custom_field_priorities
+            - priority_severity
+    AlertRouteV2ResponseBody:
+        title: AlertRouteV2ResponseBody
+        type: object
+        properties:
+            condition_groups:
+                type: array
+                items:
+                    $ref: '#/definitions/ConditionGroupV2ResponseBody'
+                description: What condition groups must be true for this alert route to fire?
+                example:
+                    - conditions:
+                        - operation:
+                            label: Lawrence Jones
+                            value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                          param_bindings:
+                            - array_value:
+                                - label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                              value:
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                          subject:
+                            label: Incident Severity
+                            reference: incident.severity
+            defer_time_seconds:
+                type: integer
+                description: How long should the escalation defer time be?
+                example: 1
+                format: int64
+            escalation_bindings:
+                type: array
+                items:
+                    $ref: '#/definitions/AlertRouteEscalationBindingV2ResponseBody'
+                description: Which escalation paths should this alert route escalate to?
+                example:
+                    - binding:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+            expressions:
+                type: array
+                items:
+                    $ref: '#/definitions/ExpressionV2ResponseBody'
+                description: The expressions used in this template
+                example:
+                    - else_branch:
+                        result:
+                            array_value:
+                                - label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                            value:
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                      label: Team Slack channel
+                      operations:
+                        - branches:
+                            branches:
+                                - condition_groups:
+                                    - conditions:
+                                        - operation:
+                                            label: Lawrence Jones
+                                            value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                                          param_bindings:
+                                            - array_value:
+                                                - label: Lawrence Jones
+                                                  literal: SEV123
+                                                  reference: incident.severity
+                                              value:
+                                                label: Lawrence Jones
+                                                literal: SEV123
+                                                reference: incident.severity
+                                          subject:
+                                            label: Incident Severity
+                                            reference: incident.severity
+                                  result:
+                                    array_value:
+                                        - label: Lawrence Jones
+                                          literal: SEV123
+                                          reference: incident.severity
+                                    value:
+                                        label: Lawrence Jones
+                                        literal: SEV123
+                                        reference: incident.severity
+                            returns:
+                                array: true
+                                type: IncidentStatus
+                          filter:
+                            condition_groups:
+                                - conditions:
+                                    - operation:
+                                        label: Lawrence Jones
+                                        value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                                      param_bindings:
+                                        - array_value:
+                                            - label: Lawrence Jones
+                                              literal: SEV123
+                                              reference: incident.severity
+                                          value:
+                                            label: Lawrence Jones
+                                            literal: SEV123
+                                            reference: incident.severity
+                                      subject:
+                                        label: Incident Severity
+                                        reference: incident.severity
+                          navigate:
+                            reference: "1235"
+                            reference_label: Teams
+                          operation_type: navigate
+                          parse:
+                            returns:
+                                array: true
+                                type: IncidentStatus
+                            source: metadata.annotations["github.com/repo"]
+                          returns:
+                            array: true
+                            type: IncidentStatus
+                      reference: abc123
+                      returns:
+                        array: true
+                        type: IncidentStatus
+                      root_reference: incident.status
+            grouping_keys:
+                type: array
+                items:
+                    $ref: '#/definitions/GroupingKeyV2ResponseBody'
+                description: Which attributes should this alert route use to group alerts?
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+            grouping_window_seconds:
+                type: integer
+                description: How large should the grouping window be?
+                example: 1
+                format: int64
+            id:
+                type: string
+                description: Unique identifier for this alert route config
+                example: 01FCNDV6P870EA6S7TK1DSYDG0
+            name:
+                type: string
+                description: The name of this alert route config, for the user's reference
+                example: Production incidents
+            template:
+                $ref: '#/definitions/AlertRouteIncidentTemplateV2ResponseBody'
+        example:
+            condition_groups:
+                - conditions:
+                    - operation:
+                        label: Lawrence Jones
+                        value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                      param_bindings:
+                        - array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                          value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                      subject:
+                        label: Incident Severity
+                        reference: incident.severity
+            defer_time_seconds: 1
+            escalation_bindings:
+                - binding:
+                    array_value:
+                        - label: Lawrence Jones
+                          literal: SEV123
+                          reference: incident.severity
+                    value:
+                        label: Lawrence Jones
+                        literal: SEV123
+                        reference: incident.severity
+            expressions:
+                - else_branch:
+                    result:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                  label: Team Slack channel
+                  operations:
+                    - branches:
+                        branches:
+                            - condition_groups:
+                                - conditions:
+                                    - operation:
+                                        label: Lawrence Jones
+                                        value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                                      param_bindings:
+                                        - array_value:
+                                            - label: Lawrence Jones
+                                              literal: SEV123
+                                              reference: incident.severity
+                                          value:
+                                            label: Lawrence Jones
+                                            literal: SEV123
+                                            reference: incident.severity
+                                      subject:
+                                        label: Incident Severity
+                                        reference: incident.severity
+                              result:
+                                array_value:
+                                    - label: Lawrence Jones
+                                      literal: SEV123
+                                      reference: incident.severity
+                                value:
+                                    label: Lawrence Jones
+                                    literal: SEV123
+                                    reference: incident.severity
+                        returns:
+                            array: true
+                            type: IncidentStatus
+                      filter:
+                        condition_groups:
+                            - conditions:
+                                - operation:
+                                    label: Lawrence Jones
+                                    value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                                  param_bindings:
+                                    - array_value:
+                                        - label: Lawrence Jones
+                                          literal: SEV123
+                                          reference: incident.severity
+                                      value:
+                                        label: Lawrence Jones
+                                        literal: SEV123
+                                        reference: incident.severity
+                                  subject:
+                                    label: Incident Severity
+                                    reference: incident.severity
+                      navigate:
+                        reference: "1235"
+                        reference_label: Teams
+                      operation_type: navigate
+                      parse:
+                        returns:
+                            array: true
+                            type: IncidentStatus
+                        source: metadata.annotations["github.com/repo"]
+                      returns:
+                        array: true
+                        type: IncidentStatus
+                  reference: abc123
+                  returns:
+                    array: true
+                    type: IncidentStatus
+                  root_reference: incident.status
+            grouping_keys:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+            grouping_window_seconds: 1
+            id: 01FCNDV6P870EA6S7TK1DSYDG0
+            name: Production incidents
+            template:
+                custom_field_priorities:
+                    abc123: first-wins
+                custom_fields:
+                    custom_field_10014:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                incident_mode:
+                    array_value:
+                        - label: Lawrence Jones
+                          literal: SEV123
+                          reference: incident.severity
+                    value:
+                        label: Lawrence Jones
+                        literal: SEV123
+                        reference: incident.severity
+                incident_type:
+                    array_value:
+                        - label: Lawrence Jones
+                          literal: SEV123
+                          reference: incident.severity
+                    value:
+                        label: Lawrence Jones
+                        literal: SEV123
+                        reference: incident.severity
+                name:
+                    array_value:
+                        - label: Lawrence Jones
+                          literal: SEV123
+                          reference: incident.severity
+                    value:
+                        label: Lawrence Jones
+                        literal: SEV123
+                        reference: incident.severity
+                priority_severity: severity-first-wins
+                severity:
+                    array_value:
+                        - label: Lawrence Jones
+                          literal: SEV123
+                          reference: incident.severity
+                    value:
+                        label: Lawrence Jones
+                        literal: SEV123
+                        reference: incident.severity
+                summary:
+                    array_value:
+                        - label: Lawrence Jones
+                          literal: SEV123
+                          reference: incident.severity
+                    value:
+                        label: Lawrence Jones
+                        literal: SEV123
+                        reference: incident.severity
+                workspace:
+                    array_value:
+                        - label: Lawrence Jones
+                          literal: SEV123
+                          reference: incident.severity
+                    value:
+                        label: Lawrence Jones
+                        literal: SEV123
+                        reference: incident.severity
+        required:
+            - id
+            - name
+            - condition_groups
+            - grouping_keys
+            - grouping_window_seconds
+            - defer_time_seconds
+            - escalation_bindings
+            - auto_decline_enabled
+            - enabled
+            - incident_enabled
+            - incident_condition_groups
+            - alert_source_ids
+            - auto_cancel_escalations
+    AlertRoutesV2CreateRequestBody:
+        title: AlertRoutesV2CreateRequestBody
+        type: object
+        properties:
+            alert_source_ids:
+                type: array
+                items:
+                    type: string
+                    example: abc123
+                description: The alert sources that will match this alert route
+                example:
+                    - 02FCNDV6P870EA6S7TK1DSYDG2
+            auto_decline_enabled:
+                type: boolean
+                description: Should triage incidents be declined when alerts are resolved?
+                example: false
+            condition_groups:
+                type: array
+                items:
+                    $ref: '#/definitions/ConditionGroupPayloadV2RequestBody'
+                description: What condition groups must be true for this alert route to fire?
+                example:
+                    - conditions:
+                        - operation: one_of
+                          param_bindings:
+                            - array_value:
+                                - literal: SEV123
+                                  reference: incident.severity
+                              value:
+                                literal: SEV123
+                                reference: incident.severity
+                          subject: incident.severity
+            defer_time_seconds:
+                type: integer
+                description: How long should the escalation defer time be?
+                example: 1
+                format: int64
+            enabled:
+                type: boolean
+                description: Whether this alert route is enabled or not
+                example: false
+            escalation_bindings:
+                type: array
+                items:
+                    $ref: '#/definitions/AlertRouteEscalationBindingPayloadV2RequestBody'
+                description: Which escalation paths should this alert route escalate to?
+                example:
+                    - binding:
+                        array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                        value:
+                            literal: SEV123
+                            reference: incident.severity
+            expressions:
+                type: array
+                items:
+                    $ref: '#/definitions/ExpressionPayloadV2RequestBody'
+                description: The expressions used in this template
+                example:
+                    - else_branch:
+                        result:
+                            array_value:
+                                - literal: SEV123
+                                  reference: incident.severity
+                            value:
+                                literal: SEV123
+                                reference: incident.severity
+                      label: Team Slack channel
+                      operations:
+                        - branches:
+                            branches:
+                                - condition_groups:
+                                    - conditions:
+                                        - operation: one_of
+                                          param_bindings:
+                                            - array_value:
+                                                - literal: SEV123
+                                                  reference: incident.severity
+                                              value:
+                                                literal: SEV123
+                                                reference: incident.severity
+                                          subject: incident.severity
+                                  result:
+                                    array_value:
+                                        - literal: SEV123
+                                          reference: incident.severity
+                                    value:
+                                        literal: SEV123
+                                        reference: incident.severity
+                            returns:
+                                array: true
+                                type: IncidentStatus
+                          filter:
+                            condition_groups:
+                                - conditions:
+                                    - operation: one_of
+                                      param_bindings:
+                                        - array_value:
+                                            - literal: SEV123
+                                              reference: incident.severity
+                                          value:
+                                            literal: SEV123
+                                            reference: incident.severity
+                                      subject: incident.severity
+                          navigate:
+                            reference: catalog_attribute["01FCNDV6P870EA6S7TK1DSYD5H"]
+                          operation_type: navigate
+                          parse:
+                            returns:
+                                array: true
+                                type: IncidentStatus
+                            source: metadata.annotations["github.com/repo"]
+                      reference: abc123
+                      root_reference: incident.status
+            grouping_keys:
+                type: array
+                items:
+                    $ref: '#/definitions/GroupingKeyV2RequestBody'
+                description: Which attributes should this alert route use to group alerts?
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+            grouping_window_seconds:
+                type: integer
+                description: How large should the grouping window be?
+                example: 1
+                format: int64
+            incident_condition_groups:
+                type: array
+                items:
+                    $ref: '#/definitions/ConditionGroupPayloadV2RequestBody'
+                description: What condition groups must be true for this alert route to create an incident?
+                example:
+                    - conditions:
+                        - operation: one_of
+                          param_bindings:
+                            - array_value:
+                                - literal: SEV123
+                                  reference: incident.severity
+                              value:
+                                literal: SEV123
+                                reference: incident.severity
+                          subject: incident.severity
+            incident_enabled:
+                type: boolean
+                description: Whether this alert route will create incidents or not
+                example: false
+            name:
+                type: string
+                description: The name of this alert route config, for the user's reference
+                example: Production incidents
+            template:
+                $ref: '#/definitions/AlertRouteIncidentTemplatePayloadV2RequestBody'
+        example:
+            alert_source_ids:
+                - 02FCNDV6P870EA6S7TK1DSYDG2
+            auto_decline_enabled: false
+            condition_groups:
+                - conditions:
+                    - operation: one_of
+                      param_bindings:
+                        - array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                          value:
+                            literal: SEV123
+                            reference: incident.severity
+                      subject: incident.severity
+            defer_time_seconds: 1
+            enabled: false
+            escalation_bindings:
+                - binding:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+            expressions:
+                - else_branch:
+                    result:
+                        array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                        value:
+                            literal: SEV123
+                            reference: incident.severity
+                  label: Team Slack channel
+                  operations:
+                    - branches:
+                        branches:
+                            - condition_groups:
+                                - conditions:
+                                    - operation: one_of
+                                      param_bindings:
+                                        - array_value:
+                                            - literal: SEV123
+                                              reference: incident.severity
+                                          value:
+                                            literal: SEV123
+                                            reference: incident.severity
+                                      subject: incident.severity
+                              result:
+                                array_value:
+                                    - literal: SEV123
+                                      reference: incident.severity
+                                value:
+                                    literal: SEV123
+                                    reference: incident.severity
+                        returns:
+                            array: true
+                            type: IncidentStatus
+                      filter:
+                        condition_groups:
+                            - conditions:
+                                - operation: one_of
+                                  param_bindings:
+                                    - array_value:
+                                        - literal: SEV123
+                                          reference: incident.severity
+                                      value:
+                                        literal: SEV123
+                                        reference: incident.severity
+                                  subject: incident.severity
+                      navigate:
+                        reference: catalog_attribute["01FCNDV6P870EA6S7TK1DSYD5H"]
+                      operation_type: navigate
+                      parse:
+                        returns:
+                            array: true
+                            type: IncidentStatus
+                        source: metadata.annotations["github.com/repo"]
+                  reference: abc123
+                  root_reference: incident.status
+            grouping_keys:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+            grouping_window_seconds: 1
+            incident_condition_groups:
+                - conditions:
+                    - operation: one_of
+                      param_bindings:
+                        - array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                          value:
+                            literal: SEV123
+                            reference: incident.severity
+                      subject: incident.severity
+            incident_enabled: false
+            name: Production incidents
+            template:
+                custom_field_priorities:
+                    abc123: abc123
+                custom_fields:
+                    custom_field_10014:
+                        array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                        value:
+                            literal: SEV123
+                            reference: incident.severity
+                incident_mode:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+                incident_type:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+                name:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+                priority_severity: severity-first-wins
+                severity:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+                summary:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+                workspace:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+    AlertRoutesV2CreateResponseBody:
+        title: AlertRoutesV2CreateResponseBody
+        type: object
+        properties:
+            alert_route:
+                $ref: '#/definitions/AlertRouteV2ResponseBody'
+        example:
+            alert_route:
+                condition_groups:
+                    - conditions:
+                        - operation:
+                            label: Lawrence Jones
+                            value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                          param_bindings:
+                            - array_value:
+                                - label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                              value:
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                          subject:
+                            label: Incident Severity
+                            reference: incident.severity
+                defer_time_seconds: 1
+                escalation_bindings:
+                    - binding:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                expressions:
+                    - else_branch:
+                        result:
+                            array_value:
+                                - label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                            value:
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                      label: Team Slack channel
+                      operations:
+                        - branches:
+                            branches:
+                                - condition_groups:
+                                    - conditions:
+                                        - operation:
+                                            label: Lawrence Jones
+                                            value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                                          param_bindings:
+                                            - array_value:
+                                                - label: Lawrence Jones
+                                                  literal: SEV123
+                                                  reference: incident.severity
+                                              value:
+                                                label: Lawrence Jones
+                                                literal: SEV123
+                                                reference: incident.severity
+                                          subject:
+                                            label: Incident Severity
+                                            reference: incident.severity
+                                  result:
+                                    array_value:
+                                        - label: Lawrence Jones
+                                          literal: SEV123
+                                          reference: incident.severity
+                                    value:
+                                        label: Lawrence Jones
+                                        literal: SEV123
+                                        reference: incident.severity
+                            returns:
+                                array: true
+                                type: IncidentStatus
+                          filter:
+                            condition_groups:
+                                - conditions:
+                                    - operation:
+                                        label: Lawrence Jones
+                                        value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                                      param_bindings:
+                                        - array_value:
+                                            - label: Lawrence Jones
+                                              literal: SEV123
+                                              reference: incident.severity
+                                          value:
+                                            label: Lawrence Jones
+                                            literal: SEV123
+                                            reference: incident.severity
+                                      subject:
+                                        label: Incident Severity
+                                        reference: incident.severity
+                          navigate:
+                            reference: "1235"
+                            reference_label: Teams
+                          operation_type: navigate
+                          parse:
+                            returns:
+                                array: true
+                                type: IncidentStatus
+                            source: metadata.annotations["github.com/repo"]
+                          returns:
+                            array: true
+                            type: IncidentStatus
+                      reference: abc123
+                      returns:
+                        array: true
+                        type: IncidentStatus
+                      root_reference: incident.status
+                grouping_keys:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                grouping_window_seconds: 1
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                name: Production incidents
+                template:
+                    custom_field_priorities:
+                        abc123: first-wins
+                    custom_fields:
+                        custom_field_10014:
+                            array_value:
+                                - label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                            value:
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                    incident_mode:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    incident_type:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    name:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    priority_severity: severity-first-wins
+                    severity:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    summary:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    workspace:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+        required:
+            - alert_route
+    AlertRoutesV2ShowResponseBody:
+        title: AlertRoutesV2ShowResponseBody
+        type: object
+        properties:
+            alert_route:
+                $ref: '#/definitions/AlertRouteV2ResponseBody'
+        example:
+            alert_route:
+                condition_groups:
+                    - conditions:
+                        - operation:
+                            label: Lawrence Jones
+                            value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                          param_bindings:
+                            - array_value:
+                                - label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                              value:
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                          subject:
+                            label: Incident Severity
+                            reference: incident.severity
+                defer_time_seconds: 1
+                escalation_bindings:
+                    - binding:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                expressions:
+                    - else_branch:
+                        result:
+                            array_value:
+                                - label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                            value:
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                      label: Team Slack channel
+                      operations:
+                        - branches:
+                            branches:
+                                - condition_groups:
+                                    - conditions:
+                                        - operation:
+                                            label: Lawrence Jones
+                                            value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                                          param_bindings:
+                                            - array_value:
+                                                - label: Lawrence Jones
+                                                  literal: SEV123
+                                                  reference: incident.severity
+                                              value:
+                                                label: Lawrence Jones
+                                                literal: SEV123
+                                                reference: incident.severity
+                                          subject:
+                                            label: Incident Severity
+                                            reference: incident.severity
+                                  result:
+                                    array_value:
+                                        - label: Lawrence Jones
+                                          literal: SEV123
+                                          reference: incident.severity
+                                    value:
+                                        label: Lawrence Jones
+                                        literal: SEV123
+                                        reference: incident.severity
+                            returns:
+                                array: true
+                                type: IncidentStatus
+                          filter:
+                            condition_groups:
+                                - conditions:
+                                    - operation:
+                                        label: Lawrence Jones
+                                        value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                                      param_bindings:
+                                        - array_value:
+                                            - label: Lawrence Jones
+                                              literal: SEV123
+                                              reference: incident.severity
+                                          value:
+                                            label: Lawrence Jones
+                                            literal: SEV123
+                                            reference: incident.severity
+                                      subject:
+                                        label: Incident Severity
+                                        reference: incident.severity
+                          navigate:
+                            reference: "1235"
+                            reference_label: Teams
+                          operation_type: navigate
+                          parse:
+                            returns:
+                                array: true
+                                type: IncidentStatus
+                            source: metadata.annotations["github.com/repo"]
+                          returns:
+                            array: true
+                            type: IncidentStatus
+                      reference: abc123
+                      returns:
+                        array: true
+                        type: IncidentStatus
+                      root_reference: incident.status
+                grouping_keys:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                grouping_window_seconds: 1
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                name: Production incidents
+                template:
+                    custom_field_priorities:
+                        abc123: first-wins
+                    custom_fields:
+                        custom_field_10014:
+                            array_value:
+                                - label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                            value:
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                    incident_mode:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    incident_type:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    name:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    priority_severity: severity-first-wins
+                    severity:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    summary:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    workspace:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+        required:
+            - alert_route
+    AlertRoutesV2UpdateRequestBody:
+        title: AlertRoutesV2UpdateRequestBody
+        type: object
+        properties:
+            alert_source_ids:
+                type: array
+                items:
+                    type: string
+                    example: abc123
+                description: The alert sources that will match this alert route
+                example:
+                    - 02FCNDV6P870EA6S7TK1DSYDG2
+            auto_decline_enabled:
+                type: boolean
+                description: Should triage incidents be declined when alerts are resolved?
+                example: false
+            condition_groups:
+                type: array
+                items:
+                    $ref: '#/definitions/ConditionGroupPayloadV2RequestBody'
+                description: What condition groups must be true for this alert route to fire?
+                example:
+                    - conditions:
+                        - operation: one_of
+                          param_bindings:
+                            - array_value:
+                                - literal: SEV123
+                                  reference: incident.severity
+                              value:
+                                literal: SEV123
+                                reference: incident.severity
+                          subject: incident.severity
+            defer_time_seconds:
+                type: integer
+                description: How long should the escalation defer time be?
+                example: 1
+                format: int64
+            enabled:
+                type: boolean
+                description: Whether this alert route is enabled or not
+                example: false
+            escalation_bindings:
+                type: array
+                items:
+                    $ref: '#/definitions/AlertRouteEscalationBindingPayloadV2RequestBody'
+                description: Which escalation paths should this alert route escalate to?
+                example:
+                    - binding:
+                        array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                        value:
+                            literal: SEV123
+                            reference: incident.severity
+            expressions:
+                type: array
+                items:
+                    $ref: '#/definitions/ExpressionPayloadV2RequestBody'
+                description: The expressions used in this template
+                example:
+                    - else_branch:
+                        result:
+                            array_value:
+                                - literal: SEV123
+                                  reference: incident.severity
+                            value:
+                                literal: SEV123
+                                reference: incident.severity
+                      label: Team Slack channel
+                      operations:
+                        - branches:
+                            branches:
+                                - condition_groups:
+                                    - conditions:
+                                        - operation: one_of
+                                          param_bindings:
+                                            - array_value:
+                                                - literal: SEV123
+                                                  reference: incident.severity
+                                              value:
+                                                literal: SEV123
+                                                reference: incident.severity
+                                          subject: incident.severity
+                                  result:
+                                    array_value:
+                                        - literal: SEV123
+                                          reference: incident.severity
+                                    value:
+                                        literal: SEV123
+                                        reference: incident.severity
+                            returns:
+                                array: true
+                                type: IncidentStatus
+                          filter:
+                            condition_groups:
+                                - conditions:
+                                    - operation: one_of
+                                      param_bindings:
+                                        - array_value:
+                                            - literal: SEV123
+                                              reference: incident.severity
+                                          value:
+                                            literal: SEV123
+                                            reference: incident.severity
+                                      subject: incident.severity
+                          navigate:
+                            reference: catalog_attribute["01FCNDV6P870EA6S7TK1DSYD5H"]
+                          operation_type: navigate
+                          parse:
+                            returns:
+                                array: true
+                                type: IncidentStatus
+                            source: metadata.annotations["github.com/repo"]
+                      reference: abc123
+                      root_reference: incident.status
+            grouping_keys:
+                type: array
+                items:
+                    $ref: '#/definitions/GroupingKeyV2RequestBody'
+                description: Which attributes should this alert route use to group alerts?
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+            grouping_window_seconds:
+                type: integer
+                description: How large should the grouping window be?
+                example: 1
+                format: int64
+            incident_condition_groups:
+                type: array
+                items:
+                    $ref: '#/definitions/ConditionGroupPayloadV2RequestBody'
+                description: What condition groups must be true for this alert route to create an incident?
+                example:
+                    - conditions:
+                        - operation: one_of
+                          param_bindings:
+                            - array_value:
+                                - literal: SEV123
+                                  reference: incident.severity
+                              value:
+                                literal: SEV123
+                                reference: incident.severity
+                          subject: incident.severity
+            incident_enabled:
+                type: boolean
+                description: Whether this alert route will create incidents or not
+                example: false
+            name:
+                type: string
+                description: The name of this alert route config, for the user's reference
+                example: Production incidents
+            template:
+                $ref: '#/definitions/AlertRouteIncidentTemplatePayloadV2RequestBody'
+        example:
+            alert_source_ids:
+                - 02FCNDV6P870EA6S7TK1DSYDG2
+            auto_decline_enabled: false
+            condition_groups:
+                - conditions:
+                    - operation: one_of
+                      param_bindings:
+                        - array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                          value:
+                            literal: SEV123
+                            reference: incident.severity
+                      subject: incident.severity
+            defer_time_seconds: 1
+            enabled: false
+            escalation_bindings:
+                - binding:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+            expressions:
+                - else_branch:
+                    result:
+                        array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                        value:
+                            literal: SEV123
+                            reference: incident.severity
+                  label: Team Slack channel
+                  operations:
+                    - branches:
+                        branches:
+                            - condition_groups:
+                                - conditions:
+                                    - operation: one_of
+                                      param_bindings:
+                                        - array_value:
+                                            - literal: SEV123
+                                              reference: incident.severity
+                                          value:
+                                            literal: SEV123
+                                            reference: incident.severity
+                                      subject: incident.severity
+                              result:
+                                array_value:
+                                    - literal: SEV123
+                                      reference: incident.severity
+                                value:
+                                    literal: SEV123
+                                    reference: incident.severity
+                        returns:
+                            array: true
+                            type: IncidentStatus
+                      filter:
+                        condition_groups:
+                            - conditions:
+                                - operation: one_of
+                                  param_bindings:
+                                    - array_value:
+                                        - literal: SEV123
+                                          reference: incident.severity
+                                      value:
+                                        literal: SEV123
+                                        reference: incident.severity
+                                  subject: incident.severity
+                      navigate:
+                        reference: catalog_attribute["01FCNDV6P870EA6S7TK1DSYD5H"]
+                      operation_type: navigate
+                      parse:
+                        returns:
+                            array: true
+                            type: IncidentStatus
+                        source: metadata.annotations["github.com/repo"]
+                  reference: abc123
+                  root_reference: incident.status
+            grouping_keys:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+            grouping_window_seconds: 1
+            incident_condition_groups:
+                - conditions:
+                    - operation: one_of
+                      param_bindings:
+                        - array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                          value:
+                            literal: SEV123
+                            reference: incident.severity
+                      subject: incident.severity
+            incident_enabled: false
+            name: Production incidents
+            template:
+                custom_field_priorities:
+                    abc123: abc123
+                custom_fields:
+                    custom_field_10014:
+                        array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                        value:
+                            literal: SEV123
+                            reference: incident.severity
+                incident_mode:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+                incident_type:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+                name:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+                priority_severity: severity-first-wins
+                severity:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+                summary:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+                workspace:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+        required:
+            - name
+            - condition_groups
+            - grouping_keys
+            - grouping_window_seconds
+            - defer_time_seconds
+            - escalation_bindings
+            - auto_decline_enabled
+            - enabled
+            - incident_enabled
+            - incident_condition_groups
+            - alert_source_ids
+            - auto_cancel_escalations
+    AlertRoutesV2UpdateResponseBody:
+        title: AlertRoutesV2UpdateResponseBody
+        type: object
+        properties:
+            alert_route:
+                $ref: '#/definitions/AlertRouteV2ResponseBody'
+        example:
+            alert_route:
+                condition_groups:
+                    - conditions:
+                        - operation:
+                            label: Lawrence Jones
+                            value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                          param_bindings:
+                            - array_value:
+                                - label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                              value:
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                          subject:
+                            label: Incident Severity
+                            reference: incident.severity
+                defer_time_seconds: 1
+                escalation_bindings:
+                    - binding:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                expressions:
+                    - else_branch:
+                        result:
+                            array_value:
+                                - label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                            value:
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                      label: Team Slack channel
+                      operations:
+                        - branches:
+                            branches:
+                                - condition_groups:
+                                    - conditions:
+                                        - operation:
+                                            label: Lawrence Jones
+                                            value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                                          param_bindings:
+                                            - array_value:
+                                                - label: Lawrence Jones
+                                                  literal: SEV123
+                                                  reference: incident.severity
+                                              value:
+                                                label: Lawrence Jones
+                                                literal: SEV123
+                                                reference: incident.severity
+                                          subject:
+                                            label: Incident Severity
+                                            reference: incident.severity
+                                  result:
+                                    array_value:
+                                        - label: Lawrence Jones
+                                          literal: SEV123
+                                          reference: incident.severity
+                                    value:
+                                        label: Lawrence Jones
+                                        literal: SEV123
+                                        reference: incident.severity
+                            returns:
+                                array: true
+                                type: IncidentStatus
+                          filter:
+                            condition_groups:
+                                - conditions:
+                                    - operation:
+                                        label: Lawrence Jones
+                                        value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                                      param_bindings:
+                                        - array_value:
+                                            - label: Lawrence Jones
+                                              literal: SEV123
+                                              reference: incident.severity
+                                          value:
+                                            label: Lawrence Jones
+                                            literal: SEV123
+                                            reference: incident.severity
+                                      subject:
+                                        label: Incident Severity
+                                        reference: incident.severity
+                          navigate:
+                            reference: "1235"
+                            reference_label: Teams
+                          operation_type: navigate
+                          parse:
+                            returns:
+                                array: true
+                                type: IncidentStatus
+                            source: metadata.annotations["github.com/repo"]
+                          returns:
+                            array: true
+                            type: IncidentStatus
+                      reference: abc123
+                      returns:
+                        array: true
+                        type: IncidentStatus
+                      root_reference: incident.status
+                grouping_keys:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                grouping_window_seconds: 1
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                name: Production incidents
+                template:
+                    custom_field_priorities:
+                        abc123: first-wins
+                    custom_fields:
+                        custom_field_10014:
+                            array_value:
+                                - label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                            value:
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                    incident_mode:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    incident_type:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    name:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    priority_severity: severity-first-wins
+                    severity:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    summary:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                    workspace:
+                        array_value:
+                            - label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                        value:
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+        required:
+            - alert_route
     AuditLogActorMetadataV2ResponseBody:
         title: AuditLogActorMetadataV2ResponseBody
         type: object
@@ -5335,7 +7329,9 @@ definitions:
                     - debrief_invite_rule
                     - escalation_path
                     - follow_up_priority
+                    - holiday_user_feed
                     - incident
+                    - incident_call_setting
                     - incident_duration_metric
                     - incident_role
                     - incident_status
@@ -6921,6 +8917,230 @@ definitions:
                 - id: 01FCNDV6P870EA6S7TK1DSYDG0
                   name: Low
                   type: follow_up_priority
+            version: 1
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
+    AuditLogsHolidayUserFeedCreatedV1ResponseBody:
+        title: AuditLogsHolidayUserFeedCreatedV1ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: holiday_user_feed.created
+            actor:
+                $ref: '#/definitions/AuditLogActorV2ResponseBody'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2ResponseBody'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2ResponseBody'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: US Team holidays
+                      type: holiday_user_feed
+            version:
+                type: integer
+                description: Which version the event is
+                example: 1
+                format: int64
+        example:
+            action: holiday_user_feed.created
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: US Team holidays
+                  type: holiday_user_feed
+            version: 1
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
+    AuditLogsHolidayUserFeedDeletedV1ResponseBody:
+        title: AuditLogsHolidayUserFeedDeletedV1ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: holiday_user_feed.deleted
+            actor:
+                $ref: '#/definitions/AuditLogActorV2ResponseBody'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2ResponseBody'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2ResponseBody'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: US Team holidays
+                      type: holiday_user_feed
+            version:
+                type: integer
+                description: Which version the event is
+                example: 1
+                format: int64
+        example:
+            action: holiday_user_feed.deleted
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: US Team holidays
+                  type: holiday_user_feed
+            version: 1
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
+    AuditLogsHolidayUserFeedUpdatedV1ResponseBody:
+        title: AuditLogsHolidayUserFeedUpdatedV1ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: holiday_user_feed.updated
+            actor:
+                $ref: '#/definitions/AuditLogActorV2ResponseBody'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2ResponseBody'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2ResponseBody'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: US Team holidays
+                      type: holiday_user_feed
+            version:
+                type: integer
+                description: Which version the event is
+                example: 1
+                format: int64
+        example:
+            action: holiday_user_feed.updated
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: US Team holidays
+                  type: holiday_user_feed
+            version: 1
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
+    AuditLogsIncidentCallSettingUpdatedV1ResponseBody:
+        title: AuditLogsIncidentCallSettingUpdatedV1ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: incident_call_setting.updated
+            actor:
+                $ref: '#/definitions/AuditLogActorV2ResponseBody'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2ResponseBody'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2ResponseBody'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: Incident call settings
+                      type: incident_call_setting
+            version:
+                type: integer
+                description: Which version the event is
+                example: 1
+                format: int64
+        example:
+            action: incident_call_setting.updated
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: Incident call settings
+                  type: incident_call_setting
             version: 1
         required:
             - action
@@ -10337,13 +12557,13 @@ definitions:
                         catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                         catalog_entry_name: Primary escalation
                         catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                      helptext: Collection of standalone automations like auto-closing incidents.
-                      image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                      helptext: abc123
+                      image_url: abc123
                       is_image_slack_icon: false
                       label: Lawrence Jones
                       literal: SEV123
                       reference: incident.severity
-                      sort_key: "000020"
+                      sort_key: abc123
                       unavailable: false
                       value: abc123
             value:
@@ -10355,13 +12575,13 @@ definitions:
                     catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                     catalog_entry_name: Primary escalation
                     catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                  helptext: Collection of standalone automations like auto-closing incidents.
-                  image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                  helptext: abc123
+                  image_url: abc123
                   is_image_slack_icon: false
                   label: Lawrence Jones
                   literal: SEV123
                   reference: incident.severity
-                  sort_key: "000020"
+                  sort_key: abc123
                   unavailable: false
                   value: abc123
             value:
@@ -10370,13 +12590,13 @@ definitions:
                     catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                     catalog_entry_name: Primary escalation
                     catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                helptext: Collection of standalone automations like auto-closing incidents.
-                image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                helptext: abc123
+                image_url: abc123
                 is_image_slack_icon: false
                 label: Lawrence Jones
                 literal: SEV123
                 reference: incident.severity
-                sort_key: "000020"
+                sort_key: abc123
                 unavailable: false
                 value: abc123
     CatalogEntryEngineParamBindingValueV2ResponseBody:
@@ -10387,15 +12607,15 @@ definitions:
                 $ref: '#/definitions/CatalogEntryReferenceV2ResponseBody'
             helptext:
                 type: string
-                description: Gives a description of the option to the user
-                example: Collection of standalone automations like auto-closing incidents.
+                description: This field is deprecated. It will not be present in any responses, and will be removed in a future version
+                example: abc123
             image_url:
                 type: string
-                description: If appropriate, URL to an image that can be displayed alongside the option
-                example: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                description: This field is deprecated. It will not be present in any responses, and will be removed in a future version
+                example: abc123
             is_image_slack_icon:
                 type: boolean
-                description: If true, the image_url is a Slack icon and should be displayed as such
+                description: This field is deprecated. It will not be present in any responses, and will be removed in a future version
                 example: false
             label:
                 type: string
@@ -10407,19 +12627,19 @@ definitions:
                 example: SEV123
             reference:
                 type: string
-                description: If set, this is the reference into the trigger scope that is the value of this parameter
+                description: This field is deprecated. It will not be present in any responses, and will be removed in a future version
                 example: incident.severity
             sort_key:
                 type: string
-                description: Gives an indication of how to sort the options when displayed to the user
-                example: "000020"
+                description: This field is deprecated. It will not be present in any responses, and will be removed in a future version
+                example: abc123
             unavailable:
                 type: boolean
-                description: Unavailable is true if we've failed to build the value for this binding
+                description: This field is deprecated. It will not be present in any responses, and will be removed in a future version
                 example: false
             value:
                 type: string
-                description: 'Either the reference or the literal: this field is designed purely to make working with react-select easier'
+                description: This field is deprecated. It will not be present in any responses, and will be removed in a future version
                 example: abc123
         example:
             catalog_entry:
@@ -10427,13 +12647,13 @@ definitions:
                 catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                 catalog_entry_name: Primary escalation
                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-            helptext: Collection of standalone automations like auto-closing incidents.
-            image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+            helptext: abc123
+            image_url: abc123
             is_image_slack_icon: false
             label: Lawrence Jones
             literal: SEV123
             reference: incident.severity
-            sort_key: "000020"
+            sort_key: abc123
             unavailable: false
             value: abc123
         required:
@@ -10498,13 +12718,13 @@ definitions:
                                 catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                 catalog_entry_name: Primary escalation
                                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                              helptext: Collection of standalone automations like auto-closing incidents.
-                              image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                              helptext: abc123
+                              image_url: abc123
                               is_image_slack_icon: false
                               label: Lawrence Jones
                               literal: SEV123
                               reference: incident.severity
-                              sort_key: "000020"
+                              sort_key: abc123
                               unavailable: false
                               value: abc123
                         value:
@@ -10513,13 +12733,13 @@ definitions:
                                 catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                 catalog_entry_name: Primary escalation
                                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                            helptext: Collection of standalone automations like auto-closing incidents.
-                            image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                            helptext: abc123
+                            image_url: abc123
                             is_image_slack_icon: false
                             label: Lawrence Jones
                             literal: SEV123
                             reference: incident.severity
-                            sort_key: "000020"
+                            sort_key: abc123
                             unavailable: false
                             value: abc123
                 additionalProperties:
@@ -10568,13 +12788,13 @@ definitions:
                             catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                             catalog_entry_name: Primary escalation
                             catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                          helptext: Collection of standalone automations like auto-closing incidents.
-                          image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                          helptext: abc123
+                          image_url: abc123
                           is_image_slack_icon: false
                           label: Lawrence Jones
                           literal: SEV123
                           reference: incident.severity
-                          sort_key: "000020"
+                          sort_key: abc123
                           unavailable: false
                           value: abc123
                     value:
@@ -10583,13 +12803,13 @@ definitions:
                             catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                             catalog_entry_name: Primary escalation
                             catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                        helptext: Collection of standalone automations like auto-closing incidents.
-                        image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                        helptext: abc123
+                        image_url: abc123
                         is_image_slack_icon: false
                         label: Lawrence Jones
                         literal: SEV123
                         reference: incident.severity
-                        sort_key: "000020"
+                        sort_key: abc123
                         unavailable: false
                         value: abc123
             catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
@@ -10896,8 +13116,9 @@ definitions:
             icon:
                 type: string
                 description: Sets the display icon of this type in the dashboard
-                example: bolt
+                example: alert
                 enum:
+                    - alert
                     - bolt
                     - box
                     - briefcase
@@ -10910,6 +13131,7 @@ definitions:
                     - database
                     - doc
                     - email
+                    - escalation-path
                     - files
                     - flag
                     - folder
@@ -10917,6 +13139,7 @@ definitions:
                     - money
                     - server
                     - severity
+                    - status-page
                     - store
                     - star
                     - tag
@@ -10984,7 +13207,7 @@ definitions:
             description: Represents Kubernetes clusters that we run inside of GKE.
             dynamic_resource_parameter: abc123
             estimated_count: 7
-            icon: bolt
+            icon: alert
             id: 01FCNDV6P870EA6S7TK1DSYDG0
             is_editable: false
             last_synced_at: "2021-08-17T13:28:57.801578Z"
@@ -11110,13 +13333,13 @@ definitions:
                                 catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                 catalog_entry_name: Primary escalation
                                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                              helptext: Collection of standalone automations like auto-closing incidents.
-                              image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                              helptext: abc123
+                              image_url: abc123
                               is_image_slack_icon: false
                               label: Lawrence Jones
                               literal: SEV123
                               reference: incident.severity
-                              sort_key: "000020"
+                              sort_key: abc123
                               unavailable: false
                               value: abc123
                         value:
@@ -11125,13 +13348,13 @@ definitions:
                                 catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                 catalog_entry_name: Primary escalation
                                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                            helptext: Collection of standalone automations like auto-closing incidents.
-                            image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                            helptext: abc123
+                            image_url: abc123
                             is_image_slack_icon: false
                             label: Lawrence Jones
                             literal: SEV123
                             reference: incident.severity
-                            sort_key: "000020"
+                            sort_key: abc123
                             unavailable: false
                             value: abc123
                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
@@ -11190,8 +13413,9 @@ definitions:
             icon:
                 type: string
                 description: Sets the display icon of this type in the dashboard
-                example: bolt
+                example: alert
                 enum:
+                    - alert
                     - bolt
                     - box
                     - briefcase
@@ -11204,6 +13428,7 @@ definitions:
                     - database
                     - doc
                     - email
+                    - escalation-path
                     - files
                     - flag
                     - folder
@@ -11211,6 +13436,7 @@ definitions:
                     - money
                     - server
                     - severity
+                    - status-page
                     - store
                     - star
                     - tag
@@ -11239,7 +13465,7 @@ definitions:
                 - issue-tracker
             color: yellow
             description: Represents Kubernetes clusters that we run inside of GKE.
-            icon: bolt
+            icon: alert
             name: Kubernetes Cluster
             ranked: true
             source_repo_url: https://github.com/my-company/incident-io-catalog
@@ -11264,7 +13490,7 @@ definitions:
                 description: Represents Kubernetes clusters that we run inside of GKE.
                 dynamic_resource_parameter: abc123
                 estimated_count: 7
-                icon: bolt
+                icon: alert
                 id: 01FCNDV6P870EA6S7TK1DSYDG0
                 is_editable: false
                 last_synced_at: "2021-08-17T13:28:57.801578Z"
@@ -11312,13 +13538,13 @@ definitions:
                                     catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                     catalog_entry_name: Primary escalation
                                     catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                                  helptext: Collection of standalone automations like auto-closing incidents.
-                                  image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                  helptext: abc123
+                                  image_url: abc123
                                   is_image_slack_icon: false
                                   label: Lawrence Jones
                                   literal: SEV123
                                   reference: incident.severity
-                                  sort_key: "000020"
+                                  sort_key: abc123
                                   unavailable: false
                                   value: abc123
                             value:
@@ -11327,13 +13553,13 @@ definitions:
                                     catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                     catalog_entry_name: Primary escalation
                                     catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                                helptext: Collection of standalone automations like auto-closing incidents.
-                                image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                helptext: abc123
+                                image_url: abc123
                                 is_image_slack_icon: false
                                 label: Lawrence Jones
                                 literal: SEV123
                                 reference: incident.severity
-                                sort_key: "000020"
+                                sort_key: abc123
                                 unavailable: false
                                 value: abc123
                       catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
@@ -11361,13 +13587,13 @@ definitions:
                                 catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                 catalog_entry_name: Primary escalation
                                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                              helptext: Collection of standalone automations like auto-closing incidents.
-                              image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                              helptext: abc123
+                              image_url: abc123
                               is_image_slack_icon: false
                               label: Lawrence Jones
                               literal: SEV123
                               reference: incident.severity
-                              sort_key: "000020"
+                              sort_key: abc123
                               unavailable: false
                               value: abc123
                         value:
@@ -11376,13 +13602,13 @@ definitions:
                                 catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                 catalog_entry_name: Primary escalation
                                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                            helptext: Collection of standalone automations like auto-closing incidents.
-                            image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                            helptext: abc123
+                            image_url: abc123
                             is_image_slack_icon: false
                             label: Lawrence Jones
                             literal: SEV123
                             reference: incident.severity
-                            sort_key: "000020"
+                            sort_key: abc123
                             unavailable: false
                             value: abc123
                   catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
@@ -11402,7 +13628,7 @@ definitions:
                 description: Represents Kubernetes clusters that we run inside of GKE.
                 dynamic_resource_parameter: abc123
                 estimated_count: 7
-                icon: bolt
+                icon: alert
                 id: 01FCNDV6P870EA6S7TK1DSYDG0
                 is_editable: false
                 last_synced_at: "2021-08-17T13:28:57.801578Z"
@@ -11475,7 +13701,7 @@ definitions:
                       description: Represents Kubernetes clusters that we run inside of GKE.
                       dynamic_resource_parameter: abc123
                       estimated_count: 7
-                      icon: bolt
+                      icon: alert
                       id: 01FCNDV6P870EA6S7TK1DSYDG0
                       is_editable: false
                       last_synced_at: "2021-08-17T13:28:57.801578Z"
@@ -11511,7 +13737,7 @@ definitions:
                   description: Represents Kubernetes clusters that we run inside of GKE.
                   dynamic_resource_parameter: abc123
                   estimated_count: 7
-                  icon: bolt
+                  icon: alert
                   id: 01FCNDV6P870EA6S7TK1DSYDG0
                   is_editable: false
                   last_synced_at: "2021-08-17T13:28:57.801578Z"
@@ -11560,13 +13786,13 @@ definitions:
                                 catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                 catalog_entry_name: Primary escalation
                                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                              helptext: Collection of standalone automations like auto-closing incidents.
-                              image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                              helptext: abc123
+                              image_url: abc123
                               is_image_slack_icon: false
                               label: Lawrence Jones
                               literal: SEV123
                               reference: incident.severity
-                              sort_key: "000020"
+                              sort_key: abc123
                               unavailable: false
                               value: abc123
                         value:
@@ -11575,13 +13801,13 @@ definitions:
                                 catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                 catalog_entry_name: Primary escalation
                                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                            helptext: Collection of standalone automations like auto-closing incidents.
-                            image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                            helptext: abc123
+                            image_url: abc123
                             is_image_slack_icon: false
                             label: Lawrence Jones
                             literal: SEV123
                             reference: incident.severity
-                            sort_key: "000020"
+                            sort_key: abc123
                             unavailable: false
                             value: abc123
                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
@@ -11601,7 +13827,7 @@ definitions:
                 description: Represents Kubernetes clusters that we run inside of GKE.
                 dynamic_resource_parameter: abc123
                 estimated_count: 7
-                icon: bolt
+                icon: alert
                 id: 01FCNDV6P870EA6S7TK1DSYDG0
                 is_editable: false
                 last_synced_at: "2021-08-17T13:28:57.801578Z"
@@ -11646,7 +13872,7 @@ definitions:
                 description: Represents Kubernetes clusters that we run inside of GKE.
                 dynamic_resource_parameter: abc123
                 estimated_count: 7
-                icon: bolt
+                icon: alert
                 id: 01FCNDV6P870EA6S7TK1DSYDG0
                 is_editable: false
                 last_synced_at: "2021-08-17T13:28:57.801578Z"
@@ -11752,13 +13978,13 @@ definitions:
                                 catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                 catalog_entry_name: Primary escalation
                                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                              helptext: Collection of standalone automations like auto-closing incidents.
-                              image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                              helptext: abc123
+                              image_url: abc123
                               is_image_slack_icon: false
                               label: Lawrence Jones
                               literal: SEV123
                               reference: incident.severity
-                              sort_key: "000020"
+                              sort_key: abc123
                               unavailable: false
                               value: abc123
                         value:
@@ -11767,13 +13993,13 @@ definitions:
                                 catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                 catalog_entry_name: Primary escalation
                                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
-                            helptext: Collection of standalone automations like auto-closing incidents.
-                            image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                            helptext: abc123
+                            image_url: abc123
                             is_image_slack_icon: false
                             label: Lawrence Jones
                             literal: SEV123
                             reference: incident.severity
-                            sort_key: "000020"
+                            sort_key: abc123
                             unavailable: false
                             value: abc123
                 catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
@@ -11793,7 +14019,7 @@ definitions:
                 description: Represents Kubernetes clusters that we run inside of GKE.
                 dynamic_resource_parameter: abc123
                 estimated_count: 7
-                icon: bolt
+                icon: alert
                 id: 01FCNDV6P870EA6S7TK1DSYDG0
                 is_editable: false
                 last_synced_at: "2021-08-17T13:28:57.801578Z"
@@ -11868,8 +14094,9 @@ definitions:
             icon:
                 type: string
                 description: Sets the display icon of this type in the dashboard
-                example: bolt
+                example: alert
                 enum:
+                    - alert
                     - bolt
                     - box
                     - briefcase
@@ -11882,6 +14109,7 @@ definitions:
                     - database
                     - doc
                     - email
+                    - escalation-path
                     - files
                     - flag
                     - folder
@@ -11889,6 +14117,7 @@ definitions:
                     - money
                     - server
                     - severity
+                    - status-page
                     - store
                     - star
                     - tag
@@ -11913,7 +14142,7 @@ definitions:
                 - issue-tracker
             color: yellow
             description: Represents Kubernetes clusters that we run inside of GKE.
-            icon: bolt
+            icon: alert
             name: Kubernetes Cluster
             ranked: true
             source_repo_url: https://github.com/my-company/incident-io-catalog
@@ -11937,7 +14166,7 @@ definitions:
                 description: Represents Kubernetes clusters that we run inside of GKE.
                 dynamic_resource_parameter: abc123
                 estimated_count: 7
-                icon: bolt
+                icon: alert
                 id: 01FCNDV6P870EA6S7TK1DSYDG0
                 is_editable: false
                 last_synced_at: "2021-08-17T13:28:57.801578Z"
@@ -12032,7 +14261,7 @@ definitions:
                 description: Represents Kubernetes clusters that we run inside of GKE.
                 dynamic_resource_parameter: abc123
                 estimated_count: 7
-                icon: bolt
+                icon: alert
                 id: 01FCNDV6P870EA6S7TK1DSYDG0
                 is_editable: false
                 last_synced_at: "2021-08-17T13:28:57.801578Z"
@@ -13585,7 +15814,6 @@ definitions:
                 type: string
                 description: Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
                 example: lead
-                minLength: 1
             updated_at:
                 type: string
                 description: When the role was last updated
@@ -13602,12 +15830,12 @@ definitions:
             shortform: lead
             updated_at: "2021-08-17T13:28:57.801578Z"
         required:
-            - condition_groups
-            - id
             - name
+            - shortform
             - description
             - instructions
-            - shortform
+            - condition_groups
+            - id
             - role_type
             - created_at
             - updated_at
@@ -16186,6 +18414,30 @@ definitions:
                 updated_at: "2021-08-17T13:28:57.801578Z"
         required:
             - follow_up
+    GroupingKeyV2RequestBody:
+        title: GroupingKeyV2RequestBody
+        type: object
+        properties:
+            id:
+                type: string
+                description: Unique identifier of the alert attribute the user wishes to group on
+                example: 01FCNDV6P870EA6S7TK1DSYDG0
+        example:
+            id: 01FCNDV6P870EA6S7TK1DSYDG0
+        required:
+            - id
+    GroupingKeyV2ResponseBody:
+        title: GroupingKeyV2ResponseBody
+        type: object
+        properties:
+            id:
+                type: string
+                description: Unique identifier of the alert attribute the user wishes to group on
+                example: 01FCNDV6P870EA6S7TK1DSYDG0
+        example:
+            id: 01FCNDV6P870EA6S7TK1DSYDG0
+        required:
+            - id
     IdentityV1ResponseBody:
         title: IdentityV1ResponseBody
         type: object
@@ -16714,7 +18966,6 @@ definitions:
                 type: string
                 description: Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
                 example: lead
-                minLength: 1
             updated_at:
                 type: string
                 description: When the role was last updated
@@ -16731,12 +18982,12 @@ definitions:
             shortform: lead
             updated_at: "2021-08-17T13:28:57.801578Z"
         required:
-            - condition_groups
-            - id
             - name
+            - shortform
             - description
             - instructions
-            - shortform
+            - condition_groups
+            - id
             - role_type
             - created_at
             - updated_at
@@ -16779,7 +19030,6 @@ definitions:
                 type: string
                 description: Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
                 example: lead
-                minLength: 1
             updated_at:
                 type: string
                 description: When the role was last updated
@@ -16795,12 +19045,12 @@ definitions:
             shortform: lead
             updated_at: "2021-08-17T13:28:57.801578Z"
         required:
-            - condition_groups
-            - id
             - name
+            - shortform
             - description
             - instructions
-            - shortform
+            - condition_groups
+            - id
             - role_type
             - created_at
             - updated_at
@@ -16830,7 +19080,6 @@ definitions:
                 type: string
                 description: Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
                 example: lead
-                minLength: 1
         example:
             description: The person currently coordinating the incident
             instructions: Take point on the incident; Make sure people are clear on responsibilities
@@ -16943,7 +19192,6 @@ definitions:
                 type: string
                 description: Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
                 example: lead
-                minLength: 1
         example:
             description: The person currently coordinating the incident
             instructions: Take point on the incident; Make sure people are clear on responsibilities
@@ -16951,11 +19199,11 @@ definitions:
             required: false
             shortform: lead
         required:
-            - condition_groups
             - name
+            - shortform
             - description
             - instructions
-            - shortform
+            - condition_groups
             - role_type
             - created_at
             - updated_at
@@ -17000,7 +19248,6 @@ definitions:
                 type: string
                 description: Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
                 example: lead
-                minLength: 1
         example:
             description: The person currently coordinating the incident
             instructions: Take point on the incident; Make sure people are clear on responsibilities
@@ -17103,18 +19350,17 @@ definitions:
                 type: string
                 description: Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
                 example: lead
-                minLength: 1
         example:
             description: The person currently coordinating the incident
             instructions: Take point on the incident; Make sure people are clear on responsibilities
             name: Incident Lead
             shortform: lead
         required:
-            - condition_groups
             - name
+            - shortform
             - description
             - instructions
-            - shortform
+            - condition_groups
             - role_type
             - created_at
             - updated_at
@@ -20263,6 +22509,8 @@ definitions:
                     example: abc123
             config:
                 $ref: '#/definitions/ScheduleConfigCreatePayloadV2RequestBody'
+            holidays_public_config:
+                $ref: '#/definitions/ScheduleHolidaysPublicConfigPayloadV2RequestBody'
             name:
                 type: string
                 description: Name of the schedule
@@ -20294,6 +22542,9 @@ definitions:
                         - end_time: "17:00"
                           start_time: "09:00"
                           weekday: tuesday
+            holidays_public_config:
+                country_codes:
+                    - abc123
             name: My Schedule
             timezone: America/Los_Angeles
     ScheduleEntriesListPayloadV2ResponseBody:
@@ -20442,6 +22693,42 @@ definitions:
             - external_user_id
             - start_at
             - end_at
+    ScheduleHolidaysPublicConfigPayloadV2RequestBody:
+        title: ScheduleHolidaysPublicConfigPayloadV2RequestBody
+        type: object
+        properties:
+            country_codes:
+                type: array
+                items:
+                    type: string
+                    example: abc123
+                description: ISO 3166-1 alpha-2 country codes for the countries that this schedule is configured to view holidays for
+                example:
+                    - abc123
+        example:
+            country_codes:
+                - abc123
+        required:
+            - country_codes
+    ScheduleHolidaysPublicConfigV2ResponseBody:
+        title: ScheduleHolidaysPublicConfigV2ResponseBody
+        type: object
+        properties:
+            country_codes:
+                type: array
+                items:
+                    type: string
+                    example: abc123
+                description: ISO 3166-1 alpha-2 country codes for the countries that this schedule is configured to view holidays for
+                example:
+                    - GB
+                    - FR
+        example:
+            country_codes:
+                - GB
+                - FR
+        required:
+            - country_codes
     ScheduleLayerCreatePayloadV2RequestBody:
         title: ScheduleLayerCreatePayloadV2RequestBody
         type: object
@@ -20856,6 +23143,8 @@ definitions:
                     example: abc123
             config:
                 $ref: '#/definitions/ScheduleConfigUpdatePayloadV2RequestBody'
+            holidays_public_config:
+                $ref: '#/definitions/ScheduleHolidaysPublicConfigPayloadV2RequestBody'
             name:
                 type: string
                 description: Name of the schedule
@@ -20887,6 +23176,9 @@ definitions:
                         - end_time: "17:00"
                           start_time: "09:00"
                           weekday: tuesday
+            holidays_public_config:
+                country_codes:
+                    - abc123
             name: My Schedule
             timezone: America/Los_Angeles
     ScheduleV2ResponseBody:
@@ -20925,6 +23217,8 @@ definitions:
                         name: Lisa Karlin Curtis
                         role: viewer
                         slack_user_id: U02AYNF2XJM
+            holidays_public_config:
+                $ref: '#/definitions/ScheduleHolidaysPublicConfigV2ResponseBody'
             id:
                 type: string
                 description: Unique internal ID of the schedule
@@ -20980,6 +23274,10 @@ definitions:
                     name: Lisa Karlin Curtis
                     role: viewer
                     slack_user_id: U02AYNF2XJM
+            holidays_public_config:
+                country_codes:
+                    - GB
+                    - FR
             id: 01G0J1EXE7AXZ2C93K61WBPYEH
             name: Primary On-Call Schedule
             timezone: Europe/London
@@ -21023,6 +23321,9 @@ definitions:
                             - end_time: "17:00"
                               start_time: "09:00"
                               weekday: tuesday
+                holidays_public_config:
+                    country_codes:
+                        - abc123
                 name: My Schedule
                 timezone: America/Los_Angeles
         required:
@@ -21073,6 +23374,10 @@ definitions:
                         name: Lisa Karlin Curtis
                         role: viewer
                         slack_user_id: U02AYNF2XJM
+                holidays_public_config:
+                    country_codes:
+                        - GB
+                        - FR
                 id: 01G0J1EXE7AXZ2C93K61WBPYEH
                 name: Primary On-Call Schedule
                 timezone: Europe/London
@@ -21128,6 +23433,10 @@ definitions:
                             name: Lisa Karlin Curtis
                             role: viewer
                             slack_user_id: U02AYNF2XJM
+                      holidays_public_config:
+                        country_codes:
+                            - GB
+                            - FR
                       id: 01G0J1EXE7AXZ2C93K61WBPYEH
                       name: Primary On-Call Schedule
                       timezone: Europe/London
@@ -21176,6 +23485,10 @@ definitions:
                         name: Lisa Karlin Curtis
                         role: viewer
                         slack_user_id: U02AYNF2XJM
+                  holidays_public_config:
+                    country_codes:
+                        - GB
+                        - FR
                   id: 01G0J1EXE7AXZ2C93K61WBPYEH
                   name: Primary On-Call Schedule
                   timezone: Europe/London
@@ -21282,6 +23595,10 @@ definitions:
                         name: Lisa Karlin Curtis
                         role: viewer
                         slack_user_id: U02AYNF2XJM
+                holidays_public_config:
+                    country_codes:
+                        - GB
+                        - FR
                 id: 01G0J1EXE7AXZ2C93K61WBPYEH
                 name: Primary On-Call Schedule
                 timezone: Europe/London
@@ -21318,6 +23635,9 @@ definitions:
                             - end_time: "17:00"
                               start_time: "09:00"
                               weekday: tuesday
+                holidays_public_config:
+                    country_codes:
+                        - abc123
                 name: My Schedule
                 timezone: America/Los_Angeles
         required:
@@ -21375,6 +23695,10 @@ definitions:
                         name: Lisa Karlin Curtis
                         role: viewer
                         slack_user_id: U02AYNF2XJM
+                holidays_public_config:
+                    country_codes:
+                        - GB
+                        - FR
                 id: 01G0J1EXE7AXZ2C93K61WBPYEH
                 name: Primary On-Call Schedule
                 timezone: Europe/London

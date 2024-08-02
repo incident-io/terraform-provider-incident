@@ -30,10 +30,11 @@ type IncidentScheduleResource struct {
 }
 
 type IncidentScheduleResourceModel struct {
-	ID        types.String `tfsdk:"id"`
-	Name      types.String `tfsdk:"name"`
-	Timezone  types.String `tfsdk:"timezone"`
-	Rotations []Rotation   `tfsdk:"rotations"`
+	ID                   types.String          `tfsdk:"id"`
+	Name                 types.String          `tfsdk:"name"`
+	Timezone             types.String          `tfsdk:"timezone"`
+	Rotations            []Rotation            `tfsdk:"rotations"`
+	HolidaysPublicConfig *HolidaysPublicConfig `tfsdk:"holidays_public_config"`
 }
 
 type Rotation struct {
@@ -68,6 +69,10 @@ type Handover struct {
 	IntervalType types.String `tfsdk:"interval_type"`
 }
 
+type HolidaysPublicConfig struct {
+	CountryCodes []types.String `tfsdk:"country_codes"`
+}
+
 func NewIncidentScheduleResource() resource.Resource {
 	return &IncidentScheduleResource{}
 }
@@ -93,6 +98,16 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"timezone": schema.StringAttribute{
 				Required: true,
+			},
+			"holidays_public_config": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"country_codes": schema.ListAttribute{
+						Required:            true,
+						ElementType:         types.StringType,
+						MarkdownDescription: apischema.Docstring("ScheduleHolidaysPublicConfigV2ResponseBody", "country_codes"),
+					},
+				},
+				Optional: true,
 			},
 			"rotations": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -210,6 +225,8 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
+	holidaysPublicConfig := buildScheduleHolidaysPublicConfig(data)
+
 	result, err := r.client.SchedulesV2CreateWithResponse(ctx, client.SchedulesV2CreateJSONRequestBody{
 		Schedule: client.ScheduleCreatePayloadV2{
 			Annotations: &map[string]string{
@@ -220,6 +237,7 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 			Config: &client.ScheduleConfigCreatePayloadV2{
 				Rotations: &rotationArray,
 			},
+			HolidaysPublicConfig: holidaysPublicConfig,
 		},
 	})
 	if err == nil && result.StatusCode() >= 400 {
@@ -276,13 +294,16 @@ func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
+	holidaysPublicConfig := buildScheduleHolidaysPublicConfig(old)
+
 	result, err := r.client.SchedulesV2UpdateWithResponse(ctx, old.ID.ValueString(), client.SchedulesV2UpdateJSONRequestBody{
 		Schedule: client.ScheduleUpdatePayloadV2{
 			Annotations: &map[string]string{
 				"incident.io/terraform/version": r.terraformVersion,
 			},
-			Name:     old.Name.ValueStringPointer(),
-			Timezone: old.Timezone.ValueStringPointer(),
+			Name:                 old.Name.ValueStringPointer(),
+			Timezone:             old.Timezone.ValueStringPointer(),
+			HolidaysPublicConfig: holidaysPublicConfig,
 			Config: &client.ScheduleConfigUpdatePayloadV2{
 				Rotations: &rotationArray,
 			},
@@ -470,10 +491,21 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 
 	rotationNames = lo.Uniq(rotationNames)
 
+	var holidaysPublicConfig *HolidaysPublicConfig
+	if schedule.HolidaysPublicConfig != nil {
+		countryCodes := lo.Map(schedule.HolidaysPublicConfig.CountryCodes, func(countryCode string, _ int) types.String {
+			return types.StringValue(countryCode)
+		})
+		holidaysPublicConfig = &HolidaysPublicConfig{
+			CountryCodes: countryCodes,
+		}
+	}
+
 	return &IncidentScheduleResourceModel{
-		Name:     types.StringValue(schedule.Name),
-		ID:       types.StringValue(schedule.Id),
-		Timezone: types.StringValue(schedule.Timezone),
+		Name:                 types.StringValue(schedule.Name),
+		ID:                   types.StringValue(schedule.Id),
+		Timezone:             types.StringValue(schedule.Timezone),
+		HolidaysPublicConfig: holidaysPublicConfig,
 		Rotations: lo.Map(rotationNames, func(rotation RotationName, _ int) Rotation {
 			newRotation := Rotation{
 				ID:   types.StringValue(rotation.ID),
@@ -534,5 +566,18 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 			}
 			return newRotation
 		}),
+	}
+}
+
+func buildScheduleHolidaysPublicConfig(data *IncidentScheduleResourceModel) *client.ScheduleHolidaysPublicConfigV2 {
+	if data.HolidaysPublicConfig == nil {
+		return nil
+	}
+	var countryCodes []string
+	for _, countryCode := range data.HolidaysPublicConfig.CountryCodes {
+		countryCodes = append(countryCodes, countryCode.ValueString())
+	}
+	return &client.ScheduleHolidaysPublicConfigV2{
+		CountryCodes: countryCodes,
 	}
 }

@@ -7,8 +7,9 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/incident-io/terraform-provider-incident/internal/client"
 	"github.com/samber/lo"
+
+	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
 func TestAccIncidentScheduleResource(t *testing.T) {
@@ -70,9 +71,16 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_schedule.example", "name", "example"),
+						"incident_schedule.example", "name", "example",
+					),
 					resource.TestCheckResourceAttr(
 						"incident_schedule.example", "timezone", "Europe/London",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "holidays_public_config.country_codes.0", "GB",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "holidays_public_config.country_codes.1", "FR",
 					),
 				),
 			},
@@ -119,6 +127,9 @@ func incidentScheduleDefault() client.ScheduleV2 {
 				},
 			},
 		},
+		HolidaysPublicConfig: &client.ScheduleHolidaysPublicConfigV2{
+			CountryCodes: []string{"GB", "FR"},
+		},
 	}
 }
 
@@ -133,6 +144,13 @@ func generateScheduleTerraform(name string, schedule *client.ScheduleV2) string 
 	result += "  name     = " + quote(name) + "\n"
 	result += "  timezone = " + quote(schedule.Timezone) + "\n"
 	result += "  " + generateRotationsArray(schedule.Config.Rotations)
+
+	if schedule.HolidaysPublicConfig != nil {
+		result += "  holidays_public_config = {\n"
+		result += "    country_codes = " + generateCountryCodesArray(schedule.HolidaysPublicConfig.CountryCodes) + "\n"
+		result += "  }\n"
+	}
+
 	result += "}\n"
 	return result
 }
@@ -218,6 +236,22 @@ func generateUsersArray(users *[]client.UserV1) string {
 		result += "  {\n"
 		result += "    id   = " + quote(user.Id) + "\n"
 		result += "  },\n"
+	}
+	result += "]\n"
+	return result
+}
+
+func generateCountryCodesArray(codes []string) string {
+	var result string
+	if codes == nil {
+		return "[]"
+	}
+	result += "["
+	for idx, code := range codes {
+		if idx > 0 {
+			result += ", "
+		}
+		result += quote(code)
 	}
 	result += "]\n"
 	return result

@@ -49,6 +49,25 @@ const (
 	Success AlertResultStatus = "success"
 )
 
+// Defines values for AlertRouteIncidentTemplatePayloadV2PrioritySeverity.
+const (
+	AlertRouteIncidentTemplatePayloadV2PrioritySeveritySeverityFirstWins AlertRouteIncidentTemplatePayloadV2PrioritySeverity = "severity-first-wins"
+	AlertRouteIncidentTemplatePayloadV2PrioritySeveritySeverityMax       AlertRouteIncidentTemplatePayloadV2PrioritySeverity = "severity-max"
+)
+
+// Defines values for AlertRouteIncidentTemplateV2CustomFieldPriorities.
+const (
+	Append    AlertRouteIncidentTemplateV2CustomFieldPriorities = "append"
+	FirstWins AlertRouteIncidentTemplateV2CustomFieldPriorities = "first-wins"
+	LastWins  AlertRouteIncidentTemplateV2CustomFieldPriorities = "last-wins"
+)
+
+// Defines values for AlertRouteIncidentTemplateV2PrioritySeverity.
+const (
+	AlertRouteIncidentTemplateV2PrioritySeveritySeverityFirstWins AlertRouteIncidentTemplateV2PrioritySeverity = "severity-first-wins"
+	AlertRouteIncidentTemplateV2PrioritySeveritySeverityMax       AlertRouteIncidentTemplateV2PrioritySeverity = "severity-max"
+)
+
 // Defines values for CatalogResourceV2Category.
 const (
 	CatalogResourceV2CategoryCustom    CatalogResourceV2Category = "custom"
@@ -102,30 +121,33 @@ const (
 
 // Defines values for CatalogTypeV2Icon.
 const (
-	CatalogTypeV2IconBolt       CatalogTypeV2Icon = "bolt"
-	CatalogTypeV2IconBox        CatalogTypeV2Icon = "box"
-	CatalogTypeV2IconBriefcase  CatalogTypeV2Icon = "briefcase"
-	CatalogTypeV2IconBrowser    CatalogTypeV2Icon = "browser"
-	CatalogTypeV2IconBulb       CatalogTypeV2Icon = "bulb"
-	CatalogTypeV2IconCalendar   CatalogTypeV2Icon = "calendar"
-	CatalogTypeV2IconClock      CatalogTypeV2Icon = "clock"
-	CatalogTypeV2IconCog        CatalogTypeV2Icon = "cog"
-	CatalogTypeV2IconComponents CatalogTypeV2Icon = "components"
-	CatalogTypeV2IconDatabase   CatalogTypeV2Icon = "database"
-	CatalogTypeV2IconDoc        CatalogTypeV2Icon = "doc"
-	CatalogTypeV2IconEmail      CatalogTypeV2Icon = "email"
-	CatalogTypeV2IconFiles      CatalogTypeV2Icon = "files"
-	CatalogTypeV2IconFlag       CatalogTypeV2Icon = "flag"
-	CatalogTypeV2IconFolder     CatalogTypeV2Icon = "folder"
-	CatalogTypeV2IconGlobe      CatalogTypeV2Icon = "globe"
-	CatalogTypeV2IconMoney      CatalogTypeV2Icon = "money"
-	CatalogTypeV2IconServer     CatalogTypeV2Icon = "server"
-	CatalogTypeV2IconSeverity   CatalogTypeV2Icon = "severity"
-	CatalogTypeV2IconStar       CatalogTypeV2Icon = "star"
-	CatalogTypeV2IconStore      CatalogTypeV2Icon = "store"
-	CatalogTypeV2IconTag        CatalogTypeV2Icon = "tag"
-	CatalogTypeV2IconUser       CatalogTypeV2Icon = "user"
-	CatalogTypeV2IconUsers      CatalogTypeV2Icon = "users"
+	CatalogTypeV2IconAlert          CatalogTypeV2Icon = "alert"
+	CatalogTypeV2IconBolt           CatalogTypeV2Icon = "bolt"
+	CatalogTypeV2IconBox            CatalogTypeV2Icon = "box"
+	CatalogTypeV2IconBriefcase      CatalogTypeV2Icon = "briefcase"
+	CatalogTypeV2IconBrowser        CatalogTypeV2Icon = "browser"
+	CatalogTypeV2IconBulb           CatalogTypeV2Icon = "bulb"
+	CatalogTypeV2IconCalendar       CatalogTypeV2Icon = "calendar"
+	CatalogTypeV2IconClock          CatalogTypeV2Icon = "clock"
+	CatalogTypeV2IconCog            CatalogTypeV2Icon = "cog"
+	CatalogTypeV2IconComponents     CatalogTypeV2Icon = "components"
+	CatalogTypeV2IconDatabase       CatalogTypeV2Icon = "database"
+	CatalogTypeV2IconDoc            CatalogTypeV2Icon = "doc"
+	CatalogTypeV2IconEmail          CatalogTypeV2Icon = "email"
+	CatalogTypeV2IconEscalationPath CatalogTypeV2Icon = "escalation-path"
+	CatalogTypeV2IconFiles          CatalogTypeV2Icon = "files"
+	CatalogTypeV2IconFlag           CatalogTypeV2Icon = "flag"
+	CatalogTypeV2IconFolder         CatalogTypeV2Icon = "folder"
+	CatalogTypeV2IconGlobe          CatalogTypeV2Icon = "globe"
+	CatalogTypeV2IconMoney          CatalogTypeV2Icon = "money"
+	CatalogTypeV2IconServer         CatalogTypeV2Icon = "server"
+	CatalogTypeV2IconSeverity       CatalogTypeV2Icon = "severity"
+	CatalogTypeV2IconStar           CatalogTypeV2Icon = "star"
+	CatalogTypeV2IconStatusPage     CatalogTypeV2Icon = "status-page"
+	CatalogTypeV2IconStore          CatalogTypeV2Icon = "store"
+	CatalogTypeV2IconTag            CatalogTypeV2Icon = "tag"
+	CatalogTypeV2IconUser           CatalogTypeV2Icon = "user"
+	CatalogTypeV2IconUsers          CatalogTypeV2Icon = "users"
 )
 
 // Defines values for CreateHTTPRequestBodyStatus.
@@ -142,10 +164,18 @@ const (
 
 // Defines values for CreateRequestBody10Mode.
 const (
-	CreateRequestBody10ModeRetrospective CreateRequestBody10Mode = "retrospective"
-	CreateRequestBody10ModeStandard      CreateRequestBody10Mode = "standard"
-	CreateRequestBody10ModeTest          CreateRequestBody10Mode = "test"
-	CreateRequestBody10ModeTutorial      CreateRequestBody10Mode = "tutorial"
+	CreateRequestBody10ModeReal CreateRequestBody10Mode = "real"
+	CreateRequestBody10ModeTest CreateRequestBody10Mode = "test"
+)
+
+// Defines values for CreateRequestBody10Status.
+const (
+	CreateRequestBody10StatusClosed        CreateRequestBody10Status = "closed"
+	CreateRequestBody10StatusDeclined      CreateRequestBody10Status = "declined"
+	CreateRequestBody10StatusFixing        CreateRequestBody10Status = "fixing"
+	CreateRequestBody10StatusInvestigating CreateRequestBody10Status = "investigating"
+	CreateRequestBody10StatusMonitoring    CreateRequestBody10Status = "monitoring"
+	CreateRequestBody10StatusTriage        CreateRequestBody10Status = "triage"
 )
 
 // Defines values for CreateRequestBody10Visibility.
@@ -154,27 +184,18 @@ const (
 	CreateRequestBody10VisibilityPublic  CreateRequestBody10Visibility = "public"
 )
 
-// Defines values for CreateRequestBody2FieldType.
+// Defines values for CreateRequestBody11Mode.
 const (
-	CreateRequestBody2FieldTypeLink         CreateRequestBody2FieldType = "link"
-	CreateRequestBody2FieldTypeMultiSelect  CreateRequestBody2FieldType = "multi_select"
-	CreateRequestBody2FieldTypeNumeric      CreateRequestBody2FieldType = "numeric"
-	CreateRequestBody2FieldTypeSingleSelect CreateRequestBody2FieldType = "single_select"
-	CreateRequestBody2FieldTypeText         CreateRequestBody2FieldType = "text"
+	CreateRequestBody11ModeRetrospective CreateRequestBody11Mode = "retrospective"
+	CreateRequestBody11ModeStandard      CreateRequestBody11Mode = "standard"
+	CreateRequestBody11ModeTest          CreateRequestBody11Mode = "test"
+	CreateRequestBody11ModeTutorial      CreateRequestBody11Mode = "tutorial"
 )
 
-// Defines values for CreateRequestBody2Required.
+// Defines values for CreateRequestBody11Visibility.
 const (
-	CreateRequestBody2RequiredAlways        CreateRequestBody2Required = "always"
-	CreateRequestBody2RequiredBeforeClosure CreateRequestBody2Required = "before_closure"
-	CreateRequestBody2RequiredNever         CreateRequestBody2Required = "never"
-)
-
-// Defines values for CreateRequestBody2RequiredV2.
-const (
-	CreateRequestBody2RequiredV2Always           CreateRequestBody2RequiredV2 = "always"
-	CreateRequestBody2RequiredV2BeforeResolution CreateRequestBody2RequiredV2 = "before_resolution"
-	CreateRequestBody2RequiredV2Never            CreateRequestBody2RequiredV2 = "never"
+	CreateRequestBody11VisibilityPrivate CreateRequestBody11Visibility = "private"
+	CreateRequestBody11VisibilityPublic  CreateRequestBody11Visibility = "public"
 )
 
 // Defines values for CreateRequestBody3FieldType.
@@ -186,49 +207,50 @@ const (
 	CreateRequestBody3FieldTypeText         CreateRequestBody3FieldType = "text"
 )
 
-// Defines values for CreateRequestBody4ResourceResourceType.
+// Defines values for CreateRequestBody3Required.
 const (
-	CreateRequestBody4ResourceResourceTypeAtlassianStatuspageIncident CreateRequestBody4ResourceResourceType = "atlassian_statuspage_incident"
-	CreateRequestBody4ResourceResourceTypeDatadogMonitorAlert         CreateRequestBody4ResourceResourceType = "datadog_monitor_alert"
-	CreateRequestBody4ResourceResourceTypeGithubPullRequest           CreateRequestBody4ResourceResourceType = "github_pull_request"
-	CreateRequestBody4ResourceResourceTypeGitlabMergeRequest          CreateRequestBody4ResourceResourceType = "gitlab_merge_request"
-	CreateRequestBody4ResourceResourceTypeGoogleCalendarEvent         CreateRequestBody4ResourceResourceType = "google_calendar_event"
-	CreateRequestBody4ResourceResourceTypeJiraIssue                   CreateRequestBody4ResourceResourceType = "jira_issue"
-	CreateRequestBody4ResourceResourceTypeOpsgenieAlert               CreateRequestBody4ResourceResourceType = "opsgenie_alert"
-	CreateRequestBody4ResourceResourceTypePagerDutyIncident           CreateRequestBody4ResourceResourceType = "pager_duty_incident"
-	CreateRequestBody4ResourceResourceTypeScrubbed                    CreateRequestBody4ResourceResourceType = "scrubbed"
-	CreateRequestBody4ResourceResourceTypeSentryIssue                 CreateRequestBody4ResourceResourceType = "sentry_issue"
-	CreateRequestBody4ResourceResourceTypeStatuspageIncident          CreateRequestBody4ResourceResourceType = "statuspage_incident"
-	CreateRequestBody4ResourceResourceTypeZendeskTicket               CreateRequestBody4ResourceResourceType = "zendesk_ticket"
+	CreateRequestBody3RequiredAlways        CreateRequestBody3Required = "always"
+	CreateRequestBody3RequiredBeforeClosure CreateRequestBody3Required = "before_closure"
+	CreateRequestBody3RequiredNever         CreateRequestBody3Required = "never"
 )
 
-// Defines values for CreateRequestBody8Category.
+// Defines values for CreateRequestBody3RequiredV2.
 const (
-	CreateRequestBody8CategoryClosed   CreateRequestBody8Category = "closed"
-	CreateRequestBody8CategoryLearning CreateRequestBody8Category = "learning"
-	CreateRequestBody8CategoryLive     CreateRequestBody8Category = "live"
+	CreateRequestBody3RequiredV2Always           CreateRequestBody3RequiredV2 = "always"
+	CreateRequestBody3RequiredV2BeforeResolution CreateRequestBody3RequiredV2 = "before_resolution"
+	CreateRequestBody3RequiredV2Never            CreateRequestBody3RequiredV2 = "never"
 )
 
-// Defines values for CreateRequestBody9Mode.
+// Defines values for CreateRequestBody4FieldType.
 const (
-	CreateRequestBody9ModeReal CreateRequestBody9Mode = "real"
-	CreateRequestBody9ModeTest CreateRequestBody9Mode = "test"
+	CreateRequestBody4FieldTypeLink         CreateRequestBody4FieldType = "link"
+	CreateRequestBody4FieldTypeMultiSelect  CreateRequestBody4FieldType = "multi_select"
+	CreateRequestBody4FieldTypeNumeric      CreateRequestBody4FieldType = "numeric"
+	CreateRequestBody4FieldTypeSingleSelect CreateRequestBody4FieldType = "single_select"
+	CreateRequestBody4FieldTypeText         CreateRequestBody4FieldType = "text"
 )
 
-// Defines values for CreateRequestBody9Status.
+// Defines values for CreateRequestBody5ResourceResourceType.
 const (
-	CreateRequestBody9StatusClosed        CreateRequestBody9Status = "closed"
-	CreateRequestBody9StatusDeclined      CreateRequestBody9Status = "declined"
-	CreateRequestBody9StatusFixing        CreateRequestBody9Status = "fixing"
-	CreateRequestBody9StatusInvestigating CreateRequestBody9Status = "investigating"
-	CreateRequestBody9StatusMonitoring    CreateRequestBody9Status = "monitoring"
-	CreateRequestBody9StatusTriage        CreateRequestBody9Status = "triage"
+	CreateRequestBody5ResourceResourceTypeAtlassianStatuspageIncident CreateRequestBody5ResourceResourceType = "atlassian_statuspage_incident"
+	CreateRequestBody5ResourceResourceTypeDatadogMonitorAlert         CreateRequestBody5ResourceResourceType = "datadog_monitor_alert"
+	CreateRequestBody5ResourceResourceTypeGithubPullRequest           CreateRequestBody5ResourceResourceType = "github_pull_request"
+	CreateRequestBody5ResourceResourceTypeGitlabMergeRequest          CreateRequestBody5ResourceResourceType = "gitlab_merge_request"
+	CreateRequestBody5ResourceResourceTypeGoogleCalendarEvent         CreateRequestBody5ResourceResourceType = "google_calendar_event"
+	CreateRequestBody5ResourceResourceTypeJiraIssue                   CreateRequestBody5ResourceResourceType = "jira_issue"
+	CreateRequestBody5ResourceResourceTypeOpsgenieAlert               CreateRequestBody5ResourceResourceType = "opsgenie_alert"
+	CreateRequestBody5ResourceResourceTypePagerDutyIncident           CreateRequestBody5ResourceResourceType = "pager_duty_incident"
+	CreateRequestBody5ResourceResourceTypeScrubbed                    CreateRequestBody5ResourceResourceType = "scrubbed"
+	CreateRequestBody5ResourceResourceTypeSentryIssue                 CreateRequestBody5ResourceResourceType = "sentry_issue"
+	CreateRequestBody5ResourceResourceTypeStatuspageIncident          CreateRequestBody5ResourceResourceType = "statuspage_incident"
+	CreateRequestBody5ResourceResourceTypeZendeskTicket               CreateRequestBody5ResourceResourceType = "zendesk_ticket"
 )
 
-// Defines values for CreateRequestBody9Visibility.
+// Defines values for CreateRequestBody9Category.
 const (
-	CreateRequestBody9VisibilityPrivate CreateRequestBody9Visibility = "private"
-	CreateRequestBody9VisibilityPublic  CreateRequestBody9Visibility = "public"
+	CreateRequestBody9CategoryClosed   CreateRequestBody9Category = "closed"
+	CreateRequestBody9CategoryLearning CreateRequestBody9Category = "learning"
+	CreateRequestBody9CategoryLive     CreateRequestBody9Category = "live"
 )
 
 // Defines values for CreateTypeRequestBodyCategories.
@@ -255,30 +277,33 @@ const (
 
 // Defines values for CreateTypeRequestBodyIcon.
 const (
-	CreateTypeRequestBodyIconBolt       CreateTypeRequestBodyIcon = "bolt"
-	CreateTypeRequestBodyIconBox        CreateTypeRequestBodyIcon = "box"
-	CreateTypeRequestBodyIconBriefcase  CreateTypeRequestBodyIcon = "briefcase"
-	CreateTypeRequestBodyIconBrowser    CreateTypeRequestBodyIcon = "browser"
-	CreateTypeRequestBodyIconBulb       CreateTypeRequestBodyIcon = "bulb"
-	CreateTypeRequestBodyIconCalendar   CreateTypeRequestBodyIcon = "calendar"
-	CreateTypeRequestBodyIconClock      CreateTypeRequestBodyIcon = "clock"
-	CreateTypeRequestBodyIconCog        CreateTypeRequestBodyIcon = "cog"
-	CreateTypeRequestBodyIconComponents CreateTypeRequestBodyIcon = "components"
-	CreateTypeRequestBodyIconDatabase   CreateTypeRequestBodyIcon = "database"
-	CreateTypeRequestBodyIconDoc        CreateTypeRequestBodyIcon = "doc"
-	CreateTypeRequestBodyIconEmail      CreateTypeRequestBodyIcon = "email"
-	CreateTypeRequestBodyIconFiles      CreateTypeRequestBodyIcon = "files"
-	CreateTypeRequestBodyIconFlag       CreateTypeRequestBodyIcon = "flag"
-	CreateTypeRequestBodyIconFolder     CreateTypeRequestBodyIcon = "folder"
-	CreateTypeRequestBodyIconGlobe      CreateTypeRequestBodyIcon = "globe"
-	CreateTypeRequestBodyIconMoney      CreateTypeRequestBodyIcon = "money"
-	CreateTypeRequestBodyIconServer     CreateTypeRequestBodyIcon = "server"
-	CreateTypeRequestBodyIconSeverity   CreateTypeRequestBodyIcon = "severity"
-	CreateTypeRequestBodyIconStar       CreateTypeRequestBodyIcon = "star"
-	CreateTypeRequestBodyIconStore      CreateTypeRequestBodyIcon = "store"
-	CreateTypeRequestBodyIconTag        CreateTypeRequestBodyIcon = "tag"
-	CreateTypeRequestBodyIconUser       CreateTypeRequestBodyIcon = "user"
-	CreateTypeRequestBodyIconUsers      CreateTypeRequestBodyIcon = "users"
+	CreateTypeRequestBodyIconAlert          CreateTypeRequestBodyIcon = "alert"
+	CreateTypeRequestBodyIconBolt           CreateTypeRequestBodyIcon = "bolt"
+	CreateTypeRequestBodyIconBox            CreateTypeRequestBodyIcon = "box"
+	CreateTypeRequestBodyIconBriefcase      CreateTypeRequestBodyIcon = "briefcase"
+	CreateTypeRequestBodyIconBrowser        CreateTypeRequestBodyIcon = "browser"
+	CreateTypeRequestBodyIconBulb           CreateTypeRequestBodyIcon = "bulb"
+	CreateTypeRequestBodyIconCalendar       CreateTypeRequestBodyIcon = "calendar"
+	CreateTypeRequestBodyIconClock          CreateTypeRequestBodyIcon = "clock"
+	CreateTypeRequestBodyIconCog            CreateTypeRequestBodyIcon = "cog"
+	CreateTypeRequestBodyIconComponents     CreateTypeRequestBodyIcon = "components"
+	CreateTypeRequestBodyIconDatabase       CreateTypeRequestBodyIcon = "database"
+	CreateTypeRequestBodyIconDoc            CreateTypeRequestBodyIcon = "doc"
+	CreateTypeRequestBodyIconEmail          CreateTypeRequestBodyIcon = "email"
+	CreateTypeRequestBodyIconEscalationPath CreateTypeRequestBodyIcon = "escalation-path"
+	CreateTypeRequestBodyIconFiles          CreateTypeRequestBodyIcon = "files"
+	CreateTypeRequestBodyIconFlag           CreateTypeRequestBodyIcon = "flag"
+	CreateTypeRequestBodyIconFolder         CreateTypeRequestBodyIcon = "folder"
+	CreateTypeRequestBodyIconGlobe          CreateTypeRequestBodyIcon = "globe"
+	CreateTypeRequestBodyIconMoney          CreateTypeRequestBodyIcon = "money"
+	CreateTypeRequestBodyIconServer         CreateTypeRequestBodyIcon = "server"
+	CreateTypeRequestBodyIconSeverity       CreateTypeRequestBodyIcon = "severity"
+	CreateTypeRequestBodyIconStar           CreateTypeRequestBodyIcon = "star"
+	CreateTypeRequestBodyIconStatusPage     CreateTypeRequestBodyIcon = "status-page"
+	CreateTypeRequestBodyIconStore          CreateTypeRequestBodyIcon = "store"
+	CreateTypeRequestBodyIconTag            CreateTypeRequestBodyIcon = "tag"
+	CreateTypeRequestBodyIconUser           CreateTypeRequestBodyIcon = "user"
+	CreateTypeRequestBodyIconUsers          CreateTypeRequestBodyIcon = "users"
 )
 
 // Defines values for CreateWorkflowRequestBodyRunsOnIncidentModes.
@@ -410,6 +435,19 @@ const (
 	ExpressionOperationV2OperationTypeNavigate ExpressionOperationV2OperationType = "navigate"
 	ExpressionOperationV2OperationTypeParse    ExpressionOperationV2OperationType = "parse"
 	ExpressionOperationV2OperationTypeRandom   ExpressionOperationV2OperationType = "random"
+)
+
+// Defines values for ExpressionOperationV3OperationType.
+const (
+	Branches ExpressionOperationV3OperationType = "branches"
+	Count    ExpressionOperationV3OperationType = "count"
+	Filter   ExpressionOperationV3OperationType = "filter"
+	First    ExpressionOperationV3OperationType = "first"
+	Max      ExpressionOperationV3OperationType = "max"
+	Min      ExpressionOperationV3OperationType = "min"
+	Navigate ExpressionOperationV3OperationType = "navigate"
+	Parse    ExpressionOperationV3OperationType = "parse"
+	Random   ExpressionOperationV3OperationType = "random"
 )
 
 // Defines values for ExternalIssueReferenceV1Provider.
@@ -584,18 +622,18 @@ const (
 	Wednesday ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "wednesday"
 )
 
-// Defines values for UpdateRequestBody2Required.
+// Defines values for UpdateRequestBody3Required.
 const (
-	UpdateRequestBody2RequiredAlways        UpdateRequestBody2Required = "always"
-	UpdateRequestBody2RequiredBeforeClosure UpdateRequestBody2Required = "before_closure"
-	UpdateRequestBody2RequiredNever         UpdateRequestBody2Required = "never"
+	UpdateRequestBody3RequiredAlways        UpdateRequestBody3Required = "always"
+	UpdateRequestBody3RequiredBeforeClosure UpdateRequestBody3Required = "before_closure"
+	UpdateRequestBody3RequiredNever         UpdateRequestBody3Required = "never"
 )
 
-// Defines values for UpdateRequestBody2RequiredV2.
+// Defines values for UpdateRequestBody3RequiredV2.
 const (
-	Always           UpdateRequestBody2RequiredV2 = "always"
-	BeforeResolution UpdateRequestBody2RequiredV2 = "before_resolution"
-	Never            UpdateRequestBody2RequiredV2 = "never"
+	Always           UpdateRequestBody3RequiredV2 = "always"
+	BeforeResolution UpdateRequestBody3RequiredV2 = "before_resolution"
+	Never            UpdateRequestBody3RequiredV2 = "never"
 )
 
 // Defines values for UpdateTypeRequestBodyCategories.
@@ -622,30 +660,33 @@ const (
 
 // Defines values for UpdateTypeRequestBodyIcon.
 const (
-	UpdateTypeRequestBodyIconBolt       UpdateTypeRequestBodyIcon = "bolt"
-	UpdateTypeRequestBodyIconBox        UpdateTypeRequestBodyIcon = "box"
-	UpdateTypeRequestBodyIconBriefcase  UpdateTypeRequestBodyIcon = "briefcase"
-	UpdateTypeRequestBodyIconBrowser    UpdateTypeRequestBodyIcon = "browser"
-	UpdateTypeRequestBodyIconBulb       UpdateTypeRequestBodyIcon = "bulb"
-	UpdateTypeRequestBodyIconCalendar   UpdateTypeRequestBodyIcon = "calendar"
-	UpdateTypeRequestBodyIconClock      UpdateTypeRequestBodyIcon = "clock"
-	UpdateTypeRequestBodyIconCog        UpdateTypeRequestBodyIcon = "cog"
-	UpdateTypeRequestBodyIconComponents UpdateTypeRequestBodyIcon = "components"
-	UpdateTypeRequestBodyIconDatabase   UpdateTypeRequestBodyIcon = "database"
-	UpdateTypeRequestBodyIconDoc        UpdateTypeRequestBodyIcon = "doc"
-	UpdateTypeRequestBodyIconEmail      UpdateTypeRequestBodyIcon = "email"
-	UpdateTypeRequestBodyIconFiles      UpdateTypeRequestBodyIcon = "files"
-	UpdateTypeRequestBodyIconFlag       UpdateTypeRequestBodyIcon = "flag"
-	UpdateTypeRequestBodyIconFolder     UpdateTypeRequestBodyIcon = "folder"
-	UpdateTypeRequestBodyIconGlobe      UpdateTypeRequestBodyIcon = "globe"
-	UpdateTypeRequestBodyIconMoney      UpdateTypeRequestBodyIcon = "money"
-	UpdateTypeRequestBodyIconServer     UpdateTypeRequestBodyIcon = "server"
-	UpdateTypeRequestBodyIconSeverity   UpdateTypeRequestBodyIcon = "severity"
-	UpdateTypeRequestBodyIconStar       UpdateTypeRequestBodyIcon = "star"
-	UpdateTypeRequestBodyIconStore      UpdateTypeRequestBodyIcon = "store"
-	UpdateTypeRequestBodyIconTag        UpdateTypeRequestBodyIcon = "tag"
-	UpdateTypeRequestBodyIconUser       UpdateTypeRequestBodyIcon = "user"
-	UpdateTypeRequestBodyIconUsers      UpdateTypeRequestBodyIcon = "users"
+	UpdateTypeRequestBodyIconAlert          UpdateTypeRequestBodyIcon = "alert"
+	UpdateTypeRequestBodyIconBolt           UpdateTypeRequestBodyIcon = "bolt"
+	UpdateTypeRequestBodyIconBox            UpdateTypeRequestBodyIcon = "box"
+	UpdateTypeRequestBodyIconBriefcase      UpdateTypeRequestBodyIcon = "briefcase"
+	UpdateTypeRequestBodyIconBrowser        UpdateTypeRequestBodyIcon = "browser"
+	UpdateTypeRequestBodyIconBulb           UpdateTypeRequestBodyIcon = "bulb"
+	UpdateTypeRequestBodyIconCalendar       UpdateTypeRequestBodyIcon = "calendar"
+	UpdateTypeRequestBodyIconClock          UpdateTypeRequestBodyIcon = "clock"
+	UpdateTypeRequestBodyIconCog            UpdateTypeRequestBodyIcon = "cog"
+	UpdateTypeRequestBodyIconComponents     UpdateTypeRequestBodyIcon = "components"
+	UpdateTypeRequestBodyIconDatabase       UpdateTypeRequestBodyIcon = "database"
+	UpdateTypeRequestBodyIconDoc            UpdateTypeRequestBodyIcon = "doc"
+	UpdateTypeRequestBodyIconEmail          UpdateTypeRequestBodyIcon = "email"
+	UpdateTypeRequestBodyIconEscalationPath UpdateTypeRequestBodyIcon = "escalation-path"
+	UpdateTypeRequestBodyIconFiles          UpdateTypeRequestBodyIcon = "files"
+	UpdateTypeRequestBodyIconFlag           UpdateTypeRequestBodyIcon = "flag"
+	UpdateTypeRequestBodyIconFolder         UpdateTypeRequestBodyIcon = "folder"
+	UpdateTypeRequestBodyIconGlobe          UpdateTypeRequestBodyIcon = "globe"
+	UpdateTypeRequestBodyIconMoney          UpdateTypeRequestBodyIcon = "money"
+	UpdateTypeRequestBodyIconServer         UpdateTypeRequestBodyIcon = "server"
+	UpdateTypeRequestBodyIconSeverity       UpdateTypeRequestBodyIcon = "severity"
+	UpdateTypeRequestBodyIconStar           UpdateTypeRequestBodyIcon = "star"
+	UpdateTypeRequestBodyIconStatusPage     UpdateTypeRequestBodyIcon = "status-page"
+	UpdateTypeRequestBodyIconStore          UpdateTypeRequestBodyIcon = "store"
+	UpdateTypeRequestBodyIconTag            UpdateTypeRequestBodyIcon = "tag"
+	UpdateTypeRequestBodyIconUser           UpdateTypeRequestBodyIcon = "user"
+	UpdateTypeRequestBodyIconUsers          UpdateTypeRequestBodyIcon = "users"
 )
 
 // Defines values for UpdateWorkflowRequestBodyRunsOnIncidentModes.
@@ -877,6 +918,89 @@ type AlertResultMessage string
 // AlertResultStatus Status of the event
 type AlertResultStatus string
 
+// AlertRouteEscalationBindingPayloadV2 defines model for AlertRouteEscalationBindingPayloadV2.
+type AlertRouteEscalationBindingPayloadV2 struct {
+	Binding EngineParamBindingPayloadV2 `json:"binding"`
+}
+
+// AlertRouteEscalationBindingV2 defines model for AlertRouteEscalationBindingV2.
+type AlertRouteEscalationBindingV2 struct {
+	Binding EngineParamBindingV2 `json:"binding"`
+}
+
+// AlertRouteIncidentTemplatePayloadV2 defines model for AlertRouteIncidentTemplatePayloadV2.
+type AlertRouteIncidentTemplatePayloadV2 struct {
+	// CustomFieldPriorities lookup of the priority options for each custom field in the template
+	CustomFieldPriorities map[string]string `json:"custom_field_priorities"`
+
+	// CustomFields Custom field keys mapped to values
+	CustomFields *map[string]EngineParamBindingPayloadV2 `json:"custom_fields,omitempty"`
+	IncidentMode *EngineParamBindingPayloadV2            `json:"incident_mode,omitempty"`
+	IncidentType *EngineParamBindingPayloadV2            `json:"incident_type,omitempty"`
+	Name         *EngineParamBindingPayloadV2            `json:"name,omitempty"`
+
+	// PrioritySeverity option defining whether to cause subsequent alerts to increase the severity
+	PrioritySeverity AlertRouteIncidentTemplatePayloadV2PrioritySeverity `json:"priority_severity"`
+	Severity         *EngineParamBindingPayloadV2                        `json:"severity,omitempty"`
+	Summary          *EngineParamBindingPayloadV2                        `json:"summary,omitempty"`
+	Workspace        *EngineParamBindingPayloadV2                        `json:"workspace,omitempty"`
+}
+
+// AlertRouteIncidentTemplatePayloadV2PrioritySeverity option defining whether to cause subsequent alerts to increase the severity
+type AlertRouteIncidentTemplatePayloadV2PrioritySeverity string
+
+// AlertRouteIncidentTemplateV2 defines model for AlertRouteIncidentTemplateV2.
+type AlertRouteIncidentTemplateV2 struct {
+	// CustomFieldPriorities lookup of the priority options for each custom field in the template
+	CustomFieldPriorities map[string]AlertRouteIncidentTemplateV2CustomFieldPriorities `json:"custom_field_priorities"`
+
+	// CustomFields Custom field keys mapped to values
+	CustomFields *map[string]EngineParamBindingV2 `json:"custom_fields,omitempty"`
+	IncidentMode *EngineParamBindingV2            `json:"incident_mode,omitempty"`
+	IncidentType *EngineParamBindingV2            `json:"incident_type,omitempty"`
+	Name         *EngineParamBindingV2            `json:"name,omitempty"`
+
+	// PrioritySeverity binding to use to resolve the workspace to create an incident in
+	PrioritySeverity AlertRouteIncidentTemplateV2PrioritySeverity `json:"priority_severity"`
+	Severity         *EngineParamBindingV2                        `json:"severity,omitempty"`
+	Summary          *EngineParamBindingV2                        `json:"summary,omitempty"`
+	Workspace        *EngineParamBindingV2                        `json:"workspace,omitempty"`
+}
+
+// AlertRouteIncidentTemplateV2CustomFieldPriorities defines model for AlertRouteIncidentTemplateV2.CustomFieldPriorities.
+type AlertRouteIncidentTemplateV2CustomFieldPriorities string
+
+// AlertRouteIncidentTemplateV2PrioritySeverity binding to use to resolve the workspace to create an incident in
+type AlertRouteIncidentTemplateV2PrioritySeverity string
+
+// AlertRouteV2 defines model for AlertRouteV2.
+type AlertRouteV2 struct {
+	// ConditionGroups What condition groups must be true for this alert route to fire?
+	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+
+	// DeferTimeSeconds How long should the escalation defer time be?
+	DeferTimeSeconds int64 `json:"defer_time_seconds"`
+
+	// EscalationBindings Which escalation paths should this alert route escalate to?
+	EscalationBindings []AlertRouteEscalationBindingV2 `json:"escalation_bindings"`
+
+	// Expressions The expressions used in this template
+	Expressions *[]ExpressionV2 `json:"expressions,omitempty"`
+
+	// GroupingKeys Which attributes should this alert route use to group alerts?
+	GroupingKeys []GroupingKeyV2 `json:"grouping_keys"`
+
+	// GroupingWindowSeconds How large should the grouping window be?
+	GroupingWindowSeconds int64 `json:"grouping_window_seconds"`
+
+	// Id Unique identifier for this alert route config
+	Id string `json:"id"`
+
+	// Name The name of this alert route config, for the user's reference
+	Name     string                        `json:"name"`
+	Template *AlertRouteIncidentTemplateV2 `json:"template,omitempty"`
+}
+
 // CatalogEntryEngineParamBindingV2 defines model for CatalogEntryEngineParamBindingV2.
 type CatalogEntryEngineParamBindingV2 struct {
 	// ArrayValue If array_value is set, this helps render the values
@@ -888,13 +1012,13 @@ type CatalogEntryEngineParamBindingV2 struct {
 type CatalogEntryEngineParamBindingValueV2 struct {
 	CatalogEntry *CatalogEntryReferenceV2 `json:"catalog_entry,omitempty"`
 
-	// Helptext Gives a description of the option to the user
+	// Helptext This field is deprecated. It will not be present in any responses, and will be removed in a future version
 	Helptext *string `json:"helptext,omitempty"`
 
-	// ImageUrl If appropriate, URL to an image that can be displayed alongside the option
+	// ImageUrl This field is deprecated. It will not be present in any responses, and will be removed in a future version
 	ImageUrl *string `json:"image_url,omitempty"`
 
-	// IsImageSlackIcon If true, the image_url is a Slack icon and should be displayed as such
+	// IsImageSlackIcon This field is deprecated. It will not be present in any responses, and will be removed in a future version
 	IsImageSlackIcon *bool `json:"is_image_slack_icon,omitempty"`
 
 	// Label Human readable label to be displayed for user to select
@@ -903,16 +1027,16 @@ type CatalogEntryEngineParamBindingValueV2 struct {
 	// Literal If set, this is the literal value of the step parameter
 	Literal *string `json:"literal,omitempty"`
 
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
+	// Reference This field is deprecated. It will not be present in any responses, and will be removed in a future version
 	Reference *string `json:"reference,omitempty"`
 
-	// SortKey Gives an indication of how to sort the options when displayed to the user
+	// SortKey This field is deprecated. It will not be present in any responses, and will be removed in a future version
 	SortKey string `json:"sort_key"`
 
-	// Unavailable Unavailable is true if we've failed to build the value for this binding
+	// Unavailable This field is deprecated. It will not be present in any responses, and will be removed in a future version
 	Unavailable *bool `json:"unavailable,omitempty"`
 
-	// Value Either the reference or the literal: this field is designed purely to make working with react-select easier
+	// Value This field is deprecated. It will not be present in any responses, and will be removed in a future version
 	Value *string `json:"value,omitempty"`
 }
 
@@ -1142,6 +1266,12 @@ type ConditionGroupPayloadV2 struct {
 // ConditionGroupV2 defines model for ConditionGroupV2.
 type ConditionGroupV2 struct {
 	// Conditions All conditions in this list must be satisfied for the group to be satisfied
+	Conditions []ConditionV2 `json:"conditions"`
+}
+
+// ConditionGroupV3 defines model for ConditionGroupV3.
+type ConditionGroupV3 struct {
+	// Conditions All conditions in this list must be satisfied for the group to be satisfied
 	Conditions []ConditionV3 `json:"conditions"`
 }
 
@@ -1300,18 +1430,97 @@ type CreatePathResponseBody struct {
 
 // CreateRequestBody defines model for CreateRequestBody.
 type CreateRequestBody struct {
-	// CustomFieldId ID of the custom field this option belongs to
-	CustomFieldId string `json:"custom_field_id"`
+	// AlertSourceIds The alert sources that will match this alert route
+	AlertSourceIds *[]string `json:"alert_source_ids,omitempty"`
 
-	// SortKey Sort key used to order the custom field options correctly
-	SortKey *int64 `json:"sort_key,omitempty"`
+	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
+	AutoDeclineEnabled *bool `json:"auto_decline_enabled,omitempty"`
 
-	// Value Human readable name for the custom field option
-	Value string `json:"value"`
+	// ConditionGroups What condition groups must be true for this alert route to fire?
+	ConditionGroups *[]ConditionGroupPayloadV2 `json:"condition_groups,omitempty"`
+
+	// DeferTimeSeconds How long should the escalation defer time be?
+	DeferTimeSeconds *int64 `json:"defer_time_seconds,omitempty"`
+
+	// Enabled Whether this alert route is enabled or not
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// EscalationBindings Which escalation paths should this alert route escalate to?
+	EscalationBindings *[]AlertRouteEscalationBindingPayloadV2 `json:"escalation_bindings,omitempty"`
+
+	// Expressions The expressions used in this template
+	Expressions *[]ExpressionPayloadV2 `json:"expressions,omitempty"`
+
+	// GroupingKeys Which attributes should this alert route use to group alerts?
+	GroupingKeys *[]GroupingKeyV2 `json:"grouping_keys,omitempty"`
+
+	// GroupingWindowSeconds How large should the grouping window be?
+	GroupingWindowSeconds *int64 `json:"grouping_window_seconds,omitempty"`
+
+	// IncidentConditionGroups What condition groups must be true for this alert route to create an incident?
+	IncidentConditionGroups *[]ConditionGroupPayloadV2 `json:"incident_condition_groups,omitempty"`
+
+	// IncidentEnabled Whether this alert route will create incidents or not
+	IncidentEnabled *bool `json:"incident_enabled,omitempty"`
+
+	// Name The name of this alert route config, for the user's reference
+	Name     *string                              `json:"name,omitempty"`
+	Template *AlertRouteIncidentTemplatePayloadV2 `json:"template,omitempty"`
 }
 
 // CreateRequestBody10 defines model for CreateRequestBody10.
 type CreateRequestBody10 struct {
+	// CustomFieldEntries Set the incident's custom fields to these values
+	CustomFieldEntries *[]CustomFieldEntryPayloadV1 `json:"custom_field_entries,omitempty"`
+
+	// IdempotencyKey Unique string used to de-duplicate incident create requests
+	IdempotencyKey string `json:"idempotency_key"`
+
+	// IncidentRoleAssignments Assign incident roles to these people
+	IncidentRoleAssignments *[]IncidentRoleAssignmentPayloadV1 `json:"incident_role_assignments,omitempty"`
+
+	// IncidentTypeId Incident type to create this incident as
+	IncidentTypeId *string `json:"incident_type_id,omitempty"`
+
+	// Mode Whether the incident is real or test
+	Mode *CreateRequestBody10Mode `json:"mode,omitempty"`
+
+	// Name Explanation of the incident
+	Name *string `json:"name,omitempty"`
+
+	// SeverityId Severity to create incident as
+	SeverityId *string `json:"severity_id,omitempty"`
+
+	// SlackTeamId ID of the Slack team / workspace. This is only required if you are using a Slack Enterprise Grid with multiple teams.
+	SlackTeamId *string `json:"slack_team_id,omitempty"`
+
+	// SourceMessageChannelId Channel ID of the source message, if this incident was created from one
+	SourceMessageChannelId *string `json:"source_message_channel_id,omitempty"`
+
+	// SourceMessageTimestamp Timestamp of the source message, if this incident was created from one
+	SourceMessageTimestamp *string `json:"source_message_timestamp,omitempty"`
+
+	// Status Current status of the incident
+	Status *CreateRequestBody10Status `json:"status,omitempty"`
+
+	// Summary Detailed description of the incident
+	Summary *string `json:"summary,omitempty"`
+
+	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/en/articles/5947963-can-we-mark-incidents-as-sensitive-and-restrict-access).
+	Visibility CreateRequestBody10Visibility `json:"visibility"`
+}
+
+// CreateRequestBody10Mode Whether the incident is real or test
+type CreateRequestBody10Mode string
+
+// CreateRequestBody10Status Current status of the incident
+type CreateRequestBody10Status string
+
+// CreateRequestBody10Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/en/articles/5947963-can-we-mark-incidents-as-sensitive-and-restrict-access).
+type CreateRequestBody10Visibility string
+
+// CreateRequestBody11 defines model for CreateRequestBody11.
+type CreateRequestBody11 struct {
 	// CustomFieldEntries Set the incident's custom fields to these values
 	CustomFieldEntries *[]CustomFieldEntryPayloadV1 `json:"custom_field_entries,omitempty"`
 
@@ -1334,7 +1543,7 @@ type CreateRequestBody10 struct {
 	IncidentTypeId *string `json:"incident_type_id,omitempty"`
 
 	// Mode Whether the incident is real, a test, a tutorial, or importing as a retrospective incident
-	Mode *CreateRequestBody10Mode `json:"mode,omitempty"`
+	Mode *CreateRequestBody11Mode `json:"mode,omitempty"`
 
 	// Name Explanation of the incident
 	Name                         *string                         `json:"name,omitempty"`
@@ -1353,22 +1562,22 @@ type CreateRequestBody10 struct {
 	Summary *string `json:"summary,omitempty"`
 
 	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/en/articles/5947963-can-we-mark-incidents-as-sensitive-and-restrict-access).
-	Visibility CreateRequestBody10Visibility `json:"visibility"`
+	Visibility CreateRequestBody11Visibility `json:"visibility"`
 }
 
-// CreateRequestBody10Mode Whether the incident is real, a test, a tutorial, or importing as a retrospective incident
-type CreateRequestBody10Mode string
+// CreateRequestBody11Mode Whether the incident is real, a test, a tutorial, or importing as a retrospective incident
+type CreateRequestBody11Mode string
 
-// CreateRequestBody10Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/en/articles/5947963-can-we-mark-incidents-as-sensitive-and-restrict-access).
-type CreateRequestBody10Visibility string
-
-// CreateRequestBody11 defines model for CreateRequestBody11.
-type CreateRequestBody11 struct {
-	Schedule ScheduleCreatePayloadV2 `json:"schedule"`
-}
+// CreateRequestBody11Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/en/articles/5947963-can-we-mark-incidents-as-sensitive-and-restrict-access).
+type CreateRequestBody11Visibility string
 
 // CreateRequestBody12 defines model for CreateRequestBody12.
 type CreateRequestBody12 struct {
+	Schedule ScheduleCreatePayloadV2 `json:"schedule"`
+}
+
+// CreateRequestBody13 defines model for CreateRequestBody13.
+type CreateRequestBody13 struct {
 	// Description Description of the severity
 	Description string `json:"description"`
 
@@ -1381,20 +1590,32 @@ type CreateRequestBody12 struct {
 
 // CreateRequestBody2 defines model for CreateRequestBody2.
 type CreateRequestBody2 struct {
+	// CustomFieldId ID of the custom field this option belongs to
+	CustomFieldId string `json:"custom_field_id"`
+
+	// SortKey Sort key used to order the custom field options correctly
+	SortKey *int64 `json:"sort_key,omitempty"`
+
+	// Value Human readable name for the custom field option
+	Value string `json:"value"`
+}
+
+// CreateRequestBody3 defines model for CreateRequestBody3.
+type CreateRequestBody3 struct {
 	// Description Description of the custom field
 	Description string `json:"description"`
 
 	// FieldType Type of custom field
-	FieldType CreateRequestBody2FieldType `json:"field_type"`
+	FieldType CreateRequestBody3FieldType `json:"field_type"`
 
 	// Name Human readable name for the custom field
 	Name string `json:"name"`
 
 	// Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
-	Required *CreateRequestBody2Required `json:"required,omitempty"`
+	Required *CreateRequestBody3Required `json:"required,omitempty"`
 
 	// RequiredV2 When this custom field must be set during the incident lifecycle.
-	RequiredV2 *CreateRequestBody2RequiredV2 `json:"required_v2,omitempty"`
+	RequiredV2 *CreateRequestBody3RequiredV2 `json:"required_v2,omitempty"`
 
 	// ShowBeforeClosure Whether a custom field should be shown in the incident resolve modal. If this custom field is required before resolution, but no value has been set for it, the field will be shown in the resolve modal whatever the value of this setting.
 	ShowBeforeClosure bool `json:"show_before_closure"`
@@ -1409,32 +1630,32 @@ type CreateRequestBody2 struct {
 	ShowInAnnouncementPost *bool `json:"show_in_announcement_post,omitempty"`
 }
 
-// CreateRequestBody2FieldType Type of custom field
-type CreateRequestBody2FieldType string
+// CreateRequestBody3FieldType Type of custom field
+type CreateRequestBody3FieldType string
 
-// CreateRequestBody2Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
-type CreateRequestBody2Required string
+// CreateRequestBody3Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
+type CreateRequestBody3Required string
 
-// CreateRequestBody2RequiredV2 When this custom field must be set during the incident lifecycle.
-type CreateRequestBody2RequiredV2 string
+// CreateRequestBody3RequiredV2 When this custom field must be set during the incident lifecycle.
+type CreateRequestBody3RequiredV2 string
 
-// CreateRequestBody3 defines model for CreateRequestBody3.
-type CreateRequestBody3 struct {
+// CreateRequestBody4 defines model for CreateRequestBody4.
+type CreateRequestBody4 struct {
 	// Description Description of the custom field
 	Description string `json:"description"`
 
 	// FieldType Type of custom field
-	FieldType CreateRequestBody3FieldType `json:"field_type"`
+	FieldType CreateRequestBody4FieldType `json:"field_type"`
 
 	// Name Human readable name for the custom field
 	Name string `json:"name"`
 }
 
-// CreateRequestBody3FieldType Type of custom field
-type CreateRequestBody3FieldType string
+// CreateRequestBody4FieldType Type of custom field
+type CreateRequestBody4FieldType string
 
-// CreateRequestBody4 defines model for CreateRequestBody4.
-type CreateRequestBody4 struct {
+// CreateRequestBody5 defines model for CreateRequestBody5.
+type CreateRequestBody5 struct {
 	// IncidentId ID of the incident to add an attachment to
 	IncidentId string `json:"incident_id"`
 	Resource   struct {
@@ -1442,21 +1663,21 @@ type CreateRequestBody4 struct {
 		ExternalId string `json:"external_id"`
 
 		// ResourceType E.g. PagerDuty: the external system that holds the resource
-		ResourceType CreateRequestBody4ResourceResourceType `json:"resource_type"`
+		ResourceType CreateRequestBody5ResourceResourceType `json:"resource_type"`
 	} `json:"resource"`
 }
 
-// CreateRequestBody4ResourceResourceType E.g. PagerDuty: the external system that holds the resource
-type CreateRequestBody4ResourceResourceType string
+// CreateRequestBody5ResourceResourceType E.g. PagerDuty: the external system that holds the resource
+type CreateRequestBody5ResourceResourceType string
 
-// CreateRequestBody5 defines model for CreateRequestBody5.
-type CreateRequestBody5 struct {
+// CreateRequestBody6 defines model for CreateRequestBody6.
+type CreateRequestBody6 struct {
 	IncidentId string `json:"incident_id"`
 	UserId     string `json:"user_id"`
 }
 
-// CreateRequestBody6 defines model for CreateRequestBody6.
-type CreateRequestBody6 struct {
+// CreateRequestBody7 defines model for CreateRequestBody7.
+type CreateRequestBody7 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
@@ -1473,8 +1694,8 @@ type CreateRequestBody6 struct {
 	Shortform string `json:"shortform"`
 }
 
-// CreateRequestBody7 defines model for CreateRequestBody7.
-type CreateRequestBody7 struct {
+// CreateRequestBody8 defines model for CreateRequestBody8.
+type CreateRequestBody8 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
@@ -1488,10 +1709,10 @@ type CreateRequestBody7 struct {
 	Shortform string `json:"shortform"`
 }
 
-// CreateRequestBody8 defines model for CreateRequestBody8.
-type CreateRequestBody8 struct {
+// CreateRequestBody9 defines model for CreateRequestBody9.
+type CreateRequestBody9 struct {
 	// Category Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
-	Category CreateRequestBody8Category `json:"category"`
+	Category CreateRequestBody9Category `json:"category"`
 
 	// Description Rich text description of the incident status
 	Description string `json:"description"`
@@ -1500,67 +1721,21 @@ type CreateRequestBody8 struct {
 	Name string `json:"name"`
 }
 
-// CreateRequestBody8Category Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
-type CreateRequestBody8Category string
-
-// CreateRequestBody9 defines model for CreateRequestBody9.
-type CreateRequestBody9 struct {
-	// CustomFieldEntries Set the incident's custom fields to these values
-	CustomFieldEntries *[]CustomFieldEntryPayloadV1 `json:"custom_field_entries,omitempty"`
-
-	// IdempotencyKey Unique string used to de-duplicate incident create requests
-	IdempotencyKey string `json:"idempotency_key"`
-
-	// IncidentRoleAssignments Assign incident roles to these people
-	IncidentRoleAssignments *[]IncidentRoleAssignmentPayloadV1 `json:"incident_role_assignments,omitempty"`
-
-	// IncidentTypeId Incident type to create this incident as
-	IncidentTypeId *string `json:"incident_type_id,omitempty"`
-
-	// Mode Whether the incident is real or test
-	Mode *CreateRequestBody9Mode `json:"mode,omitempty"`
-
-	// Name Explanation of the incident
-	Name *string `json:"name,omitempty"`
-
-	// SeverityId Severity to create incident as
-	SeverityId *string `json:"severity_id,omitempty"`
-
-	// SlackTeamId ID of the Slack team / workspace. This is only required if you are using a Slack Enterprise Grid with multiple teams.
-	SlackTeamId *string `json:"slack_team_id,omitempty"`
-
-	// SourceMessageChannelId Channel ID of the source message, if this incident was created from one
-	SourceMessageChannelId *string `json:"source_message_channel_id,omitempty"`
-
-	// SourceMessageTimestamp Timestamp of the source message, if this incident was created from one
-	SourceMessageTimestamp *string `json:"source_message_timestamp,omitempty"`
-
-	// Status Current status of the incident
-	Status *CreateRequestBody9Status `json:"status,omitempty"`
-
-	// Summary Detailed description of the incident
-	Summary *string `json:"summary,omitempty"`
-
-	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/en/articles/5947963-can-we-mark-incidents-as-sensitive-and-restrict-access).
-	Visibility CreateRequestBody9Visibility `json:"visibility"`
-}
-
-// CreateRequestBody9Mode Whether the incident is real or test
-type CreateRequestBody9Mode string
-
-// CreateRequestBody9Status Current status of the incident
-type CreateRequestBody9Status string
-
-// CreateRequestBody9Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/en/articles/5947963-can-we-mark-incidents-as-sensitive-and-restrict-access).
-type CreateRequestBody9Visibility string
+// CreateRequestBody9Category Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
+type CreateRequestBody9Category string
 
 // CreateResponseBody defines model for CreateResponseBody.
 type CreateResponseBody struct {
-	IncidentAttachment IncidentAttachmentV1 `json:"incident_attachment"`
+	AlertRoute AlertRouteV2 `json:"alert_route"`
 }
 
 // CreateResponseBody2 defines model for CreateResponseBody2.
 type CreateResponseBody2 struct {
+	IncidentAttachment IncidentAttachmentV1 `json:"incident_attachment"`
+}
+
+// CreateResponseBody3 defines model for CreateResponseBody3.
+type CreateResponseBody3 struct {
 	IncidentMembership IncidentMembership `json:"incident_membership"`
 }
 
@@ -2067,6 +2242,13 @@ type ExpressionBranchPayloadV2 struct {
 type ExpressionBranchV2 struct {
 	// ConditionGroups When one of these condition groups are satisfied, this branch will be evaluated
 	ConditionGroups []ConditionGroupV2   `json:"condition_groups"`
+	Result          EngineParamBindingV2 `json:"result"`
+}
+
+// ExpressionBranchV3 defines model for ExpressionBranchV3.
+type ExpressionBranchV3 struct {
+	// ConditionGroups When one of these condition groups are satisfied, this branch will be evaluated
+	ConditionGroups []ConditionGroupV3   `json:"condition_groups"`
 	Result          EngineParamBindingV3 `json:"result"`
 }
 
@@ -2084,6 +2266,13 @@ type ExpressionBranchesOptsV2 struct {
 	Returns  ReturnsMetaV2        `json:"returns"`
 }
 
+// ExpressionBranchesOptsV3 defines model for ExpressionBranchesOptsV3.
+type ExpressionBranchesOptsV3 struct {
+	// Branches The branches to apply for this operation
+	Branches []ExpressionBranchV3 `json:"branches"`
+	Returns  ReturnsMetaV2        `json:"returns"`
+}
+
 // ExpressionElseBranchPayloadV2 defines model for ExpressionElseBranchPayloadV2.
 type ExpressionElseBranchPayloadV2 struct {
 	Result EngineParamBindingPayloadV2 `json:"result"`
@@ -2091,6 +2280,11 @@ type ExpressionElseBranchPayloadV2 struct {
 
 // ExpressionElseBranchV2 defines model for ExpressionElseBranchV2.
 type ExpressionElseBranchV2 struct {
+	Result EngineParamBindingV2 `json:"result"`
+}
+
+// ExpressionElseBranchV3 defines model for ExpressionElseBranchV3.
+type ExpressionElseBranchV3 struct {
 	Result EngineParamBindingV3 `json:"result"`
 }
 
@@ -2104,6 +2298,12 @@ type ExpressionFilterOptsPayloadV2 struct {
 type ExpressionFilterOptsV2 struct {
 	// ConditionGroups The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass.
 	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+}
+
+// ExpressionFilterOptsV3 defines model for ExpressionFilterOptsV3.
+type ExpressionFilterOptsV3 struct {
+	// ConditionGroups The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass.
+	ConditionGroups []ConditionGroupV3 `json:"condition_groups"`
 }
 
 // ExpressionNavigateOptsPayloadV2 defines model for ExpressionNavigateOptsPayloadV2.
@@ -2129,7 +2329,7 @@ type ExpressionOperationPayloadV2 struct {
 
 	// OperationType The type of the operation
 	OperationType ExpressionOperationPayloadV2OperationType `json:"operation_type"`
-	Parse         *ExpressionParseOptsV2                    `json:"parse,omitempty"`
+	Parse         *ExpressionParseOptsPayloadV2             `json:"parse,omitempty"`
 }
 
 // ExpressionOperationPayloadV2OperationType The type of the operation
@@ -2143,15 +2343,30 @@ type ExpressionOperationV2 struct {
 
 	// OperationType The type of the operation
 	OperationType ExpressionOperationV2OperationType `json:"operation_type"`
-	Parse         *ExpressionParseOptsV2             `json:"parse,omitempty"`
+	Parse         *ExpressionParseOptsPayloadV2      `json:"parse,omitempty"`
 	Returns       ReturnsMetaV2                      `json:"returns"`
 }
 
 // ExpressionOperationV2OperationType The type of the operation
 type ExpressionOperationV2OperationType string
 
-// ExpressionParseOptsV2 defines model for ExpressionParseOptsV2.
-type ExpressionParseOptsV2 struct {
+// ExpressionOperationV3 defines model for ExpressionOperationV3.
+type ExpressionOperationV3 struct {
+	Branches *ExpressionBranchesOptsV3 `json:"branches,omitempty"`
+	Filter   *ExpressionFilterOptsV3   `json:"filter,omitempty"`
+	Navigate *ExpressionNavigateOptsV2 `json:"navigate,omitempty"`
+
+	// OperationType The type of the operation
+	OperationType ExpressionOperationV3OperationType `json:"operation_type"`
+	Parse         *ExpressionParseOptsPayloadV2      `json:"parse,omitempty"`
+	Returns       ReturnsMetaV2                      `json:"returns"`
+}
+
+// ExpressionOperationV3OperationType The type of the operation
+type ExpressionOperationV3OperationType string
+
+// ExpressionParseOptsPayloadV2 defines model for ExpressionParseOptsPayloadV2.
+type ExpressionParseOptsPayloadV2 struct {
 	Returns ReturnsMetaV2 `json:"returns"`
 
 	// Source Source expression that is evaluated to a result
@@ -2180,6 +2395,22 @@ type ExpressionV2 struct {
 	// Label The human readable label of the expression
 	Label      string                  `json:"label"`
 	Operations []ExpressionOperationV2 `json:"operations"`
+
+	// Reference A short ID that can be used to reference the expression
+	Reference string        `json:"reference"`
+	Returns   ReturnsMetaV2 `json:"returns"`
+
+	// RootReference The root reference for this expression (i.e. where the expression starts)
+	RootReference string `json:"root_reference"`
+}
+
+// ExpressionV3 defines model for ExpressionV3.
+type ExpressionV3 struct {
+	ElseBranch *ExpressionElseBranchV3 `json:"else_branch,omitempty"`
+
+	// Label The human readable label of the expression
+	Label      string                  `json:"label"`
+	Operations []ExpressionOperationV3 `json:"operations"`
 
 	// Reference A short ID that can be used to reference the expression
 	Reference string        `json:"reference"`
@@ -2285,6 +2516,12 @@ type FollowUpV2 struct {
 
 // FollowUpV2Status Status of the follow-up
 type FollowUpV2Status string
+
+// GroupingKeyV2 defines model for GroupingKeyV2.
+type GroupingKeyV2 struct {
+	// Id Unique identifier of the alert attribute the user wishes to group on
+	Id string `json:"id"`
+}
 
 // IdentityResponseBody defines model for IdentityResponseBody.
 type IdentityResponseBody struct {
@@ -2965,8 +3202,9 @@ type ScheduleConfigV2 struct {
 // ScheduleCreatePayloadV2 defines model for ScheduleCreatePayloadV2.
 type ScheduleCreatePayloadV2 struct {
 	// Annotations Annotations that can track metadata about the schedule
-	Annotations *map[string]string             `json:"annotations,omitempty"`
-	Config      *ScheduleConfigCreatePayloadV2 `json:"config,omitempty"`
+	Annotations          *map[string]string              `json:"annotations,omitempty"`
+	Config               *ScheduleConfigCreatePayloadV2  `json:"config,omitempty"`
+	HolidaysPublicConfig *ScheduleHolidaysPublicConfigV2 `json:"holidays_public_config,omitempty"`
 
 	// Name Name of the schedule
 	Name *string `json:"name,omitempty"`
@@ -2999,6 +3237,12 @@ type ScheduleEntryV2 struct {
 	RotationId *string   `json:"rotation_id,omitempty"`
 	StartAt    time.Time `json:"start_at"`
 	User       *UserV1   `json:"user,omitempty"`
+}
+
+// ScheduleHolidaysPublicConfigV2 defines model for ScheduleHolidaysPublicConfigV2.
+type ScheduleHolidaysPublicConfigV2 struct {
+	// CountryCodes ISO 3166-1 alpha-2 country codes for the countries that this schedule is configured to view holidays for
+	CountryCodes []string `json:"country_codes"`
 }
 
 // ScheduleLayerCreatePayloadV2 defines model for ScheduleLayerCreatePayloadV2.
@@ -3101,8 +3345,9 @@ type ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday string
 // ScheduleUpdatePayloadV2 defines model for ScheduleUpdatePayloadV2.
 type ScheduleUpdatePayloadV2 struct {
 	// Annotations Annotations that can track metadata about the schedule
-	Annotations *map[string]string             `json:"annotations,omitempty"`
-	Config      *ScheduleConfigUpdatePayloadV2 `json:"config,omitempty"`
+	Annotations          *map[string]string              `json:"annotations,omitempty"`
+	Config               *ScheduleConfigUpdatePayloadV2  `json:"config,omitempty"`
+	HolidaysPublicConfig *ScheduleHolidaysPublicConfigV2 `json:"holidays_public_config,omitempty"`
 
 	// Name Name of the schedule
 	Name *string `json:"name,omitempty"`
@@ -3119,7 +3364,8 @@ type ScheduleV2 struct {
 	CreatedAt   time.Time         `json:"created_at"`
 
 	// CurrentShifts Shifts that are on-going for this schedule, if a native schedule
-	CurrentShifts *[]ScheduleEntryV2 `json:"current_shifts,omitempty"`
+	CurrentShifts        *[]ScheduleEntryV2              `json:"current_shifts,omitempty"`
+	HolidaysPublicConfig *ScheduleHolidaysPublicConfigV2 `json:"holidays_public_config,omitempty"`
 
 	// Id Unique internal ID of the schedule
 	Id string `json:"id"`
@@ -3316,6 +3562,46 @@ type UpdateEntryRequestBody struct {
 
 // UpdateRequestBody defines model for UpdateRequestBody.
 type UpdateRequestBody struct {
+	// AlertSourceIds The alert sources that will match this alert route
+	AlertSourceIds []string `json:"alert_source_ids"`
+
+	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
+	AutoDeclineEnabled bool `json:"auto_decline_enabled"`
+
+	// ConditionGroups What condition groups must be true for this alert route to fire?
+	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
+
+	// DeferTimeSeconds How long should the escalation defer time be?
+	DeferTimeSeconds int64 `json:"defer_time_seconds"`
+
+	// Enabled Whether this alert route is enabled or not
+	Enabled bool `json:"enabled"`
+
+	// EscalationBindings Which escalation paths should this alert route escalate to?
+	EscalationBindings []AlertRouteEscalationBindingPayloadV2 `json:"escalation_bindings"`
+
+	// Expressions The expressions used in this template
+	Expressions *[]ExpressionPayloadV2 `json:"expressions,omitempty"`
+
+	// GroupingKeys Which attributes should this alert route use to group alerts?
+	GroupingKeys []GroupingKeyV2 `json:"grouping_keys"`
+
+	// GroupingWindowSeconds How large should the grouping window be?
+	GroupingWindowSeconds int64 `json:"grouping_window_seconds"`
+
+	// IncidentConditionGroups What condition groups must be true for this alert route to create an incident?
+	IncidentConditionGroups []ConditionGroupPayloadV2 `json:"incident_condition_groups"`
+
+	// IncidentEnabled Whether this alert route will create incidents or not
+	IncidentEnabled bool `json:"incident_enabled"`
+
+	// Name The name of this alert route config, for the user's reference
+	Name     string                               `json:"name"`
+	Template *AlertRouteIncidentTemplatePayloadV2 `json:"template,omitempty"`
+}
+
+// UpdateRequestBody2 defines model for UpdateRequestBody2.
+type UpdateRequestBody2 struct {
 	// SortKey Sort key used to order the custom field options correctly
 	SortKey int64 `json:"sort_key"`
 
@@ -3323,8 +3609,8 @@ type UpdateRequestBody struct {
 	Value string `json:"value"`
 }
 
-// UpdateRequestBody2 defines model for UpdateRequestBody2.
-type UpdateRequestBody2 struct {
+// UpdateRequestBody3 defines model for UpdateRequestBody3.
+type UpdateRequestBody3 struct {
 	// Description Description of the custom field
 	Description string `json:"description"`
 
@@ -3332,10 +3618,10 @@ type UpdateRequestBody2 struct {
 	Name string `json:"name"`
 
 	// Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
-	Required *UpdateRequestBody2Required `json:"required,omitempty"`
+	Required *UpdateRequestBody3Required `json:"required,omitempty"`
 
 	// RequiredV2 When this custom field must be set during the incident lifecycle.
-	RequiredV2 *UpdateRequestBody2RequiredV2 `json:"required_v2,omitempty"`
+	RequiredV2 *UpdateRequestBody3RequiredV2 `json:"required_v2,omitempty"`
 
 	// ShowBeforeClosure Whether a custom field should be shown in the incident resolve modal. If this custom field is required before resolution, but no value has been set for it, the field will be shown in the resolve modal whatever the value of this setting.
 	ShowBeforeClosure bool `json:"show_before_closure"`
@@ -3350,14 +3636,14 @@ type UpdateRequestBody2 struct {
 	ShowInAnnouncementPost *bool `json:"show_in_announcement_post,omitempty"`
 }
 
-// UpdateRequestBody2Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
-type UpdateRequestBody2Required string
+// UpdateRequestBody3Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
+type UpdateRequestBody3Required string
 
-// UpdateRequestBody2RequiredV2 When this custom field must be set during the incident lifecycle.
-type UpdateRequestBody2RequiredV2 string
+// UpdateRequestBody3RequiredV2 When this custom field must be set during the incident lifecycle.
+type UpdateRequestBody3RequiredV2 string
 
-// UpdateRequestBody3 defines model for UpdateRequestBody3.
-type UpdateRequestBody3 struct {
+// UpdateRequestBody4 defines model for UpdateRequestBody4.
+type UpdateRequestBody4 struct {
 	// Description Description of the custom field
 	Description string `json:"description"`
 
@@ -3365,8 +3651,8 @@ type UpdateRequestBody3 struct {
 	Name string `json:"name"`
 }
 
-// UpdateRequestBody4 defines model for UpdateRequestBody4.
-type UpdateRequestBody4 struct {
+// UpdateRequestBody5 defines model for UpdateRequestBody5.
+type UpdateRequestBody5 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
@@ -3383,8 +3669,8 @@ type UpdateRequestBody4 struct {
 	Shortform string `json:"shortform"`
 }
 
-// UpdateRequestBody5 defines model for UpdateRequestBody5.
-type UpdateRequestBody5 struct {
+// UpdateRequestBody6 defines model for UpdateRequestBody6.
+type UpdateRequestBody6 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
@@ -3398,8 +3684,8 @@ type UpdateRequestBody5 struct {
 	Shortform string `json:"shortform"`
 }
 
-// UpdateRequestBody6 defines model for UpdateRequestBody6.
-type UpdateRequestBody6 struct {
+// UpdateRequestBody7 defines model for UpdateRequestBody7.
+type UpdateRequestBody7 struct {
 	// Description Rich text description of the incident status
 	Description string `json:"description"`
 
@@ -3407,8 +3693,8 @@ type UpdateRequestBody6 struct {
 	Name string `json:"name"`
 }
 
-// UpdateRequestBody7 defines model for UpdateRequestBody7.
-type UpdateRequestBody7 struct {
+// UpdateRequestBody8 defines model for UpdateRequestBody8.
+type UpdateRequestBody8 struct {
 	Schedule ScheduleUpdatePayloadV2 `json:"schedule"`
 }
 
@@ -3588,14 +3874,14 @@ type WeekdayIntervalV2 struct {
 // Workflow defines model for Workflow.
 type Workflow struct {
 	// ConditionGroups Conditions that apply to the workflow trigger
-	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+	ConditionGroups []ConditionGroupV3 `json:"condition_groups"`
 
 	// ContinueOnStepError Whether to continue executing the workflow if a step fails
 	ContinueOnStepError bool           `json:"continue_on_step_error"`
 	Delay               *WorkflowDelay `json:"delay,omitempty"`
 
 	// Expressions Expressions that make variables available in the scope
-	Expressions []ExpressionV2 `json:"expressions"`
+	Expressions []ExpressionV3 `json:"expressions"`
 
 	// Folder Folder to display the workflow in
 	Folder *string `json:"folder,omitempty"`
@@ -3653,14 +3939,14 @@ type WorkflowDelay struct {
 // WorkflowSlim defines model for WorkflowSlim.
 type WorkflowSlim struct {
 	// ConditionGroups Conditions that apply to the workflow trigger
-	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+	ConditionGroups []ConditionGroupV3 `json:"condition_groups"`
 
 	// ContinueOnStepError Whether to continue executing the workflow if a step fails
 	ContinueOnStepError bool           `json:"continue_on_step_error"`
 	Delay               *WorkflowDelay `json:"delay,omitempty"`
 
 	// Expressions Expressions that make variables available in the scope
-	Expressions []ExpressionV2 `json:"expressions"`
+	Expressions []ExpressionV3 `json:"expressions"`
 
 	// Folder Folder to display the workflow in
 	Folder *string `json:"folder,omitempty"`
@@ -3887,49 +4173,55 @@ type UsersV2ListParams struct {
 }
 
 // CustomFieldOptionsV1CreateJSONRequestBody defines body for CustomFieldOptionsV1Create for application/json ContentType.
-type CustomFieldOptionsV1CreateJSONRequestBody = CreateRequestBody
+type CustomFieldOptionsV1CreateJSONRequestBody = CreateRequestBody2
 
 // CustomFieldOptionsV1UpdateJSONRequestBody defines body for CustomFieldOptionsV1Update for application/json ContentType.
-type CustomFieldOptionsV1UpdateJSONRequestBody = UpdateRequestBody
+type CustomFieldOptionsV1UpdateJSONRequestBody = UpdateRequestBody2
 
 // CustomFieldsV1CreateJSONRequestBody defines body for CustomFieldsV1Create for application/json ContentType.
-type CustomFieldsV1CreateJSONRequestBody = CreateRequestBody2
+type CustomFieldsV1CreateJSONRequestBody = CreateRequestBody3
 
 // CustomFieldsV1UpdateJSONRequestBody defines body for CustomFieldsV1Update for application/json ContentType.
-type CustomFieldsV1UpdateJSONRequestBody = UpdateRequestBody2
+type CustomFieldsV1UpdateJSONRequestBody = UpdateRequestBody3
 
 // IncidentAttachmentsV1CreateJSONRequestBody defines body for IncidentAttachmentsV1Create for application/json ContentType.
-type IncidentAttachmentsV1CreateJSONRequestBody = CreateRequestBody4
+type IncidentAttachmentsV1CreateJSONRequestBody = CreateRequestBody5
 
 // IncidentMembershipsV1CreateJSONRequestBody defines body for IncidentMembershipsV1Create for application/json ContentType.
-type IncidentMembershipsV1CreateJSONRequestBody = CreateRequestBody5
+type IncidentMembershipsV1CreateJSONRequestBody = CreateRequestBody6
 
 // IncidentMembershipsV1RevokeJSONRequestBody defines body for IncidentMembershipsV1Revoke for application/json ContentType.
-type IncidentMembershipsV1RevokeJSONRequestBody = CreateRequestBody5
+type IncidentMembershipsV1RevokeJSONRequestBody = CreateRequestBody6
 
 // IncidentRolesV1CreateJSONRequestBody defines body for IncidentRolesV1Create for application/json ContentType.
-type IncidentRolesV1CreateJSONRequestBody = CreateRequestBody6
+type IncidentRolesV1CreateJSONRequestBody = CreateRequestBody7
 
 // IncidentRolesV1UpdateJSONRequestBody defines body for IncidentRolesV1Update for application/json ContentType.
-type IncidentRolesV1UpdateJSONRequestBody = UpdateRequestBody4
+type IncidentRolesV1UpdateJSONRequestBody = UpdateRequestBody5
 
 // IncidentStatusesV1CreateJSONRequestBody defines body for IncidentStatusesV1Create for application/json ContentType.
-type IncidentStatusesV1CreateJSONRequestBody = CreateRequestBody8
+type IncidentStatusesV1CreateJSONRequestBody = CreateRequestBody9
 
 // IncidentStatusesV1UpdateJSONRequestBody defines body for IncidentStatusesV1Update for application/json ContentType.
-type IncidentStatusesV1UpdateJSONRequestBody = UpdateRequestBody6
+type IncidentStatusesV1UpdateJSONRequestBody = UpdateRequestBody7
 
 // IncidentsV1CreateJSONRequestBody defines body for IncidentsV1Create for application/json ContentType.
-type IncidentsV1CreateJSONRequestBody = CreateRequestBody9
+type IncidentsV1CreateJSONRequestBody = CreateRequestBody10
 
 // SeveritiesV1CreateJSONRequestBody defines body for SeveritiesV1Create for application/json ContentType.
-type SeveritiesV1CreateJSONRequestBody = CreateRequestBody12
+type SeveritiesV1CreateJSONRequestBody = CreateRequestBody13
 
 // SeveritiesV1UpdateJSONRequestBody defines body for SeveritiesV1Update for application/json ContentType.
-type SeveritiesV1UpdateJSONRequestBody = CreateRequestBody12
+type SeveritiesV1UpdateJSONRequestBody = CreateRequestBody13
 
 // AlertEventsV2CreateHTTPJSONRequestBody defines body for AlertEventsV2CreateHTTP for application/json ContentType.
 type AlertEventsV2CreateHTTPJSONRequestBody = CreateHTTPRequestBody
+
+// AlertRoutesV2CreateJSONRequestBody defines body for AlertRoutesV2Create for application/json ContentType.
+type AlertRoutesV2CreateJSONRequestBody = CreateRequestBody
+
+// AlertRoutesV2UpdateJSONRequestBody defines body for AlertRoutesV2Update for application/json ContentType.
+type AlertRoutesV2UpdateJSONRequestBody = UpdateRequestBody
 
 // CatalogV2CreateEntryJSONRequestBody defines body for CatalogV2CreateEntry for application/json ContentType.
 type CatalogV2CreateEntryJSONRequestBody = CreateEntryRequestBody
@@ -3947,10 +4239,10 @@ type CatalogV2UpdateTypeJSONRequestBody = UpdateTypeRequestBody
 type CatalogV2UpdateTypeSchemaJSONRequestBody = UpdateTypeSchemaRequestBody
 
 // CustomFieldsV2CreateJSONRequestBody defines body for CustomFieldsV2Create for application/json ContentType.
-type CustomFieldsV2CreateJSONRequestBody = CreateRequestBody3
+type CustomFieldsV2CreateJSONRequestBody = CreateRequestBody4
 
 // CustomFieldsV2UpdateJSONRequestBody defines body for CustomFieldsV2Update for application/json ContentType.
-type CustomFieldsV2UpdateJSONRequestBody = UpdateRequestBody3
+type CustomFieldsV2UpdateJSONRequestBody = UpdateRequestBody4
 
 // EscalationsV2CreatePathJSONRequestBody defines body for EscalationsV2CreatePath for application/json ContentType.
 type EscalationsV2CreatePathJSONRequestBody = CreatePathRequestBody
@@ -3959,13 +4251,13 @@ type EscalationsV2CreatePathJSONRequestBody = CreatePathRequestBody
 type EscalationsV2UpdatePathJSONRequestBody = CreatePathRequestBody
 
 // IncidentRolesV2CreateJSONRequestBody defines body for IncidentRolesV2Create for application/json ContentType.
-type IncidentRolesV2CreateJSONRequestBody = CreateRequestBody7
+type IncidentRolesV2CreateJSONRequestBody = CreateRequestBody8
 
 // IncidentRolesV2UpdateJSONRequestBody defines body for IncidentRolesV2Update for application/json ContentType.
-type IncidentRolesV2UpdateJSONRequestBody = UpdateRequestBody5
+type IncidentRolesV2UpdateJSONRequestBody = UpdateRequestBody6
 
 // IncidentsV2CreateJSONRequestBody defines body for IncidentsV2Create for application/json ContentType.
-type IncidentsV2CreateJSONRequestBody = CreateRequestBody10
+type IncidentsV2CreateJSONRequestBody = CreateRequestBody11
 
 // IncidentsV2EditJSONRequestBody defines body for IncidentsV2Edit for application/json ContentType.
 type IncidentsV2EditJSONRequestBody = EditRequestBody
@@ -3974,10 +4266,10 @@ type IncidentsV2EditJSONRequestBody = EditRequestBody
 type ManagedResourcesV2CreateManagedResourceJSONRequestBody = CreateManagedResourceRequestBody
 
 // SchedulesV2CreateJSONRequestBody defines body for SchedulesV2Create for application/json ContentType.
-type SchedulesV2CreateJSONRequestBody = CreateRequestBody11
+type SchedulesV2CreateJSONRequestBody = CreateRequestBody12
 
 // SchedulesV2UpdateJSONRequestBody defines body for SchedulesV2Update for application/json ContentType.
-type SchedulesV2UpdateJSONRequestBody = UpdateRequestBody7
+type SchedulesV2UpdateJSONRequestBody = UpdateRequestBody8
 
 // WorkflowsV2CreateWorkflowJSONRequestBody defines body for WorkflowsV2CreateWorkflow for application/json ContentType.
 type WorkflowsV2CreateWorkflowJSONRequestBody = CreateWorkflowRequestBody
@@ -4216,6 +4508,22 @@ type ClientInterface interface {
 	AlertEventsV2CreateHTTPWithBody(ctx context.Context, alertSourceConfigId string, params *AlertEventsV2CreateHTTPParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	AlertEventsV2CreateHTTP(ctx context.Context, alertSourceConfigId string, params *AlertEventsV2CreateHTTPParams, body AlertEventsV2CreateHTTPJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertRoutesV2Create request with any body
+	AlertRoutesV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	AlertRoutesV2Create(ctx context.Context, body AlertRoutesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertRoutesV2Destroy request
+	AlertRoutesV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertRoutesV2Show request
+	AlertRoutesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertRoutesV2Update request with any body
+	AlertRoutesV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	AlertRoutesV2Update(ctx context.Context, id string, body AlertRoutesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// CatalogV2ListEntries request
 	CatalogV2ListEntries(ctx context.Context, params *CatalogV2ListEntriesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -5087,6 +5395,78 @@ func (c *Client) AlertEventsV2CreateHTTPWithBody(ctx context.Context, alertSourc
 
 func (c *Client) AlertEventsV2CreateHTTP(ctx context.Context, alertSourceConfigId string, params *AlertEventsV2CreateHTTPParams, body AlertEventsV2CreateHTTPJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewAlertEventsV2CreateHTTPRequest(c.Server, alertSourceConfigId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertRoutesV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRoutesV2CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertRoutesV2Create(ctx context.Context, body AlertRoutesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRoutesV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertRoutesV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRoutesV2DestroyRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertRoutesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRoutesV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertRoutesV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRoutesV2UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertRoutesV2Update(ctx context.Context, id string, body AlertRoutesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRoutesV2UpdateRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -7664,6 +8044,161 @@ func NewAlertEventsV2CreateHTTPRequestWithBody(server string, alertSourceConfigI
 	return req, nil
 }
 
+// NewAlertRoutesV2CreateRequest calls the generic AlertRoutesV2Create builder with application/json body
+func NewAlertRoutesV2CreateRequest(server string, body AlertRoutesV2CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertRoutesV2CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewAlertRoutesV2CreateRequestWithBody generates requests for AlertRoutesV2Create with any type of body
+func NewAlertRoutesV2CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alert_routes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAlertRoutesV2DestroyRequest generates requests for AlertRoutesV2Destroy
+func NewAlertRoutesV2DestroyRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alert_routes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertRoutesV2ShowRequest generates requests for AlertRoutesV2Show
+func NewAlertRoutesV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alert_routes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertRoutesV2UpdateRequest calls the generic AlertRoutesV2Update builder with application/json body
+func NewAlertRoutesV2UpdateRequest(server string, id string, body AlertRoutesV2UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertRoutesV2UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewAlertRoutesV2UpdateRequestWithBody generates requests for AlertRoutesV2Update with any type of body
+func NewAlertRoutesV2UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alert_routes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewCatalogV2ListEntriesRequest generates requests for CatalogV2ListEntries
 func NewCatalogV2ListEntriesRequest(server string, params *CatalogV2ListEntriesParams) (*http.Request, error) {
 	var err error
@@ -10080,6 +10615,22 @@ type ClientWithResponsesInterface interface {
 
 	AlertEventsV2CreateHTTPWithResponse(ctx context.Context, alertSourceConfigId string, params *AlertEventsV2CreateHTTPParams, body AlertEventsV2CreateHTTPJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertEventsV2CreateHTTPResponse, error)
 
+	// AlertRoutesV2Create request with any body
+	AlertRoutesV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertRoutesV2CreateResponse, error)
+
+	AlertRoutesV2CreateWithResponse(ctx context.Context, body AlertRoutesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertRoutesV2CreateResponse, error)
+
+	// AlertRoutesV2Destroy request
+	AlertRoutesV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2DestroyResponse, error)
+
+	// AlertRoutesV2Show request
+	AlertRoutesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2ShowResponse, error)
+
+	// AlertRoutesV2Update request with any body
+	AlertRoutesV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertRoutesV2UpdateResponse, error)
+
+	AlertRoutesV2UpdateWithResponse(ctx context.Context, id string, body AlertRoutesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertRoutesV2UpdateResponse, error)
+
 	// CatalogV2ListEntries request
 	CatalogV2ListEntriesWithResponse(ctx context.Context, params *CatalogV2ListEntriesParams, reqEditors ...RequestEditorFn) (*CatalogV2ListEntriesResponse, error)
 
@@ -10573,7 +11124,7 @@ func (r IncidentAttachmentsV1ListResponse) StatusCode() int {
 type IncidentAttachmentsV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *CreateResponseBody
+	JSON201      *CreateResponseBody2
 }
 
 // Status returns HTTPResponse.Status
@@ -10616,7 +11167,7 @@ func (r IncidentAttachmentsV1DeleteResponse) StatusCode() int {
 type IncidentMembershipsV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *CreateResponseBody2
+	JSON201      *CreateResponseBody3
 }
 
 // Status returns HTTPResponse.Status
@@ -11197,6 +11748,93 @@ func (r AlertEventsV2CreateHTTPResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r AlertEventsV2CreateHTTPResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AlertRoutesV2CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *CreateResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertRoutesV2CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertRoutesV2CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AlertRoutesV2DestroyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertRoutesV2DestroyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertRoutesV2DestroyResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AlertRoutesV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CreateResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertRoutesV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertRoutesV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AlertRoutesV2UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CreateResponseBody
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertRoutesV2UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertRoutesV2UpdateResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -12781,6 +13419,58 @@ func (c *ClientWithResponses) AlertEventsV2CreateHTTPWithResponse(ctx context.Co
 	return ParseAlertEventsV2CreateHTTPResponse(rsp)
 }
 
+// AlertRoutesV2CreateWithBodyWithResponse request with arbitrary body returning *AlertRoutesV2CreateResponse
+func (c *ClientWithResponses) AlertRoutesV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertRoutesV2CreateResponse, error) {
+	rsp, err := c.AlertRoutesV2CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRoutesV2CreateResponse(rsp)
+}
+
+func (c *ClientWithResponses) AlertRoutesV2CreateWithResponse(ctx context.Context, body AlertRoutesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertRoutesV2CreateResponse, error) {
+	rsp, err := c.AlertRoutesV2Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRoutesV2CreateResponse(rsp)
+}
+
+// AlertRoutesV2DestroyWithResponse request returning *AlertRoutesV2DestroyResponse
+func (c *ClientWithResponses) AlertRoutesV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2DestroyResponse, error) {
+	rsp, err := c.AlertRoutesV2Destroy(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRoutesV2DestroyResponse(rsp)
+}
+
+// AlertRoutesV2ShowWithResponse request returning *AlertRoutesV2ShowResponse
+func (c *ClientWithResponses) AlertRoutesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2ShowResponse, error) {
+	rsp, err := c.AlertRoutesV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRoutesV2ShowResponse(rsp)
+}
+
+// AlertRoutesV2UpdateWithBodyWithResponse request with arbitrary body returning *AlertRoutesV2UpdateResponse
+func (c *ClientWithResponses) AlertRoutesV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertRoutesV2UpdateResponse, error) {
+	rsp, err := c.AlertRoutesV2UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRoutesV2UpdateResponse(rsp)
+}
+
+func (c *ClientWithResponses) AlertRoutesV2UpdateWithResponse(ctx context.Context, id string, body AlertRoutesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertRoutesV2UpdateResponse, error) {
+	rsp, err := c.AlertRoutesV2Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRoutesV2UpdateResponse(rsp)
+}
+
 // CatalogV2ListEntriesWithResponse request returning *CatalogV2ListEntriesResponse
 func (c *ClientWithResponses) CatalogV2ListEntriesWithResponse(ctx context.Context, params *CatalogV2ListEntriesParams, reqEditors ...RequestEditorFn) (*CatalogV2ListEntriesResponse, error) {
 	rsp, err := c.CatalogV2ListEntries(ctx, params, reqEditors...)
@@ -13725,7 +14415,7 @@ func ParseIncidentAttachmentsV1CreateResponse(rsp *http.Response) (*IncidentAtta
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest CreateResponseBody
+		var dest CreateResponseBody2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -13767,7 +14457,7 @@ func ParseIncidentMembershipsV1CreateResponse(rsp *http.Response) (*IncidentMemb
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest CreateResponseBody2
+		var dest CreateResponseBody3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -14408,6 +15098,100 @@ func ParseAlertEventsV2CreateHTTPResponse(rsp *http.Response) (*AlertEventsV2Cre
 			return nil, err
 		}
 		response.JSON202 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertRoutesV2CreateResponse parses an HTTP response from a AlertRoutesV2CreateWithResponse call
+func ParseAlertRoutesV2CreateResponse(rsp *http.Response) (*AlertRoutesV2CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertRoutesV2CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CreateResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertRoutesV2DestroyResponse parses an HTTP response from a AlertRoutesV2DestroyWithResponse call
+func ParseAlertRoutesV2DestroyResponse(rsp *http.Response) (*AlertRoutesV2DestroyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertRoutesV2DestroyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseAlertRoutesV2ShowResponse parses an HTTP response from a AlertRoutesV2ShowWithResponse call
+func ParseAlertRoutesV2ShowResponse(rsp *http.Response) (*AlertRoutesV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertRoutesV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CreateResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertRoutesV2UpdateResponse parses an HTTP response from a AlertRoutesV2UpdateWithResponse call
+func ParseAlertRoutesV2UpdateResponse(rsp *http.Response) (*AlertRoutesV2UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertRoutesV2UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CreateResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	}
 

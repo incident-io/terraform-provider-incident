@@ -108,6 +108,11 @@ resource "incident_schedule" "primary_on_call" {
       },
     ]
   }]
+
+  # If you want to show a country's public holidays on your schedule, use a list of alpha-2 country codes.
+  holidays_public_config = {
+    country_codes = ["GB", "FR"]
+  }
 }
 ```
 
@@ -119,6 +124,10 @@ resource "incident_schedule" "primary_on_call" {
 - `name` (String) Human readable name synced from external provider
 - `rotations` (Attributes List) (see [below for nested schema](#nestedatt--rotations))
 - `timezone` (String)
+
+### Optional
+
+- `holidays_public_config` (Attributes) (see [below for nested schema](#nestedatt--holidays_public_config))
 
 ### Read-Only
 
@@ -174,5 +183,15 @@ Required:
 - `day` (String)
 - `end` (String)
 - `start` (String)
+
+
+
+
+<a id="nestedatt--holidays_public_config"></a>
+### Nested Schema for `holidays_public_config`
+
+Required:
+
+- `country_codes` (List of String) ISO 3166-1 alpha-2 country codes for the countries that this schedule is configured to view holidays for
 
 

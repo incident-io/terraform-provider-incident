@@ -12,9 +12,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/samber/lo"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/samber/lo"
 )
 
 var (
@@ -378,7 +379,7 @@ func (r *IncidentWorkflowResource) buildRunsOnIncidentModes(modes []client.Workf
 	return out
 }
 
-func (r *IncidentWorkflowResource) buildConditionGroups(groups []client.ConditionGroupV2) IncidentEngineConditionGroups {
+func (r *IncidentWorkflowResource) buildConditionGroups(groups []client.ConditionGroupV3) IncidentEngineConditionGroups {
 	var out IncidentEngineConditionGroups
 
 	for _, g := range groups {
@@ -433,7 +434,7 @@ func (r *IncidentWorkflowResource) buildParamBinding(pb client.EngineParamBindin
 	return IncidentEngineParamBinding{}.FromClientV3(pb)
 }
 
-func (r *IncidentWorkflowResource) buildExpressions(expressions []client.ExpressionV2) IncidentEngineExpressions {
+func (r *IncidentWorkflowResource) buildExpressions(expressions []client.ExpressionV3) IncidentEngineExpressions {
 	out := IncidentEngineExpressions{}
 
 	for _, e := range expressions {
@@ -454,7 +455,7 @@ func (r *IncidentWorkflowResource) buildExpressions(expressions []client.Express
 	return out
 }
 
-func (r *IncidentWorkflowResource) buildOperations(operations []client.ExpressionOperationV2) []IncidentEngineExpressionOperation {
+func (r *IncidentWorkflowResource) buildOperations(operations []client.ExpressionOperationV3) []IncidentEngineExpressionOperation {
 	out := []IncidentEngineExpressionOperation{}
 
 	for _, o := range operations {
@@ -489,7 +490,7 @@ func (r *IncidentWorkflowResource) buildOperations(operations []client.Expressio
 	return out
 }
 
-func (r *IncidentWorkflowResource) buildBranches(branches []client.ExpressionBranchV2) []IncidentEngineBranch {
+func (r *IncidentWorkflowResource) buildBranches(branches []client.ExpressionBranchV3) []IncidentEngineBranch {
 	out := []IncidentEngineBranch{}
 
 	for _, b := range branches {
@@ -631,7 +632,7 @@ func toPayloadOperations(operations []IncidentEngineExpressionOperation) []clien
 			}
 		}
 		if o.Parse != nil {
-			operation.Parse = &client.ExpressionParseOptsV2{
+			operation.Parse = &client.ExpressionParseOptsPayloadV2{
 				Returns: toPayloadReturns(o.Parse.Returns),
 				Source:  o.Parse.Source.ValueString(),
 			}
