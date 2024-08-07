@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -406,9 +407,13 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 					}),
 			}
 			if value := node.Level.RoundRobinConfig; value != nil {
+				var rotateAfterSeconds basetypes.Int64Value
+				if value.RotateAfterSeconds != nil {
+					rotateAfterSeconds = types.Int64Value(*value.RotateAfterSeconds)
+				}
 				elem.Level.RoundRobinConfig = &IncidentEscalationRoundRobinConfig{
 					Enabled:            types.BoolValue(value.Enabled),
-					RotateAfterSeconds: types.Int64Value(*value.RotateAfterSeconds),
+					RotateAfterSeconds: rotateAfterSeconds,
 				}
 			}
 			if value := node.Level.TimeToAckSeconds; value != nil {
