@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.8.5
+
+- Fixed an issue (#99) where the provider crashed if a round robin config with no minutes was provided
+
 ## 3.8.4 
 
 - Add support for `holidays_public_config` on the `incident_schedule` resource
