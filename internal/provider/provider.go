@@ -179,5 +179,6 @@ func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.
 		NewIncidentCustomFieldDataSource,
 		NewIncidentCustomFieldOptionDataSource,
 		NewIncidentUserDataSource,
+		NewIncidentRoleDataSource,
 	}
 }
