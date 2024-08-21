@@ -3,6 +3,7 @@ package provider
 import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -27,6 +28,106 @@ type IncidentEngineParamBinding struct {
 }
 
 func (IncidentEngineParamBinding) FromClientV2(pb client.EngineParamBindingV2) IncidentEngineParamBinding {
+	var arrayValue []IncidentEngineParamBindingValue
+	if pb.ArrayValue != nil {
+		for _, v := range *pb.ArrayValue {
+			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(v.Literal),
+				Reference: types.StringPointerValue(v.Reference),
+			})
+		}
+	}
+
+	var value *IncidentEngineParamBindingValue
+	if pb.Value != nil {
+		value = &IncidentEngineParamBindingValue{
+			Literal:   types.StringPointerValue(pb.Value.Literal),
+			Reference: types.StringPointerValue(pb.Value.Reference),
+		}
+	}
+
+	return IncidentEngineParamBinding{
+		ArrayValue: arrayValue,
+		Value:      value,
+	}
+}
+
+func (IncidentEngineParamBinding) FromClientV7(pb client.EngineParamBindingV7) IncidentEngineParamBinding {
+	var arrayValue []IncidentEngineParamBindingValue
+	if pb.ArrayValue != nil {
+		for _, v := range *pb.ArrayValue {
+			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(v.Literal),
+				Reference: types.StringPointerValue(v.Reference),
+			})
+		}
+	}
+
+	var value *IncidentEngineParamBindingValue
+	if pb.Value != nil {
+		value = &IncidentEngineParamBindingValue{
+			Literal:   types.StringPointerValue(pb.Value.Literal),
+			Reference: types.StringPointerValue(pb.Value.Reference),
+		}
+	}
+
+	return IncidentEngineParamBinding{
+		ArrayValue: arrayValue,
+		Value:      value,
+	}
+}
+
+func (IncidentEngineParamBinding) FromClientV6(pb client.EngineParamBindingV6) IncidentEngineParamBinding {
+	var arrayValue []IncidentEngineParamBindingValue
+	if pb.ArrayValue != nil {
+		for _, v := range *pb.ArrayValue {
+			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(v.Literal),
+				Reference: types.StringPointerValue(v.Reference),
+			})
+		}
+	}
+
+	var value *IncidentEngineParamBindingValue
+	if pb.Value != nil {
+		value = &IncidentEngineParamBindingValue{
+			Literal:   types.StringPointerValue(pb.Value.Literal),
+			Reference: types.StringPointerValue(pb.Value.Reference),
+		}
+	}
+
+	return IncidentEngineParamBinding{
+		ArrayValue: arrayValue,
+		Value:      value,
+	}
+}
+
+func (IncidentEngineParamBinding) FromClientV5(pb client.EngineParamBindingV5) IncidentEngineParamBinding {
+	var arrayValue []IncidentEngineParamBindingValue
+	if pb.ArrayValue != nil {
+		for _, v := range *pb.ArrayValue {
+			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(v.Literal),
+				Reference: types.StringPointerValue(v.Reference),
+			})
+		}
+	}
+
+	var value *IncidentEngineParamBindingValue
+	if pb.Value != nil {
+		value = &IncidentEngineParamBindingValue{
+			Literal:   types.StringPointerValue(pb.Value.Literal),
+			Reference: types.StringPointerValue(pb.Value.Reference),
+		}
+	}
+
+	return IncidentEngineParamBinding{
+		ArrayValue: arrayValue,
+		Value:      value,
+	}
+}
+
+func (IncidentEngineParamBinding) FromClientV4(pb client.EngineParamBindingV4) IncidentEngineParamBinding {
 	var arrayValue []IncidentEngineParamBindingValue
 	if pb.ArrayValue != nil {
 		for _, v := range *pb.ArrayValue {

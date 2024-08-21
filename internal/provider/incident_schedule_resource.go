@@ -434,9 +434,9 @@ func buildScheduleUpdatePayload(data *IncidentScheduleResourceModel, resp *resou
 }
 
 // buildUsersArray converts a list of user IDs to a list of user references.
-func buildUsersArray(users []types.String) []client.UserReferencePayloadV1 {
-	return lo.Map(users, func(user types.String, _ int) client.UserReferencePayloadV1 {
-		return client.UserReferencePayloadV1{
+func buildUsersArray(users []types.String) []client.UserReferencePayloadV2 {
+	return lo.Map(users, func(user types.String, _ int) client.UserReferencePayloadV2 {
+		return client.UserReferencePayloadV2{
 			Id: user.ValueStringPointer(),
 		}
 	})
@@ -511,10 +511,10 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 				ID:   types.StringValue(rotation.ID),
 				Name: types.StringValue(rotation.Name),
 				Versions: lo.Map(rotationsGroupedByID[rotation.ID], func(rotation client.ScheduleRotationV2, idx int) RotationVersion {
-					var workingIntervals []WorkingInterval
+					var workingIntervals []IncidentWeekdayInterval
 					if rotation.WorkingInterval != nil {
-						workingIntervals = lo.Map(*rotation.WorkingInterval, func(interval client.WeekdayIntervalV2, _ int) WorkingInterval {
-							return WorkingInterval{
+						workingIntervals = lo.Map(*rotation.WorkingInterval, func(interval client.WeekdayIntervalV2, _ int) IncidentWeekdayInterval {
+							return IncidentWeekdayInterval{
 								Start: types.StringValue(interval.StartTime),
 								End:   types.StringValue(interval.EndTime),
 								Day:   types.StringValue(interval.Weekday),
@@ -539,7 +539,7 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 
 					users := []types.String{}
 					if rotation.Users != nil {
-						users = lo.Map(lo.FromPtr(rotation.Users), func(user client.UserV1, _ int) types.String {
+						users = lo.Map(lo.FromPtr(rotation.Users), func(user client.UserV2, _ int) types.String {
 							return types.StringValue(user.Id)
 						})
 					}
@@ -569,7 +569,7 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 	}
 }
 
-func buildScheduleHolidaysPublicConfig(data *IncidentScheduleResourceModel) *client.ScheduleHolidaysPublicConfigV2 {
+func buildScheduleHolidaysPublicConfig(data *IncidentScheduleResourceModel) *client.ScheduleHolidaysPublicConfigPayloadV2 {
 	if data.HolidaysPublicConfig == nil {
 		return nil
 	}
@@ -577,7 +577,7 @@ func buildScheduleHolidaysPublicConfig(data *IncidentScheduleResourceModel) *cli
 	for _, countryCode := range data.HolidaysPublicConfig.CountryCodes {
 		countryCodes = append(countryCodes, countryCode.ValueString())
 	}
-	return &client.ScheduleHolidaysPublicConfigV2{
+	return &client.ScheduleHolidaysPublicConfigPayloadV2{
 		CountryCodes: countryCodes,
 	}
 }

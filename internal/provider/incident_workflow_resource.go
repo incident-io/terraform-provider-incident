@@ -10,7 +10,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/samber/lo"
 
@@ -169,24 +168,24 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 		onceFor = append(onceFor, v.ValueString())
 	}
 
-	runsOnIncidentModes := []client.CreateWorkflowRequestBodyRunsOnIncidentModes{}
+	runsOnIncidentModes := []client.CreateWorkflowPayloadRunsOnIncidentModes{}
 	for _, v := range data.RunsOnIncidentModes {
-		runsOnIncidentModes = append(runsOnIncidentModes, client.CreateWorkflowRequestBodyRunsOnIncidentModes(v.ValueString()))
+		runsOnIncidentModes = append(runsOnIncidentModes, client.CreateWorkflowPayloadRunsOnIncidentModes(v.ValueString()))
 	}
 
-	payload := client.CreateWorkflowRequestBody{
+	payload := client.CreateWorkflowPayload{
 		Trigger:                 data.Trigger.ValueString(),
 		Name:                    data.Name.ValueString(),
 		OnceFor:                 onceFor,
 		ConditionGroups:         toPayloadConditionGroups(data.ConditionGroups),
 		Steps:                   toPayloadSteps(data.Steps),
 		Expressions:             toPayloadExpressions(data.Expressions),
-		RunsOnIncidents:         client.CreateWorkflowRequestBodyRunsOnIncidents(data.RunsOnIncidents.ValueString()),
+		RunsOnIncidents:         client.CreateWorkflowPayloadRunsOnIncidents(data.RunsOnIncidents.ValueString()),
 		RunsOnIncidentModes:     runsOnIncidentModes,
 		Folder:                  data.Folder.ValueStringPointer(),
 		IncludePrivateIncidents: data.IncludePrivateIncidents.ValueBool(),
 		ContinueOnStepError:     data.ContinueOnStepError.ValueBool(),
-		State:                   lo.ToPtr(client.CreateWorkflowRequestBodyState(data.State.ValueString())),
+		State:                   lo.ToPtr(client.CreateWorkflowPayloadState(data.State.ValueString())),
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
@@ -231,9 +230,9 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		onceFor = append(onceFor, v.ValueString())
 	}
 
-	runsOnIncidentModes := []client.UpdateWorkflowRequestBodyRunsOnIncidentModes{}
+	runsOnIncidentModes := []client.UpdateWorkflowPayload2RunsOnIncidentModes{}
 	for _, v := range data.RunsOnIncidentModes {
-		runsOnIncidentModes = append(runsOnIncidentModes, client.UpdateWorkflowRequestBodyRunsOnIncidentModes(v.ValueString()))
+		runsOnIncidentModes = append(runsOnIncidentModes, client.UpdateWorkflowPayload2RunsOnIncidentModes(v.ValueString()))
 	}
 
 	payload := client.WorkflowsV2UpdateWorkflowJSONRequestBody{
@@ -242,12 +241,12 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		Steps:                   toPayloadSteps(data.Steps),
 		Expressions:             toPayloadExpressions(data.Expressions),
 		OnceFor:                 onceFor,
-		RunsOnIncidents:         client.UpdateWorkflowRequestBodyRunsOnIncidents(data.RunsOnIncidents.ValueString()),
+		RunsOnIncidents:         client.UpdateWorkflowPayload2RunsOnIncidents(data.RunsOnIncidents.ValueString()),
 		RunsOnIncidentModes:     runsOnIncidentModes,
 		Folder:                  data.Folder.ValueStringPointer(),
 		IncludePrivateIncidents: data.IncludePrivateIncidents.ValueBool(),
 		ContinueOnStepError:     data.ContinueOnStepError.ValueBool(),
-		State:                   lo.ToPtr(client.UpdateWorkflowRequestBodyState(data.State.ValueString())),
+		State:                   lo.ToPtr(client.UpdateWorkflowPayload2State(data.State.ValueString())),
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
@@ -329,185 +328,6 @@ func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.C
 
 	r.client = client.Client
 	r.terraformVersion = client.TerraformVersion
-}
-
-// buildModel converts from the response type to the terraform model/schema type.
-func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *IncidentWorkflowResourceModel {
-	model := &IncidentWorkflowResourceModel{
-		ID:                      types.StringValue(workflow.Id),
-		Name:                    types.StringValue(workflow.Name),
-		Trigger:                 types.StringValue(workflow.Trigger.Name),
-		ConditionGroups:         r.buildConditionGroups(workflow.ConditionGroups),
-		Steps:                   r.buildSteps(workflow.Steps),
-		Expressions:             r.buildExpressions(workflow.Expressions),
-		OnceFor:                 r.buildOnceFor(workflow.OnceFor),
-		RunsOnIncidentModes:     r.buildRunsOnIncidentModes(workflow.RunsOnIncidentModes),
-		IncludePrivateIncidents: types.BoolValue(workflow.IncludePrivateIncidents),
-		ContinueOnStepError:     types.BoolValue(workflow.ContinueOnStepError),
-		RunsOnIncidents:         types.StringValue(string(workflow.RunsOnIncidents)),
-		State:                   types.StringValue(string(workflow.State)),
-	}
-	if workflow.Folder != nil {
-		model.Folder = types.StringValue(*workflow.Folder)
-	}
-	if workflow.Delay != nil {
-		model.Delay = &IncidentWorkflowDelay{
-			ConditionsApplyOverDelay: types.BoolValue(workflow.Delay.ConditionsApplyOverDelay),
-			ForSeconds:               types.Int64Value(workflow.Delay.ForSeconds),
-		}
-	}
-	return model
-}
-
-func (r *IncidentWorkflowResource) buildOnceFor(onceFor []client.EngineReferenceV2) []basetypes.StringValue {
-	out := []basetypes.StringValue{}
-
-	for _, ref := range onceFor {
-		out = append(out, types.StringValue(ref.Key))
-	}
-
-	return out
-}
-
-func (r *IncidentWorkflowResource) buildRunsOnIncidentModes(modes []client.WorkflowRunsOnIncidentModes) []basetypes.StringValue {
-	out := []basetypes.StringValue{}
-
-	for _, mode := range modes {
-		out = append(out, types.StringValue(string(mode)))
-	}
-
-	return out
-}
-
-func (r *IncidentWorkflowResource) buildConditionGroups(groups []client.ConditionGroupV3) IncidentEngineConditionGroups {
-	var out IncidentEngineConditionGroups
-
-	for _, g := range groups {
-		out = append(out, IncidentEngineConditionGroup{
-			Conditions: r.buildConditions(g.Conditions),
-		})
-	}
-
-	return out
-}
-
-func (r *IncidentWorkflowResource) buildConditions(conditions []client.ConditionV3) []IncidentEngineCondition {
-	out := []IncidentEngineCondition{}
-
-	for _, c := range conditions {
-		out = append(out, IncidentEngineCondition{
-			Subject:       types.StringValue(c.Subject.Reference),
-			Operation:     types.StringValue(c.Operation.Value),
-			ParamBindings: r.buildParamBindings(c.ParamBindings),
-		})
-	}
-
-	return out
-}
-
-func (r *IncidentWorkflowResource) buildSteps(steps []client.StepConfig) []IncidentWorkflowStep {
-	out := []IncidentWorkflowStep{}
-
-	for _, s := range steps {
-		out = append(out, IncidentWorkflowStep{
-			ForEach:       types.StringPointerValue(s.ForEach),
-			ID:            types.StringValue(s.Id),
-			Name:          types.StringValue(s.Name),
-			ParamBindings: r.buildParamBindings(s.ParamBindings),
-		})
-	}
-
-	return out
-}
-
-func (r *IncidentWorkflowResource) buildParamBindings(pbs []client.EngineParamBindingV3) []IncidentEngineParamBinding {
-	out := []IncidentEngineParamBinding{}
-
-	for _, pb := range pbs {
-		out = append(out, r.buildParamBinding(pb))
-	}
-
-	return out
-}
-
-func (r *IncidentWorkflowResource) buildParamBinding(pb client.EngineParamBindingV3) IncidentEngineParamBinding {
-	return IncidentEngineParamBinding{}.FromClientV3(pb)
-}
-
-func (r *IncidentWorkflowResource) buildExpressions(expressions []client.ExpressionV3) IncidentEngineExpressions {
-	out := IncidentEngineExpressions{}
-
-	for _, e := range expressions {
-		expression := IncidentEngineExpression{
-			Label:         types.StringValue(e.Label),
-			Operations:    r.buildOperations(e.Operations),
-			Reference:     types.StringValue(e.Reference),
-			RootReference: types.StringValue(e.RootReference),
-		}
-		if e.ElseBranch != nil {
-			expression.ElseBranch = &IncidentEngineElseBranch{
-				Result: r.buildParamBinding(e.ElseBranch.Result),
-			}
-		}
-		out = append(out, expression)
-	}
-
-	return out
-}
-
-func (r *IncidentWorkflowResource) buildOperations(operations []client.ExpressionOperationV3) []IncidentEngineExpressionOperation {
-	out := []IncidentEngineExpressionOperation{}
-
-	for _, o := range operations {
-		operation := IncidentEngineExpressionOperation{
-			OperationType: types.StringValue(string(o.OperationType)),
-		}
-		if o.Branches != nil {
-			operation.Branches = &IncidentEngineExpressionBranchesOpts{
-				Branches: r.buildBranches(o.Branches.Branches),
-				Returns:  r.buildReturns(o.Branches.Returns),
-			}
-		}
-		if o.Filter != nil {
-			operation.Filter = &IncidentEngineExpressionFilterOpts{
-				ConditionGroups: r.buildConditionGroups(o.Filter.ConditionGroups),
-			}
-		}
-		if o.Navigate != nil {
-			operation.Navigate = &IncidentEngineExpressionNavigateOpts{
-				Reference: types.StringValue(o.Navigate.Reference),
-			}
-		}
-		if o.Parse != nil {
-			operation.Parse = &IncidentEngineExpressionParseOpts{
-				Returns: r.buildReturns(o.Parse.Returns),
-				Source:  types.StringValue(o.Parse.Source),
-			}
-		}
-		out = append(out, operation)
-	}
-
-	return out
-}
-
-func (r *IncidentWorkflowResource) buildBranches(branches []client.ExpressionBranchV3) []IncidentEngineBranch {
-	out := []IncidentEngineBranch{}
-
-	for _, b := range branches {
-		out = append(out, IncidentEngineBranch{
-			ConditionGroups: r.buildConditionGroups(b.ConditionGroups),
-			Result:          r.buildParamBinding(b.Result),
-		})
-	}
-
-	return out
-}
-
-func (r *IncidentWorkflowResource) buildReturns(returns client.ReturnsMetaV2) IncidentEngineReturnsMeta {
-	return IncidentEngineReturnsMeta{
-		Array: types.BoolValue(returns.Array),
-		Type:  types.StringValue(returns.Type),
-	}
 }
 
 // toPayloadConditionGroups converts from the terraform model to the http payload type.
