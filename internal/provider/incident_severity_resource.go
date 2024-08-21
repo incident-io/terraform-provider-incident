@@ -189,7 +189,7 @@ func (r *IncidentSeverityResource) ImportState(ctx context.Context, req resource
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *IncidentSeverityResource) buildModel(severity client.SeverityV2) *IncidentSeverityResourceModel {
+func (r *IncidentSeverityResource) buildModel(severity client.SeverityV1) *IncidentSeverityResourceModel {
 	return &IncidentSeverityResourceModel{
 		ID:          types.StringValue(severity.Id),
 		Name:        types.StringValue(severity.Name),

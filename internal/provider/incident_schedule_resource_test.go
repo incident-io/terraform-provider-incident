@@ -58,7 +58,7 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 										Name: lo.ToPtr("Primary Layer One"),
 									},
 								},
-								WorkingInterval: &[]client.WeekdayIntervalV2{
+								WorkingInterval: &[]client.ScheduleRotationWorkingIntervalV2{
 									{
 										StartTime: "09:00",
 										EndTime:   "17:00",
@@ -122,7 +122,7 @@ func incidentScheduleDefault() client.ScheduleV2 {
 						},
 					},
 					Name:            "Rota",
-					Users:           new([]client.UserV1),
+					Users:           new([]client.UserV2),
 					WorkingInterval: nil,
 				},
 			},
@@ -226,7 +226,7 @@ func generateLayersArray(layers []client.ScheduleLayerV2) string {
 	return result
 }
 
-func generateUsersArray(users *[]client.UserV1) string {
+func generateUsersArray(users *[]client.UserV2) string {
 	var result string
 	if users == nil {
 		return "[]"
@@ -257,14 +257,14 @@ func generateCountryCodesArray(codes []string) string {
 	return result
 }
 
-func generateWorkingIntervalsArray(workingIntervals *[]client.WeekdayIntervalV2) string {
+func generateWorkingIntervalsArray(workingIntervals *[]client.ScheduleRotationWorkingIntervalV2) string {
 	var result string
 	result += "[\n"
 	for _, workingInterval := range *workingIntervals {
 		result += "  {\n"
 		result += "    start_time = " + quote(workingInterval.StartTime) + "\n"
 		result += "    end_time   = " + quote(workingInterval.EndTime) + "\n"
-		result += "    weekday    = " + quote(workingInterval.Weekday) + "\n"
+		result += "    weekday    = " + quote(string(workingInterval.Weekday)) + "\n"
 		result += "  },\n"
 	}
 	result += "]\n"
