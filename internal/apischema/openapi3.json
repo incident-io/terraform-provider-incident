@@ -15044,6 +15044,7 @@
               "pagerduty",
               "salesforce",
               "sentry",
+              "service_now",
               "shortcut",
               "scim",
               "slack",
