@@ -7,9 +7,9 @@ issues:
 linters:
   disable-all: true
   enable:
+    - copyloopvar
     - durationcheck
     - errcheck
-    - exportloopref
     - forcetypeassert
     - godot
     - gofmt
@@ -24,4 +24,8 @@ linters:
     - unconvert
     - unparam
     - unused
-    - vet
+linters-settings:
+  staticcheck:
+    checks:
+      - all
+      - '-SA1006' # disable the rule SA1006 which doesn't like how we do errors
