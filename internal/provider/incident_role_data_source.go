@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -18,6 +19,10 @@ var (
 
 func NewIncidentRoleDataSource() datasource.DataSource {
 	return &IncidentRoleDataSource{}
+}
+
+func (i *IncidentRoleDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_incident_role"
 }
 
 type IncidentRoleDataSource struct {
@@ -55,31 +60,27 @@ func (i *IncidentRoleDataSource) Schema(ctx context.Context, req datasource.Sche
 		MarkdownDescription: "This data source provides information about an incident role.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: apischema.Docstring("IncidentRoleV2ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("IncidentRoleV2", "id"),
+				Required:            true,
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV2CreateRequestBody", "name"),
-				Required:            true,
+				MarkdownDescription: apischema.Docstring("IncidentRoleV2", "name"),
+				Computed:            true,
 			},
 			"description": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV2CreateRequestBody", "description"),
-				Required:            true,
+				MarkdownDescription: apischema.Docstring("IncidentRoleV2", "description"),
+				Computed:            true,
 			},
 			"instructions": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV2CreateRequestBody", "instructions"),
-				Required:            true,
+				MarkdownDescription: apischema.Docstring("IncidentRoleV2", "instructions"),
+				Computed:            true,
 			},
 			"shortform": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV2CreateRequestBody", "shortform"),
-				Required:            true,
+				MarkdownDescription: apischema.Docstring("IncidentRoleV2", "shortform"),
+				Computed:            true,
 			},
 		},
 	}
-}
-
-func (i *IncidentRoleDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_role"
 }
 
 func (i *IncidentRoleDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

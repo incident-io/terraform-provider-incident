@@ -8,6 +8,7 @@ import (
 
 	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
