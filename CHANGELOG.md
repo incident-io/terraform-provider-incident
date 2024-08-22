@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.8.6
+
+- Add support for the `incident_incident_role` data source.
+
 ## 3.8.5
 
 - Fixed an issue (#99) where the provider crashed if a round robin config with no minutes was provided
