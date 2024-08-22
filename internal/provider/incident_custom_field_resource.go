@@ -46,7 +46,7 @@ func (r *IncidentCustomFieldResource) Schema(ctx context.Context, req resource.S
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("CustomFieldV2ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -98,7 +98,7 @@ func (r *IncidentCustomFieldResource) Create(ctx context.Context, req resource.C
 	result, err := r.client.CustomFieldsV2CreateWithResponse(ctx, client.CustomFieldsV2CreateJSONRequestBody{
 		Name:        data.Name.ValueString(),
 		Description: data.Description.ValueString(),
-		FieldType:   client.CreateRequestBody4FieldType(data.FieldType.ValueString()),
+		FieldType:   client.CreateRequestBody3FieldType(data.FieldType.ValueString()),
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))

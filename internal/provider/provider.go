@@ -108,7 +108,7 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 
 	base := retryablehttp.NewClient()
 	base.RetryMax = 10
-	base.Backoff = func(min, max time.Duration, attemptNum int, httpResp *http.Response) time.Duration {
+	base.Backoff = func(minimum, maximum time.Duration, attemptNum int, httpResp *http.Response) time.Duration {
 		// Retry for rate limits and server errors.
 		if httpResp != nil && httpResp.StatusCode == http.StatusTooManyRequests {
 			retryAfter := httpResp.Header.Get("Retry-After")
@@ -125,7 +125,7 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 			}
 		}
 		// Fallback to the default backoff
-		return retryablehttp.DefaultBackoff(min, max, attemptNum, httpResp)
+		return retryablehttp.DefaultBackoff(minimum, maximum, attemptNum, httpResp)
 	}
 
 	base.HTTPClient.Transport = &loghttp.Transport{

@@ -3,6 +3,7 @@ package provider
 import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -27,6 +28,106 @@ type IncidentEngineParamBinding struct {
 }
 
 func (IncidentEngineParamBinding) FromClientV2(pb client.EngineParamBindingV2) IncidentEngineParamBinding {
+	var arrayValue []IncidentEngineParamBindingValue
+	if pb.ArrayValue != nil {
+		for _, v := range *pb.ArrayValue {
+			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(v.Literal),
+				Reference: types.StringPointerValue(v.Reference),
+			})
+		}
+	}
+
+	var value *IncidentEngineParamBindingValue
+	if pb.Value != nil {
+		value = &IncidentEngineParamBindingValue{
+			Literal:   types.StringPointerValue(pb.Value.Literal),
+			Reference: types.StringPointerValue(pb.Value.Reference),
+		}
+	}
+
+	return IncidentEngineParamBinding{
+		ArrayValue: arrayValue,
+		Value:      value,
+	}
+}
+
+func (IncidentEngineParamBinding) FromClientV7(pb client.EngineParamBindingV7) IncidentEngineParamBinding {
+	var arrayValue []IncidentEngineParamBindingValue
+	if pb.ArrayValue != nil {
+		for _, v := range *pb.ArrayValue {
+			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(v.Literal),
+				Reference: types.StringPointerValue(v.Reference),
+			})
+		}
+	}
+
+	var value *IncidentEngineParamBindingValue
+	if pb.Value != nil {
+		value = &IncidentEngineParamBindingValue{
+			Literal:   types.StringPointerValue(pb.Value.Literal),
+			Reference: types.StringPointerValue(pb.Value.Reference),
+		}
+	}
+
+	return IncidentEngineParamBinding{
+		ArrayValue: arrayValue,
+		Value:      value,
+	}
+}
+
+func (IncidentEngineParamBinding) FromClientV6(pb client.EngineParamBindingV6) IncidentEngineParamBinding {
+	var arrayValue []IncidentEngineParamBindingValue
+	if pb.ArrayValue != nil {
+		for _, v := range *pb.ArrayValue {
+			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(v.Literal),
+				Reference: types.StringPointerValue(v.Reference),
+			})
+		}
+	}
+
+	var value *IncidentEngineParamBindingValue
+	if pb.Value != nil {
+		value = &IncidentEngineParamBindingValue{
+			Literal:   types.StringPointerValue(pb.Value.Literal),
+			Reference: types.StringPointerValue(pb.Value.Reference),
+		}
+	}
+
+	return IncidentEngineParamBinding{
+		ArrayValue: arrayValue,
+		Value:      value,
+	}
+}
+
+func (IncidentEngineParamBinding) FromClientV5(pb client.EngineParamBindingV5) IncidentEngineParamBinding {
+	var arrayValue []IncidentEngineParamBindingValue
+	if pb.ArrayValue != nil {
+		for _, v := range *pb.ArrayValue {
+			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(v.Literal),
+				Reference: types.StringPointerValue(v.Reference),
+			})
+		}
+	}
+
+	var value *IncidentEngineParamBindingValue
+	if pb.Value != nil {
+		value = &IncidentEngineParamBindingValue{
+			Literal:   types.StringPointerValue(pb.Value.Literal),
+			Reference: types.StringPointerValue(pb.Value.Reference),
+		}
+	}
+
+	return IncidentEngineParamBinding{
+		ArrayValue: arrayValue,
+		Value:      value,
+	}
+}
+
+func (IncidentEngineParamBinding) FromClientV4(pb client.EngineParamBindingV4) IncidentEngineParamBinding {
 	var arrayValue []IncidentEngineParamBindingValue
 	if pb.ArrayValue != nil {
 		for _, v := range *pb.ArrayValue {
@@ -136,11 +237,11 @@ type IncidentEngineExpressionParseOpts struct {
 
 var paramBindingValueAttributes = map[string]schema.Attribute{
 	"literal": schema.StringAttribute{
-		MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2ResponseBody", "literal"),
+		MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "literal"),
 		Optional:            true,
 	},
 	"reference": schema.StringAttribute{
-		MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2ResponseBody", "reference"),
+		MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "reference"),
 		Optional:            true,
 	},
 }
@@ -161,7 +262,7 @@ var paramBindingAttributes = map[string]schema.Attribute{
 }
 
 var paramBindingsAttribute = schema.ListNestedAttribute{
-	MarkdownDescription: apischema.Docstring("ConditionV2ResponseBody", "param_bindings"),
+	MarkdownDescription: apischema.Docstring("ConditionV2", "param_bindings"),
 	Required:            true,
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: paramBindingAttributes,
@@ -201,11 +302,11 @@ var returnsAttribute = schema.SingleNestedAttribute{
 	Required:            true,
 	Attributes: map[string]schema.Attribute{
 		"array": schema.BoolAttribute{
-			MarkdownDescription: apischema.Docstring("ReturnsMetaV2ResponseBody", "array"),
+			MarkdownDescription: apischema.Docstring("ReturnsMetaV2", "array"),
 			Required:            true,
 		},
 		"type": schema.StringAttribute{
-			MarkdownDescription: apischema.Docstring("ReturnsMetaV2ResponseBody", "type"),
+			MarkdownDescription: apischema.Docstring("ReturnsMetaV2", "type"),
 			Required:            true,
 		},
 	},
@@ -217,15 +318,15 @@ var expressionsAttribute = schema.SetNestedAttribute{
 	NestedObject: schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
 			"label": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("ExpressionV2ResponseBody", "label"),
+				MarkdownDescription: apischema.Docstring("ExpressionV2", "label"),
 				Required:            true,
 			},
 			"reference": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("ExpressionV2ResponseBody", "reference"),
+				MarkdownDescription: apischema.Docstring("ExpressionV2", "reference"),
 				Required:            true,
 			},
 			"root_reference": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("ExpressionV2ResponseBody", "root_reference"),
+				MarkdownDescription: apischema.Docstring("ExpressionV2", "root_reference"),
 				Required:            true,
 			},
 			"else_branch": schema.SingleNestedAttribute{
@@ -249,7 +350,7 @@ var expressionsAttribute = schema.SetNestedAttribute{
 							Optional:            true,
 							Attributes: map[string]schema.Attribute{
 								"branches": schema.ListNestedAttribute{
-									MarkdownDescription: apischema.Docstring("ExpressionBranchesOptsV2ResponseBody", "branches"),
+									MarkdownDescription: apischema.Docstring("ExpressionBranchesOptsV2", "branches"),
 									Required:            true,
 									NestedObject: schema.NestedAttributeObject{
 										Attributes: map[string]schema.Attribute{

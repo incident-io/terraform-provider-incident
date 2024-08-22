@@ -21,7 +21,7 @@ This data source provides information about a custom field.
 
 ### Read-Only
 
-- `description` (String) Human readable name for the custom field
+- `description` (String) Description of the custom field
 - `field_type` (String) Type of custom field
 - `id` (String) The custom field ID
 

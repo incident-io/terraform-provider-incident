@@ -44,12 +44,12 @@ type Rotation struct {
 }
 
 type RotationVersion struct {
-	EffectiveFrom    types.String      `tfsdk:"effective_from"`
-	HandoverStartAt  types.String      `tfsdk:"handover_start_at"`
-	Handovers        []Handover        `tfsdk:"handovers"`
-	Users            []types.String    `tfsdk:"users"`
-	WorkingIntervals []WorkingInterval `tfsdk:"working_intervals"`
-	Layers           []Layer           `tfsdk:"layers"`
+	EffectiveFrom    types.String              `tfsdk:"effective_from"`
+	HandoverStartAt  types.String              `tfsdk:"handover_start_at"`
+	Handovers        []Handover                `tfsdk:"handovers"`
+	Users            []types.String            `tfsdk:"users"`
+	WorkingIntervals []IncidentWeekdayInterval `tfsdk:"working_intervals"`
+	Layers           []Layer                   `tfsdk:"layers"`
 }
 
 // Deprecated: this should be replaced (eventually) by IncidentWeekdayInterval.
@@ -90,11 +90,11 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: apischema.Docstring("ScheduleV2ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("ScheduleV2", "id"),
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleV2ResponseBody", "name"),
+				MarkdownDescription: apischema.Docstring("ScheduleV2", "name"),
 			},
 			"timezone": schema.StringAttribute{
 				Required: true,
@@ -104,7 +104,7 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 					"country_codes": schema.ListAttribute{
 						Required:            true,
 						ElementType:         types.StringType,
-						MarkdownDescription: apischema.Docstring("ScheduleHolidaysPublicConfigV2ResponseBody", "country_codes"),
+						MarkdownDescription: apischema.Docstring("ScheduleHolidaysPublicConfigV2", "country_codes"),
 					},
 				},
 				Optional: true,
@@ -114,11 +114,11 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 					Attributes: map[string]schema.Attribute{
 						"id": schema.StringAttribute{
 							Required:            true,
-							MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "id"),
+							MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "id"),
 						},
 						"name": schema.StringAttribute{
 							Required:            true,
-							MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "name"),
+							MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "name"),
 						},
 						"versions": schema.ListNestedAttribute{
 							Required: true,
@@ -127,19 +127,19 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 									"users": schema.ListAttribute{
 										Required:            true,
 										ElementType:         types.StringType,
-										MarkdownDescription: apischema.Docstring("UserReferencePayloadV1RequestBody", "id"),
+										MarkdownDescription: apischema.Docstring("UserReferencePayloadV1", "id"),
 									},
 									"effective_from": schema.StringAttribute{
 										Optional:            true,
-										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "effective_from"),
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "effective_from"),
 									},
 									"handover_start_at": schema.StringAttribute{
 										Required:            true,
-										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "handover_start_at"),
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "handover_start_at"),
 									},
 									"working_intervals": schema.ListNestedAttribute{
 										Optional:            true,
-										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "working_interval"),
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "working_interval"),
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"start": schema.StringAttribute{
@@ -156,7 +156,7 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 									},
 									"layers": schema.ListNestedAttribute{
 										Required:            true,
-										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "layers"),
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "layers"),
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"id": schema.StringAttribute{
@@ -170,7 +170,7 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 									},
 									"handovers": schema.ListNestedAttribute{
 										Optional:            true,
-										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "handovers"),
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "handovers"),
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"interval": schema.Int64Attribute{
@@ -344,12 +344,12 @@ func buildScheduleCreatePayload(data *IncidentScheduleResourceModel, resp *resou
 	rotationArray := make([]client.ScheduleRotationCreatePayloadV2, 0, len(data.Rotations))
 	for _, rotation := range data.Rotations {
 		for _, version := range rotation.Versions {
-			workingIntervals := make([]client.WeekdayIntervalV2, 0, len(version.WorkingIntervals))
+			workingIntervals := make([]client.ScheduleRotationWorkingIntervalCreatePayloadV2, 0, len(version.WorkingIntervals))
 			for _, workingInterval := range version.WorkingIntervals {
-				workingIntervals = append(workingIntervals, client.WeekdayIntervalV2{
-					StartTime: workingInterval.Start.ValueString(),
-					EndTime:   workingInterval.End.ValueString(),
-					Weekday:   workingInterval.Day.ValueString(),
+				workingIntervals = append(workingIntervals, client.ScheduleRotationWorkingIntervalCreatePayloadV2{
+					StartTime: workingInterval.StartTime.ValueString(),
+					EndTime:   workingInterval.EndTime.ValueString(),
+					Weekday:   client.ScheduleRotationWorkingIntervalCreatePayloadV2Weekday(workingInterval.Weekday.ValueString()),
 				})
 			}
 
@@ -392,17 +392,17 @@ func buildScheduleUpdatePayload(data *IncidentScheduleResourceModel, resp *resou
 		for _, version := range rotation.Versions {
 			workingIntervals := make([]client.ScheduleRotationWorkingIntervalUpdatePayloadV2, 0, len(version.WorkingIntervals))
 			for _, workingInterval := range version.WorkingIntervals {
-				workingIntervalWeekday := client.ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday(workingInterval.Day.ValueString())
+				workingIntervalWeekday := client.ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday(workingInterval.Weekday.ValueString())
 				workingIntervals = append(workingIntervals, client.ScheduleRotationWorkingIntervalUpdatePayloadV2{
-					StartTime: workingInterval.Start.ValueStringPointer(),
-					EndTime:   workingInterval.End.ValueStringPointer(),
+					StartTime: workingInterval.StartTime.ValueStringPointer(),
+					EndTime:   workingInterval.EndTime.ValueStringPointer(),
 					Weekday:   &workingIntervalWeekday,
 				})
 			}
 
-			layers := make([]client.ScheduleLayerV2, 0, len(version.Layers))
+			layers := make([]client.ScheduleLayerUpdatePayloadV2, 0, len(version.Layers))
 			for _, layer := range version.Layers {
-				layers = append(layers, client.ScheduleLayerV2{
+				layers = append(layers, client.ScheduleLayerUpdatePayloadV2{
 					Id:   layer.ID.ValueStringPointer(),
 					Name: layer.Name.ValueStringPointer(),
 				})
@@ -434,9 +434,9 @@ func buildScheduleUpdatePayload(data *IncidentScheduleResourceModel, resp *resou
 }
 
 // buildUsersArray converts a list of user IDs to a list of user references.
-func buildUsersArray(users []types.String) []client.UserReferencePayloadV1 {
-	return lo.Map(users, func(user types.String, _ int) client.UserReferencePayloadV1 {
-		return client.UserReferencePayloadV1{
+func buildUsersArray(users []types.String) []client.UserReferencePayloadV2 {
+	return lo.Map(users, func(user types.String, _ int) client.UserReferencePayloadV2 {
+		return client.UserReferencePayloadV2{
 			Id: user.ValueStringPointer(),
 		}
 	})
@@ -511,13 +511,13 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 				ID:   types.StringValue(rotation.ID),
 				Name: types.StringValue(rotation.Name),
 				Versions: lo.Map(rotationsGroupedByID[rotation.ID], func(rotation client.ScheduleRotationV2, idx int) RotationVersion {
-					var workingIntervals []WorkingInterval
+					var workingIntervals []IncidentWeekdayInterval
 					if rotation.WorkingInterval != nil {
-						workingIntervals = lo.Map(*rotation.WorkingInterval, func(interval client.WeekdayIntervalV2, _ int) WorkingInterval {
-							return WorkingInterval{
-								Start: types.StringValue(interval.StartTime),
-								End:   types.StringValue(interval.EndTime),
-								Day:   types.StringValue(interval.Weekday),
+						workingIntervals = lo.Map(*rotation.WorkingInterval, func(interval client.ScheduleRotationWorkingIntervalV2, _ int) IncidentWeekdayInterval {
+							return IncidentWeekdayInterval{
+								StartTime: types.StringValue(interval.StartTime),
+								EndTime:   types.StringValue(interval.EndTime),
+								Weekday:   types.StringValue(string(interval.Weekday)),
 							}
 						})
 					}
@@ -539,7 +539,7 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 
 					users := []types.String{}
 					if rotation.Users != nil {
-						users = lo.Map(lo.FromPtr(rotation.Users), func(user client.UserV1, _ int) types.String {
+						users = lo.Map(lo.FromPtr(rotation.Users), func(user client.UserV2, _ int) types.String {
 							return types.StringValue(user.Id)
 						})
 					}
@@ -569,7 +569,7 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 	}
 }
 
-func buildScheduleHolidaysPublicConfig(data *IncidentScheduleResourceModel) *client.ScheduleHolidaysPublicConfigV2 {
+func buildScheduleHolidaysPublicConfig(data *IncidentScheduleResourceModel) *client.ScheduleHolidaysPublicConfigPayloadV2 {
 	if data.HolidaysPublicConfig == nil {
 		return nil
 	}
@@ -577,7 +577,7 @@ func buildScheduleHolidaysPublicConfig(data *IncidentScheduleResourceModel) *cli
 	for _, countryCode := range data.HolidaysPublicConfig.CountryCodes {
 		countryCodes = append(countryCodes, countryCode.ValueString())
 	}
-	return &client.ScheduleHolidaysPublicConfigV2{
+	return &client.ScheduleHolidaysPublicConfigPayloadV2{
 		CountryCodes: countryCodes,
 	}
 }

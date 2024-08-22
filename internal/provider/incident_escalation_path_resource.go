@@ -3,8 +3,9 @@ package provider
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"reflect"
+
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -89,22 +90,22 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("EscalationPathV2ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("EscalationPathV2", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathV2ResponseBody", "name"),
+				MarkdownDescription: apischema.Docstring("EscalationPathV2", "name"),
 				Required:            true,
 			},
 			"path": schema.ListNestedAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathV2ResponseBody", "path"),
+				MarkdownDescription: apischema.Docstring("EscalationPathV2", "path"),
 				Required:            true,
 				NestedObject:        r.getPathSchema(3),
 			},
 			"working_hours": schema.ListNestedAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathV2ResponseBody", "working_hours"),
+				MarkdownDescription: apischema.Docstring("EscalationPathV2", "working_hours"),
 				Optional:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: IncidentWeekdayIntervalConfig{}.Attributes(),
@@ -120,7 +121,7 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 	result := schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "id"),
 				Computed:            true,
 				Optional:            true,
 				PlanModifiers: []planmodifier.String{
@@ -128,32 +129,32 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 				},
 			},
 			"type": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2ResponseBody", "type"),
+				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "type"),
 				Required:            true,
 			},
 			"level": schema.SingleNestedAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2ResponseBody", "level"),
+				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "level"),
 				Optional:            true,
 				Attributes: map[string]schema.Attribute{
 					"targets": schema.ListNestedAttribute{
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeLevelV2ResponseBody", "targets"),
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeLevelV2", "targets"),
 						Required:            true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
 								"id": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2ResponseBody", "id"),
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "id"),
 									Required:            true,
 								},
 								"type": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2ResponseBody", "type"),
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "type"),
 									Required:            true,
 								},
 								"urgency": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2ResponseBody", "urgency"),
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "urgency"),
 									Required:            true,
 								},
 								"schedule_mode": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2ResponseBody", "schedule_mode"),
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "schedule_mode"),
 									Optional:            true,
 									Computed:            true,
 								},
@@ -172,31 +173,31 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 						},
 					},
 					"time_to_ack_seconds": schema.Int64Attribute{
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeLevelV2ResponseBody", "time_to_ack_seconds"),
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeLevelV2", "time_to_ack_seconds"),
 						Optional:            true,
 					},
 					"time_to_ack_interval_condition": schema.StringAttribute{
 						MarkdownDescription: apischema.Docstring(
-							"EscalationPathNodeLevelV2ResponseBody", "time_to_ack_interval_condition"),
+							"EscalationPathNodeLevelV2", "time_to_ack_interval_condition"),
 						Optional: true,
 					},
 					"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
 						MarkdownDescription: apischema.Docstring(
-							"EscalationPathNodeLevelV2ResponseBody", "time_to_ack_weekday_interval_config_id"),
+							"EscalationPathNodeLevelV2", "time_to_ack_weekday_interval_config_id"),
 						Optional: true,
 					},
 				},
 			},
 			"repeat": schema.SingleNestedAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2ResponseBody", "repeat"),
+				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "repeat"),
 				Optional:            true,
 				Attributes: map[string]schema.Attribute{
 					"repeat_times": schema.Int64Attribute{
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeRepeatV2ResponseBody", "repeat_times"),
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeRepeatV2", "repeat_times"),
 						Required:            true,
 					},
 					"to_node": schema.StringAttribute{
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeRepeatV2ResponseBody", "to_node"),
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeRepeatV2", "to_node"),
 						Required:            true,
 					},
 				},
@@ -206,12 +207,12 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 
 	if depth > 0 {
 		result.Attributes["if_else"] = schema.SingleNestedAttribute{
-			MarkdownDescription: apischema.Docstring("EscalationPathNodeV2ResponseBody", "if_else"),
+			MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "if_else"),
 			Optional:            true,
 			Attributes: map[string]schema.Attribute{
 				"conditions": conditionsAttribute,
 				"else_path": schema.ListNestedAttribute{
-					MarkdownDescription: apischema.Docstring("EscalationPathNodeIfElseV2ResponseBody", "else_path"),
+					MarkdownDescription: apischema.Docstring("EscalationPathNodeIfElseV2", "else_path"),
 					Optional:            true,
 					NestedObject:        r.getPathSchema(depth - 1),
 				},

@@ -6,9 +6,10 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/samber/lo"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/samber/lo"
 )
 
 var (
@@ -29,19 +30,19 @@ func (i *IncidentCustomFieldOptionDataSource) Schema(ctx context.Context, req da
 		MarkdownDescription: "This data source provides information about a custom field option.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1", "id"),
 				Computed:            true,
 			},
 			"custom_field_id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1ResponseBody", "custom_field_id"),
+				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1", "custom_field_id"),
 				Required:            true,
 			},
 			"value": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1ResponseBody", "value"),
+				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1", "value"),
 				Required:            true,
 			},
 			"sort_key": schema.Int64Attribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1ResponseBody", "sort_key"),
+				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1", "sort_key"),
 				Optional:            true,
 			},
 		},

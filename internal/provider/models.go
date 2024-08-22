@@ -3,6 +3,7 @@ package provider
 import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -17,19 +18,19 @@ type IncidentWeekdayIntervalConfig struct {
 func (IncidentWeekdayIntervalConfig) Attributes() map[string]schema.Attribute {
 	return map[string]schema.Attribute{
 		"id": schema.StringAttribute{
-			MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2ResponseBody", "id"),
+			MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2", "id"),
 			Required:            true,
 		},
 		"name": schema.StringAttribute{
-			MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2ResponseBody", "name"),
+			MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2", "name"),
 			Required:            true,
 		},
 		"timezone": schema.StringAttribute{
-			MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2ResponseBody", "timezone"),
+			MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2", "timezone"),
 			Required:            true,
 		},
 		"weekday_intervals": schema.ListNestedAttribute{
-			MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2ResponseBody", "weekday_intervals"),
+			MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2", "weekday_intervals"),
 			Required:            true,
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: IncidentWeekdayInterval{}.Attributes(),
@@ -79,15 +80,15 @@ type IncidentWeekdayInterval struct {
 func (IncidentWeekdayInterval) Attributes() map[string]schema.Attribute {
 	return map[string]schema.Attribute{
 		"start_time": schema.StringAttribute{
-			MarkdownDescription: apischema.Docstring("WeekdayIntervalV2ResponseBody", "start_time"),
+			MarkdownDescription: apischema.Docstring("WeekdayIntervalV2", "start_time"),
 			Required:            true,
 		},
 		"end_time": schema.StringAttribute{
-			MarkdownDescription: apischema.Docstring("WeekdayIntervalV2ResponseBody", "end_time"),
+			MarkdownDescription: apischema.Docstring("WeekdayIntervalV2", "end_time"),
 			Required:            true,
 		},
 		"weekday": schema.StringAttribute{
-			MarkdownDescription: apischema.Docstring("WeekdayIntervalV2ResponseBody", "weekday"),
+			MarkdownDescription: apischema.Docstring("WeekdayIntervalV2", "weekday"),
 			Required:            true,
 		},
 	}

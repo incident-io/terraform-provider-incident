@@ -46,7 +46,7 @@ func (r *IncidentStatusResource) Schema(ctx context.Context, req resource.Schema
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("IncidentStatusV1ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("IncidentStatusV1", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -98,7 +98,7 @@ func (r *IncidentStatusResource) Create(ctx context.Context, req resource.Create
 	result, err := r.client.IncidentStatusesV1CreateWithResponse(ctx, client.IncidentStatusesV1CreateJSONRequestBody{
 		Name:        data.Name.ValueString(),
 		Description: data.Description.ValueString(),
-		Category:    client.CreateRequestBody9Category(data.Category.ValueString()),
+		Category:    client.CreateRequestBody8Category(data.Category.ValueString()),
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))

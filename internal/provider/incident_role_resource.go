@@ -47,25 +47,25 @@ func (r *IncidentRoleResource) Schema(ctx context.Context, req resource.SchemaRe
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("IncidentRoleV2ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("IncidentRoleV2", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV2CreateRequestBody", "name"),
+				MarkdownDescription: apischema.Docstring("IncidentRoleV2", "name"),
 				Required:            true,
 			},
 			"description": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV2CreateRequestBody", "description"),
+				MarkdownDescription: apischema.Docstring("IncidentRoleV2", "description"),
 				Required:            true,
 			},
 			"instructions": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV2CreateRequestBody", "instructions"),
+				MarkdownDescription: apischema.Docstring("IncidentRoleV2", "instructions"),
 				Required:            true,
 			},
 			"shortform": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentRolesV2CreateRequestBody", "shortform"),
+				MarkdownDescription: apischema.Docstring("IncidentRoleV2", "shortform"),
 				Required:            true,
 			},
 		},

@@ -47,25 +47,25 @@ func (r *IncidentCustomFieldOptionResource) Schema(ctx context.Context, req reso
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"custom_field_id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldOptionsV1CreateRequestBody", "custom_field_id"),
+				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1", "custom_field_id"),
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"sort_key": schema.Int64Attribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldOptionsV1CreateRequestBody", "sort_key"),
+				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1", "sort_key"),
 				Optional:            true,
 				Computed:            true,
 			},
 			"value": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldOptionsV1CreateRequestBody", "value"),
+				MarkdownDescription: apischema.Docstring("CustomFieldOptionV1", "value"),
 				Required:            true,
 			},
 		},
