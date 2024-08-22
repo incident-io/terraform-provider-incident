@@ -15002,7 +15002,7 @@ definitions:
             - custom_field_id
             - value
             - sort_key
-    CustomFieldOptionsV1CreateRequestBody:
+    []CustomFieldOptionsV1CreateRequestBody:
         title: CustomFieldOptionsV1CreateRequestBody
         type: object
         properties:

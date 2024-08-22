@@ -95,20 +95,20 @@ If you're working with a large number of entries (>100) or want to be authoritat
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("CatalogEntryV2", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"catalog_type_id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "catalog_type_id"),
+				MarkdownDescription: apischema.Docstring("CatalogEntryV2", "catalog_type_id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 				Required: true,
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "name"),
+				MarkdownDescription: apischema.Docstring("CatalogEntryV2", "name"),
 				Required:            true,
 			},
 			"aliases": schema.ListAttribute{
@@ -116,12 +116,12 @@ If you're working with a large number of entries (>100) or want to be authoritat
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "aliases"),
+				MarkdownDescription: apischema.Docstring("CatalogEntryV2", "aliases"),
 				Optional:            true,
 				Computed:            true,
 			},
 			"rank": schema.Int64Attribute{
-				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "rank"),
+				MarkdownDescription: apischema.Docstring("CatalogEntryV2", "rank"),
 				Optional:            true,
 				Computed:            true,
 			},

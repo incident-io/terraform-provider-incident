@@ -14,10 +14,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/incident-io/terraform-provider-incident/internal/apischema"
-	"github.com/incident-io/terraform-provider-incident/internal/client"
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
+
+	"github.com/incident-io/terraform-provider-incident/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
 var (
@@ -110,7 +111,7 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 			},
 			"catalog_type_id": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},

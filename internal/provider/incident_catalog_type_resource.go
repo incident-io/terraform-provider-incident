@@ -12,9 +12,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/samber/lo"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/samber/lo"
 )
 
 var (
@@ -47,7 +48,7 @@ func (r *IncidentCatalogTypeResource) Metadata(ctx context.Context, req resource
 func (r IncidentCatalogTypeResource) CategoryDescription() string {
 	// Make a category description where we list all the possible values of categories
 	categories := []string{}
-	for _, category := range apischema.Property("CatalogTypeV2ResponseBody", "categories").Value.Items.Value.Enum {
+	for _, category := range apischema.Property("CatalogTypeV2", "categories").Value.Items.Value.Enum {
 		categoryAsString, _ := category.(string)
 		categories = append(categories, "`"+categoryAsString+"`")
 	}
@@ -61,25 +62,25 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "name"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "name"),
 				Required:            true,
 			},
 			"type_name": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true, // If not provided, we'll use the generated ID
-				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "type_name"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "type_name"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"description": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "description"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "description"),
 				Required:            true,
 			},
 			"categories": schema.ListAttribute{

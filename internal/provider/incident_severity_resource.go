@@ -47,21 +47,21 @@ func (r *IncidentSeverityResource) Schema(ctx context.Context, req resource.Sche
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("SeverityV1ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("SeverityV1", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("SeveritiesV1CreateRequestBody", "name"),
+				MarkdownDescription: apischema.Docstring("SeverityV1", "name"),
 				Required:            true,
 			},
 			"description": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("SeveritiesV1CreateRequestBody", "description"),
+				MarkdownDescription: apischema.Docstring("SeverityV1", "description"),
 				Required:            true,
 			},
 			"rank": schema.Int64Attribute{
-				MarkdownDescription: apischema.Docstring("SeveritiesV1CreateRequestBody", "rank"),
+				MarkdownDescription: apischema.Docstring("SeverityV1", "rank"),
 				Optional:            true,
 				Computed:            true,
 			},

@@ -16,11 +16,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/incident-io/terraform-provider-incident/internal/apischema"
-	"github.com/incident-io/terraform-provider-incident/internal/client"
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
 	"golang.org/x/sync/errgroup"
+
+	"github.com/incident-io/terraform-provider-incident/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
 var (
@@ -88,7 +89,7 @@ changes to one entry to an update to that same entry when the upstream changes.
 		`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "catalog_type_id"),
+				MarkdownDescription: apischema.Docstring("CatalogEntryV2", "catalog_type_id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -100,14 +101,14 @@ changes to one entry to an update to that same entry when the upstream changes.
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"id": schema.StringAttribute{
-							MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "id"),
+							MarkdownDescription: apischema.Docstring("CatalogEntryV2", "id"),
 							Computed:            true,
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
 							},
 						},
 						"name": schema.StringAttribute{
-							MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "name"),
+							MarkdownDescription: apischema.Docstring("CatalogEntryV2", "name"),
 							Required:            true,
 						},
 						"aliases": schema.ListAttribute{
@@ -115,12 +116,12 @@ changes to one entry to an update to that same entry when the upstream changes.
 							PlanModifiers: []planmodifier.List{
 								listplanmodifier.UseStateForUnknown(),
 							},
-							MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "aliases"),
+							MarkdownDescription: apischema.Docstring("CatalogEntryV2", "aliases"),
 							Optional:            true,
 							Computed:            true,
 						},
 						"rank": schema.Int64Attribute{
-							MarkdownDescription: apischema.Docstring("CatalogEntryV2ResponseBody", "rank"),
+							MarkdownDescription: apischema.Docstring("CatalogEntryV2", "rank"),
 							Optional:            true,
 							Computed:            true,
 							Default:             int64default.StaticInt64(0),

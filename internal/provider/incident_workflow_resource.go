@@ -71,22 +71,22 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 We'd generally recommend building workflows in our [web dashboard](https://app.incident.io/workflows), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing workflow and copy the resulting Terraform without persisting it. You can learn more in this [Loom](https://www.loom.com/share/b833d7d0fd114d6ba3f24d8c72e5208f?sid=c6d3cc3f-aa93-44ba-b12d-a0a4cbe09448).`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("Workflow", "id"),
 				Computed:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "name"),
+				MarkdownDescription: apischema.Docstring("Workflow", "name"),
 				Required:            true,
 			},
 			"folder": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "folder"),
+				MarkdownDescription: apischema.Docstring("Workflow", "folder"),
 				Optional:            true,
 			},
 			"trigger": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("TriggerSlimResponseBody", "name"),
+				MarkdownDescription: apischema.Docstring("TriggerSlim", "name"),
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
@@ -94,7 +94,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 			},
 			"condition_groups": conditionGroupsAttribute,
 			"steps": schema.ListNestedAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "steps"),
+				MarkdownDescription: apischema.Docstring("Workflow", "steps"),
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -113,16 +113,16 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 			},
 			"expressions": expressionsAttribute,
 			"once_for": schema.ListAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "once_for"),
+				MarkdownDescription: apischema.Docstring("Workflow", "once_for"),
 				Required:            true,
 				ElementType:         types.StringType,
 			},
 			"include_private_incidents": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "include_private_incidents"),
+				MarkdownDescription: apischema.Docstring("Workflow", "include_private_incidents"),
 				Required:            true,
 			},
 			"continue_on_step_error": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "continue_on_step_error"),
+				MarkdownDescription: apischema.Docstring("Workflow", "continue_on_step_error"),
 				Required:            true,
 			},
 			"delay": schema.SingleNestedAttribute{
@@ -130,17 +130,17 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				Optional:            true,
 				Attributes: map[string]schema.Attribute{
 					"conditions_apply_over_delay": schema.BoolAttribute{
-						MarkdownDescription: apischema.Docstring("WorkflowDelayRequestBody", "conditions_apply_over_delay"),
+						MarkdownDescription: apischema.Docstring("WorkflowDelay", "conditions_apply_over_delay"),
 						Required:            true,
 					},
 					"for_seconds": schema.Int64Attribute{
-						MarkdownDescription: apischema.Docstring("WorkflowDelayRequestBody", "for_seconds"),
+						MarkdownDescription: apischema.Docstring("WorkflowDelay", "for_seconds"),
 						Required:            true,
 					},
 				},
 			},
 			"runs_on_incidents": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "runs_on_incidents"),
+				MarkdownDescription: apischema.Docstring("Workflow", "runs_on_incidents"),
 				Required:            true,
 			},
 			"runs_on_incident_modes": schema.ListAttribute{
@@ -149,7 +149,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				ElementType:         types.StringType,
 			},
 			"state": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowResponseBody", "state"),
+				MarkdownDescription: apischema.Docstring("Workflow", "state"),
 				Required:            true,
 			},
 		},

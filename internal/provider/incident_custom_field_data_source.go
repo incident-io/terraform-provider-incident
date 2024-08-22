@@ -6,9 +6,10 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/samber/lo"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/samber/lo"
 )
 
 var (
@@ -33,15 +34,15 @@ func (i *IncidentCustomFieldDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 			},
 			"field_type": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV2CreateRequestBody", "field_type"),
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "field_type"),
 				Computed:            true,
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV2CreateRequestBody", "name"),
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "name"),
 				Required:            true,
 			},
 			"description": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV2CreateRequestBody", "name"),
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "description"),
 				Computed:            true,
 			},
 		},

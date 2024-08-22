@@ -7,9 +7,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/samber/lo"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/samber/lo"
 )
 
 var (
@@ -30,21 +31,21 @@ func (i *IncidentCatalogTypeDataSource) Schema(ctx context.Context, req datasour
 		MarkdownDescription: "This data source provides information about a catalog type.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "id"),
 				Computed:            true,
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "name"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "name"),
 				Optional:            true,
 				Computed:            true,
 			},
 			"type_name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogV2CreateTypeRequestBody", "type_name"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "type_name"),
 				Optional:            true,
 				Computed:            true,
 			},
 			"description": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2ResponseBody", "description"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "description"),
 				Computed:            true,
 			},
 			"categories": schema.ListAttribute{

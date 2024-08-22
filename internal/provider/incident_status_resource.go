@@ -46,7 +46,7 @@ func (r *IncidentStatusResource) Schema(ctx context.Context, req resource.Schema
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("IncidentStatusV1ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("IncidentStatusV1", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},

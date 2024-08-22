@@ -46,7 +46,7 @@ func (r *IncidentCustomFieldResource) Schema(ctx context.Context, req resource.S
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("CustomFieldV2ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},

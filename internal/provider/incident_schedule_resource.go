@@ -90,11 +90,11 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: apischema.Docstring("ScheduleV2ResponseBody", "id"),
+				MarkdownDescription: apischema.Docstring("ScheduleV2", "id"),
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleV2ResponseBody", "name"),
+				MarkdownDescription: apischema.Docstring("ScheduleV2", "name"),
 			},
 			"timezone": schema.StringAttribute{
 				Required: true,
@@ -104,7 +104,7 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 					"country_codes": schema.ListAttribute{
 						Required:            true,
 						ElementType:         types.StringType,
-						MarkdownDescription: apischema.Docstring("ScheduleHolidaysPublicConfigV2ResponseBody", "country_codes"),
+						MarkdownDescription: apischema.Docstring("ScheduleHolidaysPublicConfigV2", "country_codes"),
 					},
 				},
 				Optional: true,
@@ -114,11 +114,11 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 					Attributes: map[string]schema.Attribute{
 						"id": schema.StringAttribute{
 							Required:            true,
-							MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "id"),
+							MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "id"),
 						},
 						"name": schema.StringAttribute{
 							Required:            true,
-							MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "name"),
+							MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "name"),
 						},
 						"versions": schema.ListNestedAttribute{
 							Required: true,
@@ -127,19 +127,19 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 									"users": schema.ListAttribute{
 										Required:            true,
 										ElementType:         types.StringType,
-										MarkdownDescription: apischema.Docstring("UserReferencePayloadV1RequestBody", "id"),
+										MarkdownDescription: apischema.Docstring("UserReferencePayloadV1", "id"),
 									},
 									"effective_from": schema.StringAttribute{
 										Optional:            true,
-										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "effective_from"),
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "effective_from"),
 									},
 									"handover_start_at": schema.StringAttribute{
 										Required:            true,
-										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "handover_start_at"),
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "handover_start_at"),
 									},
 									"working_intervals": schema.ListNestedAttribute{
 										Optional:            true,
-										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "working_interval"),
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "working_interval"),
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"start": schema.StringAttribute{
@@ -156,7 +156,7 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 									},
 									"layers": schema.ListNestedAttribute{
 										Required:            true,
-										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "layers"),
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "layers"),
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"id": schema.StringAttribute{
@@ -170,7 +170,7 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 									},
 									"handovers": schema.ListNestedAttribute{
 										Optional:            true,
-										MarkdownDescription: apischema.Docstring("ScheduleRotationV2ResponseBody", "handovers"),
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "handovers"),
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"interval": schema.Int64Attribute{
