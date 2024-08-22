@@ -158,16 +158,6 @@ func (r *IncidentWorkflowResource) buildParamBindingsFromV2(pbs []client.EngineP
 	return out
 }
 
-func (r *IncidentWorkflowResource) buildParamBindingsFromV3(pbs []client.EngineParamBindingV3) []IncidentEngineParamBinding {
-	out := []IncidentEngineParamBinding{}
-
-	for _, pb := range pbs {
-		out = append(out, r.buildParamBindingFromV3(pb))
-	}
-
-	return out
-}
-
 func (r *IncidentWorkflowResource) buildParamBindingsFromV4(pbs []client.EngineParamBindingV4) []IncidentEngineParamBinding {
 	out := []IncidentEngineParamBinding{}
 
