@@ -387,7 +387,7 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 						Subject:   types.StringValue(cond.Subject.Reference),
 						Operation: types.StringValue(cond.Operation.Value),
 						ParamBindings: lo.Map(cond.ParamBindings, func(pb client.EngineParamBindingV2, _ int) IncidentEngineParamBinding {
-							return IncidentEngineParamBinding{}.FromClientV2(pb)
+							return IncidentEngineParamBinding{}.FromEngineParamBindingV2(pb)
 						}),
 					}
 				}),
