@@ -1284,7 +1284,6 @@ paths:
                         - incident_enabled
                         - incident_condition_groups
                         - alert_sources
-                        - alert_source_ids
                         - auto_cancel_escalations
             responses:
                 "200":
@@ -5414,6 +5413,184 @@ definitions:
             - status
             - message
             - deduplication_key
+    AlertRouteAlertSource:
+        title: AlertRouteAlertSource
+        type: object
+        properties:
+            alert_source_id:
+                type: string
+                description: The alert source ID that will match for the route
+                example: 01FCNDV6P870EA6S7TK1DSYDG0
+            condition_groups:
+                type: array
+                items:
+                    $ref: '#/definitions/ConditionGroup'
+                description: What conditions should alerts from this source meet to be included in this alert route?
+                example:
+                    - conditions:
+                        - operation:
+                            label: Lawrence Jones
+                            value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                          param_bindings:
+                            - array_value:
+                                - catalog_entry:
+                                    archived_at: "2021-08-17T14:28:57.801578Z"
+                                    catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    catalog_entry_name: Primary escalation
+                                    catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                  helptext: Collection of standalone automations like auto-closing incidents.
+                                  image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                  is_image_slack_icon: false
+                                  label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                                  sort_key: "000020"
+                                  unavailable: false
+                                  value: abc123
+                              value:
+                                catalog_entry:
+                                    archived_at: "2021-08-17T14:28:57.801578Z"
+                                    catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    catalog_entry_name: Primary escalation
+                                    catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                helptext: Collection of standalone automations like auto-closing incidents.
+                                image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                is_image_slack_icon: false
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                                sort_key: "000020"
+                                unavailable: false
+                                value: abc123
+                          params:
+                            - array: true
+                              default_value:
+                                array_value:
+                                    - catalog_entry:
+                                        archived_at: "2021-08-17T14:28:57.801578Z"
+                                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                        catalog_entry_name: Primary escalation
+                                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                      helptext: Collection of standalone automations like auto-closing incidents.
+                                      image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                      is_image_slack_icon: false
+                                      label: Lawrence Jones
+                                      literal: SEV123
+                                      reference: incident.severity
+                                      sort_key: "000020"
+                                      unavailable: false
+                                      value: abc123
+                                value:
+                                    catalog_entry:
+                                        archived_at: "2021-08-17T14:28:57.801578Z"
+                                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                        catalog_entry_name: Primary escalation
+                                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    helptext: Collection of standalone automations like auto-closing incidents.
+                                    image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                    is_image_slack_icon: false
+                                    label: Lawrence Jones
+                                    literal: SEV123
+                                    reference: incident.severity
+                                    sort_key: "000020"
+                                    unavailable: false
+                                    value: abc123
+                              description: What slack channel should we send the message to?
+                              infer_reference: true
+                              label: To date
+                              name: severity
+                              optional: true
+                              type: IncidentSeverity
+                          subject:
+                            color: yellow
+                            icon: action
+                            label: Incident Severity
+                            reference: incident.severity
+        example:
+            alert_source_id: 01FCNDV6P870EA6S7TK1DSYDG0
+            condition_groups:
+                - conditions:
+                    - operation:
+                        label: Lawrence Jones
+                        value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                      param_bindings:
+                        - array_value:
+                            - catalog_entry:
+                                archived_at: "2021-08-17T14:28:57.801578Z"
+                                catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                catalog_entry_name: Primary escalation
+                                catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                              helptext: Collection of standalone automations like auto-closing incidents.
+                              image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                              is_image_slack_icon: false
+                              label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                              sort_key: "000020"
+                              unavailable: false
+                              value: abc123
+                          value:
+                            catalog_entry:
+                                archived_at: "2021-08-17T14:28:57.801578Z"
+                                catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                catalog_entry_name: Primary escalation
+                                catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                            helptext: Collection of standalone automations like auto-closing incidents.
+                            image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                            is_image_slack_icon: false
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                            sort_key: "000020"
+                            unavailable: false
+                            value: abc123
+                      params:
+                        - array: true
+                          default_value:
+                            array_value:
+                                - catalog_entry:
+                                    archived_at: "2021-08-17T14:28:57.801578Z"
+                                    catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    catalog_entry_name: Primary escalation
+                                    catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                  helptext: Collection of standalone automations like auto-closing incidents.
+                                  image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                  is_image_slack_icon: false
+                                  label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                                  sort_key: "000020"
+                                  unavailable: false
+                                  value: abc123
+                            value:
+                                catalog_entry:
+                                    archived_at: "2021-08-17T14:28:57.801578Z"
+                                    catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    catalog_entry_name: Primary escalation
+                                    catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                helptext: Collection of standalone automations like auto-closing incidents.
+                                image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                is_image_slack_icon: false
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                                sort_key: "000020"
+                                unavailable: false
+                                value: abc123
+                          description: What slack channel should we send the message to?
+                          infer_reference: true
+                          label: To date
+                          name: severity
+                          optional: true
+                          type: IncidentSeverity
+                      subject:
+                        color: yellow
+                        icon: action
+                        label: Incident Severity
+                        reference: incident.severity
+        required:
+            - alert_source_id
+            - condition_groups
     AlertRouteEscalationBindingPayloadV2:
         title: AlertRouteEscalationBindingPayloadV2
         type: object
@@ -6016,20 +6193,98 @@ definitions:
             - incident_enabled
             - incident_condition_groups
             - alert_sources
-            - alert_source_ids
             - auto_cancel_escalations
     AlertRoutesV2CreateRequestBody:
         title: AlertRoutesV2CreateRequestBody
         type: object
         properties:
-            alert_source_ids:
+            alert_sources:
                 type: array
                 items:
-                    type: string
-                    example: abc123
-                description: Legacy field - the alert sources that will match this alert route
+                    $ref: '#/definitions/AlertRouteAlertSource'
+                description: Which alert sources should this alert route match?
                 example:
-                    - 02FCNDV6P870EA6S7TK1DSYDG2
+                    - alert_source_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      condition_groups:
+                        - conditions:
+                            - operation:
+                                label: Lawrence Jones
+                                value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                              param_bindings:
+                                - array_value:
+                                    - catalog_entry:
+                                        archived_at: "2021-08-17T14:28:57.801578Z"
+                                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                        catalog_entry_name: Primary escalation
+                                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                      helptext: Collection of standalone automations like auto-closing incidents.
+                                      image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                      is_image_slack_icon: false
+                                      label: Lawrence Jones
+                                      literal: SEV123
+                                      reference: incident.severity
+                                      sort_key: "000020"
+                                      unavailable: false
+                                      value: abc123
+                                  value:
+                                    catalog_entry:
+                                        archived_at: "2021-08-17T14:28:57.801578Z"
+                                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                        catalog_entry_name: Primary escalation
+                                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    helptext: Collection of standalone automations like auto-closing incidents.
+                                    image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                    is_image_slack_icon: false
+                                    label: Lawrence Jones
+                                    literal: SEV123
+                                    reference: incident.severity
+                                    sort_key: "000020"
+                                    unavailable: false
+                                    value: abc123
+                              params:
+                                - array: true
+                                  default_value:
+                                    array_value:
+                                        - catalog_entry:
+                                            archived_at: "2021-08-17T14:28:57.801578Z"
+                                            catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                            catalog_entry_name: Primary escalation
+                                            catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                          helptext: Collection of standalone automations like auto-closing incidents.
+                                          image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                          is_image_slack_icon: false
+                                          label: Lawrence Jones
+                                          literal: SEV123
+                                          reference: incident.severity
+                                          sort_key: "000020"
+                                          unavailable: false
+                                          value: abc123
+                                    value:
+                                        catalog_entry:
+                                            archived_at: "2021-08-17T14:28:57.801578Z"
+                                            catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                            catalog_entry_name: Primary escalation
+                                            catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                        helptext: Collection of standalone automations like auto-closing incidents.
+                                        image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                        is_image_slack_icon: false
+                                        label: Lawrence Jones
+                                        literal: SEV123
+                                        reference: incident.severity
+                                        sort_key: "000020"
+                                        unavailable: false
+                                        value: abc123
+                                  description: What slack channel should we send the message to?
+                                  infer_reference: true
+                                  label: To date
+                                  name: severity
+                                  optional: true
+                                  type: IncidentSeverity
+                              subject:
+                                color: yellow
+                                icon: action
+                                label: Incident Severity
+                                reference: incident.severity
             auto_decline_enabled:
                 type: boolean
                 description: Should triage incidents be declined when alerts are resolved?
@@ -6172,8 +6427,88 @@ definitions:
             template:
                 $ref: '#/definitions/AlertRouteIncidentTemplatePayloadV2'
         example:
-            alert_source_ids:
-                - 02FCNDV6P870EA6S7TK1DSYDG2
+            alert_sources:
+                - alert_source_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  condition_groups:
+                    - conditions:
+                        - operation:
+                            label: Lawrence Jones
+                            value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                          param_bindings:
+                            - array_value:
+                                - catalog_entry:
+                                    archived_at: "2021-08-17T14:28:57.801578Z"
+                                    catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    catalog_entry_name: Primary escalation
+                                    catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                  helptext: Collection of standalone automations like auto-closing incidents.
+                                  image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                  is_image_slack_icon: false
+                                  label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                                  sort_key: "000020"
+                                  unavailable: false
+                                  value: abc123
+                              value:
+                                catalog_entry:
+                                    archived_at: "2021-08-17T14:28:57.801578Z"
+                                    catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    catalog_entry_name: Primary escalation
+                                    catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                helptext: Collection of standalone automations like auto-closing incidents.
+                                image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                is_image_slack_icon: false
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                                sort_key: "000020"
+                                unavailable: false
+                                value: abc123
+                          params:
+                            - array: true
+                              default_value:
+                                array_value:
+                                    - catalog_entry:
+                                        archived_at: "2021-08-17T14:28:57.801578Z"
+                                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                        catalog_entry_name: Primary escalation
+                                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                      helptext: Collection of standalone automations like auto-closing incidents.
+                                      image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                      is_image_slack_icon: false
+                                      label: Lawrence Jones
+                                      literal: SEV123
+                                      reference: incident.severity
+                                      sort_key: "000020"
+                                      unavailable: false
+                                      value: abc123
+                                value:
+                                    catalog_entry:
+                                        archived_at: "2021-08-17T14:28:57.801578Z"
+                                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                        catalog_entry_name: Primary escalation
+                                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    helptext: Collection of standalone automations like auto-closing incidents.
+                                    image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                    is_image_slack_icon: false
+                                    label: Lawrence Jones
+                                    literal: SEV123
+                                    reference: incident.severity
+                                    sort_key: "000020"
+                                    unavailable: false
+                                    value: abc123
+                              description: What slack channel should we send the message to?
+                              infer_reference: true
+                              label: To date
+                              name: severity
+                              optional: true
+                              type: IncidentSeverity
+                          subject:
+                            color: yellow
+                            icon: action
+                            label: Incident Severity
+                            reference: incident.severity
             auto_decline_enabled: false
             condition_groups:
                 - conditions:
@@ -6706,14 +7041,93 @@ definitions:
         title: AlertRoutesV2UpdateRequestBody
         type: object
         properties:
-            alert_source_ids:
+            alert_sources:
                 type: array
                 items:
-                    type: string
-                    example: abc123
-                description: Legacy field - the alert sources that will match this alert route
+                    $ref: '#/definitions/AlertRouteAlertSource'
+                description: Which alert sources should this alert route match?
                 example:
-                    - 02FCNDV6P870EA6S7TK1DSYDG2
+                    - alert_source_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      condition_groups:
+                        - conditions:
+                            - operation:
+                                label: Lawrence Jones
+                                value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                              param_bindings:
+                                - array_value:
+                                    - catalog_entry:
+                                        archived_at: "2021-08-17T14:28:57.801578Z"
+                                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                        catalog_entry_name: Primary escalation
+                                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                      helptext: Collection of standalone automations like auto-closing incidents.
+                                      image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                      is_image_slack_icon: false
+                                      label: Lawrence Jones
+                                      literal: SEV123
+                                      reference: incident.severity
+                                      sort_key: "000020"
+                                      unavailable: false
+                                      value: abc123
+                                  value:
+                                    catalog_entry:
+                                        archived_at: "2021-08-17T14:28:57.801578Z"
+                                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                        catalog_entry_name: Primary escalation
+                                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    helptext: Collection of standalone automations like auto-closing incidents.
+                                    image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                    is_image_slack_icon: false
+                                    label: Lawrence Jones
+                                    literal: SEV123
+                                    reference: incident.severity
+                                    sort_key: "000020"
+                                    unavailable: false
+                                    value: abc123
+                              params:
+                                - array: true
+                                  default_value:
+                                    array_value:
+                                        - catalog_entry:
+                                            archived_at: "2021-08-17T14:28:57.801578Z"
+                                            catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                            catalog_entry_name: Primary escalation
+                                            catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                          helptext: Collection of standalone automations like auto-closing incidents.
+                                          image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                          is_image_slack_icon: false
+                                          label: Lawrence Jones
+                                          literal: SEV123
+                                          reference: incident.severity
+                                          sort_key: "000020"
+                                          unavailable: false
+                                          value: abc123
+                                    value:
+                                        catalog_entry:
+                                            archived_at: "2021-08-17T14:28:57.801578Z"
+                                            catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                            catalog_entry_name: Primary escalation
+                                            catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                        helptext: Collection of standalone automations like auto-closing incidents.
+                                        image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                        is_image_slack_icon: false
+                                        label: Lawrence Jones
+                                        literal: SEV123
+                                        reference: incident.severity
+                                        sort_key: "000020"
+                                        unavailable: false
+                                        value: abc123
+                                  description: What slack channel should we send the message to?
+                                  infer_reference: true
+                                  label: To date
+                                  name: severity
+                                  optional: true
+                                  type: IncidentSeverity
+                              subject:
+                                color: yellow
+                                icon: action
+                                label: Incident Severity
+                                reference: incident.severity
             auto_decline_enabled:
                 type: boolean
                 description: Should triage incidents be declined when alerts are resolved?
@@ -6856,8 +7270,88 @@ definitions:
             template:
                 $ref: '#/definitions/AlertRouteIncidentTemplatePayloadV2'
         example:
-            alert_source_ids:
-                - 02FCNDV6P870EA6S7TK1DSYDG2
+            alert_sources:
+                - alert_source_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  condition_groups:
+                    - conditions:
+                        - operation:
+                            label: Lawrence Jones
+                            value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                          param_bindings:
+                            - array_value:
+                                - catalog_entry:
+                                    archived_at: "2021-08-17T14:28:57.801578Z"
+                                    catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    catalog_entry_name: Primary escalation
+                                    catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                  helptext: Collection of standalone automations like auto-closing incidents.
+                                  image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                  is_image_slack_icon: false
+                                  label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                                  sort_key: "000020"
+                                  unavailable: false
+                                  value: abc123
+                              value:
+                                catalog_entry:
+                                    archived_at: "2021-08-17T14:28:57.801578Z"
+                                    catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    catalog_entry_name: Primary escalation
+                                    catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                helptext: Collection of standalone automations like auto-closing incidents.
+                                image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                is_image_slack_icon: false
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                                sort_key: "000020"
+                                unavailable: false
+                                value: abc123
+                          params:
+                            - array: true
+                              default_value:
+                                array_value:
+                                    - catalog_entry:
+                                        archived_at: "2021-08-17T14:28:57.801578Z"
+                                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                        catalog_entry_name: Primary escalation
+                                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                      helptext: Collection of standalone automations like auto-closing incidents.
+                                      image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                      is_image_slack_icon: false
+                                      label: Lawrence Jones
+                                      literal: SEV123
+                                      reference: incident.severity
+                                      sort_key: "000020"
+                                      unavailable: false
+                                      value: abc123
+                                value:
+                                    catalog_entry:
+                                        archived_at: "2021-08-17T14:28:57.801578Z"
+                                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                        catalog_entry_name: Primary escalation
+                                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    helptext: Collection of standalone automations like auto-closing incidents.
+                                    image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                    is_image_slack_icon: false
+                                    label: Lawrence Jones
+                                    literal: SEV123
+                                    reference: incident.severity
+                                    sort_key: "000020"
+                                    unavailable: false
+                                    value: abc123
+                              description: What slack channel should we send the message to?
+                              infer_reference: true
+                              label: To date
+                              name: severity
+                              optional: true
+                              type: IncidentSeverity
+                          subject:
+                            color: yellow
+                            icon: action
+                            label: Incident Severity
+                            reference: incident.severity
             auto_decline_enabled: false
             condition_groups:
                 - conditions:
@@ -7018,7 +7512,6 @@ definitions:
             - incident_enabled
             - incident_condition_groups
             - alert_sources
-            - alert_source_ids
             - auto_cancel_escalations
     AlertRoutesV2UpdateResponseBody:
         title: AlertRoutesV2UpdateResponseBody
@@ -12661,6 +13154,36 @@ definitions:
         required:
             - label
             - sort_key
+    CatalogEntryReference:
+        title: CatalogEntryReference
+        type: object
+        properties:
+            archived_at:
+                type: string
+                description: When this entry was archived
+                example: "2021-08-17T14:28:57.801578Z"
+                format: date-time
+            catalog_entry_id:
+                type: string
+                description: ID of this catalog entry
+                example: 01FCNDV6P870EA6S7TK1DSYDG0
+            catalog_entry_name:
+                type: string
+                description: The name of this entry
+                example: Primary escalation
+            catalog_type_id:
+                type: string
+                description: ID of this catalog type
+                example: 01FCNDV6P870EA6S7TK1DSYDG0
+        example:
+            archived_at: "2021-08-17T14:28:57.801578Z"
+            catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+            catalog_entry_name: Primary escalation
+            catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+        required:
+            - catalog_type_id
+            - catalog_entry_id
+            - catalog_entry_name
     CatalogEntryReferenceV2:
         title: CatalogEntryReferenceV2
         type: object
@@ -14290,6 +14813,348 @@ definitions:
                 updated_at: "2021-08-17T13:28:57.801578Z"
         required:
             - catalog_type
+    Condition:
+        title: Condition
+        type: object
+        properties:
+            operation:
+                $ref: '#/definitions/ConditionOperation'
+            param_bindings:
+                type: array
+                items:
+                    $ref: '#/definitions/EngineParamBinding'
+                description: Bindings for the operation parameters
+                example:
+                    - array_value:
+                        - catalog_entry:
+                            archived_at: "2021-08-17T14:28:57.801578Z"
+                            catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                            catalog_entry_name: Primary escalation
+                            catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                          helptext: Collection of standalone automations like auto-closing incidents.
+                          image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                          is_image_slack_icon: false
+                          label: Lawrence Jones
+                          literal: SEV123
+                          reference: incident.severity
+                          sort_key: "000020"
+                          unavailable: false
+                          value: abc123
+                      value:
+                        catalog_entry:
+                            archived_at: "2021-08-17T14:28:57.801578Z"
+                            catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                            catalog_entry_name: Primary escalation
+                            catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                        helptext: Collection of standalone automations like auto-closing incidents.
+                        image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                        is_image_slack_icon: false
+                        label: Lawrence Jones
+                        literal: SEV123
+                        reference: incident.severity
+                        sort_key: "000020"
+                        unavailable: false
+                        value: abc123
+            params:
+                type: array
+                items:
+                    $ref: '#/definitions/EngineParam'
+                description: Type information for the operation parameters
+                example:
+                    - array: true
+                      default_value:
+                        array_value:
+                            - catalog_entry:
+                                archived_at: "2021-08-17T14:28:57.801578Z"
+                                catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                catalog_entry_name: Primary escalation
+                                catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                              helptext: Collection of standalone automations like auto-closing incidents.
+                              image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                              is_image_slack_icon: false
+                              label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                              sort_key: "000020"
+                              unavailable: false
+                              value: abc123
+                        value:
+                            catalog_entry:
+                                archived_at: "2021-08-17T14:28:57.801578Z"
+                                catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                catalog_entry_name: Primary escalation
+                                catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                            helptext: Collection of standalone automations like auto-closing incidents.
+                            image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                            is_image_slack_icon: false
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                            sort_key: "000020"
+                            unavailable: false
+                            value: abc123
+                      description: What slack channel should we send the message to?
+                      infer_reference: true
+                      label: To date
+                      name: severity
+                      optional: true
+                      type: IncidentSeverity
+            subject:
+                $ref: '#/definitions/ConditionSubject'
+        example:
+            operation:
+                label: Lawrence Jones
+                value: 01FCQSP07Z74QMMYPDDGQB9FTG
+            param_bindings:
+                - array_value:
+                    - catalog_entry:
+                        archived_at: "2021-08-17T14:28:57.801578Z"
+                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                        catalog_entry_name: Primary escalation
+                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      helptext: Collection of standalone automations like auto-closing incidents.
+                      image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                      is_image_slack_icon: false
+                      label: Lawrence Jones
+                      literal: SEV123
+                      reference: incident.severity
+                      sort_key: "000020"
+                      unavailable: false
+                      value: abc123
+                  value:
+                    catalog_entry:
+                        archived_at: "2021-08-17T14:28:57.801578Z"
+                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                        catalog_entry_name: Primary escalation
+                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                    helptext: Collection of standalone automations like auto-closing incidents.
+                    image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                    is_image_slack_icon: false
+                    label: Lawrence Jones
+                    literal: SEV123
+                    reference: incident.severity
+                    sort_key: "000020"
+                    unavailable: false
+                    value: abc123
+            params:
+                - array: true
+                  default_value:
+                    array_value:
+                        - catalog_entry:
+                            archived_at: "2021-08-17T14:28:57.801578Z"
+                            catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                            catalog_entry_name: Primary escalation
+                            catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                          helptext: Collection of standalone automations like auto-closing incidents.
+                          image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                          is_image_slack_icon: false
+                          label: Lawrence Jones
+                          literal: SEV123
+                          reference: incident.severity
+                          sort_key: "000020"
+                          unavailable: false
+                          value: abc123
+                    value:
+                        catalog_entry:
+                            archived_at: "2021-08-17T14:28:57.801578Z"
+                            catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                            catalog_entry_name: Primary escalation
+                            catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                        helptext: Collection of standalone automations like auto-closing incidents.
+                        image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                        is_image_slack_icon: false
+                        label: Lawrence Jones
+                        literal: SEV123
+                        reference: incident.severity
+                        sort_key: "000020"
+                        unavailable: false
+                        value: abc123
+                  description: What slack channel should we send the message to?
+                  infer_reference: true
+                  label: To date
+                  name: severity
+                  optional: true
+                  type: IncidentSeverity
+            subject:
+                color: yellow
+                icon: action
+                label: Incident Severity
+                reference: incident.severity
+        required:
+            - subject
+            - operation
+            - params
+            - param_bindings
+    ConditionGroup:
+        title: ConditionGroup
+        type: object
+        properties:
+            conditions:
+                type: array
+                items:
+                    $ref: '#/definitions/Condition'
+                description: All conditions in this list must be satisfied for the group to be satisfied
+                example:
+                    - operation:
+                        label: Lawrence Jones
+                        value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                      param_bindings:
+                        - array_value:
+                            - catalog_entry:
+                                archived_at: "2021-08-17T14:28:57.801578Z"
+                                catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                catalog_entry_name: Primary escalation
+                                catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                              helptext: Collection of standalone automations like auto-closing incidents.
+                              image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                              is_image_slack_icon: false
+                              label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                              sort_key: "000020"
+                              unavailable: false
+                              value: abc123
+                          value:
+                            catalog_entry:
+                                archived_at: "2021-08-17T14:28:57.801578Z"
+                                catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                catalog_entry_name: Primary escalation
+                                catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                            helptext: Collection of standalone automations like auto-closing incidents.
+                            image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                            is_image_slack_icon: false
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                            sort_key: "000020"
+                            unavailable: false
+                            value: abc123
+                      params:
+                        - array: true
+                          default_value:
+                            array_value:
+                                - catalog_entry:
+                                    archived_at: "2021-08-17T14:28:57.801578Z"
+                                    catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    catalog_entry_name: Primary escalation
+                                    catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                  helptext: Collection of standalone automations like auto-closing incidents.
+                                  image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                  is_image_slack_icon: false
+                                  label: Lawrence Jones
+                                  literal: SEV123
+                                  reference: incident.severity
+                                  sort_key: "000020"
+                                  unavailable: false
+                                  value: abc123
+                            value:
+                                catalog_entry:
+                                    archived_at: "2021-08-17T14:28:57.801578Z"
+                                    catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                    catalog_entry_name: Primary escalation
+                                    catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                helptext: Collection of standalone automations like auto-closing incidents.
+                                image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                                is_image_slack_icon: false
+                                label: Lawrence Jones
+                                literal: SEV123
+                                reference: incident.severity
+                                sort_key: "000020"
+                                unavailable: false
+                                value: abc123
+                          description: What slack channel should we send the message to?
+                          infer_reference: true
+                          label: To date
+                          name: severity
+                          optional: true
+                          type: IncidentSeverity
+                      subject:
+                        color: yellow
+                        icon: action
+                        label: Incident Severity
+                        reference: incident.severity
+        example:
+            conditions:
+                - operation:
+                    label: Lawrence Jones
+                    value: 01FCQSP07Z74QMMYPDDGQB9FTG
+                  param_bindings:
+                    - array_value:
+                        - catalog_entry:
+                            archived_at: "2021-08-17T14:28:57.801578Z"
+                            catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                            catalog_entry_name: Primary escalation
+                            catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                          helptext: Collection of standalone automations like auto-closing incidents.
+                          image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                          is_image_slack_icon: false
+                          label: Lawrence Jones
+                          literal: SEV123
+                          reference: incident.severity
+                          sort_key: "000020"
+                          unavailable: false
+                          value: abc123
+                      value:
+                        catalog_entry:
+                            archived_at: "2021-08-17T14:28:57.801578Z"
+                            catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                            catalog_entry_name: Primary escalation
+                            catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                        helptext: Collection of standalone automations like auto-closing incidents.
+                        image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                        is_image_slack_icon: false
+                        label: Lawrence Jones
+                        literal: SEV123
+                        reference: incident.severity
+                        sort_key: "000020"
+                        unavailable: false
+                        value: abc123
+                  params:
+                    - array: true
+                      default_value:
+                        array_value:
+                            - catalog_entry:
+                                archived_at: "2021-08-17T14:28:57.801578Z"
+                                catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                catalog_entry_name: Primary escalation
+                                catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                              helptext: Collection of standalone automations like auto-closing incidents.
+                              image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                              is_image_slack_icon: false
+                              label: Lawrence Jones
+                              literal: SEV123
+                              reference: incident.severity
+                              sort_key: "000020"
+                              unavailable: false
+                              value: abc123
+                        value:
+                            catalog_entry:
+                                archived_at: "2021-08-17T14:28:57.801578Z"
+                                catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                                catalog_entry_name: Primary escalation
+                                catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                            helptext: Collection of standalone automations like auto-closing incidents.
+                            image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                            is_image_slack_icon: false
+                            label: Lawrence Jones
+                            literal: SEV123
+                            reference: incident.severity
+                            sort_key: "000020"
+                            unavailable: false
+                            value: abc123
+                      description: What slack channel should we send the message to?
+                      infer_reference: true
+                      label: To date
+                      name: severity
+                      optional: true
+                      type: IncidentSeverity
+                  subject:
+                    color: yellow
+                    icon: action
+                    label: Incident Severity
+                    reference: incident.severity
+        required:
+            - conditions
     ConditionGroupPayloadV2:
         title: ConditionGroupPayloadV2
         type: object
@@ -14366,6 +15231,25 @@ definitions:
                     reference: incident.severity
         required:
             - conditions
+    ConditionOperation:
+        title: ConditionOperation
+        type: object
+        properties:
+            label:
+                type: string
+                description: Human readable label to be displayed for user to select
+                example: Lawrence Jones
+            value:
+                type: string
+                description: Unique identifier for this option
+                example: 01FCQSP07Z74QMMYPDDGQB9FTG
+        example:
+            label: Lawrence Jones
+            value: 01FCQSP07Z74QMMYPDDGQB9FTG
+        required:
+            - label
+            - value
+            - sort_key
     ConditionOperationV2:
         title: ConditionOperationV2
         type: object
@@ -14423,6 +15307,106 @@ definitions:
             - subject
             - operation
             - param_bindings
+    ConditionSubject:
+        title: ConditionSubject
+        type: object
+        properties:
+            color:
+                type: string
+                description: String telling the UI what color to use for this field, if applicable
+                example: yellow
+                enum:
+                    - yellow
+                    - green
+                    - blue
+                    - violet
+                    - pink
+                    - cyan
+                    - orange
+            icon:
+                type: string
+                description: String telling the UI what icon to use for this field
+                example: action
+                enum:
+                    - action
+                    - alert
+                    - bolt
+                    - toggle-left
+                    - book
+                    - box
+                    - briefcase
+                    - browser
+                    - bulb
+                    - calendar
+                    - checkmark
+                    - clipboard
+                    - clock
+                    - close
+                    - cog
+                    - components
+                    - custom_field
+                    - database
+                    - delete
+                    - doc
+                    - email
+                    - escalate
+                    - escalation-path
+                    - exclamation
+                    - export
+                    - external-link
+                    - files
+                    - flag
+                    - folder
+                    - follow_ups
+                    - git-branch-new
+                    - globe
+                    - incident
+                    - incident_type
+                    - key
+                    - ms-teams
+                    - merge
+                    - message
+                    - money
+                    - mug
+                    - number-input
+                    - priority
+                    - private
+                    - text-align-left
+                    - search
+                    - server
+                    - severity
+                    - slack
+                    - slack_channel
+                    - slack_team
+                    - star
+                    - status
+                    - status-page
+                    - store
+                    - tag
+                    - test
+                    - text
+                    - timestamp
+                    - triage
+                    - user
+                    - users
+                    - warning
+            label:
+                type: string
+                description: Human readable identifier for the subject
+                example: Incident Severity
+            reference:
+                type: string
+                description: Reference into the scope for the value of the subject
+                example: incident.severity
+        example:
+            color: yellow
+            icon: action
+            label: Incident Severity
+            reference: incident.severity
+        required:
+            - label
+            - icon
+            - reference
     ConditionSubjectV2:
         title: ConditionSubjectV2
         type: object
@@ -14620,6 +15604,10 @@ definitions:
                 enum:
                     - newly_created
                     - newly_created_and_active
+            shortform:
+                type: string
+                description: Shortform used to trigger manual workflows in Slack - e.g. `/inc workflows page-ceo`
+                example: abc123
             state:
                 type: string
                 description: The state of the workflow (e.g. is it draft, or disabled)
@@ -14732,6 +15720,7 @@ definitions:
                 - standard
                 - retrospective
             runs_on_incidents: newly_created
+            shortform: abc123
             state: active
             steps:
                 - for_each: abc123
@@ -15002,7 +15991,7 @@ definitions:
             - custom_field_id
             - value
             - sort_key
-    []CustomFieldOptionsV1CreateRequestBody:
+    CustomFieldOptionsV1CreateRequestBody:
         title: CustomFieldOptionsV1CreateRequestBody
         type: object
         properties:
@@ -16112,6 +17101,144 @@ definitions:
             - role_type
             - created_at
             - updated_at
+    EngineParam:
+        title: EngineParam
+        type: object
+        properties:
+            array:
+                type: boolean
+                description: Whether this parameter is an array
+                example: true
+            default_value:
+                $ref: '#/definitions/EngineParamBinding'
+            description:
+                type: string
+                description: A string describing the param
+                example: What slack channel should we send the message to?
+            infer_reference:
+                type: boolean
+                description: Whether this parameter should be inferred as a reference from the scope
+                example: true
+            label:
+                type: string
+                description: Human readable label for this parameter
+                example: To date
+            name:
+                type: string
+                description: The unique identifier for the parameter
+                example: severity
+            optional:
+                type: boolean
+                description: Whether this parameter is optional
+                example: true
+            type:
+                type: string
+                description: The type of the parameter
+                example: IncidentSeverity
+        example:
+            array: true
+            default_value:
+                array_value:
+                    - catalog_entry:
+                        archived_at: "2021-08-17T14:28:57.801578Z"
+                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                        catalog_entry_name: Primary escalation
+                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      helptext: Collection of standalone automations like auto-closing incidents.
+                      image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                      is_image_slack_icon: false
+                      label: Lawrence Jones
+                      literal: SEV123
+                      reference: incident.severity
+                      sort_key: "000020"
+                      unavailable: false
+                      value: abc123
+                value:
+                    catalog_entry:
+                        archived_at: "2021-08-17T14:28:57.801578Z"
+                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                        catalog_entry_name: Primary escalation
+                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                    helptext: Collection of standalone automations like auto-closing incidents.
+                    image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                    is_image_slack_icon: false
+                    label: Lawrence Jones
+                    literal: SEV123
+                    reference: incident.severity
+                    sort_key: "000020"
+                    unavailable: false
+                    value: abc123
+            description: What slack channel should we send the message to?
+            infer_reference: true
+            label: To date
+            name: severity
+            optional: true
+            type: IncidentSeverity
+        required:
+            - name
+            - label
+            - type
+            - array
+            - optional
+            - infer_reference
+            - description
+    EngineParamBinding:
+        title: EngineParamBinding
+        type: object
+        properties:
+            array_value:
+                type: array
+                items:
+                    $ref: '#/definitions/EngineParamBindingValue'
+                description: If array_value is set, this helps render the values
+                example:
+                    - catalog_entry:
+                        archived_at: "2021-08-17T14:28:57.801578Z"
+                        catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                        catalog_entry_name: Primary escalation
+                        catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      helptext: Collection of standalone automations like auto-closing incidents.
+                      image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                      is_image_slack_icon: false
+                      label: Lawrence Jones
+                      literal: SEV123
+                      reference: incident.severity
+                      sort_key: "000020"
+                      unavailable: false
+                      value: abc123
+            value:
+                $ref: '#/definitions/EngineParamBindingValue'
+        example:
+            array_value:
+                - catalog_entry:
+                    archived_at: "2021-08-17T14:28:57.801578Z"
+                    catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                    catalog_entry_name: Primary escalation
+                    catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  helptext: Collection of standalone automations like auto-closing incidents.
+                  image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                  is_image_slack_icon: false
+                  label: Lawrence Jones
+                  literal: SEV123
+                  reference: incident.severity
+                  sort_key: "000020"
+                  unavailable: false
+                  value: abc123
+            value:
+                catalog_entry:
+                    archived_at: "2021-08-17T14:28:57.801578Z"
+                    catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                    catalog_entry_name: Primary escalation
+                    catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                helptext: Collection of standalone automations like auto-closing incidents.
+                image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+                is_image_slack_icon: false
+                label: Lawrence Jones
+                literal: SEV123
+                reference: incident.severity
+                sort_key: "000020"
+                unavailable: false
+                value: abc123
     EngineParamBindingPayloadV2:
         title: EngineParamBindingPayloadV2
         type: object
@@ -16157,6 +17284,66 @@ definitions:
                 label: Lawrence Jones
                 literal: SEV123
                 reference: incident.severity
+    EngineParamBindingValue:
+        title: EngineParamBindingValue
+        type: object
+        properties:
+            catalog_entry:
+                $ref: '#/definitions/CatalogEntryReference'
+            helptext:
+                type: string
+                description: Gives a description of the option to the user
+                example: Collection of standalone automations like auto-closing incidents.
+            image_url:
+                type: string
+                description: If appropriate, URL to an image that can be displayed alongside the option
+                example: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+            is_image_slack_icon:
+                type: boolean
+                description: If true, the image_url is a Slack icon and should be displayed as such
+                example: false
+            label:
+                type: string
+                description: Human readable label to be displayed for user to select
+                example: Lawrence Jones
+            literal:
+                type: string
+                description: If set, this is the literal value of the step parameter
+                example: SEV123
+            reference:
+                type: string
+                description: If set, this is the reference into the trigger scope that is the value of this parameter
+                example: incident.severity
+            sort_key:
+                type: string
+                description: Gives an indication of how to sort the options when displayed to the user
+                example: "000020"
+            unavailable:
+                type: boolean
+                description: Unavailable is true if we've failed to build the value for this binding
+                example: false
+            value:
+                type: string
+                description: 'Either the reference or the literal: this field is designed purely to make working with react-select easier'
+                example: abc123
+        example:
+            catalog_entry:
+                archived_at: "2021-08-17T14:28:57.801578Z"
+                catalog_entry_id: 01FCNDV6P870EA6S7TK1DSYDG0
+                catalog_entry_name: Primary escalation
+                catalog_type_id: 01FCNDV6P870EA6S7TK1DSYDG0
+            helptext: Collection of standalone automations like auto-closing incidents.
+            image_url: https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg
+            is_image_slack_icon: false
+            label: Lawrence Jones
+            literal: SEV123
+            reference: incident.severity
+            sort_key: "000020"
+            unavailable: false
+            value: abc123
+        required:
+            - label
+            - sort_key
     EngineParamBindingValuePayloadV2:
         title: EngineParamBindingValuePayloadV2
         type: object
@@ -24295,6 +25482,10 @@ definitions:
                 enum:
                     - newly_created
                     - newly_created_and_active
+            shortform:
+                type: string
+                description: Shortform used to trigger manual workflows in Slack - e.g. `/inc workflows page-ceo`
+                example: abc123
             state:
                 type: string
                 description: The state of the workflow (e.g. is it draft, or disabled)
@@ -24403,6 +25594,7 @@ definitions:
                 - standard
                 - retrospective
             runs_on_incidents: newly_created
+            shortform: abc123
             state: active
             steps:
                 - for_each: abc123
@@ -26722,6 +27914,10 @@ definitions:
                 enum:
                     - newly_created
                     - newly_created_and_active
+            shortform:
+                type: string
+                description: Shortform used to trigger manual workflows in Slack - e.g. `/inc workflows page-ceo`
+                example: abc123
             state:
                 type: string
                 description: The state of the workflow (e.g. is it draft, or disabled)
@@ -26872,6 +28068,7 @@ definitions:
                 - standard
                 - retrospective
             runs_on_incidents: newly_created
+            shortform: abc123
             state: active
             steps:
                 - for_each: abc123
@@ -27091,6 +28288,10 @@ definitions:
                 enum:
                     - newly_created
                     - newly_created_and_active
+            shortform:
+                type: string
+                description: Shortform used to trigger manual workflows in Slack - e.g. `/inc workflows page-ceo`
+                example: abc123
             state:
                 type: string
                 description: The state of the workflow (e.g. is it draft, or disabled)
@@ -27230,6 +28431,7 @@ definitions:
                 - standard
                 - retrospective
             runs_on_incidents: newly_created
+            shortform: abc123
             state: active
             steps:
                 - label: PagerDuty Escalate
@@ -27381,6 +28583,7 @@ definitions:
                     - standard
                     - retrospective
                 runs_on_incidents: newly_created
+                shortform: abc123
                 state: active
                 steps:
                     - for_each: abc123
@@ -27526,6 +28729,7 @@ definitions:
                         - standard
                         - retrospective
                       runs_on_incidents: newly_created
+                      shortform: abc123
                       state: active
                       steps:
                         - label: PagerDuty Escalate
@@ -27650,6 +28854,7 @@ definitions:
                     - standard
                     - retrospective
                   runs_on_incidents: newly_created
+                  shortform: abc123
                   state: active
                   steps:
                     - label: PagerDuty Escalate
@@ -27789,6 +28994,7 @@ definitions:
                     - standard
                     - retrospective
                 runs_on_incidents: newly_created
+                shortform: abc123
                 state: active
                 steps:
                     - for_each: abc123
@@ -27940,6 +29146,7 @@ definitions:
                     - standard
                     - retrospective
                 runs_on_incidents: newly_created
+                shortform: abc123
                 state: active
                 steps:
                     - for_each: abc123

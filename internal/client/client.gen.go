@@ -149,6 +149,83 @@ const (
 	CatalogTypeV2IconUsers          CatalogTypeV2Icon = "users"
 )
 
+// Defines values for ConditionSubjectColor.
+const (
+	ConditionSubjectColorBlue   ConditionSubjectColor = "blue"
+	ConditionSubjectColorCyan   ConditionSubjectColor = "cyan"
+	ConditionSubjectColorGreen  ConditionSubjectColor = "green"
+	ConditionSubjectColorOrange ConditionSubjectColor = "orange"
+	ConditionSubjectColorPink   ConditionSubjectColor = "pink"
+	ConditionSubjectColorViolet ConditionSubjectColor = "violet"
+	ConditionSubjectColorYellow ConditionSubjectColor = "yellow"
+)
+
+// Defines values for ConditionSubjectIcon.
+const (
+	ConditionSubjectIconAction         ConditionSubjectIcon = "action"
+	ConditionSubjectIconAlert          ConditionSubjectIcon = "alert"
+	ConditionSubjectIconBolt           ConditionSubjectIcon = "bolt"
+	ConditionSubjectIconBook           ConditionSubjectIcon = "book"
+	ConditionSubjectIconBox            ConditionSubjectIcon = "box"
+	ConditionSubjectIconBriefcase      ConditionSubjectIcon = "briefcase"
+	ConditionSubjectIconBrowser        ConditionSubjectIcon = "browser"
+	ConditionSubjectIconBulb           ConditionSubjectIcon = "bulb"
+	ConditionSubjectIconCalendar       ConditionSubjectIcon = "calendar"
+	ConditionSubjectIconCheckmark      ConditionSubjectIcon = "checkmark"
+	ConditionSubjectIconClipboard      ConditionSubjectIcon = "clipboard"
+	ConditionSubjectIconClock          ConditionSubjectIcon = "clock"
+	ConditionSubjectIconClose          ConditionSubjectIcon = "close"
+	ConditionSubjectIconCog            ConditionSubjectIcon = "cog"
+	ConditionSubjectIconComponents     ConditionSubjectIcon = "components"
+	ConditionSubjectIconCustomField    ConditionSubjectIcon = "custom_field"
+	ConditionSubjectIconDatabase       ConditionSubjectIcon = "database"
+	ConditionSubjectIconDelete         ConditionSubjectIcon = "delete"
+	ConditionSubjectIconDoc            ConditionSubjectIcon = "doc"
+	ConditionSubjectIconEmail          ConditionSubjectIcon = "email"
+	ConditionSubjectIconEscalate       ConditionSubjectIcon = "escalate"
+	ConditionSubjectIconEscalationPath ConditionSubjectIcon = "escalation-path"
+	ConditionSubjectIconExclamation    ConditionSubjectIcon = "exclamation"
+	ConditionSubjectIconExport         ConditionSubjectIcon = "export"
+	ConditionSubjectIconExternalLink   ConditionSubjectIcon = "external-link"
+	ConditionSubjectIconFiles          ConditionSubjectIcon = "files"
+	ConditionSubjectIconFlag           ConditionSubjectIcon = "flag"
+	ConditionSubjectIconFolder         ConditionSubjectIcon = "folder"
+	ConditionSubjectIconFollowUps      ConditionSubjectIcon = "follow_ups"
+	ConditionSubjectIconGitBranchNew   ConditionSubjectIcon = "git-branch-new"
+	ConditionSubjectIconGlobe          ConditionSubjectIcon = "globe"
+	ConditionSubjectIconIncident       ConditionSubjectIcon = "incident"
+	ConditionSubjectIconIncidentType   ConditionSubjectIcon = "incident_type"
+	ConditionSubjectIconKey            ConditionSubjectIcon = "key"
+	ConditionSubjectIconMerge          ConditionSubjectIcon = "merge"
+	ConditionSubjectIconMessage        ConditionSubjectIcon = "message"
+	ConditionSubjectIconMoney          ConditionSubjectIcon = "money"
+	ConditionSubjectIconMsTeams        ConditionSubjectIcon = "ms-teams"
+	ConditionSubjectIconMug            ConditionSubjectIcon = "mug"
+	ConditionSubjectIconNumberInput    ConditionSubjectIcon = "number-input"
+	ConditionSubjectIconPriority       ConditionSubjectIcon = "priority"
+	ConditionSubjectIconPrivate        ConditionSubjectIcon = "private"
+	ConditionSubjectIconSearch         ConditionSubjectIcon = "search"
+	ConditionSubjectIconServer         ConditionSubjectIcon = "server"
+	ConditionSubjectIconSeverity       ConditionSubjectIcon = "severity"
+	ConditionSubjectIconSlack          ConditionSubjectIcon = "slack"
+	ConditionSubjectIconSlackChannel   ConditionSubjectIcon = "slack_channel"
+	ConditionSubjectIconSlackTeam      ConditionSubjectIcon = "slack_team"
+	ConditionSubjectIconStar           ConditionSubjectIcon = "star"
+	ConditionSubjectIconStatus         ConditionSubjectIcon = "status"
+	ConditionSubjectIconStatusPage     ConditionSubjectIcon = "status-page"
+	ConditionSubjectIconStore          ConditionSubjectIcon = "store"
+	ConditionSubjectIconTag            ConditionSubjectIcon = "tag"
+	ConditionSubjectIconTest           ConditionSubjectIcon = "test"
+	ConditionSubjectIconText           ConditionSubjectIcon = "text"
+	ConditionSubjectIconTextAlignLeft  ConditionSubjectIcon = "text-align-left"
+	ConditionSubjectIconTimestamp      ConditionSubjectIcon = "timestamp"
+	ConditionSubjectIconToggleLeft     ConditionSubjectIcon = "toggle-left"
+	ConditionSubjectIconTriage         ConditionSubjectIcon = "triage"
+	ConditionSubjectIconUser           ConditionSubjectIcon = "user"
+	ConditionSubjectIconUsers          ConditionSubjectIcon = "users"
+	ConditionSubjectIconWarning        ConditionSubjectIcon = "warning"
+)
+
 // Defines values for CreateHTTPRequestBodyStatus.
 const (
 	Firing   CreateHTTPRequestBodyStatus = "firing"
@@ -333,11 +410,11 @@ const (
 
 // Defines values for CustomFieldV2FieldType.
 const (
-	CustomFieldV2FieldTypeLink         CustomFieldV2FieldType = "link"
-	CustomFieldV2FieldTypeMultiSelect  CustomFieldV2FieldType = "multi_select"
-	CustomFieldV2FieldTypeNumeric      CustomFieldV2FieldType = "numeric"
-	CustomFieldV2FieldTypeSingleSelect CustomFieldV2FieldType = "single_select"
-	CustomFieldV2FieldTypeText         CustomFieldV2FieldType = "text"
+	Link         CustomFieldV2FieldType = "link"
+	MultiSelect  CustomFieldV2FieldType = "multi_select"
+	Numeric      CustomFieldV2FieldType = "numeric"
+	SingleSelect CustomFieldV2FieldType = "single_select"
+	Text         CustomFieldV2FieldType = "text"
 )
 
 // Defines values for EmbeddedIncidentRoleV2RoleType.
@@ -416,30 +493,16 @@ const (
 	ExpressionOperationV2OperationTypeRandom   ExpressionOperationV2OperationType = "random"
 )
 
-// Defines values for ExpressionOperationV3OperationType.
+// Defines values for ExternalIssueReferenceV1Provider.
 const (
-	ExpressionOperationV3OperationTypeBranches ExpressionOperationV3OperationType = "branches"
-	ExpressionOperationV3OperationTypeCount    ExpressionOperationV3OperationType = "count"
-	ExpressionOperationV3OperationTypeFilter   ExpressionOperationV3OperationType = "filter"
-	ExpressionOperationV3OperationTypeFirst    ExpressionOperationV3OperationType = "first"
-	ExpressionOperationV3OperationTypeMax      ExpressionOperationV3OperationType = "max"
-	ExpressionOperationV3OperationTypeMin      ExpressionOperationV3OperationType = "min"
-	ExpressionOperationV3OperationTypeNavigate ExpressionOperationV3OperationType = "navigate"
-	ExpressionOperationV3OperationTypeParse    ExpressionOperationV3OperationType = "parse"
-	ExpressionOperationV3OperationTypeRandom   ExpressionOperationV3OperationType = "random"
-)
-
-// Defines values for ExpressionOperationV4OperationType.
-const (
-	ExpressionOperationV4OperationTypeBranches ExpressionOperationV4OperationType = "branches"
-	ExpressionOperationV4OperationTypeCount    ExpressionOperationV4OperationType = "count"
-	ExpressionOperationV4OperationTypeFilter   ExpressionOperationV4OperationType = "filter"
-	ExpressionOperationV4OperationTypeFirst    ExpressionOperationV4OperationType = "first"
-	ExpressionOperationV4OperationTypeMax      ExpressionOperationV4OperationType = "max"
-	ExpressionOperationV4OperationTypeMin      ExpressionOperationV4OperationType = "min"
-	ExpressionOperationV4OperationTypeNavigate ExpressionOperationV4OperationType = "navigate"
-	ExpressionOperationV4OperationTypeParse    ExpressionOperationV4OperationType = "parse"
-	ExpressionOperationV4OperationTypeRandom   ExpressionOperationV4OperationType = "random"
+	ExternalIssueReferenceV1ProviderAsana      ExternalIssueReferenceV1Provider = "asana"
+	ExternalIssueReferenceV1ProviderClickUp    ExternalIssueReferenceV1Provider = "click_up"
+	ExternalIssueReferenceV1ProviderGithub     ExternalIssueReferenceV1Provider = "github"
+	ExternalIssueReferenceV1ProviderGitlab     ExternalIssueReferenceV1Provider = "gitlab"
+	ExternalIssueReferenceV1ProviderJira       ExternalIssueReferenceV1Provider = "jira"
+	ExternalIssueReferenceV1ProviderJiraServer ExternalIssueReferenceV1Provider = "jira_server"
+	ExternalIssueReferenceV1ProviderLinear     ExternalIssueReferenceV1Provider = "linear"
+	ExternalIssueReferenceV1ProviderShortcut   ExternalIssueReferenceV1Provider = "shortcut"
 )
 
 // Defines values for ExternalIssueReferenceV2Provider.
@@ -452,30 +515,6 @@ const (
 	ExternalIssueReferenceV2ProviderJiraServer ExternalIssueReferenceV2Provider = "jira_server"
 	ExternalIssueReferenceV2ProviderLinear     ExternalIssueReferenceV2Provider = "linear"
 	ExternalIssueReferenceV2ProviderShortcut   ExternalIssueReferenceV2Provider = "shortcut"
-)
-
-// Defines values for ExternalIssueReferenceV4Provider.
-const (
-	ExternalIssueReferenceV4ProviderAsana      ExternalIssueReferenceV4Provider = "asana"
-	ExternalIssueReferenceV4ProviderClickUp    ExternalIssueReferenceV4Provider = "click_up"
-	ExternalIssueReferenceV4ProviderGithub     ExternalIssueReferenceV4Provider = "github"
-	ExternalIssueReferenceV4ProviderGitlab     ExternalIssueReferenceV4Provider = "gitlab"
-	ExternalIssueReferenceV4ProviderJira       ExternalIssueReferenceV4Provider = "jira"
-	ExternalIssueReferenceV4ProviderJiraServer ExternalIssueReferenceV4Provider = "jira_server"
-	ExternalIssueReferenceV4ProviderLinear     ExternalIssueReferenceV4Provider = "linear"
-	ExternalIssueReferenceV4ProviderShortcut   ExternalIssueReferenceV4Provider = "shortcut"
-)
-
-// Defines values for ExternalIssueReferenceV5Provider.
-const (
-	Asana      ExternalIssueReferenceV5Provider = "asana"
-	ClickUp    ExternalIssueReferenceV5Provider = "click_up"
-	Github     ExternalIssueReferenceV5Provider = "github"
-	Gitlab     ExternalIssueReferenceV5Provider = "gitlab"
-	Jira       ExternalIssueReferenceV5Provider = "jira"
-	JiraServer ExternalIssueReferenceV5Provider = "jira_server"
-	Linear     ExternalIssueReferenceV5Provider = "linear"
-	Shortcut   ExternalIssueReferenceV5Provider = "shortcut"
 )
 
 // Defines values for ExternalResourceV1ResourceType.
@@ -729,13 +768,13 @@ const (
 
 // Defines values for UpdateTypeRequestBodyColor.
 const (
-	Blue   UpdateTypeRequestBodyColor = "blue"
-	Cyan   UpdateTypeRequestBodyColor = "cyan"
-	Green  UpdateTypeRequestBodyColor = "green"
-	Orange UpdateTypeRequestBodyColor = "orange"
-	Pink   UpdateTypeRequestBodyColor = "pink"
-	Violet UpdateTypeRequestBodyColor = "violet"
-	Yellow UpdateTypeRequestBodyColor = "yellow"
+	UpdateTypeRequestBodyColorBlue   UpdateTypeRequestBodyColor = "blue"
+	UpdateTypeRequestBodyColorCyan   UpdateTypeRequestBodyColor = "cyan"
+	UpdateTypeRequestBodyColorGreen  UpdateTypeRequestBodyColor = "green"
+	UpdateTypeRequestBodyColorOrange UpdateTypeRequestBodyColor = "orange"
+	UpdateTypeRequestBodyColorPink   UpdateTypeRequestBodyColor = "pink"
+	UpdateTypeRequestBodyColorViolet UpdateTypeRequestBodyColor = "violet"
+	UpdateTypeRequestBodyColorYellow UpdateTypeRequestBodyColor = "yellow"
 )
 
 // Defines values for UpdateTypeRequestBodyIcon.
@@ -769,25 +808,25 @@ const (
 	UpdateTypeRequestBodyIconUsers          UpdateTypeRequestBodyIcon = "users"
 )
 
-// Defines values for UpdateWorkflowPayload2RunsOnIncidentModes.
+// Defines values for UpdateWorkflowPayloadRunsOnIncidentModes.
 const (
-	UpdateWorkflowPayload2RunsOnIncidentModesRetrospective UpdateWorkflowPayload2RunsOnIncidentModes = "retrospective"
-	UpdateWorkflowPayload2RunsOnIncidentModesStandard      UpdateWorkflowPayload2RunsOnIncidentModes = "standard"
-	UpdateWorkflowPayload2RunsOnIncidentModesTest          UpdateWorkflowPayload2RunsOnIncidentModes = "test"
+	UpdateWorkflowPayloadRunsOnIncidentModesRetrospective UpdateWorkflowPayloadRunsOnIncidentModes = "retrospective"
+	UpdateWorkflowPayloadRunsOnIncidentModesStandard      UpdateWorkflowPayloadRunsOnIncidentModes = "standard"
+	UpdateWorkflowPayloadRunsOnIncidentModesTest          UpdateWorkflowPayloadRunsOnIncidentModes = "test"
 )
 
-// Defines values for UpdateWorkflowPayload2RunsOnIncidents.
+// Defines values for UpdateWorkflowPayloadRunsOnIncidents.
 const (
-	UpdateWorkflowPayload2RunsOnIncidentsNewlyCreated          UpdateWorkflowPayload2RunsOnIncidents = "newly_created"
-	UpdateWorkflowPayload2RunsOnIncidentsNewlyCreatedAndActive UpdateWorkflowPayload2RunsOnIncidents = "newly_created_and_active"
+	UpdateWorkflowPayloadRunsOnIncidentsNewlyCreated          UpdateWorkflowPayloadRunsOnIncidents = "newly_created"
+	UpdateWorkflowPayloadRunsOnIncidentsNewlyCreatedAndActive UpdateWorkflowPayloadRunsOnIncidents = "newly_created_and_active"
 )
 
-// Defines values for UpdateWorkflowPayload2State.
+// Defines values for UpdateWorkflowPayloadState.
 const (
-	UpdateWorkflowPayload2StateActive   UpdateWorkflowPayload2State = "active"
-	UpdateWorkflowPayload2StateDisabled UpdateWorkflowPayload2State = "disabled"
-	UpdateWorkflowPayload2StateDraft    UpdateWorkflowPayload2State = "draft"
-	UpdateWorkflowPayload2StateError    UpdateWorkflowPayload2State = "error"
+	UpdateWorkflowPayloadStateActive   UpdateWorkflowPayloadState = "active"
+	UpdateWorkflowPayloadStateDisabled UpdateWorkflowPayloadState = "disabled"
+	UpdateWorkflowPayloadStateDraft    UpdateWorkflowPayloadState = "draft"
+	UpdateWorkflowPayloadStateError    UpdateWorkflowPayloadState = "error"
 )
 
 // Defines values for UserV1Role.
@@ -930,7 +969,7 @@ type ActionV1 struct {
 
 	// Description Description of the action
 	Description            *string                   `json:"description,omitempty"`
-	ExternalIssueReference *ExternalIssueReferenceV2 `json:"external_issue_reference,omitempty"`
+	ExternalIssueReference *ExternalIssueReferenceV1 `json:"external_issue_reference,omitempty"`
 
 	// FollowUp Whether an action is marked as follow-up
 	FollowUp bool `json:"follow_up"`
@@ -1022,6 +1061,15 @@ type AlertResultMessage string
 // AlertResultStatus Status of the event
 type AlertResultStatus string
 
+// AlertRouteAlertSource defines model for AlertRouteAlertSource.
+type AlertRouteAlertSource struct {
+	// AlertSourceId The alert source ID that will match for the route
+	AlertSourceId string `json:"alert_source_id"`
+
+	// ConditionGroups What conditions should alerts from this source meet to be included in this alert route?
+	ConditionGroups []ConditionGroup `json:"condition_groups"`
+}
+
 // AlertRouteEscalationBindingPayloadV2 defines model for AlertRouteEscalationBindingPayloadV2.
 type AlertRouteEscalationBindingPayloadV2 struct {
 	Binding EngineParamBindingPayloadV2 `json:"binding"`
@@ -1079,8 +1127,8 @@ type AlertRouteIncidentTemplateV2PrioritySeverity string
 
 // AlertRoutePayloadV2 defines model for AlertRoutePayloadV2.
 type AlertRoutePayloadV2 struct {
-	// AlertSourceIds Legacy field - the alert sources that will match this alert route
-	AlertSourceIds *[]string `json:"alert_source_ids,omitempty"`
+	// AlertSources Which alert sources should this alert route match?
+	AlertSources *[]AlertRouteAlertSource `json:"alert_sources,omitempty"`
 
 	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
 	AutoDeclineEnabled *bool `json:"auto_decline_enabled,omitempty"`
@@ -1182,6 +1230,21 @@ type CatalogEntryEngineParamBindingValueV2 struct {
 
 	// Value This field is deprecated. It will not be present in any responses, and will be removed in a future version
 	Value *string `json:"value,omitempty"`
+}
+
+// CatalogEntryReference defines model for CatalogEntryReference.
+type CatalogEntryReference struct {
+	// ArchivedAt When this entry was archived
+	ArchivedAt *time.Time `json:"archived_at,omitempty"`
+
+	// CatalogEntryId ID of this catalog entry
+	CatalogEntryId string `json:"catalog_entry_id"`
+
+	// CatalogEntryName The name of this entry
+	CatalogEntryName string `json:"catalog_entry_name"`
+
+	// CatalogTypeId ID of this catalog type
+	CatalogTypeId string `json:"catalog_type_id"`
 }
 
 // CatalogEntryReferenceV2 defines model for CatalogEntryReferenceV2.
@@ -1401,6 +1464,24 @@ type CatalogTypeV2Color string
 // CatalogTypeV2Icon Sets the display icon of this type in the dashboard
 type CatalogTypeV2Icon string
 
+// Condition defines model for Condition.
+type Condition struct {
+	Operation ConditionOperation `json:"operation"`
+
+	// ParamBindings Bindings for the operation parameters
+	ParamBindings []EngineParamBinding `json:"param_bindings"`
+
+	// Params Type information for the operation parameters
+	Params  []EngineParam    `json:"params"`
+	Subject ConditionSubject `json:"subject"`
+}
+
+// ConditionGroup defines model for ConditionGroup.
+type ConditionGroup struct {
+	// Conditions All conditions in this list must be satisfied for the group to be satisfied
+	Conditions []Condition `json:"conditions"`
+}
+
 // ConditionGroupPayloadV2 defines model for ConditionGroupPayloadV2.
 type ConditionGroupPayloadV2 struct {
 	// Conditions All conditions in this list must be satisfied for the group to be satisfied
@@ -1413,98 +1494,17 @@ type ConditionGroupV2 struct {
 	Conditions []ConditionV2 `json:"conditions"`
 }
 
-// ConditionGroupV3 defines model for ConditionGroupV3.
-type ConditionGroupV3 struct {
-	// Conditions All conditions in this list must be satisfied for the group to be satisfied
-	Conditions []ConditionV3 `json:"conditions"`
-}
+// ConditionOperation defines model for ConditionOperation.
+type ConditionOperation struct {
+	// Label Human readable label to be displayed for user to select
+	Label string `json:"label"`
 
-// ConditionGroupV4 defines model for ConditionGroupV4.
-type ConditionGroupV4 struct {
-	// Conditions All conditions in this list must be satisfied for the group to be satisfied
-	Conditions []ConditionV4 `json:"conditions"`
-}
-
-// ConditionGroupV5 defines model for ConditionGroupV5.
-type ConditionGroupV5 struct {
-	// Conditions All conditions in this list must be satisfied for the group to be satisfied
-	Conditions []ConditionV5 `json:"conditions"`
-}
-
-// ConditionGroupV6 defines model for ConditionGroupV6.
-type ConditionGroupV6 struct {
-	// Conditions All conditions in this list must be satisfied for the group to be satisfied
-	Conditions []ConditionV6 `json:"conditions"`
-}
-
-// ConditionGroupV7 defines model for ConditionGroupV7.
-type ConditionGroupV7 struct {
-	// Conditions All conditions in this list must be satisfied for the group to be satisfied
-	Conditions []ConditionV7 `json:"conditions"`
-}
-
-// ConditionGroupV8 defines model for ConditionGroupV8.
-type ConditionGroupV8 struct {
-	// Conditions All conditions in this list must be satisfied for the group to be satisfied
-	Conditions []ConditionV8 `json:"conditions"`
+	// Value Unique identifier for this option
+	Value string `json:"value"`
 }
 
 // ConditionOperationV2 defines model for ConditionOperationV2.
 type ConditionOperationV2 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Value Unique identifier for this option
-	Value string `json:"value"`
-}
-
-// ConditionOperationV3 defines model for ConditionOperationV3.
-type ConditionOperationV3 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Value Unique identifier for this option
-	Value string `json:"value"`
-}
-
-// ConditionOperationV4 defines model for ConditionOperationV4.
-type ConditionOperationV4 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Value Unique identifier for this option
-	Value string `json:"value"`
-}
-
-// ConditionOperationV5 defines model for ConditionOperationV5.
-type ConditionOperationV5 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Value Unique identifier for this option
-	Value string `json:"value"`
-}
-
-// ConditionOperationV6 defines model for ConditionOperationV6.
-type ConditionOperationV6 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Value Unique identifier for this option
-	Value string `json:"value"`
-}
-
-// ConditionOperationV7 defines model for ConditionOperationV7.
-type ConditionOperationV7 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Value Unique identifier for this option
-	Value string `json:"value"`
-}
-
-// ConditionOperationV8 defines model for ConditionOperationV8.
-type ConditionOperationV8 struct {
 	// Label Human readable label to be displayed for user to select
 	Label string `json:"label"`
 
@@ -1524,62 +1524,29 @@ type ConditionPayloadV2 struct {
 	Subject string `json:"subject"`
 }
 
+// ConditionSubject defines model for ConditionSubject.
+type ConditionSubject struct {
+	// Color String telling the UI what color to use for this field, if applicable
+	Color *ConditionSubjectColor `json:"color,omitempty"`
+
+	// Icon String telling the UI what icon to use for this field
+	Icon ConditionSubjectIcon `json:"icon"`
+
+	// Label Human readable identifier for the subject
+	Label string `json:"label"`
+
+	// Reference Reference into the scope for the value of the subject
+	Reference string `json:"reference"`
+}
+
+// ConditionSubjectColor String telling the UI what color to use for this field, if applicable
+type ConditionSubjectColor string
+
+// ConditionSubjectIcon String telling the UI what icon to use for this field
+type ConditionSubjectIcon string
+
 // ConditionSubjectV2 defines model for ConditionSubjectV2.
 type ConditionSubjectV2 struct {
-	// Label Human readable identifier for the subject
-	Label string `json:"label"`
-
-	// Reference Reference into the scope for the value of the subject
-	Reference string `json:"reference"`
-}
-
-// ConditionSubjectV3 defines model for ConditionSubjectV3.
-type ConditionSubjectV3 struct {
-	// Label Human readable identifier for the subject
-	Label string `json:"label"`
-
-	// Reference Reference into the scope for the value of the subject
-	Reference string `json:"reference"`
-}
-
-// ConditionSubjectV4 defines model for ConditionSubjectV4.
-type ConditionSubjectV4 struct {
-	// Label Human readable identifier for the subject
-	Label string `json:"label"`
-
-	// Reference Reference into the scope for the value of the subject
-	Reference string `json:"reference"`
-}
-
-// ConditionSubjectV5 defines model for ConditionSubjectV5.
-type ConditionSubjectV5 struct {
-	// Label Human readable identifier for the subject
-	Label string `json:"label"`
-
-	// Reference Reference into the scope for the value of the subject
-	Reference string `json:"reference"`
-}
-
-// ConditionSubjectV6 defines model for ConditionSubjectV6.
-type ConditionSubjectV6 struct {
-	// Label Human readable identifier for the subject
-	Label string `json:"label"`
-
-	// Reference Reference into the scope for the value of the subject
-	Reference string `json:"reference"`
-}
-
-// ConditionSubjectV7 defines model for ConditionSubjectV7.
-type ConditionSubjectV7 struct {
-	// Label Human readable identifier for the subject
-	Label string `json:"label"`
-
-	// Reference Reference into the scope for the value of the subject
-	Reference string `json:"reference"`
-}
-
-// ConditionSubjectV8 defines model for ConditionSubjectV8.
-type ConditionSubjectV8 struct {
 	// Label Human readable identifier for the subject
 	Label string `json:"label"`
 
@@ -1594,60 +1561,6 @@ type ConditionV2 struct {
 	// ParamBindings Bindings for the operation parameters
 	ParamBindings []EngineParamBindingV2 `json:"param_bindings"`
 	Subject       ConditionSubjectV2     `json:"subject"`
-}
-
-// ConditionV3 defines model for ConditionV3.
-type ConditionV3 struct {
-	Operation ConditionOperationV3 `json:"operation"`
-
-	// ParamBindings Bindings for the operation parameters
-	ParamBindings []EngineParamBindingV4 `json:"param_bindings"`
-	Subject       ConditionSubjectV3     `json:"subject"`
-}
-
-// ConditionV4 defines model for ConditionV4.
-type ConditionV4 struct {
-	Operation ConditionOperationV4 `json:"operation"`
-
-	// ParamBindings Bindings for the operation parameters
-	ParamBindings []EngineParamBindingV5 `json:"param_bindings"`
-	Subject       ConditionSubjectV4     `json:"subject"`
-}
-
-// ConditionV5 defines model for ConditionV5.
-type ConditionV5 struct {
-	Operation ConditionOperationV5 `json:"operation"`
-
-	// ParamBindings Bindings for the operation parameters
-	ParamBindings []EngineParamBindingV7 `json:"param_bindings"`
-	Subject       ConditionSubjectV5     `json:"subject"`
-}
-
-// ConditionV6 defines model for ConditionV6.
-type ConditionV6 struct {
-	Operation ConditionOperationV6 `json:"operation"`
-
-	// ParamBindings Bindings for the operation parameters
-	ParamBindings []EngineParamBindingV9 `json:"param_bindings"`
-	Subject       ConditionSubjectV6     `json:"subject"`
-}
-
-// ConditionV7 defines model for ConditionV7.
-type ConditionV7 struct {
-	Operation ConditionOperationV7 `json:"operation"`
-
-	// ParamBindings Bindings for the operation parameters
-	ParamBindings []EngineParamBindingV10 `json:"param_bindings"`
-	Subject       ConditionSubjectV7      `json:"subject"`
-}
-
-// ConditionV8 defines model for ConditionV8.
-type ConditionV8 struct {
-	Operation ConditionOperationV8 `json:"operation"`
-
-	// ParamBindings Bindings for the operation parameters
-	ParamBindings []EngineParamBindingV12 `json:"param_bindings"`
-	Subject       ConditionSubjectV8      `json:"subject"`
 }
 
 // CreateEntryRequestBody defines model for CreateEntryRequestBody.
@@ -1969,6 +1882,9 @@ type CreateWorkflowPayload struct {
 
 	// RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
 	RunsOnIncidents CreateWorkflowPayloadRunsOnIncidents `json:"runs_on_incidents"`
+
+	// Shortform Shortform used to trigger manual workflows in Slack - e.g. `/inc workflows page-ceo`
+	Shortform *string `json:"shortform,omitempty"`
 
 	// State The state of the workflow (e.g. is it draft, or disabled)
 	State *CreateWorkflowPayloadState `json:"state,omitempty"`
@@ -2325,32 +2241,43 @@ type EmbeddedIncidentRoleV2 struct {
 // EmbeddedIncidentRoleV2RoleType Type of incident role
 type EmbeddedIncidentRoleV2RoleType string
 
+// EngineParam defines model for EngineParam.
+type EngineParam struct {
+	// Array Whether this parameter is an array
+	Array        bool                `json:"array"`
+	DefaultValue *EngineParamBinding `json:"default_value,omitempty"`
+
+	// Description A string describing the param
+	Description string `json:"description"`
+
+	// InferReference Whether this parameter should be inferred as a reference from the scope
+	InferReference bool `json:"infer_reference"`
+
+	// Label Human readable label for this parameter
+	Label string `json:"label"`
+
+	// Name The unique identifier for the parameter
+	Name string `json:"name"`
+
+	// Optional Whether this parameter is optional
+	Optional bool `json:"optional"`
+
+	// Type The type of the parameter
+	Type string `json:"type"`
+}
+
+// EngineParamBinding defines model for EngineParamBinding.
+type EngineParamBinding struct {
+	// ArrayValue If array_value is set, this helps render the values
+	ArrayValue *[]EngineParamBindingValue `json:"array_value,omitempty"`
+	Value      *EngineParamBindingValue   `json:"value,omitempty"`
+}
+
 // EngineParamBindingPayloadV2 defines model for EngineParamBindingPayloadV2.
 type EngineParamBindingPayloadV2 struct {
 	// ArrayValue If set, this is the array value of the step parameter
 	ArrayValue *[]EngineParamBindingValuePayloadV2 `json:"array_value,omitempty"`
 	Value      *EngineParamBindingValuePayloadV2   `json:"value,omitempty"`
-}
-
-// EngineParamBindingV10 defines model for EngineParamBindingV10.
-type EngineParamBindingV10 struct {
-	// ArrayValue If array_value is set, this helps render the values
-	ArrayValue *[]EngineParamBindingValueV18 `json:"array_value,omitempty"`
-	Value      *EngineParamBindingValueV17   `json:"value,omitempty"`
-}
-
-// EngineParamBindingV11 defines model for EngineParamBindingV11.
-type EngineParamBindingV11 struct {
-	// ArrayValue If array_value is set, this helps render the values
-	ArrayValue *[]EngineParamBindingValueV20 `json:"array_value,omitempty"`
-	Value      *EngineParamBindingValueV19   `json:"value,omitempty"`
-}
-
-// EngineParamBindingV12 defines model for EngineParamBindingV12.
-type EngineParamBindingV12 struct {
-	// ArrayValue If array_value is set, this helps render the values
-	ArrayValue *[]EngineParamBindingValueV22 `json:"array_value,omitempty"`
-	Value      *EngineParamBindingValueV21   `json:"value,omitempty"`
 }
 
 // EngineParamBindingV2 defines model for EngineParamBindingV2.
@@ -2360,53 +2287,36 @@ type EngineParamBindingV2 struct {
 	Value      *EngineParamBindingValueV2   `json:"value,omitempty"`
 }
 
-// EngineParamBindingV3 defines model for EngineParamBindingV3.
-type EngineParamBindingV3 struct {
-	// ArrayValue If array_value is set, this helps render the values
-	ArrayValue *[]EngineParamBindingValueV4 `json:"array_value,omitempty"`
-	Value      *EngineParamBindingValueV3   `json:"value,omitempty"`
-}
+// EngineParamBindingValue defines model for EngineParamBindingValue.
+type EngineParamBindingValue struct {
+	CatalogEntry *CatalogEntryReference `json:"catalog_entry,omitempty"`
 
-// EngineParamBindingV4 defines model for EngineParamBindingV4.
-type EngineParamBindingV4 struct {
-	// ArrayValue If array_value is set, this helps render the values
-	ArrayValue *[]EngineParamBindingValueV6 `json:"array_value,omitempty"`
-	Value      *EngineParamBindingValueV5   `json:"value,omitempty"`
-}
+	// Helptext Gives a description of the option to the user
+	Helptext *string `json:"helptext,omitempty"`
 
-// EngineParamBindingV5 defines model for EngineParamBindingV5.
-type EngineParamBindingV5 struct {
-	// ArrayValue If array_value is set, this helps render the values
-	ArrayValue *[]EngineParamBindingValueV8 `json:"array_value,omitempty"`
-	Value      *EngineParamBindingValueV7   `json:"value,omitempty"`
-}
+	// ImageUrl If appropriate, URL to an image that can be displayed alongside the option
+	ImageUrl *string `json:"image_url,omitempty"`
 
-// EngineParamBindingV6 defines model for EngineParamBindingV6.
-type EngineParamBindingV6 struct {
-	// ArrayValue If array_value is set, this helps render the values
-	ArrayValue *[]EngineParamBindingValueV10 `json:"array_value,omitempty"`
-	Value      *EngineParamBindingValueV9    `json:"value,omitempty"`
-}
+	// IsImageSlackIcon If true, the image_url is a Slack icon and should be displayed as such
+	IsImageSlackIcon *bool `json:"is_image_slack_icon,omitempty"`
 
-// EngineParamBindingV7 defines model for EngineParamBindingV7.
-type EngineParamBindingV7 struct {
-	// ArrayValue If array_value is set, this helps render the values
-	ArrayValue *[]EngineParamBindingValueV12 `json:"array_value,omitempty"`
-	Value      *EngineParamBindingValueV11   `json:"value,omitempty"`
-}
+	// Label Human readable label to be displayed for user to select
+	Label string `json:"label"`
 
-// EngineParamBindingV8 defines model for EngineParamBindingV8.
-type EngineParamBindingV8 struct {
-	// ArrayValue If array_value is set, this helps render the values
-	ArrayValue *[]EngineParamBindingValueV14 `json:"array_value,omitempty"`
-	Value      *EngineParamBindingValueV13   `json:"value,omitempty"`
-}
+	// Literal If set, this is the literal value of the step parameter
+	Literal *string `json:"literal,omitempty"`
 
-// EngineParamBindingV9 defines model for EngineParamBindingV9.
-type EngineParamBindingV9 struct {
-	// ArrayValue If array_value is set, this helps render the values
-	ArrayValue *[]EngineParamBindingValueV16 `json:"array_value,omitempty"`
-	Value      *EngineParamBindingValueV15   `json:"value,omitempty"`
+	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
+	Reference *string `json:"reference,omitempty"`
+
+	// SortKey Gives an indication of how to sort the options when displayed to the user
+	SortKey string `json:"sort_key"`
+
+	// Unavailable Unavailable is true if we've failed to build the value for this binding
+	Unavailable *bool `json:"unavailable,omitempty"`
+
+	// Value Either the reference or the literal: this field is designed purely to make working with react-select easier
+	Value *string `json:"value,omitempty"`
 }
 
 // EngineParamBindingValuePayloadV2 defines model for EngineParamBindingValuePayloadV2.
@@ -2418,248 +2328,8 @@ type EngineParamBindingValuePayloadV2 struct {
 	Reference *string `json:"reference,omitempty"`
 }
 
-// EngineParamBindingValueV10 defines model for EngineParamBindingValueV10.
-type EngineParamBindingValueV10 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV11 defines model for EngineParamBindingValueV11.
-type EngineParamBindingValueV11 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV12 defines model for EngineParamBindingValueV12.
-type EngineParamBindingValueV12 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV13 defines model for EngineParamBindingValueV13.
-type EngineParamBindingValueV13 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV14 defines model for EngineParamBindingValueV14.
-type EngineParamBindingValueV14 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV15 defines model for EngineParamBindingValueV15.
-type EngineParamBindingValueV15 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV16 defines model for EngineParamBindingValueV16.
-type EngineParamBindingValueV16 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV17 defines model for EngineParamBindingValueV17.
-type EngineParamBindingValueV17 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV18 defines model for EngineParamBindingValueV18.
-type EngineParamBindingValueV18 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV19 defines model for EngineParamBindingValueV19.
-type EngineParamBindingValueV19 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
 // EngineParamBindingValueV2 defines model for EngineParamBindingValueV2.
 type EngineParamBindingValueV2 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV20 defines model for EngineParamBindingValueV20.
-type EngineParamBindingValueV20 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV21 defines model for EngineParamBindingValueV21.
-type EngineParamBindingValueV21 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV22 defines model for EngineParamBindingValueV22.
-type EngineParamBindingValueV22 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV3 defines model for EngineParamBindingValueV3.
-type EngineParamBindingValueV3 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV4 defines model for EngineParamBindingValueV4.
-type EngineParamBindingValueV4 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV5 defines model for EngineParamBindingValueV5.
-type EngineParamBindingValueV5 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV6 defines model for EngineParamBindingValueV6.
-type EngineParamBindingValueV6 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV7 defines model for EngineParamBindingValueV7.
-type EngineParamBindingValueV7 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV8 defines model for EngineParamBindingValueV8.
-type EngineParamBindingValueV8 struct {
-	// Label Human readable label to be displayed for user to select
-	Label string `json:"label"`
-
-	// Literal If set, this is the literal value of the step parameter
-	Literal *string `json:"literal,omitempty"`
-
-	// Reference If set, this is the reference into the trigger scope that is the value of this parameter
-	Reference *string `json:"reference,omitempty"`
-}
-
-// EngineParamBindingValueV9 defines model for EngineParamBindingValueV9.
-type EngineParamBindingValueV9 struct {
 	// Label Human readable label to be displayed for user to select
 	Label string `json:"label"`
 
@@ -2840,20 +2510,6 @@ type ExpressionBranchV2 struct {
 	Result          EngineParamBindingV2 `json:"result"`
 }
 
-// ExpressionBranchV3 defines model for ExpressionBranchV3.
-type ExpressionBranchV3 struct {
-	// ConditionGroups When one of these condition groups are satisfied, this branch will be evaluated
-	ConditionGroups []ConditionGroupV4   `json:"condition_groups"`
-	Result          EngineParamBindingV6 `json:"result"`
-}
-
-// ExpressionBranchV4 defines model for ExpressionBranchV4.
-type ExpressionBranchV4 struct {
-	// ConditionGroups When one of these condition groups are satisfied, this branch will be evaluated
-	ConditionGroups []ConditionGroupV7    `json:"condition_groups"`
-	Result          EngineParamBindingV11 `json:"result"`
-}
-
 // ExpressionBranchesOptsPayloadV2 defines model for ExpressionBranchesOptsPayloadV2.
 type ExpressionBranchesOptsPayloadV2 struct {
 	// Branches The branches to apply for this operation
@@ -2868,20 +2524,6 @@ type ExpressionBranchesOptsV2 struct {
 	Returns  ReturnsMetaV2        `json:"returns"`
 }
 
-// ExpressionBranchesOptsV3 defines model for ExpressionBranchesOptsV3.
-type ExpressionBranchesOptsV3 struct {
-	// Branches The branches to apply for this operation
-	Branches []ExpressionBranchV3 `json:"branches"`
-	Returns  ReturnsMetaV2        `json:"returns"`
-}
-
-// ExpressionBranchesOptsV4 defines model for ExpressionBranchesOptsV4.
-type ExpressionBranchesOptsV4 struct {
-	// Branches The branches to apply for this operation
-	Branches []ExpressionBranchV4 `json:"branches"`
-	Returns  ReturnsMetaV2        `json:"returns"`
-}
-
 // ExpressionElseBranchPayloadV2 defines model for ExpressionElseBranchPayloadV2.
 type ExpressionElseBranchPayloadV2 struct {
 	Result EngineParamBindingPayloadV2 `json:"result"`
@@ -2890,16 +2532,6 @@ type ExpressionElseBranchPayloadV2 struct {
 // ExpressionElseBranchV2 defines model for ExpressionElseBranchV2.
 type ExpressionElseBranchV2 struct {
 	Result EngineParamBindingV2 `json:"result"`
-}
-
-// ExpressionElseBranchV3 defines model for ExpressionElseBranchV3.
-type ExpressionElseBranchV3 struct {
-	Result EngineParamBindingV3 `json:"result"`
-}
-
-// ExpressionElseBranchV4 defines model for ExpressionElseBranchV4.
-type ExpressionElseBranchV4 struct {
-	Result EngineParamBindingV8 `json:"result"`
 }
 
 // ExpressionFilterOptsPayloadV2 defines model for ExpressionFilterOptsPayloadV2.
@@ -2912,18 +2544,6 @@ type ExpressionFilterOptsPayloadV2 struct {
 type ExpressionFilterOptsV2 struct {
 	// ConditionGroups The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass.
 	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
-}
-
-// ExpressionFilterOptsV3 defines model for ExpressionFilterOptsV3.
-type ExpressionFilterOptsV3 struct {
-	// ConditionGroups The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass.
-	ConditionGroups []ConditionGroupV3 `json:"condition_groups"`
-}
-
-// ExpressionFilterOptsV4 defines model for ExpressionFilterOptsV4.
-type ExpressionFilterOptsV4 struct {
-	// ConditionGroups The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass.
-	ConditionGroups []ConditionGroupV6 `json:"condition_groups"`
 }
 
 // ExpressionNavigateOptsPayloadV2 defines model for ExpressionNavigateOptsPayloadV2.
@@ -2969,36 +2589,6 @@ type ExpressionOperationV2 struct {
 
 // ExpressionOperationV2OperationType The type of the operation
 type ExpressionOperationV2OperationType string
-
-// ExpressionOperationV3 defines model for ExpressionOperationV3.
-type ExpressionOperationV3 struct {
-	Branches *ExpressionBranchesOptsV3 `json:"branches,omitempty"`
-	Filter   *ExpressionFilterOptsV3   `json:"filter,omitempty"`
-	Navigate *ExpressionNavigateOptsV2 `json:"navigate,omitempty"`
-
-	// OperationType The type of the operation
-	OperationType ExpressionOperationV3OperationType `json:"operation_type"`
-	Parse         *ExpressionParseOptsV2             `json:"parse,omitempty"`
-	Returns       ReturnsMetaV2                      `json:"returns"`
-}
-
-// ExpressionOperationV3OperationType The type of the operation
-type ExpressionOperationV3OperationType string
-
-// ExpressionOperationV4 defines model for ExpressionOperationV4.
-type ExpressionOperationV4 struct {
-	Branches *ExpressionBranchesOptsV4 `json:"branches,omitempty"`
-	Filter   *ExpressionFilterOptsV4   `json:"filter,omitempty"`
-	Navigate *ExpressionNavigateOptsV2 `json:"navigate,omitempty"`
-
-	// OperationType The type of the operation
-	OperationType ExpressionOperationV4OperationType `json:"operation_type"`
-	Parse         *ExpressionParseOptsV2             `json:"parse,omitempty"`
-	Returns       ReturnsMetaV2                      `json:"returns"`
-}
-
-// ExpressionOperationV4OperationType The type of the operation
-type ExpressionOperationV4OperationType string
 
 // ExpressionParseOptsPayloadV2 defines model for ExpressionParseOptsPayloadV2.
 type ExpressionParseOptsPayloadV2 struct {
@@ -3047,40 +2637,8 @@ type ExpressionV2 struct {
 	RootReference string `json:"root_reference"`
 }
 
-// ExpressionV3 defines model for ExpressionV3.
-type ExpressionV3 struct {
-	ElseBranch *ExpressionElseBranchV3 `json:"else_branch,omitempty"`
-
-	// Label The human readable label of the expression
-	Label      string                  `json:"label"`
-	Operations []ExpressionOperationV3 `json:"operations"`
-
-	// Reference A short ID that can be used to reference the expression
-	Reference string        `json:"reference"`
-	Returns   ReturnsMetaV2 `json:"returns"`
-
-	// RootReference The root reference for this expression (i.e. where the expression starts)
-	RootReference string `json:"root_reference"`
-}
-
-// ExpressionV4 defines model for ExpressionV4.
-type ExpressionV4 struct {
-	ElseBranch *ExpressionElseBranchV4 `json:"else_branch,omitempty"`
-
-	// Label The human readable label of the expression
-	Label      string                  `json:"label"`
-	Operations []ExpressionOperationV4 `json:"operations"`
-
-	// Reference A short ID that can be used to reference the expression
-	Reference string        `json:"reference"`
-	Returns   ReturnsMetaV2 `json:"returns"`
-
-	// RootReference The root reference for this expression (i.e. where the expression starts)
-	RootReference string `json:"root_reference"`
-}
-
-// ExternalIssueReferenceV2 defines model for ExternalIssueReferenceV2.
-type ExternalIssueReferenceV2 struct {
+// ExternalIssueReferenceV1 defines model for ExternalIssueReferenceV1.
+type ExternalIssueReferenceV1 struct {
 	// IssueName Human readable ID for the issue
 	IssueName *string `json:"issue_name,omitempty"`
 
@@ -3088,41 +2646,26 @@ type ExternalIssueReferenceV2 struct {
 	IssuePermalink *string `json:"issue_permalink,omitempty"`
 
 	// Provider ID of the issue tracker provider
-	Provider *ExternalIssueReferenceV2Provider `json:"provider,omitempty"`
+	Provider *ExternalIssueReferenceV1Provider `json:"provider,omitempty"`
+}
+
+// ExternalIssueReferenceV1Provider ID of the issue tracker provider
+type ExternalIssueReferenceV1Provider string
+
+// ExternalIssueReferenceV2 defines model for ExternalIssueReferenceV2.
+type ExternalIssueReferenceV2 struct {
+	// IssueName Human readable ID for the issue
+	IssueName string `json:"issue_name"`
+
+	// IssuePermalink URL linking directly to the action in the issue tracker
+	IssuePermalink string `json:"issue_permalink"`
+
+	// Provider ID of the issue tracker provider
+	Provider ExternalIssueReferenceV2Provider `json:"provider"`
 }
 
 // ExternalIssueReferenceV2Provider ID of the issue tracker provider
 type ExternalIssueReferenceV2Provider string
-
-// ExternalIssueReferenceV4 defines model for ExternalIssueReferenceV4.
-type ExternalIssueReferenceV4 struct {
-	// IssueName Human readable ID for the issue
-	IssueName string `json:"issue_name"`
-
-	// IssuePermalink URL linking directly to the action in the issue tracker
-	IssuePermalink string `json:"issue_permalink"`
-
-	// Provider ID of the issue tracker provider
-	Provider ExternalIssueReferenceV4Provider `json:"provider"`
-}
-
-// ExternalIssueReferenceV4Provider ID of the issue tracker provider
-type ExternalIssueReferenceV4Provider string
-
-// ExternalIssueReferenceV5 defines model for ExternalIssueReferenceV5.
-type ExternalIssueReferenceV5 struct {
-	// IssueName Human readable ID for the issue
-	IssueName string `json:"issue_name"`
-
-	// IssuePermalink URL linking directly to the action in the issue tracker
-	IssuePermalink string `json:"issue_permalink"`
-
-	// Provider ID of the issue tracker provider
-	Provider ExternalIssueReferenceV5Provider `json:"provider"`
-}
-
-// ExternalIssueReferenceV5Provider ID of the issue tracker provider
-type ExternalIssueReferenceV5Provider string
 
 // ExternalResourceV1 defines model for ExternalResourceV1.
 type ExternalResourceV1 struct {
@@ -3169,7 +2712,7 @@ type FollowUpV2 struct {
 
 	// Description Description of the follow-up
 	Description            *string                   `json:"description,omitempty"`
-	ExternalIssueReference *ExternalIssueReferenceV5 `json:"external_issue_reference,omitempty"`
+	ExternalIssueReference *ExternalIssueReferenceV2 `json:"external_issue_reference,omitempty"`
 
 	// Id Unique identifier for the follow-up
 	Id string `json:"id"`
@@ -3736,7 +3279,7 @@ type IncidentV2 struct {
 
 	// DurationMetrics Incident duration metrics and their measurements for this incident
 	DurationMetrics        *[]IncidentDurationMetricWithValueV2 `json:"duration_metrics,omitempty"`
-	ExternalIssueReference *ExternalIssueReferenceV4            `json:"external_issue_reference,omitempty"`
+	ExternalIssueReference *ExternalIssueReferenceV2            `json:"external_issue_reference,omitempty"`
 
 	// Id Unique identifier for the incident
 	Id string `json:"id"`
@@ -4491,8 +4034,8 @@ type UpdateEntryRequestBody struct {
 
 // UpdateRequestBody defines model for UpdateRequestBody.
 type UpdateRequestBody struct {
-	// AlertSourceIds Legacy field - the alert sources that will match this alert route
-	AlertSourceIds []string `json:"alert_source_ids"`
+	// AlertSources Which alert sources should this alert route match?
+	AlertSources []AlertRouteAlertSource `json:"alert_sources"`
 
 	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
 	AutoDeclineEnabled bool `json:"auto_decline_enabled"`
@@ -4669,8 +4212,8 @@ type UpdateTypeSchemaRequestBody struct {
 	Version    int64                           `json:"version"`
 }
 
-// UpdateWorkflowPayload2 defines model for UpdateWorkflowPayload2.
-type UpdateWorkflowPayload2 struct {
+// UpdateWorkflowPayload defines model for UpdateWorkflowPayload.
+type UpdateWorkflowPayload struct {
 	// Annotations Annotations that track metadata about this resource
 	Annotations *map[string]string `json:"annotations,omitempty"`
 
@@ -4697,26 +4240,29 @@ type UpdateWorkflowPayload2 struct {
 	OnceFor []string `json:"once_for"`
 
 	// RunsOnIncidentModes Which modes of incident this should run on (defaults to just standard incidents)
-	RunsOnIncidentModes []UpdateWorkflowPayload2RunsOnIncidentModes `json:"runs_on_incident_modes"`
+	RunsOnIncidentModes []UpdateWorkflowPayloadRunsOnIncidentModes `json:"runs_on_incident_modes"`
 
 	// RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
-	RunsOnIncidents UpdateWorkflowPayload2RunsOnIncidents `json:"runs_on_incidents"`
+	RunsOnIncidents UpdateWorkflowPayloadRunsOnIncidents `json:"runs_on_incidents"`
+
+	// Shortform Shortform used to trigger manual workflows in Slack - e.g. `/inc workflows page-ceo`
+	Shortform *string `json:"shortform,omitempty"`
 
 	// State The state of the workflow (e.g. is it draft, or disabled)
-	State *UpdateWorkflowPayload2State `json:"state,omitempty"`
+	State *UpdateWorkflowPayloadState `json:"state,omitempty"`
 
 	// Steps List of step to execute as part of the workflow
 	Steps []StepConfigPayload `json:"steps"`
 }
 
-// UpdateWorkflowPayload2RunsOnIncidentModes defines model for UpdateWorkflowPayload2.RunsOnIncidentModes.
-type UpdateWorkflowPayload2RunsOnIncidentModes string
+// UpdateWorkflowPayloadRunsOnIncidentModes defines model for UpdateWorkflowPayload.RunsOnIncidentModes.
+type UpdateWorkflowPayloadRunsOnIncidentModes string
 
-// UpdateWorkflowPayload2RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
-type UpdateWorkflowPayload2RunsOnIncidents string
+// UpdateWorkflowPayloadRunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
+type UpdateWorkflowPayloadRunsOnIncidents string
 
-// UpdateWorkflowPayload2State The state of the workflow (e.g. is it draft, or disabled)
-type UpdateWorkflowPayload2State string
+// UpdateWorkflowPayloadState The state of the workflow (e.g. is it draft, or disabled)
+type UpdateWorkflowPayloadState string
 
 // UserReferencePayloadV1 defines model for UserReferencePayloadV1.
 type UserReferencePayloadV1 struct {
@@ -4834,14 +4380,14 @@ type WeekdayIntervalV2 struct {
 // Workflow defines model for Workflow.
 type Workflow struct {
 	// ConditionGroups Conditions that apply to the workflow trigger
-	ConditionGroups []ConditionGroupV5 `json:"condition_groups"`
+	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
 
 	// ContinueOnStepError Whether to continue executing the workflow if a step fails
 	ContinueOnStepError bool           `json:"continue_on_step_error"`
 	Delay               *WorkflowDelay `json:"delay,omitempty"`
 
 	// Expressions Expressions that make variables available in the scope
-	Expressions []ExpressionV3 `json:"expressions"`
+	Expressions []ExpressionV2 `json:"expressions"`
 
 	// Folder Folder to display the workflow in
 	Folder *string `json:"folder,omitempty"`
@@ -4866,6 +4412,9 @@ type Workflow struct {
 
 	// RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
 	RunsOnIncidents WorkflowRunsOnIncidents `json:"runs_on_incidents"`
+
+	// Shortform Shortform used to trigger manual workflows in Slack - e.g. `/inc workflows page-ceo`
+	Shortform *string `json:"shortform,omitempty"`
 
 	// State The state of the workflow (e.g. is it draft, or disabled)
 	State WorkflowState `json:"state"`
@@ -4899,14 +4448,14 @@ type WorkflowDelay struct {
 // WorkflowSlim defines model for WorkflowSlim.
 type WorkflowSlim struct {
 	// ConditionGroups Conditions that apply to the workflow trigger
-	ConditionGroups []ConditionGroupV8 `json:"condition_groups"`
+	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
 
 	// ContinueOnStepError Whether to continue executing the workflow if a step fails
 	ContinueOnStepError bool           `json:"continue_on_step_error"`
 	Delay               *WorkflowDelay `json:"delay,omitempty"`
 
 	// Expressions Expressions that make variables available in the scope
-	Expressions []ExpressionV4 `json:"expressions"`
+	Expressions []ExpressionV2 `json:"expressions"`
 
 	// Folder Folder to display the workflow in
 	Folder *string `json:"folder,omitempty"`
@@ -4931,6 +4480,9 @@ type WorkflowSlim struct {
 
 	// RunsOnIncidents Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
 	RunsOnIncidents WorkflowSlimRunsOnIncidents `json:"runs_on_incidents"`
+
+	// Shortform Shortform used to trigger manual workflows in Slack - e.g. `/inc workflows page-ceo`
+	Shortform *string `json:"shortform,omitempty"`
 
 	// State The state of the workflow (e.g. is it draft, or disabled)
 	State WorkflowSlimState `json:"state"`
@@ -5235,7 +4787,7 @@ type SchedulesV2UpdateJSONRequestBody = UpdateRequestBody8
 type WorkflowsV2CreateWorkflowJSONRequestBody = CreateWorkflowPayload
 
 // WorkflowsV2UpdateWorkflowJSONRequestBody defines body for WorkflowsV2UpdateWorkflow for application/json ContentType.
-type WorkflowsV2UpdateWorkflowJSONRequestBody = UpdateWorkflowPayload2
+type WorkflowsV2UpdateWorkflowJSONRequestBody = UpdateWorkflowPayload
 
 // RequestEditorFn  is the function signature for the RequestEditor callback function
 type RequestEditorFn func(ctx context.Context, req *http.Request) error
