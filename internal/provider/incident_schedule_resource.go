@@ -44,12 +44,12 @@ type Rotation struct {
 }
 
 type RotationVersion struct {
-	EffectiveFrom    types.String              `tfsdk:"effective_from"`
-	HandoverStartAt  types.String              `tfsdk:"handover_start_at"`
-	Handovers        []Handover                `tfsdk:"handovers"`
-	Users            []types.String            `tfsdk:"users"`
-	WorkingIntervals []IncidentWeekdayInterval `tfsdk:"working_intervals"`
-	Layers           []Layer                   `tfsdk:"layers"`
+	EffectiveFrom    types.String      `tfsdk:"effective_from"`
+	HandoverStartAt  types.String      `tfsdk:"handover_start_at"`
+	Handovers        []Handover        `tfsdk:"handovers"`
+	Users            []types.String    `tfsdk:"users"`
+	WorkingIntervals []WorkingInterval `tfsdk:"working_intervals"`
+	Layers           []Layer           `tfsdk:"layers"`
 }
 
 // Deprecated: this should be replaced (eventually) by IncidentWeekdayInterval.
@@ -347,9 +347,9 @@ func buildScheduleCreatePayload(data *IncidentScheduleResourceModel, resp *resou
 			workingIntervals := make([]client.ScheduleRotationWorkingIntervalCreatePayloadV2, 0, len(version.WorkingIntervals))
 			for _, workingInterval := range version.WorkingIntervals {
 				workingIntervals = append(workingIntervals, client.ScheduleRotationWorkingIntervalCreatePayloadV2{
-					StartTime: workingInterval.StartTime.ValueString(),
-					EndTime:   workingInterval.EndTime.ValueString(),
-					Weekday:   client.ScheduleRotationWorkingIntervalCreatePayloadV2Weekday(workingInterval.Weekday.ValueString()),
+					StartTime: workingInterval.Start.ValueString(),
+					EndTime:   workingInterval.End.ValueString(),
+					Weekday:   client.ScheduleRotationWorkingIntervalCreatePayloadV2Weekday(workingInterval.Day.ValueString()),
 				})
 			}
 
@@ -392,10 +392,10 @@ func buildScheduleUpdatePayload(data *IncidentScheduleResourceModel, resp *resou
 		for _, version := range rotation.Versions {
 			workingIntervals := make([]client.ScheduleRotationWorkingIntervalUpdatePayloadV2, 0, len(version.WorkingIntervals))
 			for _, workingInterval := range version.WorkingIntervals {
-				workingIntervalWeekday := client.ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday(workingInterval.Weekday.ValueString())
+				workingIntervalWeekday := client.ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday(workingInterval.Day.ValueString())
 				workingIntervals = append(workingIntervals, client.ScheduleRotationWorkingIntervalUpdatePayloadV2{
-					StartTime: workingInterval.StartTime.ValueStringPointer(),
-					EndTime:   workingInterval.EndTime.ValueStringPointer(),
+					StartTime: workingInterval.Start.ValueStringPointer(),
+					EndTime:   workingInterval.End.ValueStringPointer(),
 					Weekday:   &workingIntervalWeekday,
 				})
 			}
@@ -511,13 +511,13 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 				ID:   types.StringValue(rotation.ID),
 				Name: types.StringValue(rotation.Name),
 				Versions: lo.Map(rotationsGroupedByID[rotation.ID], func(rotation client.ScheduleRotationV2, idx int) RotationVersion {
-					var workingIntervals []IncidentWeekdayInterval
+					var workingIntervals []WorkingInterval
 					if rotation.WorkingInterval != nil {
-						workingIntervals = lo.Map(*rotation.WorkingInterval, func(interval client.ScheduleRotationWorkingIntervalV2, _ int) IncidentWeekdayInterval {
-							return IncidentWeekdayInterval{
-								StartTime: types.StringValue(interval.StartTime),
-								EndTime:   types.StringValue(interval.EndTime),
-								Weekday:   types.StringValue(string(interval.Weekday)),
+						workingIntervals = lo.Map(*rotation.WorkingInterval, func(interval client.ScheduleRotationWorkingIntervalV2, _ int) WorkingInterval {
+							return WorkingInterval{
+								Start: types.StringValue(interval.StartTime),
+								End:   types.StringValue(interval.EndTime),
+								Day:   types.StringValue(string(interval.Weekday)),
 							}
 						})
 					}
