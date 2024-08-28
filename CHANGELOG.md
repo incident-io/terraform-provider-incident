@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.8.7
+
+- Migrate to a new internal client, no functional changes.
+
 ## 3.8.6
 
 - Add support for the `incident_incident_role` data source.
