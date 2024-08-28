@@ -106,10 +106,6 @@ func buildParamBindings(pbs []client.EngineParamBindingV2) []IncidentEngineParam
 	return out
 }
 
-func (r *IncidentWorkflowResource) buildParamBinding(pb client.EngineParamBindingV2) IncidentEngineParamBinding {
-	return IncidentEngineParamBinding{}.FromEngineParamBindingV2(pb)
-}
-
 func buildExpressions(expressions []client.ExpressionV2) IncidentEngineExpressions {
 	out := IncidentEngineExpressions{}
 
