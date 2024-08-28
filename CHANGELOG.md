@@ -3,6 +3,7 @@
 ## 3.8.8
 
 - Support workflow shortforms for triggering manual workflows.
+- Fix regression from 3.8.6 that impacted creating and updating schedules with working intervals
 
 ## 3.8.7
 
