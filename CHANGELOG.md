@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.8.8
+
+- Support workflow shortforms for triggering manual workflows.
+
 ## 3.8.7
 
 - Migrate to a new internal client, no functional changes.

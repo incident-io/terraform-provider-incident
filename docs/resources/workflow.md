@@ -97,6 +97,7 @@ resource "incident_workflow" "autoassign_incident_lead" {
 
 - `delay` (Attributes) Configuration controlling workflow delay behaviour (see [below for nested schema](#nestedatt--delay))
 - `folder` (String) Folder to display the workflow in
+- `shortform` (String) Shortform used to trigger manual workflows in Slack - e.g. `/inc workflows page-ceo`
 
 ### Read-Only
 
