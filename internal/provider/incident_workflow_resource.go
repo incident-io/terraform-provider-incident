@@ -35,6 +35,7 @@ type IncidentWorkflowResourceModel struct {
 	ID                      types.String                  `tfsdk:"id"`
 	Name                    types.String                  `tfsdk:"name"`
 	Folder                  types.String                  `tfsdk:"folder"`
+	Shortform               types.String                  `tfsdk:"shortform"`
 	Trigger                 types.String                  `tfsdk:"trigger"`
 	ConditionGroups         IncidentEngineConditionGroups `tfsdk:"condition_groups"`
 	Steps                   []IncidentWorkflowStep        `tfsdk:"steps"`
@@ -83,6 +84,10 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 			},
 			"folder": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("Workflow", "folder"),
+				Optional:            true,
+			},
+			"shortform": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("Workflow", "shortform"),
 				Optional:            true,
 			},
 			"trigger": schema.StringAttribute{
@@ -183,6 +188,7 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 		RunsOnIncidents:         client.CreateWorkflowPayloadRunsOnIncidents(data.RunsOnIncidents.ValueString()),
 		RunsOnIncidentModes:     runsOnIncidentModes,
 		Folder:                  data.Folder.ValueStringPointer(),
+		Shortform:               data.Shortform.ValueStringPointer(),
 		IncludePrivateIncidents: data.IncludePrivateIncidents.ValueBool(),
 		ContinueOnStepError:     data.ContinueOnStepError.ValueBool(),
 		State:                   lo.ToPtr(client.CreateWorkflowPayloadState(data.State.ValueString())),
@@ -244,6 +250,7 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		RunsOnIncidents:         client.UpdateWorkflowPayloadRunsOnIncidents(data.RunsOnIncidents.ValueString()),
 		RunsOnIncidentModes:     runsOnIncidentModes,
 		Folder:                  data.Folder.ValueStringPointer(),
+		Shortform:               data.Shortform.ValueStringPointer(),
 		IncludePrivateIncidents: data.IncludePrivateIncidents.ValueBool(),
 		ContinueOnStepError:     data.ContinueOnStepError.ValueBool(),
 		State:                   lo.ToPtr(client.UpdateWorkflowPayloadState(data.State.ValueString())),

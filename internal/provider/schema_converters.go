@@ -26,6 +26,9 @@ func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *Inciden
 	if workflow.Folder != nil {
 		model.Folder = types.StringValue(*workflow.Folder)
 	}
+	if workflow.Shortform != nil {
+		model.Shortform = types.StringValue(*workflow.Shortform)
+	}
 	if workflow.Delay != nil {
 		model.Delay = &IncidentWorkflowDelay{
 			ConditionsApplyOverDelay: types.BoolValue(workflow.Delay.ConditionsApplyOverDelay),
