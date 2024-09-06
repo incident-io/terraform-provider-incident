@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.8.10
+
+- Fix another issue with condition group arrays that was producing inconsistent apply results
+
 ## 3.8.9
 
 - Fix a bug with the serialisation of empty condition group arrays that caused validation errors
