@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 3.8.9
+
+- Fix a bug with the serialisation of empty condition group arrays that caused validation errors
+
 ## 3.8.8
 
 - Support workflow shortforms for triggering manual workflows.
