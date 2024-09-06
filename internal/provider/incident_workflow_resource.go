@@ -340,15 +340,15 @@ func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.C
 // toPayloadConditionGroups converts from the terraform model to the http payload type.
 // The payload type is different from the response type, which includes more information such as labels.
 func toPayloadConditionGroups(groups IncidentEngineConditionGroups) []client.ConditionGroupPayloadV2 {
-	var payload []client.ConditionGroupPayloadV2
+	out := []client.ConditionGroupPayloadV2{}
 
 	for _, group := range groups {
-		payload = append(payload, client.ConditionGroupPayloadV2{
+		out = append(out, client.ConditionGroupPayloadV2{
 			Conditions: toPayloadConditions(group.Conditions),
 		})
 	}
 
-	return payload
+	return out
 }
 
 func toPayloadConditions(conditions []IncidentEngineCondition) []client.ConditionPayloadV2 {
