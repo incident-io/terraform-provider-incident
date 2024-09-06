@@ -59,7 +59,7 @@ func buildRunsOnIncidentModes(modes []client.WorkflowRunsOnIncidentModes) []base
 }
 
 func buildConditionGroups(groups []client.ConditionGroupV2) IncidentEngineConditionGroups {
-	var out IncidentEngineConditionGroups
+	out := IncidentEngineConditionGroups{}
 
 	for _, g := range groups {
 		out = append(out, IncidentEngineConditionGroup{
