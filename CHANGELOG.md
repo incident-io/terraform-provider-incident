@@ -1,4 +1,6 @@
-## Unreleased
+## 3.8.11
+
+- Add `external_id` to `resource_catalog_entry` 
 
 ## 3.8.10
 
