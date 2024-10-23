@@ -22,6 +22,26 @@ If you're working with a large number of entries (>100) or want to be authoritat
 ## Example Usage
 
 ```terraform
+locals {
+  service_tiers = [
+    {
+      name        = "tier_1"
+      description = "Critical customer-facing services"
+      external_id = "service-tier-1"
+    },
+    {
+      name        = "tier_2"
+      description = "Either customers or internal user processes are impacted if this service fails"
+      external_id = "service-tier-2"
+    },
+    {
+      name        = "tier_3"
+      description = "Non-essential services"
+      external_id = "service-tier-3"
+    },
+  ]
+}
+
 resource "incident_catalog_type" "service_tier" {
   name        = "Service Tier"
   description = "Level of importance for each service"
@@ -35,26 +55,15 @@ resource "incident_catalog_type_attribute" "service_tier_description" {
 }
 
 resource "incident_catalog_entry" "service_tier" {
-  for_each = {
-    for name, tier in [
-      {
-        name        = "tier_1"
-        description = "Critical customer-facing services"
-      },
-      {
-        name        = "tier_2"
-        description = "Either customers or internal user processes are impacted if this service fails"
-      },
-      {
-        name        = "tier_3"
-        description = "Non-essential services"
-      },
-    ] : tier.name => tier
+  for_each = { for tier in local.service_tiers :
+    tier.name => tier
   }
 
   catalog_type_id = incident_catalog_type.service_tier.id
 
   name = each.value.name
+
+  external_id = each.value.external_id
 
   attribute_values = [
     {
@@ -77,6 +86,7 @@ resource "incident_catalog_entry" "service_tier" {
 ### Optional
 
 - `aliases` (List of String) Optional aliases that can be used to reference this entry
+- `external_id` (String) An optional alternative ID for this entry, which is ensured to be unique for the type
 - `rank` (Number) When catalog type is ranked, this is used to help order things
 
 ### Read-Only

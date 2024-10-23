@@ -33,6 +33,7 @@ type IncidentCatalogEntryResourceModel struct {
 	ID              types.String                 `tfsdk:"id"`
 	CatalogTypeID   types.String                 `tfsdk:"catalog_type_id"`
 	Name            types.String                 `tfsdk:"name"`
+	ExternalID      types.String                 `tfsdk:"external_id"`
 	Aliases         types.List                   `tfsdk:"aliases"`
 	Rank            types.Int64                  `tfsdk:"rank"`
 	AttributeValues []CatalogEntryAttributeValue `tfsdk:"attribute_values"`
@@ -110,6 +111,10 @@ If you're working with a large number of entries (>100) or want to be authoritat
 			"name": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CatalogEntryV2", "name"),
 				Required:            true,
+			},
+			"external_id": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("CatalogEntryV2", "external_id"),
+				Optional:            true,
 			},
 			"aliases": schema.ListAttribute{
 				ElementType: types.StringType,
@@ -189,6 +194,7 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 	result, err := r.client.CatalogV2CreateEntryWithResponse(ctx, client.CreateEntryRequestBody{
 		CatalogTypeId:   data.CatalogTypeID.ValueString(),
 		Name:            data.Name.ValueString(),
+		ExternalId:      data.ExternalID.ValueStringPointer(),
 		Rank:            rank,
 		Aliases:         &aliases,
 		AttributeValues: data.buildAttributeValues(),
@@ -256,6 +262,7 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 	result, err := r.client.CatalogV2UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.UpdateEntryRequestBody{
 		Name:            data.Name.ValueString(),
 		Rank:            rank,
+		ExternalId:      data.ExternalID.ValueStringPointer(),
 		Aliases:         &aliases,
 		AttributeValues: data.buildAttributeValues(),
 	})
@@ -334,6 +341,7 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV2) *
 		ID:              types.StringValue(entry.Id),
 		CatalogTypeID:   types.StringValue(entry.CatalogTypeId),
 		Name:            types.StringValue(entry.Name),
+		ExternalID:      types.StringPointerValue(entry.ExternalId),
 		Aliases:         types.ListValueMust(types.StringType, aliases),
 		Rank:            types.Int64Value(int64(entry.Rank)),
 		AttributeValues: values,
