@@ -17,6 +17,7 @@ import (
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
 )
 
 var (
@@ -27,50 +28,6 @@ var (
 type IncidentScheduleResource struct {
 	client           *client.ClientWithResponses
 	terraformVersion string
-}
-
-type IncidentScheduleResourceModel struct {
-	ID                   types.String          `tfsdk:"id"`
-	Name                 types.String          `tfsdk:"name"`
-	Timezone             types.String          `tfsdk:"timezone"`
-	Rotations            []Rotation            `tfsdk:"rotations"`
-	HolidaysPublicConfig *HolidaysPublicConfig `tfsdk:"holidays_public_config"`
-}
-
-type Rotation struct {
-	ID       types.String      `tfsdk:"id"`
-	Name     types.String      `tfsdk:"name"`
-	Versions []RotationVersion `tfsdk:"versions"`
-}
-
-type RotationVersion struct {
-	EffectiveFrom    types.String      `tfsdk:"effective_from"`
-	HandoverStartAt  types.String      `tfsdk:"handover_start_at"`
-	Handovers        []Handover        `tfsdk:"handovers"`
-	Users            []types.String    `tfsdk:"users"`
-	WorkingIntervals []WorkingInterval `tfsdk:"working_intervals"`
-	Layers           []Layer           `tfsdk:"layers"`
-}
-
-// Deprecated: this should be replaced (eventually) by IncidentWeekdayInterval.
-type WorkingInterval struct {
-	Start types.String `tfsdk:"start"`
-	End   types.String `tfsdk:"end"`
-	Day   types.String `tfsdk:"day"`
-}
-
-type Layer struct {
-	ID   types.String `tfsdk:"id"`
-	Name types.String `tfsdk:"name"`
-}
-
-type Handover struct {
-	Interval     types.Int64  `tfsdk:"interval"`
-	IntervalType types.String `tfsdk:"interval_type"`
-}
-
-type HolidaysPublicConfig struct {
-	CountryCodes []types.String `tfsdk:"country_codes"`
 }
 
 func NewIncidentScheduleResource() resource.Resource {
@@ -212,9 +169,27 @@ func (r *IncidentScheduleResource) Configure(ctx context.Context, req resource.C
 	r.terraformVersion = client.TerraformVersion
 }
 
+func readScheduleResource(ctx context.Context, getMethod func(ctx context.Context, target interface{}) diag.Diagnostics) (*models.IncidentScheduleResourceModelV2, diag.Diagnostics) {
+	var v2Data *models.IncidentScheduleResourceModelV2
+	diags := getMethod(ctx, &v2Data)
+	if diags.HasError() {
+		var v1Data *models.IncidentScheduleResourceModelV1
+		diags = getMethod(ctx, &v1Data)
+		if diags.HasError() {
+			return nil, diags
+		}
+
+		v2Data = v1Data.Upgrade()
+
+		return nil, diags
+	}
+
+	return v2Data, nil
+}
+
 func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var data *IncidentScheduleResourceModel
-	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	data, diagnostics := readScheduleResource(ctx, req.Plan.Get)
+	resp.Diagnostics.Append(diagnostics...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -254,8 +229,8 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 }
 
 func (r *IncidentScheduleResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var data *IncidentScheduleResourceModel
-	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+	data, diagnostics := readScheduleResource(ctx, req.State.Get)
+	resp.Diagnostics.Append(diagnostics...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -282,7 +257,7 @@ func (r *IncidentScheduleResource) Read(ctx context.Context, req resource.ReadRe
 }
 
 func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var old *IncidentScheduleResourceModel
+	var old *models.IncidentScheduleResourceModelV2
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &old)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -322,8 +297,8 @@ func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.Upda
 }
 
 func (r *IncidentScheduleResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data *IncidentScheduleResourceModel
-	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+	data, diagnostics := readScheduleResource(ctx, req.State.Get)
+	resp.Diagnostics.Append(diagnostics...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -340,16 +315,16 @@ func (r *IncidentScheduleResource) ImportState(ctx context.Context, req resource
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func buildScheduleCreatePayload(data *IncidentScheduleResourceModel, resp *resource.CreateResponse) ([]client.ScheduleRotationCreatePayloadV2, error) {
+func buildScheduleCreatePayload(data *models.IncidentScheduleResourceModelV2, resp *resource.CreateResponse) ([]client.ScheduleRotationCreatePayloadV2, error) {
 	rotationArray := make([]client.ScheduleRotationCreatePayloadV2, 0, len(data.Rotations))
 	for _, rotation := range data.Rotations {
 		for _, version := range rotation.Versions {
 			workingIntervals := make([]client.ScheduleRotationWorkingIntervalCreatePayloadV2, 0, len(version.WorkingIntervals))
 			for _, workingInterval := range version.WorkingIntervals {
 				workingIntervals = append(workingIntervals, client.ScheduleRotationWorkingIntervalCreatePayloadV2{
-					StartTime: workingInterval.Start.ValueString(),
-					EndTime:   workingInterval.End.ValueString(),
-					Weekday:   client.ScheduleRotationWorkingIntervalCreatePayloadV2Weekday(workingInterval.Day.ValueString()),
+					StartTime: workingInterval.StartTime.ValueString(),
+					EndTime:   workingInterval.EndTime.ValueString(),
+					Weekday:   client.ScheduleRotationWorkingIntervalCreatePayloadV2Weekday(workingInterval.Weekday.ValueString()),
 				})
 			}
 
@@ -386,16 +361,16 @@ func buildScheduleCreatePayload(data *IncidentScheduleResourceModel, resp *resou
 	return rotationArray, nil
 }
 
-func buildScheduleUpdatePayload(data *IncidentScheduleResourceModel, resp *resource.UpdateResponse) ([]client.ScheduleRotationUpdatePayloadV2, error) {
+func buildScheduleUpdatePayload(data *models.IncidentScheduleResourceModelV2, resp *resource.UpdateResponse) ([]client.ScheduleRotationUpdatePayloadV2, error) {
 	rotationArray := make([]client.ScheduleRotationUpdatePayloadV2, 0, len(data.Rotations))
 	for _, rotation := range data.Rotations {
 		for _, version := range rotation.Versions {
 			workingIntervals := make([]client.ScheduleRotationWorkingIntervalUpdatePayloadV2, 0, len(version.WorkingIntervals))
 			for _, workingInterval := range version.WorkingIntervals {
-				workingIntervalWeekday := client.ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday(workingInterval.Day.ValueString())
+				workingIntervalWeekday := client.ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday(workingInterval.Weekday.ValueString())
 				workingIntervals = append(workingIntervals, client.ScheduleRotationWorkingIntervalUpdatePayloadV2{
-					StartTime: workingInterval.Start.ValueStringPointer(),
-					EndTime:   workingInterval.End.ValueStringPointer(),
+					StartTime: workingInterval.StartTime.ValueStringPointer(),
+					EndTime:   workingInterval.EndTime.ValueStringPointer(),
 					Weekday:   &workingIntervalWeekday,
 				})
 			}
@@ -443,8 +418,8 @@ func buildUsersArray(users []types.String) []client.UserReferencePayloadV2 {
 }
 
 // buildHandoversArray converts a list of handovers to a list of handover references.
-func buildHandoversArray(handovers []Handover) []client.ScheduleRotationHandoverV2 {
-	clientHandovers := lo.Map(handovers, func(handover Handover, _ int) client.ScheduleRotationHandoverV2 {
+func buildHandoversArray(handovers []models.HandoverV2) []client.ScheduleRotationHandoverV2 {
+	clientHandovers := lo.Map(handovers, func(handover models.HandoverV2, _ int) client.ScheduleRotationHandoverV2 {
 		intervalType := client.ScheduleRotationHandoverV2IntervalType(handover.IntervalType.ValueString())
 		return client.ScheduleRotationHandoverV2{
 			Interval:     handover.Interval.ValueInt64Pointer(),
@@ -472,7 +447,7 @@ func buildEffectiveFrom(diagnostics diag.Diagnostics, effectiveFrom types.String
 // buildModel converts a schedule from the API to a resource model
 // this involves taking schedule rotations, grouping them by ID,
 // extracting the shared data, and then building the nested structure.
-func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *IncidentScheduleResourceModel {
+func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *models.IncidentScheduleResourceModelV2 {
 	rotationsGroupedByID := lo.GroupBy(schedule.Config.Rotations, func(rotation client.ScheduleRotationV2) string {
 		return rotation.Id
 	})
@@ -491,47 +466,47 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 
 	rotationNames = lo.Uniq(rotationNames)
 
-	var holidaysPublicConfig *HolidaysPublicConfig
+	var holidaysPublicConfig *models.HolidaysPublicConfigV2
 	if schedule.HolidaysPublicConfig != nil {
 		countryCodes := lo.Map(schedule.HolidaysPublicConfig.CountryCodes, func(countryCode string, _ int) types.String {
 			return types.StringValue(countryCode)
 		})
-		holidaysPublicConfig = &HolidaysPublicConfig{
+		holidaysPublicConfig = &models.HolidaysPublicConfigV2{
 			CountryCodes: countryCodes,
 		}
 	}
 
-	return &IncidentScheduleResourceModel{
+	return &models.IncidentScheduleResourceModelV2{
 		Name:                 types.StringValue(schedule.Name),
 		ID:                   types.StringValue(schedule.Id),
 		Timezone:             types.StringValue(schedule.Timezone),
 		HolidaysPublicConfig: holidaysPublicConfig,
-		Rotations: lo.Map(rotationNames, func(rotation RotationName, _ int) Rotation {
-			newRotation := Rotation{
+		Rotations: lo.Map(rotationNames, func(rotation RotationName, _ int) models.RotationV2 {
+			newRotation := models.RotationV2{
 				ID:   types.StringValue(rotation.ID),
 				Name: types.StringValue(rotation.Name),
-				Versions: lo.Map(rotationsGroupedByID[rotation.ID], func(rotation client.ScheduleRotationV2, idx int) RotationVersion {
-					var workingIntervals []WorkingInterval
+				Versions: lo.Map(rotationsGroupedByID[rotation.ID], func(rotation client.ScheduleRotationV2, idx int) models.RotationVersionV2 {
+					var workingIntervals []models.IncidentWeekdayInterval
 					if rotation.WorkingInterval != nil {
-						workingIntervals = lo.Map(*rotation.WorkingInterval, func(interval client.ScheduleRotationWorkingIntervalV2, _ int) WorkingInterval {
-							return WorkingInterval{
-								Start: types.StringValue(interval.StartTime),
-								End:   types.StringValue(interval.EndTime),
-								Day:   types.StringValue(string(interval.Weekday)),
+						workingIntervals = lo.Map(*rotation.WorkingInterval, func(interval client.ScheduleRotationWorkingIntervalV2, _ int) models.IncidentWeekdayInterval {
+							return models.IncidentWeekdayInterval{
+								StartTime: types.StringValue(interval.StartTime),
+								EndTime:   types.StringValue(interval.EndTime),
+								Weekday:   types.StringValue(string(interval.Weekday)),
 							}
 						})
 					}
 
-					layers := lo.Map(rotation.Layers, func(layer client.ScheduleLayerV2, _ int) Layer {
-						return Layer{
+					layers := lo.Map(rotation.Layers, func(layer client.ScheduleLayerV2, _ int) models.LayerV2 {
+						return models.LayerV2{
 							ID:   types.StringPointerValue(layer.Id),
 							Name: types.StringPointerValue(layer.Name),
 						}
 					})
 
-					handovers := lo.Map(rotation.Handovers, func(handover client.ScheduleRotationHandoverV2, _ int) Handover {
+					handovers := lo.Map(rotation.Handovers, func(handover client.ScheduleRotationHandoverV2, _ int) models.HandoverV2 {
 						intervalTypeString := string(*handover.IntervalType)
-						return Handover{
+						return models.HandoverV2{
 							Interval:     types.Int64Value(lo.FromPtr(handover.Interval)),
 							IntervalType: types.StringValue(intervalTypeString),
 						}
@@ -554,7 +529,7 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 
 					handoverStartAt := types.StringValue(rotation.HandoverStartAt.Format(time.RFC3339))
 
-					return RotationVersion{
+					return models.RotationVersionV2{
 						EffectiveFrom:    effectiveFrom,
 						Handovers:        handovers,
 						Users:            users,
@@ -569,7 +544,7 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *Incid
 	}
 }
 
-func buildScheduleHolidaysPublicConfig(data *IncidentScheduleResourceModel) *client.ScheduleHolidaysPublicConfigPayloadV2 {
+func buildScheduleHolidaysPublicConfig(data *models.IncidentScheduleResourceModelV2) *client.ScheduleHolidaysPublicConfigPayloadV2 {
 	if data.HolidaysPublicConfig == nil {
 		return nil
 	}
