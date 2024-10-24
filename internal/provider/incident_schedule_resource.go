@@ -99,13 +99,13 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "working_interval"),
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
-												"start": schema.StringAttribute{
+												"start_time": schema.StringAttribute{
 													Required: true,
 												},
-												"end": schema.StringAttribute{
+												"end_time": schema.StringAttribute{
 													Required: true,
 												},
-												"day": schema.StringAttribute{
+												"weekday": schema.StringAttribute{
 													Required: true,
 												},
 											},
