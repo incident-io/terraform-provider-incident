@@ -1,4 +1,4 @@
-package provider
+package models
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
