@@ -180,8 +180,6 @@ func readScheduleResource(ctx context.Context, getMethod func(ctx context.Contex
 		}
 
 		v2Data = v1Data.Upgrade()
-
-		return nil, diags
 	}
 
 	return v2Data, nil
