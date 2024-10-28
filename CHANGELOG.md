@@ -1,3 +1,12 @@
+## 4.0.0
+
+- Fixes an issue where the provider might fail to import Terraform state for a schedule with working hours applied
+
+To upgrade to v4.0.0, if you've got on-call schedules with working hours specified in your Terraform code, you'll need to rename the following properties of your `working_intervals`:
+- `day` -> `weekday`
+- `start` -> `start_time`
+- `end` -> `end_time`
+
 ## 3.8.11
 
 - Add `external_id` to `resource_catalog_entry` 
