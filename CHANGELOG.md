@@ -1,3 +1,10 @@
+## Unreleased
+
+## 4.0.1
+
+- Ensures that client operations will fail with errors when an endpoint would
+  otherwise have returned 204 no content for a successful operation.
+
 ## 4.0.0
 
 - Fixes an issue where the provider might fail to import Terraform state for a schedule with working hours applied
