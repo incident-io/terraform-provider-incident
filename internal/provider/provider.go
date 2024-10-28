@@ -2,23 +2,16 @@ package provider
 
 import (
 	"context"
-	"fmt"
-	"net/http"
 	"os"
-	"time"
 
 	_ "embed"
 
-	"github.com/deepmap/oapi-codegen/pkg/securityprovider"
-	"github.com/hashicorp/go-cleanhttp"
-	"github.com/hashicorp/go-retryablehttp"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/motemen/go-loghttp"
 )
 
 var _ provider.Provider = &IncidentProvider{}
@@ -101,57 +94,17 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 		apiKey = data.APIKey.ValueString()
 	}
 
-	bearerTokenProvider, bearerTokenProviderErr := securityprovider.NewSecurityProviderBearerToken(apiKey)
-	if bearerTokenProviderErr != nil {
-		panic(bearerTokenProviderErr)
-	}
-
-	base := retryablehttp.NewClient()
-	base.RetryMax = 10
-	base.Backoff = func(minimum, maximum time.Duration, attemptNum int, httpResp *http.Response) time.Duration {
-		// Retry for rate limits and server errors.
-		if httpResp != nil && httpResp.StatusCode == http.StatusTooManyRequests {
-			retryAfter := httpResp.Header.Get("Retry-After")
-			if retryAfter != "" {
-				retryAfterDate, err := time.Parse(time.RFC1123, retryAfter)
-				if err != nil {
-					// If we can't parse the Retry-After, lets just wait for 10 seconds
-					return 10
-				}
-
-				timeToWait := time.Until(retryAfterDate)
-
-				return timeToWait
-			}
-		}
-		// Fallback to the default backoff
-		return retryablehttp.DefaultBackoff(minimum, maximum, attemptNum, httpResp)
-	}
-
-	base.HTTPClient.Transport = &loghttp.Transport{
-		Transport: cleanhttp.DefaultTransport(),
-	}
-
-	client, err := client.NewClientWithResponses(
-		endpoint,
-		client.WithHTTPClient(base.StandardClient()),
-		client.WithRequestEditorFn(bearerTokenProvider.Intercept),
-		// Add a user-agent so we can tell which version these requests came from.
-		client.WithRequestEditorFn(func(ctx context.Context, req *http.Request) error {
-			req.Header.Add("user-agent", fmt.Sprintf("terraform-provider-incident/%s", p.version))
-			return nil
-		}),
-	)
+	c, err := client.New(ctx, apiKey, endpoint, p.version)
 	if err != nil {
 		panic(err)
 	}
 
 	resp.DataSourceData = &IncidentProviderData{
-		Client:           client,
+		Client:           c,
 		TerraformVersion: req.TerraformVersion,
 	}
 	resp.ResourceData = &IncidentProviderData{
-		Client:           client,
+		Client:           c,
 		TerraformVersion: req.TerraformVersion,
 	}
 }
