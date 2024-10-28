@@ -180,9 +180,9 @@ Required:
 
 Required:
 
-- `day` (String)
-- `end` (String)
-- `start` (String)
+- `end_time` (String)
+- `start_time` (String)
+- `weekday` (String)
 
 
 

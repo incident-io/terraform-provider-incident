@@ -19,6 +19,7 @@ import (
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
 )
 
 var (
@@ -31,10 +32,10 @@ type IncidentEscalationPathResource struct {
 }
 
 type IncidentEscalationPathResourceModel struct {
-	ID           types.String                    `tfsdk:"id"`
-	Name         types.String                    `tfsdk:"name"`
-	Path         []IncidentEscalationPathNode    `tfsdk:"path"`
-	WorkingHours []IncidentWeekdayIntervalConfig `tfsdk:"working_hours"`
+	ID           types.String                           `tfsdk:"id"`
+	Name         types.String                           `tfsdk:"name"`
+	Path         []IncidentEscalationPathNode           `tfsdk:"path"`
+	WorkingHours []models.IncidentWeekdayIntervalConfig `tfsdk:"working_hours"`
 }
 
 type IncidentEscalationPathNode struct {
@@ -108,7 +109,7 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "working_hours"),
 				Optional:            true,
 				NestedObject: schema.NestedAttributeObject{
-					Attributes: IncidentWeekdayIntervalConfig{}.Attributes(),
+					Attributes: models.IncidentWeekdayIntervalConfig{}.Attributes(),
 				},
 			},
 		},
@@ -358,10 +359,10 @@ func (r *IncidentEscalationPathResource) ImportState(ctx context.Context, req re
 }
 
 func (r *IncidentEscalationPathResource) buildModel(ep client.EscalationPathV2) *IncidentEscalationPathResourceModel {
-	var workingHours []IncidentWeekdayIntervalConfig
+	var workingHours []models.IncidentWeekdayIntervalConfig
 	if ep.WorkingHours != nil {
-		workingHours = lo.Map(*ep.WorkingHours, func(wh client.WeekdayIntervalConfigV2, _ int) IncidentWeekdayIntervalConfig {
-			return IncidentWeekdayIntervalConfig{}.FromClientV2(wh)
+		workingHours = lo.Map(*ep.WorkingHours, func(wh client.WeekdayIntervalConfigV2, _ int) models.IncidentWeekdayIntervalConfig {
+			return models.IncidentWeekdayIntervalConfig{}.FromClientV2(wh)
 		})
 	}
 
