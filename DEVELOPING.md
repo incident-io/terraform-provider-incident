@@ -33,6 +33,15 @@ openapi3.json
 openapi3.yaml
 ```
 
+```
+# If your core repository is one level up, this would be:
+cp ../core/server/api/public/gen/http/openapi.json internal/apischema
+cp ../core/server/api/public/gen/http/openapi.yaml internal/apischema
+cp ../core/server/api/public/gen/http/openapi3-secret.json internal/apischema
+cp ../core/server/api/public/gen/http/openapi3.json internal/apischema
+cp ../core/server/api/public/gen/http/openapi3.yaml internal/apischema
+```
+
 And then run `make internal/client/client.gen.go`
 
 ## Running tests

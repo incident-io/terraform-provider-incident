@@ -1659,6 +1659,7 @@
                 "auto_decline_enabled",
                 "enabled",
                 "incident_enabled",
+                "is_private",
                 "incident_condition_groups",
                 "alert_sources",
                 "auto_cancel_escalations"
@@ -3111,6 +3112,48 @@
               "$ref": "#/definitions/SchedulesV2ListScheduleEntriesResponseBody",
               "required": [
                 "schedule_entries"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/v2/schedule_overrides": {
+      "post": {
+        "tags": [
+          "Schedules V2"
+        ],
+        "summary": "CreateOverride Schedules V2",
+        "description": "Create a new schedule override.",
+        "operationId": "Schedules V2#CreateOverride",
+        "parameters": [
+          {
+            "name": "CreateOverrideRequestBody",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SchedulesV2CreateOverrideRequestBody",
+              "required": [
+                "start_at",
+                "end_at",
+                "schedule_id",
+                "rotation_id",
+                "layer_id",
+                "user"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created response.",
+            "schema": {
+              "$ref": "#/definitions/SchedulesV2CreateOverrideResponseBody",
+              "required": [
+                "override"
               ]
             }
           }
@@ -5312,6 +5355,180 @@
         ]
       }
     },
+    "/x-audit-logs/postmortem_section.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PostmortemSectionCreatedV1 Audit logs",
+        "description": "This entry is created whenever a postmortem template section is created",
+        "operationId": "Audit logs#PostmortemSectionCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPostmortemSectionCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/postmortem_section.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PostmortemSectionDeletedV1 Audit logs",
+        "description": "This entry is created whenever a postmortem template section is deleted",
+        "operationId": "Audit logs#PostmortemSectionDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPostmortemSectionDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/postmortem_section.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PostmortemSectionUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a postmortem template section is updated",
+        "operationId": "Audit logs#PostmortemSectionUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPostmortemSectionUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/postmortem_template.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PostmortemTemplateCreatedV1 Audit logs",
+        "description": "This entry is created whenever a postmortem template is created",
+        "operationId": "Audit logs#PostmortemTemplateCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPostmortemTemplateCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/postmortem_template.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PostmortemTemplateDeletedV1 Audit logs",
+        "description": "This entry is created whenever a postmortem template is deleted",
+        "operationId": "Audit logs#PostmortemTemplateDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPostmortemTemplateDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/postmortem_template.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PostmortemTemplateUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a postmortem template is updated",
+        "operationId": "Audit logs#PostmortemTemplateUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPostmortemTemplateUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
     "/x-audit-logs/private_incident.access_attempted.1": {
       "get": {
         "tags": [
@@ -7196,8 +7413,8 @@
         "deduplication_key"
       ]
     },
-    "AlertRouteAlertSource": {
-      "title": "AlertRouteAlertSource",
+    "AlertRouteAlertSourcePayloadV2": {
+      "title": "AlertRouteAlertSourcePayloadV2",
       "type": "object",
       "properties": {
         "alert_source_id": {
@@ -7208,112 +7425,29 @@
         "condition_groups": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ConditionGroup"
+            "$ref": "#/definitions/ConditionGroupPayloadV2"
           },
           "description": "What conditions should alerts from this source meet to be included in this alert route?",
           "example": [
             {
               "conditions": [
                 {
-                  "operation": {
-                    "label": "Lawrence Jones",
-                    "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-                  },
+                  "operation": "one_of",
                   "param_bindings": [
                     {
                       "array_value": [
                         {
-                          "catalog_entry": {
-                            "archived_at": "2021-08-17T14:28:57.801578Z",
-                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                            "catalog_entry_name": "Primary escalation",
-                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                          },
-                          "helptext": "Collection of standalone automations like auto-closing incidents.",
-                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                          "is_image_slack_icon": false,
-                          "label": "Lawrence Jones",
                           "literal": "SEV123",
-                          "reference": "incident.severity",
-                          "sort_key": "000020",
-                          "unavailable": false,
-                          "value": "abc123"
+                          "reference": "incident.severity"
                         }
                       ],
                       "value": {
-                        "catalog_entry": {
-                          "archived_at": "2021-08-17T14:28:57.801578Z",
-                          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                          "catalog_entry_name": "Primary escalation",
-                          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                        },
-                        "helptext": "Collection of standalone automations like auto-closing incidents.",
-                        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                        "is_image_slack_icon": false,
-                        "label": "Lawrence Jones",
                         "literal": "SEV123",
-                        "reference": "incident.severity",
-                        "sort_key": "000020",
-                        "unavailable": false,
-                        "value": "abc123"
+                        "reference": "incident.severity"
                       }
                     }
                   ],
-                  "params": [
-                    {
-                      "array": true,
-                      "default_value": {
-                        "array_value": [
-                          {
-                            "catalog_entry": {
-                              "archived_at": "2021-08-17T14:28:57.801578Z",
-                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                              "catalog_entry_name": "Primary escalation",
-                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                            },
-                            "helptext": "Collection of standalone automations like auto-closing incidents.",
-                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                            "is_image_slack_icon": false,
-                            "label": "Lawrence Jones",
-                            "literal": "SEV123",
-                            "reference": "incident.severity",
-                            "sort_key": "000020",
-                            "unavailable": false,
-                            "value": "abc123"
-                          }
-                        ],
-                        "value": {
-                          "catalog_entry": {
-                            "archived_at": "2021-08-17T14:28:57.801578Z",
-                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                            "catalog_entry_name": "Primary escalation",
-                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                          },
-                          "helptext": "Collection of standalone automations like auto-closing incidents.",
-                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                          "is_image_slack_icon": false,
-                          "label": "Lawrence Jones",
-                          "literal": "SEV123",
-                          "reference": "incident.severity",
-                          "sort_key": "000020",
-                          "unavailable": false,
-                          "value": "abc123"
-                        }
-                      },
-                      "description": "What slack channel should we send the message to?",
-                      "infer_reference": true,
-                      "label": "To date",
-                      "name": "severity",
-                      "optional": true,
-                      "type": "IncidentSeverity"
-                    }
-                  ],
-                  "subject": {
-                    "color": "yellow",
-                    "icon": "action",
-                    "label": "Incident Severity",
-                    "reference": "incident.severity"
-                  }
+                  "subject": "incident.severity"
                 }
               ]
             }
@@ -7326,105 +7460,22 @@
           {
             "conditions": [
               {
-                "operation": {
-                  "label": "Lawrence Jones",
-                  "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-                },
+                "operation": "one_of",
                 "param_bindings": [
                   {
                     "array_value": [
                       {
-                        "catalog_entry": {
-                          "archived_at": "2021-08-17T14:28:57.801578Z",
-                          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                          "catalog_entry_name": "Primary escalation",
-                          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                        },
-                        "helptext": "Collection of standalone automations like auto-closing incidents.",
-                        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                        "is_image_slack_icon": false,
-                        "label": "Lawrence Jones",
                         "literal": "SEV123",
-                        "reference": "incident.severity",
-                        "sort_key": "000020",
-                        "unavailable": false,
-                        "value": "abc123"
+                        "reference": "incident.severity"
                       }
                     ],
                     "value": {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
                       "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
+                      "reference": "incident.severity"
                     }
                   }
                 ],
-                "params": [
-                  {
-                    "array": true,
-                    "default_value": {
-                      "array_value": [
-                        {
-                          "catalog_entry": {
-                            "archived_at": "2021-08-17T14:28:57.801578Z",
-                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                            "catalog_entry_name": "Primary escalation",
-                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                          },
-                          "helptext": "Collection of standalone automations like auto-closing incidents.",
-                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                          "is_image_slack_icon": false,
-                          "label": "Lawrence Jones",
-                          "literal": "SEV123",
-                          "reference": "incident.severity",
-                          "sort_key": "000020",
-                          "unavailable": false,
-                          "value": "abc123"
-                        }
-                      ],
-                      "value": {
-                        "catalog_entry": {
-                          "archived_at": "2021-08-17T14:28:57.801578Z",
-                          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                          "catalog_entry_name": "Primary escalation",
-                          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                        },
-                        "helptext": "Collection of standalone automations like auto-closing incidents.",
-                        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                        "is_image_slack_icon": false,
-                        "label": "Lawrence Jones",
-                        "literal": "SEV123",
-                        "reference": "incident.severity",
-                        "sort_key": "000020",
-                        "unavailable": false,
-                        "value": "abc123"
-                      }
-                    },
-                    "description": "What slack channel should we send the message to?",
-                    "infer_reference": true,
-                    "label": "To date",
-                    "name": "severity",
-                    "optional": true,
-                    "type": "IncidentSeverity"
-                  }
-                ],
-                "subject": {
-                  "color": "yellow",
-                  "icon": "action",
-                  "label": "Incident Severity",
-                  "reference": "incident.severity"
-                }
+                "subject": "incident.severity"
               }
             ]
           }
@@ -8397,6 +8448,7 @@
         "auto_decline_enabled",
         "enabled",
         "incident_enabled",
+        "is_private",
         "incident_condition_groups",
         "alert_sources",
         "auto_cancel_escalations"
@@ -8409,7 +8461,7 @@
         "alert_sources": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AlertRouteAlertSource"
+            "$ref": "#/definitions/AlertRouteAlertSourcePayloadV2"
           },
           "description": "Which alert sources should this alert route match?",
           "example": [
@@ -8419,105 +8471,22 @@
                 {
                   "conditions": [
                     {
-                      "operation": {
-                        "label": "Lawrence Jones",
-                        "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-                      },
+                      "operation": "one_of",
                       "param_bindings": [
                         {
                           "array_value": [
                             {
-                              "catalog_entry": {
-                                "archived_at": "2021-08-17T14:28:57.801578Z",
-                                "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                                "catalog_entry_name": "Primary escalation",
-                                "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                              },
-                              "helptext": "Collection of standalone automations like auto-closing incidents.",
-                              "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                              "is_image_slack_icon": false,
-                              "label": "Lawrence Jones",
                               "literal": "SEV123",
-                              "reference": "incident.severity",
-                              "sort_key": "000020",
-                              "unavailable": false,
-                              "value": "abc123"
+                              "reference": "incident.severity"
                             }
                           ],
                           "value": {
-                            "catalog_entry": {
-                              "archived_at": "2021-08-17T14:28:57.801578Z",
-                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                              "catalog_entry_name": "Primary escalation",
-                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                            },
-                            "helptext": "Collection of standalone automations like auto-closing incidents.",
-                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                            "is_image_slack_icon": false,
-                            "label": "Lawrence Jones",
                             "literal": "SEV123",
-                            "reference": "incident.severity",
-                            "sort_key": "000020",
-                            "unavailable": false,
-                            "value": "abc123"
+                            "reference": "incident.severity"
                           }
                         }
                       ],
-                      "params": [
-                        {
-                          "array": true,
-                          "default_value": {
-                            "array_value": [
-                              {
-                                "catalog_entry": {
-                                  "archived_at": "2021-08-17T14:28:57.801578Z",
-                                  "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                                  "catalog_entry_name": "Primary escalation",
-                                  "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                                },
-                                "helptext": "Collection of standalone automations like auto-closing incidents.",
-                                "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                                "is_image_slack_icon": false,
-                                "label": "Lawrence Jones",
-                                "literal": "SEV123",
-                                "reference": "incident.severity",
-                                "sort_key": "000020",
-                                "unavailable": false,
-                                "value": "abc123"
-                              }
-                            ],
-                            "value": {
-                              "catalog_entry": {
-                                "archived_at": "2021-08-17T14:28:57.801578Z",
-                                "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                                "catalog_entry_name": "Primary escalation",
-                                "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                              },
-                              "helptext": "Collection of standalone automations like auto-closing incidents.",
-                              "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                              "is_image_slack_icon": false,
-                              "label": "Lawrence Jones",
-                              "literal": "SEV123",
-                              "reference": "incident.severity",
-                              "sort_key": "000020",
-                              "unavailable": false,
-                              "value": "abc123"
-                            }
-                          },
-                          "description": "What slack channel should we send the message to?",
-                          "infer_reference": true,
-                          "label": "To date",
-                          "name": "severity",
-                          "optional": true,
-                          "type": "IncidentSeverity"
-                        }
-                      ],
-                      "subject": {
-                        "color": "yellow",
-                        "icon": "action",
-                        "label": "Incident Severity",
-                        "reference": "incident.severity"
-                      }
+                      "subject": "incident.severity"
                     }
                   ]
                 }
@@ -8781,105 +8750,22 @@
               {
                 "conditions": [
                   {
-                    "operation": {
-                      "label": "Lawrence Jones",
-                      "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-                    },
+                    "operation": "one_of",
                     "param_bindings": [
                       {
                         "array_value": [
                           {
-                            "catalog_entry": {
-                              "archived_at": "2021-08-17T14:28:57.801578Z",
-                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                              "catalog_entry_name": "Primary escalation",
-                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                            },
-                            "helptext": "Collection of standalone automations like auto-closing incidents.",
-                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                            "is_image_slack_icon": false,
-                            "label": "Lawrence Jones",
                             "literal": "SEV123",
-                            "reference": "incident.severity",
-                            "sort_key": "000020",
-                            "unavailable": false,
-                            "value": "abc123"
+                            "reference": "incident.severity"
                           }
                         ],
                         "value": {
-                          "catalog_entry": {
-                            "archived_at": "2021-08-17T14:28:57.801578Z",
-                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                            "catalog_entry_name": "Primary escalation",
-                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                          },
-                          "helptext": "Collection of standalone automations like auto-closing incidents.",
-                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                          "is_image_slack_icon": false,
-                          "label": "Lawrence Jones",
                           "literal": "SEV123",
-                          "reference": "incident.severity",
-                          "sort_key": "000020",
-                          "unavailable": false,
-                          "value": "abc123"
+                          "reference": "incident.severity"
                         }
                       }
                     ],
-                    "params": [
-                      {
-                        "array": true,
-                        "default_value": {
-                          "array_value": [
-                            {
-                              "catalog_entry": {
-                                "archived_at": "2021-08-17T14:28:57.801578Z",
-                                "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                                "catalog_entry_name": "Primary escalation",
-                                "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                              },
-                              "helptext": "Collection of standalone automations like auto-closing incidents.",
-                              "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                              "is_image_slack_icon": false,
-                              "label": "Lawrence Jones",
-                              "literal": "SEV123",
-                              "reference": "incident.severity",
-                              "sort_key": "000020",
-                              "unavailable": false,
-                              "value": "abc123"
-                            }
-                          ],
-                          "value": {
-                            "catalog_entry": {
-                              "archived_at": "2021-08-17T14:28:57.801578Z",
-                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                              "catalog_entry_name": "Primary escalation",
-                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                            },
-                            "helptext": "Collection of standalone automations like auto-closing incidents.",
-                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                            "is_image_slack_icon": false,
-                            "label": "Lawrence Jones",
-                            "literal": "SEV123",
-                            "reference": "incident.severity",
-                            "sort_key": "000020",
-                            "unavailable": false,
-                            "value": "abc123"
-                          }
-                        },
-                        "description": "What slack channel should we send the message to?",
-                        "infer_reference": true,
-                        "label": "To date",
-                        "name": "severity",
-                        "optional": true,
-                        "type": "IncidentSeverity"
-                      }
-                    ],
-                    "subject": {
-                      "color": "yellow",
-                      "icon": "action",
-                      "label": "Incident Severity",
-                      "reference": "incident.severity"
-                    }
+                    "subject": "incident.severity"
                   }
                 ]
               }
@@ -9806,7 +9692,7 @@
         "alert_sources": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AlertRouteAlertSource"
+            "$ref": "#/definitions/AlertRouteAlertSourcePayloadV2"
           },
           "description": "Which alert sources should this alert route match?",
           "example": [
@@ -9816,105 +9702,22 @@
                 {
                   "conditions": [
                     {
-                      "operation": {
-                        "label": "Lawrence Jones",
-                        "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-                      },
+                      "operation": "one_of",
                       "param_bindings": [
                         {
                           "array_value": [
                             {
-                              "catalog_entry": {
-                                "archived_at": "2021-08-17T14:28:57.801578Z",
-                                "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                                "catalog_entry_name": "Primary escalation",
-                                "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                              },
-                              "helptext": "Collection of standalone automations like auto-closing incidents.",
-                              "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                              "is_image_slack_icon": false,
-                              "label": "Lawrence Jones",
                               "literal": "SEV123",
-                              "reference": "incident.severity",
-                              "sort_key": "000020",
-                              "unavailable": false,
-                              "value": "abc123"
+                              "reference": "incident.severity"
                             }
                           ],
                           "value": {
-                            "catalog_entry": {
-                              "archived_at": "2021-08-17T14:28:57.801578Z",
-                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                              "catalog_entry_name": "Primary escalation",
-                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                            },
-                            "helptext": "Collection of standalone automations like auto-closing incidents.",
-                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                            "is_image_slack_icon": false,
-                            "label": "Lawrence Jones",
                             "literal": "SEV123",
-                            "reference": "incident.severity",
-                            "sort_key": "000020",
-                            "unavailable": false,
-                            "value": "abc123"
+                            "reference": "incident.severity"
                           }
                         }
                       ],
-                      "params": [
-                        {
-                          "array": true,
-                          "default_value": {
-                            "array_value": [
-                              {
-                                "catalog_entry": {
-                                  "archived_at": "2021-08-17T14:28:57.801578Z",
-                                  "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                                  "catalog_entry_name": "Primary escalation",
-                                  "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                                },
-                                "helptext": "Collection of standalone automations like auto-closing incidents.",
-                                "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                                "is_image_slack_icon": false,
-                                "label": "Lawrence Jones",
-                                "literal": "SEV123",
-                                "reference": "incident.severity",
-                                "sort_key": "000020",
-                                "unavailable": false,
-                                "value": "abc123"
-                              }
-                            ],
-                            "value": {
-                              "catalog_entry": {
-                                "archived_at": "2021-08-17T14:28:57.801578Z",
-                                "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                                "catalog_entry_name": "Primary escalation",
-                                "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                              },
-                              "helptext": "Collection of standalone automations like auto-closing incidents.",
-                              "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                              "is_image_slack_icon": false,
-                              "label": "Lawrence Jones",
-                              "literal": "SEV123",
-                              "reference": "incident.severity",
-                              "sort_key": "000020",
-                              "unavailable": false,
-                              "value": "abc123"
-                            }
-                          },
-                          "description": "What slack channel should we send the message to?",
-                          "infer_reference": true,
-                          "label": "To date",
-                          "name": "severity",
-                          "optional": true,
-                          "type": "IncidentSeverity"
-                        }
-                      ],
-                      "subject": {
-                        "color": "yellow",
-                        "icon": "action",
-                        "label": "Incident Severity",
-                        "reference": "incident.severity"
-                      }
+                      "subject": "incident.severity"
                     }
                   ]
                 }
@@ -10178,105 +9981,22 @@
               {
                 "conditions": [
                   {
-                    "operation": {
-                      "label": "Lawrence Jones",
-                      "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-                    },
+                    "operation": "one_of",
                     "param_bindings": [
                       {
                         "array_value": [
                           {
-                            "catalog_entry": {
-                              "archived_at": "2021-08-17T14:28:57.801578Z",
-                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                              "catalog_entry_name": "Primary escalation",
-                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                            },
-                            "helptext": "Collection of standalone automations like auto-closing incidents.",
-                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                            "is_image_slack_icon": false,
-                            "label": "Lawrence Jones",
                             "literal": "SEV123",
-                            "reference": "incident.severity",
-                            "sort_key": "000020",
-                            "unavailable": false,
-                            "value": "abc123"
+                            "reference": "incident.severity"
                           }
                         ],
                         "value": {
-                          "catalog_entry": {
-                            "archived_at": "2021-08-17T14:28:57.801578Z",
-                            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                            "catalog_entry_name": "Primary escalation",
-                            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                          },
-                          "helptext": "Collection of standalone automations like auto-closing incidents.",
-                          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                          "is_image_slack_icon": false,
-                          "label": "Lawrence Jones",
                           "literal": "SEV123",
-                          "reference": "incident.severity",
-                          "sort_key": "000020",
-                          "unavailable": false,
-                          "value": "abc123"
+                          "reference": "incident.severity"
                         }
                       }
                     ],
-                    "params": [
-                      {
-                        "array": true,
-                        "default_value": {
-                          "array_value": [
-                            {
-                              "catalog_entry": {
-                                "archived_at": "2021-08-17T14:28:57.801578Z",
-                                "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                                "catalog_entry_name": "Primary escalation",
-                                "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                              },
-                              "helptext": "Collection of standalone automations like auto-closing incidents.",
-                              "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                              "is_image_slack_icon": false,
-                              "label": "Lawrence Jones",
-                              "literal": "SEV123",
-                              "reference": "incident.severity",
-                              "sort_key": "000020",
-                              "unavailable": false,
-                              "value": "abc123"
-                            }
-                          ],
-                          "value": {
-                            "catalog_entry": {
-                              "archived_at": "2021-08-17T14:28:57.801578Z",
-                              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                              "catalog_entry_name": "Primary escalation",
-                              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                            },
-                            "helptext": "Collection of standalone automations like auto-closing incidents.",
-                            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                            "is_image_slack_icon": false,
-                            "label": "Lawrence Jones",
-                            "literal": "SEV123",
-                            "reference": "incident.severity",
-                            "sort_key": "000020",
-                            "unavailable": false,
-                            "value": "abc123"
-                          }
-                        },
-                        "description": "What slack channel should we send the message to?",
-                        "infer_reference": true,
-                        "label": "To date",
-                        "name": "severity",
-                        "optional": true,
-                        "type": "IncidentSeverity"
-                      }
-                    ],
-                    "subject": {
-                      "color": "yellow",
-                      "icon": "action",
-                      "label": "Incident Severity",
-                      "reference": "incident.severity"
-                    }
+                    "subject": "incident.severity"
                   }
                 ]
               }
@@ -10569,6 +10289,7 @@
         "auto_decline_enabled",
         "enabled",
         "incident_enabled",
+        "is_private",
         "incident_condition_groups",
         "alert_sources",
         "auto_cancel_escalations"
@@ -11056,10 +10777,13 @@
             "internal_status_page",
             "nudge",
             "policy",
+            "post_incident_task",
+            "postmortem_template",
+            "postmortem_template_section",
             "private_incident_membership",
             "rbac_role",
-            "schedule",
             "scim_group",
+            "schedule",
             "severity",
             "status_page",
             "status_page_sub_page",
@@ -15709,6 +15433,462 @@
         "context"
       ]
     },
+    "AuditLogsPostmortemSectionCreatedV1ResponseBody": {
+      "title": "AuditLogsPostmortemSectionCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "postmortem_section.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Schedule a debrief",
+              "type": "post_incident_task"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "postmortem_section.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Schedule a debrief",
+            "type": "post_incident_task"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPostmortemSectionDeletedV1ResponseBody": {
+      "title": "AuditLogsPostmortemSectionDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "postmortem_section.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Schedule a debrief",
+              "type": "post_incident_task"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "postmortem_section.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Schedule a debrief",
+            "type": "post_incident_task"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPostmortemSectionUpdatedV1ResponseBody": {
+      "title": "AuditLogsPostmortemSectionUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "postmortem_section.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Schedule a debrief",
+              "type": "post_incident_task"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "postmortem_section.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Schedule a debrief",
+            "type": "post_incident_task"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPostmortemTemplateCreatedV1ResponseBody": {
+      "title": "AuditLogsPostmortemTemplateCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "postmortem_template.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Schedule a debrief",
+              "type": "post_incident_task"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "postmortem_template.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Schedule a debrief",
+            "type": "post_incident_task"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPostmortemTemplateDeletedV1ResponseBody": {
+      "title": "AuditLogsPostmortemTemplateDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "postmortem_template.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Schedule a debrief",
+              "type": "post_incident_task"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "postmortem_template.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Schedule a debrief",
+            "type": "post_incident_task"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPostmortemTemplateUpdatedV1ResponseBody": {
+      "title": "AuditLogsPostmortemTemplateUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "postmortem_template.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Schedule a debrief",
+              "type": "post_incident_task"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "postmortem_template.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Schedule a debrief",
+            "type": "post_incident_task"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
     "AuditLogsPrivateIncidentAccessAttemptedV1ResponseBody": {
       "title": "AuditLogsPrivateIncidentAccessAttemptedV1ResponseBody",
       "type": "object",
@@ -18260,44 +18440,6 @@
         "sort_key"
       ]
     },
-    "CatalogEntryReference": {
-      "title": "CatalogEntryReference",
-      "type": "object",
-      "properties": {
-        "archived_at": {
-          "type": "string",
-          "description": "When this entry was archived",
-          "example": "2021-08-17T14:28:57.801578Z",
-          "format": "date-time"
-        },
-        "catalog_entry_id": {
-          "type": "string",
-          "description": "ID of this catalog entry",
-          "example": "01FCNDV6P870EA6S7TK1DSYDG0"
-        },
-        "catalog_entry_name": {
-          "type": "string",
-          "description": "The name of this entry",
-          "example": "Primary escalation"
-        },
-        "catalog_type_id": {
-          "type": "string",
-          "description": "ID of this catalog type",
-          "example": "01FCNDV6P870EA6S7TK1DSYDG0"
-        }
-      },
-      "example": {
-        "archived_at": "2021-08-17T14:28:57.801578Z",
-        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-        "catalog_entry_name": "Primary escalation",
-        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-      },
-      "required": [
-        "catalog_type_id",
-        "catalog_entry_id",
-        "catalog_entry_name"
-      ]
-    },
     "CatalogEntryReferenceV2": {
       "title": "CatalogEntryReferenceV2",
       "type": "object",
@@ -20424,452 +20566,6 @@
         "catalog_type"
       ]
     },
-    "Condition": {
-      "title": "Condition",
-      "type": "object",
-      "properties": {
-        "operation": {
-          "$ref": "#/definitions/ConditionOperation"
-        },
-        "param_bindings": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/EngineParamBinding"
-          },
-          "description": "Bindings for the operation parameters",
-          "example": [
-            {
-              "array_value": [
-                {
-                  "catalog_entry": {
-                    "archived_at": "2021-08-17T14:28:57.801578Z",
-                    "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                    "catalog_entry_name": "Primary escalation",
-                    "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                  },
-                  "helptext": "Collection of standalone automations like auto-closing incidents.",
-                  "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                  "is_image_slack_icon": false,
-                  "label": "Lawrence Jones",
-                  "literal": "SEV123",
-                  "reference": "incident.severity",
-                  "sort_key": "000020",
-                  "unavailable": false,
-                  "value": "abc123"
-                }
-              ],
-              "value": {
-                "catalog_entry": {
-                  "archived_at": "2021-08-17T14:28:57.801578Z",
-                  "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                  "catalog_entry_name": "Primary escalation",
-                  "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                },
-                "helptext": "Collection of standalone automations like auto-closing incidents.",
-                "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                "is_image_slack_icon": false,
-                "label": "Lawrence Jones",
-                "literal": "SEV123",
-                "reference": "incident.severity",
-                "sort_key": "000020",
-                "unavailable": false,
-                "value": "abc123"
-              }
-            }
-          ]
-        },
-        "params": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/EngineParam"
-          },
-          "description": "Type information for the operation parameters",
-          "example": [
-            {
-              "array": true,
-              "default_value": {
-                "array_value": [
-                  {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
-                    "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                ],
-                "value": {
-                  "catalog_entry": {
-                    "archived_at": "2021-08-17T14:28:57.801578Z",
-                    "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                    "catalog_entry_name": "Primary escalation",
-                    "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                  },
-                  "helptext": "Collection of standalone automations like auto-closing incidents.",
-                  "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                  "is_image_slack_icon": false,
-                  "label": "Lawrence Jones",
-                  "literal": "SEV123",
-                  "reference": "incident.severity",
-                  "sort_key": "000020",
-                  "unavailable": false,
-                  "value": "abc123"
-                }
-              },
-              "description": "What slack channel should we send the message to?",
-              "infer_reference": true,
-              "label": "To date",
-              "name": "severity",
-              "optional": true,
-              "type": "IncidentSeverity"
-            }
-          ]
-        },
-        "subject": {
-          "$ref": "#/definitions/ConditionSubject"
-        }
-      },
-      "example": {
-        "operation": {
-          "label": "Lawrence Jones",
-          "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-        },
-        "param_bindings": [
-          {
-            "array_value": [
-              {
-                "catalog_entry": {
-                  "archived_at": "2021-08-17T14:28:57.801578Z",
-                  "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                  "catalog_entry_name": "Primary escalation",
-                  "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                },
-                "helptext": "Collection of standalone automations like auto-closing incidents.",
-                "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                "is_image_slack_icon": false,
-                "label": "Lawrence Jones",
-                "literal": "SEV123",
-                "reference": "incident.severity",
-                "sort_key": "000020",
-                "unavailable": false,
-                "value": "abc123"
-              }
-            ],
-            "value": {
-              "catalog_entry": {
-                "archived_at": "2021-08-17T14:28:57.801578Z",
-                "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                "catalog_entry_name": "Primary escalation",
-                "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-              },
-              "helptext": "Collection of standalone automations like auto-closing incidents.",
-              "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-              "is_image_slack_icon": false,
-              "label": "Lawrence Jones",
-              "literal": "SEV123",
-              "reference": "incident.severity",
-              "sort_key": "000020",
-              "unavailable": false,
-              "value": "abc123"
-            }
-          }
-        ],
-        "params": [
-          {
-            "array": true,
-            "default_value": {
-              "array_value": [
-                {
-                  "catalog_entry": {
-                    "archived_at": "2021-08-17T14:28:57.801578Z",
-                    "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                    "catalog_entry_name": "Primary escalation",
-                    "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                  },
-                  "helptext": "Collection of standalone automations like auto-closing incidents.",
-                  "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                  "is_image_slack_icon": false,
-                  "label": "Lawrence Jones",
-                  "literal": "SEV123",
-                  "reference": "incident.severity",
-                  "sort_key": "000020",
-                  "unavailable": false,
-                  "value": "abc123"
-                }
-              ],
-              "value": {
-                "catalog_entry": {
-                  "archived_at": "2021-08-17T14:28:57.801578Z",
-                  "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                  "catalog_entry_name": "Primary escalation",
-                  "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                },
-                "helptext": "Collection of standalone automations like auto-closing incidents.",
-                "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                "is_image_slack_icon": false,
-                "label": "Lawrence Jones",
-                "literal": "SEV123",
-                "reference": "incident.severity",
-                "sort_key": "000020",
-                "unavailable": false,
-                "value": "abc123"
-              }
-            },
-            "description": "What slack channel should we send the message to?",
-            "infer_reference": true,
-            "label": "To date",
-            "name": "severity",
-            "optional": true,
-            "type": "IncidentSeverity"
-          }
-        ],
-        "subject": {
-          "color": "yellow",
-          "icon": "action",
-          "label": "Incident Severity",
-          "reference": "incident.severity"
-        }
-      },
-      "required": [
-        "subject",
-        "operation",
-        "params",
-        "param_bindings"
-      ]
-    },
-    "ConditionGroup": {
-      "title": "ConditionGroup",
-      "type": "object",
-      "properties": {
-        "conditions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Condition"
-          },
-          "description": "All conditions in this list must be satisfied for the group to be satisfied",
-          "example": [
-            {
-              "operation": {
-                "label": "Lawrence Jones",
-                "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-              },
-              "param_bindings": [
-                {
-                  "array_value": [
-                    {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
-                    "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                }
-              ],
-              "params": [
-                {
-                  "array": true,
-                  "default_value": {
-                    "array_value": [
-                      {
-                        "catalog_entry": {
-                          "archived_at": "2021-08-17T14:28:57.801578Z",
-                          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                          "catalog_entry_name": "Primary escalation",
-                          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                        },
-                        "helptext": "Collection of standalone automations like auto-closing incidents.",
-                        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                        "is_image_slack_icon": false,
-                        "label": "Lawrence Jones",
-                        "literal": "SEV123",
-                        "reference": "incident.severity",
-                        "sort_key": "000020",
-                        "unavailable": false,
-                        "value": "abc123"
-                      }
-                    ],
-                    "value": {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  },
-                  "description": "What slack channel should we send the message to?",
-                  "infer_reference": true,
-                  "label": "To date",
-                  "name": "severity",
-                  "optional": true,
-                  "type": "IncidentSeverity"
-                }
-              ],
-              "subject": {
-                "color": "yellow",
-                "icon": "action",
-                "label": "Incident Severity",
-                "reference": "incident.severity"
-              }
-            }
-          ]
-        }
-      },
-      "example": {
-        "conditions": [
-          {
-            "operation": {
-              "label": "Lawrence Jones",
-              "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-            },
-            "param_bindings": [
-              {
-                "array_value": [
-                  {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
-                    "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                ],
-                "value": {
-                  "catalog_entry": {
-                    "archived_at": "2021-08-17T14:28:57.801578Z",
-                    "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                    "catalog_entry_name": "Primary escalation",
-                    "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                  },
-                  "helptext": "Collection of standalone automations like auto-closing incidents.",
-                  "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                  "is_image_slack_icon": false,
-                  "label": "Lawrence Jones",
-                  "literal": "SEV123",
-                  "reference": "incident.severity",
-                  "sort_key": "000020",
-                  "unavailable": false,
-                  "value": "abc123"
-                }
-              }
-            ],
-            "params": [
-              {
-                "array": true,
-                "default_value": {
-                  "array_value": [
-                    {
-                      "catalog_entry": {
-                        "archived_at": "2021-08-17T14:28:57.801578Z",
-                        "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                        "catalog_entry_name": "Primary escalation",
-                        "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                      },
-                      "helptext": "Collection of standalone automations like auto-closing incidents.",
-                      "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                      "is_image_slack_icon": false,
-                      "label": "Lawrence Jones",
-                      "literal": "SEV123",
-                      "reference": "incident.severity",
-                      "sort_key": "000020",
-                      "unavailable": false,
-                      "value": "abc123"
-                    }
-                  ],
-                  "value": {
-                    "catalog_entry": {
-                      "archived_at": "2021-08-17T14:28:57.801578Z",
-                      "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                      "catalog_entry_name": "Primary escalation",
-                      "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-                    },
-                    "helptext": "Collection of standalone automations like auto-closing incidents.",
-                    "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-                    "is_image_slack_icon": false,
-                    "label": "Lawrence Jones",
-                    "literal": "SEV123",
-                    "reference": "incident.severity",
-                    "sort_key": "000020",
-                    "unavailable": false,
-                    "value": "abc123"
-                  }
-                },
-                "description": "What slack channel should we send the message to?",
-                "infer_reference": true,
-                "label": "To date",
-                "name": "severity",
-                "optional": true,
-                "type": "IncidentSeverity"
-              }
-            ],
-            "subject": {
-              "color": "yellow",
-              "icon": "action",
-              "label": "Incident Severity",
-              "reference": "incident.severity"
-            }
-          }
-        ]
-      },
-      "required": [
-        "conditions"
-      ]
-    },
     "ConditionGroupPayloadV2": {
       "title": "ConditionGroupPayloadV2",
       "type": "object",
@@ -21002,31 +20698,6 @@
         "conditions"
       ]
     },
-    "ConditionOperation": {
-      "title": "ConditionOperation",
-      "type": "object",
-      "properties": {
-        "label": {
-          "type": "string",
-          "description": "Human readable label to be displayed for user to select",
-          "example": "Lawrence Jones"
-        },
-        "value": {
-          "type": "string",
-          "description": "Unique identifier for this option",
-          "example": "01FCQSP07Z74QMMYPDDGQB9FTG"
-        }
-      },
-      "example": {
-        "label": "Lawrence Jones",
-        "value": "01FCQSP07Z74QMMYPDDGQB9FTG"
-      },
-      "required": [
-        "label",
-        "value",
-        "sort_key"
-      ]
-    },
     "ConditionOperationV2": {
       "title": "ConditionOperationV2",
       "type": "object",
@@ -21110,116 +20781,6 @@
         "subject",
         "operation",
         "param_bindings"
-      ]
-    },
-    "ConditionSubject": {
-      "title": "ConditionSubject",
-      "type": "object",
-      "properties": {
-        "color": {
-          "type": "string",
-          "description": "String telling the UI what color to use for this field, if applicable",
-          "example": "yellow",
-          "enum": [
-            "yellow",
-            "green",
-            "blue",
-            "violet",
-            "pink",
-            "cyan",
-            "orange"
-          ]
-        },
-        "icon": {
-          "type": "string",
-          "description": "String telling the UI what icon to use for this field",
-          "example": "action",
-          "enum": [
-            "action",
-            "alert",
-            "bolt",
-            "toggle-left",
-            "book",
-            "box",
-            "briefcase",
-            "browser",
-            "bulb",
-            "calendar",
-            "checkmark",
-            "clipboard",
-            "clock",
-            "close",
-            "cog",
-            "components",
-            "custom_field",
-            "database",
-            "delete",
-            "doc",
-            "email",
-            "escalate",
-            "escalation-path",
-            "exclamation",
-            "export",
-            "external-link",
-            "files",
-            "flag",
-            "folder",
-            "follow_ups",
-            "git-branch-new",
-            "globe",
-            "incident",
-            "incident_type",
-            "key",
-            "ms-teams",
-            "merge",
-            "message",
-            "money",
-            "mug",
-            "number-input",
-            "priority",
-            "private",
-            "text-align-left",
-            "search",
-            "server",
-            "severity",
-            "slack",
-            "slack_channel",
-            "slack_team",
-            "star",
-            "status",
-            "status-page",
-            "store",
-            "tag",
-            "test",
-            "text",
-            "timestamp",
-            "triage",
-            "user",
-            "users",
-            "warning"
-          ]
-        },
-        "label": {
-          "type": "string",
-          "description": "Human readable identifier for the subject",
-          "example": "Incident Severity"
-        },
-        "reference": {
-          "type": "string",
-          "description": "Reference into the scope for the value of the subject",
-          "example": "incident.severity"
-        }
-      },
-      "example": {
-        "color": "yellow",
-        "icon": "action",
-        "label": "Incident Severity",
-        "reference": "incident.severity"
-      },
-      "required": [
-        "label",
-        "icon",
-        "reference"
       ]
     },
     "ConditionSubjectV2": {
@@ -23535,179 +23096,6 @@
         "updated_at"
       ]
     },
-    "EngineParam": {
-      "title": "EngineParam",
-      "type": "object",
-      "properties": {
-        "array": {
-          "type": "boolean",
-          "description": "Whether this parameter is an array",
-          "example": true
-        },
-        "default_value": {
-          "$ref": "#/definitions/EngineParamBinding"
-        },
-        "description": {
-          "type": "string",
-          "description": "A string describing the param",
-          "example": "What slack channel should we send the message to?"
-        },
-        "infer_reference": {
-          "type": "boolean",
-          "description": "Whether this parameter should be inferred as a reference from the scope",
-          "example": true
-        },
-        "label": {
-          "type": "string",
-          "description": "Human readable label for this parameter",
-          "example": "To date"
-        },
-        "name": {
-          "type": "string",
-          "description": "The unique identifier for the parameter",
-          "example": "severity"
-        },
-        "optional": {
-          "type": "boolean",
-          "description": "Whether this parameter is optional",
-          "example": true
-        },
-        "type": {
-          "type": "string",
-          "description": "The type of the parameter",
-          "example": "IncidentSeverity"
-        }
-      },
-      "example": {
-        "array": true,
-        "default_value": {
-          "array_value": [
-            {
-              "catalog_entry": {
-                "archived_at": "2021-08-17T14:28:57.801578Z",
-                "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                "catalog_entry_name": "Primary escalation",
-                "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-              },
-              "helptext": "Collection of standalone automations like auto-closing incidents.",
-              "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-              "is_image_slack_icon": false,
-              "label": "Lawrence Jones",
-              "literal": "SEV123",
-              "reference": "incident.severity",
-              "sort_key": "000020",
-              "unavailable": false,
-              "value": "abc123"
-            }
-          ],
-          "value": {
-            "catalog_entry": {
-              "archived_at": "2021-08-17T14:28:57.801578Z",
-              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-              "catalog_entry_name": "Primary escalation",
-              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-            },
-            "helptext": "Collection of standalone automations like auto-closing incidents.",
-            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-            "is_image_slack_icon": false,
-            "label": "Lawrence Jones",
-            "literal": "SEV123",
-            "reference": "incident.severity",
-            "sort_key": "000020",
-            "unavailable": false,
-            "value": "abc123"
-          }
-        },
-        "description": "What slack channel should we send the message to?",
-        "infer_reference": true,
-        "label": "To date",
-        "name": "severity",
-        "optional": true,
-        "type": "IncidentSeverity"
-      },
-      "required": [
-        "name",
-        "label",
-        "type",
-        "array",
-        "optional",
-        "infer_reference",
-        "description"
-      ]
-    },
-    "EngineParamBinding": {
-      "title": "EngineParamBinding",
-      "type": "object",
-      "properties": {
-        "array_value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/EngineParamBindingValue"
-          },
-          "description": "If array_value is set, this helps render the values",
-          "example": [
-            {
-              "catalog_entry": {
-                "archived_at": "2021-08-17T14:28:57.801578Z",
-                "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-                "catalog_entry_name": "Primary escalation",
-                "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-              },
-              "helptext": "Collection of standalone automations like auto-closing incidents.",
-              "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-              "is_image_slack_icon": false,
-              "label": "Lawrence Jones",
-              "literal": "SEV123",
-              "reference": "incident.severity",
-              "sort_key": "000020",
-              "unavailable": false,
-              "value": "abc123"
-            }
-          ]
-        },
-        "value": {
-          "$ref": "#/definitions/EngineParamBindingValue"
-        }
-      },
-      "example": {
-        "array_value": [
-          {
-            "catalog_entry": {
-              "archived_at": "2021-08-17T14:28:57.801578Z",
-              "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-              "catalog_entry_name": "Primary escalation",
-              "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-            },
-            "helptext": "Collection of standalone automations like auto-closing incidents.",
-            "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-            "is_image_slack_icon": false,
-            "label": "Lawrence Jones",
-            "literal": "SEV123",
-            "reference": "incident.severity",
-            "sort_key": "000020",
-            "unavailable": false,
-            "value": "abc123"
-          }
-        ],
-        "value": {
-          "catalog_entry": {
-            "archived_at": "2021-08-17T14:28:57.801578Z",
-            "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-            "catalog_entry_name": "Primary escalation",
-            "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-          },
-          "helptext": "Collection of standalone automations like auto-closing incidents.",
-          "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-          "is_image_slack_icon": false,
-          "label": "Lawrence Jones",
-          "literal": "SEV123",
-          "reference": "incident.severity",
-          "sort_key": "000020",
-          "unavailable": false,
-          "value": "abc123"
-        }
-      }
-    },
     "EngineParamBindingPayloadV2": {
       "title": "EngineParamBindingPayloadV2",
       "type": "object",
@@ -23778,81 +23166,6 @@
           "reference": "incident.severity"
         }
       }
-    },
-    "EngineParamBindingValue": {
-      "title": "EngineParamBindingValue",
-      "type": "object",
-      "properties": {
-        "catalog_entry": {
-          "$ref": "#/definitions/CatalogEntryReference"
-        },
-        "helptext": {
-          "type": "string",
-          "description": "Gives a description of the option to the user",
-          "example": "Collection of standalone automations like auto-closing incidents."
-        },
-        "image_url": {
-          "type": "string",
-          "description": "If appropriate, URL to an image that can be displayed alongside the option",
-          "example": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg"
-        },
-        "is_image_slack_icon": {
-          "type": "boolean",
-          "description": "If true, the image_url is a Slack icon and should be displayed as such",
-          "example": false
-        },
-        "label": {
-          "type": "string",
-          "description": "Human readable label to be displayed for user to select",
-          "example": "Lawrence Jones"
-        },
-        "literal": {
-          "type": "string",
-          "description": "If set, this is the literal value of the step parameter",
-          "example": "SEV123"
-        },
-        "reference": {
-          "type": "string",
-          "description": "If set, this is the reference into the trigger scope that is the value of this parameter",
-          "example": "incident.severity"
-        },
-        "sort_key": {
-          "type": "string",
-          "description": "Gives an indication of how to sort the options when displayed to the user",
-          "example": "000020"
-        },
-        "unavailable": {
-          "type": "boolean",
-          "description": "Unavailable is true if we've failed to build the value for this binding",
-          "example": false
-        },
-        "value": {
-          "type": "string",
-          "description": "Either the reference or the literal: this field is designed purely to make working with react-select easier",
-          "example": "abc123"
-        }
-      },
-      "example": {
-        "catalog_entry": {
-          "archived_at": "2021-08-17T14:28:57.801578Z",
-          "catalog_entry_id": "01FCNDV6P870EA6S7TK1DSYDG0",
-          "catalog_entry_name": "Primary escalation",
-          "catalog_type_id": "01FCNDV6P870EA6S7TK1DSYDG0"
-        },
-        "helptext": "Collection of standalone automations like auto-closing incidents.",
-        "image_url": "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
-        "is_image_slack_icon": false,
-        "label": "Lawrence Jones",
-        "literal": "SEV123",
-        "reference": "incident.severity",
-        "sort_key": "000020",
-        "unavailable": false,
-        "value": "abc123"
-      },
-      "required": [
-        "label",
-        "sort_key"
-      ]
     },
     "EngineParamBindingValuePayloadV2": {
       "title": "EngineParamBindingValuePayloadV2",
@@ -24029,6 +23342,19 @@
                 "time_to_ack_seconds": 1800,
                 "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
               },
+              "notify_channel": {
+                "targets": [
+                  {
+                    "id": "lawrencejones",
+                    "schedule_mode": "currently_on_call",
+                    "type": "user",
+                    "urgency": "high"
+                  }
+                ],
+                "time_to_ack_interval_condition": "active",
+                "time_to_ack_seconds": 1800,
+                "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+              },
               "repeat": {
                 "repeat_times": 3,
                 "to_node": "01FCNDV6P870EA6S7TK1DSYDG0"
@@ -24079,6 +23405,19 @@
                   "enabled": false,
                   "rotate_after_seconds": 120
                 },
+                "targets": [
+                  {
+                    "id": "lawrencejones",
+                    "schedule_mode": "currently_on_call",
+                    "type": "user",
+                    "urgency": "high"
+                  }
+                ],
+                "time_to_ack_interval_condition": "active",
+                "time_to_ack_seconds": 1800,
+                "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+              },
+              "notify_channel": {
                 "targets": [
                   {
                     "id": "lawrencejones",
@@ -24169,6 +23508,19 @@
               "time_to_ack_seconds": 1800,
               "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
             },
+            "notify_channel": {
+              "targets": [
+                {
+                  "id": "lawrencejones",
+                  "schedule_mode": "currently_on_call",
+                  "type": "user",
+                  "urgency": "high"
+                }
+              ],
+              "time_to_ack_interval_condition": "active",
+              "time_to_ack_seconds": 1800,
+              "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+            },
             "repeat": {
               "repeat_times": 3,
               "to_node": "01FCNDV6P870EA6S7TK1DSYDG0"
@@ -24212,6 +23564,19 @@
                 "enabled": false,
                 "rotate_after_seconds": 120
               },
+              "targets": [
+                {
+                  "id": "lawrencejones",
+                  "schedule_mode": "currently_on_call",
+                  "type": "user",
+                  "urgency": "high"
+                }
+              ],
+              "time_to_ack_interval_condition": "active",
+              "time_to_ack_seconds": 1800,
+              "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+            },
+            "notify_channel": {
               "targets": [
                 {
                   "id": "lawrencejones",
@@ -24338,6 +23703,19 @@
                 "time_to_ack_seconds": 1800,
                 "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
               },
+              "notify_channel": {
+                "targets": [
+                  {
+                    "id": "lawrencejones",
+                    "schedule_mode": "currently_on_call",
+                    "type": "user",
+                    "urgency": "high"
+                  }
+                ],
+                "time_to_ack_interval_condition": "active",
+                "time_to_ack_seconds": 1800,
+                "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+              },
               "repeat": {
                 "repeat_times": 3,
                 "to_node": "01FCNDV6P870EA6S7TK1DSYDG0"
@@ -24396,6 +23774,19 @@
                   "enabled": false,
                   "rotate_after_seconds": 120
                 },
+                "targets": [
+                  {
+                    "id": "lawrencejones",
+                    "schedule_mode": "currently_on_call",
+                    "type": "user",
+                    "urgency": "high"
+                  }
+                ],
+                "time_to_ack_interval_condition": "active",
+                "time_to_ack_seconds": 1800,
+                "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+              },
+              "notify_channel": {
                 "targets": [
                   {
                     "id": "lawrencejones",
@@ -24502,6 +23893,19 @@
               "time_to_ack_seconds": 1800,
               "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
             },
+            "notify_channel": {
+              "targets": [
+                {
+                  "id": "lawrencejones",
+                  "schedule_mode": "currently_on_call",
+                  "type": "user",
+                  "urgency": "high"
+                }
+              ],
+              "time_to_ack_interval_condition": "active",
+              "time_to_ack_seconds": 1800,
+              "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+            },
             "repeat": {
               "repeat_times": 3,
               "to_node": "01FCNDV6P870EA6S7TK1DSYDG0"
@@ -24553,6 +23957,19 @@
                 "enabled": false,
                 "rotate_after_seconds": 120
               },
+              "targets": [
+                {
+                  "id": "lawrencejones",
+                  "schedule_mode": "currently_on_call",
+                  "type": "user",
+                  "urgency": "high"
+                }
+              ],
+              "time_to_ack_interval_condition": "active",
+              "time_to_ack_seconds": 1800,
+              "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+            },
+            "notify_channel": {
               "targets": [
                 {
                   "id": "lawrencejones",
@@ -24643,6 +24060,63 @@
         "targets"
       ]
     },
+    "EscalationPathNodeNotifyChannelV2": {
+      "title": "EscalationPathNodeNotifyChannelV2",
+      "type": "object",
+      "properties": {
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EscalationPathTargetV2"
+          },
+          "description": "The targets for this level",
+          "example": [
+            {
+              "id": "lawrencejones",
+              "schedule_mode": "currently_on_call",
+              "type": "user",
+              "urgency": "high"
+            }
+          ]
+        },
+        "time_to_ack_interval_condition": {
+          "type": "string",
+          "description": "If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive",
+          "example": "active",
+          "enum": [
+            "active",
+            "inactive"
+          ]
+        },
+        "time_to_ack_seconds": {
+          "type": "integer",
+          "description": "How long should we wait for this level to acknowledge before escalating?",
+          "example": 1800,
+          "format": "int64"
+        },
+        "time_to_ack_weekday_interval_config_id": {
+          "type": "string",
+          "description": "If the time to ack is relative to a time window, this identifies which window it is relative to",
+          "example": "01FCNDV6P870EA6S7TK1DSYDG0"
+        }
+      },
+      "example": {
+        "targets": [
+          {
+            "id": "lawrencejones",
+            "schedule_mode": "currently_on_call",
+            "type": "user",
+            "urgency": "high"
+          }
+        ],
+        "time_to_ack_interval_condition": "active",
+        "time_to_ack_seconds": 1800,
+        "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+      },
+      "required": [
+        "targets"
+      ]
+    },
     "EscalationPathNodePayloadV2": {
       "title": "EscalationPathNodePayloadV2",
       "type": "object",
@@ -24657,6 +24131,9 @@
         },
         "level": {
           "$ref": "#/definitions/EscalationPathNodeLevelV2"
+        },
+        "notify_channel": {
+          "$ref": "#/definitions/EscalationPathNodeNotifyChannelV2"
         },
         "repeat": {
           "$ref": "#/definitions/EscalationPathNodeRepeatV2"
@@ -24720,6 +24197,19 @@
           "time_to_ack_seconds": 1800,
           "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
         },
+        "notify_channel": {
+          "targets": [
+            {
+              "id": "lawrencejones",
+              "schedule_mode": "currently_on_call",
+              "type": "user",
+              "urgency": "high"
+            }
+          ],
+          "time_to_ack_interval_condition": "active",
+          "time_to_ack_seconds": 1800,
+          "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+        },
         "repeat": {
           "repeat_times": 3,
           "to_node": "01FCNDV6P870EA6S7TK1DSYDG0"
@@ -24770,6 +24260,9 @@
         },
         "level": {
           "$ref": "#/definitions/EscalationPathNodeLevelV2"
+        },
+        "notify_channel": {
+          "$ref": "#/definitions/EscalationPathNodeNotifyChannelV2"
         },
         "repeat": {
           "$ref": "#/definitions/EscalationPathNodeRepeatV2"
@@ -24829,6 +24322,19 @@
             "enabled": false,
             "rotate_after_seconds": 120
           },
+          "targets": [
+            {
+              "id": "lawrencejones",
+              "schedule_mode": "currently_on_call",
+              "type": "user",
+              "urgency": "high"
+            }
+          ],
+          "time_to_ack_interval_condition": "active",
+          "time_to_ack_seconds": 1800,
+          "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+        },
+        "notify_channel": {
           "targets": [
             {
               "id": "lawrencejones",
@@ -25004,6 +24510,19 @@
                 "time_to_ack_seconds": 1800,
                 "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
               },
+              "notify_channel": {
+                "targets": [
+                  {
+                    "id": "lawrencejones",
+                    "schedule_mode": "currently_on_call",
+                    "type": "user",
+                    "urgency": "high"
+                  }
+                ],
+                "time_to_ack_interval_condition": "active",
+                "time_to_ack_seconds": 1800,
+                "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+              },
               "repeat": {
                 "repeat_times": 3,
                 "to_node": "01FCNDV6P870EA6S7TK1DSYDG0"
@@ -25081,6 +24600,19 @@
                 "enabled": false,
                 "rotate_after_seconds": 120
               },
+              "targets": [
+                {
+                  "id": "lawrencejones",
+                  "schedule_mode": "currently_on_call",
+                  "type": "user",
+                  "urgency": "high"
+                }
+              ],
+              "time_to_ack_interval_condition": "active",
+              "time_to_ack_seconds": 1800,
+              "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+            },
+            "notify_channel": {
               "targets": [
                 {
                   "id": "lawrencejones",
@@ -25186,6 +24718,19 @@
                 "time_to_ack_seconds": 1800,
                 "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
               },
+              "notify_channel": {
+                "targets": [
+                  {
+                    "id": "lawrencejones",
+                    "schedule_mode": "currently_on_call",
+                    "type": "user",
+                    "urgency": "high"
+                  }
+                ],
+                "time_to_ack_interval_condition": "active",
+                "time_to_ack_seconds": 1800,
+                "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+              },
               "repeat": {
                 "repeat_times": 3,
                 "to_node": "01FCNDV6P870EA6S7TK1DSYDG0"
@@ -25254,6 +24799,19 @@
                 "enabled": false,
                 "rotate_after_seconds": 120
               },
+              "targets": [
+                {
+                  "id": "lawrencejones",
+                  "schedule_mode": "currently_on_call",
+                  "type": "user",
+                  "urgency": "high"
+                }
+              ],
+              "time_to_ack_interval_condition": "active",
+              "time_to_ack_seconds": 1800,
+              "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+            },
+            "notify_channel": {
               "targets": [
                 {
                   "id": "lawrencejones",
@@ -25361,6 +24919,19 @@
                 "time_to_ack_seconds": 1800,
                 "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
               },
+              "notify_channel": {
+                "targets": [
+                  {
+                    "id": "lawrencejones",
+                    "schedule_mode": "currently_on_call",
+                    "type": "user",
+                    "urgency": "high"
+                  }
+                ],
+                "time_to_ack_interval_condition": "active",
+                "time_to_ack_seconds": 1800,
+                "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+              },
               "repeat": {
                 "repeat_times": 3,
                 "to_node": "01FCNDV6P870EA6S7TK1DSYDG0"
@@ -25444,6 +25015,19 @@
                   "enabled": false,
                   "rotate_after_seconds": 120
                 },
+                "targets": [
+                  {
+                    "id": "lawrencejones",
+                    "schedule_mode": "currently_on_call",
+                    "type": "user",
+                    "urgency": "high"
+                  }
+                ],
+                "time_to_ack_interval_condition": "active",
+                "time_to_ack_seconds": 1800,
+                "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+              },
+              "notify_channel": {
                 "targets": [
                   {
                     "id": "lawrencejones",
@@ -25546,6 +25130,19 @@
                 "time_to_ack_seconds": 1800,
                 "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
               },
+              "notify_channel": {
+                "targets": [
+                  {
+                    "id": "lawrencejones",
+                    "schedule_mode": "currently_on_call",
+                    "type": "user",
+                    "urgency": "high"
+                  }
+                ],
+                "time_to_ack_interval_condition": "active",
+                "time_to_ack_seconds": 1800,
+                "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+              },
               "repeat": {
                 "repeat_times": 3,
                 "to_node": "01FCNDV6P870EA6S7TK1DSYDG0"
@@ -25614,6 +25211,19 @@
                 "enabled": false,
                 "rotate_after_seconds": 120
               },
+              "targets": [
+                {
+                  "id": "lawrencejones",
+                  "schedule_mode": "currently_on_call",
+                  "type": "user",
+                  "urgency": "high"
+                }
+              ],
+              "time_to_ack_interval_condition": "active",
+              "time_to_ack_seconds": 1800,
+              "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+            },
+            "notify_channel": {
               "targets": [
                 {
                   "id": "lawrencejones",
@@ -25709,6 +25319,19 @@
                   "enabled": false,
                   "rotate_after_seconds": 120
                 },
+                "targets": [
+                  {
+                    "id": "lawrencejones",
+                    "schedule_mode": "currently_on_call",
+                    "type": "user",
+                    "urgency": "high"
+                  }
+                ],
+                "time_to_ack_interval_condition": "active",
+                "time_to_ack_seconds": 1800,
+                "time_to_ack_weekday_interval_config_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+              },
+              "notify_channel": {
                 "targets": [
                   {
                     "id": "lawrencejones",
@@ -26428,6 +26051,7 @@
             "count",
             "min",
             "max",
+            "sum",
             "random",
             "first",
             "parse",
@@ -26551,6 +26175,7 @@
             "count",
             "min",
             "max",
+            "sum",
             "random",
             "first",
             "parse",
@@ -27681,6 +27306,7 @@
               "incident_memberships_editor",
               "schedules_editor",
               "schedules_reader",
+              "schedule_overrides_editor",
               "workflows_editor",
               "private_workflows_editor",
               "on_call_editor"
@@ -30398,6 +30024,11 @@
         "external_issue_reference": {
           "$ref": "#/definitions/ExternalIssueReferenceV2"
         },
+        "has_debrief": {
+          "type": "boolean",
+          "description": "If this incident has a debrief attached",
+          "example": false
+        },
         "id": {
           "type": "string",
           "description": "Unique identifier for the incident",
@@ -30621,6 +30252,7 @@
           "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
           "provider": "asana"
         },
+        "has_debrief": false,
         "id": "01FDAG4SAP5TYPT98WGR2N7W91",
         "incident_role_assignments": [
           {
@@ -30728,6 +30360,11 @@
         "incident": {
           "$ref": "#/definitions/IncidentV2"
         },
+        "message": {
+          "type": "string",
+          "description": "Message that explains the context behind the update",
+          "example": "We're working on a fix, hoping to ship in the next 30 minutes"
+        },
         "new_status": {
           "$ref": "#/definitions/IncidentStatusV2"
         },
@@ -30806,6 +30443,7 @@
             "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
             "provider": "asana"
           },
+          "has_debrief": false,
           "id": "01FDAG4SAP5TYPT98WGR2N7W91",
           "incident_role_assignments": [
             {
@@ -30884,6 +30522,7 @@
           "workload_minutes_total": 60.7,
           "workload_minutes_working": 20
         },
+        "message": "We're working on a fix, hoping to ship in the next 30 minutes",
         "new_status": {
           "category": "triage",
           "created_at": "2021-08-17T13:28:57.801578Z",
@@ -31669,6 +31308,7 @@
             "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
             "provider": "asana"
           },
+          "has_debrief": false,
           "id": "01FDAG4SAP5TYPT98WGR2N7W91",
           "incident_role_assignments": [
             {
@@ -31892,6 +31532,7 @@
             "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
             "provider": "asana"
           },
+          "has_debrief": false,
           "id": "01FDAG4SAP5TYPT98WGR2N7W91",
           "incident_role_assignments": [
             {
@@ -32055,6 +31696,7 @@
                 "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
                 "provider": "asana"
               },
+              "has_debrief": false,
               "id": "01FDAG4SAP5TYPT98WGR2N7W91",
               "incident_role_assignments": [
                 {
@@ -32211,6 +31853,7 @@
               "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
               "provider": "asana"
             },
+            "has_debrief": false,
             "id": "01FDAG4SAP5TYPT98WGR2N7W91",
             "incident_role_assignments": [
               {
@@ -32379,6 +32022,7 @@
             "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
             "provider": "asana"
           },
+          "has_debrief": false,
           "id": "01FDAG4SAP5TYPT98WGR2N7W91",
           "incident_role_assignments": [
             {
@@ -33414,6 +33058,86 @@
         "name": "Layer 1"
       }
     },
+    "ScheduleOverrideV2": {
+      "title": "ScheduleOverrideV2",
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "end_at": {
+          "type": "string",
+          "description": "End of the override",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique internal ID of the schedule override",
+          "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+        },
+        "layer_id": {
+          "type": "string",
+          "description": "The layer on the rotation on the schedule that this override applies to",
+          "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+        },
+        "rotation_id": {
+          "type": "string",
+          "description": "The rotation on the schedule that this override applies to",
+          "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+        },
+        "schedule_id": {
+          "type": "string",
+          "description": "The schedule that this override applies to",
+          "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+        },
+        "start_at": {
+          "type": "string",
+          "description": "Start of the override",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "user": {
+          "$ref": "#/definitions/UserV2"
+        }
+      },
+      "example": {
+        "created_at": "2021-08-17T13:28:57.801578Z",
+        "end_at": "2021-08-17T13:28:57.801578Z",
+        "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+        "layer_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+        "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+        "schedule_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+        "start_at": "2021-08-17T13:28:57.801578Z",
+        "updated_at": "2021-08-17T13:28:57.801578Z",
+        "user": {
+          "email": "lisa@incident.io",
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "name": "Lisa Karlin Curtis",
+          "role": "viewer",
+          "slack_user_id": "U02AYNF2XJM"
+        }
+      },
+      "required": [
+        "id",
+        "schedule_id",
+        "rotation_id",
+        "layer_id",
+        "user",
+        "start_at",
+        "end_at",
+        "created_at",
+        "updated_at",
+        "user_id"
+      ]
+    },
     "ScheduleRotationCreatePayloadV2": {
       "title": "ScheduleRotationCreatePayloadV2",
       "type": "object",
@@ -34129,6 +33853,93 @@
         "external_provider_id",
         "created_at",
         "updated_at"
+      ]
+    },
+    "SchedulesV2CreateOverrideRequestBody": {
+      "title": "SchedulesV2CreateOverrideRequestBody",
+      "type": "object",
+      "properties": {
+        "end_at": {
+          "type": "string",
+          "description": "End time of the override",
+          "example": "2021-08-17T14:00:00.000000Z",
+          "format": "date-time"
+        },
+        "layer_id": {
+          "type": "string",
+          "description": "The layer this override applies to",
+          "example": "01G0J1EXE7AXZ2C93K61WBPYNH"
+        },
+        "rotation_id": {
+          "type": "string",
+          "description": "The rotation this override applies to",
+          "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+        },
+        "schedule_id": {
+          "type": "string",
+          "description": "The schedule this override applies to",
+          "example": "01G0J1EXE7AXZ2C93K61WBPYEH"
+        },
+        "start_at": {
+          "type": "string",
+          "description": "Start time of the override",
+          "example": "2021-08-17T13:00:00.000000Z",
+          "format": "date-time"
+        },
+        "user": {
+          "$ref": "#/definitions/UserReferencePayloadV2"
+        }
+      },
+      "example": {
+        "end_at": "2021-08-17T14:00:00.000000Z",
+        "layer_id": "01G0J1EXE7AXZ2C93K61WBPYNH",
+        "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+        "schedule_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+        "start_at": "2021-08-17T13:00:00.000000Z",
+        "user": {
+          "email": "bob@example.com",
+          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "slack_user_id": "USER123"
+        }
+      },
+      "required": [
+        "start_at",
+        "end_at",
+        "schedule_id",
+        "rotation_id",
+        "layer_id",
+        "user"
+      ]
+    },
+    "SchedulesV2CreateOverrideResponseBody": {
+      "title": "SchedulesV2CreateOverrideResponseBody",
+      "type": "object",
+      "properties": {
+        "override": {
+          "$ref": "#/definitions/ScheduleOverrideV2"
+        }
+      },
+      "example": {
+        "override": {
+          "created_at": "2021-08-17T13:28:57.801578Z",
+          "end_at": "2021-08-17T13:28:57.801578Z",
+          "id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "layer_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "rotation_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "schedule_id": "01G0J1EXE7AXZ2C93K61WBPYEH",
+          "start_at": "2021-08-17T13:28:57.801578Z",
+          "updated_at": "2021-08-17T13:28:57.801578Z",
+          "user": {
+            "email": "lisa@incident.io",
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Lisa Karlin Curtis",
+            "role": "viewer",
+            "slack_user_id": "U02AYNF2XJM"
+          }
+        }
+      },
+      "required": [
+        "override"
       ]
     },
     "SchedulesV2CreateRequestBody": {
@@ -36178,6 +35989,11 @@
         "external_issue_reference": {
           "$ref": "#/definitions/ExternalIssueReferenceV2"
         },
+        "has_debrief": {
+          "type": "boolean",
+          "description": "If this incident has a debrief attached",
+          "example": false
+        },
         "id": {
           "type": "string",
           "description": "Unique identifier for the incident",
@@ -36247,6 +36063,11 @@
             "test",
             "tutorial"
           ]
+        },
+        "most_recent_update_message": {
+          "type": "string",
+          "description": "Message that explains the context behind the update",
+          "example": "We're working on a fix, hoping to ship in the next 30 minutes"
         },
         "name": {
           "type": "string",
@@ -36412,6 +36233,7 @@
           "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
           "provider": "asana"
         },
+        "has_debrief": false,
         "id": "01FDAG4SAP5TYPT98WGR2N7W91",
         "incident_role_assignments": [
           {
@@ -36467,6 +36289,7 @@
           "updated_at": "2021-08-17T13:28:57.801578Z"
         },
         "mode": "standard",
+        "most_recent_update_message": "We're working on a fix, hoping to ship in the next 30 minutes",
         "name": "Our database is sad",
         "permalink": "https://app.incident.io/incidents/123",
         "postmortem_document_url": "https://docs.google.com/my_doc_id",
@@ -36792,6 +36615,7 @@
             "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
             "provider": "asana"
           },
+          "has_debrief": false,
           "id": "01FDAG4SAP5TYPT98WGR2N7W91",
           "incident_role_assignments": [
             {
@@ -36847,6 +36671,7 @@
             "updated_at": "2021-08-17T13:28:57.801578Z"
           },
           "mode": "standard",
+          "most_recent_update_message": "We're working on a fix, hoping to ship in the next 30 minutes",
           "name": "Our database is sad",
           "permalink": "https://app.incident.io/incidents/123",
           "postmortem_document_url": "https://docs.google.com/my_doc_id",
@@ -36944,6 +36769,7 @@
               "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
               "provider": "asana"
             },
+            "has_debrief": false,
             "id": "01FDAG4SAP5TYPT98WGR2N7W91",
             "incident_role_assignments": [
               {
@@ -37022,6 +36848,7 @@
             "workload_minutes_total": 60.7,
             "workload_minutes_working": 20
           },
+          "message": "We're working on a fix, hoping to ship in the next 30 minutes",
           "new_status": {
             "category": "triage",
             "created_at": "2021-08-17T13:28:57.801578Z",
@@ -37111,6 +36938,7 @@
             "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
             "provider": "asana"
           },
+          "has_debrief": false,
           "id": "01FDAG4SAP5TYPT98WGR2N7W91",
           "incident_role_assignments": [
             {
@@ -37166,6 +36994,7 @@
             "updated_at": "2021-08-17T13:28:57.801578Z"
           },
           "mode": "standard",
+          "most_recent_update_message": "We're working on a fix, hoping to ship in the next 30 minutes",
           "name": "Our database is sad",
           "permalink": "https://app.incident.io/incidents/123",
           "postmortem_document_url": "https://docs.google.com/my_doc_id",
@@ -37871,6 +37700,7 @@
             "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
             "provider": "asana"
           },
+          "has_debrief": false,
           "id": "01FDAG4SAP5TYPT98WGR2N7W91",
           "incident_role_assignments": [
             {
@@ -37926,6 +37756,7 @@
             "updated_at": "2021-08-17T13:28:57.801578Z"
           },
           "mode": "standard",
+          "most_recent_update_message": "We're working on a fix, hoping to ship in the next 30 minutes",
           "name": "Our database is sad",
           "permalink": "https://app.incident.io/incidents/123",
           "postmortem_document_url": "https://docs.google.com/my_doc_id",
@@ -38061,6 +37892,7 @@
               "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
               "provider": "asana"
             },
+            "has_debrief": false,
             "id": "01FDAG4SAP5TYPT98WGR2N7W91",
             "incident_role_assignments": [
               {
@@ -38139,6 +37971,7 @@
             "workload_minutes_total": 60.7,
             "workload_minutes_working": 20
           },
+          "message": "We're working on a fix, hoping to ship in the next 30 minutes",
           "new_status": {
             "category": "triage",
             "created_at": "2021-08-17T13:28:57.801578Z",
@@ -38266,6 +38099,7 @@
             "issue_permalink": "https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up",
             "provider": "asana"
           },
+          "has_debrief": false,
           "id": "01FDAG4SAP5TYPT98WGR2N7W91",
           "incident_role_assignments": [
             {
@@ -38321,6 +38155,7 @@
             "updated_at": "2021-08-17T13:28:57.801578Z"
           },
           "mode": "standard",
+          "most_recent_update_message": "We're working on a fix, hoping to ship in the next 30 minutes",
           "name": "Our database is sad",
           "permalink": "https://app.incident.io/incidents/123",
           "postmortem_document_url": "https://docs.google.com/my_doc_id",
@@ -40746,7 +40581,7 @@
     },
     {
       "name": "Audit logs",
-      "description": "To give you visibility over the changes that are made within your incident.io account, we use an audit log. Our audit log is powered by <a href=\"https://workos.com\" target=\"_blank\">WorkOS</a>. The log is available for customers on our [Enterprise plan](https://incident.io/pricing).\n\nThe audit log contains information about any configuration changes, as well as changes to a user's permissions (e.g. being given a new role, or access to a private incident).\n\nEach entry will have an actor (the person or system that made the change) and one or more targets (a thing that was modified by this change). It will also include the Location and User Agent of the actor, where applicable.\n\nEach entry will conform to a schema, which is documented here. Each entry also has a version, so that if our schema changes over time you’ll still be able to parse old events.\n\nWe’ll retain these entries for one year.\n\nAudit log entries start from 18 April, 2023 (there are no entries available from before that date).\n\n## Viewing your audit log\n\nYou can view your audit log via our [security settings](https://app.incident.io/settings/security) page.\n\nFrom there, you'll be able to:\n\n- View the entries via a web interface (filterable by target, event type, actor and date)\n- Export the entries for a given time period to a CSV\n- Set up a log stream to a provider of your choice (e.g. Splunk or an Amazon S3 bucket)\n\n## Understanding actors\n\nEach entry will have an actor associated with it, which is one of 5 types:\n\n### Users\n\nThis is for changes triggered by the actions of a particular user in your account.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"user\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Kelsey Mills\",\n    \"metadata\": {\n      \"user_base_role_slug\": \"admin\",\n      \"user_custom_role_slugs\": \"engineering,security\"\n    }\n  }\n```\n\n### API Keys\n\nThis is for changes triggered by an API key.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"api_key\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Lisa's development key\",\n    \"metadata\": {\n      \"api_key_roles\": \"incident_creator,global_access\"\n    }\n  }\n```\n\n### Integrations\n\nThis is for changes triggered by a system. Sometimes that will be a third party system (e.g. a user might be created\nvia Slack) or sometimes it might be something triggered from inside incident.io (e.g. a severity created as part of setup).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"system\",\n    \"id\": \"incident_setup\",\n    \"name\": \"incident.io (setup)\",\n    \"metadata\": {}\n  }\n```\n\n### Workflows\n\nThis is for changes triggered by a workflow: for example, a workflow that invites users to a private incident.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"workflow\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Auto-invite security team to private incidents\",\n    \"metadata\": {}\n  }\n```\n\n### External resources\n\nThis is for changes triggered by a specific [external resource](https://api-docs.incident.io/tag/Incident-Attachments-V1) (also known as an attachment).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"external_resource\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"#1234 Increased API latency\",\n    \"metadata\": {\n      \"external_resource_type\": \"pager_duty_incident\",\n      \"external_resource_external_id\": \"q1234\"\n    }\n  }\n```\n"
+      "description": "To give you visibility over the changes that are made within your incident.io account, we use an audit log. Our audit log is powered by <a href=\"https://workos.com\" target=\"_blank\">WorkOS</a>. The log is available for customers on our [Enterprise plan](https://incident.io/pricing).\n\nThe audit log contains information about any configuration changes, as well as changes to a user's permissions (e.g. being given a new role, or access to a private incident).\n\nEach entry will have an actor (the person or system that made the change) and one or more targets (a thing that was modified by this change). It will also include the Location and User Agent of the actor, where applicable.\n\nEach entry will conform to a schema, which is documented here. Each entry also has a version, so that if our schema changes over time you’ll still be able to parse old events.\n\nWe’ll retain these entries for one year.\n\nAudit log entries start from 18 April, 2023 (there are no entries available from before that date).\n\n## Viewing your audit log\n\nYou can view your audit log via our [security settings](https://app.incident.io/settings/security) page.\n\nFrom there, you'll be able to:\n\n- View the entries via a web interface (filterable by target, event type, actor and date)\n- Export the entries for a given time period to a CSV\n- Set up a log stream to a provider of your choice (e.g. Splunk or an Amazon S3 bucket)\n\n## Understanding actors\n\nEach entry will have an actor associated with it, which is one of 6 types:\n\n### Users\n\nThis is for changes triggered by the actions of a particular user in your account.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"user\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Kelsey Mills\",\n    \"metadata\": {\n      \"user_base_role_slug\": \"admin\",\n      \"user_custom_role_slugs\": \"engineering,security\"\n    }\n  }\n```\n\n### API Keys\n\nThis is for changes triggered by an API key.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"api_key\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Lisa's development key\",\n    \"metadata\": {\n      \"api_key_roles\": \"incident_creator,global_access\"\n    }\n  }\n```\n\n### Integrations\n\nThis is for changes triggered by a system. Sometimes that will be a third party system (e.g. a user might be created\nvia Slack) or sometimes it might be something triggered from inside incident.io (e.g. a severity created as part of setup).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"system\",\n    \"id\": \"incident_setup\",\n    \"name\": \"incident.io (setup)\",\n    \"metadata\": {}\n  }\n```\n\n### Workflows\n\nThis is for changes triggered by a workflow: for example, a workflow that invites users to a private incident.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"workflow\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Auto-invite security team to private incidents\",\n    \"metadata\": {}\n  }\n```\n\n### External resources\n\nThis is for changes triggered by a specific [external resource](https://api-docs.incident.io/tag/Incident-Attachments-V1) (also known as an attachment).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"external_resource\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"#1234 Increased API latency\",\n    \"metadata\": {\n      \"external_resource_type\": \"pager_duty_incident\",\n      \"external_resource_external_id\": \"q1234\"\n    }\n  }\n```\n\n### Alerts\n\nThis is for changes triggered by a specific alert (e.g. from Datadog or Grafana).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"alert\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Staging: pod CPU high\",\n    \"metadata\": {\n      \"alert_source_id\": \"01HB0ZG3B0HM04RCXNSPV1EDYG\"\n    }\n  }\n```\n"
     },
     {
       "name": "Alert Events V2",
@@ -40822,7 +40657,7 @@
     },
     {
       "name": "Schedules V2",
-      "description": "Beta: \nView and manage schedules.\nManage your full schedule of on-call rotations, including the users and rotation configuration.\n"
+      "description": "View and manage schedules.\nManage your full schedule of on-call rotations, including the users and rotation configuration.\n"
     },
     {
       "name": "Severities V1",
