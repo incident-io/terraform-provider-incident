@@ -39,11 +39,12 @@ type IncidentEscalationPathResourceModel struct {
 }
 
 type IncidentEscalationPathNode struct {
-	ID     types.String                      `tfsdk:"id"`
-	Type   types.String                      `tfsdk:"type"`
-	IfElse *IncidentEscalationPathNodeIfElse `tfsdk:"if_else"`
-	Level  *IncidentEscalationPathNodeLevel  `tfsdk:"level"`
-	Repeat *IncidentEscalationPathNodeRepeat `tfsdk:"repeat"`
+	ID            types.String                             `tfsdk:"id"`
+	Type          types.String                             `tfsdk:"type"`
+	IfElse        *IncidentEscalationPathNodeIfElse        `tfsdk:"if_else"`
+	Level         *IncidentEscalationPathNodeLevel         `tfsdk:"level"`
+	Repeat        *IncidentEscalationPathNodeRepeat        `tfsdk:"repeat"`
+	NotifyChannel *IncidentEscalationPathNodeNotifyChannel `tfsdk:"notify_channel"`
 }
 
 type IncidentEscalationPathNodeIfElse struct {
@@ -58,6 +59,13 @@ type IncidentEscalationPathNodeLevel struct {
 	TimeToAckIntervalCondition       types.String                        `tfsdk:"time_to_ack_interval_condition"`
 	TimeToAckSeconds                 types.Int64                         `tfsdk:"time_to_ack_seconds"`
 	TimeToAckWeekdayIntervalConfigID types.String                        `tfsdk:"time_to_ack_weekday_interval_config_id"`
+}
+
+type IncidentEscalationPathNodeNotifyChannel struct {
+	Targets                          []IncidentEscalationPathTarget `tfsdk:"targets"`
+	TimeToAckIntervalCondition       types.String                   `tfsdk:"time_to_ack_interval_condition"`
+	TimeToAckSeconds                 types.Int64                    `tfsdk:"time_to_ack_seconds"`
+	TimeToAckWeekdayIntervalConfigID types.String                   `tfsdk:"time_to_ack_weekday_interval_config_id"`
 }
 
 type IncidentEscalationPathNodeRepeat struct {
@@ -200,6 +208,51 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 					"to_node": schema.StringAttribute{
 						MarkdownDescription: apischema.Docstring("EscalationPathNodeRepeatV2", "to_node"),
 						Required:            true,
+					},
+				},
+			},
+			"notify_channel": schema.SingleNestedAttribute{
+				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "notify_channel"),
+				Optional:            true,
+				Attributes: map[string]schema.Attribute{
+					"targets": schema.ListNestedAttribute{
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeNotifyChannelV2", "targets"),
+						Required:            true,
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"id": schema.StringAttribute{
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "id"),
+									Required:            true,
+								},
+								"type": schema.StringAttribute{
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "type"),
+									Required:            true,
+								},
+								"urgency": schema.StringAttribute{
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "urgency"),
+									Required:            true,
+								},
+								"schedule_mode": schema.StringAttribute{
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "schedule_mode"),
+									Optional:            true,
+									Computed:            true,
+								},
+							},
+						},
+					},
+					"time_to_ack_seconds": schema.Int64Attribute{
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeNotifyChannelV2", "time_to_ack_seconds"),
+						Optional:            true,
+					},
+					"time_to_ack_interval_condition": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring(
+							"EscalationPathNodeNotifyChannelV2", "time_to_ack_interval_condition"),
+						Optional: true,
+					},
+					"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring(
+							"EscalationPathNodeNotifyChannelV2", "time_to_ack_weekday_interval_config_id"),
+						Optional: true,
 					},
 				},
 			},
@@ -429,6 +482,29 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 				elem.Level.TimeToAckWeekdayIntervalConfigID = types.StringValue(*value)
 			}
 		}
+		if node.NotifyChannel != nil {
+			elem.NotifyChannel = &IncidentEscalationPathNodeNotifyChannel{
+				Targets: lo.Map(node.NotifyChannel.Targets,
+					func(target client.EscalationPathTargetV2, _ int) IncidentEscalationPathTarget {
+						return IncidentEscalationPathTarget{
+							ID:           types.StringValue(target.Id),
+							Type:         types.StringValue(string(target.Type)),
+							Urgency:      types.StringValue(string(target.Urgency)),
+							ScheduleMode: types.StringValue(string(*target.ScheduleMode)),
+						}
+					}),
+			}
+			if value := node.NotifyChannel.TimeToAckSeconds; value != nil {
+				elem.NotifyChannel.TimeToAckSeconds = types.Int64Value(*value)
+			}
+			if value := node.NotifyChannel.TimeToAckIntervalCondition; value != nil {
+				elem.NotifyChannel.TimeToAckIntervalCondition = types.StringValue(
+					string(*node.Level.TimeToAckIntervalCondition))
+			}
+			if value := node.NotifyChannel.TimeToAckWeekdayIntervalConfigId; value != nil && *value != "" {
+				elem.NotifyChannel.TimeToAckWeekdayIntervalConfigID = types.StringValue(*value)
+			}
+		}
 		if node.Repeat != nil {
 			elem.Repeat = &IncidentEscalationPathNodeRepeat{
 				RepeatTimes: types.Int64Value(node.Repeat.RepeatTimes),
@@ -493,6 +569,33 @@ func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalation
 					Enabled:            node.Level.RoundRobinConfig.Enabled.ValueBool(),
 					RotateAfterSeconds: node.Level.RoundRobinConfig.RotateAfterSeconds.ValueInt64Pointer(),
 				}
+			}
+		}
+		if !reflect.ValueOf(node.NotifyChannel).IsZero() {
+			var intervalCondition *client.EscalationPathNodeNotifyChannelV2TimeToAckIntervalCondition
+			if value := node.NotifyChannel.TimeToAckIntervalCondition.ValueStringPointer(); value != nil {
+				intervalCondition = lo.ToPtr(client.EscalationPathNodeNotifyChannelV2TimeToAckIntervalCondition(*value))
+			}
+
+			elem.NotifyChannel = &client.EscalationPathNodeNotifyChannelV2{
+				Targets: lo.Map(node.NotifyChannel.Targets, func(target IncidentEscalationPathTarget, _ int) client.EscalationPathTargetV2 {
+					targetPayload := client.EscalationPathTargetV2{
+						Id:      target.ID.ValueString(),
+						Type:    client.EscalationPathTargetV2Type(target.Type.ValueString()),
+						Urgency: client.EscalationPathTargetV2Urgency(target.Urgency.ValueString()),
+					}
+
+					if target.ScheduleMode.ValueString() != "" {
+						targetPayload.ScheduleMode = lo.ToPtr(client.EscalationPathTargetV2ScheduleMode(target.ScheduleMode.ValueString()))
+					}
+
+					return targetPayload
+				}),
+				TimeToAckIntervalCondition: intervalCondition,
+				TimeToAckSeconds: node.NotifyChannel.
+					TimeToAckSeconds.ValueInt64Pointer(),
+				TimeToAckWeekdayIntervalConfigId: node.NotifyChannel.
+					TimeToAckWeekdayIntervalConfigID.ValueStringPointer(),
 			}
 		}
 		if !reflect.ValueOf(node.Repeat).IsZero() {

@@ -43,13 +43,21 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "path.0.if_else.then_path.1.repeat.to_node", "start"),
 					resource.TestCheckResourceAttr(
-						"incident_escalation_path.example", "path.0.if_else.else_path.0.type", "level"),
+						"incident_escalation_path.example", "path.0.if_else.else_path.0.type", "notify_channel"),
 					resource.TestCheckResourceAttr(
-						"incident_escalation_path.example", "path.0.if_else.else_path.0.level.targets.0.type", "schedule"),
+						"incident_escalation_path.example", "path.0.if_else.else_path.0.notify_channel.targets.0.type", "slack_channel"),
 					resource.TestCheckResourceAttr(
-						"incident_escalation_path.example", "path.0.if_else.else_path.0.level.targets.0.urgency", "low"),
+						"incident_escalation_path.example", "path.0.if_else.else_path.0.notify_channel.targets.0.urgency", "low"),
 					resource.TestCheckResourceAttr(
-						"incident_escalation_path.example", "path.0.if_else.else_path.0.level.time_to_ack_seconds", "300"),
+						"incident_escalation_path.example", "path.0.if_else.else_path.0.notify_channel.time_to_ack_seconds", "300"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.1.type", "level"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.1.level.targets.0.type", "schedule"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.1.level.targets.0.urgency", "low"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.1.level.time_to_ack_seconds", "300"),
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "working_hours.0.id", "UK"),
 					resource.TestCheckResourceAttr(
@@ -141,6 +149,17 @@ resource "incident_escalation_path" "example" {
           }
         ]
         else_path = [
+          {
+            type = "notify_channel"
+            notify_channel = {
+              targets = [{
+               type    = "slack_channel"
+               id      = "C04U0DJSG0Z"
+               urgency  = "low"
+              }]
+              time_to_ack_seconds = 300
+            }
+          },
           {
             type = "level"
             level = {
