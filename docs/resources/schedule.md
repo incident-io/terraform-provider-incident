@@ -3,14 +3,12 @@
 page_title: "incident_schedule Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  Beta:
   View and manage schedules.
   Manage your full schedule of on-call rotations, including the users and rotation configuration.
 ---
 
 # incident_schedule (Resource)
 
-Beta: 
 View and manage schedules.
 Manage your full schedule of on-call rotations, including the users and rotation configuration.
 
