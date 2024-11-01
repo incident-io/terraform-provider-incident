@@ -154,7 +154,7 @@ resource "incident_escalation_path" "example" {
             notify_channel = {
               targets = [{
                type    = "slack_channel"
-               id      = "C1234567890"
+               id      = "C04U0DJSG0Z"
                urgency  = "low"
               }]
               time_to_ack_seconds = 300
