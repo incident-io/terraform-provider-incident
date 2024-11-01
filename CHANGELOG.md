@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 4.0.2
+
+- Adds support for adding slack_channel nodes to escalation paths
+
 ## 4.0.1
 
 - Ensures that client operations will fail with errors when an endpoint would
