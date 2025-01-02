@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 4.0.3
+
+- Improved documentation, particularly for escalation paths
+
 ## 4.0.2
 
 - Adds support for adding slack_channel nodes to escalation paths
@@ -20,7 +24,7 @@ To upgrade to v4.0.0, if you've got on-call schedules with working hours specifi
 
 ## 3.8.11
 
-- Add `external_id` to `resource_catalog_entry` 
+- Add `external_id` to `resource_catalog_entry`
 
 ## 3.8.10
 
@@ -47,7 +51,7 @@ To upgrade to v4.0.0, if you've got on-call schedules with working hours specifi
 
 - Fixed an issue (#99) where the provider crashed if a round robin config with no minutes was provided
 
-## 3.8.4 
+## 3.8.4
 
 - Add support for `holidays_public_config` on the `incident_schedule` resource
 
