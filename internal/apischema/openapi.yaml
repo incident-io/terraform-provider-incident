@@ -501,6 +501,7 @@ paths:
                     - atlassian_statuspage_incident
                     - zendesk_ticket
                     - google_calendar_event
+                    - outlook_calendar_event
                     - scrubbed
                     - statuspage_incident
             responses:
@@ -2266,7 +2267,7 @@ paths:
                   type: map
                 - name: status_category
                   in: query
-                  description: 'Filter on the category of the incidents status. The accepted operators are ''one_of'', or ''not_in''. If this is not provided, this value defaults to `{"one_of": ["triage", "active", "post-incident", "closed"] }`, meaning that canceled, declined and merged incidents are not included.'
+                  description: Filter on the category of the incidents status. The accepted operators are 'one_of', or 'not_in'.
                   required: false
                   type: map
                 - name: created_at
@@ -4090,6 +4091,27 @@ paths:
                             - context
             schemes:
                 - https
+    /x-audit-logs/postmortem_section.created.2:
+        get:
+            tags:
+                - Audit logs
+            summary: PostmortemSectionCreatedV2 Audit logs
+            description: This entry is created whenever a postmortem template section is created
+            operationId: Audit logs#PostmortemSectionCreatedV2
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsPostmortemSectionCreatedV2ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
     /x-audit-logs/postmortem_section.deleted.1:
         get:
             tags:
@@ -4102,6 +4124,27 @@ paths:
                     description: OK response.
                     schema:
                         $ref: '#/definitions/AuditLogsPostmortemSectionDeletedV1ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
+    /x-audit-logs/postmortem_section.deleted.2:
+        get:
+            tags:
+                - Audit logs
+            summary: PostmortemSectionDeletedV2 Audit logs
+            description: This entry is created whenever a postmortem template section is deleted
+            operationId: Audit logs#PostmortemSectionDeletedV2
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsPostmortemSectionDeletedV2ResponseBody'
                         required:
                             - action
                             - occurred_at
@@ -4132,6 +4175,27 @@ paths:
                             - context
             schemes:
                 - https
+    /x-audit-logs/postmortem_section.updated.2:
+        get:
+            tags:
+                - Audit logs
+            summary: PostmortemSectionUpdatedV2 Audit logs
+            description: This entry is created whenever a postmortem template section is updated
+            operationId: Audit logs#PostmortemSectionUpdatedV2
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsPostmortemSectionUpdatedV2ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
     /x-audit-logs/postmortem_template.created.1:
         get:
             tags:
@@ -4144,6 +4208,27 @@ paths:
                     description: OK response.
                     schema:
                         $ref: '#/definitions/AuditLogsPostmortemTemplateCreatedV1ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
+    /x-audit-logs/postmortem_template.created.2:
+        get:
+            tags:
+                - Audit logs
+            summary: PostmortemTemplateCreatedV2 Audit logs
+            description: This entry is created whenever a postmortem template is created
+            operationId: Audit logs#PostmortemTemplateCreatedV2
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsPostmortemTemplateCreatedV2ResponseBody'
                         required:
                             - action
                             - occurred_at
@@ -4174,6 +4259,27 @@ paths:
                             - context
             schemes:
                 - https
+    /x-audit-logs/postmortem_template.deleted.2:
+        get:
+            tags:
+                - Audit logs
+            summary: PostmortemTemplateDeletedV2 Audit logs
+            description: This entry is created whenever a postmortem template is deleted
+            operationId: Audit logs#PostmortemTemplateDeletedV2
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsPostmortemTemplateDeletedV2ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
     /x-audit-logs/postmortem_template.updated.1:
         get:
             tags:
@@ -4186,6 +4292,27 @@ paths:
                     description: OK response.
                     schema:
                         $ref: '#/definitions/AuditLogsPostmortemTemplateUpdatedV1ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
+    /x-audit-logs/postmortem_template.updated.2:
+        get:
+            tags:
+                - Audit logs
+            summary: PostmortemTemplateUpdatedV2 Audit logs
+            description: This entry is created whenever a postmortem template is updated
+            operationId: Audit logs#PostmortemTemplateUpdatedV2
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsPostmortemTemplateUpdatedV2ResponseBody'
                         required:
                             - action
                             - occurred_at
@@ -4397,6 +4524,69 @@ paths:
                     description: OK response.
                     schema:
                         $ref: '#/definitions/AuditLogsScheduleUpdatedV1ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
+    /x-audit-logs/schedule_override.created.1:
+        get:
+            tags:
+                - Audit logs
+            summary: ScheduleOverrideCreatedV1 Audit logs
+            description: This entry is created whenever a schedule override is created
+            operationId: Audit logs#ScheduleOverrideCreatedV1
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsScheduleOverrideCreatedV1ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
+    /x-audit-logs/schedule_override.deleted.1:
+        get:
+            tags:
+                - Audit logs
+            summary: ScheduleOverrideDeletedV1 Audit logs
+            description: This entry is created whenever a schedule override is deleted
+            operationId: Audit logs#ScheduleOverrideDeletedV1
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsScheduleOverrideDeletedV1ResponseBody'
+                        required:
+                            - action
+                            - occurred_at
+                            - version
+                            - actor
+                            - targets
+                            - context
+            schemes:
+                - https
+    /x-audit-logs/schedule_override.updated.1:
+        get:
+            tags:
+                - Audit logs
+            summary: ScheduleOverrideUpdatedV1 Audit logs
+            description: This entry is created whenever a schedule override is updated
+            operationId: Audit logs#ScheduleOverrideUpdatedV1
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/AuditLogsScheduleOverrideUpdatedV1ResponseBody'
                         required:
                             - action
                             - occurred_at
@@ -5547,20 +5737,14 @@ definitions:
                 type: string
                 description: The deduplication key that the event has been processed with
                 example: unique-key
-                enum:
-                    - unique-key
             message:
                 type: string
                 description: Human readable message giving detail about the event
                 example: Event accepted for processing
-                enum:
-                    - Event accepted for processing
             status:
                 type: string
                 description: Status of the event
                 example: success
-                enum:
-                    - success
         example:
             deduplication_key: unique-key
             message: Event accepted for processing
@@ -7579,6 +7763,7 @@ definitions:
                     - integration
                     - internal_status_page
                     - nudge
+                    - schedule_override
                     - policy
                     - post_incident_task
                     - postmortem_template
@@ -11071,6 +11256,62 @@ definitions:
             - actor
             - targets
             - context
+    AuditLogsPostmortemSectionCreatedV2ResponseBody:
+        title: AuditLogsPostmortemSectionCreatedV2ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: postmortem_section.created
+            actor:
+                $ref: '#/definitions/AuditLogActorV2'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: follow_ups
+                      type: postmortem_template_section
+            version:
+                type: integer
+                description: Which version the event is
+                example: 2
+                format: int64
+        example:
+            action: postmortem_section.created
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: follow_ups
+                  type: postmortem_template_section
+            version: 2
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
     AuditLogsPostmortemSectionDeletedV1ResponseBody:
         title: AuditLogsPostmortemSectionDeletedV1ResponseBody
         type: object
@@ -11120,6 +11361,62 @@ definitions:
                   name: Schedule a debrief
                   type: post_incident_task
             version: 1
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
+    AuditLogsPostmortemSectionDeletedV2ResponseBody:
+        title: AuditLogsPostmortemSectionDeletedV2ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: postmortem_section.deleted
+            actor:
+                $ref: '#/definitions/AuditLogActorV2'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: follow_ups
+                      type: postmortem_template_section
+            version:
+                type: integer
+                description: Which version the event is
+                example: 2
+                format: int64
+        example:
+            action: postmortem_section.deleted
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: follow_ups
+                  type: postmortem_template_section
+            version: 2
         required:
             - action
             - occurred_at
@@ -11183,6 +11480,62 @@ definitions:
             - actor
             - targets
             - context
+    AuditLogsPostmortemSectionUpdatedV2ResponseBody:
+        title: AuditLogsPostmortemSectionUpdatedV2ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: postmortem_section.updated
+            actor:
+                $ref: '#/definitions/AuditLogActorV2'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: follow_ups
+                      type: postmortem_template_section
+            version:
+                type: integer
+                description: Which version the event is
+                example: 2
+                format: int64
+        example:
+            action: postmortem_section.updated
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: follow_ups
+                  type: postmortem_template_section
+            version: 2
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
     AuditLogsPostmortemTemplateCreatedV1ResponseBody:
         title: AuditLogsPostmortemTemplateCreatedV1ResponseBody
         type: object
@@ -11232,6 +11585,62 @@ definitions:
                   name: Schedule a debrief
                   type: post_incident_task
             version: 1
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
+    AuditLogsPostmortemTemplateCreatedV2ResponseBody:
+        title: AuditLogsPostmortemTemplateCreatedV2ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: postmortem_template.created
+            actor:
+                $ref: '#/definitions/AuditLogActorV2'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: Root cause analysis (RCA)
+                      type: postmortem_template
+            version:
+                type: integer
+                description: Which version the event is
+                example: 2
+                format: int64
+        example:
+            action: postmortem_template.created
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: Root cause analysis (RCA)
+                  type: postmortem_template
+            version: 2
         required:
             - action
             - occurred_at
@@ -11295,6 +11704,62 @@ definitions:
             - actor
             - targets
             - context
+    AuditLogsPostmortemTemplateDeletedV2ResponseBody:
+        title: AuditLogsPostmortemTemplateDeletedV2ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: postmortem_template.deleted
+            actor:
+                $ref: '#/definitions/AuditLogActorV2'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: Root cause analysis (RCA)
+                      type: postmortem_template
+            version:
+                type: integer
+                description: Which version the event is
+                example: 2
+                format: int64
+        example:
+            action: postmortem_template.deleted
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: Root cause analysis (RCA)
+                  type: postmortem_template
+            version: 2
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
     AuditLogsPostmortemTemplateUpdatedV1ResponseBody:
         title: AuditLogsPostmortemTemplateUpdatedV1ResponseBody
         type: object
@@ -11344,6 +11809,62 @@ definitions:
                   name: Schedule a debrief
                   type: post_incident_task
             version: 1
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
+    AuditLogsPostmortemTemplateUpdatedV2ResponseBody:
+        title: AuditLogsPostmortemTemplateUpdatedV2ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: postmortem_template.updated
+            actor:
+                $ref: '#/definitions/AuditLogActorV2'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: Root cause analysis (RCA)
+                      type: postmortem_template
+            version:
+                type: integer
+                description: Which version the event is
+                example: 2
+                format: int64
+        example:
+            action: postmortem_template.updated
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: Root cause analysis (RCA)
+                  type: postmortem_template
+            version: 2
         required:
             - action
             - occurred_at
@@ -11864,6 +12385,174 @@ definitions:
                 - id: 01FCNDV6P870EA6S7TK1DSYDG0
                   name: On-call
                   type: schedule
+            version: 1
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
+    AuditLogsScheduleOverrideCreatedV1ResponseBody:
+        title: AuditLogsScheduleOverrideCreatedV1ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: schedule_override.created
+            actor:
+                $ref: '#/definitions/AuditLogActorV2'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: Override for Urgent Support
+                      type: schedule_override
+            version:
+                type: integer
+                description: Which version the event is
+                example: 1
+                format: int64
+        example:
+            action: schedule_override.created
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: Override for Urgent Support
+                  type: schedule_override
+            version: 1
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
+    AuditLogsScheduleOverrideDeletedV1ResponseBody:
+        title: AuditLogsScheduleOverrideDeletedV1ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: schedule_override.deleted
+            actor:
+                $ref: '#/definitions/AuditLogActorV2'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: Override for Urgent Support
+                      type: schedule_override
+            version:
+                type: integer
+                description: Which version the event is
+                example: 1
+                format: int64
+        example:
+            action: schedule_override.deleted
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: Override for Urgent Support
+                  type: schedule_override
+            version: 1
+        required:
+            - action
+            - occurred_at
+            - version
+            - actor
+            - targets
+            - context
+    AuditLogsScheduleOverrideUpdatedV1ResponseBody:
+        title: AuditLogsScheduleOverrideUpdatedV1ResponseBody
+        type: object
+        properties:
+            action:
+                type: string
+                description: The type of log entry that this is
+                example: schedule_override.updated
+            actor:
+                $ref: '#/definitions/AuditLogActorV2'
+            context:
+                $ref: '#/definitions/AuditLogEntryContextV2'
+            occurred_at:
+                type: string
+                description: When the entry occurred
+                example: "2021-08-17T13:28:57.801578Z"
+                format: date-time
+            targets:
+                type: array
+                items:
+                    $ref: '#/definitions/AuditLogTargetV2'
+                description: The custom field that was created
+                example:
+                    - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                      name: Override for Urgent Support
+                      type: schedule_override
+            version:
+                type: integer
+                description: Which version the event is
+                example: 1
+                format: int64
+        example:
+            action: schedule_override.updated
+            actor:
+                id: 01FCNDV6P870EA6S7TK1DSYDG0
+                metadata:
+                    user_base_role_slug: admin
+                    user_custom_role_slugs: engineering,security
+                name: John Doe
+                type: user
+            context:
+                location: 1.2.3.4
+                user_agent: Chrome/91.0.4472.114
+            occurred_at: "2021-08-17T13:28:57.801578Z"
+            targets:
+                - id: 01FCNDV6P870EA6S7TK1DSYDG0
+                  name: Override for Urgent Support
+                  type: schedule_override
             version: 1
         required:
             - action
@@ -17277,7 +17966,7 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/EscalationPathTargetV2'
-                description: The targets for this level
+                description: The targets (users or schedules) for this level
                 example:
                     - id: lawrencejones
                       schedule_mode: currently_on_call
@@ -17292,7 +17981,7 @@ definitions:
                     - inactive
             time_to_ack_seconds:
                 type: integer
-                description: How long should we wait for this level to acknowledge before escalating?
+                description: How long should we wait for this level to acknowledge before proceeding to the next node in the path?
                 example: 1800
                 format: int64
             time_to_ack_weekday_interval_config_id:
@@ -17321,7 +18010,7 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/EscalationPathTargetV2'
-                description: The targets for this level
+                description: The targets (Slack channels) for this level
                 example:
                     - id: lawrencejones
                       schedule_mode: currently_on_call
@@ -17336,7 +18025,7 @@ definitions:
                     - inactive
             time_to_ack_seconds:
                 type: integer
-                description: How long should we wait for this level to acknowledge before escalating?
+                description: How long should we wait for this level to acknowledge before moving on to the next node in the path?
                 example: 1800
                 format: int64
             time_to_ack_weekday_interval_config_id:
@@ -17360,7 +18049,10 @@ definitions:
         properties:
             id:
                 type: string
-                description: Unique internal ID of the escalation path node
+                description: |-
+                    An ID for this node, unique within the escalation path.
+
+                    This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
                 example: 01FCNDV6P870EA6S7TK1DSYDG0
             if_else:
                 $ref: '#/definitions/EscalationPathNodeIfElsePayloadV2'
@@ -17372,7 +18064,12 @@ definitions:
                 $ref: '#/definitions/EscalationPathNodeRepeatV2'
             type:
                 type: string
-                description: 'The type of this node: level or branch'
+                description: |-
+                    The type of this node. Available types are:
+                    * level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+                    * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+                    * if_else: Branch the escalation based on a set of conditions.
+                    * repeat: Go back to a previous node and repeat the logic from there.
                 example: if_else
                 enum:
                     - if_else
@@ -17430,12 +18127,12 @@ definitions:
         properties:
             repeat_times:
                 type: integer
-                description: How many times to repeat these steps
+                description: How many times to repeat these nodes
                 example: 3
                 format: int64
             to_node:
                 type: string
-                description: Which node ID we begin repeating from
+                description: Which node ID we begin repeating from.
                 example: 01FCNDV6P870EA6S7TK1DSYDG0
         example:
             repeat_times: 3
@@ -17449,7 +18146,10 @@ definitions:
         properties:
             id:
                 type: string
-                description: Unique internal ID of the escalation path node
+                description: |-
+                    An ID for this node, unique within the escalation path.
+
+                    This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
                 example: 01FCNDV6P870EA6S7TK1DSYDG0
             if_else:
                 $ref: '#/definitions/EscalationPathNodeIfElseV2'
@@ -17461,7 +18161,12 @@ definitions:
                 $ref: '#/definitions/EscalationPathNodeRepeatV2'
             type:
                 type: string
-                description: 'The type of this node: level or branch'
+                description: |-
+                    The type of this node. Available types are:
+                    * level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+                    * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+                    * if_else: Branch the escalation based on a set of conditions.
+                    * repeat: Go back to a previous node and repeat the logic from there.
                 example: if_else
                 enum:
                     - if_else
@@ -19139,6 +19844,7 @@ definitions:
                     - atlassian_statuspage_incident
                     - zendesk_ticket
                     - google_calendar_event
+                    - outlook_calendar_event
                     - scrubbed
                     - statuspage_incident
             title:
@@ -19477,6 +20183,7 @@ definitions:
                             - atlassian_statuspage_incident
                             - zendesk_ticket
                             - google_calendar_event
+                            - outlook_calendar_event
                             - scrubbed
                             - statuspage_incident
                 example:
@@ -21416,6 +22123,7 @@ definitions:
             - custom_field_entries
             - slack_team_id
             - slack_channel_id
+            - postmortem_status
             - created_at
             - updated_at
             - reported_at
@@ -21730,6 +22438,7 @@ definitions:
             - custom_field_entries
             - slack_team_id
             - slack_channel_id
+            - postmortem_status
             - created_at
             - updated_at
             - reported_at
@@ -26010,6 +26719,7 @@ definitions:
             - custom_field_entries
             - slack_team_id
             - slack_channel_id
+            - postmortem_status
             - created_at
             - updated_at
             - reported_at

@@ -174,10 +174,12 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 						Optional: true,
 						Attributes: map[string]schema.Attribute{
 							"enabled": schema.BoolAttribute{
-								Required: true,
+								MarkdownDescription: apischema.Docstring("EscalationPathRoundRobinConfigV2", "enabled"),
+								Required:            true,
 							},
 							"rotate_after_seconds": schema.Int64Attribute{
-								Optional: true,
+								MarkdownDescription: apischema.Docstring("EscalationPathRoundRobinConfigV2", "rotate_after_seconds"),
+								Optional:            true,
 							},
 						},
 					},
