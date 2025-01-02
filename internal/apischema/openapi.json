@@ -536,6 +536,7 @@
               "atlassian_statuspage_incident",
               "zendesk_ticket",
               "google_calendar_event",
+              "outlook_calendar_event",
               "scrubbed",
               "statuspage_incident"
             ]
@@ -2848,7 +2849,7 @@
           {
             "name": "status_category",
             "in": "query",
-            "description": "Filter on the category of the incidents status. The accepted operators are 'one_of', or 'not_in'. If this is not provided, this value defaults to `{\"one_of\": [\"triage\", \"active\", \"post-incident\", \"closed\"] }`, meaning that canceled, declined and merged incidents are not included.",
+            "description": "Filter on the category of the incidents status. The accepted operators are 'one_of', or 'not_in'.",
             "required": false,
             "type": "map"
           },
@@ -5384,6 +5385,35 @@
         ]
       }
     },
+    "/x-audit-logs/postmortem_section.created.2": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PostmortemSectionCreatedV2 Audit logs",
+        "description": "This entry is created whenever a postmortem template section is created",
+        "operationId": "Audit logs#PostmortemSectionCreatedV2",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPostmortemSectionCreatedV2ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
     "/x-audit-logs/postmortem_section.deleted.1": {
       "get": {
         "tags": [
@@ -5397,6 +5427,35 @@
             "description": "OK response.",
             "schema": {
               "$ref": "#/definitions/AuditLogsPostmortemSectionDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/postmortem_section.deleted.2": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PostmortemSectionDeletedV2 Audit logs",
+        "description": "This entry is created whenever a postmortem template section is deleted",
+        "operationId": "Audit logs#PostmortemSectionDeletedV2",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPostmortemSectionDeletedV2ResponseBody",
               "required": [
                 "action",
                 "occurred_at",
@@ -5442,6 +5501,35 @@
         ]
       }
     },
+    "/x-audit-logs/postmortem_section.updated.2": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PostmortemSectionUpdatedV2 Audit logs",
+        "description": "This entry is created whenever a postmortem template section is updated",
+        "operationId": "Audit logs#PostmortemSectionUpdatedV2",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPostmortemSectionUpdatedV2ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
     "/x-audit-logs/postmortem_template.created.1": {
       "get": {
         "tags": [
@@ -5455,6 +5543,35 @@
             "description": "OK response.",
             "schema": {
               "$ref": "#/definitions/AuditLogsPostmortemTemplateCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/postmortem_template.created.2": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PostmortemTemplateCreatedV2 Audit logs",
+        "description": "This entry is created whenever a postmortem template is created",
+        "operationId": "Audit logs#PostmortemTemplateCreatedV2",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPostmortemTemplateCreatedV2ResponseBody",
               "required": [
                 "action",
                 "occurred_at",
@@ -5500,6 +5617,35 @@
         ]
       }
     },
+    "/x-audit-logs/postmortem_template.deleted.2": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PostmortemTemplateDeletedV2 Audit logs",
+        "description": "This entry is created whenever a postmortem template is deleted",
+        "operationId": "Audit logs#PostmortemTemplateDeletedV2",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPostmortemTemplateDeletedV2ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
     "/x-audit-logs/postmortem_template.updated.1": {
       "get": {
         "tags": [
@@ -5513,6 +5659,35 @@
             "description": "OK response.",
             "schema": {
               "$ref": "#/definitions/AuditLogsPostmortemTemplateUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/postmortem_template.updated.2": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "PostmortemTemplateUpdatedV2 Audit logs",
+        "description": "This entry is created whenever a postmortem template is updated",
+        "operationId": "Audit logs#PostmortemTemplateUpdatedV2",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsPostmortemTemplateUpdatedV2ResponseBody",
               "required": [
                 "action",
                 "occurred_at",
@@ -5804,6 +5979,93 @@
             "description": "OK response.",
             "schema": {
               "$ref": "#/definitions/AuditLogsScheduleUpdatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/schedule_override.created.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "ScheduleOverrideCreatedV1 Audit logs",
+        "description": "This entry is created whenever a schedule override is created",
+        "operationId": "Audit logs#ScheduleOverrideCreatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsScheduleOverrideCreatedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/schedule_override.deleted.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "ScheduleOverrideDeletedV1 Audit logs",
+        "description": "This entry is created whenever a schedule override is deleted",
+        "operationId": "Audit logs#ScheduleOverrideDeletedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsScheduleOverrideDeletedV1ResponseBody",
+              "required": [
+                "action",
+                "occurred_at",
+                "version",
+                "actor",
+                "targets",
+                "context"
+              ]
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ]
+      }
+    },
+    "/x-audit-logs/schedule_override.updated.1": {
+      "get": {
+        "tags": [
+          "Audit logs"
+        ],
+        "summary": "ScheduleOverrideUpdatedV1 Audit logs",
+        "description": "This entry is created whenever a schedule override is updated",
+        "operationId": "Audit logs#ScheduleOverrideUpdatedV1",
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "schema": {
+              "$ref": "#/definitions/AuditLogsScheduleOverrideUpdatedV1ResponseBody",
               "required": [
                 "action",
                 "occurred_at",
@@ -7380,26 +7642,17 @@
         "deduplication_key": {
           "type": "string",
           "description": "The deduplication key that the event has been processed with",
-          "example": "unique-key",
-          "enum": [
-            "unique-key"
-          ]
+          "example": "unique-key"
         },
         "message": {
           "type": "string",
           "description": "Human readable message giving detail about the event",
-          "example": "Event accepted for processing",
-          "enum": [
-            "Event accepted for processing"
-          ]
+          "example": "Event accepted for processing"
         },
         "status": {
           "type": "string",
           "description": "Status of the event",
-          "example": "success",
-          "enum": [
-            "success"
-          ]
+          "example": "success"
         }
       },
       "example": {
@@ -10776,6 +11029,7 @@
             "integration",
             "internal_status_page",
             "nudge",
+            "schedule_override",
             "policy",
             "post_incident_task",
             "postmortem_template",
@@ -15509,6 +15763,82 @@
         "context"
       ]
     },
+    "AuditLogsPostmortemSectionCreatedV2ResponseBody": {
+      "title": "AuditLogsPostmortemSectionCreatedV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "postmortem_section.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "follow_ups",
+              "type": "postmortem_template_section"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 2,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "postmortem_section.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "follow_ups",
+            "type": "postmortem_template_section"
+          }
+        ],
+        "version": 2
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
     "AuditLogsPostmortemSectionDeletedV1ResponseBody": {
       "title": "AuditLogsPostmortemSectionDeletedV1ResponseBody",
       "type": "object",
@@ -15575,6 +15905,82 @@
           }
         ],
         "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPostmortemSectionDeletedV2ResponseBody": {
+      "title": "AuditLogsPostmortemSectionDeletedV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "postmortem_section.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "follow_ups",
+              "type": "postmortem_template_section"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 2,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "postmortem_section.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "follow_ups",
+            "type": "postmortem_template_section"
+          }
+        ],
+        "version": 2
       },
       "required": [
         "action",
@@ -15661,6 +16067,82 @@
         "context"
       ]
     },
+    "AuditLogsPostmortemSectionUpdatedV2ResponseBody": {
+      "title": "AuditLogsPostmortemSectionUpdatedV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "postmortem_section.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "follow_ups",
+              "type": "postmortem_template_section"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 2,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "postmortem_section.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "follow_ups",
+            "type": "postmortem_template_section"
+          }
+        ],
+        "version": 2
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
     "AuditLogsPostmortemTemplateCreatedV1ResponseBody": {
       "title": "AuditLogsPostmortemTemplateCreatedV1ResponseBody",
       "type": "object",
@@ -15727,6 +16209,82 @@
           }
         ],
         "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPostmortemTemplateCreatedV2ResponseBody": {
+      "title": "AuditLogsPostmortemTemplateCreatedV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "postmortem_template.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Root cause analysis (RCA)",
+              "type": "postmortem_template"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 2,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "postmortem_template.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Root cause analysis (RCA)",
+            "type": "postmortem_template"
+          }
+        ],
+        "version": 2
       },
       "required": [
         "action",
@@ -15813,6 +16371,82 @@
         "context"
       ]
     },
+    "AuditLogsPostmortemTemplateDeletedV2ResponseBody": {
+      "title": "AuditLogsPostmortemTemplateDeletedV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "postmortem_template.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Root cause analysis (RCA)",
+              "type": "postmortem_template"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 2,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "postmortem_template.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Root cause analysis (RCA)",
+            "type": "postmortem_template"
+          }
+        ],
+        "version": 2
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
     "AuditLogsPostmortemTemplateUpdatedV1ResponseBody": {
       "title": "AuditLogsPostmortemTemplateUpdatedV1ResponseBody",
       "type": "object",
@@ -15879,6 +16513,82 @@
           }
         ],
         "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsPostmortemTemplateUpdatedV2ResponseBody": {
+      "title": "AuditLogsPostmortemTemplateUpdatedV2ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "postmortem_template.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Root cause analysis (RCA)",
+              "type": "postmortem_template"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 2,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "postmortem_template.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Root cause analysis (RCA)",
+            "type": "postmortem_template"
+          }
+        ],
+        "version": 2
       },
       "required": [
         "action",
@@ -16587,6 +17297,234 @@
             "id": "01FCNDV6P870EA6S7TK1DSYDG0",
             "name": "On-call",
             "type": "schedule"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsScheduleOverrideCreatedV1ResponseBody": {
+      "title": "AuditLogsScheduleOverrideCreatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "schedule_override.created"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Override for Urgent Support",
+              "type": "schedule_override"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "schedule_override.created",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Override for Urgent Support",
+            "type": "schedule_override"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsScheduleOverrideDeletedV1ResponseBody": {
+      "title": "AuditLogsScheduleOverrideDeletedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "schedule_override.deleted"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Override for Urgent Support",
+              "type": "schedule_override"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "schedule_override.deleted",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Override for Urgent Support",
+            "type": "schedule_override"
+          }
+        ],
+        "version": 1
+      },
+      "required": [
+        "action",
+        "occurred_at",
+        "version",
+        "actor",
+        "targets",
+        "context"
+      ]
+    },
+    "AuditLogsScheduleOverrideUpdatedV1ResponseBody": {
+      "title": "AuditLogsScheduleOverrideUpdatedV1ResponseBody",
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "The type of log entry that this is",
+          "example": "schedule_override.updated"
+        },
+        "actor": {
+          "$ref": "#/definitions/AuditLogActorV2"
+        },
+        "context": {
+          "$ref": "#/definitions/AuditLogEntryContextV2"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "When the entry occurred",
+          "example": "2021-08-17T13:28:57.801578Z",
+          "format": "date-time"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AuditLogTargetV2"
+          },
+          "description": "The custom field that was created",
+          "example": [
+            {
+              "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+              "name": "Override for Urgent Support",
+              "type": "schedule_override"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "description": "Which version the event is",
+          "example": 1,
+          "format": "int64"
+        }
+      },
+      "example": {
+        "action": "schedule_override.updated",
+        "actor": {
+          "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+          "metadata": {
+            "user_base_role_slug": "admin",
+            "user_custom_role_slugs": "engineering,security"
+          },
+          "name": "John Doe",
+          "type": "user"
+        },
+        "context": {
+          "location": "1.2.3.4",
+          "user_agent": "Chrome/91.0.4472.114"
+        },
+        "occurred_at": "2021-08-17T13:28:57.801578Z",
+        "targets": [
+          {
+            "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+            "name": "Override for Urgent Support",
+            "type": "schedule_override"
           }
         ],
         "version": 1
@@ -24008,7 +24946,7 @@
           "items": {
             "$ref": "#/definitions/EscalationPathTargetV2"
           },
-          "description": "The targets for this level",
+          "description": "The targets (users or schedules) for this level",
           "example": [
             {
               "id": "lawrencejones",
@@ -24029,7 +24967,7 @@
         },
         "time_to_ack_seconds": {
           "type": "integer",
-          "description": "How long should we wait for this level to acknowledge before escalating?",
+          "description": "How long should we wait for this level to acknowledge before proceeding to the next node in the path?",
           "example": 1800,
           "format": "int64"
         },
@@ -24069,7 +25007,7 @@
           "items": {
             "$ref": "#/definitions/EscalationPathTargetV2"
           },
-          "description": "The targets for this level",
+          "description": "The targets (Slack channels) for this level",
           "example": [
             {
               "id": "lawrencejones",
@@ -24090,7 +25028,7 @@
         },
         "time_to_ack_seconds": {
           "type": "integer",
-          "description": "How long should we wait for this level to acknowledge before escalating?",
+          "description": "How long should we wait for this level to acknowledge before moving on to the next node in the path?",
           "example": 1800,
           "format": "int64"
         },
@@ -24123,7 +25061,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique internal ID of the escalation path node",
+          "description": "An ID for this node, unique within the escalation path.\n\nThis allows you to reference the node in other nodes, such as when configuring a 'repeat' node.",
           "example": "01FCNDV6P870EA6S7TK1DSYDG0"
         },
         "if_else": {
@@ -24140,7 +25078,7 @@
         },
         "type": {
           "type": "string",
-          "description": "The type of this node: level or branch",
+          "description": "The type of this node. Available types are:\n* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.\n* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.\n* if_else: Branch the escalation based on a set of conditions.\n* repeat: Go back to a previous node and repeat the logic from there.",
           "example": "if_else",
           "enum": [
             "if_else",
@@ -24227,13 +25165,13 @@
       "properties": {
         "repeat_times": {
           "type": "integer",
-          "description": "How many times to repeat these steps",
+          "description": "How many times to repeat these nodes",
           "example": 3,
           "format": "int64"
         },
         "to_node": {
           "type": "string",
-          "description": "Which node ID we begin repeating from",
+          "description": "Which node ID we begin repeating from.",
           "example": "01FCNDV6P870EA6S7TK1DSYDG0"
         }
       },
@@ -24252,7 +25190,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique internal ID of the escalation path node",
+          "description": "An ID for this node, unique within the escalation path.\n\nThis allows you to reference the node in other nodes, such as when configuring a 'repeat' node.",
           "example": "01FCNDV6P870EA6S7TK1DSYDG0"
         },
         "if_else": {
@@ -24269,7 +25207,7 @@
         },
         "type": {
           "type": "string",
-          "description": "The type of this node: level or branch",
+          "description": "The type of this node. Available types are:\n* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.\n* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.\n* if_else: Branch the escalation based on a set of conditions.\n* repeat: Go back to a previous node and repeat the logic from there.",
           "example": "if_else",
           "enum": [
             "if_else",
@@ -26975,6 +27913,7 @@
             "atlassian_statuspage_incident",
             "zendesk_ticket",
             "google_calendar_event",
+            "outlook_calendar_event",
             "scrubbed",
             "statuspage_incident"
           ]
@@ -27400,6 +28339,7 @@
                 "atlassian_statuspage_incident",
                 "zendesk_ticket",
                 "google_calendar_event",
+                "outlook_calendar_event",
                 "scrubbed",
                 "statuspage_incident"
               ]
@@ -29935,6 +30875,7 @@
         "custom_field_entries",
         "slack_team_id",
         "slack_channel_id",
+        "postmortem_status",
         "created_at",
         "updated_at",
         "reported_at"
@@ -30348,6 +31289,7 @@
         "custom_field_entries",
         "slack_team_id",
         "slack_channel_id",
+        "postmortem_status",
         "created_at",
         "updated_at",
         "reported_at"
@@ -36333,6 +37275,7 @@
         "custom_field_entries",
         "slack_team_id",
         "slack_channel_id",
+        "postmortem_status",
         "created_at",
         "updated_at",
         "reported_at"
@@ -40581,7 +41524,7 @@
     },
     {
       "name": "Audit logs",
-      "description": "To give you visibility over the changes that are made within your incident.io account, we use an audit log. Our audit log is powered by <a href=\"https://workos.com\" target=\"_blank\">WorkOS</a>. The log is available for customers on our [Enterprise plan](https://incident.io/pricing).\n\nThe audit log contains information about any configuration changes, as well as changes to a user's permissions (e.g. being given a new role, or access to a private incident).\n\nEach entry will have an actor (the person or system that made the change) and one or more targets (a thing that was modified by this change). It will also include the Location and User Agent of the actor, where applicable.\n\nEach entry will conform to a schema, which is documented here. Each entry also has a version, so that if our schema changes over time you’ll still be able to parse old events.\n\nWe’ll retain these entries for one year.\n\nAudit log entries start from 18 April, 2023 (there are no entries available from before that date).\n\n## Viewing your audit log\n\nYou can view your audit log via our [security settings](https://app.incident.io/settings/security) page.\n\nFrom there, you'll be able to:\n\n- View the entries via a web interface (filterable by target, event type, actor and date)\n- Export the entries for a given time period to a CSV\n- Set up a log stream to a provider of your choice (e.g. Splunk or an Amazon S3 bucket)\n\n## Understanding actors\n\nEach entry will have an actor associated with it, which is one of 6 types:\n\n### Users\n\nThis is for changes triggered by the actions of a particular user in your account.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"user\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Kelsey Mills\",\n    \"metadata\": {\n      \"user_base_role_slug\": \"admin\",\n      \"user_custom_role_slugs\": \"engineering,security\"\n    }\n  }\n```\n\n### API Keys\n\nThis is for changes triggered by an API key.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"api_key\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Lisa's development key\",\n    \"metadata\": {\n      \"api_key_roles\": \"incident_creator,global_access\"\n    }\n  }\n```\n\n### Integrations\n\nThis is for changes triggered by a system. Sometimes that will be a third party system (e.g. a user might be created\nvia Slack) or sometimes it might be something triggered from inside incident.io (e.g. a severity created as part of setup).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"system\",\n    \"id\": \"incident_setup\",\n    \"name\": \"incident.io (setup)\",\n    \"metadata\": {}\n  }\n```\n\n### Workflows\n\nThis is for changes triggered by a workflow: for example, a workflow that invites users to a private incident.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"workflow\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Auto-invite security team to private incidents\",\n    \"metadata\": {}\n  }\n```\n\n### External resources\n\nThis is for changes triggered by a specific [external resource](https://api-docs.incident.io/tag/Incident-Attachments-V1) (also known as an attachment).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"external_resource\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"#1234 Increased API latency\",\n    \"metadata\": {\n      \"external_resource_type\": \"pager_duty_incident\",\n      \"external_resource_external_id\": \"q1234\"\n    }\n  }\n```\n\n### Alerts\n\nThis is for changes triggered by a specific alert (e.g. from Datadog or Grafana).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"alert\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Staging: pod CPU high\",\n    \"metadata\": {\n      \"alert_source_id\": \"01HB0ZG3B0HM04RCXNSPV1EDYG\"\n    }\n  }\n```\n"
+      "description": "To give you visibility over the changes that are made within your incident.io account, we use an audit log. Our audit log is powered by <a href=\"https://workos.com\" target=\"_blank\">WorkOS</a>. The log is available for customers on our [Enterprise plan](https://incident.io/pricing).\n\nThe audit log contains information about any configuration changes, as well as changes to a user's permissions (e.g. being given a new role, or access to a private incident).\n\nEach entry will have an actor (the person or system that made the change) and one or more targets (a thing that was modified by this change). It will also include the Location and User Agent of the actor, where applicable.\n\nEach entry will conform to a schema, which is documented here. Each entry also has a version, so that if our schema changes over time you’ll still be able to parse old events.\n\nWe’ll retain these entries for one year.\n\nAudit log entries start from 18 April, 2023 (there are no entries available from before that date) and are retained in WorkOS for 365 days.\n\n## Viewing your audit log\n\nYou can view your audit log via our [security settings](https://app.incident.io/settings/security) page.\n\nFrom there, you'll be able to:\n\n- View the entries via a web interface (filterable by target, event type, actor and date)\n- Export the entries for a given time period to a CSV\n- Set up a log stream to a provider of your choice (e.g. Splunk or an Amazon S3 bucket)\n\n## Understanding actors\n\nEach entry will have an actor associated with it, which is one of 6 types:\n\n### Users\n\nThis is for changes triggered by the actions of a particular user in your account.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"user\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Kelsey Mills\",\n    \"metadata\": {\n      \"user_base_role_slug\": \"admin\",\n      \"user_custom_role_slugs\": \"engineering,security\"\n    }\n  }\n```\n\n### API Keys\n\nThis is for changes triggered by an API key.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"api_key\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Lisa's development key\",\n    \"metadata\": {\n      \"api_key_roles\": \"incident_creator,global_access\"\n    }\n  }\n```\n\n### Integrations\n\nThis is for changes triggered by a system. Sometimes that will be a third party system (e.g. a user might be created\nvia Slack) or sometimes it might be something triggered from inside incident.io (e.g. a severity created as part of setup).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"system\",\n    \"id\": \"incident_setup\",\n    \"name\": \"incident.io (setup)\",\n    \"metadata\": {}\n  }\n```\n\n### Workflows\n\nThis is for changes triggered by a workflow: for example, a workflow that invites users to a private incident.\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"workflow\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Auto-invite security team to private incidents\",\n    \"metadata\": {}\n  }\n```\n\n### External resources\n\nThis is for changes triggered by a specific [external resource](https://api-docs.incident.io/tag/Incident-Attachments-V1) (also known as an attachment).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"external_resource\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"#1234 Increased API latency\",\n    \"metadata\": {\n      \"external_resource_type\": \"pager_duty_incident\",\n      \"external_resource_external_id\": \"q1234\"\n    }\n  }\n```\n\n### Alerts\n\nThis is for changes triggered by a specific alert (e.g. from Datadog or Grafana).\n\nAs an example:\n\n```\n\"actor\": {\n    \"type\": \"alert\",\n    \"id\": \"01G0J1EXE7AXZ2C93K61WBPYEH\",\n    \"name\": \"Staging: pod CPU high\",\n    \"metadata\": {\n      \"alert_source_id\": \"01HB0ZG3B0HM04RCXNSPV1EDYG\"\n    }\n  }\n```\n"
     },
     {
       "name": "Alert Events V2",

@@ -33,21 +33,6 @@ const (
 	ActionV2StatusOutstanding ActionV2Status = "outstanding"
 )
 
-// Defines values for AlertResultDeduplicationKey.
-const (
-	UniqueKey AlertResultDeduplicationKey = "unique-key"
-)
-
-// Defines values for AlertResultMessage.
-const (
-	EventAcceptedForProcessing AlertResultMessage = "Event accepted for processing"
-)
-
-// Defines values for AlertResultStatus.
-const (
-	Success AlertResultStatus = "success"
-)
-
 // Defines values for AlertRouteIncidentTemplatePayloadV2PrioritySeverity.
 const (
 	AlertRouteIncidentTemplatePayloadV2PrioritySeveritySeverityFirstWins AlertRouteIncidentTemplatePayloadV2PrioritySeverity = "severity-first-wins"
@@ -202,6 +187,7 @@ const (
 	CreateRequestBody4ResourceResourceTypeGoogleCalendarEvent         CreateRequestBody4ResourceResourceType = "google_calendar_event"
 	CreateRequestBody4ResourceResourceTypeJiraIssue                   CreateRequestBody4ResourceResourceType = "jira_issue"
 	CreateRequestBody4ResourceResourceTypeOpsgenieAlert               CreateRequestBody4ResourceResourceType = "opsgenie_alert"
+	CreateRequestBody4ResourceResourceTypeOutlookCalendarEvent        CreateRequestBody4ResourceResourceType = "outlook_calendar_event"
 	CreateRequestBody4ResourceResourceTypePagerDutyIncident           CreateRequestBody4ResourceResourceType = "pager_duty_incident"
 	CreateRequestBody4ResourceResourceTypeScrubbed                    CreateRequestBody4ResourceResourceType = "scrubbed"
 	CreateRequestBody4ResourceResourceTypeSentryIssue                 CreateRequestBody4ResourceResourceType = "sentry_issue"
@@ -457,6 +443,7 @@ const (
 	ExternalResourceV1ResourceTypeGoogleCalendarEvent         ExternalResourceV1ResourceType = "google_calendar_event"
 	ExternalResourceV1ResourceTypeJiraIssue                   ExternalResourceV1ResourceType = "jira_issue"
 	ExternalResourceV1ResourceTypeOpsgenieAlert               ExternalResourceV1ResourceType = "opsgenie_alert"
+	ExternalResourceV1ResourceTypeOutlookCalendarEvent        ExternalResourceV1ResourceType = "outlook_calendar_event"
 	ExternalResourceV1ResourceTypePagerDutyIncident           ExternalResourceV1ResourceType = "pager_duty_incident"
 	ExternalResourceV1ResourceTypeScrubbed                    ExternalResourceV1ResourceType = "scrubbed"
 	ExternalResourceV1ResourceTypeSentryIssue                 ExternalResourceV1ResourceType = "sentry_issue"
@@ -846,6 +833,7 @@ const (
 	GoogleCalendarEvent         IncidentAttachmentsV1ListParamsResourceType = "google_calendar_event"
 	JiraIssue                   IncidentAttachmentsV1ListParamsResourceType = "jira_issue"
 	OpsgenieAlert               IncidentAttachmentsV1ListParamsResourceType = "opsgenie_alert"
+	OutlookCalendarEvent        IncidentAttachmentsV1ListParamsResourceType = "outlook_calendar_event"
 	PagerDutyIncident           IncidentAttachmentsV1ListParamsResourceType = "pager_duty_incident"
 	Scrubbed                    IncidentAttachmentsV1ListParamsResourceType = "scrubbed"
 	SentryIssue                 IncidentAttachmentsV1ListParamsResourceType = "sentry_issue"
@@ -975,23 +963,14 @@ type AfterPaginationMetaResultV2 struct {
 // AlertResult defines model for AlertResult.
 type AlertResult struct {
 	// DeduplicationKey The deduplication key that the event has been processed with
-	DeduplicationKey AlertResultDeduplicationKey `json:"deduplication_key"`
+	DeduplicationKey string `json:"deduplication_key"`
 
 	// Message Human readable message giving detail about the event
-	Message AlertResultMessage `json:"message"`
+	Message string `json:"message"`
 
 	// Status Status of the event
-	Status AlertResultStatus `json:"status"`
+	Status string `json:"status"`
 }
-
-// AlertResultDeduplicationKey The deduplication key that the event has been processed with
-type AlertResultDeduplicationKey string
-
-// AlertResultMessage Human readable message giving detail about the event
-type AlertResultMessage string
-
-// AlertResultStatus Status of the event
-type AlertResultStatus string
 
 // AlertRouteAlertSourcePayloadV2 defines model for AlertRouteAlertSourcePayloadV2.
 type AlertRouteAlertSourcePayloadV2 struct {
@@ -2193,13 +2172,13 @@ type EscalationPathNodeIfElseV2 struct {
 type EscalationPathNodeLevelV2 struct {
 	RoundRobinConfig *EscalationPathRoundRobinConfigV2 `json:"round_robin_config,omitempty"`
 
-	// Targets The targets for this level
+	// Targets The targets (users or schedules) for this level
 	Targets []EscalationPathTargetV2 `json:"targets"`
 
 	// TimeToAckIntervalCondition If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 	TimeToAckIntervalCondition *EscalationPathNodeLevelV2TimeToAckIntervalCondition `json:"time_to_ack_interval_condition,omitempty"`
 
-	// TimeToAckSeconds How long should we wait for this level to acknowledge before escalating?
+	// TimeToAckSeconds How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 	TimeToAckSeconds *int64 `json:"time_to_ack_seconds,omitempty"`
 
 	// TimeToAckWeekdayIntervalConfigId If the time to ack is relative to a time window, this identifies which window it is relative to
@@ -2211,13 +2190,13 @@ type EscalationPathNodeLevelV2TimeToAckIntervalCondition string
 
 // EscalationPathNodeNotifyChannelV2 defines model for EscalationPathNodeNotifyChannelV2.
 type EscalationPathNodeNotifyChannelV2 struct {
-	// Targets The targets for this level
+	// Targets The targets (Slack channels) for this level
 	Targets []EscalationPathTargetV2 `json:"targets"`
 
 	// TimeToAckIntervalCondition If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 	TimeToAckIntervalCondition *EscalationPathNodeNotifyChannelV2TimeToAckIntervalCondition `json:"time_to_ack_interval_condition,omitempty"`
 
-	// TimeToAckSeconds How long should we wait for this level to acknowledge before escalating?
+	// TimeToAckSeconds How long should we wait for this level to acknowledge before moving on to the next node in the path?
 	TimeToAckSeconds *int64 `json:"time_to_ack_seconds,omitempty"`
 
 	// TimeToAckWeekdayIntervalConfigId If the time to ack is relative to a time window, this identifies which window it is relative to
@@ -2229,43 +2208,63 @@ type EscalationPathNodeNotifyChannelV2TimeToAckIntervalCondition string
 
 // EscalationPathNodePayloadV2 defines model for EscalationPathNodePayloadV2.
 type EscalationPathNodePayloadV2 struct {
-	// Id Unique internal ID of the escalation path node
+	// Id An ID for this node, unique within the escalation path.
+	//
+	// This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 	Id            string                             `json:"id"`
 	IfElse        *EscalationPathNodeIfElsePayloadV2 `json:"if_else,omitempty"`
 	Level         *EscalationPathNodeLevelV2         `json:"level,omitempty"`
 	NotifyChannel *EscalationPathNodeNotifyChannelV2 `json:"notify_channel,omitempty"`
 	Repeat        *EscalationPathNodeRepeatV2        `json:"repeat,omitempty"`
 
-	// Type The type of this node: level or branch
+	// Type The type of this node. Available types are:
+	// * level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+	// * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+	// * if_else: Branch the escalation based on a set of conditions.
+	// * repeat: Go back to a previous node and repeat the logic from there.
 	Type EscalationPathNodePayloadV2Type `json:"type"`
 }
 
-// EscalationPathNodePayloadV2Type The type of this node: level or branch
+// EscalationPathNodePayloadV2Type The type of this node. Available types are:
+// * level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+// * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+// * if_else: Branch the escalation based on a set of conditions.
+// * repeat: Go back to a previous node and repeat the logic from there.
 type EscalationPathNodePayloadV2Type string
 
 // EscalationPathNodeRepeatV2 defines model for EscalationPathNodeRepeatV2.
 type EscalationPathNodeRepeatV2 struct {
-	// RepeatTimes How many times to repeat these steps
+	// RepeatTimes How many times to repeat these nodes
 	RepeatTimes int64 `json:"repeat_times"`
 
-	// ToNode Which node ID we begin repeating from
+	// ToNode Which node ID we begin repeating from.
 	ToNode string `json:"to_node"`
 }
 
 // EscalationPathNodeV2 defines model for EscalationPathNodeV2.
 type EscalationPathNodeV2 struct {
-	// Id Unique internal ID of the escalation path node
+	// Id An ID for this node, unique within the escalation path.
+	//
+	// This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 	Id            string                             `json:"id"`
 	IfElse        *EscalationPathNodeIfElseV2        `json:"if_else,omitempty"`
 	Level         *EscalationPathNodeLevelV2         `json:"level,omitempty"`
 	NotifyChannel *EscalationPathNodeNotifyChannelV2 `json:"notify_channel,omitempty"`
 	Repeat        *EscalationPathNodeRepeatV2        `json:"repeat,omitempty"`
 
-	// Type The type of this node: level or branch
+	// Type The type of this node. Available types are:
+	// * level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+	// * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+	// * if_else: Branch the escalation based on a set of conditions.
+	// * repeat: Go back to a previous node and repeat the logic from there.
 	Type EscalationPathNodeV2Type `json:"type"`
 }
 
-// EscalationPathNodeV2Type The type of this node: level or branch
+// EscalationPathNodeV2Type The type of this node. Available types are:
+// * level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+// * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+// * if_else: Branch the escalation based on a set of conditions.
+// * repeat: Go back to a previous node and repeat the logic from there.
 type EscalationPathNodeV2Type string
 
 // EscalationPathPayloadV2 defines model for EscalationPathPayloadV2.
@@ -3855,33 +3854,6 @@ type StepConfigSlim struct {
 	Name string `json:"name"`
 }
 
-// TextMark defines model for TextMark.
-type TextMark struct {
-	// Attrs type-specific mark attributes
-	Attrs *map[string]interface{} `json:"attrs,omitempty"`
-
-	// Type the type of the node, eg 'text'
-	Type string `json:"type"`
-}
-
-// TextNode defines model for TextNode.
-type TextNode struct {
-	// Attrs type-specific node attributes
-	Attrs *map[string]interface{} `json:"attrs,omitempty"`
-
-	// Content children of this node
-	Content *[]TextNode `json:"content,omitempty"`
-
-	// Marks marks that apply to this node, eg 'bold'
-	Marks *[]TextMark `json:"marks,omitempty"`
-
-	// Text if this node doesn't have children, it has text content
-	Text *string `json:"text,omitempty"`
-
-	// Type the type of the node
-	Type string `json:"type"`
-}
-
 // TriggerSlim defines model for TriggerSlim.
 type TriggerSlim struct {
 	// Label Human readable identifier for this trigger
@@ -4500,7 +4472,7 @@ type IncidentsV2ListParams struct {
 	// Status Filter on incident status. The accepted operators are 'one_of', or 'not_in'.
 	Status *map[string][]string `form:"status,omitempty" json:"status,omitempty"`
 
-	// StatusCategory Filter on the category of the incidents status. The accepted operators are 'one_of', or 'not_in'. If this is not provided, this value defaults to `{"one_of": ["triage", "active", "post-incident", "closed"] }`, meaning that canceled, declined and merged incidents are not included.
+	// StatusCategory Filter on the category of the incidents status. The accepted operators are 'one_of', or 'not_in'.
 	StatusCategory *map[string][]string `form:"status_category,omitempty" json:"status_category,omitempty"`
 
 	// CreatedAt Filter on incident created at timestamp. The accepted operators are 'gte', 'lte' and 'date_range'.
