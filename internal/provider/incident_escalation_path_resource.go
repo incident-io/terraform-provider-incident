@@ -28,7 +28,8 @@ var (
 )
 
 type IncidentEscalationPathResource struct {
-	client *client.ClientWithResponses
+	client           *client.ClientWithResponses
+	terraformVersion string
 }
 
 type IncidentEscalationPathResourceModel struct {
@@ -300,6 +301,7 @@ func (r *IncidentEscalationPathResource) Configure(ctx context.Context, req reso
 	}
 
 	r.client = client.Client
+	r.terraformVersion = client.TerraformVersion
 }
 
 func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -329,6 +331,8 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create escalation path, got error: %s", err))
 		return
 	}
+
+	claimResource(ctx, r.client, result.JSON201.EscalationPath.Id, resp.Diagnostics, client.ManagedResourceV2ResourceTypeEscalationPath, r.terraformVersion)
 
 	tflog.Trace(ctx, fmt.Sprintf("created an escalation path resource with id=%s", result.JSON201.EscalationPath.Id))
 	data = r.buildModel(result.JSON201.EscalationPath)
@@ -391,6 +395,8 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 		return
 	}
 
+	claimResource(ctx, r.client, result.JSON200.EscalationPath.Id, resp.Diagnostics, client.ManagedResourceV2ResourceTypeEscalationPath, r.terraformVersion)
+
 	data = r.buildModel(result.JSON200.EscalationPath)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -410,6 +416,7 @@ func (r *IncidentEscalationPathResource) Delete(ctx context.Context, req resourc
 }
 
 func (r *IncidentEscalationPathResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	claimResource(ctx, r.client, req.ID, resp.Diagnostics, client.ManagedResourceV2ResourceTypeEscalationPath, r.terraformVersion)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
