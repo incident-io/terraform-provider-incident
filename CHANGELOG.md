@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 4.0.3
+
+- Updates the documentation for custom fields
+
 ## 4.0.2
 
 - Adds support for adding slack_channel nodes to escalation paths
@@ -14,13 +18,14 @@
 - Fixes an issue where the provider might fail to import Terraform state for a schedule with working hours applied
 
 To upgrade to v4.0.0, if you've got on-call schedules with working hours specified in your Terraform code, you'll need to rename the following properties of your `working_intervals`:
+
 - `day` -> `weekday`
 - `start` -> `start_time`
 - `end` -> `end_time`
 
 ## 3.8.11
 
-- Add `external_id` to `resource_catalog_entry` 
+- Add `external_id` to `resource_catalog_entry`
 
 ## 3.8.10
 
@@ -47,7 +52,7 @@ To upgrade to v4.0.0, if you've got on-call schedules with working hours specifi
 
 - Fixed an issue (#99) where the provider crashed if a round robin config with no minutes was provided
 
-## 3.8.4 
+## 3.8.4
 
 - Add support for `holidays_public_config` on the `incident_schedule` resource
 
