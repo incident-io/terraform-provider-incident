@@ -314,7 +314,7 @@ func (r *IncidentWorkflowResource) Delete(ctx context.Context, req resource.Dele
 }
 
 func (r *IncidentWorkflowResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	claimResource(ctx, r.client, req, resp, client.ManagedResourceV2ResourceTypeWorkflow, r.terraformVersion)
+	claimResource(ctx, r.client, req.ID, resp.Diagnostics, client.ManagedResourceV2ResourceTypeWorkflow, r.terraformVersion)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 

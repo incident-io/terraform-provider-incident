@@ -4,15 +4,15 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
 func claimResource(
 	ctx context.Context,
 	apiClient *client.ClientWithResponses,
-	req resource.ImportStateRequest,
-	resp *resource.ImportStateResponse,
+	resourceID string,
+	diagnostics diag.Diagnostics,
 	resourceType client.ManagedResourceV2ResourceType,
 	terraformVersion string,
 ) {
@@ -21,7 +21,7 @@ func claimResource(
 			"incident.io/terraform/version": terraformVersion,
 		},
 		ResourceType: client.CreateManagedResourceRequestBodyResourceType(resourceType),
-		ResourceId:   req.ID,
+		ResourceId:   resourceID,
 	}
 
 	result, err := apiClient.ManagedResourcesV2CreateManagedResourceWithResponse(ctx, payload)
@@ -29,7 +29,7 @@ func claimResource(
 		err = fmt.Errorf(string(result.Body))
 	}
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create managed resource, got error: %s", err))
+		diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create managed resource, got error: %s", err))
 		return
 	}
 }
