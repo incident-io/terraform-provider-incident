@@ -648,7 +648,7 @@ paths:
             tags:
                 - Incident Attachments V1
             summary: List Incident Attachments V1
-            description: List all incident attachements for a given external resource or incident. You must provide either a specific incident ID or a specific external resource type and external ID.
+            description: List all incident attachments for a given external resource or incident. You must provide either a specific incident ID or a specific external resource type and external ID.
             operationId: Incident Attachments V1#List
             parameters:
                 - name: incident_id
@@ -749,7 +749,7 @@ paths:
             tags:
                 - Incident Attachments V1
             summary: Delete Incident Attachments V1
-            description: Unattaches an external resouce from an incident
+            description: Unattaches an external resource from an incident
             operationId: Incident Attachments V1#Delete
             parameters:
                 - name: id
@@ -2080,6 +2080,13 @@ paths:
                                     value:
                                         literal: SEV123
                                         reference: incident.severity
+                                start_in_triage:
+                                    array_value:
+                                        - literal: SEV123
+                                          reference: incident.severity
+                                    value:
+                                        literal: SEV123
+                                        reference: incident.severity
                                 summary:
                                     array_value:
                                         - literal: SEV123
@@ -2684,6 +2691,13 @@ paths:
                                         reference: incident.severity
                                 priority_severity: severity-first-wins
                                 severity:
+                                    array_value:
+                                        - literal: SEV123
+                                          reference: incident.severity
+                                    value:
+                                        literal: SEV123
+                                        reference: incident.severity
+                                start_in_triage:
                                     array_value:
                                         - literal: SEV123
                                           reference: incident.severity
@@ -5183,7 +5197,6 @@ paths:
                                       value_option_id: 01FCNDV6P870EA6S7TK1DSYDG0
                                       value_text: This is my text field, I hope you like it
                                       value_timestamp: ""
-                            id: 01FDAG4SAP5TYPT98WGR2N7W91
                             idempotency_key: alert-uuid
                             incident_role_assignments:
                                 - assignee:
@@ -12937,6 +12950,8 @@ components:
                         - severity-max
                 severity:
                     $ref: '#/components/schemas/EngineParamBindingPayloadV2'
+                start_in_triage:
+                    $ref: '#/components/schemas/EngineParamBindingPayloadV2'
                 summary:
                     $ref: '#/components/schemas/EngineParamBindingPayloadV2'
                 workspace:
@@ -12975,6 +12990,13 @@ components:
                         reference: incident.severity
                 priority_severity: severity-first-wins
                 severity:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+                start_in_triage:
                     array_value:
                         - literal: SEV123
                           reference: incident.severity
@@ -13422,6 +13444,13 @@ components:
                             reference: incident.severity
                     priority_severity: severity-first-wins
                     severity:
+                        array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                        value:
+                            literal: SEV123
+                            reference: incident.severity
+                    start_in_triage:
                         array_value:
                             - literal: SEV123
                               reference: incident.severity
@@ -16246,6 +16275,8 @@ components:
                         - slack-greyscale
                         - slack_channel
                         - slack_team
+                        - sparkles
+                        - sparkles-ai-gradient
                         - star
                         - status
                         - status-page
@@ -16515,8 +16546,9 @@ components:
                     description: The type of the related resource
                     example: schedule
                     enum:
-                        - workflow
+                        - escalation_path
                         - schedule
+                        - workflow
             example:
                 annotations:
                     incident.io/terraform/version: 3.0.0
@@ -21717,10 +21749,6 @@ components:
                               value_option_id: 01FCNDV6P870EA6S7TK1DSYDG0
                               value_text: This is my text field, I hope you like it
                               value_timestamp: ""
-                id:
-                    type: string
-                    description: Unique identifier for the incident
-                    example: 01FDAG4SAP5TYPT98WGR2N7W91
                 idempotency_key:
                     type: string
                     description: Unique string used to de-duplicate incident create requests
@@ -21801,7 +21829,6 @@ components:
                           value_option_id: 01FCNDV6P870EA6S7TK1DSYDG0
                           value_text: This is my text field, I hope you like it
                           value_timestamp: ""
-                id: 01FDAG4SAP5TYPT98WGR2N7W91
                 idempotency_key: alert-uuid
                 incident_role_assignments:
                     - assignee:
@@ -25247,10 +25274,11 @@ components:
                     example: abc123
                 resource_type:
                     type: string
-                    example: workflow
+                    example: escalation_path
                     enum:
-                        - workflow
+                        - escalation_path
                         - schedule
+                        - workflow
                 source_url:
                     type: string
                     description: The url of the external repository where this resource is managed (if there is one)
@@ -25260,7 +25288,7 @@ components:
                     incident.io/terraform/version: 3.0.0
                 managed_by: dashboard
                 resource_id: abc123
-                resource_type: workflow
+                resource_type: escalation_path
                 source_url: https://github.com/my-company/infrastructure
             required:
                 - resource_type
@@ -29064,6 +29092,13 @@ components:
                         value:
                             literal: SEV123
                             reference: incident.severity
+                    start_in_triage:
+                        array_value:
+                            - literal: SEV123
+                              reference: incident.severity
+                        value:
+                            literal: SEV123
+                            reference: incident.severity
                     summary:
                         array_value:
                             - literal: SEV123
@@ -32423,9 +32458,6 @@ tags:
         - Text, freeform text field (e.g. Customer ID)
         - Link, link URL that is synced to Slack bookmarks on the incident channel (e.g. External Status Page)
         - Number, integer or fractional numbers (e.g. # Customers Affected)
-
-        Single-select and multi-select fields can also be powered by the Catalog. This will mean a field has a
-        catalog_type_id, which links it to the catalog type that it references.
 
         We may add more custom field types in the future - we'd love to hear any other types you'd like to use!
     - name: Escalations V2

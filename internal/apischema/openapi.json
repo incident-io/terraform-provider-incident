@@ -502,7 +502,7 @@
           "Incident Attachments V1"
         ],
         "summary": "List Incident Attachments V1",
-        "description": "List all incident attachements for a given external resource or incident. You must provide either a specific incident ID or a specific external resource type and external ID.",
+        "description": "List all incident attachments for a given external resource or incident. You must provide either a specific incident ID or a specific external resource type and external ID.",
         "operationId": "Incident Attachments V1#List",
         "parameters": [
           {
@@ -600,7 +600,7 @@
           "Incident Attachments V1"
         ],
         "summary": "Delete Incident Attachments V1",
-        "description": "Unattaches an external resouce from an incident",
+        "description": "Unattaches an external resource from an incident",
         "operationId": "Incident Attachments V1#Delete",
         "parameters": [
           {
@@ -7850,6 +7850,9 @@
         "severity": {
           "$ref": "#/definitions/EngineParamBindingPayloadV2"
         },
+        "start_in_triage": {
+          "$ref": "#/definitions/EngineParamBindingPayloadV2"
+        },
         "summary": {
           "$ref": "#/definitions/EngineParamBindingPayloadV2"
         },
@@ -7913,6 +7916,18 @@
         },
         "priority_severity": "severity-first-wins",
         "severity": {
+          "array_value": [
+            {
+              "literal": "SEV123",
+              "reference": "incident.severity"
+            }
+          ],
+          "value": {
+            "literal": "SEV123",
+            "reference": "incident.severity"
+          }
+        },
+        "start_in_triage": {
           "array_value": [
             {
               "literal": "SEV123",
@@ -9275,6 +9290,18 @@
               "reference": "incident.severity"
             }
           },
+          "start_in_triage": {
+            "array_value": [
+              {
+                "literal": "SEV123",
+                "reference": "incident.severity"
+              }
+            ],
+            "value": {
+              "literal": "SEV123",
+              "reference": "incident.severity"
+            }
+          },
           "summary": {
             "array_value": [
               {
@@ -10495,6 +10522,18 @@
           },
           "priority_severity": "severity-first-wins",
           "severity": {
+            "array_value": [
+              {
+                "literal": "SEV123",
+                "reference": "incident.severity"
+              }
+            ],
+            "value": {
+              "literal": "SEV123",
+              "reference": "incident.severity"
+            }
+          },
+          "start_in_triage": {
             "array_value": [
               {
                 "literal": "SEV123",
@@ -28465,11 +28504,6 @@
             }
           ]
         },
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the incident",
-          "example": "01FDAG4SAP5TYPT98WGR2N7W91"
-        },
         "idempotency_key": {
           "type": "string",
           "description": "Unique string used to de-duplicate incident create requests",
@@ -28581,7 +28615,6 @@
             ]
           }
         ],
-        "id": "01FDAG4SAP5TYPT98WGR2N7W91",
         "idempotency_key": "alert-uuid",
         "incident_role_assignments": [
           {
@@ -33083,8 +33116,9 @@
           "description": "The type of the related resource",
           "example": "schedule",
           "enum": [
-            "workflow",
-            "schedule"
+            "escalation_path",
+            "schedule",
+            "workflow"
           ]
         },
         "source_url": {
@@ -33134,8 +33168,9 @@
           "description": "The type of the related resource",
           "example": "schedule",
           "enum": [
-            "workflow",
-            "schedule"
+            "escalation_path",
+            "schedule",
+            "workflow"
           ]
         }
       },
@@ -41544,7 +41579,7 @@
     },
     {
       "name": "Custom Fields V2",
-      "description": "Manage custom fields.\n\nCustom fields are used to attach metadata to incidents, which you can use when searching\nfor incidents in the dashboard, triggering workflows, building announcement rules or for\nyour own data needs.\n\nEach field has a type:\n\n- Single-select, single value selected from a predefined list of options (e.g. Detection Method)\n- Multi-select, as above but you can pick more than one option (e.g. Affected Teams)\n- Text, freeform text field (e.g. Customer ID)\n- Link, link URL that is synced to Slack bookmarks on the incident channel (e.g. External Status Page)\n- Number, integer or fractional numbers (e.g. # Customers Affected)\n\nSingle-select and multi-select fields can also be powered by the Catalog. This will mean a field has a\ncatalog_type_id, which links it to the catalog type that it references.\n\nWe may add more custom field types in the future - we'd love to hear any other types you'd like to use!\n"
+      "description": "Manage custom fields.\n\nCustom fields are used to attach metadata to incidents, which you can use when searching\nfor incidents in the dashboard, triggering workflows, building announcement rules or for\nyour own data needs.\n\nEach field has a type:\n\n- Single-select, single value selected from a predefined list of options (e.g. Detection Method)\n- Multi-select, as above but you can pick more than one option (e.g. Affected Teams)\n- Text, freeform text field (e.g. Customer ID)\n- Link, link URL that is synced to Slack bookmarks on the incident channel (e.g. External Status Page)\n- Number, integer or fractional numbers (e.g. # Customers Affected)\n\nWe may add more custom field types in the future - we'd love to hear any other types you'd like to use!\n"
     },
     {
       "name": "Escalations V2",
