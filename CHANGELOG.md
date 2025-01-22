@@ -1,8 +1,12 @@
 ## Unreleased
 
-## 4.0.3
+## 4.0.4
 
 - Updates the documentation for custom fields
+
+## 4.0.3
+
+- Updates to documentation
 
 ## 4.0.2
 
