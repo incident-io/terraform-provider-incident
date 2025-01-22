@@ -472,7 +472,7 @@ paths:
             tags:
                 - Incident Attachments V1
             summary: List Incident Attachments V1
-            description: List all incident attachements for a given external resource or incident. You must provide either a specific incident ID or a specific external resource type and external ID.
+            description: List all incident attachments for a given external resource or incident. You must provide either a specific incident ID or a specific external resource type and external ID.
             operationId: Incident Attachments V1#List
             parameters:
                 - name: incident_id
@@ -542,7 +542,7 @@ paths:
             tags:
                 - Incident Attachments V1
             summary: Delete Incident Attachments V1
-            description: Unattaches an external resouce from an incident
+            description: Unattaches an external resource from an incident
             operationId: Incident Attachments V1#Delete
             parameters:
                 - name: id
@@ -5867,6 +5867,8 @@ definitions:
                     - severity-max
             severity:
                 $ref: '#/definitions/EngineParamBindingPayloadV2'
+            start_in_triage:
+                $ref: '#/definitions/EngineParamBindingPayloadV2'
             summary:
                 $ref: '#/definitions/EngineParamBindingPayloadV2'
             workspace:
@@ -5905,6 +5907,13 @@ definitions:
                     reference: incident.severity
             priority_severity: severity-first-wins
             severity:
+                array_value:
+                    - literal: SEV123
+                      reference: incident.severity
+                value:
+                    literal: SEV123
+                    reference: incident.severity
+            start_in_triage:
                 array_value:
                     - literal: SEV123
                       reference: incident.severity
@@ -6708,6 +6717,13 @@ definitions:
                     value:
                         literal: SEV123
                         reference: incident.severity
+                start_in_triage:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
                 summary:
                     array_value:
                         - literal: SEV123
@@ -7407,6 +7423,13 @@ definitions:
                         reference: incident.severity
                 priority_severity: severity-first-wins
                 severity:
+                    array_value:
+                        - literal: SEV123
+                          reference: incident.severity
+                    value:
+                        literal: SEV123
+                        reference: incident.severity
+                start_in_triage:
                     array_value:
                         - literal: SEV123
                           reference: incident.severity
@@ -20269,10 +20292,6 @@ definitions:
                           value_option_id: 01FCNDV6P870EA6S7TK1DSYDG0
                           value_text: This is my text field, I hope you like it
                           value_timestamp: ""
-            id:
-                type: string
-                description: Unique identifier for the incident
-                example: 01FDAG4SAP5TYPT98WGR2N7W91
             idempotency_key:
                 type: string
                 description: Unique string used to de-duplicate incident create requests
@@ -20353,7 +20372,6 @@ definitions:
                       value_option_id: 01FCNDV6P870EA6S7TK1DSYDG0
                       value_text: This is my text field, I hope you like it
                       value_timestamp: ""
-            id: 01FDAG4SAP5TYPT98WGR2N7W91
             idempotency_key: alert-uuid
             incident_role_assignments:
                 - assignee:
@@ -23785,8 +23803,9 @@ definitions:
                 description: The type of the related resource
                 example: schedule
                 enum:
-                    - workflow
+                    - escalation_path
                     - schedule
+                    - workflow
             source_url:
                 type: string
                 description: The url of the external repository where this resource is managed (if there is one)
@@ -23824,8 +23843,9 @@ definitions:
                 description: The type of the related resource
                 example: schedule
                 enum:
-                    - workflow
+                    - escalation_path
                     - schedule
+                    - workflow
         example:
             annotations:
                 incident.io/terraform/version: 3.0.0

@@ -142,8 +142,9 @@ const (
 
 // Defines values for CreateManagedResourceRequestBodyResourceType.
 const (
-	CreateManagedResourceRequestBodyResourceTypeSchedule CreateManagedResourceRequestBodyResourceType = "schedule"
-	CreateManagedResourceRequestBodyResourceTypeWorkflow CreateManagedResourceRequestBodyResourceType = "workflow"
+	CreateManagedResourceRequestBodyResourceTypeEscalationPath CreateManagedResourceRequestBodyResourceType = "escalation_path"
+	CreateManagedResourceRequestBodyResourceTypeSchedule       CreateManagedResourceRequestBodyResourceType = "schedule"
+	CreateManagedResourceRequestBodyResourceTypeWorkflow       CreateManagedResourceRequestBodyResourceType = "workflow"
 )
 
 // Defines values for CreateRequestBody2FieldType.
@@ -609,8 +610,9 @@ const (
 
 // Defines values for ManagedResourceV2ResourceType.
 const (
-	ManagedResourceV2ResourceTypeSchedule ManagedResourceV2ResourceType = "schedule"
-	ManagedResourceV2ResourceTypeWorkflow ManagedResourceV2ResourceType = "workflow"
+	ManagedResourceV2ResourceTypeEscalationPath ManagedResourceV2ResourceType = "escalation_path"
+	ManagedResourceV2ResourceTypeSchedule       ManagedResourceV2ResourceType = "schedule"
+	ManagedResourceV2ResourceTypeWorkflow       ManagedResourceV2ResourceType = "workflow"
 )
 
 // Defines values for ManagementMetaV2ManagedBy.
@@ -676,13 +678,13 @@ const (
 
 // Defines values for UpdateTypeRequestBodyCategories.
 const (
-	UpdateTypeRequestBodyCategoriesCustomer       UpdateTypeRequestBodyCategories = "customer"
-	UpdateTypeRequestBodyCategoriesIssueTracker   UpdateTypeRequestBodyCategories = "issue-tracker"
-	UpdateTypeRequestBodyCategoriesOnCall         UpdateTypeRequestBodyCategories = "on-call"
-	UpdateTypeRequestBodyCategoriesProductFeature UpdateTypeRequestBodyCategories = "product-feature"
-	UpdateTypeRequestBodyCategoriesService        UpdateTypeRequestBodyCategories = "service"
-	UpdateTypeRequestBodyCategoriesTeam           UpdateTypeRequestBodyCategories = "team"
-	UpdateTypeRequestBodyCategoriesUser           UpdateTypeRequestBodyCategories = "user"
+	Customer       UpdateTypeRequestBodyCategories = "customer"
+	IssueTracker   UpdateTypeRequestBodyCategories = "issue-tracker"
+	OnCall         UpdateTypeRequestBodyCategories = "on-call"
+	ProductFeature UpdateTypeRequestBodyCategories = "product-feature"
+	Service        UpdateTypeRequestBodyCategories = "service"
+	Team           UpdateTypeRequestBodyCategories = "team"
+	User           UpdateTypeRequestBodyCategories = "user"
 )
 
 // Defines values for UpdateTypeRequestBodyColor.
@@ -1005,6 +1007,7 @@ type AlertRouteIncidentTemplatePayloadV2 struct {
 	// PrioritySeverity option defining whether to cause subsequent alerts to increase the severity
 	PrioritySeverity AlertRouteIncidentTemplatePayloadV2PrioritySeverity `json:"priority_severity"`
 	Severity         *EngineParamBindingPayloadV2                        `json:"severity,omitempty"`
+	StartInTriage    *EngineParamBindingPayloadV2                        `json:"start_in_triage,omitempty"`
 	Summary          *EngineParamBindingPayloadV2                        `json:"summary,omitempty"`
 	Workspace        *EngineParamBindingPayloadV2                        `json:"workspace,omitempty"`
 }
@@ -2654,9 +2657,6 @@ type IncidentCreatePayloadV1Visibility string
 type IncidentCreatePayloadV2 struct {
 	// CustomFieldEntries Set the incident's custom fields to these values
 	CustomFieldEntries *[]CustomFieldEntryPayloadV2 `json:"custom_field_entries,omitempty"`
-
-	// Id Unique identifier for the incident
-	Id *string `json:"id,omitempty"`
 
 	// IdempotencyKey Unique string used to de-duplicate incident create requests
 	IdempotencyKey string `json:"idempotency_key"`
