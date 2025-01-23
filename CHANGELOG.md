@@ -1,5 +1,10 @@
 ## Unreleased
 
+## 4.1.0
+
+- Escalation paths created by Terraform or imported to Terraform will be tagged
+  as such and won't be editable in the incident.io dashboard.
+
 ## 4.0.4
 
 - Updates the documentation for custom fields
