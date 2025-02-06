@@ -23,23 +23,11 @@ export INCIDENT_API_KEY="inc_development_<token>"
 
 This points the provider at your local instance via ngrok.
 
-If you need to regenerate the client, you first need to copy the following files over from `core/server/api/public/gen/http/`:
-
-```
-openapi.json
-openapi.yaml
-openapi3-secret.json
-openapi3.json
-openapi3.yaml
-```
+If you need to regenerate the client, you first need to copy the following file from `core`:
 
 ```
 # If your core repository is one level up, this would be:
-cp ../core/server/api/public/gen/http/openapi.json internal/apischema
-cp ../core/server/api/public/gen/http/openapi.yaml internal/apischema
-cp ../core/server/api/public/gen/http/openapi3-secret.json internal/apischema
-cp ../core/server/api/public/gen/http/openapi3.json internal/apischema
-cp ../core/server/api/public/gen/http/openapi3.yaml internal/apischema
+cp ../core/server/lib/openapi/public-schema-v3-including-secret-endpoints.json internal/apischema
 ```
 
 And then run `make internal/client/client.gen.go`

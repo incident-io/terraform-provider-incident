@@ -338,7 +338,7 @@ func incidentScheduleDefault() client.ScheduleV2 {
 						},
 					},
 					Name:  "Rota",
-					Users: new([]client.UserV2),
+					Users: []client.UserV2{},
 				},
 			},
 		},
@@ -441,13 +441,13 @@ func generateLayersArray(layers []client.ScheduleLayerV2) string {
 	return result
 }
 
-func generateUsersArray(users *[]client.UserV2) string {
+func generateUsersArray(users []client.UserV2) string {
 	var result string
 	if users == nil {
 		return "[]"
 	}
 	result += "[\n"
-	for _, user := range *users {
+	for _, user := range users {
 		result += "  {\n"
 		result += "    id   = " + quote(user.Id) + "\n"
 		result += "  },\n"

@@ -52,15 +52,15 @@ func (r *IncidentCustomFieldResource) Schema(ctx context.Context, req resource.S
 				},
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV2CreateRequestBody", "name"),
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "name"),
 				Required:            true,
 			},
 			"description": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV2CreateRequestBody", "description"),
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "description"),
 				Required:            true,
 			},
 			"field_type": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldsV2CreateRequestBody", "field_type"),
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "field_type"),
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),

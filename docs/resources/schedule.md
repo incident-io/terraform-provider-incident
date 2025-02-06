@@ -153,7 +153,7 @@ Optional:
 
 - `effective_from` (String) When this rotation config will be effective from
 - `handovers` (Attributes List) Defines the handover intervals for this rota, in order they should apply (see [below for nested schema](#nestedatt--rotations--versions--handovers))
-- `working_intervals` (Attributes List) (see [below for nested schema](#nestedatt--rotations--versions--working_intervals))
+- `working_intervals` (Attributes List) Optional restrictions that define when to schedule people for this rota (see [below for nested schema](#nestedatt--rotations--versions--working_intervals))
 
 <a id="nestedatt--rotations--versions--layers"></a>
 ### Nested Schema for `rotations.versions.layers`

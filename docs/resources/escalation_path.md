@@ -1994,6 +1994,6 @@ Required:
 
 - `end_time` (String) End time of the interval, in 24hr format
 - `start_time` (String) Start time of the interval, in 24hr format
-- `weekday` (String) Weekday this interval applies to
+- `weekday` (String) Weekdays for use within a schedule or escalation path
 
 

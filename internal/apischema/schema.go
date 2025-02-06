@@ -6,15 +6,14 @@ import (
 	"strings"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/getkin/kin-openapi/openapi2"
 	"github.com/getkin/kin-openapi/openapi3"
 
 	_ "embed"
 )
 
-//go:embed openapi.json
+//go:embed public-schema-v3-including-secret-endpoints.json
 var openAPIData []byte
-var openAPI openapi2.T
+var openAPI openapi3.T
 
 func init() {
 	if err := json.Unmarshal(openAPIData, &openAPI); err != nil {
@@ -23,9 +22,9 @@ func init() {
 }
 
 func Def(name string) *openapi3.SchemaRef {
-	def := openAPI.Definitions[name]
+	def := openAPI.Components.Schemas[name]
 	if def == nil {
-		panic(fmt.Sprintf("unrecognised definition: %s", name))
+		panic(fmt.Sprintf("unrecognised component: %s", name))
 	}
 
 	return def
@@ -47,8 +46,8 @@ func Property(definitionName, propertyName string) *openapi3.SchemaRef {
 		panic(fmt.Sprintf("definition %s has no property %s", definitionName, propertyName))
 	}
 
-	if strings.HasPrefix(property.Ref, "#/definitions/") {
-		return Def(strings.TrimPrefix(property.Ref, "#/definitions/"))
+	if strings.HasPrefix(property.Ref, "#/components/schemas/") {
+		return Def(strings.TrimPrefix(property.Ref, "#/components/schemas/"))
 	}
 
 	return property

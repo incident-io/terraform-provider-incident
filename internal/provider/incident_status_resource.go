@@ -52,15 +52,15 @@ func (r *IncidentStatusResource) Schema(ctx context.Context, req resource.Schema
 				},
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentStatusesV1CreateRequestBody", "name"),
+				MarkdownDescription: apischema.Docstring("IncidentStatusV1", "name"),
 				Required:            true,
 			},
 			"description": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentStatusesV1CreateRequestBody", "description"),
+				MarkdownDescription: apischema.Docstring("IncidentStatusV1", "description"),
 				Required:            true,
 			},
 			"category": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentStatusesV1CreateRequestBody", "category"),
+				MarkdownDescription: apischema.Docstring("IncidentStatusV1", "category"),
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
