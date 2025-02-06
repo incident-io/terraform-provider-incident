@@ -55,6 +55,9 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"timezone": schema.StringAttribute{
 				Required: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 			},
 			"holidays_public_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
