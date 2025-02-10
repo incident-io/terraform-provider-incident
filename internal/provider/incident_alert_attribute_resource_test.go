@@ -49,7 +49,9 @@ func TestAccAlertAttributeResource(t *testing.T) {
 						"incident_alert_attribute.example", "name", "UpdatedSeverity"),
 				),
 			},
-			// Block use of `Priority` as an attribute name
+			// Block use of `Priority` as an attribute name. This relies on our API giving you a
+			// 422 when you try and create an attribute with this name as part of our work to migrate
+			// priority to becoming a regular alert attribute.
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
 					Name:  "Priority",
