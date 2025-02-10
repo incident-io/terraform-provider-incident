@@ -1,0 +1,76 @@
+package provider
+
+import (
+	"bytes"
+	"testing"
+	"text/template"
+
+	"github.com/Masterminds/sprig"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+)
+
+func TestAccAlertAttributeResource(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create and read
+			{
+				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
+					Name:  "Severity",
+					Type:  "String",
+					Array: false,
+				}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_alert_attribute.example", "name", "Severity"),
+					resource.TestCheckResourceAttr(
+						"incident_alert_attribute.example", "type", "String"),
+					resource.TestCheckResourceAttr(
+						"incident_alert_attribute.example", "array", "false"),
+				),
+			},
+			// Import
+			{
+				ResourceName:      "incident_alert_attribute.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			// Update and read
+			{
+				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
+					Name:  "UpdatedSeverity",
+					Type:  "String",
+					Array: false,
+				}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_alert_attribute.example", "name", "UpdatedSeverity"),
+				),
+			},
+		},
+	})
+}
+
+var alertAttributeTemplate = template.Must(template.New("incident_alert_attribute").Funcs(sprig.TxtFuncMap()).Parse(`
+resource "incident_alert_attribute" "example" {
+  name  = {{ quote .Name }}
+  type  = {{ quote .Type }}
+  array = {{ .Array }}
+}
+`))
+
+type alertAttributeElement struct {
+	Name  string
+	Type  string
+	Array bool
+}
+
+func testAccAlertAttributeResourceConfig(attribute alertAttributeElement) string {
+	var buf bytes.Buffer
+	if err := alertAttributeTemplate.Execute(&buf, attribute); err != nil {
+		panic(err)
+	}
+
+	return buf.String()
+}
