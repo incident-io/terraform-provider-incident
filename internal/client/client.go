@@ -31,7 +31,7 @@ func New(ctx context.Context, apiKey, apiEndpoint, version string, opts ...Clien
 		if err != nil {
 			return nil, err
 		}
-		if err == nil && resp.StatusCode > 299 {
+		if resp.StatusCode > 299 {
 			data, err := io.ReadAll(resp.Body)
 			if err != nil {
 				return nil, fmt.Errorf("status %d: no response body", resp.StatusCode)

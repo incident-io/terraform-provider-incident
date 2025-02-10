@@ -49,9 +49,9 @@ type IncidentEscalationPathNode struct {
 }
 
 type IncidentEscalationPathNodeIfElse struct {
-	Conditions []IncidentEngineCondition    `tfsdk:"conditions"`
-	ElsePath   []IncidentEscalationPathNode `tfsdk:"else_path"`
-	ThenPath   []IncidentEscalationPathNode `tfsdk:"then_path"`
+	Conditions models.IncidentEngineConditions `tfsdk:"conditions"`
+	ElsePath   []IncidentEscalationPathNode    `tfsdk:"else_path"`
+	ThenPath   []IncidentEscalationPathNode    `tfsdk:"then_path"`
 }
 
 type IncidentEscalationPathNodeLevel struct {
@@ -267,7 +267,7 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 			MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "if_else"),
 			Optional:            true,
 			Attributes: map[string]schema.Attribute{
-				"conditions": conditionsAttribute,
+				"conditions": models.ConditionsAttribute(),
 				"else_path": schema.ListNestedAttribute{
 					MarkdownDescription: apischema.Docstring("EscalationPathNodeIfElseV2", "else_path"),
 					Optional:            true,
@@ -445,12 +445,12 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 		}
 		if node.IfElse != nil {
 			elem.IfElse = &IncidentEscalationPathNodeIfElse{
-				Conditions: lo.Map(node.IfElse.Conditions, func(cond client.ConditionV2, _ int) IncidentEngineCondition {
-					return IncidentEngineCondition{
+				Conditions: lo.Map(node.IfElse.Conditions, func(cond client.ConditionV2, _ int) models.IncidentEngineCondition {
+					return models.IncidentEngineCondition{
 						Subject:   types.StringValue(cond.Subject.Reference),
 						Operation: types.StringValue(cond.Operation.Value),
-						ParamBindings: lo.Map(cond.ParamBindings, func(pb client.EngineParamBindingV2, _ int) IncidentEngineParamBinding {
-							return IncidentEngineParamBinding{}.FromEngineParamBindingV2(pb)
+						ParamBindings: lo.Map(cond.ParamBindings, func(pb client.EngineParamBindingV2, _ int) models.IncidentEngineParamBinding {
+							return models.IncidentEngineParamBinding{}.FromAPI(pb)
 						}),
 					}
 				}),
@@ -541,7 +541,7 @@ func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalation
 		}
 		if !reflect.ValueOf(node.IfElse).IsZero() {
 			elem.IfElse = &client.EscalationPathNodeIfElsePayloadV2{
-				Conditions: lo.ToPtr(toPayloadConditions(node.IfElse.Conditions)),
+				Conditions: lo.ToPtr(node.IfElse.Conditions.ToPayload()),
 				ThenPath:   r.toPathPayload(node.IfElse.ThenPath),
 				ElsePath:   r.toPathPayload(node.IfElse.ElsePath),
 			}
