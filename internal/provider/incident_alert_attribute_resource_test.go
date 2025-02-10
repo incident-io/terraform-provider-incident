@@ -2,6 +2,7 @@ package provider
 
 import (
 	"bytes"
+	"regexp"
 	"testing"
 	"text/template"
 
@@ -37,6 +38,26 @@ func TestAccAlertAttributeResource(t *testing.T) {
 				ImportStateVerify: true,
 			},
 			// Update and read
+			{
+				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
+					Name:  "UpdatedSeverity",
+					Type:  "String",
+					Array: false,
+				}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_alert_attribute.example", "name", "UpdatedSeverity"),
+				),
+			},
+			// Block use of `Priority` as an attribute name
+			{
+				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
+					Name:  "Priority",
+					Type:  "String",
+					Array: false,
+				}),
+				ExpectError: regexp.MustCompile("cannot have an attribute named 'Priority'"),
+			},
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
 					Name:  "UpdatedSeverity",
