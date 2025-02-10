@@ -30,7 +30,7 @@ If you need to regenerate the client, you first need to copy the following file 
 cp ../core/server/lib/openapi/public-schema-v3-including-secret-endpoints.json internal/apischema
 ```
 
-And then run `make internal/client/client.gen.go`
+And then run `go generate ./internal/client`
 
 ## Running tests
 
