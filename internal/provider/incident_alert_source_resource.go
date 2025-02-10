@@ -85,7 +85,13 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 				},
 			},
 			"secret_token": schema.StringAttribute{
-				Computed:            true,
+				Computed: true,
+				// We do *not* mark this as sensitive, since it is no more sensitive
+				// than other values in the Terraform state.
+				//
+				// If we marked this as sensitive, it would not appear in CLI output,
+				// which makes setting up new alert sources more difficult than
+				// necessary.
 				MarkdownDescription: apischema.Docstring("AlertSourceV2", "secret_token"),
 			},
 			"template": schema.SingleNestedAttribute{
