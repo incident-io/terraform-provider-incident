@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
@@ -123,6 +124,7 @@ func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Reso
 		NewIncidentStatusResource,
 		NewIncidentScheduleResource,
 		NewIncidentWorkflowResource,
+		NewIncidentAlertAttributeResource,
 	}
 }
 
