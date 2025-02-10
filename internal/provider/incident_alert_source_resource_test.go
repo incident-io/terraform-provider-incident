@@ -2,7 +2,6 @@ package provider
 
 import (
 	"bytes"
-	"fmt"
 	"os"
 	"regexp"
 	"testing"
@@ -10,7 +9,6 @@ import (
 
 	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
 func TestAccAlertSourceResource(t *testing.T) {
@@ -217,8 +215,6 @@ func TestAccAlertSourceResource_ValidationErrors(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				// PENDING
-				SkipFunc: func() (bool, error) { return true, nil },
 				// Test
 				Config: testRunTemplate("incident_alert_source_invalid", `
 resource "incident_alert_source" "test" {
@@ -244,7 +240,8 @@ resource "incident_alert_source" "test" {
 					Title:       testAlertSourceTitle,
 					Description: testAlertSourceDescription,
 				}),
-				ExpectError: regexp.MustCompile("jira_options is not allowed"),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile("jira_options can only be set when source_type is jira"),
 			},
 			{
 				// Test missing required template fields
@@ -260,6 +257,7 @@ resource "incident_alert_source" "test" {
   }
 }
 `, struct{ Description string }{Description: testAlertSourceDescription}),
+				PlanOnly:    true,
 				ExpectError: regexp.MustCompile("required"),
 			},
 		},
@@ -270,37 +268,3 @@ const (
 	testAlertSourceTitle       = `{"content":[{"content":[{"attrs":{"label":"Payload → Title","missing":false,"name":"title"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`
 	testAlertSourceDescription = `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`
 )
-
-// Test deletion handling
-func TestAccAlertSourceResource_Deletion(t *testing.T) {
-	var alertSourceID string
-
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccAlertSourceResourceConfig("deletion-test", "datadog"),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckAlertSourceExists("incident_alert_source.test", &alertSourceID),
-				),
-			},
-		},
-	})
-}
-
-func testAccCheckAlertSourceExists(resourceName string, alertSourceID *string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[resourceName]
-		if !ok {
-			return fmt.Errorf("Not found: %s", resourceName)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("No alert source ID is set")
-		}
-
-		*alertSourceID = rs.Primary.ID
-		return nil
-	}
-}

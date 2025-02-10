@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -18,13 +19,37 @@ import (
 )
 
 var (
-	_ resource.Resource                = &IncidentAlertSourceResource{}
-	_ resource.ResourceWithImportState = &IncidentAlertSourceResource{}
+	_ resource.ResourceWithConfigure      = &IncidentAlertSourceResource{}
+	_ resource.ResourceWithImportState    = &IncidentAlertSourceResource{}
+	_ resource.ResourceWithValidateConfig = &IncidentAlertSourceResource{}
 )
 
 type IncidentAlertSourceResource struct {
 	client           *client.ClientWithResponses
 	terraformVersion string
+}
+
+// ValidateConfig allows us to validate that jira_options is only set when the source type is jira
+func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var data models.AlertSourceResourceModel
+	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	if data.JiraOptions != nil && data.SourceType.ValueString() != "jira" {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"jira_options can only be set when source_type is jira",
+			"These options only apply to the 'jira' source type"))
+		return
+	}
+
+	if data.JiraOptions == nil && data.SourceType.ValueString() == "jira" {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"jira_options must be set when source_type is jira",
+			"These options are required for the 'jira' source type, to specify which projects to watch for new issues."))
+		return
+	}
 }
 
 func NewIncidentAlertSourceResource() resource.Resource {
