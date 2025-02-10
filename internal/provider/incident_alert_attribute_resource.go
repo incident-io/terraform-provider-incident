@@ -58,10 +58,7 @@ func (r *IncidentAlertAttributeResource) Schema(ctx context.Context, req resourc
 			},
 			"type": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("AlertAttributeV2", "type"),
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
-				Required: true,
+				Required:            true,
 			},
 			"array": schema.BoolAttribute{
 				MarkdownDescription: apischema.Docstring("AlertAttributeV2", "array"),
