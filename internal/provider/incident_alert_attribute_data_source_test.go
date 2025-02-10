@@ -55,7 +55,7 @@ data "incident_alert_attribute" "by_name" {
 
 func alertAttributeDefault() client.AlertAttributeV2 {
 	return client.AlertAttributeV2{
-		Name:  "Communications Lead",
+		Name:  "Severity",
 		Type:  "String",
 		Array: false,
 	}
