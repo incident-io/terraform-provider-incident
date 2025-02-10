@@ -1,3 +1,4 @@
+//go:generate go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen -package=client -generate types,client -o=client.gen.go ../apischema/public-schema-v3-including-secret-endpoints.json
 package client
 
 import (
@@ -7,8 +8,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/deepmap/oapi-codegen/pkg/securityprovider"
 	"github.com/hashicorp/go-retryablehttp"
+	"github.com/oapi-codegen/oapi-codegen/v2/pkg/securityprovider"
 	"github.com/pkg/errors"
 )
 

@@ -22,16 +22,6 @@ install:
 build:
 	go build -o bin/terraform-provider-incident .
 
-################################################################################
-# Clients
-################################################################################
-
-.PHONY: internal/client/client.gen.go
-
-internal/client/client.gen.go:
-	rm -rf $@
-	oapi-codegen \
-		--generate types,client \
-		--package client \
-		--o $@ \
-		internal/apischema/public-schema-v3-including-secret-endpoints.json
+.PHONY: generate
+generate:
+	go generate ./...
