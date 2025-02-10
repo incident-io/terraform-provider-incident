@@ -48,6 +48,11 @@ it's best to use a localhost endpoint for lower latency if possible.
 See the above for setting environment variables, otherwise configure your tests
 just as you would for a normal environment.
 
+> [!NOTE]
+> In CI, we do not run tests that require integrations to be installed
+> on the test account, to minimise flakiness. To run these tests locally, add
+> extra environment variables (e.g. `TF_ACC_JIRA=1`).
+
 ## Running the provider locally
 
 There may be changes where you want to be running the provider itself, rather than
@@ -118,4 +123,3 @@ TF_CLI_CONFIG_FILE=./dev.tfrc terraform plan
 
 TF_CLI_CONFIG_FILE=./dev.tfrc terraform apply
 ```
-
