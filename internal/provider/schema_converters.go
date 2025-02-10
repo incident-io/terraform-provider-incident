@@ -1,11 +1,30 @@
 package provider
 
 import (
+	"encoding/json"
+
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/pkg/errors"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
+
+// forceCoerce converts between two API client types which we are certain are
+// identical, but the Go type system does not know that.
+func forceCoerce[T any](input any) T {
+	// This is a horrible hack to work around the schema having a bunch of
+	// duplicated types. Until we've sorted that out, this to-and-from JSONs
+	jsoned, err := json.Marshal(input)
+	if err != nil {
+		panic(errors.Wrap(err, "failed to marshal input"))
+	}
+	var res T
+	if err := json.Unmarshal(jsoned, &res); err != nil {
+		panic(errors.Wrap(err, "failed to unmarshal input"))
+	}
+	return res
+}
 
 // buildModel converts from the response type to the terraform model/schema type.
 func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *IncidentWorkflowResourceModel {
@@ -13,9 +32,9 @@ func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *Inciden
 		ID:                      types.StringValue(workflow.Id),
 		Name:                    types.StringValue(workflow.Name),
 		Trigger:                 types.StringValue(workflow.Trigger.Name),
-		ConditionGroups:         buildConditionGroups(workflow.ConditionGroups),
+		ConditionGroups:         buildConditionGroups(forceCoerce[[]client.ConditionGroupV2](workflow.ConditionGroups)),
 		Steps:                   buildSteps(workflow.Steps),
-		Expressions:             buildExpressions(workflow.Expressions),
+		Expressions:             buildExpressions(forceCoerce[[]client.ExpressionV2](workflow.Expressions)),
 		OnceFor:                 buildOnceFor(workflow.OnceFor),
 		RunsOnIncidentModes:     buildRunsOnIncidentModes(workflow.RunsOnIncidentModes),
 		IncludePrivateIncidents: types.BoolValue(workflow.IncludePrivateIncidents),

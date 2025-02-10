@@ -236,9 +236,9 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		onceFor = append(onceFor, v.ValueString())
 	}
 
-	runsOnIncidentModes := []client.UpdateWorkflowPayloadRunsOnIncidentModes{}
+	runsOnIncidentModes := []client.UpdateWorkflowPayload2RunsOnIncidentModes{}
 	for _, v := range data.RunsOnIncidentModes {
-		runsOnIncidentModes = append(runsOnIncidentModes, client.UpdateWorkflowPayloadRunsOnIncidentModes(v.ValueString()))
+		runsOnIncidentModes = append(runsOnIncidentModes, client.UpdateWorkflowPayload2RunsOnIncidentModes(v.ValueString()))
 	}
 
 	payload := client.WorkflowsV2UpdateWorkflowJSONRequestBody{
@@ -247,13 +247,13 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		Steps:                   toPayloadSteps(data.Steps),
 		Expressions:             toPayloadExpressions(data.Expressions),
 		OnceFor:                 onceFor,
-		RunsOnIncidents:         client.UpdateWorkflowPayloadRunsOnIncidents(data.RunsOnIncidents.ValueString()),
+		RunsOnIncidents:         client.UpdateWorkflowPayload2RunsOnIncidents(data.RunsOnIncidents.ValueString()),
 		RunsOnIncidentModes:     runsOnIncidentModes,
 		Folder:                  data.Folder.ValueStringPointer(),
 		Shortform:               data.Shortform.ValueStringPointer(),
 		IncludePrivateIncidents: data.IncludePrivateIncidents.ValueBool(),
 		ContinueOnStepError:     data.ContinueOnStepError.ValueBool(),
-		State:                   lo.ToPtr(client.UpdateWorkflowPayloadState(data.State.ValueString())),
+		State:                   lo.ToPtr(client.UpdateWorkflowPayload2State(data.State.ValueString())),
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},

@@ -101,7 +101,7 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 									"working_intervals": schema.ListNestedAttribute{
 										Validators:          []validator.List{NonEmptyListValidator{}},
 										Optional:            true,
-										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "working_interval"),
+										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "working_intervals"),
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"start_time": schema.StringAttribute{
@@ -517,7 +517,7 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *model
 
 					users := []types.String{}
 					if rotation.Users != nil {
-						users = lo.Map(lo.FromPtr(rotation.Users), func(user client.UserV2, _ int) types.String {
+						users = lo.Map(rotation.Users, func(user client.UserV2, _ int) types.String {
 							return types.StringValue(user.Id)
 						})
 					}

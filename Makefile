@@ -34,4 +34,4 @@ internal/client/client.gen.go:
 		--generate types,client \
 		--package client \
 		--o $@ \
-		internal/apischema/openapi3-secret.json
+		internal/apischema/public-schema-v3-including-secret-endpoints.json

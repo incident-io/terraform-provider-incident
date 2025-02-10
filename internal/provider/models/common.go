@@ -59,7 +59,7 @@ func (c IncidentWeekdayIntervalConfig) ToClientV2() client.WeekdayIntervalConfig
 		intervals[i] = client.WeekdayIntervalV2{
 			StartTime: interval.StartTime.ValueString(),
 			EndTime:   interval.EndTime.ValueString(),
-			Weekday:   interval.Weekday.ValueString(),
+			Weekday:   client.WeekdayIntervalV2Weekday(interval.Weekday.ValueString()),
 		}
 	}
 
@@ -98,6 +98,6 @@ func (IncidentWeekdayInterval) FromClientV2(interval client.WeekdayIntervalV2) I
 	return IncidentWeekdayInterval{
 		StartTime: types.StringValue(interval.StartTime),
 		EndTime:   types.StringValue(interval.EndTime),
-		Weekday:   types.StringValue(interval.Weekday),
+		Weekday:   types.StringValue(string(interval.Weekday)),
 	}
 }
