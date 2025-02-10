@@ -59,6 +59,13 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 										Name: lo.ToPtr("Primary Layer One"),
 									},
 								},
+								WorkingInterval: &[]client.ScheduleRotationWorkingIntervalV2{
+									{
+										StartTime: "09:00",
+										EndTime:   "17:00",
+										Weekday:   "monday",
+									},
+								},
 							},
 						},
 					},

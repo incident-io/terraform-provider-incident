@@ -104,7 +104,7 @@ func (r *IncidentCustomFieldResource) Create(ctx context.Context, req resource.C
 		err = fmt.Errorf(string(result.Body))
 	}
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create custom field, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create custom field '%s', got error: %s", data.Name.ValueString(), err))
 		return
 	}
 
