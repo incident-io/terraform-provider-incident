@@ -183,7 +183,10 @@ resource "incident_alert_source" "test" {
 	})
 }
 
-// Test Jira source options
+// TestAccAlertSourceResource_Jira checks that the jira_options work.
+//
+// NOTE: this only runs if TF_ACC_JIRA is in your environment, since it requires
+// the Jira integration to be installed in the target account.
 func TestAccAlertSourceResource_Jira(t *testing.T) {
 	if os.Getenv("TF_ACC_JIRA") == "" {
 		t.Skip("TF_ACC_JIRA is not set: skipping Jira-specific test")
@@ -208,7 +211,8 @@ func TestAccAlertSourceResource_Jira(t *testing.T) {
 	})
 }
 
-// Test validation errors
+// TestAccAlertSourceResource_ValidationErrors checks that we return helpful
+// validation errors when possible.
 func TestAccAlertSourceResource_ValidationErrors(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },

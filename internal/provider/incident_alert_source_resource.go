@@ -29,7 +29,8 @@ type IncidentAlertSourceResource struct {
 	terraformVersion string
 }
 
-// ValidateConfig allows us to validate that jira_options is only set when the source type is jira
+// ValidateConfig checks that jira_options is only set when the source type is
+// 'jira', and never set otherwise.
 func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	var data models.AlertSourceResourceModel
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)

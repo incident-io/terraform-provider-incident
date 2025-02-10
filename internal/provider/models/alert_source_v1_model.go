@@ -5,7 +5,6 @@ import (
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
-// AlertSourceResourceModel represents the complete alert source resource structure
 type AlertSourceResourceModel struct {
 	ID           types.String                 `tfsdk:"id"`
 	Name         types.String                 `tfsdk:"name"`
@@ -38,7 +37,6 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 	}
 }
 
-// AlertTemplateModel represents the template configuration for an alert source
 type AlertTemplateModel struct {
 	Expresssions IncidentEngineExpressions       `tfsdk:"expressions"`
 	Title        IncidentEngineParamBindingValue `tfsdk:"title"`
@@ -55,7 +53,6 @@ func (template AlertTemplateModel) ToPayload() client.AlertTemplatePayloadV2 {
 	}
 }
 
-// AlertTemplateAttributeModel represents a custom attribute in the alert template
 type AlertTemplateAttributeModel struct {
 	AlertAttributeID types.String               `tfsdk:"alert_attribute_id"`
 	Binding          IncidentEngineParamBinding `tfsdk:"binding"`
@@ -89,7 +86,6 @@ func (attributes AlertTemplateAttributesModel) ToPayload() []client.AlertTemplat
 	return out
 }
 
-// AlertSourceJiraOptionsModel represents Jira-specific configuration
 type AlertSourceJiraOptionsModel struct {
 	ProjectIDs []types.String `tfsdk:"project_ids"`
 }
