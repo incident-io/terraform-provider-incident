@@ -12,7 +12,7 @@ require (
 	github.com/hashicorp/terraform-plugin-docs v0.14.1
 	github.com/hashicorp/terraform-plugin-framework v1.2.0
 	github.com/hashicorp/terraform-plugin-go v0.15.0
-	github.com/hashicorp/terraform-plugin-log v0.8.0
+	github.com/hashicorp/terraform-plugin-log v0.9.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.25.0
 	github.com/oapi-codegen/runtime v1.1.1
 	github.com/oklog/ulid/v2 v2.1.0
