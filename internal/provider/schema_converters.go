@@ -8,6 +8,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
 )
 
 // forceCoerce converts between two API client types which we are certain are
@@ -32,9 +33,9 @@ func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *Inciden
 		ID:                      types.StringValue(workflow.Id),
 		Name:                    types.StringValue(workflow.Name),
 		Trigger:                 types.StringValue(workflow.Trigger.Name),
-		ConditionGroups:         buildConditionGroups(forceCoerce[[]client.ConditionGroupV2](workflow.ConditionGroups)),
+		ConditionGroups:         models.IncidentEngineConditionGroups{}.FromAPI(forceCoerce[[]client.ConditionGroupV2](workflow.ConditionGroups)),
 		Steps:                   buildSteps(workflow.Steps),
-		Expressions:             buildExpressions(forceCoerce[[]client.ExpressionV2](workflow.Expressions)),
+		Expressions:             models.IncidentEngineExpressions{}.FromAPI(forceCoerce[[]client.ExpressionV2](workflow.Expressions)),
 		OnceFor:                 buildOnceFor(workflow.OnceFor),
 		RunsOnIncidentModes:     buildRunsOnIncidentModes(workflow.RunsOnIncidentModes),
 		IncludePrivateIncidents: types.BoolValue(workflow.IncludePrivateIncidents),
@@ -77,32 +78,6 @@ func buildRunsOnIncidentModes(modes []client.WorkflowRunsOnIncidentModes) []base
 	return out
 }
 
-func buildConditionGroups(groups []client.ConditionGroupV2) IncidentEngineConditionGroups {
-	out := IncidentEngineConditionGroups{}
-
-	for _, g := range groups {
-		out = append(out, IncidentEngineConditionGroup{
-			Conditions: buildConditions(g.Conditions),
-		})
-	}
-
-	return out
-}
-
-func buildConditions(conditions []client.ConditionV2) []IncidentEngineCondition {
-	out := []IncidentEngineCondition{}
-
-	for _, c := range conditions {
-		out = append(out, IncidentEngineCondition{
-			Subject:       types.StringValue(c.Subject.Reference),
-			Operation:     types.StringValue(c.Operation.Value),
-			ParamBindings: buildParamBindings(c.ParamBindings),
-		})
-	}
-
-	return out
-}
-
 func buildSteps(steps []client.StepConfig) []IncidentWorkflowStep {
 	out := []IncidentWorkflowStep{}
 
@@ -111,95 +86,9 @@ func buildSteps(steps []client.StepConfig) []IncidentWorkflowStep {
 			ForEach:       types.StringPointerValue(s.ForEach),
 			ID:            types.StringValue(s.Id),
 			Name:          types.StringValue(s.Name),
-			ParamBindings: buildParamBindings(s.ParamBindings),
+			ParamBindings: models.IncidentEngineParamBindings{}.FromAPI(s.ParamBindings),
 		})
 	}
 
 	return out
-}
-
-func buildParamBindings(pbs []client.EngineParamBindingV2) []IncidentEngineParamBinding {
-	out := []IncidentEngineParamBinding{}
-
-	for _, pb := range pbs {
-		out = append(out, IncidentEngineParamBinding{}.FromEngineParamBindingV2(pb))
-	}
-
-	return out
-}
-
-func buildExpressions(expressions []client.ExpressionV2) IncidentEngineExpressions {
-	out := IncidentEngineExpressions{}
-
-	for _, e := range expressions {
-		expression := IncidentEngineExpression{
-			Label:         types.StringValue(e.Label),
-			Operations:    buildOperations(e.Operations),
-			Reference:     types.StringValue(e.Reference),
-			RootReference: types.StringValue(e.RootReference),
-		}
-		if e.ElseBranch != nil {
-			expression.ElseBranch = &IncidentEngineElseBranch{
-				Result: IncidentEngineParamBinding{}.FromEngineParamBindingV2(e.ElseBranch.Result),
-			}
-		}
-		out = append(out, expression)
-	}
-
-	return out
-}
-
-func buildOperations(operations []client.ExpressionOperationV2) []IncidentEngineExpressionOperation {
-	out := []IncidentEngineExpressionOperation{}
-
-	for _, o := range operations {
-		operation := IncidentEngineExpressionOperation{
-			OperationType: types.StringValue(string(o.OperationType)),
-		}
-		if o.Branches != nil {
-			operation.Branches = &IncidentEngineExpressionBranchesOpts{
-				Branches: buildBranches(o.Branches.Branches),
-				Returns:  buildReturns(o.Branches.Returns),
-			}
-		}
-		if o.Filter != nil {
-			operation.Filter = &IncidentEngineExpressionFilterOpts{
-				ConditionGroups: buildConditionGroups(o.Filter.ConditionGroups),
-			}
-		}
-		if o.Navigate != nil {
-			operation.Navigate = &IncidentEngineExpressionNavigateOpts{
-				Reference: types.StringValue(o.Navigate.Reference),
-			}
-		}
-		if o.Parse != nil {
-			operation.Parse = &IncidentEngineExpressionParseOpts{
-				Returns: buildReturns(o.Parse.Returns),
-				Source:  types.StringValue(o.Parse.Source),
-			}
-		}
-		out = append(out, operation)
-	}
-
-	return out
-}
-
-func buildBranches(branches []client.ExpressionBranchV2) []IncidentEngineBranch {
-	out := []IncidentEngineBranch{}
-
-	for _, b := range branches {
-		out = append(out, IncidentEngineBranch{
-			ConditionGroups: buildConditionGroups(b.ConditionGroups),
-			Result:          IncidentEngineParamBinding{}.FromEngineParamBindingV2(b.Result),
-		})
-	}
-
-	return out
-}
-
-func buildReturns(returns client.ReturnsMetaV2) IncidentEngineReturnsMeta {
-	return IncidentEngineReturnsMeta{
-		Array: types.BoolValue(returns.Array),
-		Type:  types.StringValue(returns.Type),
-	}
 }

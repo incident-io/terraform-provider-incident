@@ -15,6 +15,7 @@ import (
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
 )
 
 var (
@@ -32,28 +33,28 @@ func NewIncidentWorkflowResource() resource.Resource {
 }
 
 type IncidentWorkflowResourceModel struct {
-	ID                      types.String                  `tfsdk:"id"`
-	Name                    types.String                  `tfsdk:"name"`
-	Folder                  types.String                  `tfsdk:"folder"`
-	Shortform               types.String                  `tfsdk:"shortform"`
-	Trigger                 types.String                  `tfsdk:"trigger"`
-	ConditionGroups         IncidentEngineConditionGroups `tfsdk:"condition_groups"`
-	Steps                   []IncidentWorkflowStep        `tfsdk:"steps"`
-	Expressions             IncidentEngineExpressions     `tfsdk:"expressions"`
-	OnceFor                 []types.String                `tfsdk:"once_for"`
-	IncludePrivateIncidents types.Bool                    `tfsdk:"include_private_incidents"`
-	ContinueOnStepError     types.Bool                    `tfsdk:"continue_on_step_error"`
-	Delay                   *IncidentWorkflowDelay        `tfsdk:"delay"`
-	RunsOnIncidents         types.String                  `tfsdk:"runs_on_incidents"`
-	RunsOnIncidentModes     []types.String                `tfsdk:"runs_on_incident_modes"`
-	State                   types.String                  `tfsdk:"state"`
+	ID                      types.String                         `tfsdk:"id"`
+	Name                    types.String                         `tfsdk:"name"`
+	Folder                  types.String                         `tfsdk:"folder"`
+	Shortform               types.String                         `tfsdk:"shortform"`
+	Trigger                 types.String                         `tfsdk:"trigger"`
+	ConditionGroups         models.IncidentEngineConditionGroups `tfsdk:"condition_groups"`
+	Steps                   []IncidentWorkflowStep               `tfsdk:"steps"`
+	Expressions             models.IncidentEngineExpressions     `tfsdk:"expressions"`
+	OnceFor                 []types.String                       `tfsdk:"once_for"`
+	IncludePrivateIncidents types.Bool                           `tfsdk:"include_private_incidents"`
+	ContinueOnStepError     types.Bool                           `tfsdk:"continue_on_step_error"`
+	Delay                   *IncidentWorkflowDelay               `tfsdk:"delay"`
+	RunsOnIncidents         types.String                         `tfsdk:"runs_on_incidents"`
+	RunsOnIncidentModes     []types.String                       `tfsdk:"runs_on_incident_modes"`
+	State                   types.String                         `tfsdk:"state"`
 }
 
 type IncidentWorkflowStep struct {
-	ForEach       types.String                 `tfsdk:"for_each"`
-	ID            types.String                 `tfsdk:"id"`
-	Name          types.String                 `tfsdk:"name"`
-	ParamBindings []IncidentEngineParamBinding `tfsdk:"param_bindings"`
+	ForEach       types.String                       `tfsdk:"for_each"`
+	ID            types.String                       `tfsdk:"id"`
+	Name          types.String                       `tfsdk:"name"`
+	ParamBindings models.IncidentEngineParamBindings `tfsdk:"param_bindings"`
 }
 
 type IncidentWorkflowDelay struct {
@@ -97,7 +98,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
-			"condition_groups": conditionGroupsAttribute,
+			"condition_groups": models.ConditionGroupsAttribute(),
 			"steps": schema.ListNestedAttribute{
 				MarkdownDescription: apischema.Docstring("Workflow", "steps"),
 				Required:            true,
@@ -112,11 +113,11 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 						"name": schema.StringAttribute{
 							Required: true,
 						},
-						"param_bindings": paramBindingsAttribute,
+						"param_bindings": models.ParamBindingsAttribute(),
 					},
 				},
 			},
-			"expressions": expressionsAttribute,
+			"expressions": models.ExpressionsAttribute(),
 			"once_for": schema.ListAttribute{
 				MarkdownDescription: apischema.Docstring("Workflow", "once_for"),
 				Required:            true,
@@ -182,9 +183,9 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 		Trigger:                 data.Trigger.ValueString(),
 		Name:                    data.Name.ValueString(),
 		OnceFor:                 onceFor,
-		ConditionGroups:         toPayloadConditionGroups(data.ConditionGroups),
+		ConditionGroups:         data.ConditionGroups.ToPayload(),
 		Steps:                   toPayloadSteps(data.Steps),
-		Expressions:             toPayloadExpressions(data.Expressions),
+		Expressions:             data.Expressions.ToPayload(),
 		RunsOnIncidents:         client.CreateWorkflowPayloadRunsOnIncidents(data.RunsOnIncidents.ValueString()),
 		RunsOnIncidentModes:     runsOnIncidentModes,
 		Folder:                  data.Folder.ValueStringPointer(),
@@ -243,9 +244,9 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 
 	payload := client.WorkflowsV2UpdateWorkflowJSONRequestBody{
 		Name:                    data.Name.ValueString(),
-		ConditionGroups:         toPayloadConditionGroups(data.ConditionGroups),
+		ConditionGroups:         data.ConditionGroups.ToPayload(),
 		Steps:                   toPayloadSteps(data.Steps),
-		Expressions:             toPayloadExpressions(data.Expressions),
+		Expressions:             data.Expressions.ToPayload(),
 		OnceFor:                 onceFor,
 		RunsOnIncidents:         client.UpdateWorkflowPayload2RunsOnIncidents(data.RunsOnIncidents.ValueString()),
 		RunsOnIncidentModes:     runsOnIncidentModes,
@@ -337,34 +338,6 @@ func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.C
 	r.terraformVersion = client.TerraformVersion
 }
 
-// toPayloadConditionGroups converts from the terraform model to the http payload type.
-// The payload type is different from the response type, which includes more information such as labels.
-func toPayloadConditionGroups(groups IncidentEngineConditionGroups) []client.ConditionGroupPayloadV2 {
-	out := []client.ConditionGroupPayloadV2{}
-
-	for _, group := range groups {
-		out = append(out, client.ConditionGroupPayloadV2{
-			Conditions: toPayloadConditions(group.Conditions),
-		})
-	}
-
-	return out
-}
-
-func toPayloadConditions(conditions []IncidentEngineCondition) []client.ConditionPayloadV2 {
-	out := []client.ConditionPayloadV2{}
-
-	for _, c := range conditions {
-		out = append(out, client.ConditionPayloadV2{
-			Subject:       c.Subject.ValueString(),
-			Operation:     c.Operation.ValueString(),
-			ParamBindings: toPayloadParamBindings(c.ParamBindings),
-		})
-	}
-
-	return out
-}
-
 func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayload {
 	out := []client.StepConfigPayload{}
 
@@ -373,119 +346,9 @@ func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayload {
 			ForEach:       step.ForEach.ValueStringPointer(),
 			Id:            step.ID.ValueString(),
 			Name:          step.Name.ValueString(),
-			ParamBindings: toPayloadParamBindings(step.ParamBindings),
+			ParamBindings: step.ParamBindings.ToPayload(),
 		})
 	}
 
 	return out
-}
-
-func toPayloadParamBindings(pbs []IncidentEngineParamBinding) []client.EngineParamBindingPayloadV2 {
-	paramBindings := []client.EngineParamBindingPayloadV2{}
-
-	for _, binding := range pbs {
-		paramBindings = append(paramBindings, toPayloadParamBinding(binding))
-	}
-
-	return paramBindings
-}
-
-func toPayloadParamBinding(binding IncidentEngineParamBinding) client.EngineParamBindingPayloadV2 {
-	arrayValue := []client.EngineParamBindingValuePayloadV2{}
-	for _, v := range binding.ArrayValue {
-		arrayValue = append(arrayValue, *toPayloadParamBindingValue(&v))
-	}
-
-	var value *client.EngineParamBindingValuePayloadV2
-	if binding.Value != nil {
-		value = toPayloadParamBindingValue(binding.Value)
-	}
-
-	return client.EngineParamBindingPayloadV2{
-		ArrayValue: &arrayValue,
-		Value:      value,
-	}
-}
-
-func toPayloadParamBindingValue(v *IncidentEngineParamBindingValue) *client.EngineParamBindingValuePayloadV2 {
-	return &client.EngineParamBindingValuePayloadV2{
-		Literal:   v.Literal.ValueStringPointer(),
-		Reference: v.Reference.ValueStringPointer(),
-	}
-}
-
-func toPayloadExpressions(expressions IncidentEngineExpressions) []client.ExpressionPayloadV2 {
-	out := []client.ExpressionPayloadV2{}
-
-	for _, e := range expressions {
-		expression := client.ExpressionPayloadV2{
-			Label:         e.Label.ValueString(),
-			Operations:    toPayloadOperations(e.Operations),
-			Reference:     e.Reference.ValueString(),
-			RootReference: e.RootReference.ValueString(),
-		}
-		if e.ElseBranch != nil {
-			expression.ElseBranch = &client.ExpressionElseBranchPayloadV2{
-				Result: toPayloadParamBinding(e.ElseBranch.Result),
-			}
-		}
-		out = append(out, expression)
-	}
-
-	return out
-}
-
-func toPayloadOperations(operations []IncidentEngineExpressionOperation) []client.ExpressionOperationPayloadV2 {
-	out := []client.ExpressionOperationPayloadV2{}
-
-	for _, o := range operations {
-		operation := client.ExpressionOperationPayloadV2{
-			OperationType: client.ExpressionOperationPayloadV2OperationType(o.OperationType.ValueString()),
-		}
-		if o.Branches != nil {
-			operation.Branches = &client.ExpressionBranchesOptsPayloadV2{
-				Branches: toPayloadBranches(o.Branches.Branches),
-				Returns:  toPayloadReturns(o.Branches.Returns),
-			}
-		}
-		if o.Filter != nil {
-			operation.Filter = &client.ExpressionFilterOptsPayloadV2{
-				ConditionGroups: toPayloadConditionGroups(o.Filter.ConditionGroups),
-			}
-		}
-		if o.Navigate != nil {
-			operation.Navigate = &client.ExpressionNavigateOptsPayloadV2{
-				Reference: o.Navigate.Reference.ValueString(),
-			}
-		}
-		if o.Parse != nil {
-			operation.Parse = &client.ExpressionParseOptsPayloadV2{
-				Returns: toPayloadReturns(o.Parse.Returns),
-				Source:  o.Parse.Source.ValueString(),
-			}
-		}
-		out = append(out, operation)
-	}
-
-	return out
-}
-
-func toPayloadBranches(branches []IncidentEngineBranch) []client.ExpressionBranchPayloadV2 {
-	out := []client.ExpressionBranchPayloadV2{}
-
-	for _, b := range branches {
-		out = append(out, client.ExpressionBranchPayloadV2{
-			ConditionGroups: toPayloadConditionGroups(b.ConditionGroups),
-			Result:          toPayloadParamBinding(b.Result),
-		})
-	}
-
-	return out
-}
-
-func toPayloadReturns(returns IncidentEngineReturnsMeta) client.ReturnsMetaV2 {
-	return client.ReturnsMetaV2{
-		Array: returns.Array.ValueBool(),
-		Type:  returns.Type.ValueString(),
-	}
 }
