@@ -106,7 +106,7 @@ func (r *IncidentSeverityResource) Create(ctx context.Context, req resource.Crea
 		err = fmt.Errorf(string(result.Body))
 	}
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create incident severity, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create incident severity '%s', got error: %s", data.Name.ValueString(), err))
 		return
 	}
 

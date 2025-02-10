@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"fmt"
 	"reflect"
 	"strconv"
 	"testing"
@@ -94,6 +95,221 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 	})
 }
 
+func TestAccIncidentScheduleResourceTimezoneUpdate(t *testing.T) {
+
+	var scheduleID *string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Initial creation
+			{
+				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
+					Name:     "timezone-test",
+					Timezone: "Europe/London",
+				}),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "timezone", "Europe/London",
+					),
+					// Store the current id
+					resource.TestCheckResourceAttrWith("incident_schedule.example", "id", func(id string) (err error) {
+						scheduleID = &id
+						return nil
+					}),
+				),
+			},
+			// Attempt to update timezone - should destroy the existing and recreate
+			{
+				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
+					Name:     "timezone-test",
+					Timezone: "America/New_York",
+				}),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet("incident_schedule.example", "id"), // Ensure resource exists
+					// Check that the updated resource is replaced
+					resource.TestCheckResourceAttrWith("incident_schedule.example", "id", func(id string) (err error) {
+						if *scheduleID == id {
+							return fmt.Errorf("expected new resource to be created as timezone has RequiresReplace")
+						}
+						return nil
+					}),
+				),
+			},
+		},
+	})
+}
+
+func TestAccIncidentScheduleResourceRotationUpdates(t *testing.T) {
+	var (
+		effectiveFrom   = time.Now().Add(24 * time.Hour).UTC()
+		handoverStartAt = time.Date(2024, 4, 26, 16, 0, 0, 0, time.UTC)
+	)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create with initial rotation
+			{
+				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
+					Name:     "rotation-test",
+					Timezone: "Europe/London",
+					Config: &client.ScheduleConfigV2{
+						Rotations: []client.ScheduleRotationV2{
+							{
+								Id:              "rota-test",
+								Name:            "Test Rota",
+								HandoverStartAt: handoverStartAt,
+								Handovers: []client.ScheduleRotationHandoverV2{
+									{
+										Interval:     lo.ToPtr(int64(1)),
+										IntervalType: lo.ToPtr(client.Weekly),
+									},
+								},
+								Layers: []client.ScheduleLayerV2{
+									{
+										Id:   lo.ToPtr("layer-1"),
+										Name: lo.ToPtr("Layer One"),
+									},
+								},
+							},
+						},
+					},
+				}),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "rotations.0.name", "Test Rota",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "rotations.0.versions.0.layers.0.name", "Layer One",
+					),
+				),
+			},
+			// Add a new version to the rotation
+			{
+				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
+					Name:     "rotation-test",
+					Timezone: "Europe/London",
+					Config: &client.ScheduleConfigV2{
+						Rotations: []client.ScheduleRotationV2{
+							{
+								Id:              "rota-test",
+								Name:            "Test Rota",
+								HandoverStartAt: handoverStartAt,
+								Handovers: []client.ScheduleRotationHandoverV2{
+									{
+										Interval:     lo.ToPtr(int64(1)),
+										IntervalType: lo.ToPtr(client.Daily),
+									},
+								},
+								Layers: []client.ScheduleLayerV2{
+									{
+										Id:   lo.ToPtr("layer-1"),
+										Name: lo.ToPtr("Layer One"),
+									},
+								},
+							},
+							{
+								Id:              "rota-test",
+								Name:            "Test Rota",
+								HandoverStartAt: handoverStartAt,
+								Handovers: []client.ScheduleRotationHandoverV2{
+									{
+										Interval:     lo.ToPtr(int64(1)),
+										IntervalType: lo.ToPtr(client.Daily),
+									},
+								},
+								EffectiveFrom: &effectiveFrom,
+								Layers: []client.ScheduleLayerV2{
+									{
+										Id:   lo.ToPtr("layer-1"),
+										Name: lo.ToPtr("Layer Two"),
+									},
+								},
+								WorkingInterval: &[]client.ScheduleRotationWorkingIntervalV2{
+									{
+										EndTime:   "17:00",
+										StartTime: "09:00",
+										Weekday:   "monday",
+									},
+								},
+							},
+						},
+					},
+				}),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "rotations.0.versions.#", "2",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "rotations.0.versions.1.layers.0.name", "Layer Two",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "rotations.0.versions.1.working_intervals.0.weekday", "monday",
+					),
+				),
+			},
+		},
+	})
+}
+
+func TestAccIncidentScheduleResourceHolidayConfig(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create with holiday config
+			{
+				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
+					Name:     "holiday-test",
+					Timezone: "Europe/London",
+					HolidaysPublicConfig: &client.ScheduleHolidaysPublicConfigV2{
+						CountryCodes: []string{"GB", "FR"},
+					},
+				}),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "holidays_public_config.country_codes.#", "2",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "holidays_public_config.country_codes.0", "GB",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "holidays_public_config.country_codes.1", "FR",
+					),
+				),
+			},
+			// Update holiday config
+			{
+				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
+					Name:     "holiday-test",
+					Timezone: "Europe/London",
+					HolidaysPublicConfig: &client.ScheduleHolidaysPublicConfigV2{
+						CountryCodes: []string{"GB", "DE"},
+					},
+				}),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "holidays_public_config.country_codes.1", "DE",
+					),
+				),
+			},
+			// Remove holiday config
+			{
+				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
+					Name:     "holiday-test",
+					Timezone: "Europe/London",
+				}),
+				Check: resource.TestCheckResourceAttr(
+					"incident_schedule.example", "holidays_public_config.#", "0",
+				),
+			},
+		},
+	})
+}
+
 func incidentScheduleDefault() client.ScheduleV2 {
 	var (
 		effectiveFrom1, _   = time.Parse(time.RFC3339, "2024-04-26T16:00:00Z")
@@ -121,9 +337,8 @@ func incidentScheduleDefault() client.ScheduleV2 {
 							Name: lo.ToPtr("Primary Layer One"),
 						},
 					},
-					Name:            "Rota",
-					Users:           new([]client.UserV2),
-					WorkingInterval: nil,
+					Name:  "Rota",
+					Users: new([]client.UserV2),
 				},
 			},
 		},
@@ -192,7 +407,7 @@ func generateVersionsArray(versions []client.ScheduleRotationV2) string {
 		result += "    layers          = " + generateLayersArray(version.Layers) + "\n"
 		result += "    users           = " + generateUsersArray(version.Users) + "\n"
 		if version.WorkingInterval != nil {
-			result += "    working_interval = " + generateWorkingIntervalsArray(version.WorkingInterval) + "\n"
+			result += "    working_intervals = " + generateWorkingIntervalsArray(version.WorkingInterval) + "\n"
 		}
 		result += "  },\n"
 	}
