@@ -1,5 +1,11 @@
 ## Unreleased
 
+- `incident_custom_field` resource now supports catalog-powered custom fields,
+  including controlling which attribute is used to group options, add helptext,
+  and filter the available options by another field's value.
+- `incident_custom_field` data source exposes extra attributes for
+  catalog-powered custom fields.
+
 ## 4.2.0
 
 - `incident_alert_attribute` resource and data source, for managing your alert attributes

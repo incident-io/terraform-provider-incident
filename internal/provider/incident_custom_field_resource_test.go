@@ -2,13 +2,11 @@ package provider
 
 import (
 	"bytes"
-	"reflect"
 	"testing"
 	"text/template"
 
 	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
 func TestAccIncidentCustomFieldResource(t *testing.T) {
@@ -16,16 +14,24 @@ func TestAccIncidentCustomFieldResource(t *testing.T) {
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
-			// Create and read
+			// Create and read testing all fields
 			{
-				Config: testAccIncidentCustomFieldResourceConfig(nil),
+				Config: testAccIncidentCustomFieldResourceConfig(customFieldTemplateParams{}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_custom_field.example", "name", customFieldDefault().Name),
+						"incident_custom_field.example", "name", "Affected teams"),
 					resource.TestCheckResourceAttr(
-						"incident_custom_field.example", "description", customFieldDefault().Description),
+						"incident_custom_field.example", "description", "The teams that are affected by this incident"),
 					resource.TestCheckResourceAttr(
-						"incident_custom_field.example", "field_type", string(customFieldDefault().FieldType)),
+						"incident_custom_field.example", "field_type", "multi_select"),
+					resource.TestCheckNoResourceAttr(
+						"incident_custom_field.example", "filter_by"),
+					resource.TestCheckNoResourceAttr(
+						"incident_custom_field.example", "group_by_catalog_attribute_id"),
+					resource.TestCheckNoResourceAttr(
+						"incident_custom_field.example", "helptext_catalog_attribute_id"),
+					resource.TestCheckNoResourceAttr(
+						"incident_custom_field.example", "catalog_type_id"),
 				),
 			},
 			// Import
@@ -34,14 +40,49 @@ func TestAccIncidentCustomFieldResource(t *testing.T) {
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
-			// Update and read
+		},
+	})
+}
+
+func TestAccIncidentCustomFieldResource_CatalogBacked(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create and read testing all fields
 			{
-				Config: testAccIncidentCustomFieldResourceConfig(&client.CustomFieldV2{
-					Name: "Unlucky Teams",
-				}),
+				Config: testAccIncidentCustomFieldResourceConfig(customFieldTemplateParams{WithCatalogType: true}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_custom_field.example", "name", "Unlucky Teams"),
+						"incident_custom_field.example", "name", "Affected teams"),
+					resource.TestCheckResourceAttr(
+						"incident_custom_field.example", "description", "The teams that are affected by this incident"),
+					resource.TestCheckResourceAttr(
+						"incident_custom_field.example", "field_type", "multi_select"),
+					resource.TestCheckNoResourceAttr(
+						"incident_custom_field.example", "filter_by"),
+					resource.TestCheckResourceAttrPair(
+						"incident_custom_field.example", "group_by_catalog_attribute_id",
+						"incident_catalog_type_attribute.example_string_attr", "id",
+					),
+					resource.TestCheckNoResourceAttr(
+						"incident_custom_field.example", "helptext_catalog_attribute_id"),
+					resource.TestCheckResourceAttrSet(
+						"incident_custom_field.example", "catalog_type_id"),
+				),
+			},
+			// Add filtering
+			{
+				Config: testAccIncidentCustomFieldResourceConfig(customFieldTemplateParams{WithCatalogType: true, WithFilter: true}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrPair(
+						"incident_custom_field.example", "filter_by.custom_field_id",
+						"incident_custom_field.other", "id",
+					),
+					resource.TestCheckResourceAttrPair(
+						"incident_custom_field.example", "filter_by.catalog_attribute_id",
+						"incident_catalog_type_attribute.example_catalog_attr", "id",
+					),
 				),
 			},
 		},
@@ -49,38 +90,69 @@ func TestAccIncidentCustomFieldResource(t *testing.T) {
 }
 
 var customFieldTemplate = template.Must(template.New("incident_custom_field").Funcs(sprig.TxtFuncMap()).Parse(`
+{{- if .WithCatalogType }}
+resource "incident_catalog_type" "example" {
+  name = "My type"
+  description = "My type description"
+}
+
+resource "incident_catalog_type_attribute" "example_string_attr" {
+  catalog_type_id = incident_catalog_type.example.id
+  name = "My string attribute"
+  type = "String"
+}
+
+resource "incident_catalog_type" "other" {
+  name = "My other type"
+  description = "My other type description"
+}
+
+resource "incident_catalog_type_attribute" "example_catalog_attr" {
+  catalog_type_id = incident_catalog_type.example.id
+  name = "My other attr"
+  type = incident_catalog_type.other.type_name
+}
+{{- end }}
+
+{{- if .WithFilter }}
+resource "incident_custom_field" "other" {
+  name = "Other field"
+  description = "Other field description"
+
+  field_type = "single_select"
+  catalog_type_id = incident_catalog_type.other.id
+}
+{{- end }}
+
 resource "incident_custom_field" "example" {
-  name                      = {{ quote .Name }}
-  description               = {{ quote .Description }}
-  field_type                = {{ quote .FieldType }}
+  name                          = "Affected teams"
+  description                   = "The teams that are affected by this incident"
+  field_type                     = "multi_select"
+
+  {{- if .WithCatalogType }}
+  catalog_type_id               = incident_catalog_type.example.id
+
+  group_by_catalog_attribute_id  = incident_catalog_type_attribute.example_string_attr.id
+  {{- end }}
+
+  {{- if .WithFilter }}
+  filter_by = {
+    catalog_attribute_id = incident_catalog_type_attribute.example_catalog_attr.id
+    custom_field_id      = incident_custom_field.other.id
+  }
+  {{- end }}
 }
 `))
 
-func customFieldDefault() client.CustomFieldV2 {
-	return client.CustomFieldV2{
-		Name:        "Affected Teams",
-		Description: "The teams that are affected by this incident",
-		FieldType:   client.CustomFieldV2FieldType("multi_select"),
-	}
+type customFieldTemplateParams struct {
+	WithCatalogType bool
+	WithFilter      bool
 }
 
-func testAccIncidentCustomFieldResourceConfig(override *client.CustomFieldV2) string {
-	model := customFieldDefault()
-
-	// Merge any non-zero fields in override into the model.
-	if override != nil {
-		for idx := 0; idx < reflect.TypeOf(*override).NumField(); idx++ {
-			field := reflect.ValueOf(*override).Field(idx)
-			if !field.IsZero() {
-				reflect.ValueOf(&model).Elem().Field(idx).Set(field)
-			}
-		}
-	}
-
+func testAccIncidentCustomFieldResourceConfig(opts customFieldTemplateParams) string {
 	var buf bytes.Buffer
-	if err := customFieldTemplate.Execute(&buf, model); err != nil {
+	if err := customFieldTemplate.Execute(&buf, opts); err != nil {
 		panic(err)
 	}
-
 	return buf.String()
 }
