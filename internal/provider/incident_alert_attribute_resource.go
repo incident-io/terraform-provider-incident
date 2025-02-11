@@ -43,7 +43,7 @@ func (r *IncidentAlertAttributeResource) Metadata(ctx context.Context, req resou
 
 func (r *IncidentAlertAttributeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("Alert attributes V2"),
+		MarkdownDescription: apischema.TagDocstring("Alert Attributes V2"),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,

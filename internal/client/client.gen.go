@@ -528,38 +528,41 @@ const (
 
 // Defines values for ExternalIssueReferenceV1Provider.
 const (
-	ExternalIssueReferenceV1ProviderAsana      ExternalIssueReferenceV1Provider = "asana"
-	ExternalIssueReferenceV1ProviderClickUp    ExternalIssueReferenceV1Provider = "click_up"
-	ExternalIssueReferenceV1ProviderGithub     ExternalIssueReferenceV1Provider = "github"
-	ExternalIssueReferenceV1ProviderGitlab     ExternalIssueReferenceV1Provider = "gitlab"
-	ExternalIssueReferenceV1ProviderJira       ExternalIssueReferenceV1Provider = "jira"
-	ExternalIssueReferenceV1ProviderJiraServer ExternalIssueReferenceV1Provider = "jira_server"
-	ExternalIssueReferenceV1ProviderLinear     ExternalIssueReferenceV1Provider = "linear"
-	ExternalIssueReferenceV1ProviderShortcut   ExternalIssueReferenceV1Provider = "shortcut"
+	ExternalIssueReferenceV1ProviderAsana       ExternalIssueReferenceV1Provider = "asana"
+	ExternalIssueReferenceV1ProviderAzureDevops ExternalIssueReferenceV1Provider = "azure_devops"
+	ExternalIssueReferenceV1ProviderClickUp     ExternalIssueReferenceV1Provider = "click_up"
+	ExternalIssueReferenceV1ProviderGithub      ExternalIssueReferenceV1Provider = "github"
+	ExternalIssueReferenceV1ProviderGitlab      ExternalIssueReferenceV1Provider = "gitlab"
+	ExternalIssueReferenceV1ProviderJira        ExternalIssueReferenceV1Provider = "jira"
+	ExternalIssueReferenceV1ProviderJiraServer  ExternalIssueReferenceV1Provider = "jira_server"
+	ExternalIssueReferenceV1ProviderLinear      ExternalIssueReferenceV1Provider = "linear"
+	ExternalIssueReferenceV1ProviderShortcut    ExternalIssueReferenceV1Provider = "shortcut"
 )
 
 // Defines values for ExternalIssueReferenceV2Provider.
 const (
-	ExternalIssueReferenceV2ProviderAsana      ExternalIssueReferenceV2Provider = "asana"
-	ExternalIssueReferenceV2ProviderClickUp    ExternalIssueReferenceV2Provider = "click_up"
-	ExternalIssueReferenceV2ProviderGithub     ExternalIssueReferenceV2Provider = "github"
-	ExternalIssueReferenceV2ProviderGitlab     ExternalIssueReferenceV2Provider = "gitlab"
-	ExternalIssueReferenceV2ProviderJira       ExternalIssueReferenceV2Provider = "jira"
-	ExternalIssueReferenceV2ProviderJiraServer ExternalIssueReferenceV2Provider = "jira_server"
-	ExternalIssueReferenceV2ProviderLinear     ExternalIssueReferenceV2Provider = "linear"
-	ExternalIssueReferenceV2ProviderShortcut   ExternalIssueReferenceV2Provider = "shortcut"
+	ExternalIssueReferenceV2ProviderAsana       ExternalIssueReferenceV2Provider = "asana"
+	ExternalIssueReferenceV2ProviderAzureDevops ExternalIssueReferenceV2Provider = "azure_devops"
+	ExternalIssueReferenceV2ProviderClickUp     ExternalIssueReferenceV2Provider = "click_up"
+	ExternalIssueReferenceV2ProviderGithub      ExternalIssueReferenceV2Provider = "github"
+	ExternalIssueReferenceV2ProviderGitlab      ExternalIssueReferenceV2Provider = "gitlab"
+	ExternalIssueReferenceV2ProviderJira        ExternalIssueReferenceV2Provider = "jira"
+	ExternalIssueReferenceV2ProviderJiraServer  ExternalIssueReferenceV2Provider = "jira_server"
+	ExternalIssueReferenceV2ProviderLinear      ExternalIssueReferenceV2Provider = "linear"
+	ExternalIssueReferenceV2ProviderShortcut    ExternalIssueReferenceV2Provider = "shortcut"
 )
 
 // Defines values for ExternalIssueReferenceV4Provider.
 const (
-	Asana      ExternalIssueReferenceV4Provider = "asana"
-	ClickUp    ExternalIssueReferenceV4Provider = "click_up"
-	Github     ExternalIssueReferenceV4Provider = "github"
-	Gitlab     ExternalIssueReferenceV4Provider = "gitlab"
-	Jira       ExternalIssueReferenceV4Provider = "jira"
-	JiraServer ExternalIssueReferenceV4Provider = "jira_server"
-	Linear     ExternalIssueReferenceV4Provider = "linear"
-	Shortcut   ExternalIssueReferenceV4Provider = "shortcut"
+	Asana       ExternalIssueReferenceV4Provider = "asana"
+	AzureDevops ExternalIssueReferenceV4Provider = "azure_devops"
+	ClickUp     ExternalIssueReferenceV4Provider = "click_up"
+	Github      ExternalIssueReferenceV4Provider = "github"
+	Gitlab      ExternalIssueReferenceV4Provider = "gitlab"
+	Jira        ExternalIssueReferenceV4Provider = "jira"
+	JiraServer  ExternalIssueReferenceV4Provider = "jira_server"
+	Linear      ExternalIssueReferenceV4Provider = "linear"
+	Shortcut    ExternalIssueReferenceV4Provider = "shortcut"
 )
 
 // Defines values for ExternalResourceV1ResourceType.
