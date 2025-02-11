@@ -1,5 +1,11 @@
 ## Unreleased
 
+## 4.2.0
+
+- `incident_alert_attribute` resource and data source, for managing your alert attributes
+- `incident_alert_source` resource for managing your alert sources
+- A number of dependencies have been updated.
+
 ## 4.1.0
 
 - Escalation paths created by Terraform or imported to Terraform will be tagged
