@@ -3,12 +3,15 @@
 page_title: "incident_alert_attribute Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  View and manage alert attributes. Alert attributes are used to parse structured data from alerts coming in via alert sources.
+  View and manage alert attributes.
+  Alert attributes are used to parse structured data from alerts coming in via alert sources.
 ---
 
 # incident_alert_attribute (Resource)
 
-View and manage alert attributes. Alert attributes are used to parse structured data from alerts coming in via alert sources.
+View and manage alert attributes.
+
+Alert attributes are used to parse structured data from alerts coming in via alert sources.
 
 ## Example Usage
 
