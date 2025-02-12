@@ -45,6 +45,32 @@ func (i *IncidentCustomFieldDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: apischema.Docstring("CustomFieldV2", "description"),
 				Computed:            true,
 			},
+			"catalog_type_id": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "catalog_type_id"),
+				Computed:            true,
+			},
+			"filter_by": schema.SingleNestedAttribute{
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "filter_by"),
+				Attributes: map[string]schema.Attribute{
+					"custom_field_id": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring("CustomFieldFilterByOptionsV2", "custom_field_id"),
+						Computed:            true,
+					},
+					"catalog_attribute_id": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring("CustomFieldFilterByOptionsV2", "catalog_attribute_id"),
+						Computed:            true,
+					},
+				},
+			},
+			"group_by_catalog_attribute_id": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "group_by_catalog_attribute_id"),
+				Computed:            true,
+			},
+			"helptext_catalog_attribute_id": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "helptext_catalog_attribute_id"),
+				Computed:            true,
+			},
 		},
 	}
 }

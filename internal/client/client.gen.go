@@ -234,60 +234,28 @@ const (
 	CreateManagedResourceRequestBodyResourceTypeWorkflow       CreateManagedResourceRequestBodyResourceType = "workflow"
 )
 
-// Defines values for CreateRequestBody2FieldType.
+// Defines values for CreateRequestBodyResourceResourceType.
 const (
-	CreateRequestBody2FieldTypeLink         CreateRequestBody2FieldType = "link"
-	CreateRequestBody2FieldTypeMultiSelect  CreateRequestBody2FieldType = "multi_select"
-	CreateRequestBody2FieldTypeNumeric      CreateRequestBody2FieldType = "numeric"
-	CreateRequestBody2FieldTypeSingleSelect CreateRequestBody2FieldType = "single_select"
-	CreateRequestBody2FieldTypeText         CreateRequestBody2FieldType = "text"
+	CreateRequestBodyResourceResourceTypeAtlassianStatuspageIncident CreateRequestBodyResourceResourceType = "atlassian_statuspage_incident"
+	CreateRequestBodyResourceResourceTypeDatadogMonitorAlert         CreateRequestBodyResourceResourceType = "datadog_monitor_alert"
+	CreateRequestBodyResourceResourceTypeGithubPullRequest           CreateRequestBodyResourceResourceType = "github_pull_request"
+	CreateRequestBodyResourceResourceTypeGitlabMergeRequest          CreateRequestBodyResourceResourceType = "gitlab_merge_request"
+	CreateRequestBodyResourceResourceTypeGoogleCalendarEvent         CreateRequestBodyResourceResourceType = "google_calendar_event"
+	CreateRequestBodyResourceResourceTypeJiraIssue                   CreateRequestBodyResourceResourceType = "jira_issue"
+	CreateRequestBodyResourceResourceTypeOpsgenieAlert               CreateRequestBodyResourceResourceType = "opsgenie_alert"
+	CreateRequestBodyResourceResourceTypeOutlookCalendarEvent        CreateRequestBodyResourceResourceType = "outlook_calendar_event"
+	CreateRequestBodyResourceResourceTypePagerDutyIncident           CreateRequestBodyResourceResourceType = "pager_duty_incident"
+	CreateRequestBodyResourceResourceTypeScrubbed                    CreateRequestBodyResourceResourceType = "scrubbed"
+	CreateRequestBodyResourceResourceTypeSentryIssue                 CreateRequestBodyResourceResourceType = "sentry_issue"
+	CreateRequestBodyResourceResourceTypeStatuspageIncident          CreateRequestBodyResourceResourceType = "statuspage_incident"
+	CreateRequestBodyResourceResourceTypeZendeskTicket               CreateRequestBodyResourceResourceType = "zendesk_ticket"
 )
 
-// Defines values for CreateRequestBody2Required.
+// Defines values for CreateRequestBody5Category.
 const (
-	CreateRequestBody2RequiredAlways        CreateRequestBody2Required = "always"
-	CreateRequestBody2RequiredBeforeClosure CreateRequestBody2Required = "before_closure"
-	CreateRequestBody2RequiredNever         CreateRequestBody2Required = "never"
-)
-
-// Defines values for CreateRequestBody2RequiredV2.
-const (
-	CreateRequestBody2RequiredV2Always           CreateRequestBody2RequiredV2 = "always"
-	CreateRequestBody2RequiredV2BeforeResolution CreateRequestBody2RequiredV2 = "before_resolution"
-	CreateRequestBody2RequiredV2Never            CreateRequestBody2RequiredV2 = "never"
-)
-
-// Defines values for CreateRequestBody3FieldType.
-const (
-	CreateRequestBody3FieldTypeLink         CreateRequestBody3FieldType = "link"
-	CreateRequestBody3FieldTypeMultiSelect  CreateRequestBody3FieldType = "multi_select"
-	CreateRequestBody3FieldTypeNumeric      CreateRequestBody3FieldType = "numeric"
-	CreateRequestBody3FieldTypeSingleSelect CreateRequestBody3FieldType = "single_select"
-	CreateRequestBody3FieldTypeText         CreateRequestBody3FieldType = "text"
-)
-
-// Defines values for CreateRequestBody4ResourceResourceType.
-const (
-	CreateRequestBody4ResourceResourceTypeAtlassianStatuspageIncident CreateRequestBody4ResourceResourceType = "atlassian_statuspage_incident"
-	CreateRequestBody4ResourceResourceTypeDatadogMonitorAlert         CreateRequestBody4ResourceResourceType = "datadog_monitor_alert"
-	CreateRequestBody4ResourceResourceTypeGithubPullRequest           CreateRequestBody4ResourceResourceType = "github_pull_request"
-	CreateRequestBody4ResourceResourceTypeGitlabMergeRequest          CreateRequestBody4ResourceResourceType = "gitlab_merge_request"
-	CreateRequestBody4ResourceResourceTypeGoogleCalendarEvent         CreateRequestBody4ResourceResourceType = "google_calendar_event"
-	CreateRequestBody4ResourceResourceTypeJiraIssue                   CreateRequestBody4ResourceResourceType = "jira_issue"
-	CreateRequestBody4ResourceResourceTypeOpsgenieAlert               CreateRequestBody4ResourceResourceType = "opsgenie_alert"
-	CreateRequestBody4ResourceResourceTypeOutlookCalendarEvent        CreateRequestBody4ResourceResourceType = "outlook_calendar_event"
-	CreateRequestBody4ResourceResourceTypePagerDutyIncident           CreateRequestBody4ResourceResourceType = "pager_duty_incident"
-	CreateRequestBody4ResourceResourceTypeScrubbed                    CreateRequestBody4ResourceResourceType = "scrubbed"
-	CreateRequestBody4ResourceResourceTypeSentryIssue                 CreateRequestBody4ResourceResourceType = "sentry_issue"
-	CreateRequestBody4ResourceResourceTypeStatuspageIncident          CreateRequestBody4ResourceResourceType = "statuspage_incident"
-	CreateRequestBody4ResourceResourceTypeZendeskTicket               CreateRequestBody4ResourceResourceType = "zendesk_ticket"
-)
-
-// Defines values for CreateRequestBody8Category.
-const (
-	CreateRequestBody8CategoryClosed   CreateRequestBody8Category = "closed"
-	CreateRequestBody8CategoryLearning CreateRequestBody8Category = "learning"
-	CreateRequestBody8CategoryLive     CreateRequestBody8Category = "live"
+	CreateRequestBody5CategoryClosed   CreateRequestBody5Category = "closed"
+	CreateRequestBody5CategoryLearning CreateRequestBody5Category = "learning"
+	CreateRequestBody5CategoryLive     CreateRequestBody5Category = "live"
 )
 
 // Defines values for CreateTypeRequestBodyCategories.
@@ -412,6 +380,52 @@ const (
 	CustomFieldV2FieldTypeNumeric      CustomFieldV2FieldType = "numeric"
 	CustomFieldV2FieldTypeSingleSelect CustomFieldV2FieldType = "single_select"
 	CustomFieldV2FieldTypeText         CustomFieldV2FieldType = "text"
+)
+
+// Defines values for CustomFieldsCreatePayloadV1FieldType.
+const (
+	CustomFieldsCreatePayloadV1FieldTypeLink         CustomFieldsCreatePayloadV1FieldType = "link"
+	CustomFieldsCreatePayloadV1FieldTypeMultiSelect  CustomFieldsCreatePayloadV1FieldType = "multi_select"
+	CustomFieldsCreatePayloadV1FieldTypeNumeric      CustomFieldsCreatePayloadV1FieldType = "numeric"
+	CustomFieldsCreatePayloadV1FieldTypeSingleSelect CustomFieldsCreatePayloadV1FieldType = "single_select"
+	CustomFieldsCreatePayloadV1FieldTypeText         CustomFieldsCreatePayloadV1FieldType = "text"
+)
+
+// Defines values for CustomFieldsCreatePayloadV1Required.
+const (
+	CustomFieldsCreatePayloadV1RequiredAlways        CustomFieldsCreatePayloadV1Required = "always"
+	CustomFieldsCreatePayloadV1RequiredBeforeClosure CustomFieldsCreatePayloadV1Required = "before_closure"
+	CustomFieldsCreatePayloadV1RequiredNever         CustomFieldsCreatePayloadV1Required = "never"
+)
+
+// Defines values for CustomFieldsCreatePayloadV1RequiredV2.
+const (
+	CustomFieldsCreatePayloadV1RequiredV2Always           CustomFieldsCreatePayloadV1RequiredV2 = "always"
+	CustomFieldsCreatePayloadV1RequiredV2BeforeResolution CustomFieldsCreatePayloadV1RequiredV2 = "before_resolution"
+	CustomFieldsCreatePayloadV1RequiredV2Never            CustomFieldsCreatePayloadV1RequiredV2 = "never"
+)
+
+// Defines values for CustomFieldsCreatePayloadV2FieldType.
+const (
+	CustomFieldsCreatePayloadV2FieldTypeLink         CustomFieldsCreatePayloadV2FieldType = "link"
+	CustomFieldsCreatePayloadV2FieldTypeMultiSelect  CustomFieldsCreatePayloadV2FieldType = "multi_select"
+	CustomFieldsCreatePayloadV2FieldTypeNumeric      CustomFieldsCreatePayloadV2FieldType = "numeric"
+	CustomFieldsCreatePayloadV2FieldTypeSingleSelect CustomFieldsCreatePayloadV2FieldType = "single_select"
+	CustomFieldsCreatePayloadV2FieldTypeText         CustomFieldsCreatePayloadV2FieldType = "text"
+)
+
+// Defines values for CustomFieldsUpdatePayloadV1Required.
+const (
+	CustomFieldsUpdatePayloadV1RequiredAlways        CustomFieldsUpdatePayloadV1Required = "always"
+	CustomFieldsUpdatePayloadV1RequiredBeforeClosure CustomFieldsUpdatePayloadV1Required = "before_closure"
+	CustomFieldsUpdatePayloadV1RequiredNever         CustomFieldsUpdatePayloadV1Required = "never"
+)
+
+// Defines values for CustomFieldsUpdatePayloadV1RequiredV2.
+const (
+	CustomFieldsUpdatePayloadV1RequiredV2Always           CustomFieldsUpdatePayloadV1RequiredV2 = "always"
+	CustomFieldsUpdatePayloadV1RequiredV2BeforeResolution CustomFieldsUpdatePayloadV1RequiredV2 = "before_resolution"
+	CustomFieldsUpdatePayloadV1RequiredV2Never            CustomFieldsUpdatePayloadV1RequiredV2 = "never"
 )
 
 // Defines values for EmbeddedIncidentRoleV2RoleType.
@@ -790,20 +804,6 @@ const (
 	ScheduleRotationWorkingIntervalV2WeekdayThursday  ScheduleRotationWorkingIntervalV2Weekday = "thursday"
 	ScheduleRotationWorkingIntervalV2WeekdayTuesday   ScheduleRotationWorkingIntervalV2Weekday = "tuesday"
 	ScheduleRotationWorkingIntervalV2WeekdayWednesday ScheduleRotationWorkingIntervalV2Weekday = "wednesday"
-)
-
-// Defines values for UpdateRequestBody3Required.
-const (
-	UpdateRequestBody3RequiredAlways        UpdateRequestBody3Required = "always"
-	UpdateRequestBody3RequiredBeforeClosure UpdateRequestBody3Required = "before_closure"
-	UpdateRequestBody3RequiredNever         UpdateRequestBody3Required = "never"
-)
-
-// Defines values for UpdateRequestBody3RequiredV2.
-const (
-	UpdateRequestBody3RequiredV2Always           UpdateRequestBody3RequiredV2 = "always"
-	UpdateRequestBody3RequiredV2BeforeResolution UpdateRequestBody3RequiredV2 = "before_resolution"
-	UpdateRequestBody3RequiredV2Never            UpdateRequestBody3RequiredV2 = "never"
 )
 
 // Defines values for UpdateTypeRequestBodyCategories.
@@ -2023,72 +2023,6 @@ type CreatePathResponseBody struct {
 
 // CreateRequestBody defines model for CreateRequestBody.
 type CreateRequestBody struct {
-	// CustomFieldId ID of the custom field this option belongs to
-	CustomFieldId string `json:"custom_field_id"`
-
-	// SortKey Sort key used to order the custom field options correctly
-	SortKey *int64 `json:"sort_key,omitempty"`
-
-	// Value Human readable name for the custom field option
-	Value string `json:"value"`
-}
-
-// CreateRequestBody2 defines model for CreateRequestBody2.
-type CreateRequestBody2 struct {
-	// Description Description of the custom field
-	Description string `json:"description"`
-
-	// FieldType Type of custom field
-	FieldType CreateRequestBody2FieldType `json:"field_type"`
-
-	// Name Human readable name for the custom field
-	Name string `json:"name"`
-
-	// Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
-	Required *CreateRequestBody2Required `json:"required,omitempty"`
-
-	// RequiredV2 When this custom field must be set during the incident lifecycle.
-	RequiredV2 *CreateRequestBody2RequiredV2 `json:"required_v2,omitempty"`
-
-	// ShowBeforeClosure Whether a custom field should be shown in the incident resolve modal. If this custom field is required before resolution, but no value has been set for it, the field will be shown in the resolve modal whatever the value of this setting.
-	ShowBeforeClosure bool `json:"show_before_closure"`
-
-	// ShowBeforeCreation Whether a custom field should be shown in the incident creation modal. This must be true if the field is always required.
-	ShowBeforeCreation bool `json:"show_before_creation"`
-
-	// ShowBeforeUpdate Whether a custom field should be shown in the incident update modal.
-	ShowBeforeUpdate bool `json:"show_before_update"`
-
-	// ShowInAnnouncementPost Whether a custom field should be shown in the list of fields as part of the announcement post when set.
-	ShowInAnnouncementPost *bool `json:"show_in_announcement_post,omitempty"`
-}
-
-// CreateRequestBody2FieldType Type of custom field
-type CreateRequestBody2FieldType string
-
-// CreateRequestBody2Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
-type CreateRequestBody2Required string
-
-// CreateRequestBody2RequiredV2 When this custom field must be set during the incident lifecycle.
-type CreateRequestBody2RequiredV2 string
-
-// CreateRequestBody3 defines model for CreateRequestBody3.
-type CreateRequestBody3 struct {
-	// Description Description of the custom field
-	Description string `json:"description"`
-
-	// FieldType Type of custom field
-	FieldType CreateRequestBody3FieldType `json:"field_type"`
-
-	// Name Human readable name for the custom field
-	Name string `json:"name"`
-}
-
-// CreateRequestBody3FieldType Type of custom field
-type CreateRequestBody3FieldType string
-
-// CreateRequestBody4 defines model for CreateRequestBody4.
-type CreateRequestBody4 struct {
 	// IncidentId ID of the incident to add an attachment to
 	IncidentId string `json:"incident_id"`
 	Resource   struct {
@@ -2096,21 +2030,21 @@ type CreateRequestBody4 struct {
 		ExternalId string `json:"external_id"`
 
 		// ResourceType E.g. PagerDuty: the external system that holds the resource
-		ResourceType CreateRequestBody4ResourceResourceType `json:"resource_type"`
+		ResourceType CreateRequestBodyResourceResourceType `json:"resource_type"`
 	} `json:"resource"`
 }
 
-// CreateRequestBody4ResourceResourceType E.g. PagerDuty: the external system that holds the resource
-type CreateRequestBody4ResourceResourceType string
+// CreateRequestBodyResourceResourceType E.g. PagerDuty: the external system that holds the resource
+type CreateRequestBodyResourceResourceType string
 
-// CreateRequestBody5 defines model for CreateRequestBody5.
-type CreateRequestBody5 struct {
+// CreateRequestBody2 defines model for CreateRequestBody2.
+type CreateRequestBody2 struct {
 	IncidentId string `json:"incident_id"`
 	UserId     string `json:"user_id"`
 }
 
-// CreateRequestBody6 defines model for CreateRequestBody6.
-type CreateRequestBody6 struct {
+// CreateRequestBody3 defines model for CreateRequestBody3.
+type CreateRequestBody3 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
@@ -2127,8 +2061,8 @@ type CreateRequestBody6 struct {
 	Shortform string `json:"shortform"`
 }
 
-// CreateRequestBody7 defines model for CreateRequestBody7.
-type CreateRequestBody7 struct {
+// CreateRequestBody4 defines model for CreateRequestBody4.
+type CreateRequestBody4 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
@@ -2142,10 +2076,10 @@ type CreateRequestBody7 struct {
 	Shortform string `json:"shortform"`
 }
 
-// CreateRequestBody8 defines model for CreateRequestBody8.
-type CreateRequestBody8 struct {
+// CreateRequestBody5 defines model for CreateRequestBody5.
+type CreateRequestBody5 struct {
 	// Category Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
-	Category CreateRequestBody8Category `json:"category"`
+	Category CreateRequestBody5Category `json:"category"`
 
 	// Description Rich text description of the incident status
 	Description string `json:"description"`
@@ -2154,11 +2088,11 @@ type CreateRequestBody8 struct {
 	Name string `json:"name"`
 }
 
-// CreateRequestBody8Category Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
-type CreateRequestBody8Category string
+// CreateRequestBody5Category Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
+type CreateRequestBody5Category string
 
-// CreateRequestBody9 defines model for CreateRequestBody9.
-type CreateRequestBody9 struct {
+// CreateRequestBody6 defines model for CreateRequestBody6.
+type CreateRequestBody6 struct {
 	// Description Description of the severity
 	Description string `json:"description"`
 
@@ -2317,6 +2251,17 @@ type CustomFieldEntryV2 struct {
 	Values []CustomFieldValueV2 `json:"values"`
 }
 
+// CustomFieldFilterByOptionsV2 defines model for CustomFieldFilterByOptionsV2.
+type CustomFieldFilterByOptionsV2 struct {
+	// CatalogAttributeId This must be an attribute of the catalog type of this custom field. It must be an attribute that points to another catalog type (so not a plain string, number, or boolean attribute).
+	CatalogAttributeId string `json:"catalog_attribute_id"`
+
+	// CustomFieldId This must be the ID of a custom field, which must have values of the same type as the attribute you are filtering by.
+	//
+	// When this filtering field is set on an incident, the options for this custom field will be filtered to only those with the attribute value that matches the value of the filtering field.
+	CustomFieldId string `json:"custom_field_id"`
+}
+
 // CustomFieldOptionV1 defines model for CustomFieldOptionV1.
 type CustomFieldOptionV1 struct {
 	// CustomFieldId ID of the custom field this option belongs to
@@ -2345,6 +2290,48 @@ type CustomFieldOptionV2 struct {
 
 	// Value Human readable name for the custom field option
 	Value string `json:"value"`
+}
+
+// CustomFieldOptionsCreatePayloadV1 defines model for CustomFieldOptionsCreatePayloadV1.
+type CustomFieldOptionsCreatePayloadV1 struct {
+	// CustomFieldId ID of the custom field this option belongs to
+	CustomFieldId string `json:"custom_field_id"`
+
+	// SortKey Sort key used to order the custom field options correctly
+	SortKey *int64 `json:"sort_key,omitempty"`
+
+	// Value Human readable name for the custom field option
+	Value string `json:"value"`
+}
+
+// CustomFieldOptionsCreateResultV1 defines model for CustomFieldOptionsCreateResultV1.
+type CustomFieldOptionsCreateResultV1 struct {
+	CustomFieldOption CustomFieldOptionV1 `json:"custom_field_option"`
+}
+
+// CustomFieldOptionsListResultV1 defines model for CustomFieldOptionsListResultV1.
+type CustomFieldOptionsListResultV1 struct {
+	CustomFieldOptions []CustomFieldOptionV1  `json:"custom_field_options"`
+	PaginationMeta     PaginationMetaResultV1 `json:"pagination_meta"`
+}
+
+// CustomFieldOptionsShowResultV1 defines model for CustomFieldOptionsShowResultV1.
+type CustomFieldOptionsShowResultV1 struct {
+	CustomFieldOption CustomFieldOptionV1 `json:"custom_field_option"`
+}
+
+// CustomFieldOptionsUpdatePayloadV1 defines model for CustomFieldOptionsUpdatePayloadV1.
+type CustomFieldOptionsUpdatePayloadV1 struct {
+	// SortKey Sort key used to order the custom field options correctly
+	SortKey int64 `json:"sort_key"`
+
+	// Value Human readable name for the custom field option
+	Value string `json:"value"`
+}
+
+// CustomFieldOptionsUpdateResultV1 defines model for CustomFieldOptionsUpdateResultV1.
+type CustomFieldOptionsUpdateResultV1 struct {
+	CustomFieldOption CustomFieldOptionV1 `json:"custom_field_option"`
 }
 
 // CustomFieldTypeInfoV1 defines model for CustomFieldTypeInfoV1.
@@ -2455,7 +2442,14 @@ type CustomFieldV2 struct {
 	Description string `json:"description"`
 
 	// FieldType Type of custom field
-	FieldType CustomFieldV2FieldType `json:"field_type"`
+	FieldType CustomFieldV2FieldType        `json:"field_type"`
+	FilterBy  *CustomFieldFilterByOptionsV2 `json:"filter_by,omitempty"`
+
+	// GroupByCatalogAttributeId For catalog fields, the ID of the attribute used to group catalog entries (if applicable)
+	GroupByCatalogAttributeId *string `json:"group_by_catalog_attribute_id,omitempty"`
+
+	// HelptextCatalogAttributeId Which catalog attribute provides helptext for the options
+	HelptextCatalogAttributeId *string `json:"helptext_catalog_attribute_id,omitempty"`
 
 	// Id Unique identifier for the custom field
 	Id string `json:"id"`
@@ -2546,6 +2540,159 @@ type CustomFieldValueV2 struct {
 
 	// ValueText If the custom field type is 'text', this will contain the value assigned.
 	ValueText *string `json:"value_text,omitempty"`
+}
+
+// CustomFieldsCreatePayloadV1 defines model for CustomFieldsCreatePayloadV1.
+type CustomFieldsCreatePayloadV1 struct {
+	// Description Description of the custom field
+	Description string `json:"description"`
+
+	// FieldType Type of custom field
+	FieldType CustomFieldsCreatePayloadV1FieldType `json:"field_type"`
+
+	// Name Human readable name for the custom field
+	Name string `json:"name"`
+
+	// Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
+	Required *CustomFieldsCreatePayloadV1Required `json:"required,omitempty"`
+
+	// RequiredV2 When this custom field must be set during the incident lifecycle.
+	RequiredV2 *CustomFieldsCreatePayloadV1RequiredV2 `json:"required_v2,omitempty"`
+
+	// ShowBeforeClosure Whether a custom field should be shown in the incident resolve modal. If this custom field is required before resolution, but no value has been set for it, the field will be shown in the resolve modal whatever the value of this setting.
+	ShowBeforeClosure bool `json:"show_before_closure"`
+
+	// ShowBeforeCreation Whether a custom field should be shown in the incident creation modal. This must be true if the field is always required.
+	ShowBeforeCreation bool `json:"show_before_creation"`
+
+	// ShowBeforeUpdate Whether a custom field should be shown in the incident update modal.
+	ShowBeforeUpdate bool `json:"show_before_update"`
+
+	// ShowInAnnouncementPost Whether a custom field should be shown in the list of fields as part of the announcement post when set.
+	ShowInAnnouncementPost *bool `json:"show_in_announcement_post,omitempty"`
+}
+
+// CustomFieldsCreatePayloadV1FieldType Type of custom field
+type CustomFieldsCreatePayloadV1FieldType string
+
+// CustomFieldsCreatePayloadV1Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
+type CustomFieldsCreatePayloadV1Required string
+
+// CustomFieldsCreatePayloadV1RequiredV2 When this custom field must be set during the incident lifecycle.
+type CustomFieldsCreatePayloadV1RequiredV2 string
+
+// CustomFieldsCreatePayloadV2 defines model for CustomFieldsCreatePayloadV2.
+type CustomFieldsCreatePayloadV2 struct {
+	// CatalogTypeId For catalog fields, the ID of the associated catalog type
+	CatalogTypeId *string `json:"catalog_type_id,omitempty"`
+
+	// Description Description of the custom field
+	Description string `json:"description"`
+
+	// FieldType Type of custom field
+	FieldType CustomFieldsCreatePayloadV2FieldType `json:"field_type"`
+	FilterBy  *CustomFieldFilterByOptionsV2        `json:"filter_by,omitempty"`
+
+	// GroupByCatalogAttributeId For catalog fields, the ID of the attribute used to group catalog entries (if applicable)
+	GroupByCatalogAttributeId *string `json:"group_by_catalog_attribute_id,omitempty"`
+
+	// HelptextCatalogAttributeId Which catalog attribute provides helptext for the options
+	HelptextCatalogAttributeId *string `json:"helptext_catalog_attribute_id,omitempty"`
+
+	// Name Human readable name for the custom field
+	Name string `json:"name"`
+}
+
+// CustomFieldsCreatePayloadV2FieldType Type of custom field
+type CustomFieldsCreatePayloadV2FieldType string
+
+// CustomFieldsCreateResultV1 defines model for CustomFieldsCreateResultV1.
+type CustomFieldsCreateResultV1 struct {
+	CustomField CustomFieldV1 `json:"custom_field"`
+}
+
+// CustomFieldsCreateResultV2 defines model for CustomFieldsCreateResultV2.
+type CustomFieldsCreateResultV2 struct {
+	CustomField CustomFieldV2 `json:"custom_field"`
+}
+
+// CustomFieldsListResultV1 defines model for CustomFieldsListResultV1.
+type CustomFieldsListResultV1 struct {
+	CustomFields []CustomFieldV1 `json:"custom_fields"`
+}
+
+// CustomFieldsListResultV2 defines model for CustomFieldsListResultV2.
+type CustomFieldsListResultV2 struct {
+	CustomFields []CustomFieldV2 `json:"custom_fields"`
+}
+
+// CustomFieldsShowResultV1 defines model for CustomFieldsShowResultV1.
+type CustomFieldsShowResultV1 struct {
+	CustomField CustomFieldV1 `json:"custom_field"`
+}
+
+// CustomFieldsShowResultV2 defines model for CustomFieldsShowResultV2.
+type CustomFieldsShowResultV2 struct {
+	CustomField CustomFieldV2 `json:"custom_field"`
+}
+
+// CustomFieldsUpdatePayloadV1 defines model for CustomFieldsUpdatePayloadV1.
+type CustomFieldsUpdatePayloadV1 struct {
+	// Description Description of the custom field
+	Description string `json:"description"`
+
+	// Name Human readable name for the custom field
+	Name string `json:"name"`
+
+	// Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
+	Required *CustomFieldsUpdatePayloadV1Required `json:"required,omitempty"`
+
+	// RequiredV2 When this custom field must be set during the incident lifecycle.
+	RequiredV2 *CustomFieldsUpdatePayloadV1RequiredV2 `json:"required_v2,omitempty"`
+
+	// ShowBeforeClosure Whether a custom field should be shown in the incident resolve modal. If this custom field is required before resolution, but no value has been set for it, the field will be shown in the resolve modal whatever the value of this setting.
+	ShowBeforeClosure bool `json:"show_before_closure"`
+
+	// ShowBeforeCreation Whether a custom field should be shown in the incident creation modal. This must be true if the field is always required.
+	ShowBeforeCreation bool `json:"show_before_creation"`
+
+	// ShowBeforeUpdate Whether a custom field should be shown in the incident update modal.
+	ShowBeforeUpdate bool `json:"show_before_update"`
+
+	// ShowInAnnouncementPost Whether a custom field should be shown in the list of fields as part of the announcement post when set.
+	ShowInAnnouncementPost *bool `json:"show_in_announcement_post,omitempty"`
+}
+
+// CustomFieldsUpdatePayloadV1Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
+type CustomFieldsUpdatePayloadV1Required string
+
+// CustomFieldsUpdatePayloadV1RequiredV2 When this custom field must be set during the incident lifecycle.
+type CustomFieldsUpdatePayloadV1RequiredV2 string
+
+// CustomFieldsUpdatePayloadV2 defines model for CustomFieldsUpdatePayloadV2.
+type CustomFieldsUpdatePayloadV2 struct {
+	// Description Description of the custom field
+	Description string                        `json:"description"`
+	FilterBy    *CustomFieldFilterByOptionsV2 `json:"filter_by,omitempty"`
+
+	// GroupByCatalogAttributeId For catalog fields, the ID of the attribute used to group catalog entries (if applicable)
+	GroupByCatalogAttributeId *string `json:"group_by_catalog_attribute_id,omitempty"`
+
+	// HelptextCatalogAttributeId Which catalog attribute provides helptext for the options
+	HelptextCatalogAttributeId *string `json:"helptext_catalog_attribute_id,omitempty"`
+
+	// Name Human readable name for the custom field
+	Name string `json:"name"`
+}
+
+// CustomFieldsUpdateResultV1 defines model for CustomFieldsUpdateResultV1.
+type CustomFieldsUpdateResultV1 struct {
+	CustomField CustomFieldV1 `json:"custom_field"`
+}
+
+// CustomFieldsUpdateResultV2 defines model for CustomFieldsUpdateResultV2.
+type CustomFieldsUpdateResultV2 struct {
+	CustomField CustomFieldV2 `json:"custom_field"`
 }
 
 // EditRequestBody defines model for EditRequestBody.
@@ -4157,77 +4304,55 @@ type ListResourcesResponseBody struct {
 
 // ListResponseBody defines model for ListResponseBody.
 type ListResponseBody struct {
-	CustomFieldOptions []CustomFieldOptionV1 `json:"custom_field_options"`
-	PaginationMeta     PaginationMetaResult  `json:"pagination_meta"`
+	IncidentAttachments []IncidentAttachmentV1 `json:"incident_attachments"`
 }
 
 // ListResponseBody10 defines model for ListResponseBody10.
 type ListResponseBody10 struct {
-	IncidentUpdates []IncidentUpdateV2    `json:"incident_updates"`
-	PaginationMeta  *PaginationMetaResult `json:"pagination_meta,omitempty"`
-}
-
-// ListResponseBody11 defines model for ListResponseBody11.
-type ListResponseBody11 struct {
-	Incidents      []IncidentV1                   `json:"incidents"`
-	PaginationMeta *PaginationMetaResultWithTotal `json:"pagination_meta,omitempty"`
-}
-
-// ListResponseBody12 defines model for ListResponseBody12.
-type ListResponseBody12 struct {
-	Incidents      []IncidentV2                   `json:"incidents"`
-	PaginationMeta *PaginationMetaResultWithTotal `json:"pagination_meta,omitempty"`
-}
-
-// ListResponseBody13 defines model for ListResponseBody13.
-type ListResponseBody13 struct {
 	Severities []SeverityV1 `json:"severities"`
-}
-
-// ListResponseBody14 defines model for ListResponseBody14.
-type ListResponseBody14 struct {
-	PaginationMeta PaginationMetaResult `json:"pagination_meta"`
-	Users          []UserWithRolesV2    `json:"users"`
 }
 
 // ListResponseBody2 defines model for ListResponseBody2.
 type ListResponseBody2 struct {
-	CustomFields []CustomFieldV1 `json:"custom_fields"`
+	IncidentRoles []IncidentRoleV1 `json:"incident_roles"`
 }
 
 // ListResponseBody3 defines model for ListResponseBody3.
 type ListResponseBody3 struct {
-	CustomFields []CustomFieldV2 `json:"custom_fields"`
+	IncidentRoles []IncidentRoleV2 `json:"incident_roles"`
 }
 
 // ListResponseBody4 defines model for ListResponseBody4.
 type ListResponseBody4 struct {
-	IncidentAttachments []IncidentAttachmentV1 `json:"incident_attachments"`
+	IncidentStatuses []IncidentStatusV1 `json:"incident_statuses"`
 }
 
 // ListResponseBody5 defines model for ListResponseBody5.
 type ListResponseBody5 struct {
-	IncidentRoles []IncidentRoleV1 `json:"incident_roles"`
+	IncidentTimestamps []IncidentTimestampV2 `json:"incident_timestamps"`
 }
 
 // ListResponseBody6 defines model for ListResponseBody6.
 type ListResponseBody6 struct {
-	IncidentRoles []IncidentRoleV2 `json:"incident_roles"`
+	IncidentTypes []IncidentTypeV1 `json:"incident_types"`
 }
 
 // ListResponseBody7 defines model for ListResponseBody7.
 type ListResponseBody7 struct {
-	IncidentStatuses []IncidentStatusV1 `json:"incident_statuses"`
+	IncidentUpdates []IncidentUpdateV2    `json:"incident_updates"`
+	PaginationMeta  *PaginationMetaResult `json:"pagination_meta,omitempty"`
 }
 
 // ListResponseBody8 defines model for ListResponseBody8.
 type ListResponseBody8 struct {
-	IncidentTimestamps []IncidentTimestampV2 `json:"incident_timestamps"`
+	Incidents      []IncidentV1                   `json:"incidents"`
+	PaginationMeta *PaginationMetaResultWithTotal `json:"pagination_meta,omitempty"`
 }
 
 // ListResponseBody9 defines model for ListResponseBody9.
 type ListResponseBody9 struct {
-	IncidentTypes []IncidentTypeV1 `json:"incident_types"`
+	Incidents      []IncidentV2                   `json:"incidents"`
+	PaginationMeta *PaginationMetaResultWithTotal `json:"pagination_meta,omitempty"`
 }
 
 // ListTypesResponseBody defines model for ListTypesResponseBody.
@@ -4279,6 +4404,24 @@ type ManagementMetaV2ManagedBy string
 
 // PaginationMetaResult defines model for PaginationMetaResult.
 type PaginationMetaResult struct {
+	// After If provided, pass this as the 'after' param to load the next page
+	After *string `json:"after,omitempty"`
+
+	// PageSize What was the maximum number of results requested
+	PageSize int64 `json:"page_size"`
+}
+
+// PaginationMetaResultV1 defines model for PaginationMetaResultV1.
+type PaginationMetaResultV1 struct {
+	// After If provided, pass this as the 'after' param to load the next page
+	After *string `json:"after,omitempty"`
+
+	// PageSize What was the maximum number of results requested
+	PageSize int64 `json:"page_size"`
+}
+
+// PaginationMetaResultV2 defines model for PaginationMetaResultV2.
+type PaginationMetaResultV2 struct {
 	// After If provided, pass this as the 'after' param to load the next page
 	After *string `json:"after,omitempty"`
 
@@ -4728,62 +4871,42 @@ type ShowEntryResponseBody struct {
 
 // ShowResponseBody defines model for ShowResponseBody.
 type ShowResponseBody struct {
-	CustomFieldOption CustomFieldOptionV1 `json:"custom_field_option"`
-}
-
-// ShowResponseBody10 defines model for ShowResponseBody10.
-type ShowResponseBody10 struct {
-	Incident IncidentV2 `json:"incident"`
-}
-
-// ShowResponseBody11 defines model for ShowResponseBody11.
-type ShowResponseBody11 struct {
-	Severity SeverityV1 `json:"severity"`
-}
-
-// ShowResponseBody12 defines model for ShowResponseBody12.
-type ShowResponseBody12 struct {
-	User UserWithRolesV2 `json:"user"`
+	IncidentRole IncidentRoleV1 `json:"incident_role"`
 }
 
 // ShowResponseBody2 defines model for ShowResponseBody2.
 type ShowResponseBody2 struct {
-	CustomField CustomFieldV1 `json:"custom_field"`
+	IncidentRole IncidentRoleV2 `json:"incident_role"`
 }
 
 // ShowResponseBody3 defines model for ShowResponseBody3.
 type ShowResponseBody3 struct {
-	CustomField CustomFieldV2 `json:"custom_field"`
+	IncidentStatus IncidentStatusV1 `json:"incident_status"`
 }
 
 // ShowResponseBody4 defines model for ShowResponseBody4.
 type ShowResponseBody4 struct {
-	IncidentRole IncidentRoleV1 `json:"incident_role"`
+	IncidentTimestamp IncidentTimestampV2 `json:"incident_timestamp"`
 }
 
 // ShowResponseBody5 defines model for ShowResponseBody5.
 type ShowResponseBody5 struct {
-	IncidentRole IncidentRoleV2 `json:"incident_role"`
+	IncidentType IncidentTypeV1 `json:"incident_type"`
 }
 
 // ShowResponseBody6 defines model for ShowResponseBody6.
 type ShowResponseBody6 struct {
-	IncidentStatus IncidentStatusV1 `json:"incident_status"`
+	Incident IncidentV1 `json:"incident"`
 }
 
 // ShowResponseBody7 defines model for ShowResponseBody7.
 type ShowResponseBody7 struct {
-	IncidentTimestamp IncidentTimestampV2 `json:"incident_timestamp"`
+	Incident IncidentV2 `json:"incident"`
 }
 
 // ShowResponseBody8 defines model for ShowResponseBody8.
 type ShowResponseBody8 struct {
-	IncidentType IncidentTypeV1 `json:"incident_type"`
-}
-
-// ShowResponseBody9 defines model for ShowResponseBody9.
-type ShowResponseBody9 struct {
-	Incident IncidentV1 `json:"incident"`
+	Severity SeverityV1 `json:"severity"`
 }
 
 // ShowWorkflowResponseBody defines model for ShowWorkflowResponseBody.
@@ -4903,57 +5026,6 @@ type UpdateRequestBody struct {
 
 // UpdateRequestBody2 defines model for UpdateRequestBody2.
 type UpdateRequestBody2 struct {
-	// SortKey Sort key used to order the custom field options correctly
-	SortKey int64 `json:"sort_key"`
-
-	// Value Human readable name for the custom field option
-	Value string `json:"value"`
-}
-
-// UpdateRequestBody3 defines model for UpdateRequestBody3.
-type UpdateRequestBody3 struct {
-	// Description Description of the custom field
-	Description string `json:"description"`
-
-	// Name Human readable name for the custom field
-	Name string `json:"name"`
-
-	// Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
-	Required *UpdateRequestBody3Required `json:"required,omitempty"`
-
-	// RequiredV2 When this custom field must be set during the incident lifecycle.
-	RequiredV2 *UpdateRequestBody3RequiredV2 `json:"required_v2,omitempty"`
-
-	// ShowBeforeClosure Whether a custom field should be shown in the incident resolve modal. If this custom field is required before resolution, but no value has been set for it, the field will be shown in the resolve modal whatever the value of this setting.
-	ShowBeforeClosure bool `json:"show_before_closure"`
-
-	// ShowBeforeCreation Whether a custom field should be shown in the incident creation modal. This must be true if the field is always required.
-	ShowBeforeCreation bool `json:"show_before_creation"`
-
-	// ShowBeforeUpdate Whether a custom field should be shown in the incident update modal.
-	ShowBeforeUpdate bool `json:"show_before_update"`
-
-	// ShowInAnnouncementPost Whether a custom field should be shown in the list of fields as part of the announcement post when set.
-	ShowInAnnouncementPost *bool `json:"show_in_announcement_post,omitempty"`
-}
-
-// UpdateRequestBody3Required When this custom field must be set during the incident lifecycle. [DEPRECATED: please use required_v2 instead].
-type UpdateRequestBody3Required string
-
-// UpdateRequestBody3RequiredV2 When this custom field must be set during the incident lifecycle.
-type UpdateRequestBody3RequiredV2 string
-
-// UpdateRequestBody4 defines model for UpdateRequestBody4.
-type UpdateRequestBody4 struct {
-	// Description Description of the custom field
-	Description string `json:"description"`
-
-	// Name Human readable name for the custom field
-	Name string `json:"name"`
-}
-
-// UpdateRequestBody5 defines model for UpdateRequestBody5.
-type UpdateRequestBody5 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
@@ -4970,8 +5042,8 @@ type UpdateRequestBody5 struct {
 	Shortform string `json:"shortform"`
 }
 
-// UpdateRequestBody6 defines model for UpdateRequestBody6.
-type UpdateRequestBody6 struct {
+// UpdateRequestBody3 defines model for UpdateRequestBody3.
+type UpdateRequestBody3 struct {
 	// Description Describes the purpose of the role
 	Description string `json:"description"`
 
@@ -4985,8 +5057,8 @@ type UpdateRequestBody6 struct {
 	Shortform string `json:"shortform"`
 }
 
-// UpdateRequestBody7 defines model for UpdateRequestBody7.
-type UpdateRequestBody7 struct {
+// UpdateRequestBody4 defines model for UpdateRequestBody4.
+type UpdateRequestBody4 struct {
 	// Description Rich text description of the incident status
 	Description string `json:"description"`
 
@@ -5177,6 +5249,17 @@ type UserWithRolesV2 struct {
 
 // UserWithRolesV2Role DEPRECATED: Role of the user as of March 9th 2023, this value is no longer updated.
 type UserWithRolesV2Role string
+
+// UsersListResultV2 defines model for UsersListResultV2.
+type UsersListResultV2 struct {
+	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
+	Users          []UserWithRolesV2      `json:"users"`
+}
+
+// UsersShowResultV2 defines model for UsersShowResultV2.
+type UsersShowResultV2 struct {
+	User UserWithRolesV2 `json:"user"`
+}
 
 // UtilitiesIdentityResultV1 defines model for UtilitiesIdentityResultV1.
 type UtilitiesIdentityResultV1 struct {
@@ -5519,46 +5602,46 @@ type UsersV2ListParams struct {
 }
 
 // CustomFieldOptionsV1CreateJSONRequestBody defines body for CustomFieldOptionsV1Create for application/json ContentType.
-type CustomFieldOptionsV1CreateJSONRequestBody = CreateRequestBody
+type CustomFieldOptionsV1CreateJSONRequestBody = CustomFieldOptionsCreatePayloadV1
 
 // CustomFieldOptionsV1UpdateJSONRequestBody defines body for CustomFieldOptionsV1Update for application/json ContentType.
-type CustomFieldOptionsV1UpdateJSONRequestBody = UpdateRequestBody2
+type CustomFieldOptionsV1UpdateJSONRequestBody = CustomFieldOptionsUpdatePayloadV1
 
 // CustomFieldsV1CreateJSONRequestBody defines body for CustomFieldsV1Create for application/json ContentType.
-type CustomFieldsV1CreateJSONRequestBody = CreateRequestBody2
+type CustomFieldsV1CreateJSONRequestBody = CustomFieldsCreatePayloadV1
 
 // CustomFieldsV1UpdateJSONRequestBody defines body for CustomFieldsV1Update for application/json ContentType.
-type CustomFieldsV1UpdateJSONRequestBody = UpdateRequestBody3
+type CustomFieldsV1UpdateJSONRequestBody = CustomFieldsUpdatePayloadV1
 
 // IncidentAttachmentsV1CreateJSONRequestBody defines body for IncidentAttachmentsV1Create for application/json ContentType.
-type IncidentAttachmentsV1CreateJSONRequestBody = CreateRequestBody4
+type IncidentAttachmentsV1CreateJSONRequestBody = CreateRequestBody
 
 // IncidentMembershipsV1CreateJSONRequestBody defines body for IncidentMembershipsV1Create for application/json ContentType.
-type IncidentMembershipsV1CreateJSONRequestBody = CreateRequestBody5
+type IncidentMembershipsV1CreateJSONRequestBody = CreateRequestBody2
 
 // IncidentMembershipsV1RevokeJSONRequestBody defines body for IncidentMembershipsV1Revoke for application/json ContentType.
-type IncidentMembershipsV1RevokeJSONRequestBody = CreateRequestBody5
+type IncidentMembershipsV1RevokeJSONRequestBody = CreateRequestBody2
 
 // IncidentRolesV1CreateJSONRequestBody defines body for IncidentRolesV1Create for application/json ContentType.
-type IncidentRolesV1CreateJSONRequestBody = CreateRequestBody6
+type IncidentRolesV1CreateJSONRequestBody = CreateRequestBody3
 
 // IncidentRolesV1UpdateJSONRequestBody defines body for IncidentRolesV1Update for application/json ContentType.
-type IncidentRolesV1UpdateJSONRequestBody = UpdateRequestBody5
+type IncidentRolesV1UpdateJSONRequestBody = UpdateRequestBody2
 
 // IncidentStatusesV1CreateJSONRequestBody defines body for IncidentStatusesV1Create for application/json ContentType.
-type IncidentStatusesV1CreateJSONRequestBody = CreateRequestBody8
+type IncidentStatusesV1CreateJSONRequestBody = CreateRequestBody5
 
 // IncidentStatusesV1UpdateJSONRequestBody defines body for IncidentStatusesV1Update for application/json ContentType.
-type IncidentStatusesV1UpdateJSONRequestBody = UpdateRequestBody7
+type IncidentStatusesV1UpdateJSONRequestBody = UpdateRequestBody4
 
 // IncidentsV1CreateJSONRequestBody defines body for IncidentsV1Create for application/json ContentType.
 type IncidentsV1CreateJSONRequestBody = IncidentCreatePayloadV1
 
 // SeveritiesV1CreateJSONRequestBody defines body for SeveritiesV1Create for application/json ContentType.
-type SeveritiesV1CreateJSONRequestBody = CreateRequestBody9
+type SeveritiesV1CreateJSONRequestBody = CreateRequestBody6
 
 // SeveritiesV1UpdateJSONRequestBody defines body for SeveritiesV1Update for application/json ContentType.
-type SeveritiesV1UpdateJSONRequestBody = CreateRequestBody9
+type SeveritiesV1UpdateJSONRequestBody = CreateRequestBody6
 
 // AlertAttributesV2CreateJSONRequestBody defines body for AlertAttributesV2Create for application/json ContentType.
 type AlertAttributesV2CreateJSONRequestBody = AlertAttributesCreatePayloadV2
@@ -5597,10 +5680,10 @@ type CatalogV2UpdateTypeJSONRequestBody = UpdateTypeRequestBody
 type CatalogV2UpdateTypeSchemaJSONRequestBody = UpdateTypeSchemaRequestBody
 
 // CustomFieldsV2CreateJSONRequestBody defines body for CustomFieldsV2Create for application/json ContentType.
-type CustomFieldsV2CreateJSONRequestBody = CreateRequestBody3
+type CustomFieldsV2CreateJSONRequestBody = CustomFieldsCreatePayloadV2
 
 // CustomFieldsV2UpdateJSONRequestBody defines body for CustomFieldsV2Update for application/json ContentType.
-type CustomFieldsV2UpdateJSONRequestBody = UpdateRequestBody4
+type CustomFieldsV2UpdateJSONRequestBody = CustomFieldsUpdatePayloadV2
 
 // EscalationsV2CreatePathJSONRequestBody defines body for EscalationsV2CreatePath for application/json ContentType.
 type EscalationsV2CreatePathJSONRequestBody = EscalationPathPayloadV2
@@ -5609,10 +5692,10 @@ type EscalationsV2CreatePathJSONRequestBody = EscalationPathPayloadV2
 type EscalationsV2UpdatePathJSONRequestBody = EscalationPathPayloadV2
 
 // IncidentRolesV2CreateJSONRequestBody defines body for IncidentRolesV2Create for application/json ContentType.
-type IncidentRolesV2CreateJSONRequestBody = CreateRequestBody7
+type IncidentRolesV2CreateJSONRequestBody = CreateRequestBody4
 
 // IncidentRolesV2UpdateJSONRequestBody defines body for IncidentRolesV2Update for application/json ContentType.
-type IncidentRolesV2UpdateJSONRequestBody = UpdateRequestBody6
+type IncidentRolesV2UpdateJSONRequestBody = UpdateRequestBody3
 
 // IncidentsV2CreateJSONRequestBody defines body for IncidentsV2Create for application/json ContentType.
 type IncidentsV2CreateJSONRequestBody = IncidentCreatePayloadV2
@@ -12931,7 +13014,7 @@ func (r ActionsV1ShowResponse) StatusCode() int {
 type CustomFieldOptionsV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody
+	JSON200      *CustomFieldOptionsListResultV1
 }
 
 // Status returns HTTPResponse.Status
@@ -12953,7 +13036,7 @@ func (r CustomFieldOptionsV1ListResponse) StatusCode() int {
 type CustomFieldOptionsV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *ShowResponseBody
+	JSON201      *CustomFieldOptionsCreateResultV1
 }
 
 // Status returns HTTPResponse.Status
@@ -12996,7 +13079,7 @@ func (r CustomFieldOptionsV1DeleteResponse) StatusCode() int {
 type CustomFieldOptionsV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody
+	JSON200      *CustomFieldOptionsShowResultV1
 }
 
 // Status returns HTTPResponse.Status
@@ -13018,7 +13101,7 @@ func (r CustomFieldOptionsV1ShowResponse) StatusCode() int {
 type CustomFieldOptionsV1UpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody
+	JSON200      *CustomFieldOptionsUpdateResultV1
 }
 
 // Status returns HTTPResponse.Status
@@ -13040,7 +13123,7 @@ func (r CustomFieldOptionsV1UpdateResponse) StatusCode() int {
 type CustomFieldsV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody2
+	JSON200      *CustomFieldsListResultV1
 }
 
 // Status returns HTTPResponse.Status
@@ -13062,7 +13145,7 @@ func (r CustomFieldsV1ListResponse) StatusCode() int {
 type CustomFieldsV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *ShowResponseBody2
+	JSON201      *CustomFieldsCreateResultV1
 }
 
 // Status returns HTTPResponse.Status
@@ -13105,7 +13188,7 @@ func (r CustomFieldsV1DeleteResponse) StatusCode() int {
 type CustomFieldsV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody2
+	JSON200      *CustomFieldsShowResultV1
 }
 
 // Status returns HTTPResponse.Status
@@ -13127,7 +13210,7 @@ func (r CustomFieldsV1ShowResponse) StatusCode() int {
 type CustomFieldsV1UpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody2
+	JSON200      *CustomFieldsUpdateResultV1
 }
 
 // Status returns HTTPResponse.Status
@@ -13171,7 +13254,7 @@ func (r UtilitiesV1IdentityResponse) StatusCode() int {
 type IncidentAttachmentsV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody4
+	JSON200      *ListResponseBody
 }
 
 // Status returns HTTPResponse.Status
@@ -13279,7 +13362,7 @@ func (r IncidentMembershipsV1RevokeResponse) StatusCode() int {
 type IncidentRolesV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody5
+	JSON200      *ListResponseBody2
 }
 
 // Status returns HTTPResponse.Status
@@ -13301,7 +13384,7 @@ func (r IncidentRolesV1ListResponse) StatusCode() int {
 type IncidentRolesV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *ShowResponseBody4
+	JSON201      *ShowResponseBody
 }
 
 // Status returns HTTPResponse.Status
@@ -13344,7 +13427,7 @@ func (r IncidentRolesV1DeleteResponse) StatusCode() int {
 type IncidentRolesV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody4
+	JSON200      *ShowResponseBody
 }
 
 // Status returns HTTPResponse.Status
@@ -13366,7 +13449,7 @@ func (r IncidentRolesV1ShowResponse) StatusCode() int {
 type IncidentRolesV1UpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody4
+	JSON200      *ShowResponseBody
 }
 
 // Status returns HTTPResponse.Status
@@ -13388,7 +13471,7 @@ func (r IncidentRolesV1UpdateResponse) StatusCode() int {
 type IncidentStatusesV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody7
+	JSON200      *ListResponseBody4
 }
 
 // Status returns HTTPResponse.Status
@@ -13410,7 +13493,7 @@ func (r IncidentStatusesV1ListResponse) StatusCode() int {
 type IncidentStatusesV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *ShowResponseBody6
+	JSON201      *ShowResponseBody3
 }
 
 // Status returns HTTPResponse.Status
@@ -13453,7 +13536,7 @@ func (r IncidentStatusesV1DeleteResponse) StatusCode() int {
 type IncidentStatusesV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody6
+	JSON200      *ShowResponseBody3
 }
 
 // Status returns HTTPResponse.Status
@@ -13475,7 +13558,7 @@ func (r IncidentStatusesV1ShowResponse) StatusCode() int {
 type IncidentStatusesV1UpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody6
+	JSON200      *ShowResponseBody3
 }
 
 // Status returns HTTPResponse.Status
@@ -13497,7 +13580,7 @@ func (r IncidentStatusesV1UpdateResponse) StatusCode() int {
 type IncidentTypesV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody9
+	JSON200      *ListResponseBody6
 }
 
 // Status returns HTTPResponse.Status
@@ -13519,7 +13602,7 @@ func (r IncidentTypesV1ListResponse) StatusCode() int {
 type IncidentTypesV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody8
+	JSON200      *ShowResponseBody5
 }
 
 // Status returns HTTPResponse.Status
@@ -13541,7 +13624,7 @@ func (r IncidentTypesV1ShowResponse) StatusCode() int {
 type IncidentsV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody11
+	JSON200      *ListResponseBody8
 }
 
 // Status returns HTTPResponse.Status
@@ -13563,7 +13646,7 @@ func (r IncidentsV1ListResponse) StatusCode() int {
 type IncidentsV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody9
+	JSON200      *ShowResponseBody6
 }
 
 // Status returns HTTPResponse.Status
@@ -13585,7 +13668,7 @@ func (r IncidentsV1CreateResponse) StatusCode() int {
 type IncidentsV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody9
+	JSON200      *ShowResponseBody6
 }
 
 // Status returns HTTPResponse.Status
@@ -13651,7 +13734,7 @@ func (r UtilitiesV1OpenAPIV3Response) StatusCode() int {
 type SeveritiesV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody13
+	JSON200      *ListResponseBody10
 }
 
 // Status returns HTTPResponse.Status
@@ -13673,7 +13756,7 @@ func (r SeveritiesV1ListResponse) StatusCode() int {
 type SeveritiesV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *ShowResponseBody11
+	JSON201      *ShowResponseBody8
 }
 
 // Status returns HTTPResponse.Status
@@ -13716,7 +13799,7 @@ func (r SeveritiesV1DeleteResponse) StatusCode() int {
 type SeveritiesV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody11
+	JSON200      *ShowResponseBody8
 }
 
 // Status returns HTTPResponse.Status
@@ -13738,7 +13821,7 @@ func (r SeveritiesV1ShowResponse) StatusCode() int {
 type SeveritiesV1UpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody11
+	JSON200      *ShowResponseBody8
 }
 
 // Status returns HTTPResponse.Status
@@ -14393,7 +14476,7 @@ func (r CatalogV2UpdateTypeSchemaResponse) StatusCode() int {
 type CustomFieldsV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody3
+	JSON200      *CustomFieldsListResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -14415,7 +14498,7 @@ func (r CustomFieldsV2ListResponse) StatusCode() int {
 type CustomFieldsV2CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *ShowResponseBody3
+	JSON201      *CustomFieldsCreateResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -14458,7 +14541,7 @@ func (r CustomFieldsV2DeleteResponse) StatusCode() int {
 type CustomFieldsV2ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody3
+	JSON200      *CustomFieldsShowResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -14480,7 +14563,7 @@ func (r CustomFieldsV2ShowResponse) StatusCode() int {
 type CustomFieldsV2UpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody3
+	JSON200      *CustomFieldsUpdateResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -14633,7 +14716,7 @@ func (r FollowUpsV2ShowResponse) StatusCode() int {
 type IncidentRolesV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody6
+	JSON200      *ListResponseBody3
 }
 
 // Status returns HTTPResponse.Status
@@ -14655,7 +14738,7 @@ func (r IncidentRolesV2ListResponse) StatusCode() int {
 type IncidentRolesV2CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *ShowResponseBody5
+	JSON201      *ShowResponseBody2
 }
 
 // Status returns HTTPResponse.Status
@@ -14698,7 +14781,7 @@ func (r IncidentRolesV2DeleteResponse) StatusCode() int {
 type IncidentRolesV2ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody5
+	JSON200      *ShowResponseBody2
 }
 
 // Status returns HTTPResponse.Status
@@ -14720,7 +14803,7 @@ func (r IncidentRolesV2ShowResponse) StatusCode() int {
 type IncidentRolesV2UpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody5
+	JSON200      *ShowResponseBody2
 }
 
 // Status returns HTTPResponse.Status
@@ -14742,7 +14825,7 @@ func (r IncidentRolesV2UpdateResponse) StatusCode() int {
 type IncidentTimestampsV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody8
+	JSON200      *ListResponseBody5
 }
 
 // Status returns HTTPResponse.Status
@@ -14764,7 +14847,7 @@ func (r IncidentTimestampsV2ListResponse) StatusCode() int {
 type IncidentTimestampsV2ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody7
+	JSON200      *ShowResponseBody4
 }
 
 // Status returns HTTPResponse.Status
@@ -14786,7 +14869,7 @@ func (r IncidentTimestampsV2ShowResponse) StatusCode() int {
 type IncidentUpdatesV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody10
+	JSON200      *ListResponseBody7
 }
 
 // Status returns HTTPResponse.Status
@@ -14808,7 +14891,7 @@ func (r IncidentUpdatesV2ListResponse) StatusCode() int {
 type IncidentsV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody12
+	JSON200      *ListResponseBody9
 }
 
 // Status returns HTTPResponse.Status
@@ -14830,7 +14913,7 @@ func (r IncidentsV2ListResponse) StatusCode() int {
 type IncidentsV2CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody10
+	JSON200      *ShowResponseBody7
 }
 
 // Status returns HTTPResponse.Status
@@ -14852,7 +14935,7 @@ func (r IncidentsV2CreateResponse) StatusCode() int {
 type IncidentsV2ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody10
+	JSON200      *ShowResponseBody7
 }
 
 // Status returns HTTPResponse.Status
@@ -14874,7 +14957,7 @@ func (r IncidentsV2ShowResponse) StatusCode() int {
 type IncidentsV2EditResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody10
+	JSON200      *ShowResponseBody7
 }
 
 // Status returns HTTPResponse.Status
@@ -15071,7 +15154,7 @@ func (r SchedulesV2UpdateResponse) StatusCode() int {
 type UsersV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListResponseBody14
+	JSON200      *UsersListResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -15093,7 +15176,7 @@ func (r UsersV2ListResponse) StatusCode() int {
 type UsersV2ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ShowResponseBody12
+	JSON200      *UsersShowResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -16571,7 +16654,7 @@ func ParseCustomFieldOptionsV1ListResponse(rsp *http.Response) (*CustomFieldOpti
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody
+		var dest CustomFieldOptionsListResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -16597,7 +16680,7 @@ func ParseCustomFieldOptionsV1CreateResponse(rsp *http.Response) (*CustomFieldOp
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest ShowResponseBody
+		var dest CustomFieldOptionsCreateResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -16639,7 +16722,7 @@ func ParseCustomFieldOptionsV1ShowResponse(rsp *http.Response) (*CustomFieldOpti
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody
+		var dest CustomFieldOptionsShowResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -16665,7 +16748,7 @@ func ParseCustomFieldOptionsV1UpdateResponse(rsp *http.Response) (*CustomFieldOp
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody
+		var dest CustomFieldOptionsUpdateResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -16691,7 +16774,7 @@ func ParseCustomFieldsV1ListResponse(rsp *http.Response) (*CustomFieldsV1ListRes
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody2
+		var dest CustomFieldsListResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -16717,7 +16800,7 @@ func ParseCustomFieldsV1CreateResponse(rsp *http.Response) (*CustomFieldsV1Creat
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest ShowResponseBody2
+		var dest CustomFieldsCreateResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -16759,7 +16842,7 @@ func ParseCustomFieldsV1ShowResponse(rsp *http.Response) (*CustomFieldsV1ShowRes
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody2
+		var dest CustomFieldsShowResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -16785,7 +16868,7 @@ func ParseCustomFieldsV1UpdateResponse(rsp *http.Response) (*CustomFieldsV1Updat
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody2
+		var dest CustomFieldsUpdateResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -16837,7 +16920,7 @@ func ParseIncidentAttachmentsV1ListResponse(rsp *http.Response) (*IncidentAttach
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody4
+		var dest ListResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -16947,7 +17030,7 @@ func ParseIncidentRolesV1ListResponse(rsp *http.Response) (*IncidentRolesV1ListR
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody5
+		var dest ListResponseBody2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -16973,7 +17056,7 @@ func ParseIncidentRolesV1CreateResponse(rsp *http.Response) (*IncidentRolesV1Cre
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest ShowResponseBody4
+		var dest ShowResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17015,7 +17098,7 @@ func ParseIncidentRolesV1ShowResponse(rsp *http.Response) (*IncidentRolesV1ShowR
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody4
+		var dest ShowResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17041,7 +17124,7 @@ func ParseIncidentRolesV1UpdateResponse(rsp *http.Response) (*IncidentRolesV1Upd
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody4
+		var dest ShowResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17067,7 +17150,7 @@ func ParseIncidentStatusesV1ListResponse(rsp *http.Response) (*IncidentStatusesV
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody7
+		var dest ListResponseBody4
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17093,7 +17176,7 @@ func ParseIncidentStatusesV1CreateResponse(rsp *http.Response) (*IncidentStatuse
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest ShowResponseBody6
+		var dest ShowResponseBody3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17135,7 +17218,7 @@ func ParseIncidentStatusesV1ShowResponse(rsp *http.Response) (*IncidentStatusesV
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody6
+		var dest ShowResponseBody3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17161,7 +17244,7 @@ func ParseIncidentStatusesV1UpdateResponse(rsp *http.Response) (*IncidentStatuse
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody6
+		var dest ShowResponseBody3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17187,7 +17270,7 @@ func ParseIncidentTypesV1ListResponse(rsp *http.Response) (*IncidentTypesV1ListR
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody9
+		var dest ListResponseBody6
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17213,7 +17296,7 @@ func ParseIncidentTypesV1ShowResponse(rsp *http.Response) (*IncidentTypesV1ShowR
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody8
+		var dest ShowResponseBody5
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17239,7 +17322,7 @@ func ParseIncidentsV1ListResponse(rsp *http.Response) (*IncidentsV1ListResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody11
+		var dest ListResponseBody8
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17265,7 +17348,7 @@ func ParseIncidentsV1CreateResponse(rsp *http.Response) (*IncidentsV1CreateRespo
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody9
+		var dest ShowResponseBody6
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17291,7 +17374,7 @@ func ParseIncidentsV1ShowResponse(rsp *http.Response) (*IncidentsV1ShowResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody9
+		var dest ShowResponseBody6
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17369,7 +17452,7 @@ func ParseSeveritiesV1ListResponse(rsp *http.Response) (*SeveritiesV1ListRespons
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody13
+		var dest ListResponseBody10
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17395,7 +17478,7 @@ func ParseSeveritiesV1CreateResponse(rsp *http.Response) (*SeveritiesV1CreateRes
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest ShowResponseBody11
+		var dest ShowResponseBody8
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17437,7 +17520,7 @@ func ParseSeveritiesV1ShowResponse(rsp *http.Response) (*SeveritiesV1ShowRespons
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody11
+		var dest ShowResponseBody8
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17463,7 +17546,7 @@ func ParseSeveritiesV1UpdateResponse(rsp *http.Response) (*SeveritiesV1UpdateRes
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody11
+		var dest ShowResponseBody8
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18193,7 +18276,7 @@ func ParseCustomFieldsV2ListResponse(rsp *http.Response) (*CustomFieldsV2ListRes
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody3
+		var dest CustomFieldsListResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18219,7 +18302,7 @@ func ParseCustomFieldsV2CreateResponse(rsp *http.Response) (*CustomFieldsV2Creat
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest ShowResponseBody3
+		var dest CustomFieldsCreateResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18261,7 +18344,7 @@ func ParseCustomFieldsV2ShowResponse(rsp *http.Response) (*CustomFieldsV2ShowRes
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody3
+		var dest CustomFieldsShowResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18287,7 +18370,7 @@ func ParseCustomFieldsV2UpdateResponse(rsp *http.Response) (*CustomFieldsV2Updat
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody3
+		var dest CustomFieldsUpdateResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18459,7 +18542,7 @@ func ParseIncidentRolesV2ListResponse(rsp *http.Response) (*IncidentRolesV2ListR
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody6
+		var dest ListResponseBody3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18485,7 +18568,7 @@ func ParseIncidentRolesV2CreateResponse(rsp *http.Response) (*IncidentRolesV2Cre
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest ShowResponseBody5
+		var dest ShowResponseBody2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18527,7 +18610,7 @@ func ParseIncidentRolesV2ShowResponse(rsp *http.Response) (*IncidentRolesV2ShowR
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody5
+		var dest ShowResponseBody2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18553,7 +18636,7 @@ func ParseIncidentRolesV2UpdateResponse(rsp *http.Response) (*IncidentRolesV2Upd
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody5
+		var dest ShowResponseBody2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18579,7 +18662,7 @@ func ParseIncidentTimestampsV2ListResponse(rsp *http.Response) (*IncidentTimesta
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody8
+		var dest ListResponseBody5
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18605,7 +18688,7 @@ func ParseIncidentTimestampsV2ShowResponse(rsp *http.Response) (*IncidentTimesta
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody7
+		var dest ShowResponseBody4
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18631,7 +18714,7 @@ func ParseIncidentUpdatesV2ListResponse(rsp *http.Response) (*IncidentUpdatesV2L
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody10
+		var dest ListResponseBody7
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18657,7 +18740,7 @@ func ParseIncidentsV2ListResponse(rsp *http.Response) (*IncidentsV2ListResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody12
+		var dest ListResponseBody9
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18683,7 +18766,7 @@ func ParseIncidentsV2CreateResponse(rsp *http.Response) (*IncidentsV2CreateRespo
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody10
+		var dest ShowResponseBody7
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18709,7 +18792,7 @@ func ParseIncidentsV2ShowResponse(rsp *http.Response) (*IncidentsV2ShowResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody10
+		var dest ShowResponseBody7
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18735,7 +18818,7 @@ func ParseIncidentsV2EditResponse(rsp *http.Response) (*IncidentsV2EditResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody10
+		var dest ShowResponseBody7
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18959,7 +19042,7 @@ func ParseUsersV2ListResponse(rsp *http.Response) (*UsersV2ListResponse, error) 
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListResponseBody14
+		var dest UsersListResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18985,7 +19068,7 @@ func ParseUsersV2ShowResponse(rsp *http.Response) (*UsersV2ShowResponse, error) 
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ShowResponseBody12
+		var dest UsersShowResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

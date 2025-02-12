@@ -26,10 +26,19 @@ type IncidentCustomFieldResource struct {
 }
 
 type IncidentCustomFieldResourceModel struct {
-	ID          types.String `tfsdk:"id"`
-	Name        types.String `tfsdk:"name"`
-	Description types.String `tfsdk:"description"`
-	FieldType   types.String `tfsdk:"field_type"`
+	ID                         types.String                             `tfsdk:"id"`
+	Name                       types.String                             `tfsdk:"name"`
+	Description                types.String                             `tfsdk:"description"`
+	FieldType                  types.String                             `tfsdk:"field_type"`
+	CatalogTypeID              types.String                             `tfsdk:"catalog_type_id"`
+	FilterBy                   *IncidentCustomFieldFilterByOptionsModel `tfsdk:"filter_by"`
+	GroupByCatalogAttributeID  types.String                             `tfsdk:"group_by_catalog_attribute_id"`
+	HelptextCatalogAttributeID types.String                             `tfsdk:"helptext_catalog_attribute_id"`
+}
+
+type IncidentCustomFieldFilterByOptionsModel struct {
+	CustomFieldID      types.String `tfsdk:"custom_field_id"`
+	CatalogAttributeID types.String `tfsdk:"catalog_attribute_id"`
 }
 
 func NewIncidentCustomFieldResource() resource.Resource {
@@ -66,6 +75,35 @@ func (r *IncidentCustomFieldResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"catalog_type_id": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "catalog_type_id"),
+				Optional:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
+			},
+			"filter_by": schema.SingleNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "filter_by"),
+				Attributes: map[string]schema.Attribute{
+					"custom_field_id": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring("CustomFieldFilterByOptionsV2", "custom_field_id"),
+						Required:            true,
+					},
+					"catalog_attribute_id": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring("CustomFieldFilterByOptionsV2", "catalog_attribute_id"),
+						Required:            true,
+					},
+				},
+			},
+			"group_by_catalog_attribute_id": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "group_by_catalog_attribute_id"),
+				Optional:            true,
+			},
+			"helptext_catalog_attribute_id": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("CustomFieldV2", "helptext_catalog_attribute_id"),
+				Optional:            true,
+			},
 		},
 	}
 }
@@ -95,11 +133,23 @@ func (r *IncidentCustomFieldResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	result, err := r.client.CustomFieldsV2CreateWithResponse(ctx, client.CustomFieldsV2CreateJSONRequestBody{
-		Name:        data.Name.ValueString(),
-		Description: data.Description.ValueString(),
-		FieldType:   client.CreateRequestBody3FieldType(data.FieldType.ValueString()),
-	})
+	payload := client.CustomFieldsV2CreateJSONRequestBody{
+		Name:                       data.Name.ValueString(),
+		Description:                data.Description.ValueString(),
+		FieldType:                  client.CustomFieldsCreatePayloadV2FieldType(data.FieldType.ValueString()),
+		CatalogTypeId:              data.CatalogTypeID.ValueStringPointer(),
+		GroupByCatalogAttributeId:  data.GroupByCatalogAttributeID.ValueStringPointer(),
+		HelptextCatalogAttributeId: data.HelptextCatalogAttributeID.ValueStringPointer(),
+	}
+
+	if data.FilterBy != nil {
+		payload.FilterBy = &client.CustomFieldFilterByOptionsV2{
+			CatalogAttributeId: data.FilterBy.CatalogAttributeID.ValueString(),
+			CustomFieldId:      data.FilterBy.CustomFieldID.ValueString(),
+		}
+	}
+
+	result, err := r.client.CustomFieldsV2CreateWithResponse(ctx, payload)
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
@@ -148,10 +198,20 @@ func (r *IncidentCustomFieldResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	result, err := r.client.CustomFieldsV2UpdateWithResponse(ctx, data.ID.ValueString(), client.CustomFieldsV2UpdateJSONRequestBody{
-		Name:        data.Name.ValueString(),
-		Description: data.Description.ValueString(),
-	})
+	payload := client.CustomFieldsV2UpdateJSONRequestBody{
+		Name:                       data.Name.ValueString(),
+		Description:                data.Description.ValueString(),
+		GroupByCatalogAttributeId:  data.GroupByCatalogAttributeID.ValueStringPointer(),
+		HelptextCatalogAttributeId: data.HelptextCatalogAttributeID.ValueStringPointer(),
+	}
+	if data.FilterBy != nil {
+		payload.FilterBy = &client.CustomFieldFilterByOptionsV2{
+			CatalogAttributeId: data.FilterBy.CatalogAttributeID.ValueString(),
+			CustomFieldId:      data.FilterBy.CustomFieldID.ValueString(),
+		}
+	}
+
+	result, err := r.client.CustomFieldsV2UpdateWithResponse(ctx, data.ID.ValueString(), payload)
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
@@ -183,10 +243,22 @@ func (r *IncidentCustomFieldResource) ImportState(ctx context.Context, req resou
 }
 
 func (r *IncidentCustomFieldResource) buildModel(cf client.CustomFieldV2) *IncidentCustomFieldResourceModel {
-	return &IncidentCustomFieldResourceModel{
-		ID:          types.StringValue(cf.Id),
-		Name:        types.StringValue(cf.Name),
-		Description: types.StringValue(cf.Description),
-		FieldType:   types.StringValue(string(cf.FieldType)),
+	res := &IncidentCustomFieldResourceModel{
+		ID:                         types.StringValue(cf.Id),
+		Name:                       types.StringValue(cf.Name),
+		Description:                types.StringValue(cf.Description),
+		FieldType:                  types.StringValue(string(cf.FieldType)),
+		CatalogTypeID:              types.StringPointerValue(cf.CatalogTypeId),
+		GroupByCatalogAttributeID:  types.StringPointerValue(cf.GroupByCatalogAttributeId),
+		HelptextCatalogAttributeID: types.StringPointerValue(cf.HelptextCatalogAttributeId),
 	}
+
+	if cf.FilterBy != nil {
+		res.FilterBy = &IncidentCustomFieldFilterByOptionsModel{
+			CustomFieldID:      types.StringValue(cf.FilterBy.CustomFieldId),
+			CatalogAttributeID: types.StringValue(cf.FilterBy.CatalogAttributeId),
+		}
+	}
+
+	return res
 }
