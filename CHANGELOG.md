@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v4.3.1
+
 - Mark the 'email_address' and 'secret_token' fields on incident_alert_source as
   remaining the same for the lifetime of an alert source, to avoid misleading
   plans.
