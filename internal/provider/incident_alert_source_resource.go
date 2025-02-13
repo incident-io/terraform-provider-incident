@@ -93,6 +93,10 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 				// which makes setting up new alert sources more difficult than
 				// necessary.
 				MarkdownDescription: apischema.Docstring("AlertSourceV2", "secret_token"),
+				PlanModifiers: []planmodifier.String{
+					// This does not change after creation
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"template": schema.SingleNestedAttribute{
 				Required:            true,
@@ -143,6 +147,10 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 				Computed:            true,
 				Optional:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsV2", "email_address"),
+				PlanModifiers: []planmodifier.String{
+					// This does not change after creation
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 		},
 	}
