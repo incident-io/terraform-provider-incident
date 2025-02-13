@@ -1,5 +1,9 @@
 ## Unreleased
 
+- Mark the 'email_address' and 'secret_token' fields on incident_alert_source as
+  remaining the same for the lifetime of an alert source, to avoid misleading
+  plans.
+
 ## v4.3.0
 
 - `incident_custom_field` resource now supports catalog-powered custom fields,
