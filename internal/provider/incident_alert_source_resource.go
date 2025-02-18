@@ -113,7 +113,7 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 						Attributes:          models.ParamBindingValueAttributes(),
 						MarkdownDescription: apischema.Docstring("AlertTemplatePayloadV2", "description"),
 					},
-					"attributes": schema.ListNestedAttribute{
+					"attributes": schema.SetNestedAttribute{
 						Required:            true,
 						MarkdownDescription: apischema.Docstring("AlertTemplatePayloadV2", "attributes"),
 						NestedObject: schema.NestedAttributeObject{

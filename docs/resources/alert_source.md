@@ -39,7 +39,7 @@ Alert sources are the systems that send alerts to incident.io, which can then be
 
 Required:
 
-- `attributes` (Attributes List) Attributes to set on alerts coming from this source, with a binding describing how to set them. (see [below for nested schema](#nestedatt--template--attributes))
+- `attributes` (Attributes Set) Attributes to set on alerts coming from this source, with a binding describing how to set them. (see [below for nested schema](#nestedatt--template--attributes))
 - `description` (Attributes) (see [below for nested schema](#nestedatt--template--description))
 - `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--template--expressions))
 - `title` (Attributes) (see [below for nested schema](#nestedatt--template--title))
