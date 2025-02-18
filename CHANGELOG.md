@@ -1,5 +1,8 @@
 ## Unreleased
 
+- The order of attributes set within an alert source's `template` block is now
+  ignored when planning and applying changes.
+
 ## v4.3.1
 
 - Mark the 'email_address' and 'secret_token' fields on incident_alert_source as
