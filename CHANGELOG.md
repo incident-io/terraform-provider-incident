@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v4.3.2
+
 - The order of attributes set within an alert source's `template` block is now
   ignored when planning and applying changes.
 
