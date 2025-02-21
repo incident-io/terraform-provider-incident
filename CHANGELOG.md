@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v4.3.3
+
 - Fixed a panic when using an `incident_escalation_path` with a `notify_channel`
   node that has a `time_to_ack_interval_condition` set.
 
