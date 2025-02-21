@@ -462,11 +462,16 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 			elem.Level = &IncidentEscalationPathNodeLevel{
 				Targets: lo.Map(node.Level.Targets,
 					func(target client.EscalationPathTargetV2, _ int) IncidentEscalationPathTarget {
+						scheduleMode := types.StringNull()
+						if target.ScheduleMode != nil {
+							scheduleMode = types.StringValue(string(*target.ScheduleMode))
+						}
+
 						return IncidentEscalationPathTarget{
 							ID:           types.StringValue(target.Id),
 							Type:         types.StringValue(string(target.Type)),
 							Urgency:      types.StringValue(string(target.Urgency)),
-							ScheduleMode: types.StringValue(string(*target.ScheduleMode)),
+							ScheduleMode: scheduleMode,
 						}
 					}),
 			}
@@ -484,8 +489,7 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 				elem.Level.TimeToAckSeconds = types.Int64Value(*value)
 			}
 			if value := node.Level.TimeToAckIntervalCondition; value != nil {
-				elem.Level.TimeToAckIntervalCondition = types.StringValue(
-					string(*node.Level.TimeToAckIntervalCondition))
+				elem.Level.TimeToAckIntervalCondition = types.StringValue(string(*value))
 			}
 			if value := node.Level.TimeToAckWeekdayIntervalConfigId; value != nil && *value != "" {
 				elem.Level.TimeToAckWeekdayIntervalConfigID = types.StringValue(*value)
@@ -495,11 +499,16 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 			elem.NotifyChannel = &IncidentEscalationPathNodeNotifyChannel{
 				Targets: lo.Map(node.NotifyChannel.Targets,
 					func(target client.EscalationPathTargetV2, _ int) IncidentEscalationPathTarget {
+						scheduleMode := types.StringNull()
+						if target.ScheduleMode != nil {
+							scheduleMode = types.StringValue(string(*target.ScheduleMode))
+						}
+
 						return IncidentEscalationPathTarget{
 							ID:           types.StringValue(target.Id),
 							Type:         types.StringValue(string(target.Type)),
 							Urgency:      types.StringValue(string(target.Urgency)),
-							ScheduleMode: types.StringValue(string(*target.ScheduleMode)),
+							ScheduleMode: scheduleMode,
 						}
 					}),
 			}
@@ -507,8 +516,7 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 				elem.NotifyChannel.TimeToAckSeconds = types.Int64Value(*value)
 			}
 			if value := node.NotifyChannel.TimeToAckIntervalCondition; value != nil {
-				elem.NotifyChannel.TimeToAckIntervalCondition = types.StringValue(
-					string(*node.Level.TimeToAckIntervalCondition))
+				elem.NotifyChannel.TimeToAckIntervalCondition = types.StringValue(string(*value))
 			}
 			if value := node.NotifyChannel.TimeToAckWeekdayIntervalConfigId; value != nil && *value != "" {
 				elem.NotifyChannel.TimeToAckWeekdayIntervalConfigID = types.StringValue(*value)

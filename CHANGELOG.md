@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Fixed a panic when using an `incident_escalation_path` with a `notify_channel`
+  node that has a `time_to_ack_interval_condition` set.
+
 ## v4.3.2
 
 - The order of attributes set within an alert source's `template` block is now
