@@ -73,6 +73,8 @@ var catalogEntriesTemplate = template.Must(template.New("incident_catalog_entrie
 resource "incident_catalog_type" "example" {
   name        = "Catalog Entry Acceptance Test ({{ .ID }})"
   description = "Used in terraform acceptance tests for incident_catalog_entry"
+
+  source_repo_url = "https://github.com/incident-io/terraform-demo"
 }
 
 resource "incident_catalog_type_attribute" "example_description" {

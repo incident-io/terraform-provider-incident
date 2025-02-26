@@ -42,6 +42,8 @@ resource "incident_catalog_type" "example" {
   name        = {{ quote .ResourceName }}
   type_name    = {{ quote .ResourceTypeName }}
   description = {{ quote .ResourceDescription }}
+
+  source_repo_url = "https://github.com/incident-io/terraform-demo"
 }
 data "incident_catalog_type" "by_name" {
   name = incident_catalog_type.example.name

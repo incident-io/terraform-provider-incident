@@ -94,6 +94,8 @@ var customFieldTemplate = template.Must(template.New("incident_custom_field").Fu
 resource "incident_catalog_type" "example" {
   name = "My type"
   description = "My type description"
+
+  source_repo_url = "https://github.com/incident-io/terraform-demo"
 }
 
 resource "incident_catalog_type_attribute" "example_string_attr" {
@@ -105,6 +107,8 @@ resource "incident_catalog_type_attribute" "example_string_attr" {
 resource "incident_catalog_type" "other" {
   name = "My other type"
   description = "My other type description"
+
+  source_repo_url = "https://github.com/incident-io/terraform-demo"
 }
 
 resource "incident_catalog_type_attribute" "example_catalog_attr" {

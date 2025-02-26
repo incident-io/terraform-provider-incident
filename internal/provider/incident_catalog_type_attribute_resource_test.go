@@ -55,6 +55,8 @@ var catalogTypeAttributeTemplate = template.Must(template.New("incident_catalog_
 resource "incident_catalog_type" "example" {
   name        = "Example ({{ .ID }})"
   description = "Used in terraform acceptance tests"
+
+  source_repo_url = "https://github.com/incident-io/terraform-demo"
 }
 
 resource "incident_catalog_type_attribute" "example" {
