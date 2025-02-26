@@ -33,16 +33,16 @@ catalog entry.
 Each type is made up of a series of attributes, and each attribute has a type. Types
 can even have attributes that refer to other catalog types.
 
-We automatically create catalog types when you connect an integration, such as GitHub 
+We automatically create catalog types when you connect an integration, such as GitHub
 repositories or PagerDuty services and teams. You can use this API to create custom
 types, that are specifically tailored to your organisation.
 
-Examples might be a 'Service' type with an 'Alert channel' which you can point at a 
+Examples might be a 'Service' type with an 'Alert channel' which you can point at a
 Slack channel, or 'Team' which specifies its 'Manager' and 'Technical Lead' as Slack
 users. You can then use these types to create powerful new workflows.
 
 Consider using our official [catalog importer](https://github.com/incident-io/catalog-importer).
-It can be used to sync catalog data from sources like local files or GitHub and push 
+It can be used to sync catalog data from sources like local files or GitHub and push
 them into the incident.io catalog without having to directly interact with our public API.
 
 ## Example Usage
@@ -72,7 +72,7 @@ resource "incident_catalog_type" "service_tier" {
 
 - `categories` (List of String) The categories that this type belongs to, to be shown in the web dashboard. Possible values are: `customer`, `issue-tracker`, `product-feature`, `service`, `on-call`, `team`, `user`.
 - `source_repo_url` (String) The url of the external repository where this type is managed. When set, users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.
-- `type_name` (String) The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom["SomeName "]
+- `type_name` (String) The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom["SomeName"]
 
 ### Read-Only
 

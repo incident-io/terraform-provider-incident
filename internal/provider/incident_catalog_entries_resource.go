@@ -329,7 +329,7 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 
 type catalogEntryModelPayload struct {
 	CatalogEntryID *string
-	Payload        client.CreateEntryRequestBody
+	Payload        client.CatalogCreateEntryPayloadV3
 }
 
 // buildPayloads produces a list of payloads that are used to either create or update an
@@ -337,22 +337,22 @@ type catalogEntryModelPayload struct {
 func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) []*catalogEntryModelPayload {
 	payloads := []*catalogEntryModelPayload{}
 	for externalID, entry := range m.Entries {
-		values := map[string]client.EngineParamBindingPayloadV2{}
+		values := map[string]client.CatalogEngineParamBindingPayloadV3{}
 		for attributeID, attributeValue := range entry.AttributeValues {
-			payload := client.EngineParamBindingPayloadV2{}
+			payload := client.CatalogEngineParamBindingPayloadV3{}
 			if !attributeValue.Value.IsNull() {
-				payload.Value = &client.EngineParamBindingValuePayloadV2{
+				payload.Value = &client.CatalogEngineParamBindingValuePayloadV3{
 					Literal: lo.ToPtr(attributeValue.Value.ValueString()),
 				}
 			}
 			if !attributeValue.ArrayValue.IsNull() {
-				arrayValue := []client.EngineParamBindingValuePayloadV2{}
+				arrayValue := []client.CatalogEngineParamBindingValuePayloadV3{}
 				for _, element := range attributeValue.ArrayValue.Elements() {
 					elementString, ok := element.(types.String)
 					if !ok {
 						panic(fmt.Sprintf("element should have been types.String but was %T", element))
 					}
-					arrayValue = append(arrayValue, client.EngineParamBindingValuePayloadV2{
+					arrayValue = append(arrayValue, client.CatalogEngineParamBindingValuePayloadV3{
 						Literal: lo.ToPtr(elementString.ValueString()),
 					})
 				}
@@ -370,7 +370,7 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 			}
 		}
 		payload := &catalogEntryModelPayload{
-			Payload: client.CreateEntryRequestBody{
+			Payload: client.CatalogCreateEntryPayloadV3{
 				CatalogTypeId:   m.ID.ValueString(),
 				Aliases:         &aliases,
 				Name:            entry.Name.ValueString(),
@@ -550,7 +550,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 
 			g.Go(func() error {
 				if shouldUpdate {
-					result, err := r.client.CatalogV2UpdateEntryWithResponse(ctx, entry.Id, client.UpdateEntryRequestBody{
+					result, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, entry.Id, client.CatalogUpdateEntryPayloadV3{
 						Name:            payload.Payload.Name,
 						ExternalId:      payload.Payload.ExternalId,
 						Rank:            payload.Payload.Rank,
@@ -566,7 +566,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 
 					tflog.Debug(ctx, fmt.Sprintf("updated catalog entry with id=%s", entry.Id))
 				} else {
-					result, err := r.client.CatalogV2CreateEntryWithResponse(ctx, client.CreateEntryRequestBody{
+					result, err := r.client.CatalogV3CreateEntryWithResponse(ctx, client.CatalogCreateEntryPayloadV3{
 						CatalogTypeId:   data.ID.ValueString(),
 						Name:            payload.Payload.Name,
 						ExternalId:      payload.Payload.ExternalId,

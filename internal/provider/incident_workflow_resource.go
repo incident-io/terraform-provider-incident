@@ -73,26 +73,26 @@ func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.Sche
 We'd generally recommend building workflows in our [web dashboard](https://app.incident.io/workflows), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing workflow and copy the resulting Terraform without persisting it. You can learn more in this [Loom](https://www.loom.com/share/b833d7d0fd114d6ba3f24d8c72e5208f?sid=c6d3cc3f-aa93-44ba-b12d-a0a4cbe09448).`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("Workflow", "id"),
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "id"),
 				Computed:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("Workflow", "name"),
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "name"),
 				Required:            true,
 			},
 			"folder": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("Workflow", "folder"),
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "folder"),
 				Optional:            true,
 			},
 			"shortform": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("Workflow", "shortform"),
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "shortform"),
 				Optional:            true,
 			},
 			"trigger": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("TriggerSlim", "name"),
+				MarkdownDescription: apischema.Docstring("TriggerSlimV2", "name"),
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
@@ -100,7 +100,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 			},
 			"condition_groups": models.ConditionGroupsAttribute(),
 			"steps": schema.ListNestedAttribute{
-				MarkdownDescription: apischema.Docstring("Workflow", "steps"),
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "steps"),
 				Required:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -119,16 +119,16 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 			},
 			"expressions": models.ExpressionsAttribute(),
 			"once_for": schema.ListAttribute{
-				MarkdownDescription: apischema.Docstring("Workflow", "once_for"),
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "once_for"),
 				Required:            true,
 				ElementType:         types.StringType,
 			},
 			"include_private_incidents": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("Workflow", "include_private_incidents"),
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "include_private_incidents"),
 				Required:            true,
 			},
 			"continue_on_step_error": schema.BoolAttribute{
-				MarkdownDescription: apischema.Docstring("Workflow", "continue_on_step_error"),
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "continue_on_step_error"),
 				Required:            true,
 			},
 			"delay": schema.SingleNestedAttribute{
@@ -136,17 +136,17 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				Optional:            true,
 				Attributes: map[string]schema.Attribute{
 					"conditions_apply_over_delay": schema.BoolAttribute{
-						MarkdownDescription: apischema.Docstring("WorkflowDelay", "conditions_apply_over_delay"),
+						MarkdownDescription: apischema.Docstring("WorkflowDelayV2", "conditions_apply_over_delay"),
 						Required:            true,
 					},
 					"for_seconds": schema.Int64Attribute{
-						MarkdownDescription: apischema.Docstring("WorkflowDelay", "for_seconds"),
+						MarkdownDescription: apischema.Docstring("WorkflowDelayV2", "for_seconds"),
 						Required:            true,
 					},
 				},
 			},
 			"runs_on_incidents": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("Workflow", "runs_on_incidents"),
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "runs_on_incidents"),
 				Required:            true,
 			},
 			"runs_on_incident_modes": schema.ListAttribute{
@@ -155,7 +155,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				ElementType:         types.StringType,
 			},
 			"state": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("Workflow", "state"),
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "state"),
 				Required:            true,
 			},
 		},
@@ -174,32 +174,32 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 		onceFor = append(onceFor, v.ValueString())
 	}
 
-	runsOnIncidentModes := []client.CreateWorkflowPayloadRunsOnIncidentModes{}
+	runsOnIncidentModes := []client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes{}
 	for _, v := range data.RunsOnIncidentModes {
-		runsOnIncidentModes = append(runsOnIncidentModes, client.CreateWorkflowPayloadRunsOnIncidentModes(v.ValueString()))
+		runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes(v.ValueString()))
 	}
 
-	payload := client.CreateWorkflowPayload{
+	payload := client.WorkflowsCreateWorkflowPayloadV2{
 		Trigger:                 data.Trigger.ValueString(),
 		Name:                    data.Name.ValueString(),
 		OnceFor:                 onceFor,
 		ConditionGroups:         data.ConditionGroups.ToPayload(),
 		Steps:                   toPayloadSteps(data.Steps),
 		Expressions:             data.Expressions.ToPayload(),
-		RunsOnIncidents:         client.CreateWorkflowPayloadRunsOnIncidents(data.RunsOnIncidents.ValueString()),
+		RunsOnIncidents:         client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidents(data.RunsOnIncidents.ValueString()),
 		RunsOnIncidentModes:     runsOnIncidentModes,
 		Folder:                  data.Folder.ValueStringPointer(),
 		Shortform:               data.Shortform.ValueStringPointer(),
 		IncludePrivateIncidents: data.IncludePrivateIncidents.ValueBool(),
 		ContinueOnStepError:     data.ContinueOnStepError.ValueBool(),
-		State:                   lo.ToPtr(client.CreateWorkflowPayloadState(data.State.ValueString())),
+		State:                   lo.ToPtr(client.WorkflowsCreateWorkflowPayloadV2State(data.State.ValueString())),
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
 	}
 
 	if data.Delay != nil {
-		payload.Delay = &client.WorkflowDelay{
+		payload.Delay = &client.WorkflowDelayV2{
 			ConditionsApplyOverDelay: data.Delay.ConditionsApplyOverDelay.ValueBool(),
 			ForSeconds:               data.Delay.ForSeconds.ValueInt64(),
 		}
@@ -237,9 +237,9 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		onceFor = append(onceFor, v.ValueString())
 	}
 
-	runsOnIncidentModes := []client.UpdateWorkflowPayload2RunsOnIncidentModes{}
+	runsOnIncidentModes := []client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes{}
 	for _, v := range data.RunsOnIncidentModes {
-		runsOnIncidentModes = append(runsOnIncidentModes, client.UpdateWorkflowPayload2RunsOnIncidentModes(v.ValueString()))
+		runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes(v.ValueString()))
 	}
 
 	payload := client.WorkflowsV2UpdateWorkflowJSONRequestBody{
@@ -248,20 +248,20 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		Steps:                   toPayloadSteps(data.Steps),
 		Expressions:             data.Expressions.ToPayload(),
 		OnceFor:                 onceFor,
-		RunsOnIncidents:         client.UpdateWorkflowPayload2RunsOnIncidents(data.RunsOnIncidents.ValueString()),
+		RunsOnIncidents:         client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidents(data.RunsOnIncidents.ValueString()),
 		RunsOnIncidentModes:     runsOnIncidentModes,
 		Folder:                  data.Folder.ValueStringPointer(),
 		Shortform:               data.Shortform.ValueStringPointer(),
 		IncludePrivateIncidents: data.IncludePrivateIncidents.ValueBool(),
 		ContinueOnStepError:     data.ContinueOnStepError.ValueBool(),
-		State:                   lo.ToPtr(client.UpdateWorkflowPayload2State(data.State.ValueString())),
+		State:                   lo.ToPtr(client.WorkflowsUpdateWorkflowPayloadV2State(data.State.ValueString())),
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
 	}
 
 	if data.Delay != nil {
-		payload.Delay = &client.WorkflowDelay{
+		payload.Delay = &client.WorkflowDelayV2{
 			ConditionsApplyOverDelay: data.Delay.ConditionsApplyOverDelay.ValueBool(),
 			ForSeconds:               data.Delay.ForSeconds.ValueInt64(),
 		}
@@ -315,7 +315,7 @@ func (r *IncidentWorkflowResource) Delete(ctx context.Context, req resource.Dele
 }
 
 func (r *IncidentWorkflowResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	claimResource(ctx, r.client, req.ID, resp.Diagnostics, client.ManagedResourceV2ResourceTypeWorkflow, r.terraformVersion)
+	claimResource(ctx, r.client, req.ID, resp.Diagnostics, client.Workflow, r.terraformVersion)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
@@ -338,11 +338,11 @@ func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.C
 	r.terraformVersion = client.TerraformVersion
 }
 
-func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayload {
-	out := []client.StepConfigPayload{}
+func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayloadV2 {
+	out := []client.StepConfigPayloadV2{}
 
 	for _, step := range steps {
-		out = append(out, client.StepConfigPayload{
+		out = append(out, client.StepConfigPayloadV2{
 			ForEach:       step.ForEach.ValueStringPointer(),
 			Id:            step.ID.ValueString(),
 			Name:          step.Name.ValueString(),

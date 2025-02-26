@@ -332,7 +332,7 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON201.EscalationPath.Id, resp.Diagnostics, client.ManagedResourceV2ResourceTypeEscalationPath, r.terraformVersion)
+	claimResource(ctx, r.client, result.JSON201.EscalationPath.Id, resp.Diagnostics, client.EscalationPath, r.terraformVersion)
 
 	tflog.Trace(ctx, fmt.Sprintf("created an escalation path resource with id=%s", result.JSON201.EscalationPath.Id))
 	data = r.buildModel(result.JSON201.EscalationPath)
@@ -395,7 +395,7 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON200.EscalationPath.Id, resp.Diagnostics, client.ManagedResourceV2ResourceTypeEscalationPath, r.terraformVersion)
+	claimResource(ctx, r.client, result.JSON200.EscalationPath.Id, resp.Diagnostics, client.EscalationPath, r.terraformVersion)
 
 	data = r.buildModel(result.JSON200.EscalationPath)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -416,7 +416,7 @@ func (r *IncidentEscalationPathResource) Delete(ctx context.Context, req resourc
 }
 
 func (r *IncidentEscalationPathResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	claimResource(ctx, r.client, req.ID, resp.Diagnostics, client.ManagedResourceV2ResourceTypeEscalationPath, r.terraformVersion)
+	claimResource(ctx, r.client, req.ID, resp.Diagnostics, client.EscalationPath, r.terraformVersion)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 

@@ -33,16 +33,16 @@ catalog entry.
 Each type is made up of a series of attributes, and each attribute has a type. Types
 can even have attributes that refer to other catalog types.
 
-We automatically create catalog types when you connect an integration, such as GitHub 
+We automatically create catalog types when you connect an integration, such as GitHub
 repositories or PagerDuty services and teams. You can use this API to create custom
 types, that are specifically tailored to your organisation.
 
-Examples might be a 'Service' type with an 'Alert channel' which you can point at a 
+Examples might be a 'Service' type with an 'Alert channel' which you can point at a
 Slack channel, or 'Team' which specifies its 'Manager' and 'Technical Lead' as Slack
 users. You can then use these types to create powerful new workflows.
 
 Consider using our official [catalog importer](https://github.com/incident-io/catalog-importer).
-It can be used to sync catalog data from sources like local files or GitHub and push 
+It can be used to sync catalog data from sources like local files or GitHub and push
 them into the incident.io catalog without having to directly interact with our public API.
 
 ## Example Usage

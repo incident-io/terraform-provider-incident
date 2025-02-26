@@ -42,7 +42,7 @@ resource "incident_catalog_entries" "services" {
 
 - `categories` (List of String) The categories that this type belongs to, to be shown in the web dashboard. Possible values are: `customer`, `issue-tracker`, `product-feature`, `service`, `on-call`, `team`, `user`.
 - `name` (String) Name is the human readable name of this type
-- `type_name` (String) The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom["SomeName "]
+- `type_name` (String) The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom["SomeName"]
 
 ### Read-Only
 

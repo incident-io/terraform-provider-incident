@@ -31,21 +31,21 @@ func (i *IncidentCatalogTypeDataSource) Schema(ctx context.Context, req datasour
 		MarkdownDescription: "This data source provides information about a catalog type.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "id"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "id"),
 				Computed:            true,
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "name"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "name"),
 				Optional:            true,
 				Computed:            true,
 			},
 			"type_name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "type_name"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "type_name"),
 				Optional:            true,
 				Computed:            true,
 			},
 			"description": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "description"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "description"),
 				Computed:            true,
 			},
 			"categories": schema.ListAttribute{
@@ -90,7 +90,7 @@ func (i *IncidentCatalogTypeDataSource) Read(ctx context.Context, req datasource
 		return
 	}
 
-	result, err := i.client.CatalogV2ListTypesWithResponse(ctx)
+	result, err := i.client.CatalogV3ListTypesWithResponse(ctx)
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
@@ -106,17 +106,17 @@ func (i *IncidentCatalogTypeDataSource) Read(ctx context.Context, req datasource
 
 	catalogTypes := result.JSON200.CatalogTypes
 	if !data.Name.IsNull() {
-		catalogTypes = lo.Filter(catalogTypes, func(ct client.CatalogTypeV2, _ int) bool {
+		catalogTypes = lo.Filter(catalogTypes, func(ct client.CatalogTypeV3, _ int) bool {
 			return ct.Name == data.Name.ValueString()
 		})
 	}
 	if !data.TypeName.IsNull() {
-		catalogTypes = lo.Filter(catalogTypes, func(ct client.CatalogTypeV2, _ int) bool {
+		catalogTypes = lo.Filter(catalogTypes, func(ct client.CatalogTypeV3, _ int) bool {
 			return ct.TypeName == data.TypeName.ValueString()
 		})
 	}
 
-	var catalogType *client.CatalogTypeV2
+	var catalogType *client.CatalogTypeV3
 	if len(catalogTypes) > 0 {
 		catalogType = lo.ToPtr(catalogTypes[0])
 	}

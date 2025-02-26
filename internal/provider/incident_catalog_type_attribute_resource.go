@@ -39,7 +39,7 @@ type IncidentCatalogTypeAttributesResourceModel struct {
 	Path              types.List   `tfsdk:"path"`
 }
 
-func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.Context) client.CatalogTypeAttributePayloadV2 {
+func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.Context) client.CatalogTypeAttributePayloadV3 {
 	var array bool
 	if m.Array.IsUnknown() {
 		array = false
@@ -55,16 +55,16 @@ func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.C
 	}
 
 	var (
-		mode              *client.CatalogTypeAttributePayloadV2Mode
+		mode              *client.CatalogTypeAttributePayloadV3Mode
 		backlinkAttribute *string
-		path              *[]client.CatalogTypeAttributePathItemPayloadV2
+		path              *[]client.CatalogTypeAttributePathItemPayloadV3
 	)
 	if !m.BacklinkAttribute.IsNull() {
 		backlinkAttribute = lo.ToPtr(m.BacklinkAttribute.ValueString())
-		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModeBacklink)
+		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeBacklink)
 	}
 	if !m.Path.IsUnknown() && !m.Path.IsNull() {
-		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModePath)
+		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModePath)
 
 		// Do a little dance to get the path into the right format.
 		pathAsStrings := []string{}
@@ -72,15 +72,15 @@ func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.C
 			panic(spew.Sdump(diags.Errors()))
 		}
 
-		path = &[]client.CatalogTypeAttributePathItemPayloadV2{}
+		path = &[]client.CatalogTypeAttributePathItemPayloadV3{}
 		for _, item := range pathAsStrings {
-			*path = append(*path, client.CatalogTypeAttributePathItemPayloadV2{
+			*path = append(*path, client.CatalogTypeAttributePathItemPayloadV3{
 				AttributeId: item,
 			})
 		}
 	}
 
-	return client.CatalogTypeAttributePayloadV2{
+	return client.CatalogTypeAttributePayloadV3{
 		Id:                id,
 		Name:              m.Name.ValueString(),
 		Type:              m.Type.ValueString(),
@@ -101,7 +101,7 @@ func (r *IncidentCatalogTypeAttributeResource) Metadata(ctx context.Context, req
 
 func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("Catalog V2"),
+		MarkdownDescription: apischema.TagDocstring("Catalog V3"),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -111,7 +111,7 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 			},
 			"catalog_type_id": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "id"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -170,9 +170,9 @@ func (r *IncidentCatalogTypeAttributeResource) Create(ctx context.Context, req r
 		return
 	}
 
-	var result *client.CatalogV2UpdateTypeSchemaResponse
-	err := r.lockFor(ctx, data.CatalogTypeID.ValueString(), func(ctx context.Context, catalogType client.CatalogTypeV2) error {
-		attributes := []client.CatalogTypeAttributePayloadV2{}
+	var result *client.CatalogV3UpdateTypeSchemaResponse
+	err := r.lockFor(ctx, data.CatalogTypeID.ValueString(), func(ctx context.Context, catalogType client.CatalogTypeV3) error {
+		attributes := []client.CatalogTypeAttributePayloadV3{}
 		for _, attribute := range catalogType.Schema.Attributes {
 			attributes = append(attributes, r.attributeToPayload(attribute))
 		}
@@ -181,7 +181,7 @@ func (r *IncidentCatalogTypeAttributeResource) Create(ctx context.Context, req r
 		attributes = append(attributes, data.buildAttribute(ctx))
 
 		var err error
-		result, err = r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, catalogType.Id, client.UpdateTypeSchemaRequestBody{
+		result, err = r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, catalogType.Id, client.CatalogUpdateTypeSchemaPayloadV3{
 			Version:    catalogType.Schema.Version,
 			Attributes: attributes,
 		})
@@ -222,7 +222,7 @@ func (r *IncidentCatalogTypeAttributeResource) Read(ctx context.Context, req res
 		return
 	}
 
-	result, err := r.client.CatalogV2ShowTypeWithResponse(ctx, data.CatalogTypeID.ValueString())
+	result, err := r.client.CatalogV3ShowTypeWithResponse(ctx, data.CatalogTypeID.ValueString())
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
@@ -246,10 +246,10 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 		alreadyExists bool
 	)
 
-	var result *client.CatalogV2UpdateTypeSchemaResponse
-	err := r.lockFor(ctx, data.CatalogTypeID.ValueString(), func(ctx context.Context, catalogType client.CatalogTypeV2) error {
+	var result *client.CatalogV3UpdateTypeSchemaResponse
+	err := r.lockFor(ctx, data.CatalogTypeID.ValueString(), func(ctx context.Context, catalogType client.CatalogTypeV3) error {
 		var (
-			attributes = []client.CatalogTypeAttributePayloadV2{}
+			attributes = []client.CatalogTypeAttributePayloadV3{}
 		)
 		tflog.Trace(ctx, fmt.Sprintf("Looking for attribute with id=%s", data.ID.ValueString()))
 		for _, attribute := range catalogType.Schema.Attributes {
@@ -268,7 +268,7 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 
 		tflog.Trace(ctx, fmt.Sprintf("Updating catalog type with attributes: %v", attributes))
 		var err error
-		result, err = r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.UpdateTypeSchemaRequestBody{
+		result, err = r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.CatalogUpdateTypeSchemaPayloadV3{
 			Version:    catalogType.Schema.Version,
 			Attributes: attributes,
 		})
@@ -313,8 +313,8 @@ func (r *IncidentCatalogTypeAttributeResource) Delete(ctx context.Context, req r
 		return
 	}
 
-	err := r.lockFor(ctx, data.CatalogTypeID.ValueString(), func(ctx context.Context, catalogType client.CatalogTypeV2) error {
-		attributes := []client.CatalogTypeAttributePayloadV2{}
+	err := r.lockFor(ctx, data.CatalogTypeID.ValueString(), func(ctx context.Context, catalogType client.CatalogTypeV3) error {
+		attributes := []client.CatalogTypeAttributePayloadV3{}
 		for _, attribute := range catalogType.Schema.Attributes {
 			if attribute.Id == data.ID.ValueString() {
 				continue
@@ -323,7 +323,7 @@ func (r *IncidentCatalogTypeAttributeResource) Delete(ctx context.Context, req r
 			attributes = append(attributes, r.attributeToPayload(attribute))
 		}
 
-		result, err := r.client.CatalogV2UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.UpdateTypeSchemaRequestBody{
+		result, err := r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.CatalogUpdateTypeSchemaPayloadV3{
 			Version:    catalogType.Schema.Version,
 			Attributes: attributes,
 		})
@@ -342,7 +342,7 @@ func (r *IncidentCatalogTypeAttributeResource) Delete(ctx context.Context, req r
 	}
 }
 
-func (r *IncidentCatalogTypeAttributeResource) buildModel(catalogType client.CatalogTypeV2, attributeID string) *IncidentCatalogTypeAttributesResourceModel {
+func (r *IncidentCatalogTypeAttributeResource) buildModel(catalogType client.CatalogTypeV3, attributeID string) *IncidentCatalogTypeAttributesResourceModel {
 	result := &IncidentCatalogTypeAttributesResourceModel{
 		ID:            types.StringValue(attributeID),
 		CatalogTypeID: types.StringValue(catalogType.Id),
@@ -377,7 +377,7 @@ var (
 	catalogTypeMutex sync.Mutex
 )
 
-func (r *IncidentCatalogTypeAttributeResource) lockFor(ctx context.Context, catalogTypeID string, do func(ctx context.Context, catalogType client.CatalogTypeV2) error) error {
+func (r *IncidentCatalogTypeAttributeResource) lockFor(ctx context.Context, catalogTypeID string, do func(ctx context.Context, catalogType client.CatalogTypeV3) error) error {
 	catalogTypeMutex.Lock()
 	defer catalogTypeMutex.Unlock()
 
@@ -390,7 +390,7 @@ func (r *IncidentCatalogTypeAttributeResource) lockFor(ctx context.Context, cata
 	mutex.Lock()
 	defer mutex.Unlock()
 
-	typeResult, err := r.client.CatalogV2ShowTypeWithResponse(ctx, catalogTypeID)
+	typeResult, err := r.client.CatalogV3ShowTypeWithResponse(ctx, catalogTypeID)
 	if err == nil && typeResult.StatusCode() >= 400 {
 		err = fmt.Errorf(string(typeResult.Body))
 	}
@@ -401,23 +401,23 @@ func (r *IncidentCatalogTypeAttributeResource) lockFor(ctx context.Context, cata
 	return do(ctx, typeResult.JSON200.CatalogType)
 }
 
-func (*IncidentCatalogTypeAttributeResource) attributeToPayload(attribute client.CatalogTypeAttributeV2) client.CatalogTypeAttributePayloadV2 {
-	var mode *client.CatalogTypeAttributePayloadV2Mode
-	var path *[]client.CatalogTypeAttributePathItemPayloadV2
+func (*IncidentCatalogTypeAttributeResource) attributeToPayload(attribute client.CatalogTypeAttributeV3) client.CatalogTypeAttributePayloadV3 {
+	var mode *client.CatalogTypeAttributePayloadV3Mode
+	var path *[]client.CatalogTypeAttributePathItemPayloadV3
 	if attribute.BacklinkAttribute != nil {
-		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModeBacklink)
+		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeBacklink)
 	}
 	if attribute.Path != nil {
-		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV2ModePath)
-		path = &[]client.CatalogTypeAttributePathItemPayloadV2{}
+		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModePath)
+		path = &[]client.CatalogTypeAttributePathItemPayloadV3{}
 		for _, item := range *attribute.Path {
-			*path = append(*path, client.CatalogTypeAttributePathItemPayloadV2{
+			*path = append(*path, client.CatalogTypeAttributePathItemPayloadV3{
 				AttributeId: item.AttributeId,
 			})
 		}
 	}
 
-	return client.CatalogTypeAttributePayloadV2{
+	return client.CatalogTypeAttributePayloadV3{
 		Id:                lo.ToPtr(attribute.Id),
 		Name:              attribute.Name,
 		Type:              attribute.Type,

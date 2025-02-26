@@ -28,7 +28,7 @@ func forceCoerce[T any](input any) T {
 }
 
 // buildModel converts from the response type to the terraform model/schema type.
-func (r *IncidentWorkflowResource) buildModel(workflow client.Workflow) *IncidentWorkflowResourceModel {
+func (r *IncidentWorkflowResource) buildModel(workflow client.WorkflowV2) *IncidentWorkflowResourceModel {
 	model := &IncidentWorkflowResourceModel{
 		ID:                      types.StringValue(workflow.Id),
 		Name:                    types.StringValue(workflow.Name),
@@ -68,7 +68,7 @@ func buildOnceFor(onceFor []client.EngineReferenceV2) []basetypes.StringValue {
 	return out
 }
 
-func buildRunsOnIncidentModes(modes []client.WorkflowRunsOnIncidentModes) []basetypes.StringValue {
+func buildRunsOnIncidentModes(modes []client.WorkflowV2RunsOnIncidentModes) []basetypes.StringValue {
 	out := []basetypes.StringValue{}
 
 	for _, mode := range modes {
@@ -78,7 +78,7 @@ func buildRunsOnIncidentModes(modes []client.WorkflowRunsOnIncidentModes) []base
 	return out
 }
 
-func buildSteps(steps []client.StepConfig) []IncidentWorkflowStep {
+func buildSteps(steps []client.StepConfigV2) []IncidentWorkflowStep {
 	out := []IncidentWorkflowStep{}
 
 	for _, s := range steps {

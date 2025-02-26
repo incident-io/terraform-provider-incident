@@ -39,23 +39,23 @@ type IncidentCatalogEntryResourceModel struct {
 	AttributeValues []CatalogEntryAttributeValue `tfsdk:"attribute_values"`
 }
 
-func (m IncidentCatalogEntryResourceModel) buildAttributeValues() map[string]client.EngineParamBindingPayloadV2 {
-	values := map[string]client.EngineParamBindingPayloadV2{}
+func (m IncidentCatalogEntryResourceModel) buildAttributeValues() map[string]client.CatalogEngineParamBindingPayloadV3 {
+	values := map[string]client.CatalogEngineParamBindingPayloadV3{}
 	for _, attributeValue := range m.AttributeValues {
-		payload := client.EngineParamBindingPayloadV2{}
+		payload := client.CatalogEngineParamBindingPayloadV3{}
 		if !attributeValue.Value.IsNull() {
-			payload.Value = &client.EngineParamBindingValuePayloadV2{
+			payload.Value = &client.CatalogEngineParamBindingValuePayloadV3{
 				Literal: lo.ToPtr(attributeValue.Value.ValueString()),
 			}
 		}
 		if !attributeValue.ArrayValue.IsNull() {
-			arrayValue := []client.EngineParamBindingValuePayloadV2{}
+			arrayValue := []client.CatalogEngineParamBindingValuePayloadV3{}
 			for _, element := range attributeValue.ArrayValue.Elements() {
 				elementString, ok := element.(types.String)
 				if !ok {
 					panic(fmt.Sprintf("element should have been types.String but was %T", element))
 				}
-				arrayValue = append(arrayValue, client.EngineParamBindingValuePayloadV2{
+				arrayValue = append(arrayValue, client.CatalogEngineParamBindingValuePayloadV3{
 					Literal: lo.ToPtr(elementString.ValueString()),
 				})
 			}
@@ -191,7 +191,7 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 		}
 	}
 
-	result, err := r.client.CatalogV2CreateEntryWithResponse(ctx, client.CreateEntryRequestBody{
+	result, err := r.client.CatalogV3CreateEntryWithResponse(ctx, client.CatalogCreateEntryPayloadV3{
 		CatalogTypeId:   data.CatalogTypeID.ValueString(),
 		Name:            data.Name.ValueString(),
 		ExternalId:      data.ExternalID.ValueStringPointer(),
@@ -219,7 +219,7 @@ func (r *IncidentCatalogEntryResource) Read(ctx context.Context, req resource.Re
 		return
 	}
 
-	result, err := r.client.CatalogV2ShowEntryWithResponse(ctx, data.ID.ValueString())
+	result, err := r.client.CatalogV3ShowEntryWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog entry, got error: %s", err))
 		return
@@ -259,7 +259,7 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		}
 	}
 
-	result, err := r.client.CatalogV2UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.UpdateEntryRequestBody{
+	result, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.CatalogUpdateEntryPayloadV3{
 		Name:            data.Name.ValueString(),
 		Rank:            rank,
 		ExternalId:      data.ExternalID.ValueStringPointer(),
@@ -296,7 +296,7 @@ func (r *IncidentCatalogEntryResource) ImportState(ctx context.Context, req reso
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV2) *IncidentCatalogEntryResourceModel {
+func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3) *IncidentCatalogEntryResourceModel {
 	values := []CatalogEntryAttributeValue{}
 	for attributeID, binding := range entry.AttributeValues {
 		value := CatalogEntryAttributeValue{
@@ -308,7 +308,7 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV2) *
 		// state, so we paper over the issue by instantiating an empty array value if we think
 		// we're seeing the weirdness.
 		if binding.Value == nil && binding.ArrayValue == nil {
-			binding.ArrayValue = lo.ToPtr([]client.CatalogEntryEngineParamBindingValueV2{})
+			binding.ArrayValue = lo.ToPtr([]client.CatalogEntryEngineParamBindingValueV3{})
 		}
 
 		if binding.Value != nil {
