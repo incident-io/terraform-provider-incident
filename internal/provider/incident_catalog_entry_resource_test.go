@@ -24,7 +24,7 @@ func TestAccIncidentCatalogEntryResource(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Create and read
 			{
-				Config: testAccIncidentCatalogEntryResourceConfig("One", "This is the first entry", []string{}, false),
+				Config: testAccIncidentCatalogEntryResourceConfig("One", "This is the first entry", []string{}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
 						"incident_catalog_entry.example", "name", "One"),
@@ -38,7 +38,7 @@ func TestAccIncidentCatalogEntryResource(t *testing.T) {
 			},
 			// Update and read
 			{
-				Config: testAccIncidentCatalogEntryResourceConfig("Two", "This is the second entry", []string{}, false),
+				Config: testAccIncidentCatalogEntryResourceConfig("Two", "This is the second entry", []string{}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
 						"incident_catalog_entry.example", "name", "Two"),
@@ -55,7 +55,7 @@ func TestAccIncidentCatalogEntryResourceWithAlias(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Create and read
 			{
-				Config: testAccIncidentCatalogEntryResourceConfig("One", "This is the first entry", []string{"one"}, false),
+				Config: testAccIncidentCatalogEntryResourceConfig("One", "This is the first entry", []string{"one"}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
 						"incident_catalog_entry.example", "name", "One"),
@@ -69,7 +69,7 @@ func TestAccIncidentCatalogEntryResourceWithAlias(t *testing.T) {
 			},
 			// Update and read
 			{
-				Config: testAccIncidentCatalogEntryResourceConfig("Two", "This is the second entry", []string{"two"}, false),
+				Config: testAccIncidentCatalogEntryResourceConfig("Two", "This is the second entry", []string{"two"}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
 						"incident_catalog_entry.example", "name", "Two"),
@@ -306,6 +306,6 @@ func testAccIncidentCatalogEntryResourceConfigWithID(id, name, description strin
 	return buf.String()
 }
 
-func testAccIncidentCatalogEntryResourceConfig(name, description string, aliases []string, onlyManageDescription bool) string {
-	return testAccIncidentCatalogEntryResourceConfigWithID(uuid.NewString(), name, description, aliases, onlyManageDescription)
+func testAccIncidentCatalogEntryResourceConfig(name, description string, aliases []string) string {
+	return testAccIncidentCatalogEntryResourceConfigWithID(uuid.NewString(), name, description, aliases, false)
 }
