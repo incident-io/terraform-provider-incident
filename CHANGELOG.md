@@ -1,5 +1,14 @@
 ## Unreleased
 
+- Add `schema_only` as an option on `incident_catalog_type_attribute`. When set
+  to `true`, the attribute will be created from Terraform, but values for it will
+  be edited in the incident.io dashboard.
+- Add `managed_attributes` to both `incident_catalog_entry` and `incident_catalog_entries`. This
+  allows you to manage only some attributes of a catalog entry, while leaving others
+  unchanged. When attributes on a type are marked as `schema_only`, this avoids
+  Terraform trying to manage their state, allowing values set in the incident.io
+  dashboard to be preserved, and avoiding unnecessary diffs.
+
 ## v4.3.3
 
 - Fixed a panic when using an `incident_escalation_path` with a `notify_channel`

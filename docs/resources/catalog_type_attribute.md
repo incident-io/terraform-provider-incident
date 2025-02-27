@@ -103,6 +103,8 @@ resource "incident_catalog_type_attribute" "service_tier_services" {
 - `path` (List of String) If this is a path attribute, the path that we should use to pull the data
 - `schema_only` (Boolean) If true, Terraform will only manage the schema of the attribute. Values for this attribute can be managed from the incident.io web dashboard.
 
+NOTE: When enabled, you should use the `managed_attributes` argument on either `incident_catalog_entry` or `incident_catalog_entries` to manage the values of other attributes on this type, without Terraform overwriting values set in the dashboard.
+
 ### Read-Only
 
 - `id` (String) The ID of this resource.

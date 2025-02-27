@@ -151,9 +151,11 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 				Optional: true,
 			},
 			"schema_only": schema.BoolAttribute{
-				Description: "If true, Terraform will only manage the schema of the attribute. Values for this attribute can be managed from the incident.io web dashboard.",
-				Optional:    true,
-				Computed:    true,
+				Description: `If true, Terraform will only manage the schema of the attribute. Values for this attribute can be managed from the incident.io web dashboard.
+
+NOTE: When enabled, you should use the ` + "`managed_attributes`" + ` argument on either ` + "`incident_catalog_entry`" + ` or ` + "`incident_catalog_entries`" + ` to manage the values of other attributes on this type, without Terraform overwriting values set in the dashboard.`,
+				Optional: true,
+				Computed: true,
 			},
 		},
 	}
