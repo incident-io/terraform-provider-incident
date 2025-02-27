@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"regexp"
 	"testing"
 	"text/template"
 
@@ -71,48 +70,6 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"incident_catalog_entries.example", "entries.two.name", "Three"),
 				),
-			},
-		},
-	})
-}
-
-func TestIncidentCatalogEntriesResource_ValidateConfig(t *testing.T) {
-	description := "desc-123"
-	priority := "priority-456"
-
-	resource.Test(t, resource.TestCase{
-		IsUnitTest:               true,
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			// Test validation error when attribute isn't in managed_attributes
-			{
-				Config: fmt.Sprintf(`
-resource "incident_catalog_entries" "test" {
-  id = "catalog-type-id-123"
-
-  # Only manage the description attribute
-  managed_attributes = ["%s"]
-
-  entries = {
-    "test-entry" = {
-      name = "Test Entry"
-
-      attribute_values = {
-        # This is managed, should be fine
-        "%s" = {
-          value = "A description"
-        }
-        # This is not managed, should cause an error
-        "%s" = {
-          value = "High"
-        }
-      }
-    }
-  }
-}
-`, description, description, priority),
-				PlanOnly:    true,
-				ExpectError: regexp.MustCompile(`not in the managed_attributes set`),
 			},
 		},
 	})
@@ -314,7 +271,7 @@ resource "incident_catalog_entries" "example" {
         }
         {{ if not $.ManagedAttributes }}
         (incident_catalog_type_attribute.example_bool.id) = {
-          value = {{ .UsefulValue }}
+          value = {{ quote .UsefulValue }}
         }
         {{ end }}
       }

@@ -79,45 +79,6 @@ func TestAccIncidentCatalogEntryResourceWithAlias(t *testing.T) {
 	})
 }
 
-func TestIncidentCatalogEntryResource_ValidateConfig(t *testing.T) {
-	description := "desc-123"
-	priority := "priority-456"
-
-	resource.Test(t, resource.TestCase{
-		IsUnitTest:               true,
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			// Test validation error when attribute isn't in managed_attributes
-			{
-				Config: fmt.Sprintf(`
-resource "incident_catalog_entry" "test" {
-  catalog_type_id = "catalog-type-id-123"
-  name = "Test Entry"
-
-  # Only manage the description attribute
-  managed_attributes = ["%s"]
-
-  attribute_values = [
-    {
-      # This is managed, should be fine
-      attribute = "%s"
-      value = "A description"
-    },
-    {
-      # This is not managed, should cause an error
-      attribute = "%s"
-      value = "High"
-    }
-  ]
-}
-`, description, description, priority),
-				PlanOnly:    true,
-				ExpectError: regexp.MustCompile(`specified in attribute_values`),
-			},
-		},
-	})
-}
-
 func TestAccIncidentCatalogEntryResourceWithManagedAttributes(t *testing.T) {
 	// Use a stable ID across steps - we want to edit the same one over and over
 	testEntryID := uuid.NewString()
@@ -204,6 +165,9 @@ func TestAccIncidentCatalogEntryResourceWithManagedAttributes(t *testing.T) {
 		}
 	}
 
+	conf := testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "Partial Update", "Updated description only", []string{}, true)
+
+	_ = conf
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -233,6 +197,45 @@ func TestAccIncidentCatalogEntryResourceWithManagedAttributes(t *testing.T) {
 					resource.TestCheckResourceAttr("incident_catalog_entry.example", "name", "Another Update"),
 					checkUsefulIsTrue("Another description change"),
 				),
+			},
+		},
+	})
+}
+
+func TestIncidentCatalogEntryResource_ValidateConfig(t *testing.T) {
+	description := "desc-123"
+	priority := "priority-456"
+
+	resource.Test(t, resource.TestCase{
+		IsUnitTest:               true,
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Test validation error when attribute isn't in managed_attributes
+			{
+				Config: fmt.Sprintf(`
+resource "incident_catalog_entry" "test" {
+  catalog_type_id = "catalog-type-id-123"
+  name = "Test Entry"
+
+  # Only manage the description attribute
+  managed_attributes = ["%s"]
+
+  attribute_values = [
+    {
+      # This is managed, should be fine
+      attribute = "%s"
+      value = "A description"
+    },
+    {
+      # This is not managed, should cause an error
+      attribute = "%s"
+      value = "High"
+    }
+  ]
+}
+`, description, description, priority),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile(`specified in attribute_values`),
 			},
 		},
 	})

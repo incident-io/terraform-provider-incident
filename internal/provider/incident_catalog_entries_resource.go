@@ -26,9 +26,8 @@ import (
 )
 
 var (
-	_ resource.Resource                   = &IncidentCatalogEntriesResource{}
-	_ resource.ResourceWithImportState    = &IncidentCatalogEntriesResource{}
-	_ resource.ResourceWithValidateConfig = &IncidentCatalogEntriesResource{}
+	_ resource.Resource                = &IncidentCatalogEntriesResource{}
+	_ resource.ResourceWithImportState = &IncidentCatalogEntriesResource{}
 )
 
 type IncidentCatalogEntriesResource struct {
@@ -255,36 +254,6 @@ func (r *IncidentCatalogEntriesResource) Delete(ctx context.Context, req resourc
 
 func (r *IncidentCatalogEntriesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
-}
-
-func (r *IncidentCatalogEntriesResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
-	var data IncidentCatalogEntriesResourceModel
-	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	// If managed_attributes is not set, all attributes are valid
-	if data.ManagedAttributes.IsNull() || data.ManagedAttributes.IsUnknown() {
-		return
-	}
-
-	// Get the managed attributes map
-	managedAttributesMap := data.managedAttributesSet()
-
-	// Check that each attribute in each entry's attribute_values is managed
-	for externalID, entry := range data.Entries {
-		for attributeID := range entry.AttributeValues {
-			if !managedAttributesMap[attributeID] {
-				resp.Diagnostics.AddAttributeError(
-					path.Root("entries").AtMapKey(externalID).AtName("attribute_values").AtMapKey(attributeID),
-					"Unmanaged Attribute",
-					fmt.Sprintf("Attribute ID %q is specified in entry %q's attribute_values but is not in the managed_attributes set. "+
-						"Either add it to managed_attributes or remove it from attribute_values.", attributeID, externalID),
-				)
-			}
-		}
-	}
 }
 
 // buildModel generates a terraform model from a catalog type and current list of all
@@ -656,41 +625,41 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 
 // isAttributeManaged checks if the given attribute should be managed by this resource.
 func (m *IncidentCatalogEntriesResourceModel) isAttributeManaged(attributeID string) bool {
-	if m.ManagedAttributes.IsNull() || m.ManagedAttributes.IsUnknown() {
+	// Check if the attribute is in the managed list
+	attrSet, known := m.managedAttributesSet()
+	if !known {
 		return true
 	}
 
-	// Check if the attribute is in the managed list
-	return m.managedAttributesSet()[attributeID]
+	return attrSet[attributeID]
 }
 
-func (m *IncidentCatalogEntriesResourceModel) managedAttributesSet() map[string]bool {
+func (m *IncidentCatalogEntriesResourceModel) managedAttributesSet() (map[string]bool, bool) {
 	if m.ManagedAttributes.IsNull() || m.ManagedAttributes.IsUnknown() {
-		return nil
+		return nil, false
 	}
 
 	if m.managedAttrSet != nil {
-		return m.managedAttrSet
-	}
-
-	var managedAttributeIDs []string
-	diags := m.ManagedAttributes.ElementsAs(context.Background(), &managedAttributeIDs, false)
-	if diags.HasError() {
-		panic(diags.Errors())
+		return m.managedAttrSet, true
 	}
 
 	managedAttrSet := map[string]bool{}
-	for _, id := range managedAttributeIDs {
-		managedAttrSet[id] = true
+	for _, attrElem := range m.ManagedAttributes.Elements() {
+		if attrElem.IsUnknown() {
+			return nil, false
+		}
+
+		managedAttrSet[attrElem.(types.String).ValueString()] = true
 	}
+
 	// Technically this isn't race-safe, since multiple goroutines _could_ try to set this at once.
 	// However, it's a static value that will be the same however it's built, so not worried about this right now.
 	m.managedAttrSet = managedAttrSet
-	return managedAttrSet
+	return managedAttrSet, true
 }
 
 func (m *IncidentCatalogEntriesResourceModel) buildUpdateAttributes() *[]string {
-	if m.ManagedAttributes.IsNull() || m.ManagedAttributes.IsUnknown() {
+	if m.ManagedAttributes.IsNull() {
 		return nil
 	}
 

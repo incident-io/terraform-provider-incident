@@ -342,21 +342,24 @@ func (r *IncidentCatalogEntryResource) ValidateConfig(ctx context.Context, req r
 	}
 
 	// Extract the managed attribute IDs
-	var managedAttributeIDs []string
-	diags := data.ManagedAttributes.ElementsAs(ctx, &managedAttributeIDs, false)
-	if diags.HasError() {
-		resp.Diagnostics.Append(diags...)
-		return
-	}
-
-	// Create a map for faster lookups
 	managedAttributesMap := map[string]bool{}
-	for _, attrID := range managedAttributeIDs {
+	for _, attrIDElem := range data.ManagedAttributes.Elements() {
+		if attrIDElem.IsUnknown() {
+			continue
+		}
+
+		attrID := attrIDElem.(types.String).ValueString()
 		managedAttributesMap[attrID] = true
 	}
 
 	// Check that each attribute in attribute_values is managed
 	for idx, attributeValue := range data.AttributeValues {
+		if attributeValue.Attribute.IsUnknown() {
+			// Ideally we would look at the reference for this, but the framework
+			// doesn't seem to expose this, so we just have to skip the check.
+			continue
+		}
+
 		attributeID := attributeValue.Attribute.ValueString()
 		if !managedAttributesMap[attributeID] {
 			resp.Diagnostics.AddAttributeError(
