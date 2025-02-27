@@ -101,6 +101,7 @@ resource "incident_catalog_type_attribute" "service_tier_services" {
 - `array` (Boolean) Whether this attribute is an array or scalar.
 - `backlink_attribute` (String) If this is a backlink, the id of the attribute that it's linked from
 - `path` (List of String) If this is a path attribute, the path that we should use to pull the data
+- `schema_only` (Boolean) If true, Terraform will only manage the schema of the attribute. Values for this attribute can be managed from the incident.io web dashboard.
 
 ### Read-Only
 

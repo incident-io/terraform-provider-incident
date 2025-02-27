@@ -22,7 +22,9 @@ import (
 )
 
 var (
-	_ resource.Resource = &IncidentCatalogTypeAttributeResource{}
+	_ resource.Resource                   = &IncidentCatalogTypeAttributeResource{}
+	_ resource.ResourceWithConfigure      = &IncidentCatalogTypeAttributeResource{}
+	_ resource.ResourceWithValidateConfig = &IncidentCatalogTypeAttributeResource{}
 )
 
 type IncidentCatalogTypeAttributeResource struct {
@@ -37,6 +39,7 @@ type IncidentCatalogTypeAttributesResourceModel struct {
 	Array             types.Bool   `tfsdk:"array"`
 	BacklinkAttribute types.String `tfsdk:"backlink_attribute"`
 	Path              types.List   `tfsdk:"path"`
+	SchemaOnly        types.Bool   `tfsdk:"schema_only"`
 }
 
 func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.Context) client.CatalogTypeAttributePayloadV3 {
@@ -59,6 +62,13 @@ func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.C
 		backlinkAttribute *string
 		path              *[]client.CatalogTypeAttributePathItemPayloadV3
 	)
+	if !m.SchemaOnly.IsUnknown() && m.SchemaOnly.ValueBool() {
+		// We apply this first, since if an attribute is also a backlink/path, those
+		// are effectively also schema-only, so we can ignore the `schema_only` flag
+		// for them.
+		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeDashboard)
+	}
+
 	if !m.BacklinkAttribute.IsNull() {
 		backlinkAttribute = lo.ToPtr(m.BacklinkAttribute.ValueString())
 		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeBacklink)
@@ -79,7 +89,6 @@ func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.C
 			})
 		}
 	}
-
 	return client.CatalogTypeAttributePayloadV3{
 		Id:                id,
 		Name:              m.Name.ValueString(),
@@ -141,7 +150,35 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 				},
 				Optional: true,
 			},
+			"schema_only": schema.BoolAttribute{
+				Description: "If true, Terraform will only manage the schema of the attribute. Values for this attribute can be managed from the incident.io web dashboard.",
+				Optional:    true,
+				Computed:    true,
+			},
 		},
+	}
+}
+
+func (r *IncidentCatalogTypeAttributeResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var data IncidentCatalogTypeAttributesResourceModel
+	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	isSchemaOnly := data.SchemaOnly.ValueBool()
+	isBacklink := data.BacklinkAttribute.ValueStringPointer() != nil
+	isPath := len(data.Path.Elements()) > 0
+
+	// Validate that only one of schema_only, backlink_attribute, or path is set.
+	if isBacklink && isPath {
+		resp.Diagnostics.AddError("backlink_attribute", "You cannot set both backlink_attribute and path on the same attribute.")
+	}
+	if isSchemaOnly && isBacklink {
+		resp.Diagnostics.AddError("schema_only", "You cannot set schema_only on a backlink attribute.")
+	}
+	if isSchemaOnly && isPath {
+		resp.Diagnostics.AddError("schema_only", "You cannot set schema_only on a path attribute.")
 	}
 }
 
@@ -353,6 +390,7 @@ func (r *IncidentCatalogTypeAttributeResource) buildModel(catalogType client.Cat
 			result.Name = types.StringValue(attribute.Name)
 			result.Type = types.StringValue(attribute.Type)
 			result.Array = types.BoolValue(attribute.Array)
+			result.SchemaOnly = types.BoolValue(attribute.Mode == client.CatalogTypeAttributeV3ModeDashboard)
 			if attribute.BacklinkAttribute != nil {
 				result.BacklinkAttribute = types.StringValue(*attribute.BacklinkAttribute)
 			}
@@ -402,8 +440,14 @@ func (r *IncidentCatalogTypeAttributeResource) lockFor(ctx context.Context, cata
 }
 
 func (*IncidentCatalogTypeAttributeResource) attributeToPayload(attribute client.CatalogTypeAttributeV3) client.CatalogTypeAttributePayloadV3 {
-	var mode *client.CatalogTypeAttributePayloadV3Mode
-	var path *[]client.CatalogTypeAttributePathItemPayloadV3
+	var (
+		mode *client.CatalogTypeAttributePayloadV3Mode
+		path *[]client.CatalogTypeAttributePathItemPayloadV3
+	)
+
+	if attribute.Mode == client.CatalogTypeAttributeV3ModeDashboard {
+		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeDashboard)
+	}
 	if attribute.BacklinkAttribute != nil {
 		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeBacklink)
 	}

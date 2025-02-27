@@ -47,6 +47,22 @@ func TestAccIncidentCatalogTypeAttributeResource(t *testing.T) {
 						"incident_catalog_type_attribute.example", "array", "true"),
 				),
 			},
+			// Schema-only
+			{
+				Config: testAccIncidentCatalogTypeAttributeResourceConfig(client.CatalogTypeAttributeV2{
+					Name: "Description",
+					Type: "String",
+					Mode: "dashboard",
+				}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type_attribute.example", "name", "Description"),
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type_attribute.example", "type", "String"),
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type_attribute.example", "schema_only", "true"),
+				),
+			},
 		},
 	})
 }
@@ -66,6 +82,9 @@ resource "incident_catalog_type_attribute" "example" {
   type = {{ quote .Attribute.Type }}
   {{ if .Attribute.Array }}
   array = true
+  {{ end }}
+  {{ if eq .Attribute.Mode "dashboard" }}
+  schema_only = true
   {{ end }}
 }
 `))
