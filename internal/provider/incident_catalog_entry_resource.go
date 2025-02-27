@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -30,18 +31,27 @@ type IncidentCatalogEntryResource struct {
 }
 
 type IncidentCatalogEntryResourceModel struct {
-	ID              types.String                 `tfsdk:"id"`
-	CatalogTypeID   types.String                 `tfsdk:"catalog_type_id"`
-	Name            types.String                 `tfsdk:"name"`
-	ExternalID      types.String                 `tfsdk:"external_id"`
-	Aliases         types.List                   `tfsdk:"aliases"`
-	Rank            types.Int64                  `tfsdk:"rank"`
-	AttributeValues []CatalogEntryAttributeValue `tfsdk:"attribute_values"`
+	ID                types.String                 `tfsdk:"id"`
+	CatalogTypeID     types.String                 `tfsdk:"catalog_type_id"`
+	Name              types.String                 `tfsdk:"name"`
+	ExternalID        types.String                 `tfsdk:"external_id"`
+	Aliases           types.List                   `tfsdk:"aliases"`
+	Rank              types.Int64                  `tfsdk:"rank"`
+	AttributeValues   []CatalogEntryAttributeValue `tfsdk:"attribute_values"`
+	ManagedAttributes types.Set                    `tfsdk:"managed_attributes"`
 }
 
 func (m IncidentCatalogEntryResourceModel) buildAttributeValues() map[string]client.CatalogEngineParamBindingPayloadV3 {
 	values := map[string]client.CatalogEngineParamBindingPayloadV3{}
+
 	for _, attributeValue := range m.AttributeValues {
+		attrID := attributeValue.Attribute.ValueString()
+
+		// Skip attributes that aren't managed
+		if !m.isAttributeManaged(attrID) {
+			continue
+		}
+
 		payload := client.CatalogEngineParamBindingPayloadV3{}
 		if !attributeValue.Value.IsNull() {
 			payload.Value = &client.CatalogEngineParamBindingValuePayloadV3{
@@ -63,7 +73,7 @@ func (m IncidentCatalogEntryResourceModel) buildAttributeValues() map[string]cli
 			payload.ArrayValue = &arrayValue
 		}
 
-		values[attributeValue.Attribute.ValueString()] = payload
+		values[attrID] = payload
 	}
 
 	return values
@@ -150,6 +160,16 @@ If you're working with a large number of entries (>100) or want to be authoritat
 					},
 				},
 			},
+			"managed_attributes": schema.SetAttribute{
+				ElementType: types.StringType,
+				MarkdownDescription: `The set of attributes that are managed by this resource. By default, all attributes are managed by this resource.
+
+This can be used to allow other attributes of a catalog entry to be managed elsewhere, for example in another Terraform repository or the incident.io web UI.`,
+				Optional: true,
+				PlanModifiers: []planmodifier.Set{
+					setplanmodifier.UseStateForUnknown(),
+				},
+			},
 		},
 	}
 }
@@ -208,7 +228,7 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created a catalog entry resource with id=%s", result.JSON201.CatalogEntry.Id))
-	data = r.buildModel(result.JSON201.CatalogEntry)
+	data = r.buildModel(result.JSON201.CatalogEntry, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -236,7 +256,7 @@ func (r *IncidentCatalogEntryResource) Read(ctx context.Context, req resource.Re
 		return
 	}
 
-	data = r.buildModel(result.JSON200.CatalogEntry)
+	data = r.buildModel(result.JSON200.CatalogEntry, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -259,12 +279,24 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		}
 	}
 
+	var updateAttributes *[]string
+	if !data.ManagedAttributes.IsUnknown() && !data.ManagedAttributes.IsNull() {
+		var attributeIDs []string
+		diags := data.ManagedAttributes.ElementsAs(ctx, &attributeIDs, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
+		}
+		updateAttributes = &attributeIDs
+	}
+
 	result, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.CatalogUpdateEntryPayloadV3{
-		Name:            data.Name.ValueString(),
-		Rank:            rank,
-		ExternalId:      data.ExternalID.ValueStringPointer(),
-		Aliases:         &aliases,
-		AttributeValues: data.buildAttributeValues(),
+		Name:             data.Name.ValueString(),
+		Rank:             rank,
+		ExternalId:       data.ExternalID.ValueStringPointer(),
+		Aliases:          &aliases,
+		AttributeValues:  data.buildAttributeValues(),
+		UpdateAttributes: updateAttributes,
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
@@ -274,8 +306,8 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		return
 	}
 
-	data = r.buildModel(result.JSON200.CatalogEntry)
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	updatedModel := r.buildModel(result.JSON200.CatalogEntry, data)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &updatedModel)...)
 }
 
 func (r *IncidentCatalogEntryResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -296,9 +328,41 @@ func (r *IncidentCatalogEntryResource) ImportState(ctx context.Context, req reso
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3) *IncidentCatalogEntryResourceModel {
+// isAttributeManaged checks if the given attribute should be managed by this resource.
+func (m *IncidentCatalogEntryResourceModel) isAttributeManaged(attributeID string) bool {
+	// If managedAttributes is not set, all attributes are managed
+	if m.ManagedAttributes.IsNull() || m.ManagedAttributes.IsUnknown() {
+		return true
+	}
+
+	// Extract the managed attribute IDs
+	var managedAttributeIDs []string
+	diags := m.ManagedAttributes.ElementsAs(context.Background(), &managedAttributeIDs, false)
+	if diags.HasError() || len(managedAttributeIDs) == 0 {
+		// If there's an error or the list is empty, consider all attributes managed
+		return true
+	}
+
+	// Check if the attribute is in the managed list
+	for _, managedID := range managedAttributeIDs {
+		if managedID == attributeID {
+			return true
+		}
+	}
+
+	// Not found in the managed list
+	return false
+}
+
+func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3, data *IncidentCatalogEntryResourceModel) *IncidentCatalogEntryResourceModel {
 	values := []CatalogEntryAttributeValue{}
+
 	for attributeID, binding := range entry.AttributeValues {
+		// Skip attributes that aren't managed
+		if !data.isAttributeManaged(attributeID) {
+			continue
+		}
+
 		value := CatalogEntryAttributeValue{
 			Attribute:  types.StringValue(attributeID),
 			ArrayValue: types.ListNull(types.StringType),
@@ -345,5 +409,7 @@ func (r *IncidentCatalogEntryResource) buildModel(entry client.CatalogEntryV3) *
 		Aliases:         types.ListValueMust(types.StringType, aliases),
 		Rank:            types.Int64Value(int64(entry.Rank)),
 		AttributeValues: values,
+		// These are managed in config only
+		ManagedAttributes: data.ManagedAttributes,
 	}
 }
