@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"regexp"
 	"testing"
 	"text/template"
 
@@ -78,10 +79,49 @@ func TestAccIncidentCatalogEntryResourceWithAlias(t *testing.T) {
 	})
 }
 
+func TestIncidentCatalogEntryResource_ValidateConfig(t *testing.T) {
+	description := "desc-123"
+	priority := "priority-456"
+
+	resource.Test(t, resource.TestCase{
+		IsUnitTest:               true,
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Test validation error when attribute isn't in managed_attributes
+			{
+				Config: fmt.Sprintf(`
+resource "incident_catalog_entry" "test" {
+  catalog_type_id = "catalog-type-id-123"
+  name = "Test Entry"
+
+  # Only manage the description attribute
+  managed_attributes = ["%s"]
+
+  attribute_values = [
+    {
+      # This is managed, should be fine
+      attribute = "%s"
+      value = "A description"
+    },
+    {
+      # This is not managed, should cause an error
+      attribute = "%s"
+      value = "High"
+    }
+  ]
+}
+`, description, description, priority),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile(`specified in attribute_values`),
+			},
+		},
+	})
+}
+
 func TestAccIncidentCatalogEntryResourceWithManagedAttributes(t *testing.T) {
 	// Use a stable ID across steps - we want to edit the same one over and over
 	testEntryID := uuid.NewString()
-	
+
 	// checkUsefulIsTrue checks that:
 	// 1. The Description attribute has the expected value
 	// 2. The Useful attribute is still set to "true"
@@ -89,7 +129,7 @@ func TestAccIncidentCatalogEntryResourceWithManagedAttributes(t *testing.T) {
 	checkUsefulIsTrue := func(description string) func(s *terraform.State) error {
 		return func(s *terraform.State) error {
 			resources := s.RootModule().Resources
-			
+
 			// Verify required resources exist in state
 			resourceIDs := map[string]string{}
 			for _, name := range []string{
@@ -104,7 +144,7 @@ func TestAccIncidentCatalogEntryResourceWithManagedAttributes(t *testing.T) {
 					resourceIDs[name] = res.Primary.ID
 				}
 			}
-			
+
 			// Fetch all entries for this catalog type
 			entries, err := testClient.CatalogV3ListEntriesWithResponse(context.Background(), &client.CatalogV3ListEntriesParams{
 				CatalogTypeId: resourceIDs["incident_catalog_type.example"],
@@ -113,7 +153,7 @@ func TestAccIncidentCatalogEntryResourceWithManagedAttributes(t *testing.T) {
 			if err != nil {
 				return fmt.Errorf("error fetching catalog entries: %w", err)
 			}
-			
+
 			// Find our specific entry
 			entryID := resourceIDs["incident_catalog_entry.example"]
 			entry, found := lo.Find(entries.JSON200.CatalogEntries, func(e client.CatalogEntryV3) bool {
@@ -122,9 +162,9 @@ func TestAccIncidentCatalogEntryResourceWithManagedAttributes(t *testing.T) {
 			if !found {
 				return fmt.Errorf("entry (%s) not found in API response", entryID)
 			}
-			
+
 			// Check both attributes
-			expectedValues := map[string]struct{
+			expectedValues := map[string]struct {
 				attributeID string
 				value       string
 			}{
@@ -137,29 +177,29 @@ func TestAccIncidentCatalogEntryResourceWithManagedAttributes(t *testing.T) {
 					value:       "true",
 				},
 			}
-			
+
 			for name, expected := range expectedValues {
 				attrID := expected.attributeID
-				
+
 				// Check attribute exists
 				binding, ok := entry.AttributeValues[attrID]
 				if !ok {
 					return fmt.Errorf("expected %s attribute to be present: it is not\n\n%s", name, spew.Sdump(entry))
 				}
-				
+
 				// Check attribute is a literal value (not an array)
 				if binding.Value == nil {
 					return fmt.Errorf("expected %s attribute to be a literal value: it is nil or an array\n\n%s", name, spew.Sdump(entry))
 				}
-				
+
 				// Check attribute has expected value
 				value := binding.Value.Literal
 				if value == nil || *value != expected.value {
-					return fmt.Errorf("expected %s attribute to be %q: got %q", 
+					return fmt.Errorf("expected %s attribute to be %q: got %q",
 						name, expected.value, lo.FromPtrOr(value, "nil"))
 				}
 			}
-			
+
 			return nil
 		}
 	}

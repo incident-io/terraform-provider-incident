@@ -26,8 +26,9 @@ import (
 )
 
 var (
-	_ resource.Resource                = &IncidentCatalogEntriesResource{}
-	_ resource.ResourceWithImportState = &IncidentCatalogEntriesResource{}
+	_ resource.Resource                   = &IncidentCatalogEntriesResource{}
+	_ resource.ResourceWithImportState    = &IncidentCatalogEntriesResource{}
+	_ resource.ResourceWithValidateConfig = &IncidentCatalogEntriesResource{}
 )
 
 type IncidentCatalogEntriesResource struct {
@@ -254,6 +255,36 @@ func (r *IncidentCatalogEntriesResource) Delete(ctx context.Context, req resourc
 
 func (r *IncidentCatalogEntriesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
+func (r *IncidentCatalogEntriesResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var data IncidentCatalogEntriesResourceModel
+	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// If managed_attributes is not set, all attributes are valid
+	if data.ManagedAttributes.IsNull() || data.ManagedAttributes.IsUnknown() {
+		return
+	}
+
+	// Get the managed attributes map
+	managedAttributesMap := data.managedAttributesSet()
+
+	// Check that each attribute in each entry's attribute_values is managed
+	for externalID, entry := range data.Entries {
+		for attributeID := range entry.AttributeValues {
+			if !managedAttributesMap[attributeID] {
+				resp.Diagnostics.AddAttributeError(
+					path.Root("entries").AtMapKey(externalID).AtName("attribute_values").AtMapKey(attributeID),
+					"Unmanaged Attribute",
+					fmt.Sprintf("Attribute ID %q is specified in entry %q's attribute_values but is not in the managed_attributes set. "+
+						"Either add it to managed_attributes or remove it from attribute_values.", attributeID, externalID),
+				)
+			}
+		}
+	}
 }
 
 // buildModel generates a terraform model from a catalog type and current list of all

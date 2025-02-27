@@ -22,8 +22,9 @@ import (
 )
 
 var (
-	_ resource.Resource                = &IncidentCatalogEntryResource{}
-	_ resource.ResourceWithImportState = &IncidentCatalogEntryResource{}
+	_ resource.Resource                   = &IncidentCatalogEntryResource{}
+	_ resource.ResourceWithImportState    = &IncidentCatalogEntryResource{}
+	_ resource.ResourceWithValidateConfig = &IncidentCatalogEntryResource{}
 )
 
 type IncidentCatalogEntryResource struct {
@@ -326,6 +327,46 @@ func (r *IncidentCatalogEntryResource) Delete(ctx context.Context, req resource.
 
 func (r *IncidentCatalogEntryResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
+func (r *IncidentCatalogEntryResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var data IncidentCatalogEntryResourceModel
+	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// If managed_attributes is not set, all attributes are valid
+	if data.ManagedAttributes.IsNull() || data.ManagedAttributes.IsUnknown() {
+		return
+	}
+
+	// Extract the managed attribute IDs
+	var managedAttributeIDs []string
+	diags := data.ManagedAttributes.ElementsAs(ctx, &managedAttributeIDs, false)
+	if diags.HasError() {
+		resp.Diagnostics.Append(diags...)
+		return
+	}
+
+	// Create a map for faster lookups
+	managedAttributesMap := map[string]bool{}
+	for _, attrID := range managedAttributeIDs {
+		managedAttributesMap[attrID] = true
+	}
+
+	// Check that each attribute in attribute_values is managed
+	for idx, attributeValue := range data.AttributeValues {
+		attributeID := attributeValue.Attribute.ValueString()
+		if !managedAttributesMap[attributeID] {
+			resp.Diagnostics.AddAttributeError(
+				path.Root("attribute_values").AtListIndex(idx),
+				"Unmanaged Attribute",
+				fmt.Sprintf("Attribute ID %q is specified in attribute_values but is not in the managed_attributes set. "+
+					"Either add it to managed_attributes or remove it from attribute_values.", attributeID),
+			)
+		}
+	}
 }
 
 // isAttributeManaged checks if the given attribute should be managed by this resource.
