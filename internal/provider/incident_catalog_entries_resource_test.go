@@ -2,12 +2,18 @@ package provider
 
 import (
 	"bytes"
+	"context"
+	"fmt"
 	"testing"
 	"text/template"
 
 	"github.com/Masterminds/sprig"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/samber/lo"
 )
 
 func TestAccIncidentCatalogEntriesResource(t *testing.T) {
@@ -30,7 +36,7 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 						Description: "This is the second entry",
 						ArrayValue:  "[]",
 					},
-				}),
+				}, false),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
 						"incident_catalog_entries.example", "entries.one.name", "One"),
@@ -59,10 +65,150 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 						Description: "This is the third entry",
 						ArrayValue:  "[]",
 					},
-				}),
+				}, false),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
 						"incident_catalog_entries.example", "entries.two.name", "Three"),
+				),
+			},
+		},
+	})
+}
+
+func TestAccIncidentCatalogEntriesResourceWithManagedAttributes(t *testing.T) {
+	// Use a stable ID across steps
+	testCatalogID := uuid.NewString()
+
+	// checkUsefulIsTrue verifies that:
+	// 1. The Description attribute has the expected value
+	// 2. The Useful attribute is still set to "true"
+	// This validates that managed_attributes works correctly
+	checkUsefulIsTrue := func(description string) func(s *terraform.State) error {
+		return func(s *terraform.State) error {
+			resources := s.RootModule().Resources
+
+			// Verify required resources exist in state
+			resourceIDs := map[string]string{}
+			for _, name := range []string{
+				"incident_catalog_type.example",
+				"incident_catalog_entries.example",
+				"incident_catalog_type_attribute.example_description",
+				"incident_catalog_type_attribute.example_bool",
+			} {
+				if res, ok := resources[name]; !ok {
+					return fmt.Errorf("required resource %s not found in state", name)
+				} else {
+					resourceIDs[name] = res.Primary.ID
+				}
+			}
+
+			// Fetch all entries for this catalog type
+			entries, err := testClient.CatalogV3ListEntriesWithResponse(context.Background(), &client.CatalogV3ListEntriesParams{
+				CatalogTypeId: resourceIDs["incident_catalog_type.example"],
+				PageSize:      250,
+			})
+			if err != nil {
+				return fmt.Errorf("error fetching catalog entries: %w", err)
+			}
+
+			// Find our specific entry (use external_id "test")
+			entry, found := lo.Find(entries.JSON200.CatalogEntries, func(e client.CatalogEntryV3) bool {
+				return e.ExternalId != nil && *e.ExternalId == "test"
+			})
+			if !found {
+				return fmt.Errorf("entry with external_id 'test' not found in API response")
+			}
+
+			// Check both attributes
+			expectedValues := map[string]struct {
+				attributeID string
+				value       string
+			}{
+				"Description": {
+					attributeID: resourceIDs["incident_catalog_type_attribute.example_description"],
+					value:       description,
+				},
+				"Useful": {
+					attributeID: resourceIDs["incident_catalog_type_attribute.example_bool"],
+					value:       "true",
+				},
+			}
+
+			for name, expected := range expectedValues {
+				attrID := expected.attributeID
+
+				// Check attribute exists
+				binding, ok := entry.AttributeValues[attrID]
+				if !ok {
+					return fmt.Errorf("expected %s attribute to be present: it is not\n\n%s", name, spew.Sdump(entry))
+				}
+
+				// Check attribute is a literal value (not an array)
+				if binding.Value == nil {
+					return fmt.Errorf("expected %s attribute to be a literal value: it is nil or an array\n\n%s", name, spew.Sdump(entry))
+				}
+
+				// Check attribute has expected value
+				value := binding.Value.Literal
+				if value == nil || *value != expected.value {
+					return fmt.Errorf("expected %s attribute to be %q: got %q",
+						name, expected.value, lo.FromPtrOr(value, "nil"))
+				}
+			}
+
+			return nil
+		}
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// First create with both attributes (Useful=true)
+			{
+				Config: testAccIncidentCatalogEntriesResourceConfigWithID(testCatalogID, []catalogEntryElement{
+					{
+						Name:        "Initial Entry",
+						ExternalID:  "test",
+						Description: "Initial description",
+						UsefulValue: "true",
+					},
+				}, false),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_catalog_entries.example", "entries.test.name", "Initial Entry"),
+					checkUsefulIsTrue("Initial description"),
+				),
+			},
+			// Now switch to managed_attributes for description only and update description
+			// The Useful attribute should remain true from previous step
+			{
+				Config: testAccIncidentCatalogEntriesResourceConfigWithID(testCatalogID, []catalogEntryElement{
+					{
+						Name:        "Partial Update",
+						ExternalID:  "test",
+						Description: "Updated description only",
+						// UsefulValue omitted intentionally
+					},
+				}, true),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_catalog_entries.example", "entries.test.name", "Partial Update"),
+					checkUsefulIsTrue("Updated description only"),
+				),
+			},
+			// Update description again with managed_attributes
+			// Useful should still remain unchanged from first step
+			{
+				Config: testAccIncidentCatalogEntriesResourceConfigWithID(testCatalogID, []catalogEntryElement{
+					{
+						Name:        "Another Update",
+						ExternalID:  "test",
+						Description: "Another description change",
+						// UsefulValue omitted intentionally
+					},
+				}, true),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_catalog_entries.example", "entries.test.name", "Another Update"),
+					checkUsefulIsTrue("Another description change"),
 				),
 			},
 		},
@@ -92,8 +238,23 @@ resource "incident_catalog_type_attribute" "example_array" {
   array = true
 }
 
+resource "incident_catalog_type_attribute" "example_bool" {
+  catalog_type_id = incident_catalog_type.example.id
+
+  name = "Useful"
+  type = "Bool"
+
+  {{ if $.ManagedAttributes }}
+  schema_only = true
+  {{ end }}
+}
+
 resource "incident_catalog_entries" "example" {
   id = incident_catalog_type.example.id
+
+  {{ if $.ManagedAttributes }}
+  managed_attributes = [incident_catalog_type_attribute.example_description.id, incident_catalog_type_attribute.example_array.id]
+  {{ end }}
 
   entries = {
   {{ range .Entries }}
@@ -108,6 +269,11 @@ resource "incident_catalog_entries" "example" {
         (incident_catalog_type_attribute.example_array.id) = {
           array_value = {{ .ArrayValue }}
         }
+        {{ if not $.ManagedAttributes }}
+        (incident_catalog_type_attribute.example_bool.id) = {
+          value = {{ .UsefulValue }}
+        }
+        {{ end }}
       }
     },
   {{ end }}
@@ -121,19 +287,33 @@ type catalogEntryElement struct {
 	Aliases     []string
 	Description string
 	ArrayValue  string
+	UsefulValue string
 }
 
-func testAccIncidentCatalogEntriesResourceConfig(entries []catalogEntryElement) string {
+func testAccIncidentCatalogEntriesResourceConfigWithID(catalogID string, entries []catalogEntryElement, managedAttributes bool) string {
+	// Set default ArrayValue if not provided
+	for i := range entries {
+		if entries[i].ArrayValue == "" {
+			entries[i].ArrayValue = "null"
+		}
+	}
+
 	var buf bytes.Buffer
 	if err := catalogEntriesTemplate.Execute(&buf, struct {
-		ID      string
-		Entries []catalogEntryElement
+		ID                string
+		Entries           []catalogEntryElement
+		ManagedAttributes bool
 	}{
-		ID:      uuid.NewString(),
-		Entries: entries,
+		ID:                catalogID,
+		Entries:           entries,
+		ManagedAttributes: managedAttributes,
 	}); err != nil {
 		panic(err)
 	}
 
 	return buf.String()
+}
+
+func testAccIncidentCatalogEntriesResourceConfig(entries []catalogEntryElement, managedAttributes bool) string {
+	return testAccIncidentCatalogEntriesResourceConfigWithID(uuid.NewString(), entries, managedAttributes)
 }

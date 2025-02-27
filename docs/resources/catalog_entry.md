@@ -87,6 +87,9 @@ resource "incident_catalog_entry" "service_tier" {
 
 - `aliases` (List of String) Optional aliases that can be used to reference this entry
 - `external_id` (String) An optional alternative ID for this entry, which is ensured to be unique for the type
+- `managed_attributes` (Set of String) The set of attributes that are managed by this resource. By default, all attributes are managed by this resource.
+
+This can be used to allow other attributes of a catalog entry to be managed elsewhere, for example in another Terraform repository or the incident.io web UI.
 - `rank` (Number) When catalog type is ranked, this is used to help order things
 
 ### Read-Only
