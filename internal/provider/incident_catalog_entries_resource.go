@@ -649,7 +649,13 @@ func (m *IncidentCatalogEntriesResourceModel) managedAttributesSet() (map[string
 			return nil, false
 		}
 
-		managedAttrSet[attrElem.(types.String).ValueString()] = true
+		attrIDStr, ok := attrElem.(types.String)
+		if !ok {
+			// Weird but ok
+			return nil, false
+		}
+
+		managedAttrSet[attrIDStr.ValueString()] = true
 	}
 
 	// Technically this isn't race-safe, since multiple goroutines _could_ try to set this at once.

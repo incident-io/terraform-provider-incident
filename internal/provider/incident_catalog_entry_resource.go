@@ -348,8 +348,12 @@ func (r *IncidentCatalogEntryResource) ValidateConfig(ctx context.Context, req r
 			continue
 		}
 
-		attrID := attrIDElem.(types.String).ValueString()
-		managedAttributesMap[attrID] = true
+		attrIDStr, ok := attrIDElem.(types.String)
+		if !ok {
+			continue
+		}
+
+		managedAttributesMap[attrIDStr.ValueString()] = true
 	}
 
 	// Check that each attribute in attribute_values is managed
