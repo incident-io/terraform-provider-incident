@@ -625,7 +625,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 
 // isAttributeManaged checks if the given attribute should be managed by this resource.
 func (m *IncidentCatalogEntriesResourceModel) isAttributeManaged(attributeID string) bool {
-	// Check if the attribute is in the managed list
+	// Check if the attribute is in the managed list (or that list isn't set!)
 	attrSet, known := m.managedAttributesSet()
 	if !known {
 		return true
@@ -645,6 +645,13 @@ func (m *IncidentCatalogEntriesResourceModel) managedAttributesSet() (map[string
 
 	managedAttrSet := map[string]bool{}
 	for _, attrElem := range m.ManagedAttributes.Elements() {
+		// If any element in the list is unknown (e.g. a reference to an attribute
+		// that hasn't been created yet), we give up and assume all attributes are
+		// managed.
+		//
+		// This won't happen at apply-time, so the effect on the user is relatively
+		// small, but it does meant that if you're creating a totally new config we
+		// can't fully validate it on an initial `terraform plan`.
 		if attrElem.IsUnknown() {
 			return nil, false
 		}

@@ -8,10 +8,11 @@
   to `true`, the attribute will be created from Terraform, but values for it must
   be edited in the incident.io dashboard.
 - Add `managed_attributes` to both `incident_catalog_entry` and `incident_catalog_entries`. This
-  allows you to manage only some attributes of a catalog entry, while leaving others
-  unchanged. When attributes on a type are marked as `schema_only`, this avoids
-  Terraform trying to manage their state, allowing values set in the incident.io
-  dashboard to be preserved, and avoiding unnecessary diffs.
+  allows you to manage only some attributes of a catalog entry, while leaving
+  others unchanged. This is most useful when attributes have been set as
+  `schema_only`, since it allows you to avoid Terraform trying to manage their
+  state, allowing values set in the incident.io dashboard to be preserved, and
+  avoiding unnecessary diffs.
 
 ## v4.3.3
 

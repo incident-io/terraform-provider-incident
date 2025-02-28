@@ -345,6 +345,13 @@ func (r *IncidentCatalogEntryResource) ValidateConfig(ctx context.Context, req r
 	managedAttributesMap := map[string]bool{}
 	for _, attrIDElem := range data.ManagedAttributes.Elements() {
 		if attrIDElem.IsUnknown() {
+			// If any element in the list is unknown (e.g. a reference to an attribute
+			// that hasn't been created yet), we give up and assume all attributes are
+			// managed.
+			//
+			// This won't happen at apply-time, so the effect on the user is relatively
+			// small, but it does meant that if you're creating a totally new config we
+			// can't fully validate it on an initial `terraform plan`.
 			continue
 		}
 
@@ -359,8 +366,7 @@ func (r *IncidentCatalogEntryResource) ValidateConfig(ctx context.Context, req r
 	// Check that each attribute in attribute_values is managed
 	for idx, attributeValue := range data.AttributeValues {
 		if attributeValue.Attribute.IsUnknown() {
-			// Ideally we would look at the reference for this, but the framework
-			// doesn't seem to expose this, so we just have to skip the check.
+			// Likewise here we give up trying to validate when the attribute ID isn't yet known.
 			continue
 		}
 
