@@ -5638,6 +5638,11 @@ type CatalogV3ListEntriesParams struct {
 
 	// After An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.
 	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// Identifier If specified, only entries with this identifier will be returned. This will search by ID, external ID, and aliases.
+	//
+	// If 'use name as identifier' is enabled for the catalog type, this will also match on name.
+	Identifier *string `form:"identifier,omitempty" json:"identifier,omitempty"`
 }
 
 // CustomFieldOptionsV1CreateJSONRequestBody defines body for CustomFieldOptionsV1Create for application/json ContentType.
@@ -12875,6 +12880,22 @@ func NewCatalogV3ListEntriesRequest(server string, params *CatalogV3ListEntriesP
 		if params.After != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Identifier != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "identifier", runtime.ParamLocationQuery, *params.Identifier); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err

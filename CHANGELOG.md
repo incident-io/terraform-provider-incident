@@ -1,18 +1,24 @@
 ## Unreleased
 
-- BREAKING: `incident_catalog_type`'s `source_repo_url` attribute is now
+- ‼️ BREAKING: `incident_catalog_type`'s `source_repo_url` attribute is now
   required. This prevents the catalog type from being edited manually, and ensures
   there is a link from the incident.io dashboard to the configuration that defines
   the catalog type.
-- Add `schema_only` as an option on `incident_catalog_type_attribute`. When set
+- :new: Add `schema_only` as an option on `incident_catalog_type_attribute`. When set
   to `true`, the attribute will be created from Terraform, but values for it must
   be edited in the incident.io dashboard.
-- Add `managed_attributes` to both `incident_catalog_entry` and `incident_catalog_entries`. This
+- :new: Add `managed_attributes` to both `incident_catalog_entry` and `incident_catalog_entries`. This
   allows you to manage only some attributes of a catalog entry, while leaving
   others unchanged. This is most useful when attributes have been set as
   `schema_only`, since it allows you to avoid Terraform trying to manage their
   state, allowing values set in the incident.io dashboard to be preserved, and
   avoiding unnecessary diffs.
+- :new: `incident_catalog_type_attribute` data source, allowing you to look up
+  the ID of a catalog type attribute by its name.
+- :new: `incident_catalog_entry` data source, allowing you to look up the ID
+  k
+  (and other properties) of a catalog entry using its name, external ID, or an
+  alias.
 
 ## v4.3.3
 
