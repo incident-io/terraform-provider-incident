@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -34,8 +35,12 @@ type IncidentCatalogEntriesResource struct {
 }
 
 type IncidentCatalogEntriesResourceModel struct {
-	ID      types.String                 `tfsdk:"id"` // Catalog Type ID
-	Entries map[string]CatalogEntryModel `tfsdk:"entries"`
+	ID                types.String                 `tfsdk:"id"` // Catalog Type ID
+	Entries           map[string]CatalogEntryModel `tfsdk:"entries"`
+	ManagedAttributes types.Set                    `tfsdk:"managed_attributes"`
+
+	// This caches a lookup of the managed attributes set
+	managedAttrSet map[string]bool
 }
 
 type CatalogEntryModel struct {
@@ -44,8 +49,6 @@ type CatalogEntryModel struct {
 	Aliases         types.List                                   `tfsdk:"aliases"`
 	Rank            types.Int64                                  `tfsdk:"rank"`
 	AttributeValues map[string]CatalogEntryAttributeBindingModel `tfsdk:"attribute_values"`
-
-	externalID string // tracks the external ID for our internal book-keeping
 }
 
 type CatalogEntryAttributeBindingModel struct {
@@ -89,7 +92,7 @@ changes to one entry to an update to that same entry when the upstream changes.
 		`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogEntryV2", "catalog_type_id"),
+				MarkdownDescription: apischema.Docstring("CatalogEntryV3", "catalog_type_id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -101,14 +104,14 @@ changes to one entry to an update to that same entry when the upstream changes.
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"id": schema.StringAttribute{
-							MarkdownDescription: apischema.Docstring("CatalogEntryV2", "id"),
+							MarkdownDescription: apischema.Docstring("CatalogEntryV3", "id"),
 							Computed:            true,
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
 							},
 						},
 						"name": schema.StringAttribute{
-							MarkdownDescription: apischema.Docstring("CatalogEntryV2", "name"),
+							MarkdownDescription: apischema.Docstring("CatalogEntryV3", "name"),
 							Required:            true,
 						},
 						"aliases": schema.ListAttribute{
@@ -116,12 +119,12 @@ changes to one entry to an update to that same entry when the upstream changes.
 							PlanModifiers: []planmodifier.List{
 								listplanmodifier.UseStateForUnknown(),
 							},
-							MarkdownDescription: apischema.Docstring("CatalogEntryV2", "aliases"),
+							MarkdownDescription: apischema.Docstring("CatalogEntryV3", "aliases"),
 							Optional:            true,
 							Computed:            true,
 						},
 						"rank": schema.Int64Attribute{
-							MarkdownDescription: apischema.Docstring("CatalogEntryV2", "rank"),
+							MarkdownDescription: apischema.Docstring("CatalogEntryV3", "rank"),
 							Optional:            true,
 							Computed:            true,
 							Default:             int64default.StaticInt64(0),
@@ -143,6 +146,16 @@ changes to one entry to an update to that same entry when the upstream changes.
 							},
 						},
 					},
+				},
+			},
+			"managed_attributes": schema.SetAttribute{
+				ElementType: types.StringType,
+				MarkdownDescription: `The set of attributes that are managed by this resource. By default, all attributes are managed by this resource.
+
+This can be used to allow other attributes of a catalog entry to be managed elsewhere, for example in another Terraform repository or the incident.io web UI.`,
+				Optional: true,
+				PlanModifiers: []planmodifier.Set{
+					setplanmodifier.UseStateForUnknown(),
 				},
 			},
 		},
@@ -245,7 +258,7 @@ func (r *IncidentCatalogEntriesResource) ImportState(ctx context.Context, req re
 
 // buildModel generates a terraform model from a catalog type and current list of all
 // entries, as received from getEntries.
-func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTypeV2, entries []client.CatalogEntryV2, plan *IncidentCatalogEntriesResourceModel) *IncidentCatalogEntriesResourceModel {
+func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTypeV3, entries []client.CatalogEntryV3, plan *IncidentCatalogEntriesResourceModel) *IncidentCatalogEntriesResourceModel {
 	modelEntries := map[string]CatalogEntryModel{}
 	for _, entry := range entries {
 		// Skip all entries that come with no external ID, as these can't have been created by
@@ -256,6 +269,11 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 
 		values := map[string]CatalogEntryAttributeBindingModel{}
 		for attributeID, binding := range entry.AttributeValues {
+			// Don't include unmanaged attributes in the result - that produces diffs!
+			if !plan.isAttributeManaged(attributeID) {
+				continue
+			}
+
 			// For terraform to serialize a list, it must know the type of the list. It's
 			// possible that we won't have any values from the API response that we'd populate
 			// our ArrayValue with, so we default allocate it as a string list so we know how to
@@ -317,19 +335,19 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 			Aliases:         types.ListValueMust(types.StringType, aliases),
 			Rank:            types.Int64Value(int64(entry.Rank)),
 			AttributeValues: values,
-			externalID:      *entry.ExternalId,
 		}
 	}
 
 	return &IncidentCatalogEntriesResourceModel{
-		ID:      types.StringValue(catalogType.Id),
-		Entries: modelEntries,
+		ID:                types.StringValue(catalogType.Id),
+		Entries:           modelEntries,
+		ManagedAttributes: plan.ManagedAttributes,
 	}
 }
 
 type catalogEntryModelPayload struct {
 	CatalogEntryID *string
-	Payload        client.CreateEntryRequestBody
+	Payload        client.CatalogCreateEntryPayloadV3
 }
 
 // buildPayloads produces a list of payloads that are used to either create or update an
@@ -337,22 +355,22 @@ type catalogEntryModelPayload struct {
 func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) []*catalogEntryModelPayload {
 	payloads := []*catalogEntryModelPayload{}
 	for externalID, entry := range m.Entries {
-		values := map[string]client.EngineParamBindingPayloadV2{}
+		values := map[string]client.CatalogEngineParamBindingPayloadV3{}
 		for attributeID, attributeValue := range entry.AttributeValues {
-			payload := client.EngineParamBindingPayloadV2{}
+			payload := client.CatalogEngineParamBindingPayloadV3{}
 			if !attributeValue.Value.IsNull() {
-				payload.Value = &client.EngineParamBindingValuePayloadV2{
+				payload.Value = &client.CatalogEngineParamBindingValuePayloadV3{
 					Literal: lo.ToPtr(attributeValue.Value.ValueString()),
 				}
 			}
 			if !attributeValue.ArrayValue.IsNull() {
-				arrayValue := []client.EngineParamBindingValuePayloadV2{}
+				arrayValue := []client.CatalogEngineParamBindingValuePayloadV3{}
 				for _, element := range attributeValue.ArrayValue.Elements() {
 					elementString, ok := element.(types.String)
 					if !ok {
 						panic(fmt.Sprintf("element should have been types.String but was %T", element))
 					}
-					arrayValue = append(arrayValue, client.EngineParamBindingValuePayloadV2{
+					arrayValue = append(arrayValue, client.CatalogEngineParamBindingValuePayloadV3{
 						Literal: lo.ToPtr(elementString.ValueString()),
 					})
 				}
@@ -370,7 +388,7 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 			}
 		}
 		payload := &catalogEntryModelPayload{
-			Payload: client.CreateEntryRequestBody{
+			Payload: client.CatalogCreateEntryPayloadV3{
 				CatalogTypeId:   m.ID.ValueString(),
 				Aliases:         &aliases,
 				Name:            entry.Name.ValueString(),
@@ -392,15 +410,15 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 	return payloads
 }
 
-func (r *IncidentCatalogEntriesResource) getEntries(ctx context.Context, catalogTypeID string) (catalogType *client.CatalogTypeV2, entries []client.CatalogEntryV2, err error) {
+func (r *IncidentCatalogEntriesResource) getEntries(ctx context.Context, catalogTypeID string) (catalogType *client.CatalogTypeV3, entries []client.CatalogEntryV3, err error) {
 	var (
 		after *string
 	)
 
 	for {
-		result, err := r.client.CatalogV2ListEntriesWithResponse(ctx, &client.CatalogV2ListEntriesParams{
+		result, err := r.client.CatalogV3ListEntriesWithResponse(ctx, &client.CatalogV3ListEntriesParams{
 			CatalogTypeId: catalogTypeID,
-			PageSize:      lo.ToPtr(int64(250)),
+			PageSize:      250,
 			After:         after,
 		})
 		if err == nil && result.StatusCode() >= 400 {
@@ -433,14 +451,14 @@ func (r *IncidentCatalogEntriesResource) getEntries(ctx context.Context, catalog
 // house before starting over fresh.
 //
 // This is how we create, update and destroy this terraform resource.
-func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *IncidentCatalogEntriesResourceModel) (*client.CatalogTypeV2, []client.CatalogEntryV2, error) {
+func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *IncidentCatalogEntriesResourceModel) (*client.CatalogTypeV3, []client.CatalogEntryV3, error) {
 	_, entries, err := r.getEntries(ctx, data.ID.ValueString())
 	if err != nil {
 		return nil, nil, errors.Wrap(err, "listing entries")
 	}
 
 	{
-		toDelete := []client.CatalogEntryV2{}
+		toDelete := []client.CatalogEntryV3{}
 	eachEntry:
 		for _, entry := range entries {
 			if entry.ExternalId != nil {
@@ -465,7 +483,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 				entry = entry // avoid shadow loop variable
 			)
 			g.Go(func() error {
-				result, err := r.client.CatalogV2DestroyEntryWithResponse(ctx, entry.Id)
+				result, err := r.client.CatalogV3DestroyEntryWithResponse(ctx, entry.Id)
 				if err == nil && result.StatusCode() >= 400 {
 					err = fmt.Errorf(string(result.Body))
 				}
@@ -487,7 +505,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 	// We only care about entries with an external ID, as we should have deleted all that
 	// didn't have one above. We also want this lookup to be fast to help when the entry
 	// list is very long.
-	entriesByExternalID := map[string]*client.CatalogEntryV2{}
+	entriesByExternalID := map[string]*client.CatalogEntryV3{}
 	for _, entry := range entries {
 		if entry.ExternalId == nil {
 			continue
@@ -506,7 +524,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 			var (
 				payload      = payload              // alias this for concurrent loop
 				shouldUpdate bool                   // mark this if we think we should update things
-				entry        *client.CatalogEntryV2 // existing entry
+				entry        *client.CatalogEntryV3 // existing entry
 			)
 
 			entry, alreadyExists := entriesByExternalID[*payload.Payload.ExternalId]
@@ -519,26 +537,29 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 							reflect.DeepEqual(payload.Payload.Aliases, entry.Aliases) &&
 							(payload.Payload.Rank == nil || (*payload.Payload.Rank == entry.Rank))
 
-					currentBindings := map[string]client.EngineParamBindingPayloadV2{}
 					for attributeID, value := range entry.AttributeValues {
-						current := client.EngineParamBindingPayloadV2{}
+						current := client.CatalogEngineParamBindingPayloadV3{}
 						if value.ArrayValue != nil {
-							current.ArrayValue = lo.ToPtr(lo.Map(*value.ArrayValue, func(binding client.CatalogEntryEngineParamBindingValueV2, _ int) client.EngineParamBindingValuePayloadV2 {
-								return client.EngineParamBindingValuePayloadV2{
+							current.ArrayValue = lo.ToPtr(lo.Map(*value.ArrayValue, func(binding client.CatalogEntryEngineParamBindingValueV3, _ int) client.CatalogEngineParamBindingValuePayloadV3 {
+								return client.CatalogEngineParamBindingValuePayloadV3{
 									Literal: binding.Literal,
 								}
 							}))
 						}
 						if value.Value != nil {
-							current.Value = &client.EngineParamBindingValuePayloadV2{
+							current.Value = &client.CatalogEngineParamBindingValuePayloadV3{
 								Literal: value.Value.Literal,
 							}
 						}
 
-						currentBindings[attributeID] = current
+						if data.isAttributeManaged(attributeID) && !reflect.DeepEqual(payload.Payload.AttributeValues[attributeID], current) {
+							tflog.Debug(ctx, fmt.Sprintf("catalog entry with id=%s has changed, scheduling for update", entry.Id))
+							isSame = false
+						}
+
 					}
 
-					if isSame && reflect.DeepEqual(payload.Payload.AttributeValues, currentBindings) {
+					if isSame {
 						tflog.Debug(ctx, fmt.Sprintf("catalog entry with id=%s has not changed, not updating", entry.Id))
 						continue eachPayload
 					} else {
@@ -550,12 +571,13 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 
 			g.Go(func() error {
 				if shouldUpdate {
-					result, err := r.client.CatalogV2UpdateEntryWithResponse(ctx, entry.Id, client.UpdateEntryRequestBody{
-						Name:            payload.Payload.Name,
-						ExternalId:      payload.Payload.ExternalId,
-						Rank:            payload.Payload.Rank,
-						Aliases:         payload.Payload.Aliases,
-						AttributeValues: payload.Payload.AttributeValues,
+					result, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, entry.Id, client.CatalogUpdateEntryPayloadV3{
+						Name:             payload.Payload.Name,
+						ExternalId:       payload.Payload.ExternalId,
+						Rank:             payload.Payload.Rank,
+						Aliases:          payload.Payload.Aliases,
+						AttributeValues:  payload.Payload.AttributeValues,
+						UpdateAttributes: data.buildUpdateAttributes(),
 					})
 					if err == nil && result.StatusCode() >= 400 {
 						err = fmt.Errorf(string(result.Body))
@@ -566,7 +588,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 
 					tflog.Debug(ctx, fmt.Sprintf("updated catalog entry with id=%s", entry.Id))
 				} else {
-					result, err := r.client.CatalogV2CreateEntryWithResponse(ctx, client.CreateEntryRequestBody{
+					result, err := r.client.CatalogV3CreateEntryWithResponse(ctx, client.CatalogCreateEntryPayloadV3{
 						CatalogTypeId:   data.ID.ValueString(),
 						Name:            payload.Payload.Name,
 						ExternalId:      payload.Payload.ExternalId,
@@ -599,4 +621,66 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 	}
 
 	return catalogType, entries, nil
+}
+
+// isAttributeManaged checks if the given attribute should be managed by this resource.
+func (m *IncidentCatalogEntriesResourceModel) isAttributeManaged(attributeID string) bool {
+	// Check if the attribute is in the managed list (or that list isn't set!)
+	attrSet, known := m.managedAttributesSet()
+	if !known {
+		return true
+	}
+
+	return attrSet[attributeID]
+}
+
+func (m *IncidentCatalogEntriesResourceModel) managedAttributesSet() (map[string]bool, bool) {
+	if m.ManagedAttributes.IsNull() || m.ManagedAttributes.IsUnknown() {
+		return nil, false
+	}
+
+	if m.managedAttrSet != nil {
+		return m.managedAttrSet, true
+	}
+
+	managedAttrSet := map[string]bool{}
+	for _, attrElem := range m.ManagedAttributes.Elements() {
+		// If any element in the list is unknown (e.g. a reference to an attribute
+		// that hasn't been created yet), we give up and assume all attributes are
+		// managed.
+		//
+		// This won't happen at apply-time, so the effect on the user is relatively
+		// small, but it does meant that if you're creating a totally new config we
+		// can't fully validate it on an initial `terraform plan`.
+		if attrElem.IsUnknown() {
+			return nil, false
+		}
+
+		attrIDStr, ok := attrElem.(types.String)
+		if !ok {
+			// Weird but ok
+			return nil, false
+		}
+
+		managedAttrSet[attrIDStr.ValueString()] = true
+	}
+
+	// Technically this isn't race-safe, since multiple goroutines _could_ try to set this at once.
+	// However, it's a static value that will be the same however it's built, so not worried about this right now.
+	m.managedAttrSet = managedAttrSet
+	return managedAttrSet, true
+}
+
+func (m *IncidentCatalogEntriesResourceModel) buildUpdateAttributes() *[]string {
+	if m.ManagedAttributes.IsNull() {
+		return nil
+	}
+
+	var managedAttributeIDs []string
+	diags := m.ManagedAttributes.ElementsAs(context.Background(), &managedAttributeIDs, false)
+	if diags.HasError() {
+		panic(diags.Errors())
+	}
+
+	return &managedAttributeIDs
 }

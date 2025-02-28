@@ -48,7 +48,7 @@ func (r *IncidentCatalogTypeResource) Metadata(ctx context.Context, req resource
 func (r IncidentCatalogTypeResource) CategoryDescription() string {
 	// Make a category description where we list all the possible values of categories
 	categories := []string{}
-	for _, category := range apischema.Property("CatalogTypeV2", "categories").Value.Items.Value.Enum {
+	for _, category := range apischema.Property("CatalogTypeV3", "categories").Value.Items.Value.Enum {
 		categoryAsString, _ := category.(string)
 		categories = append(categories, "`"+categoryAsString+"`")
 	}
@@ -58,29 +58,29 @@ func (r IncidentCatalogTypeResource) CategoryDescription() string {
 
 func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("Catalog V2"),
+		MarkdownDescription: apischema.TagDocstring("Catalog V3"),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "id"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "name"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "name"),
 				Required:            true,
 			},
 			"type_name": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true, // If not provided, we'll use the generated ID
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "type_name"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "type_name"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"description": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CatalogTypeV2", "description"),
+				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "description"),
 				Required:            true,
 			},
 			"categories": schema.ListAttribute{
@@ -90,7 +90,7 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 			},
 			"source_repo_url": schema.StringAttribute{
 				MarkdownDescription: "The url of the external repository where this type is managed. When set, users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.",
-				Optional:            true,
+				Required:            true,
 			},
 		},
 	}
@@ -122,7 +122,7 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	requestBody := client.CreateTypeRequestBody{
+	requestBody := client.CatalogCreateTypePayloadV3{
 		Name:        data.Name.ValueString(),
 		Description: data.Description.ValueString(),
 		Annotations: &map[string]string{
@@ -136,14 +136,14 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 		requestBody.SourceRepoUrl = &sourceRepoURL
 	}
 
-	categories := []client.CreateTypeRequestBodyCategories{}
+	categories := []client.CatalogCreateTypePayloadV3Categories{}
 	for _, category := range data.Categories {
 		categories = append(categories,
-			client.CreateTypeRequestBodyCategories(category.ValueString()))
+			client.CatalogCreateTypePayloadV3Categories(category.ValueString()))
 	}
 	requestBody.Categories = lo.ToPtr(categories)
 
-	result, err := r.client.CatalogV2CreateTypeWithResponse(ctx, requestBody)
+	result, err := r.client.CatalogV3CreateTypeWithResponse(ctx, requestBody)
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
@@ -164,7 +164,7 @@ func (r *IncidentCatalogTypeResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
-	result, err := r.client.CatalogV2ShowTypeWithResponse(ctx, data.ID.ValueString())
+	result, err := r.client.CatalogV3ShowTypeWithResponse(ctx, data.ID.ValueString())
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
@@ -184,7 +184,7 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	requestBody := client.CatalogV2UpdateTypeJSONRequestBody{
+	requestBody := client.CatalogV3UpdateTypeJSONRequestBody{
 		Name: data.Name.ValueString(),
 		// TypeName cannot be changed once set
 		Description: data.Description.ValueString(),
@@ -197,14 +197,14 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 		requestBody.SourceRepoUrl = &sourceRepoURL
 	}
 
-	categories := []client.UpdateTypeRequestBodyCategories{}
+	categories := []client.CatalogUpdateTypePayloadV3Categories{}
 	for _, category := range data.Categories {
 		categories = append(categories,
-			client.UpdateTypeRequestBodyCategories(category.ValueString()))
+			client.CatalogUpdateTypePayloadV3Categories(category.ValueString()))
 	}
 	requestBody.Categories = lo.ToPtr(categories)
 
-	result, err := r.client.CatalogV2UpdateTypeWithResponse(ctx, data.ID.ValueString(), requestBody)
+	result, err := r.client.CatalogV3UpdateTypeWithResponse(ctx, data.ID.ValueString(), requestBody)
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
@@ -224,7 +224,7 @@ func (r *IncidentCatalogTypeResource) Delete(ctx context.Context, req resource.D
 		return
 	}
 
-	_, err := r.client.CatalogV2DestroyTypeWithResponse(ctx, data.ID.ValueString())
+	_, err := r.client.CatalogV3DestroyTypeWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete catalog type, got error: %s", err))
 		return
@@ -235,7 +235,7 @@ func (r *IncidentCatalogTypeResource) ImportState(ctx context.Context, req resou
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV2) *IncidentCatalogTypeResourceModel {
+func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV3) *IncidentCatalogTypeResourceModel {
 	model := &IncidentCatalogTypeResourceModel{
 		ID:          types.StringValue(catalogType.Id),
 		Name:        types.StringValue(catalogType.Name),

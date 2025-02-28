@@ -185,6 +185,12 @@ resource "incident_catalog_entries" "services" {
 - `entries` (Attributes Map) Map of external ID to entry in the catalog. (see [below for nested schema](#nestedatt--entries))
 - `id` (String) ID of this catalog type
 
+### Optional
+
+- `managed_attributes` (Set of String) The set of attributes that are managed by this resource. By default, all attributes are managed by this resource.
+
+This can be used to allow other attributes of a catalog entry to be managed elsewhere, for example in another Terraform repository or the incident.io web UI.
+
 <a id="nestedatt--entries"></a>
 ### Nested Schema for `entries`
 

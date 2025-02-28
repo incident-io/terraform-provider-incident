@@ -85,11 +85,11 @@ resource "incident_workflow" "autoassign_incident_lead" {
 - `continue_on_step_error` (Boolean) Whether to continue executing the workflow if a step fails
 - `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
 - `include_private_incidents` (Boolean) Whether to include private incidents
-- `name` (String) The human-readable name of the workflow
+- `name` (String) Name provided by the user when creating the workflow
 - `once_for` (List of String) This workflow will run 'once for' a list of references
 - `runs_on_incident_modes` (List of String) Incidents in these modes will be affected by the workflow
-- `runs_on_incidents` (String) Which incidents should the workflow be applied to? (newly_created or newly_created_and_active)
-- `state` (String) The state of the workflow (e.g. is it draft, or disabled)
+- `runs_on_incidents` (String) Which incidents should the workflow be applied to?
+- `state` (String) What state this workflow is in
 - `steps` (Attributes List) Steps that are executed as part of the workflow (see [below for nested schema](#nestedatt--steps))
 - `trigger` (String) Unique name of the trigger
 
@@ -97,7 +97,7 @@ resource "incident_workflow" "autoassign_incident_lead" {
 
 - `delay` (Attributes) Configuration controlling workflow delay behaviour (see [below for nested schema](#nestedatt--delay))
 - `folder` (String) Folder to display the workflow in
-- `shortform` (String) Shortform used to trigger manual workflows in Slack - e.g. `/inc workflows page-ceo`
+- `shortform` (String) The shortform used to trigger this workflow (only applicable for manual triggers)
 
 ### Read-Only
 

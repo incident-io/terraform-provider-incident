@@ -33,16 +33,16 @@ catalog entry.
 Each type is made up of a series of attributes, and each attribute has a type. Types
 can even have attributes that refer to other catalog types.
 
-We automatically create catalog types when you connect an integration, such as GitHub 
+We automatically create catalog types when you connect an integration, such as GitHub
 repositories or PagerDuty services and teams. You can use this API to create custom
 types, that are specifically tailored to your organisation.
 
-Examples might be a 'Service' type with an 'Alert channel' which you can point at a 
+Examples might be a 'Service' type with an 'Alert channel' which you can point at a
 Slack channel, or 'Team' which specifies its 'Manager' and 'Technical Lead' as Slack
 users. You can then use these types to create powerful new workflows.
 
 Consider using our official [catalog importer](https://github.com/incident-io/catalog-importer).
-It can be used to sync catalog data from sources like local files or GitHub and push 
+It can be used to sync catalog data from sources like local files or GitHub and push
 them into the incident.io catalog without having to directly interact with our public API.
 
 ## Example Usage
@@ -101,6 +101,9 @@ resource "incident_catalog_type_attribute" "service_tier_services" {
 - `array` (Boolean) Whether this attribute is an array or scalar.
 - `backlink_attribute` (String) If this is a backlink, the id of the attribute that it's linked from
 - `path` (List of String) If this is a path attribute, the path that we should use to pull the data
+- `schema_only` (Boolean) If true, Terraform will only manage the schema of the attribute. Values for this attribute can be managed from the incident.io web dashboard.
+
+NOTE: When enabled, you should use the `managed_attributes` argument on either `incident_catalog_entry` or `incident_catalog_entries` to manage the values of other attributes on this type, without Terraform overwriting values set in the dashboard.
 
 ### Read-Only
 

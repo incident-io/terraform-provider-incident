@@ -108,6 +108,8 @@ resource "incident_catalog_type" "example" {
   name        = {{ quote .Name }}
   {{ if ne .TypeName "" }}type_name   = {{ quote .TypeName }}{{ end }}
   description = {{ quote .Description }}
+
+  source_repo_url = "https://github.com/incident-io/terraform-demo"
 }
 `))
 
