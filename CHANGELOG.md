@@ -1,24 +1,47 @@
 ## Unreleased
 
-- ‼️ BREAKING: `incident_catalog_type`'s `source_repo_url` attribute is now
-  required. This prevents the catalog type from being edited manually, and ensures
-  there is a link from the incident.io dashboard to the configuration that defines
-  the catalog type.
-- :new: Add `schema_only` as an option on `incident_catalog_type_attribute`. When set
-  to `true`, the attribute will be created from Terraform, but values for it must
-  be edited in the incident.io dashboard.
-- :new: Add `managed_attributes` to both `incident_catalog_entry` and `incident_catalog_entries`. This
-  allows you to manage only some attributes of a catalog entry, while leaving
-  others unchanged. This is most useful when attributes have been set as
-  `schema_only`, since it allows you to avoid Terraform trying to manage their
-  state, allowing values set in the incident.io dashboard to be preserved, and
-  avoiding unnecessary diffs.
-- :new: `incident_catalog_type_attribute` data source, allowing you to look up
-  the ID of a catalog type attribute by its name.
-- :new: `incident_catalog_entry` data source, allowing you to look up the ID
-  k
-  (and other properties) of a catalog entry using its name, external ID, or an
-  alias.
+## v5.0.0
+
+#### Breaking changes
+
+`incident_catalog_type`'s `source_repo_url` attribute is now required.
+
+This prevents the catalog type from being edited manually, and ensures
+there is a link from the incident.io dashboard to the configuration that defines
+the catalog type.
+
+#### Schema-only attributes
+
+Sometimes you want to define most of a catalog entry's attributes in Terraform,
+but allow other attributes to be edited in the incident.io dashboard.
+
+This is now possible with **schema-only attributes**:
+
+- add `schema_only = true` to the `incident_catalog_type_attribute` resource to
+  mark the attribute as schema-only: it will be created by Terraform, but values
+  can be edited in the incident.io dashboard.
+- add `managed_attributes` to the `incident_catalog_entry` or
+  `incident_catalog_entries`, and specify only the attributes that should be
+  managed in Terraform.
+
+  By excluding schema-only attributes from this list, changes to those attribute
+  values made in the dashboard will not cause unnecessary diffs when you next
+  run `terraform plan`.
+
+#### New data sources
+
+There are now data sources for `incident_catalog_type_attribute` and `incident_catalog_entry`.
+
+These allow you to look up an attribute by its catalog type ID and name, and an
+entry by its catalog type ID and name, external ID, or alias.
+
+This is useful for:
+
+- managing entries of a catalog type across multiple modules: you can use the
+  `incident_catalog_type_attribute` data source to get the ID of attributes,
+  without needing to pass the ID between modules.
+- using data from your catalog elsewhere in Terraform: for example attributes of
+  your `Team` catalog type.
 
 ## v4.3.3
 
