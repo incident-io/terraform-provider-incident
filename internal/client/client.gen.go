@@ -2594,11 +2594,6 @@ type CreateManagedResourceResponseBody struct {
 	ManagedResource ManagedResourceV2 `json:"managed_resource"`
 }
 
-// CreatePathResponseBody defines model for CreatePathResponseBody.
-type CreatePathResponseBody struct {
-	EscalationPath EscalationPathV2 `json:"escalation_path"`
-}
-
 // CreateRequestBody defines model for CreateRequestBody.
 type CreateRequestBody struct {
 	// IncidentId ID of the incident to add an attachment to
@@ -3401,18 +3396,6 @@ type EscalationPathNodeV2 struct {
 // * repeat: Go back to a previous node and repeat the logic from there.
 type EscalationPathNodeV2Type string
 
-// EscalationPathPayloadV2 defines model for EscalationPathPayloadV2.
-type EscalationPathPayloadV2 struct {
-	// Name The name of this escalation path, for the user's reference.
-	Name string `json:"name"`
-
-	// Path The nodes that form the levels and branches of this escalation path.
-	Path []EscalationPathNodePayloadV2 `json:"path"`
-
-	// WorkingHours The working hours for this escalation path.
-	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
-}
-
 // EscalationPathRoundRobinConfigV2 defines model for EscalationPathRoundRobinConfigV2.
 type EscalationPathRoundRobinConfigV2 struct {
 	// Enabled Whether round robin is enabled for this level
@@ -3459,6 +3442,45 @@ type EscalationPathV2 struct {
 
 	// WorkingHours The working hours for this escalation path.
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
+}
+
+// EscalationsCreatePathPayloadV2 defines model for EscalationsCreatePathPayloadV2.
+type EscalationsCreatePathPayloadV2 struct {
+	// Name The name of this escalation path, for the user's reference.
+	Name string `json:"name"`
+
+	// Path The nodes that form the levels and branches of this escalation path.
+	Path []EscalationPathNodePayloadV2 `json:"path"`
+
+	// WorkingHours The working hours for this escalation path.
+	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
+}
+
+// EscalationsCreatePathResultV2 defines model for EscalationsCreatePathResultV2.
+type EscalationsCreatePathResultV2 struct {
+	EscalationPath EscalationPathV2 `json:"escalation_path"`
+}
+
+// EscalationsShowPathResultV2 defines model for EscalationsShowPathResultV2.
+type EscalationsShowPathResultV2 struct {
+	EscalationPath EscalationPathV2 `json:"escalation_path"`
+}
+
+// EscalationsUpdatePathPayloadV2 defines model for EscalationsUpdatePathPayloadV2.
+type EscalationsUpdatePathPayloadV2 struct {
+	// Name The name of this escalation path, for the user's reference.
+	Name string `json:"name"`
+
+	// Path The nodes that form the levels and branches of this escalation path.
+	Path []EscalationPathNodePayloadV2 `json:"path"`
+
+	// WorkingHours The working hours for this escalation path.
+	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
+}
+
+// EscalationsUpdatePathResultV2 defines model for EscalationsUpdatePathResultV2.
+type EscalationsUpdatePathResultV2 struct {
+	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
 // ExpressionBranchPayloadV2 defines model for ExpressionBranchPayloadV2.
@@ -4492,6 +4514,9 @@ type RBACRoleV2 struct {
 
 // RetrospectiveIncidentOptionsV2 defines model for RetrospectiveIncidentOptionsV2.
 type RetrospectiveIncidentOptionsV2 struct {
+	// ExternalId The external ID (e.g. the 123 in INC-123) to assign to the incident. This can be useful when importing incidents. If you want to use this field, you'll need to talk to us first.
+	ExternalId *int64 `json:"external_id,omitempty"`
+
 	// PostmortemDocumentUrl If the incident mode is 'retrospective', pass the URL of the postmortem to attach it to the incident
 	PostmortemDocumentUrl *string `json:"postmortem_document_url,omitempty"`
 
@@ -5730,10 +5755,10 @@ type CustomFieldsV2CreateJSONRequestBody = CustomFieldsCreatePayloadV2
 type CustomFieldsV2UpdateJSONRequestBody = CustomFieldsUpdatePayloadV2
 
 // EscalationsV2CreatePathJSONRequestBody defines body for EscalationsV2CreatePath for application/json ContentType.
-type EscalationsV2CreatePathJSONRequestBody = EscalationPathPayloadV2
+type EscalationsV2CreatePathJSONRequestBody = EscalationsCreatePathPayloadV2
 
 // EscalationsV2UpdatePathJSONRequestBody defines body for EscalationsV2UpdatePath for application/json ContentType.
-type EscalationsV2UpdatePathJSONRequestBody = EscalationPathPayloadV2
+type EscalationsV2UpdatePathJSONRequestBody = EscalationsUpdatePathPayloadV2
 
 // IncidentRolesV2CreateJSONRequestBody defines body for IncidentRolesV2Create for application/json ContentType.
 type IncidentRolesV2CreateJSONRequestBody = CreateRequestBody4
@@ -15440,7 +15465,7 @@ func (r CustomFieldsV2UpdateResponse) StatusCode() int {
 type EscalationsV2CreatePathResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *CreatePathResponseBody
+	JSON201      *EscalationsCreatePathResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -15483,7 +15508,7 @@ func (r EscalationsV2DestroyPathResponse) StatusCode() int {
 type EscalationsV2ShowPathResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *CreatePathResponseBody
+	JSON200      *EscalationsShowPathResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -15505,7 +15530,7 @@ func (r EscalationsV2ShowPathResponse) StatusCode() int {
 type EscalationsV2UpdatePathResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *CreatePathResponseBody
+	JSON200      *EscalationsUpdatePathResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -19661,7 +19686,7 @@ func ParseEscalationsV2CreatePathResponse(rsp *http.Response) (*EscalationsV2Cre
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest CreatePathResponseBody
+		var dest EscalationsCreatePathResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -19703,7 +19728,7 @@ func ParseEscalationsV2ShowPathResponse(rsp *http.Response) (*EscalationsV2ShowP
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CreatePathResponseBody
+		var dest EscalationsShowPathResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -19729,7 +19754,7 @@ func ParseEscalationsV2UpdatePathResponse(rsp *http.Response) (*EscalationsV2Upd
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CreatePathResponseBody
+		var dest EscalationsUpdatePathResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
