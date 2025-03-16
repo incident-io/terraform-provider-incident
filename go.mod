@@ -1,6 +1,7 @@
 module github.com/incident-io/terraform-provider-incident
 
 go 1.22
+toolchain go1.23.7
 
 require (
 	github.com/Masterminds/sprig v2.22.0+incompatible
@@ -18,7 +19,7 @@ require (
 	github.com/oklog/ulid/v2 v2.1.0
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.49.1
-	golang.org/x/sync v0.11.0
+	golang.org/x/sync v0.12.0
 )
 
 require (
