@@ -98,7 +98,7 @@ func (r *IncidentStatusResource) Create(ctx context.Context, req resource.Create
 	result, err := r.client.IncidentStatusesV1CreateWithResponse(ctx, client.IncidentStatusesV1CreateJSONRequestBody{
 		Name:        data.Name.ValueString(),
 		Description: data.Description.ValueString(),
-		Category:    client.CreateRequestBody5Category(data.Category.ValueString()),
+		Category:    client.IncidentStatusesCreatePayloadV1Category(data.Category.ValueString()),
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
