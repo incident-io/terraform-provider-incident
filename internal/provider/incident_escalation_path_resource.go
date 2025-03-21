@@ -10,8 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -123,13 +123,13 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 					Attributes: models.IncidentWeekdayIntervalConfig{}.Attributes(),
 				},
 			},
-			"team_ids": schema.ListAttribute{
+			"team_ids": schema.SetAttribute{
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "team_ids"),
 				Optional:            true,
 				ElementType:         types.StringType,
 				Computed:            true,
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
+				PlanModifiers: []planmodifier.Set{
+					setplanmodifier.UseStateForUnknown(),
 				},
 			},
 		},
