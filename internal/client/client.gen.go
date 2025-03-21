@@ -34,12 +34,6 @@ const (
 	ActionV2StatusOutstanding ActionV2Status = "outstanding"
 )
 
-// Defines values for AlertEventsCreateHTTPPayloadV2Status.
-const (
-	Firing   AlertEventsCreateHTTPPayloadV2Status = "firing"
-	Resolved AlertEventsCreateHTTPPayloadV2Status = "resolved"
-)
-
 // Defines values for AlertRouteIncidentTemplatePayloadV2PrioritySeverity.
 const (
 	AlertRouteIncidentTemplatePayloadV2PrioritySeveritySeverityFirstWins AlertRouteIncidentTemplatePayloadV2PrioritySeverity = "severity-first-wins"
@@ -523,6 +517,44 @@ const (
 	CatalogUpdateTypePayloadV3IconUsers          CatalogUpdateTypePayloadV3Icon = "users"
 )
 
+// Defines values for CreateHTTPRequestBodyStatus.
+const (
+	Firing   CreateHTTPRequestBodyStatus = "firing"
+	Resolved CreateHTTPRequestBodyStatus = "resolved"
+)
+
+// Defines values for CreateManagedResourceRequestBodyResourceType.
+const (
+	CreateManagedResourceRequestBodyResourceTypeEscalationPath CreateManagedResourceRequestBodyResourceType = "escalation_path"
+	CreateManagedResourceRequestBodyResourceTypeSchedule       CreateManagedResourceRequestBodyResourceType = "schedule"
+	CreateManagedResourceRequestBodyResourceTypeWorkflow       CreateManagedResourceRequestBodyResourceType = "workflow"
+)
+
+// Defines values for CreateRequestBodyResourceResourceType.
+const (
+	CreateRequestBodyResourceResourceTypeAtlassianStatuspageIncident CreateRequestBodyResourceResourceType = "atlassian_statuspage_incident"
+	CreateRequestBodyResourceResourceTypeDatadogMonitorAlert         CreateRequestBodyResourceResourceType = "datadog_monitor_alert"
+	CreateRequestBodyResourceResourceTypeGithubPullRequest           CreateRequestBodyResourceResourceType = "github_pull_request"
+	CreateRequestBodyResourceResourceTypeGitlabMergeRequest          CreateRequestBodyResourceResourceType = "gitlab_merge_request"
+	CreateRequestBodyResourceResourceTypeGoogleCalendarEvent         CreateRequestBodyResourceResourceType = "google_calendar_event"
+	CreateRequestBodyResourceResourceTypeJiraIssue                   CreateRequestBodyResourceResourceType = "jira_issue"
+	CreateRequestBodyResourceResourceTypeOpsgenieAlert               CreateRequestBodyResourceResourceType = "opsgenie_alert"
+	CreateRequestBodyResourceResourceTypeOutlookCalendarEvent        CreateRequestBodyResourceResourceType = "outlook_calendar_event"
+	CreateRequestBodyResourceResourceTypePagerDutyIncident           CreateRequestBodyResourceResourceType = "pager_duty_incident"
+	CreateRequestBodyResourceResourceTypeScrubbed                    CreateRequestBodyResourceResourceType = "scrubbed"
+	CreateRequestBodyResourceResourceTypeSentryIssue                 CreateRequestBodyResourceResourceType = "sentry_issue"
+	CreateRequestBodyResourceResourceTypeSlackFile                   CreateRequestBodyResourceResourceType = "slack_file"
+	CreateRequestBodyResourceResourceTypeStatuspageIncident          CreateRequestBodyResourceResourceType = "statuspage_incident"
+	CreateRequestBodyResourceResourceTypeZendeskTicket               CreateRequestBodyResourceResourceType = "zendesk_ticket"
+)
+
+// Defines values for CreateRequestBody5Category.
+const (
+	CreateRequestBody5CategoryClosed   CreateRequestBody5Category = "closed"
+	CreateRequestBody5CategoryLearning CreateRequestBody5Category = "learning"
+	CreateRequestBody5CategoryLive     CreateRequestBody5Category = "live"
+)
+
 // Defines values for CustomFieldTypeInfoV1FieldType.
 const (
 	CustomFieldTypeInfoV1FieldTypeLink         CustomFieldTypeInfoV1FieldType = "link"
@@ -786,22 +818,26 @@ const (
 	IdentityV1RolesWorkflowsEditor           IdentityV1Roles = "workflows_editor"
 )
 
-// Defines values for IncidentAttachmentsCreatePayloadV1ResourceResourceType.
+// Defines values for IncidentCreatePayloadV1Mode.
 const (
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeAtlassianStatuspageIncident IncidentAttachmentsCreatePayloadV1ResourceResourceType = "atlassian_statuspage_incident"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeDatadogMonitorAlert         IncidentAttachmentsCreatePayloadV1ResourceResourceType = "datadog_monitor_alert"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeGithubPullRequest           IncidentAttachmentsCreatePayloadV1ResourceResourceType = "github_pull_request"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeGitlabMergeRequest          IncidentAttachmentsCreatePayloadV1ResourceResourceType = "gitlab_merge_request"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeGoogleCalendarEvent         IncidentAttachmentsCreatePayloadV1ResourceResourceType = "google_calendar_event"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeJiraIssue                   IncidentAttachmentsCreatePayloadV1ResourceResourceType = "jira_issue"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeOpsgenieAlert               IncidentAttachmentsCreatePayloadV1ResourceResourceType = "opsgenie_alert"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeOutlookCalendarEvent        IncidentAttachmentsCreatePayloadV1ResourceResourceType = "outlook_calendar_event"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypePagerDutyIncident           IncidentAttachmentsCreatePayloadV1ResourceResourceType = "pager_duty_incident"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeScrubbed                    IncidentAttachmentsCreatePayloadV1ResourceResourceType = "scrubbed"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeSentryIssue                 IncidentAttachmentsCreatePayloadV1ResourceResourceType = "sentry_issue"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeSlackFile                   IncidentAttachmentsCreatePayloadV1ResourceResourceType = "slack_file"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeStatuspageIncident          IncidentAttachmentsCreatePayloadV1ResourceResourceType = "statuspage_incident"
-	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeZendeskTicket               IncidentAttachmentsCreatePayloadV1ResourceResourceType = "zendesk_ticket"
+	IncidentCreatePayloadV1ModeReal IncidentCreatePayloadV1Mode = "real"
+	IncidentCreatePayloadV1ModeTest IncidentCreatePayloadV1Mode = "test"
+)
+
+// Defines values for IncidentCreatePayloadV1Status.
+const (
+	IncidentCreatePayloadV1StatusClosed        IncidentCreatePayloadV1Status = "closed"
+	IncidentCreatePayloadV1StatusDeclined      IncidentCreatePayloadV1Status = "declined"
+	IncidentCreatePayloadV1StatusFixing        IncidentCreatePayloadV1Status = "fixing"
+	IncidentCreatePayloadV1StatusInvestigating IncidentCreatePayloadV1Status = "investigating"
+	IncidentCreatePayloadV1StatusMonitoring    IncidentCreatePayloadV1Status = "monitoring"
+	IncidentCreatePayloadV1StatusTriage        IncidentCreatePayloadV1Status = "triage"
+)
+
+// Defines values for IncidentCreatePayloadV1Visibility.
+const (
+	IncidentCreatePayloadV1VisibilityPrivate IncidentCreatePayloadV1Visibility = "private"
+	IncidentCreatePayloadV1VisibilityPublic  IncidentCreatePayloadV1Visibility = "public"
 )
 
 // Defines values for IncidentCreatePayloadV2Mode.
@@ -856,13 +892,6 @@ const (
 	IncidentStatusV2CategoryTriage   IncidentStatusV2Category = "triage"
 )
 
-// Defines values for IncidentStatusesCreatePayloadV1Category.
-const (
-	IncidentStatusesCreatePayloadV1CategoryClosed   IncidentStatusesCreatePayloadV1Category = "closed"
-	IncidentStatusesCreatePayloadV1CategoryLearning IncidentStatusesCreatePayloadV1Category = "learning"
-	IncidentStatusesCreatePayloadV1CategoryLive     IncidentStatusesCreatePayloadV1Category = "live"
-)
-
 // Defines values for IncidentTypeV1CreateInTriage.
 const (
 	IncidentTypeV1CreateInTriageAlways   IncidentTypeV1CreateInTriage = "always"
@@ -884,12 +913,12 @@ const (
 
 // Defines values for IncidentV1Status.
 const (
-	IncidentV1StatusClosed        IncidentV1Status = "closed"
-	IncidentV1StatusDeclined      IncidentV1Status = "declined"
-	IncidentV1StatusFixing        IncidentV1Status = "fixing"
-	IncidentV1StatusInvestigating IncidentV1Status = "investigating"
-	IncidentV1StatusMonitoring    IncidentV1Status = "monitoring"
-	IncidentV1StatusTriage        IncidentV1Status = "triage"
+	Closed        IncidentV1Status = "closed"
+	Declined      IncidentV1Status = "declined"
+	Fixing        IncidentV1Status = "fixing"
+	Investigating IncidentV1Status = "investigating"
+	Monitoring    IncidentV1Status = "monitoring"
+	Triage        IncidentV1Status = "triage"
 )
 
 // Defines values for IncidentV1Visibility.
@@ -912,28 +941,6 @@ const (
 	IncidentV2VisibilityPublic  IncidentV2Visibility = "public"
 )
 
-// Defines values for IncidentsV1CreateRequestBodyMode.
-const (
-	IncidentsV1CreateRequestBodyModeReal IncidentsV1CreateRequestBodyMode = "real"
-	IncidentsV1CreateRequestBodyModeTest IncidentsV1CreateRequestBodyMode = "test"
-)
-
-// Defines values for IncidentsV1CreateRequestBodyStatus.
-const (
-	Closed        IncidentsV1CreateRequestBodyStatus = "closed"
-	Declined      IncidentsV1CreateRequestBodyStatus = "declined"
-	Fixing        IncidentsV1CreateRequestBodyStatus = "fixing"
-	Investigating IncidentsV1CreateRequestBodyStatus = "investigating"
-	Monitoring    IncidentsV1CreateRequestBodyStatus = "monitoring"
-	Triage        IncidentsV1CreateRequestBodyStatus = "triage"
-)
-
-// Defines values for IncidentsV1CreateRequestBodyVisibility.
-const (
-	IncidentsV1CreateRequestBodyVisibilityPrivate IncidentsV1CreateRequestBodyVisibility = "private"
-	IncidentsV1CreateRequestBodyVisibilityPublic  IncidentsV1CreateRequestBodyVisibility = "public"
-)
-
 // Defines values for ManagedResourceV2ManagedBy.
 const (
 	ManagedResourceV2ManagedByDashboard ManagedResourceV2ManagedBy = "dashboard"
@@ -943,16 +950,9 @@ const (
 
 // Defines values for ManagedResourceV2ResourceType.
 const (
-	ManagedResourceV2ResourceTypeEscalationPath ManagedResourceV2ResourceType = "escalation_path"
-	ManagedResourceV2ResourceTypeSchedule       ManagedResourceV2ResourceType = "schedule"
-	ManagedResourceV2ResourceTypeWorkflow       ManagedResourceV2ResourceType = "workflow"
-)
-
-// Defines values for ManagedResourcesCreateManagedResourcePayloadV2ResourceType.
-const (
-	EscalationPath ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path"
-	Schedule       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule"
-	Workflow       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "workflow"
+	EscalationPath ManagedResourceV2ResourceType = "escalation_path"
+	Schedule       ManagedResourceV2ResourceType = "schedule"
+	Workflow       ManagedResourceV2ResourceType = "workflow"
 )
 
 // Defines values for ManagementMetaV2ManagedBy.
@@ -1347,32 +1347,8 @@ type AlertAttributesUpdateResultV2 struct {
 	AlertAttribute AlertAttributeV2 `json:"alert_attribute"`
 }
 
-// AlertEventsCreateHTTPPayloadV2 defines model for AlertEventsCreateHTTPPayloadV2.
-type AlertEventsCreateHTTPPayloadV2 struct {
-	// DeduplicationKey A deduplication key can be provided to uniquely reference this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config.
-	DeduplicationKey *string `json:"deduplication_key,omitempty"`
-
-	// Description Description that optionally adds more detail to title. Supports markdown.
-	Description *string `json:"description,omitempty"`
-
-	// Metadata Any additional metadata that you've configured your alert source to parse
-	Metadata *map[string]interface{} `json:"metadata,omitempty"`
-
-	// SourceUrl If applicable, a link to the alert in the upstream system
-	SourceUrl *string `json:"source_url,omitempty"`
-
-	// Status Current status of this alert
-	Status AlertEventsCreateHTTPPayloadV2Status `json:"status"`
-
-	// Title Alert title which is used when summarising the alert
-	Title string `json:"title"`
-}
-
-// AlertEventsCreateHTTPPayloadV2Status Current status of this alert
-type AlertEventsCreateHTTPPayloadV2Status string
-
-// AlertEventsCreateHTTPResultV2 defines model for AlertEventsCreateHTTPResultV2.
-type AlertEventsCreateHTTPResultV2 struct {
+// AlertResult defines model for AlertResult.
+type AlertResult struct {
 	// DeduplicationKey The deduplication key that the event has been processed with
 	DeduplicationKey string `json:"deduplication_key"`
 
@@ -2574,6 +2550,130 @@ type ConditionV2 struct {
 	Subject       ConditionSubjectV2     `json:"subject"`
 }
 
+// CreateHTTPRequestBody defines model for CreateHTTPRequestBody.
+type CreateHTTPRequestBody struct {
+	// DeduplicationKey A deduplication key can be provided to uniquely reference this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config.
+	DeduplicationKey *string `json:"deduplication_key,omitempty"`
+
+	// Description Description that optionally adds more detail to title. Supports markdown.
+	Description *string `json:"description,omitempty"`
+
+	// Metadata Any additional metadata that you've configured your alert source to parse
+	Metadata *map[string]interface{} `json:"metadata,omitempty"`
+
+	// SourceUrl If applicable, a link to the alert in the upstream system
+	SourceUrl *string `json:"source_url,omitempty"`
+
+	// Status Current status of this alert
+	Status CreateHTTPRequestBodyStatus `json:"status"`
+
+	// Title Alert title which is used when summarising the alert
+	Title string `json:"title"`
+}
+
+// CreateHTTPRequestBodyStatus Current status of this alert
+type CreateHTTPRequestBodyStatus string
+
+// CreateManagedResourceRequestBody defines model for CreateManagedResourceRequestBody.
+type CreateManagedResourceRequestBody struct {
+	// Annotations Annotations that track metadata about this resource
+	Annotations map[string]string `json:"annotations"`
+
+	// ResourceId The ID of the related resource
+	ResourceId string `json:"resource_id"`
+
+	// ResourceType The type of the related resource
+	ResourceType CreateManagedResourceRequestBodyResourceType `json:"resource_type"`
+}
+
+// CreateManagedResourceRequestBodyResourceType The type of the related resource
+type CreateManagedResourceRequestBodyResourceType string
+
+// CreateManagedResourceResponseBody defines model for CreateManagedResourceResponseBody.
+type CreateManagedResourceResponseBody struct {
+	ManagedResource ManagedResourceV2 `json:"managed_resource"`
+}
+
+// CreateRequestBody defines model for CreateRequestBody.
+type CreateRequestBody struct {
+	// IncidentId ID of the incident to add an attachment to
+	IncidentId string `json:"incident_id"`
+	Resource   struct {
+		// ExternalId ID of the resource in the external system
+		ExternalId string `json:"external_id"`
+
+		// ResourceType E.g. PagerDuty: the external system that holds the resource
+		ResourceType CreateRequestBodyResourceResourceType `json:"resource_type"`
+	} `json:"resource"`
+}
+
+// CreateRequestBodyResourceResourceType E.g. PagerDuty: the external system that holds the resource
+type CreateRequestBodyResourceResourceType string
+
+// CreateRequestBody2 defines model for CreateRequestBody2.
+type CreateRequestBody2 struct {
+	IncidentId string `json:"incident_id"`
+	UserId     string `json:"user_id"`
+}
+
+// CreateRequestBody3 defines model for CreateRequestBody3.
+type CreateRequestBody3 struct {
+	// Description Describes the purpose of the role
+	Description string `json:"description"`
+
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
+	Instructions string `json:"instructions"`
+
+	// Name Human readable name of the incident role
+	Name string `json:"name"`
+
+	// Required DEPRECATED: this will always be false.
+	Required bool `json:"required"`
+
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
+	Shortform string `json:"shortform"`
+}
+
+// CreateRequestBody4 defines model for CreateRequestBody4.
+type CreateRequestBody4 struct {
+	// Description Describes the purpose of the role
+	Description string `json:"description"`
+
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
+	Instructions string `json:"instructions"`
+
+	// Name Human readable name of the incident role
+	Name string `json:"name"`
+
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
+	Shortform string `json:"shortform"`
+}
+
+// CreateRequestBody5 defines model for CreateRequestBody5.
+type CreateRequestBody5 struct {
+	// Category Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
+	Category CreateRequestBody5Category `json:"category"`
+
+	// Description Rich text description of the incident status
+	Description string `json:"description"`
+
+	// Name Unique name of this status
+	Name string `json:"name"`
+}
+
+// CreateRequestBody5Category Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
+type CreateRequestBody5Category string
+
+// CreateResponseBody defines model for CreateResponseBody.
+type CreateResponseBody struct {
+	IncidentAttachment IncidentAttachmentV1 `json:"incident_attachment"`
+}
+
+// CreateResponseBody2 defines model for CreateResponseBody2.
+type CreateResponseBody2 struct {
+	IncidentMembership IncidentMembership `json:"incident_membership"`
+}
+
 // CustomFieldEntryPayloadV1 defines model for CustomFieldEntryPayloadV1.
 type CustomFieldEntryPayloadV1 struct {
 	// CustomFieldId ID of the custom field this entry is linked against
@@ -3052,6 +3152,14 @@ type CustomFieldsUpdateResultV2 struct {
 	CustomField CustomFieldV2 `json:"custom_field"`
 }
 
+// EditRequestBody defines model for EditRequestBody.
+type EditRequestBody struct {
+	Incident IncidentEditPayloadV2 `json:"incident"`
+
+	// NotifyIncidentChannel Should we send Slack channel notifications to inform responders of this update? Note that this won't work if the Slack channel has already been archived.
+	NotifyIncidentChannel bool `json:"notify_incident_channel"`
+}
+
 // EmbeddedCatalogEntryV1 defines model for EmbeddedCatalogEntryV1.
 type EmbeddedCatalogEntryV1 struct {
 	// Aliases Optional aliases that can be used to reference this entry
@@ -3332,9 +3440,6 @@ type EscalationPathV2 struct {
 	// Path The nodes that form the levels and branches of this escalation path.
 	Path []EscalationPathNodeV2 `json:"path"`
 
-	// TeamIds IDs of teams that own this escalation path
-	TeamIds []string `json:"team_ids"`
-
 	// WorkingHours The working hours for this escalation path.
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
@@ -3346,9 +3451,6 @@ type EscalationsCreatePathPayloadV2 struct {
 
 	// Path The nodes that form the levels and branches of this escalation path.
 	Path []EscalationPathNodePayloadV2 `json:"path"`
-
-	// TeamIds IDs of the teams that own this escalation path
-	TeamIds *[]string `json:"team_ids,omitempty"`
 
 	// WorkingHours The working hours for this escalation path.
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
@@ -3371,9 +3473,6 @@ type EscalationsUpdatePathPayloadV2 struct {
 
 	// Path The nodes that form the levels and branches of this escalation path.
 	Path []EscalationPathNodePayloadV2 `json:"path"`
-
-	// TeamIds IDs of the teams that own this escalation path
-	TeamIds *[]string `json:"team_ids,omitempty"`
 
 	// WorkingHours The working hours for this escalation path.
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
@@ -3678,31 +3777,56 @@ type IncidentAttachmentV1 struct {
 	Resource   ExternalResourceV1 `json:"resource"`
 }
 
-// IncidentAttachmentsCreatePayloadV1 defines model for IncidentAttachmentsCreatePayloadV1.
-type IncidentAttachmentsCreatePayloadV1 struct {
-	// IncidentId ID of the incident to add an attachment to
-	IncidentId string `json:"incident_id"`
-	Resource   struct {
-		// ExternalId ID of the resource in the external system
-		ExternalId string `json:"external_id"`
+// IncidentCreatePayloadV1 defines model for IncidentCreatePayloadV1.
+type IncidentCreatePayloadV1 struct {
+	// CustomFieldEntries Set the incident's custom fields to these values
+	CustomFieldEntries *[]CustomFieldEntryPayloadV1 `json:"custom_field_entries,omitempty"`
 
-		// ResourceType E.g. PagerDuty: the external system that holds the resource
-		ResourceType IncidentAttachmentsCreatePayloadV1ResourceResourceType `json:"resource_type"`
-	} `json:"resource"`
+	// IdempotencyKey Unique string used to de-duplicate incident create requests
+	IdempotencyKey string `json:"idempotency_key"`
+
+	// IncidentRoleAssignments Assign incident roles to these people
+	IncidentRoleAssignments *[]IncidentRoleAssignmentPayloadV1 `json:"incident_role_assignments,omitempty"`
+
+	// IncidentTypeId Incident type to create this incident as
+	IncidentTypeId *string `json:"incident_type_id,omitempty"`
+
+	// Mode Whether the incident is real or test
+	Mode *IncidentCreatePayloadV1Mode `json:"mode,omitempty"`
+
+	// Name Explanation of the incident
+	Name *string `json:"name,omitempty"`
+
+	// SeverityId Severity to create incident as
+	SeverityId *string `json:"severity_id,omitempty"`
+
+	// SlackTeamId ID of the Slack team / workspace. This is only required if you are using a Slack Enterprise Grid with multiple teams.
+	SlackTeamId *string `json:"slack_team_id,omitempty"`
+
+	// SourceMessageChannelId Channel ID of the source message, if this incident was created from one
+	SourceMessageChannelId *string `json:"source_message_channel_id,omitempty"`
+
+	// SourceMessageTimestamp Timestamp of the source message, if this incident was created from one
+	SourceMessageTimestamp *string `json:"source_message_timestamp,omitempty"`
+
+	// Status Current status of the incident
+	Status *IncidentCreatePayloadV1Status `json:"status,omitempty"`
+
+	// Summary Detailed description of the incident
+	Summary *string `json:"summary,omitempty"`
+
+	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+	Visibility IncidentCreatePayloadV1Visibility `json:"visibility"`
 }
 
-// IncidentAttachmentsCreatePayloadV1ResourceResourceType E.g. PagerDuty: the external system that holds the resource
-type IncidentAttachmentsCreatePayloadV1ResourceResourceType string
+// IncidentCreatePayloadV1Mode Whether the incident is real or test
+type IncidentCreatePayloadV1Mode string
 
-// IncidentAttachmentsCreateResultV1 defines model for IncidentAttachmentsCreateResultV1.
-type IncidentAttachmentsCreateResultV1 struct {
-	IncidentAttachment IncidentAttachmentV1 `json:"incident_attachment"`
-}
+// IncidentCreatePayloadV1Status Current status of the incident
+type IncidentCreatePayloadV1Status string
 
-// IncidentAttachmentsListResultV1 defines model for IncidentAttachmentsListResultV1.
-type IncidentAttachmentsListResultV1 struct {
-	IncidentAttachments []IncidentAttachmentV1 `json:"incident_attachments"`
-}
+// IncidentCreatePayloadV1Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+type IncidentCreatePayloadV1Visibility string
 
 // IncidentCreatePayloadV2 defines model for IncidentCreatePayloadV2.
 type IncidentCreatePayloadV2 struct {
@@ -3800,8 +3924,8 @@ type IncidentEditPayloadV2 struct {
 	Summary *string `json:"summary,omitempty"`
 }
 
-// IncidentMembershipV1 defines model for IncidentMembershipV1.
-type IncidentMembershipV1 struct {
+// IncidentMembership defines model for IncidentMembership.
+type IncidentMembership struct {
 	// CreatedAt When the membership was created
 	CreatedAt time.Time `json:"created_at"`
 
@@ -3813,25 +3937,7 @@ type IncidentMembershipV1 struct {
 
 	// UpdatedAt When the membership was last updated
 	UpdatedAt time.Time `json:"updated_at"`
-	User      UserV1    `json:"user"`
-}
-
-// IncidentMembershipsCreatePayloadV1 defines model for IncidentMembershipsCreatePayloadV1.
-type IncidentMembershipsCreatePayloadV1 struct {
-	IncidentId string `json:"incident_id"`
-	UserId     string `json:"user_id"`
-}
-
-// IncidentMembershipsCreateResultV1 defines model for IncidentMembershipsCreateResultV1.
-type IncidentMembershipsCreateResultV1 struct {
-	IncidentMembership IncidentMembershipV1 `json:"incident_membership"`
-}
-
-// IncidentMembershipsRevokePayloadV1 defines model for IncidentMembershipsRevokePayloadV1.
-type IncidentMembershipsRevokePayloadV1 struct {
-	// IncidentId Revoke memberships to incident
-	IncidentId string `json:"incident_id"`
-	UserId     string `json:"user_id"`
+	User      UserV2    `json:"user"`
 }
 
 // IncidentRoleAssignmentPayloadV1 defines model for IncidentRoleAssignmentPayloadV1.
@@ -3925,112 +4031,6 @@ type IncidentRoleV2 struct {
 // IncidentRoleV2RoleType Type of incident role
 type IncidentRoleV2RoleType string
 
-// IncidentRolesCreatePayloadV1 defines model for IncidentRolesCreatePayloadV1.
-type IncidentRolesCreatePayloadV1 struct {
-	// Description Describes the purpose of the role
-	Description string `json:"description"`
-
-	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
-	Instructions string `json:"instructions"`
-
-	// Name Human readable name of the incident role
-	Name string `json:"name"`
-
-	// Required DEPRECATED: this will always be false.
-	Required bool `json:"required"`
-
-	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
-	Shortform string `json:"shortform"`
-}
-
-// IncidentRolesCreatePayloadV2 defines model for IncidentRolesCreatePayloadV2.
-type IncidentRolesCreatePayloadV2 struct {
-	// Description Describes the purpose of the role
-	Description string `json:"description"`
-
-	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
-	Instructions string `json:"instructions"`
-
-	// Name Human readable name of the incident role
-	Name string `json:"name"`
-
-	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
-	Shortform string `json:"shortform"`
-}
-
-// IncidentRolesCreateResultV1 defines model for IncidentRolesCreateResultV1.
-type IncidentRolesCreateResultV1 struct {
-	IncidentRole IncidentRoleV1 `json:"incident_role"`
-}
-
-// IncidentRolesCreateResultV2 defines model for IncidentRolesCreateResultV2.
-type IncidentRolesCreateResultV2 struct {
-	IncidentRole IncidentRoleV2 `json:"incident_role"`
-}
-
-// IncidentRolesListResultV1 defines model for IncidentRolesListResultV1.
-type IncidentRolesListResultV1 struct {
-	IncidentRoles []IncidentRoleV1 `json:"incident_roles"`
-}
-
-// IncidentRolesListResultV2 defines model for IncidentRolesListResultV2.
-type IncidentRolesListResultV2 struct {
-	IncidentRoles []IncidentRoleV2 `json:"incident_roles"`
-}
-
-// IncidentRolesShowResultV1 defines model for IncidentRolesShowResultV1.
-type IncidentRolesShowResultV1 struct {
-	IncidentRole IncidentRoleV1 `json:"incident_role"`
-}
-
-// IncidentRolesShowResultV2 defines model for IncidentRolesShowResultV2.
-type IncidentRolesShowResultV2 struct {
-	IncidentRole IncidentRoleV2 `json:"incident_role"`
-}
-
-// IncidentRolesUpdatePayloadV1 defines model for IncidentRolesUpdatePayloadV1.
-type IncidentRolesUpdatePayloadV1 struct {
-	// Description Describes the purpose of the role
-	Description string `json:"description"`
-
-	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
-	Instructions string `json:"instructions"`
-
-	// Name Human readable name of the incident role
-	Name string `json:"name"`
-
-	// Required DEPRECATED: this will always be false.
-	Required *bool `json:"required,omitempty"`
-
-	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
-	Shortform string `json:"shortform"`
-}
-
-// IncidentRolesUpdatePayloadV2 defines model for IncidentRolesUpdatePayloadV2.
-type IncidentRolesUpdatePayloadV2 struct {
-	// Description Describes the purpose of the role
-	Description string `json:"description"`
-
-	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
-	Instructions string `json:"instructions"`
-
-	// Name Human readable name of the incident role
-	Name string `json:"name"`
-
-	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
-	Shortform string `json:"shortform"`
-}
-
-// IncidentRolesUpdateResultV1 defines model for IncidentRolesUpdateResultV1.
-type IncidentRolesUpdateResultV1 struct {
-	IncidentRole IncidentRoleV1 `json:"incident_role"`
-}
-
-// IncidentRolesUpdateResultV2 defines model for IncidentRolesUpdateResultV2.
-type IncidentRolesUpdateResultV2 struct {
-	IncidentRole IncidentRoleV2 `json:"incident_role"`
-}
-
 // IncidentStatusV1 defines model for IncidentStatusV1.
 type IncidentStatusV1 struct {
 	// Category What category of status it is. All statuses apart from live (renamed in the app to Active) and learning (renamed in the app to Post-incident) are managed by incident.io and cannot be configured
@@ -4077,50 +4077,6 @@ type IncidentStatusV2 struct {
 // IncidentStatusV2Category What category of status it is. All statuses apart from live (renamed in the app to Active) and learning (renamed in the app to Post-incident) are managed by incident.io and cannot be configured
 type IncidentStatusV2Category string
 
-// IncidentStatusesCreatePayloadV1 defines model for IncidentStatusesCreatePayloadV1.
-type IncidentStatusesCreatePayloadV1 struct {
-	// Category Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
-	Category IncidentStatusesCreatePayloadV1Category `json:"category"`
-
-	// Description Rich text description of the incident status
-	Description string `json:"description"`
-
-	// Name Unique name of this status
-	Name string `json:"name"`
-}
-
-// IncidentStatusesCreatePayloadV1Category Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
-type IncidentStatusesCreatePayloadV1Category string
-
-// IncidentStatusesCreateResultV1 defines model for IncidentStatusesCreateResultV1.
-type IncidentStatusesCreateResultV1 struct {
-	IncidentStatus IncidentStatusV1 `json:"incident_status"`
-}
-
-// IncidentStatusesListResultV1 defines model for IncidentStatusesListResultV1.
-type IncidentStatusesListResultV1 struct {
-	IncidentStatuses []IncidentStatusV1 `json:"incident_statuses"`
-}
-
-// IncidentStatusesShowResultV1 defines model for IncidentStatusesShowResultV1.
-type IncidentStatusesShowResultV1 struct {
-	IncidentStatus IncidentStatusV1 `json:"incident_status"`
-}
-
-// IncidentStatusesUpdatePayloadV1 defines model for IncidentStatusesUpdatePayloadV1.
-type IncidentStatusesUpdatePayloadV1 struct {
-	// Description Rich text description of the incident status
-	Description string `json:"description"`
-
-	// Name Unique name of this status
-	Name string `json:"name"`
-}
-
-// IncidentStatusesUpdateResultV1 defines model for IncidentStatusesUpdateResultV1.
-type IncidentStatusesUpdateResultV1 struct {
-	IncidentStatus IncidentStatusV1 `json:"incident_status"`
-}
-
 // IncidentTimestampV1 defines model for IncidentTimestampV1.
 type IncidentTimestampV1 struct {
 	// LastOccurredAt When this last occurred, if it did
@@ -4161,16 +4117,6 @@ type IncidentTimestampValueV2 struct {
 type IncidentTimestampWithValueV2 struct {
 	IncidentTimestamp IncidentTimestampV2       `json:"incident_timestamp"`
 	Value             *IncidentTimestampValueV2 `json:"value,omitempty"`
-}
-
-// IncidentTimestampsListResultV2 defines model for IncidentTimestampsListResultV2.
-type IncidentTimestampsListResultV2 struct {
-	IncidentTimestamps []IncidentTimestampV2 `json:"incident_timestamps"`
-}
-
-// IncidentTimestampsShowResultV2 defines model for IncidentTimestampsShowResultV2.
-type IncidentTimestampsShowResultV2 struct {
-	IncidentTimestamp IncidentTimestampV2 `json:"incident_timestamp"`
 }
 
 // IncidentTypeV1 defines model for IncidentTypeV1.
@@ -4233,16 +4179,6 @@ type IncidentTypeV2 struct {
 // IncidentTypeV2CreateInTriage Whether incidents of this must always, or can optionally, be created in triage
 type IncidentTypeV2CreateInTriage string
 
-// IncidentTypesListResultV1 defines model for IncidentTypesListResultV1.
-type IncidentTypesListResultV1 struct {
-	IncidentTypes []IncidentTypeV1 `json:"incident_types"`
-}
-
-// IncidentTypesShowResultV1 defines model for IncidentTypesShowResultV1.
-type IncidentTypesShowResultV1 struct {
-	IncidentType IncidentTypeV1 `json:"incident_type"`
-}
-
 // IncidentUpdateV2 defines model for IncidentUpdateV2.
 type IncidentUpdateV2 struct {
 	// CreatedAt When the update was created
@@ -4254,7 +4190,7 @@ type IncidentUpdateV2 struct {
 	// IncidentId The incident this update relates to
 	IncidentId string `json:"incident_id"`
 
-	// MergedIntoIncidentId The ID of the incident this incident was merged into, if the to state of this update is 'merged'.
+	// MergedIntoIncidentId The ID of the incident that this incident was merged into, if it was merged in to another incident
 	MergedIntoIncidentId *string `json:"merged_into_incident_id,omitempty"`
 
 	// Message Message that explains the context behind the update
@@ -4262,12 +4198,6 @@ type IncidentUpdateV2 struct {
 	NewIncidentStatus IncidentStatusV2 `json:"new_incident_status"`
 	NewSeverity       *SeverityV2      `json:"new_severity,omitempty"`
 	Updater           ActorV2          `json:"updater"`
-}
-
-// IncidentUpdatesListResultV2 defines model for IncidentUpdatesListResultV2.
-type IncidentUpdatesListResultV2 struct {
-	IncidentUpdates []IncidentUpdateV2      `json:"incident_updates"`
-	PaginationMeta  *PaginationMetaResultV2 `json:"pagination_meta,omitempty"`
 }
 
 // IncidentV1 defines model for IncidentV1.
@@ -4422,100 +4352,52 @@ type IncidentV2Mode string
 // IncidentV2Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
 type IncidentV2Visibility string
 
-// IncidentsV1CreateRequestBody defines model for IncidentsV1CreateRequestBody.
-type IncidentsV1CreateRequestBody struct {
-	// CustomFieldEntries Set the incident's custom fields to these values
-	CustomFieldEntries *[]CustomFieldEntryPayloadV1 `json:"custom_field_entries,omitempty"`
-
-	// IdempotencyKey Unique string used to de-duplicate incident create requests
-	IdempotencyKey string `json:"idempotency_key"`
-
-	// IncidentRoleAssignments Assign incident roles to these people
-	IncidentRoleAssignments *[]IncidentRoleAssignmentPayloadV1 `json:"incident_role_assignments,omitempty"`
-
-	// IncidentTypeId Incident type to create this incident as
-	IncidentTypeId *string `json:"incident_type_id,omitempty"`
-
-	// Mode Whether the incident is real or test
-	Mode *IncidentsV1CreateRequestBodyMode `json:"mode,omitempty"`
-
-	// Name Explanation of the incident
-	Name *string `json:"name,omitempty"`
-
-	// SeverityId Severity to create incident as
-	SeverityId *string `json:"severity_id,omitempty"`
-
-	// SlackTeamId ID of the Slack team / workspace. This is only required if you are using a Slack Enterprise Grid with multiple teams.
-	SlackTeamId *string `json:"slack_team_id,omitempty"`
-
-	// SourceMessageChannelId Channel ID of the source message, if this incident was created from one
-	SourceMessageChannelId *string `json:"source_message_channel_id,omitempty"`
-
-	// SourceMessageTimestamp Timestamp of the source message, if this incident was created from one
-	SourceMessageTimestamp *string `json:"source_message_timestamp,omitempty"`
-
-	// Status Current status of the incident
-	Status *IncidentsV1CreateRequestBodyStatus `json:"status,omitempty"`
-
-	// Summary Detailed description of the incident
-	Summary *string `json:"summary,omitempty"`
-
-	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
-	Visibility IncidentsV1CreateRequestBodyVisibility `json:"visibility"`
+// ListResponseBody defines model for ListResponseBody.
+type ListResponseBody struct {
+	IncidentAttachments []IncidentAttachmentV1 `json:"incident_attachments"`
 }
 
-// IncidentsV1CreateRequestBodyMode Whether the incident is real or test
-type IncidentsV1CreateRequestBodyMode string
-
-// IncidentsV1CreateRequestBodyStatus Current status of the incident
-type IncidentsV1CreateRequestBodyStatus string
-
-// IncidentsV1CreateRequestBodyVisibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
-type IncidentsV1CreateRequestBodyVisibility string
-
-// IncidentsV1CreateResponseBody defines model for IncidentsV1CreateResponseBody.
-type IncidentsV1CreateResponseBody struct {
-	Incident IncidentV1 `json:"incident"`
+// ListResponseBody2 defines model for ListResponseBody2.
+type ListResponseBody2 struct {
+	IncidentRoles []IncidentRoleV1 `json:"incident_roles"`
 }
 
-// IncidentsV1ListResponseBody defines model for IncidentsV1ListResponseBody.
-type IncidentsV1ListResponseBody struct {
+// ListResponseBody3 defines model for ListResponseBody3.
+type ListResponseBody3 struct {
+	IncidentRoles []IncidentRoleV2 `json:"incident_roles"`
+}
+
+// ListResponseBody4 defines model for ListResponseBody4.
+type ListResponseBody4 struct {
+	IncidentStatuses []IncidentStatusV1 `json:"incident_statuses"`
+}
+
+// ListResponseBody5 defines model for ListResponseBody5.
+type ListResponseBody5 struct {
+	IncidentTimestamps []IncidentTimestampV2 `json:"incident_timestamps"`
+}
+
+// ListResponseBody6 defines model for ListResponseBody6.
+type ListResponseBody6 struct {
+	IncidentTypes []IncidentTypeV1 `json:"incident_types"`
+}
+
+// ListResponseBody7 defines model for ListResponseBody7.
+type ListResponseBody7 struct {
+	IncidentUpdates []IncidentUpdateV2    `json:"incident_updates"`
+	PaginationMeta  *PaginationMetaResult `json:"pagination_meta,omitempty"`
+}
+
+// ListResponseBody8 defines model for ListResponseBody8.
+type ListResponseBody8 struct {
 	Incidents      []IncidentV1                   `json:"incidents"`
 	PaginationMeta *PaginationMetaResultWithTotal `json:"pagination_meta,omitempty"`
 }
 
-// IncidentsV1ShowResponseBody defines model for IncidentsV1ShowResponseBody.
-type IncidentsV1ShowResponseBody struct {
-	Incident IncidentV1 `json:"incident"`
-}
-
-// IncidentsV2CreateResponseBody defines model for IncidentsV2CreateResponseBody.
-type IncidentsV2CreateResponseBody struct {
-	Incident IncidentV2 `json:"incident"`
-}
-
-// IncidentsV2EditRequestBody defines model for IncidentsV2EditRequestBody.
-type IncidentsV2EditRequestBody struct {
-	Incident IncidentEditPayloadV2 `json:"incident"`
-
-	// NotifyIncidentChannel Should we send Slack channel notifications to inform responders of this update? Note that this won't work if the Slack channel has already been archived.
-	NotifyIncidentChannel bool `json:"notify_incident_channel"`
-}
-
-// IncidentsV2EditResponseBody defines model for IncidentsV2EditResponseBody.
-type IncidentsV2EditResponseBody struct {
-	Incident IncidentV2 `json:"incident"`
-}
-
-// IncidentsV2ListResponseBody defines model for IncidentsV2ListResponseBody.
-type IncidentsV2ListResponseBody struct {
+// ListResponseBody9 defines model for ListResponseBody9.
+type ListResponseBody9 struct {
 	Incidents      []IncidentV2                   `json:"incidents"`
 	PaginationMeta *PaginationMetaResultWithTotal `json:"pagination_meta,omitempty"`
-}
-
-// IncidentsV2ShowResponseBody defines model for IncidentsV2ShowResponseBody.
-type IncidentsV2ShowResponseBody struct {
-	Incident IncidentV2 `json:"incident"`
 }
 
 // ManagedResourceV2 defines model for ManagedResourceV2.
@@ -4526,7 +4408,7 @@ type ManagedResourceV2 struct {
 	// ManagedBy How is this resource managed
 	ManagedBy ManagedResourceV2ManagedBy `json:"managed_by"`
 
-	// ResourceId The ID of the resource that this relates to
+	// ResourceId The ID of the related resource
 	ResourceId   string                        `json:"resource_id"`
 	ResourceType ManagedResourceV2ResourceType `json:"resource_type"`
 
@@ -4539,26 +4421,6 @@ type ManagedResourceV2ManagedBy string
 
 // ManagedResourceV2ResourceType defines model for ManagedResourceV2.ResourceType.
 type ManagedResourceV2ResourceType string
-
-// ManagedResourcesCreateManagedResourcePayloadV2 defines model for ManagedResourcesCreateManagedResourcePayloadV2.
-type ManagedResourcesCreateManagedResourcePayloadV2 struct {
-	// Annotations Annotations that track metadata about this resource
-	Annotations map[string]string `json:"annotations"`
-
-	// ResourceId The ID of the resource that this relates to
-	ResourceId string `json:"resource_id"`
-
-	// ResourceType The type of the related resource
-	ResourceType ManagedResourcesCreateManagedResourcePayloadV2ResourceType `json:"resource_type"`
-}
-
-// ManagedResourcesCreateManagedResourcePayloadV2ResourceType The type of the related resource
-type ManagedResourcesCreateManagedResourcePayloadV2ResourceType string
-
-// ManagedResourcesCreateManagedResourceResultV2 defines model for ManagedResourcesCreateManagedResourceResultV2.
-type ManagedResourcesCreateManagedResourceResultV2 struct {
-	ManagedResource ManagedResourceV2 `json:"managed_resource"`
-}
 
 // ManagementMetaV2 defines model for ManagementMetaV2.
 type ManagementMetaV2 struct {
@@ -4574,6 +4436,15 @@ type ManagementMetaV2 struct {
 
 // ManagementMetaV2ManagedBy How is this resource managed
 type ManagementMetaV2ManagedBy string
+
+// PaginationMetaResult defines model for PaginationMetaResult.
+type PaginationMetaResult struct {
+	// After If provided, pass this as the 'after' param to load the next page
+	After *string `json:"after,omitempty"`
+
+	// PageSize What was the maximum number of results requested
+	PageSize int64 `json:"page_size"`
+}
 
 // PaginationMetaResultV1 defines model for PaginationMetaResultV1.
 type PaginationMetaResultV1 struct {
@@ -4687,9 +4558,6 @@ type ScheduleCreatePayloadV2 struct {
 
 	// Name Name of the schedule
 	Name *string `json:"name,omitempty"`
-
-	// TeamIds IDs of teams that own this schedule
-	TeamIds *[]string `json:"team_ids,omitempty"`
 
 	// Timezone Timezone of the schedule
 	Timezone *string `json:"timezone,omitempty"`
@@ -4913,9 +4781,6 @@ type ScheduleUpdatePayloadV2 struct {
 	// Name Name of the schedule
 	Name *string `json:"name,omitempty"`
 
-	// TeamIds IDs of teams that own this schedule
-	TeamIds *[]string `json:"team_ids,omitempty"`
-
 	// Timezone Timezone of the schedule
 	Timezone *string `json:"timezone,omitempty"`
 }
@@ -4936,9 +4801,6 @@ type ScheduleV2 struct {
 
 	// Name Human readable name synced from external provider
 	Name string `json:"name"`
-
-	// TeamIds IDs of teams that own this schedule
-	TeamIds []string `json:"team_ids"`
 
 	// Timezone Timezone of the schedule, as interpreted at the point of generating the report
 	Timezone  string    `json:"timezone"`
@@ -5092,6 +4954,41 @@ type SeverityV2 struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+// ShowResponseBody defines model for ShowResponseBody.
+type ShowResponseBody struct {
+	IncidentRole IncidentRoleV1 `json:"incident_role"`
+}
+
+// ShowResponseBody2 defines model for ShowResponseBody2.
+type ShowResponseBody2 struct {
+	IncidentRole IncidentRoleV2 `json:"incident_role"`
+}
+
+// ShowResponseBody3 defines model for ShowResponseBody3.
+type ShowResponseBody3 struct {
+	IncidentStatus IncidentStatusV1 `json:"incident_status"`
+}
+
+// ShowResponseBody4 defines model for ShowResponseBody4.
+type ShowResponseBody4 struct {
+	IncidentTimestamp IncidentTimestampV2 `json:"incident_timestamp"`
+}
+
+// ShowResponseBody5 defines model for ShowResponseBody5.
+type ShowResponseBody5 struct {
+	IncidentType IncidentTypeV1 `json:"incident_type"`
+}
+
+// ShowResponseBody6 defines model for ShowResponseBody6.
+type ShowResponseBody6 struct {
+	Incident IncidentV1 `json:"incident"`
+}
+
+// ShowResponseBody7 defines model for ShowResponseBody7.
+type ShowResponseBody7 struct {
+	Incident IncidentV2 `json:"incident"`
+}
+
 // StepConfigPayloadV2 defines model for StepConfigPayloadV2.
 type StepConfigPayloadV2 struct {
 	// ForEach Reference to an expression that returns resources to run this step over
@@ -5140,6 +5037,48 @@ type TriggerSlimV2 struct {
 	Label string `json:"label"`
 
 	// Name Unique name of the trigger
+	Name string `json:"name"`
+}
+
+// UpdateRequestBody defines model for UpdateRequestBody.
+type UpdateRequestBody struct {
+	// Description Describes the purpose of the role
+	Description string `json:"description"`
+
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
+	Instructions string `json:"instructions"`
+
+	// Name Human readable name of the incident role
+	Name string `json:"name"`
+
+	// Required DEPRECATED: this will always be false.
+	Required *bool `json:"required,omitempty"`
+
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
+	Shortform string `json:"shortform"`
+}
+
+// UpdateRequestBody2 defines model for UpdateRequestBody2.
+type UpdateRequestBody2 struct {
+	// Description Describes the purpose of the role
+	Description string `json:"description"`
+
+	// Instructions Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
+	Instructions string `json:"instructions"`
+
+	// Name Human readable name of the incident role
+	Name string `json:"name"`
+
+	// Shortform Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
+	Shortform string `json:"shortform"`
+}
+
+// UpdateRequestBody3 defines model for UpdateRequestBody3.
+type UpdateRequestBody3 struct {
+	// Description Rich text description of the incident status
+	Description string `json:"description"`
+
+	// Name Unique name of this status
 	Name string `json:"name"`
 }
 
@@ -5744,28 +5683,28 @@ type CustomFieldsV1CreateJSONRequestBody = CustomFieldsCreatePayloadV1
 type CustomFieldsV1UpdateJSONRequestBody = CustomFieldsUpdatePayloadV1
 
 // IncidentAttachmentsV1CreateJSONRequestBody defines body for IncidentAttachmentsV1Create for application/json ContentType.
-type IncidentAttachmentsV1CreateJSONRequestBody = IncidentAttachmentsCreatePayloadV1
+type IncidentAttachmentsV1CreateJSONRequestBody = CreateRequestBody
 
 // IncidentMembershipsV1CreateJSONRequestBody defines body for IncidentMembershipsV1Create for application/json ContentType.
-type IncidentMembershipsV1CreateJSONRequestBody = IncidentMembershipsCreatePayloadV1
+type IncidentMembershipsV1CreateJSONRequestBody = CreateRequestBody2
 
 // IncidentMembershipsV1RevokeJSONRequestBody defines body for IncidentMembershipsV1Revoke for application/json ContentType.
-type IncidentMembershipsV1RevokeJSONRequestBody = IncidentMembershipsRevokePayloadV1
+type IncidentMembershipsV1RevokeJSONRequestBody = CreateRequestBody2
 
 // IncidentRolesV1CreateJSONRequestBody defines body for IncidentRolesV1Create for application/json ContentType.
-type IncidentRolesV1CreateJSONRequestBody = IncidentRolesCreatePayloadV1
+type IncidentRolesV1CreateJSONRequestBody = CreateRequestBody3
 
 // IncidentRolesV1UpdateJSONRequestBody defines body for IncidentRolesV1Update for application/json ContentType.
-type IncidentRolesV1UpdateJSONRequestBody = IncidentRolesUpdatePayloadV1
+type IncidentRolesV1UpdateJSONRequestBody = UpdateRequestBody
 
 // IncidentStatusesV1CreateJSONRequestBody defines body for IncidentStatusesV1Create for application/json ContentType.
-type IncidentStatusesV1CreateJSONRequestBody = IncidentStatusesCreatePayloadV1
+type IncidentStatusesV1CreateJSONRequestBody = CreateRequestBody5
 
 // IncidentStatusesV1UpdateJSONRequestBody defines body for IncidentStatusesV1Update for application/json ContentType.
-type IncidentStatusesV1UpdateJSONRequestBody = IncidentStatusesUpdatePayloadV1
+type IncidentStatusesV1UpdateJSONRequestBody = UpdateRequestBody3
 
 // IncidentsV1CreateJSONRequestBody defines body for IncidentsV1Create for application/json ContentType.
-type IncidentsV1CreateJSONRequestBody = IncidentsV1CreateRequestBody
+type IncidentsV1CreateJSONRequestBody = IncidentCreatePayloadV1
 
 // SeveritiesV1CreateJSONRequestBody defines body for SeveritiesV1Create for application/json ContentType.
 type SeveritiesV1CreateJSONRequestBody = SeveritiesCreatePayloadV1
@@ -5780,7 +5719,7 @@ type AlertAttributesV2CreateJSONRequestBody = AlertAttributesCreatePayloadV2
 type AlertAttributesV2UpdateJSONRequestBody = AlertAttributesUpdatePayloadV2
 
 // AlertEventsV2CreateHTTPJSONRequestBody defines body for AlertEventsV2CreateHTTP for application/json ContentType.
-type AlertEventsV2CreateHTTPJSONRequestBody = AlertEventsCreateHTTPPayloadV2
+type AlertEventsV2CreateHTTPJSONRequestBody = CreateHTTPRequestBody
 
 // AlertRoutesV2CreateJSONRequestBody defines body for AlertRoutesV2Create for application/json ContentType.
 type AlertRoutesV2CreateJSONRequestBody = AlertRoutesCreatePayloadV2
@@ -5822,19 +5761,19 @@ type EscalationsV2CreatePathJSONRequestBody = EscalationsCreatePathPayloadV2
 type EscalationsV2UpdatePathJSONRequestBody = EscalationsUpdatePathPayloadV2
 
 // IncidentRolesV2CreateJSONRequestBody defines body for IncidentRolesV2Create for application/json ContentType.
-type IncidentRolesV2CreateJSONRequestBody = IncidentRolesCreatePayloadV2
+type IncidentRolesV2CreateJSONRequestBody = CreateRequestBody4
 
 // IncidentRolesV2UpdateJSONRequestBody defines body for IncidentRolesV2Update for application/json ContentType.
-type IncidentRolesV2UpdateJSONRequestBody = IncidentRolesUpdatePayloadV2
+type IncidentRolesV2UpdateJSONRequestBody = UpdateRequestBody2
 
 // IncidentsV2CreateJSONRequestBody defines body for IncidentsV2Create for application/json ContentType.
 type IncidentsV2CreateJSONRequestBody = IncidentCreatePayloadV2
 
 // IncidentsV2EditJSONRequestBody defines body for IncidentsV2Edit for application/json ContentType.
-type IncidentsV2EditJSONRequestBody = IncidentsV2EditRequestBody
+type IncidentsV2EditJSONRequestBody = EditRequestBody
 
 // ManagedResourcesV2CreateManagedResourceJSONRequestBody defines body for ManagedResourcesV2CreateManagedResource for application/json ContentType.
-type ManagedResourcesV2CreateManagedResourceJSONRequestBody = ManagedResourcesCreateManagedResourcePayloadV2
+type ManagedResourcesV2CreateManagedResourceJSONRequestBody = CreateManagedResourceRequestBody
 
 // SchedulesV2CreateOverrideJSONRequestBody defines body for SchedulesV2CreateOverride for application/json ContentType.
 type SchedulesV2CreateOverrideJSONRequestBody = SchedulesCreateOverridePayloadV2
@@ -14195,7 +14134,7 @@ func (r UtilitiesV1IdentityResponse) StatusCode() int {
 type IncidentAttachmentsV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentAttachmentsListResultV1
+	JSON200      *ListResponseBody
 }
 
 // Status returns HTTPResponse.Status
@@ -14217,7 +14156,7 @@ func (r IncidentAttachmentsV1ListResponse) StatusCode() int {
 type IncidentAttachmentsV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *IncidentAttachmentsCreateResultV1
+	JSON201      *CreateResponseBody
 }
 
 // Status returns HTTPResponse.Status
@@ -14260,7 +14199,7 @@ func (r IncidentAttachmentsV1DeleteResponse) StatusCode() int {
 type IncidentMembershipsV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *IncidentMembershipsCreateResultV1
+	JSON201      *CreateResponseBody2
 }
 
 // Status returns HTTPResponse.Status
@@ -14303,7 +14242,7 @@ func (r IncidentMembershipsV1RevokeResponse) StatusCode() int {
 type IncidentRolesV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentRolesListResultV1
+	JSON200      *ListResponseBody2
 }
 
 // Status returns HTTPResponse.Status
@@ -14325,7 +14264,7 @@ func (r IncidentRolesV1ListResponse) StatusCode() int {
 type IncidentRolesV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *IncidentRolesCreateResultV1
+	JSON201      *ShowResponseBody
 }
 
 // Status returns HTTPResponse.Status
@@ -14368,7 +14307,7 @@ func (r IncidentRolesV1DeleteResponse) StatusCode() int {
 type IncidentRolesV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentRolesShowResultV1
+	JSON200      *ShowResponseBody
 }
 
 // Status returns HTTPResponse.Status
@@ -14390,7 +14329,7 @@ func (r IncidentRolesV1ShowResponse) StatusCode() int {
 type IncidentRolesV1UpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentRolesUpdateResultV1
+	JSON200      *ShowResponseBody
 }
 
 // Status returns HTTPResponse.Status
@@ -14412,7 +14351,7 @@ func (r IncidentRolesV1UpdateResponse) StatusCode() int {
 type IncidentStatusesV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentStatusesListResultV1
+	JSON200      *ListResponseBody4
 }
 
 // Status returns HTTPResponse.Status
@@ -14434,7 +14373,7 @@ func (r IncidentStatusesV1ListResponse) StatusCode() int {
 type IncidentStatusesV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *IncidentStatusesCreateResultV1
+	JSON201      *ShowResponseBody3
 }
 
 // Status returns HTTPResponse.Status
@@ -14477,7 +14416,7 @@ func (r IncidentStatusesV1DeleteResponse) StatusCode() int {
 type IncidentStatusesV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentStatusesShowResultV1
+	JSON200      *ShowResponseBody3
 }
 
 // Status returns HTTPResponse.Status
@@ -14499,7 +14438,7 @@ func (r IncidentStatusesV1ShowResponse) StatusCode() int {
 type IncidentStatusesV1UpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentStatusesUpdateResultV1
+	JSON200      *ShowResponseBody3
 }
 
 // Status returns HTTPResponse.Status
@@ -14521,7 +14460,7 @@ func (r IncidentStatusesV1UpdateResponse) StatusCode() int {
 type IncidentTypesV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentTypesListResultV1
+	JSON200      *ListResponseBody6
 }
 
 // Status returns HTTPResponse.Status
@@ -14543,7 +14482,7 @@ func (r IncidentTypesV1ListResponse) StatusCode() int {
 type IncidentTypesV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentTypesShowResultV1
+	JSON200      *ShowResponseBody5
 }
 
 // Status returns HTTPResponse.Status
@@ -14565,7 +14504,7 @@ func (r IncidentTypesV1ShowResponse) StatusCode() int {
 type IncidentsV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV1ListResponseBody
+	JSON200      *ListResponseBody8
 }
 
 // Status returns HTTPResponse.Status
@@ -14587,7 +14526,7 @@ func (r IncidentsV1ListResponse) StatusCode() int {
 type IncidentsV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV1CreateResponseBody
+	JSON200      *ShowResponseBody6
 }
 
 // Status returns HTTPResponse.Status
@@ -14609,7 +14548,7 @@ func (r IncidentsV1CreateResponse) StatusCode() int {
 type IncidentsV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV1ShowResponseBody
+	JSON200      *ShowResponseBody6
 }
 
 // Status returns HTTPResponse.Status
@@ -14937,7 +14876,7 @@ func (r AlertAttributesV2UpdateResponse) StatusCode() int {
 type AlertEventsV2CreateHTTPResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON202      *AlertEventsCreateHTTPResultV2
+	JSON202      *AlertResult
 }
 
 // Status returns HTTPResponse.Status
@@ -15657,7 +15596,7 @@ func (r FollowUpsV2ShowResponse) StatusCode() int {
 type IncidentRolesV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentRolesListResultV2
+	JSON200      *ListResponseBody3
 }
 
 // Status returns HTTPResponse.Status
@@ -15679,7 +15618,7 @@ func (r IncidentRolesV2ListResponse) StatusCode() int {
 type IncidentRolesV2CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *IncidentRolesCreateResultV2
+	JSON201      *ShowResponseBody2
 }
 
 // Status returns HTTPResponse.Status
@@ -15722,7 +15661,7 @@ func (r IncidentRolesV2DeleteResponse) StatusCode() int {
 type IncidentRolesV2ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentRolesShowResultV2
+	JSON200      *ShowResponseBody2
 }
 
 // Status returns HTTPResponse.Status
@@ -15744,7 +15683,7 @@ func (r IncidentRolesV2ShowResponse) StatusCode() int {
 type IncidentRolesV2UpdateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentRolesUpdateResultV2
+	JSON200      *ShowResponseBody2
 }
 
 // Status returns HTTPResponse.Status
@@ -15766,7 +15705,7 @@ func (r IncidentRolesV2UpdateResponse) StatusCode() int {
 type IncidentTimestampsV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentTimestampsListResultV2
+	JSON200      *ListResponseBody5
 }
 
 // Status returns HTTPResponse.Status
@@ -15788,7 +15727,7 @@ func (r IncidentTimestampsV2ListResponse) StatusCode() int {
 type IncidentTimestampsV2ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentTimestampsShowResultV2
+	JSON200      *ShowResponseBody4
 }
 
 // Status returns HTTPResponse.Status
@@ -15810,7 +15749,7 @@ func (r IncidentTimestampsV2ShowResponse) StatusCode() int {
 type IncidentUpdatesV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentUpdatesListResultV2
+	JSON200      *ListResponseBody7
 }
 
 // Status returns HTTPResponse.Status
@@ -15832,7 +15771,7 @@ func (r IncidentUpdatesV2ListResponse) StatusCode() int {
 type IncidentsV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV2ListResponseBody
+	JSON200      *ListResponseBody9
 }
 
 // Status returns HTTPResponse.Status
@@ -15854,7 +15793,7 @@ func (r IncidentsV2ListResponse) StatusCode() int {
 type IncidentsV2CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV2CreateResponseBody
+	JSON200      *ShowResponseBody7
 }
 
 // Status returns HTTPResponse.Status
@@ -15876,7 +15815,7 @@ func (r IncidentsV2CreateResponse) StatusCode() int {
 type IncidentsV2ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV2ShowResponseBody
+	JSON200      *ShowResponseBody7
 }
 
 // Status returns HTTPResponse.Status
@@ -15898,7 +15837,7 @@ func (r IncidentsV2ShowResponse) StatusCode() int {
 type IncidentsV2EditResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV2EditResponseBody
+	JSON200      *ShowResponseBody7
 }
 
 // Status returns HTTPResponse.Status
@@ -15920,7 +15859,7 @@ func (r IncidentsV2EditResponse) StatusCode() int {
 type ManagedResourcesV2CreateManagedResourceResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ManagedResourcesCreateManagedResourceResultV2
+	JSON200      *CreateManagedResourceResponseBody
 }
 
 // Status returns HTTPResponse.Status
@@ -18271,7 +18210,7 @@ func ParseIncidentAttachmentsV1ListResponse(rsp *http.Response) (*IncidentAttach
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentAttachmentsListResultV1
+		var dest ListResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18297,7 +18236,7 @@ func ParseIncidentAttachmentsV1CreateResponse(rsp *http.Response) (*IncidentAtta
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest IncidentAttachmentsCreateResultV1
+		var dest CreateResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18339,7 +18278,7 @@ func ParseIncidentMembershipsV1CreateResponse(rsp *http.Response) (*IncidentMemb
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest IncidentMembershipsCreateResultV1
+		var dest CreateResponseBody2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18381,7 +18320,7 @@ func ParseIncidentRolesV1ListResponse(rsp *http.Response) (*IncidentRolesV1ListR
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentRolesListResultV1
+		var dest ListResponseBody2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18407,7 +18346,7 @@ func ParseIncidentRolesV1CreateResponse(rsp *http.Response) (*IncidentRolesV1Cre
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest IncidentRolesCreateResultV1
+		var dest ShowResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18449,7 +18388,7 @@ func ParseIncidentRolesV1ShowResponse(rsp *http.Response) (*IncidentRolesV1ShowR
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentRolesShowResultV1
+		var dest ShowResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18475,7 +18414,7 @@ func ParseIncidentRolesV1UpdateResponse(rsp *http.Response) (*IncidentRolesV1Upd
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentRolesUpdateResultV1
+		var dest ShowResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18501,7 +18440,7 @@ func ParseIncidentStatusesV1ListResponse(rsp *http.Response) (*IncidentStatusesV
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentStatusesListResultV1
+		var dest ListResponseBody4
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18527,7 +18466,7 @@ func ParseIncidentStatusesV1CreateResponse(rsp *http.Response) (*IncidentStatuse
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest IncidentStatusesCreateResultV1
+		var dest ShowResponseBody3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18569,7 +18508,7 @@ func ParseIncidentStatusesV1ShowResponse(rsp *http.Response) (*IncidentStatusesV
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentStatusesShowResultV1
+		var dest ShowResponseBody3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18595,7 +18534,7 @@ func ParseIncidentStatusesV1UpdateResponse(rsp *http.Response) (*IncidentStatuse
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentStatusesUpdateResultV1
+		var dest ShowResponseBody3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18621,7 +18560,7 @@ func ParseIncidentTypesV1ListResponse(rsp *http.Response) (*IncidentTypesV1ListR
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentTypesListResultV1
+		var dest ListResponseBody6
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18647,7 +18586,7 @@ func ParseIncidentTypesV1ShowResponse(rsp *http.Response) (*IncidentTypesV1ShowR
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentTypesShowResultV1
+		var dest ShowResponseBody5
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18673,7 +18612,7 @@ func ParseIncidentsV1ListResponse(rsp *http.Response) (*IncidentsV1ListResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV1ListResponseBody
+		var dest ListResponseBody8
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18699,7 +18638,7 @@ func ParseIncidentsV1CreateResponse(rsp *http.Response) (*IncidentsV1CreateRespo
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV1CreateResponseBody
+		var dest ShowResponseBody6
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18725,7 +18664,7 @@ func ParseIncidentsV1ShowResponse(rsp *http.Response) (*IncidentsV1ShowResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV1ShowResponseBody
+		var dest ShowResponseBody6
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -19095,7 +19034,7 @@ func ParseAlertEventsV2CreateHTTPResponse(rsp *http.Response) (*AlertEventsV2Cre
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
-		var dest AlertEventsCreateHTTPResultV2
+		var dest AlertResult
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -19893,7 +19832,7 @@ func ParseIncidentRolesV2ListResponse(rsp *http.Response) (*IncidentRolesV2ListR
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentRolesListResultV2
+		var dest ListResponseBody3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -19919,7 +19858,7 @@ func ParseIncidentRolesV2CreateResponse(rsp *http.Response) (*IncidentRolesV2Cre
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest IncidentRolesCreateResultV2
+		var dest ShowResponseBody2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -19961,7 +19900,7 @@ func ParseIncidentRolesV2ShowResponse(rsp *http.Response) (*IncidentRolesV2ShowR
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentRolesShowResultV2
+		var dest ShowResponseBody2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -19987,7 +19926,7 @@ func ParseIncidentRolesV2UpdateResponse(rsp *http.Response) (*IncidentRolesV2Upd
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentRolesUpdateResultV2
+		var dest ShowResponseBody2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -20013,7 +19952,7 @@ func ParseIncidentTimestampsV2ListResponse(rsp *http.Response) (*IncidentTimesta
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentTimestampsListResultV2
+		var dest ListResponseBody5
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -20039,7 +19978,7 @@ func ParseIncidentTimestampsV2ShowResponse(rsp *http.Response) (*IncidentTimesta
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentTimestampsShowResultV2
+		var dest ShowResponseBody4
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -20065,7 +20004,7 @@ func ParseIncidentUpdatesV2ListResponse(rsp *http.Response) (*IncidentUpdatesV2L
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentUpdatesListResultV2
+		var dest ListResponseBody7
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -20091,7 +20030,7 @@ func ParseIncidentsV2ListResponse(rsp *http.Response) (*IncidentsV2ListResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV2ListResponseBody
+		var dest ListResponseBody9
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -20117,7 +20056,7 @@ func ParseIncidentsV2CreateResponse(rsp *http.Response) (*IncidentsV2CreateRespo
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV2CreateResponseBody
+		var dest ShowResponseBody7
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -20143,7 +20082,7 @@ func ParseIncidentsV2ShowResponse(rsp *http.Response) (*IncidentsV2ShowResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV2ShowResponseBody
+		var dest ShowResponseBody7
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -20169,7 +20108,7 @@ func ParseIncidentsV2EditResponse(rsp *http.Response) (*IncidentsV2EditResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV2EditResponseBody
+		var dest ShowResponseBody7
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -20195,7 +20134,7 @@ func ParseManagedResourcesV2CreateManagedResourceResponse(rsp *http.Response) (*
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ManagedResourcesCreateManagedResourceResultV2
+		var dest CreateManagedResourceResponseBody
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
