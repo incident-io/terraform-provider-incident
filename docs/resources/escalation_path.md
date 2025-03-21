@@ -116,6 +116,9 @@ resource "incident_escalation_path" "urgent_support" {
       ]
     }
   ]
+
+  # Teams that use this escalation path
+  team_ids = ["01FCNDV6P870EA6S7TK1DSYD00", "01FCNDV6P870EA6S7TK1DSYD01"]
 }
 ```
 
@@ -129,6 +132,7 @@ resource "incident_escalation_path" "urgent_support" {
 
 ### Optional
 
+- `team_ids` (List of String) IDs of teams that own this escalation path
 - `working_hours` (Attributes List) The working hours for this escalation path. (see [below for nested schema](#nestedatt--working_hours))
 
 ### Read-Only

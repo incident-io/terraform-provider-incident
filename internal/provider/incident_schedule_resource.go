@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -58,6 +59,15 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 				Required: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+				},
+			},
+			"team_ids": schema.SetAttribute{
+				MarkdownDescription: apischema.Docstring("ScheduleV2", "team_ids"),
+				Optional:            true,
+				ElementType:         types.StringType,
+				Computed:            true,
+				PlanModifiers: []planmodifier.Set{
+					setplanmodifier.UseStateForUnknown(),
 				},
 			},
 			"holidays_public_config": schema.SingleNestedAttribute{
@@ -205,6 +215,14 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 
 	holidaysPublicConfig := buildScheduleHolidaysPublicConfig(data)
 
+	var teamIDs *[]string
+	if len(data.TeamIDs) > 0 {
+		teamIDs = &[]string{}
+		for _, id := range data.TeamIDs {
+			*teamIDs = append(*teamIDs, id.ValueString())
+		}
+	}
+
 	result, err := r.client.SchedulesV2CreateWithResponse(ctx, client.SchedulesV2CreateJSONRequestBody{
 		Schedule: client.ScheduleCreatePayloadV2{
 			Annotations: &map[string]string{
@@ -216,6 +234,7 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 				Rotations: &rotationArray,
 			},
 			HolidaysPublicConfig: holidaysPublicConfig,
+			TeamIds:              teamIDs,
 		},
 	})
 	if err == nil && result.StatusCode() >= 400 {
@@ -274,6 +293,14 @@ func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.Upda
 
 	holidaysPublicConfig := buildScheduleHolidaysPublicConfig(old)
 
+	var teamIDs *[]string
+	if len(old.TeamIDs) > 0 {
+		teamIDs = &[]string{}
+		for _, id := range old.TeamIDs {
+			*teamIDs = append(*teamIDs, id.ValueString())
+		}
+	}
+
 	result, err := r.client.SchedulesV2UpdateWithResponse(ctx, old.ID.ValueString(), client.SchedulesV2UpdateJSONRequestBody{
 		Schedule: client.ScheduleUpdatePayloadV2{
 			Annotations: &map[string]string{
@@ -282,6 +309,7 @@ func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.Upda
 			Name:                 old.Name.ValueStringPointer(),
 			Timezone:             old.Timezone.ValueStringPointer(),
 			HolidaysPublicConfig: holidaysPublicConfig,
+			TeamIds:              teamIDs,
 			Config: &client.ScheduleConfigUpdatePayloadV2{
 				Rotations: &rotationArray,
 			},
@@ -479,11 +507,19 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *model
 		}
 	}
 
+	var teamIDs []types.String
+	if schedule.TeamIds != nil {
+		teamIDs = lo.Map(schedule.TeamIds, func(id string, _ int) types.String {
+			return types.StringValue(id)
+		})
+	}
+
 	return &models.IncidentScheduleResourceModelV2{
 		Name:                 types.StringValue(schedule.Name),
 		ID:                   types.StringValue(schedule.Id),
 		Timezone:             types.StringValue(schedule.Timezone),
 		HolidaysPublicConfig: holidaysPublicConfig,
+		TeamIDs:              teamIDs,
 		Rotations: lo.Map(rotationNames, func(rotation RotationName, _ int) models.RotationV2 {
 			newRotation := models.RotationV2{
 				ID:   types.StringValue(rotation.ID),
