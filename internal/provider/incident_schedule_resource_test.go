@@ -358,7 +358,6 @@ func generateScheduleTerraform(name string, schedule *client.ScheduleV2) string 
 	result += "resource \"incident_schedule\" \"example\" {\n"
 	result += "  name     = " + quote(name) + "\n"
 	result += "  timezone = " + quote(schedule.Timezone) + "\n"
-	result += "  team_ids = " + generateTeamIDsArray(schedule.TeamIds) + "\n"
 	result += "  " + generateRotationsArray(schedule.Config.Rotations)
 
 	if schedule.HolidaysPublicConfig != nil {
@@ -468,22 +467,6 @@ func generateCountryCodesArray(codes []string) string {
 			result += ", "
 		}
 		result += quote(code)
-	}
-	result += "]\n"
-	return result
-}
-
-func generateTeamIDsArray(teamIDs []string) string {
-	var result string
-	if teamIDs == nil {
-		return "[]"
-	}
-	result += "[\n"
-	for idx, teamID := range teamIDs {
-		if idx > 0 {
-			result += ", "
-		}
-		result += quote(teamID)
 	}
 	result += "]\n"
 	return result

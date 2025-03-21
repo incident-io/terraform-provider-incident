@@ -13,14 +13,14 @@ func claimResource(
 	apiClient *client.ClientWithResponses,
 	resourceID string,
 	diagnostics diag.Diagnostics,
-	resourceType client.ManagedResourcesCreateManagedResourcePayloadV2ResourceType,
+	resourceType client.ManagedResourceV2ResourceType,
 	terraformVersion string,
 ) {
-	payload := client.ManagedResourcesV2CreateManagedResourceJSONRequestBody{
+	payload := client.CreateManagedResourceRequestBody{
 		Annotations: map[string]string{
 			"incident.io/terraform/version": terraformVersion,
 		},
-		ResourceType: resourceType,
+		ResourceType: client.CreateManagedResourceRequestBodyResourceType(resourceType),
 		ResourceId:   resourceID,
 	}
 

@@ -70,8 +70,6 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 						"incident_escalation_path.example", "working_hours.0.weekday_intervals.0.start_time", "09:00"),
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "working_hours.0.weekday_intervals.0.end_time", "17:00"),
-					resource.TestCheckResourceAttrPair(
-						"incident_escalation_path.example", "team_ids.0", "incident_catalog_entry.response", "id"),
 				),
 			},
 			// Import
@@ -85,21 +83,6 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 }
 
 var escalationPathTemplate = template.Must(template.New("incident_escalation_path").Funcs(sprig.TxtFuncMap()).Parse(`
-# This is the team catalog type
-resource "incident_catalog_type" "team" {
-  name            = "Test Team"
-  type_name       = "Custom[\"TestTeam\"]"
-  description     = "This is the team catalog type"
-  source_repo_url = "http://example.com"
-}
-
-# This is a team catalog entry
-resource "incident_catalog_entry" "response" {
-  catalog_type_id = incident_catalog_type.team.id
-  name = "Response"
-  attribute_values = []
-}
-
 # This is the primary schedule that receives pages in working hours.
 resource "incident_schedule" "primary_on_call" {
   name = {{ quote .ScheduleName }}
@@ -127,9 +110,6 @@ resource "incident_schedule" "primary_on_call" {
       },
     ]
   }]
-
-  # Teams that use this schedule
-  team_ids = [incident_catalog_entry.response.id]
 }
 
 # If in working hours, send high-urgency alerts. Otherwise use low-urgency.
@@ -210,9 +190,6 @@ resource "incident_escalation_path" "example" {
       ]
     }
   ]
-
-  # Teams that use this escalation path
-  team_ids = [incident_catalog_entry.response.id]
 }
 `))
 

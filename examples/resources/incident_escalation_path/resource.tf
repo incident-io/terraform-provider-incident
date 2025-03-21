@@ -94,7 +94,4 @@ resource "incident_escalation_path" "urgent_support" {
       ]
     }
   ]
-
-  # Teams that use this escalation path
-  team_ids = ["01FCNDV6P870EA6S7TK1DSYD00", "01FCNDV6P870EA6S7TK1DSYD01"]
 }
