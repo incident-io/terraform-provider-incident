@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.2.0
+
+Temporarily remove `team_ids` support.
+
 ## v5.1.0
 
 The `incident_schedule` and `incident_escalation_path` resources now support a
