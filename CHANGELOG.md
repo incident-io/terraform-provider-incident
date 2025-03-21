@@ -1,5 +1,10 @@
 ## Unreleased
 
+## v5.1.0
+
+The `incident_schedule` and `incident_escalation_path` resources now support a
+`team_ids` attribute to associate those resources with a team.
+
 ## v5.0.0
 
 #### Breaking changes
