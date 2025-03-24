@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -37,6 +39,7 @@ type IncidentEscalationPathResourceModel struct {
 	Name         types.String                           `tfsdk:"name"`
 	Path         []IncidentEscalationPathNode           `tfsdk:"path"`
 	WorkingHours []models.IncidentWeekdayIntervalConfig `tfsdk:"working_hours"`
+	TeamIDs      []types.String                         `tfsdk:"team_ids"`
 }
 
 type IncidentEscalationPathNode struct {
@@ -120,6 +123,13 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: models.IncidentWeekdayIntervalConfig{}.Attributes(),
 				},
+			},
+			"team_ids": schema.SetAttribute{
+				MarkdownDescription: apischema.Docstring("ScheduleV2", "team_ids"),
+				Optional:            true,
+				ElementType:         types.StringType,
+				Computed:            true,
+				Default:             setdefault.StaticValue(types.SetValueMust(types.StringType, []attr.Value{})),
 			},
 		},
 	}
@@ -319,10 +329,19 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 		}
 	}
 
+	var teamIDs *[]string
+	if len(data.TeamIDs) > 0 {
+		teamIDs = &[]string{}
+		for _, id := range data.TeamIDs {
+			*teamIDs = append(*teamIDs, id.ValueString())
+		}
+	}
+
 	result, err := r.client.EscalationsV2CreatePathWithResponse(ctx, client.EscalationsV2CreatePathJSONRequestBody{
 		Name:         data.Name.ValueString(),
 		Path:         r.toPathPayload(data.Path),
 		WorkingHours: workingHours,
+		TeamIds:      teamIDs,
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
@@ -382,10 +401,19 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 		}
 	}
 
+	var teamIDs *[]string
+	if len(data.TeamIDs) > 0 {
+		teamIDs = &[]string{}
+		for _, id := range data.TeamIDs {
+			*teamIDs = append(*teamIDs, id.ValueString())
+		}
+	}
+
 	result, err := r.client.EscalationsV2UpdatePathWithResponse(ctx, data.ID.ValueString(), client.EscalationsV2UpdatePathJSONRequestBody{
 		Name:         data.Name.ValueString(),
 		Path:         r.toPathPayload(data.Path),
 		WorkingHours: workingHours,
+		TeamIds:      teamIDs,
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
@@ -428,11 +456,19 @@ func (r *IncidentEscalationPathResource) buildModel(ep client.EscalationPathV2) 
 		})
 	}
 
+	var teamIDs []types.String
+	if ep.TeamIds != nil {
+		teamIDs = lo.Map(ep.TeamIds, func(id string, _ int) types.String {
+			return types.StringValue(id)
+		})
+	}
+
 	return &IncidentEscalationPathResourceModel{
 		ID:           types.StringValue(ep.Id),
 		Name:         types.StringValue(ep.Name),
 		Path:         r.toPathModel(ep.Path),
 		WorkingHours: workingHours,
+		TeamIDs:      teamIDs,
 	}
 }
 

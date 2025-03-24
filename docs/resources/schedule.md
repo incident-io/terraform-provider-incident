@@ -126,6 +126,7 @@ resource "incident_schedule" "primary_on_call" {
 ### Optional
 
 - `holidays_public_config` (Attributes) (see [below for nested schema](#nestedatt--holidays_public_config))
+- `team_ids` (Set of String) IDs of teams that own this schedule
 
 ### Read-Only
 
