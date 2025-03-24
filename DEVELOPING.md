@@ -123,3 +123,49 @@ TF_CLI_CONFIG_FILE=./dev.tfrc terraform plan
 
 TF_CLI_CONFIG_FILE=./dev.tfrc terraform apply
 ```
+
+## Schema Attributes - What to use when
+
+### `Optional`
+
+Use `Optional: true` when the user doesn't need to specify an attribute in their config. For example,
+`external_id` on `incident_catalog_entry_resource`. Catalog entries don't have to have an external ID,
+so we don't make users set one in their terraform config.
+
+### `Computed`
+
+Use `Computed: true` when we generate a value for this attribute if the user doesn't specify one. For
+example, `type_name` on `incident_catalog_type_resource`. If the user specifies a type name for a catalog
+type, we'll use it. If they don't, we'll generate one based on the name of the type.
+
+### `Default`
+
+Use `Default` when you want to use a particular value for the attribute during planning _when the user
+hasn't specified a value_. For example, `team_ids` on `incident_schedule_resource` defaults to an empty set:
+
+```
+Default: setdefault.StaticValue(types.SetValueMust(types.StringType, []attr.Value{})),
+```
+
+This means when planning, we compare the team IDs that the API returns against the empty set if no team IDs
+are specified. This is useful for avoiding any state mismatch problems when you introduce a new attribute
+to an existing resource.
+
+### Plan modifier: `UseStateForUnknown`
+
+Use the `UseStateForUnknown` plan modifier when there's an attribute value that the user can't specify,
+but you want to avoid the plan being littered with "Known after apply". For example, this is very useful
+for ID attributes like on `incident_schedule_resource`:
+
+```
+"id": schema.StringAttribute{
+  Computed: true,
+  PlanModifiers: []planmodifier.String{
+    stringplanmodifier.UseStateForUnknown(),
+  },
+  MarkdownDescription: apischema.Docstring("ScheduleV2", "id"),
+},
+```
+
+When planning, we'll have an ID in state for each schedule, and this plan modifier will copy the ID
+from the state in to the planned value, avoiding the "Known after apply" warning.
