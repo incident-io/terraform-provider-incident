@@ -1,5 +1,10 @@
 ## Unreleased
 
+## v5.3.1
+
+When loading workflows, ensure that any additional parameter bindings are
+skipped, so that `apply` does not see these as differences.
+
 ## v5.3.0
 
 The `incident_schedule` and `incident_escalation_path` resources now support a
