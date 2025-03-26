@@ -5714,6 +5714,12 @@ type UsersV2ListParams struct {
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
+// WorkflowsV2ShowWorkflowParams defines parameters for WorkflowsV2ShowWorkflow.
+type WorkflowsV2ShowWorkflowParams struct {
+	// SkipStepUpgrades Skips workflow step upgrades, when the parameters for an existing workflow step change
+	SkipStepUpgrades *bool `form:"skip_step_upgrades,omitempty" json:"skip_step_upgrades,omitempty"`
+}
+
 // CatalogV3ListEntriesParams defines parameters for CatalogV3ListEntries.
 type CatalogV3ListEntriesParams struct {
 	// CatalogTypeId ID of this catalog type
@@ -6333,7 +6339,7 @@ type ClientInterface interface {
 	WorkflowsV2DestroyWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// WorkflowsV2ShowWorkflow request
-	WorkflowsV2ShowWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+	WorkflowsV2ShowWorkflow(ctx context.Context, id string, params *WorkflowsV2ShowWorkflowParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// WorkflowsV2UpdateWorkflowWithBody request with any body
 	WorkflowsV2UpdateWorkflowWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -8115,8 +8121,8 @@ func (c *Client) WorkflowsV2DestroyWorkflow(ctx context.Context, id string, reqE
 	return c.Client.Do(req)
 }
 
-func (c *Client) WorkflowsV2ShowWorkflow(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewWorkflowsV2ShowWorkflowRequest(c.Server, id)
+func (c *Client) WorkflowsV2ShowWorkflow(ctx context.Context, id string, params *WorkflowsV2ShowWorkflowParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowsV2ShowWorkflowRequest(c.Server, id, params)
 	if err != nil {
 		return nil, err
 	}
@@ -12837,7 +12843,7 @@ func NewWorkflowsV2DestroyWorkflowRequest(server string, id string) (*http.Reque
 }
 
 // NewWorkflowsV2ShowWorkflowRequest generates requests for WorkflowsV2ShowWorkflow
-func NewWorkflowsV2ShowWorkflowRequest(server string, id string) (*http.Request, error) {
+func NewWorkflowsV2ShowWorkflowRequest(server string, id string, params *WorkflowsV2ShowWorkflowParams) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -12860,6 +12866,28 @@ func NewWorkflowsV2ShowWorkflowRequest(server string, id string) (*http.Request,
 	queryURL, err := serverURL.Parse(operationPath)
 	if err != nil {
 		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.SkipStepUpgrades != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "skip_step_upgrades", runtime.ParamLocationQuery, *params.SkipStepUpgrades); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
 	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
@@ -13854,7 +13882,7 @@ type ClientWithResponsesInterface interface {
 	WorkflowsV2DestroyWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2DestroyWorkflowResponse, error)
 
 	// WorkflowsV2ShowWorkflowWithResponse request
-	WorkflowsV2ShowWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowResponse, error)
+	WorkflowsV2ShowWorkflowWithResponse(ctx context.Context, id string, params *WorkflowsV2ShowWorkflowParams, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowResponse, error)
 
 	// WorkflowsV2UpdateWorkflowWithBodyWithResponse request with any body
 	WorkflowsV2UpdateWorkflowWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*WorkflowsV2UpdateWorkflowResponse, error)
@@ -17765,8 +17793,8 @@ func (c *ClientWithResponses) WorkflowsV2DestroyWorkflowWithResponse(ctx context
 }
 
 // WorkflowsV2ShowWorkflowWithResponse request returning *WorkflowsV2ShowWorkflowResponse
-func (c *ClientWithResponses) WorkflowsV2ShowWorkflowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowResponse, error) {
-	rsp, err := c.WorkflowsV2ShowWorkflow(ctx, id, reqEditors...)
+func (c *ClientWithResponses) WorkflowsV2ShowWorkflowWithResponse(ctx context.Context, id string, params *WorkflowsV2ShowWorkflowParams, reqEditors ...RequestEditorFn) (*WorkflowsV2ShowWorkflowResponse, error) {
+	rsp, err := c.WorkflowsV2ShowWorkflow(ctx, id, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
