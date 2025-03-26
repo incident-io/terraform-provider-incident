@@ -287,7 +287,9 @@ func (r *IncidentWorkflowResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	result, err := r.client.WorkflowsV2ShowWorkflowWithResponse(ctx, data.ID.ValueString())
+	result, err := r.client.WorkflowsV2ShowWorkflowWithResponse(ctx, data.ID.ValueString(), &client.WorkflowsV2ShowWorkflowParams{
+		SkipStepUpgrades: lo.ToPtr(true),
+	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
 	}
