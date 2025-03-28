@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.3.2
+
 - In the catalog entry resource, we now guard against cases where the type of
   `attribute_values` is inferred to be unknown during the validation of managed
   attributes.
