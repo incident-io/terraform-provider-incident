@@ -331,6 +331,16 @@ func (r *IncidentCatalogEntryResource) ImportState(ctx context.Context, req reso
 
 func (r *IncidentCatalogEntryResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	var data IncidentCatalogEntryResourceModel
+
+	var attributeValues types.Set
+	diag := req.Config.GetAttribute(ctx, path.Root("attribute_values"), &attributeValues)
+	if diag.HasError() || attributeValues.IsUnknown() {
+		// If attribute_values is unknown, don't attempt to validate the managed
+		// attributes. We have to return early here because the call to req.Config.Get
+		// fails to marshal into the []CatalogEntryAttributeValue in this case.
+		return
+	}
+
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return

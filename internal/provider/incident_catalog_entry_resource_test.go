@@ -241,6 +241,46 @@ resource "incident_catalog_entry" "test" {
 	})
 }
 
+func TestIncidentCatalogEntryResource_ValidateConfigConditionalArray(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		IsUnitTest:               true,
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Test validation error when attribute isn't in managed_attributes
+			{
+				Config: `
+resource "incident_catalog_entry" "test" {
+  for_each = {
+    for name, value in [
+      {
+        name       = "foo"
+        test_value = "ABC"
+      },
+      {
+        name       = "bar"
+        test_value = null
+      },
+    ] : value.name => value
+  }
+
+  catalog_type_id = "catalog-type-id-123"
+  name = "Test Entry"
+
+  attribute_values = each.value.test_value == null ? [] : [
+    {
+      attribute = "test",
+      value     = each.value.test_value
+    },
+  ]
+}
+`,
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+		},
+	})
+}
+
 var catalogEntryTemplate = template.Must(template.New("incident_catalog_entry").Funcs(sprig.TxtFuncMap()).Parse(`
 resource "incident_catalog_type" "example" {
   name        = "Catalog Entry Acceptance Test ({{ .ID }})"

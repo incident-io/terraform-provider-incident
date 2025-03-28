@@ -1,5 +1,9 @@
 ## Unreleased
 
+- In the catalog entry resource, we now guard against cases where the type of
+  `attribute_values` is inferred to be unknown during the validation of managed
+  attributes.
+
 ## v5.3.1
 
 When loading workflows, ensure that any additional parameter bindings are
