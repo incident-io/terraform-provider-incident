@@ -248,7 +248,7 @@ func TestIncidentCatalogEntryResource_ValidateConfigConditionalArray(t *testing.
 		Steps: []resource.TestStep{
 			// Test validation error when attribute isn't in managed_attributes
 			{
-				Config: fmt.Sprintf(`
+				Config: `
 resource "incident_catalog_entry" "test" {
   for_each = {
     for name, value in [
@@ -273,7 +273,7 @@ resource "incident_catalog_entry" "test" {
     },
   ]
 }
-`),
+`,
 				PlanOnly:           true,
 				ExpectNonEmptyPlan: true,
 			},
