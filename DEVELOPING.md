@@ -98,8 +98,9 @@ terraform {
 provider "incident" {}
 
 resource "incident_catalog_type" "service_tier" {
-  name        = "Service Tier"
-  description = "Level of importance for each service"
+  name            = "Service Tier"
+  description     = "Level of importance for each service"
+  source_repo_url = "https://github.com/incident-io/terraform-provider-incident"
 }
 
 ```
