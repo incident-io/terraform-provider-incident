@@ -86,11 +86,6 @@ func (IncidentEngineParamBinding) FromAPI(pb client.EngineParamBindingV2) Incide
 		value = lo.ToPtr(IncidentEngineParamBindingValue{}.FromAPI(*pb.Value))
 	}
 
-	// Initialize with empty array if nil to avoid null values in response
-	if arrayValue == nil {
-		arrayValue = []IncidentEngineParamBindingValue{}
-	}
-
 	return IncidentEngineParamBinding{
 		ArrayValue: arrayValue,
 		Value:      value,
@@ -103,20 +98,9 @@ type IncidentEngineParamBindingValue struct {
 }
 
 func (IncidentEngineParamBindingValue) FromAPI(pbv client.EngineParamBindingValueV2) IncidentEngineParamBindingValue {
-	// Always create both fields, even if they're null or empty
-	literalVal := types.StringNull()
-	if pbv.Literal != nil {
-		literalVal = types.StringValue(*pbv.Literal)
-	}
-
-	referenceVal := types.StringNull()
-	if pbv.Reference != nil {
-		referenceVal = types.StringValue(*pbv.Reference)
-	}
-
 	return IncidentEngineParamBindingValue{
-		Literal:   literalVal,
-		Reference: referenceVal,
+		Literal:   types.StringPointerValue(pbv.Literal),
+		Reference: types.StringPointerValue(pbv.Reference),
 	}
 }
 
@@ -321,43 +305,6 @@ func ConditionGroupsAttribute() schema.SetNestedAttribute {
 	}
 }
 
-func GroupingKeysAttribute() schema.SetNestedAttribute {
-	return schema.SetNestedAttribute{
-		MarkdownDescription: "The attributes to group alerts by",
-		Required:            true,
-		NestedObject: schema.NestedAttributeObject{
-			Attributes: map[string]schema.Attribute{
-				"id": schema.StringAttribute{
-					MarkdownDescription: "The unique identifier of the alert attribute to group on",
-					Required:            true,
-				},
-				"reference": schema.SingleNestedAttribute{
-					MarkdownDescription: "The reference to the value to group on",
-					Required:            true,
-					Attributes: map[string]schema.Attribute{
-						"array": schema.BoolAttribute{
-							MarkdownDescription: apischema.Docstring("EngineReferenceV2", "array"),
-							Required:            true,
-						},
-						"key": schema.StringAttribute{
-							MarkdownDescription: apischema.Docstring("EngineReferenceV2", "key"),
-							Required:            true,
-						},
-						"label": schema.StringAttribute{
-							MarkdownDescription: apischema.Docstring("EngineReferenceV2", "label"),
-							Required:            true,
-						},
-						"type": schema.StringAttribute{
-							MarkdownDescription: apischema.Docstring("EngineReferenceV2", "type"),
-							Required:            true,
-						},
-					},
-				},
-			},
-		},
-	}
-}
-
 func ReturnsAttribute() schema.SingleNestedAttribute {
 	return schema.SingleNestedAttribute{
 		MarkdownDescription: "The return type of an operation",
@@ -509,6 +456,7 @@ func (pbs IncidentEngineParamBindings) ToPayload() []client.EngineParamBindingPa
 
 func (binding IncidentEngineParamBinding) ToPayload() client.EngineParamBindingPayloadV2 {
 	arrayValue := []client.EngineParamBindingValuePayloadV2{}
+
 	for _, v := range binding.ArrayValue {
 		arrayValue = append(arrayValue, v.ToPayload())
 	}
@@ -525,20 +473,9 @@ func (binding IncidentEngineParamBinding) ToPayload() client.EngineParamBindingP
 }
 
 func (v IncidentEngineParamBindingValue) ToPayload() client.EngineParamBindingValuePayloadV2 {
-	var literalPtr, referencePtr *string
-
-	// Only set the pointers if the values are not null and not empty
-	if !v.Literal.IsNull() && v.Literal.ValueString() != "" {
-		literalPtr = lo.ToPtr(v.Literal.ValueString())
-	}
-
-	if !v.Reference.IsNull() && v.Reference.ValueString() != "" {
-		referencePtr = lo.ToPtr(v.Reference.ValueString())
-	}
-
 	return client.EngineParamBindingValuePayloadV2{
-		Literal:   literalPtr,
-		Reference: referencePtr,
+		Literal:   v.Literal.ValueStringPointer(),
+		Reference: v.Reference.ValueStringPointer(),
 	}
 }
 
