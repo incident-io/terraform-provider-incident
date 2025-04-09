@@ -72,4 +72,14 @@ Required:
 
 When this filtering field is set on an incident, the options for this custom field will be filtered to only those with the attribute value that matches the value of the filtering field.
 
+## Import
 
+Import is supported using the following syntax:
+
+```shell
+#!/bin/bash
+
+# Import a custom field using its ID
+# Replace the ID with a real ID from your incident.io organization
+terraform import incident_custom_field.example 01ABC123DEF456GHI789JKL
+```

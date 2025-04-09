@@ -193,4 +193,14 @@ Required:
 
 - `country_codes` (List of String) ISO 3166-1 alpha-2 country codes for the countries that this schedule is configured to view holidays for
 
+## Import
 
+Import is supported using the following syntax:
+
+```shell
+#!/bin/bash
+
+# Import a schedule using its ID
+# Replace the ID with a real ID from your incident.io organization
+terraform import incident_schedule.example 01ABC123DEF456GHI789JKL
+```

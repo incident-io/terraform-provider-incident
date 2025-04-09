@@ -456,4 +456,14 @@ Optional:
 
 - `project_ids` (List of String) Which projects in Jira should this alert source watch for new issues? IDs can either be IDs of the projects in Jira, or ID of catalog entries in the 'Jira Project' catalog type.
 
+## Import
 
+Import is supported using the following syntax:
+
+```shell
+#!/bin/bash
+
+# Import an alert source using its ID
+# Replace the ID with a real ID from your incident.io organization
+terraform import incident_alert_source.example 01ABC123DEF456GHI789JKL
+```

@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Allow `terraform import` for `incident_catalog_type_attribute`
+- Add `terraform import` support to the documentation
+
 ## v5.4.0
 
 - Adds `incident_alert_route` resource for managing alert routes.

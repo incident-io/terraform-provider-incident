@@ -1060,4 +1060,14 @@ Optional:
 - `literal` (String) If set, this is the literal value of the step parameter
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
+## Import
 
+Import is supported using the following syntax:
+
+```shell
+#!/bin/bash
+
+# Import an alert route using its ID
+# Replace the ID with a real ID from your incident.io organization
+terraform import incident_alert_route.example 01ABC123DEF456GHI789JKL
+```
