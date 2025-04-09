@@ -2,12 +2,14 @@ package provider
 
 import (
 	"bytes"
+	"fmt"
 	"testing"
 	"text/template"
 
 	"github.com/Masterminds/sprig"
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
@@ -63,8 +65,32 @@ func TestAccIncidentCatalogTypeAttributeResource(t *testing.T) {
 						"incident_catalog_type_attribute.example", "schema_only", "true"),
 				),
 			},
+			// Test importing the resource
+			{
+				ResourceName:      "incident_catalog_type_attribute.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: testAccIncidentCatalogTypeAttributeImportStateIdFunc,
+			},
 		},
 	})
+}
+
+// testAccIncidentCatalogTypeAttributeImportStateIdFunc generates the import ID
+// in the format catalog_type_id:attribute_id for testing import.
+func testAccIncidentCatalogTypeAttributeImportStateIdFunc(s *terraform.State) (string, error) {
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type != "incident_catalog_type_attribute" {
+			continue
+		}
+
+		catalogTypeID := rs.Primary.Attributes["catalog_type_id"]
+		attributeID := rs.Primary.ID
+
+		return fmt.Sprintf("%s:%s", catalogTypeID, attributeID), nil
+	}
+
+	return "", fmt.Errorf("Couldn't find catalog_type_attribute resource")
 }
 
 var catalogTypeAttributeTemplate = template.Must(template.New("incident_catalog_type_attribute").Funcs(sprig.TxtFuncMap()).Parse(`
