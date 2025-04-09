@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.4.1
+
 - Allow `terraform import` for `incident_catalog_type_attribute`
 - Add `terraform import` support to the documentation
 
