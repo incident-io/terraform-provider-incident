@@ -40,23 +40,30 @@ const (
 	Resolved AlertEventsCreateHTTPPayloadV2Status = "resolved"
 )
 
-// Defines values for AlertRouteIncidentTemplatePayloadV2PrioritySeverity.
+// Defines values for AlertRouteCustomFieldBindingPayloadV2MergeStrategy.
 const (
-	AlertRouteIncidentTemplatePayloadV2PrioritySeveritySeverityFirstWins AlertRouteIncidentTemplatePayloadV2PrioritySeverity = "severity-first-wins"
-	AlertRouteIncidentTemplatePayloadV2PrioritySeveritySeverityMax       AlertRouteIncidentTemplatePayloadV2PrioritySeverity = "severity-max"
+	AlertRouteCustomFieldBindingPayloadV2MergeStrategyAppend    AlertRouteCustomFieldBindingPayloadV2MergeStrategy = "append"
+	AlertRouteCustomFieldBindingPayloadV2MergeStrategyFirstWins AlertRouteCustomFieldBindingPayloadV2MergeStrategy = "first-wins"
+	AlertRouteCustomFieldBindingPayloadV2MergeStrategyLastWins  AlertRouteCustomFieldBindingPayloadV2MergeStrategy = "last-wins"
 )
 
-// Defines values for AlertRouteIncidentTemplateV2CustomFieldPriorities.
+// Defines values for AlertRouteCustomFieldBindingV2MergeStrategy.
 const (
-	Append    AlertRouteIncidentTemplateV2CustomFieldPriorities = "append"
-	FirstWins AlertRouteIncidentTemplateV2CustomFieldPriorities = "first-wins"
-	LastWins  AlertRouteIncidentTemplateV2CustomFieldPriorities = "last-wins"
+	AlertRouteCustomFieldBindingV2MergeStrategyAppend    AlertRouteCustomFieldBindingV2MergeStrategy = "append"
+	AlertRouteCustomFieldBindingV2MergeStrategyFirstWins AlertRouteCustomFieldBindingV2MergeStrategy = "first-wins"
+	AlertRouteCustomFieldBindingV2MergeStrategyLastWins  AlertRouteCustomFieldBindingV2MergeStrategy = "last-wins"
 )
 
-// Defines values for AlertRouteIncidentTemplateV2PrioritySeverity.
+// Defines values for AlertRouteSeverityBindingPayloadV2MergeStrategy.
 const (
-	AlertRouteIncidentTemplateV2PrioritySeveritySeverityFirstWins AlertRouteIncidentTemplateV2PrioritySeverity = "severity-first-wins"
-	AlertRouteIncidentTemplateV2PrioritySeveritySeverityMax       AlertRouteIncidentTemplateV2PrioritySeverity = "severity-max"
+	AlertRouteSeverityBindingPayloadV2MergeStrategyFirstWins AlertRouteSeverityBindingPayloadV2MergeStrategy = "first-wins"
+	AlertRouteSeverityBindingPayloadV2MergeStrategyMax       AlertRouteSeverityBindingPayloadV2MergeStrategy = "max"
+)
+
+// Defines values for AlertRouteSeverityBindingV2MergeStrategy.
+const (
+	AlertRouteSeverityBindingV2MergeStrategyFirstWins AlertRouteSeverityBindingV2MergeStrategy = "first-wins"
+	AlertRouteSeverityBindingV2MergeStrategyMax       AlertRouteSeverityBindingV2MergeStrategy = "max"
 )
 
 // Defines values for AlertSourceV2SourceType.
@@ -778,6 +785,7 @@ const (
 	IdentityV1RolesIncidentMembershipsEditor IdentityV1Roles = "incident_memberships_editor"
 	IdentityV1RolesManageSettings            IdentityV1Roles = "manage_settings"
 	IdentityV1RolesOnCallEditor              IdentityV1Roles = "on_call_editor"
+	IdentityV1RolesPostIncidentFlowOptOut    IdentityV1Roles = "post_incident_flow_opt_out"
 	IdentityV1RolesPrivateWorkflowsEditor    IdentityV1Roles = "private_workflows_editor"
 	IdentityV1RolesScheduleOverridesEditor   IdentityV1Roles = "schedule_overrides_editor"
 	IdentityV1RolesSchedulesEditor           IdentityV1Roles = "schedules_editor"
@@ -1392,88 +1400,268 @@ type AlertRouteAlertSourcePayloadV2 struct {
 	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
 }
 
-// AlertRouteEscalationBindingPayloadV2 defines model for AlertRouteEscalationBindingPayloadV2.
-type AlertRouteEscalationBindingPayloadV2 struct {
-	Binding EngineParamBindingPayloadV2 `json:"binding"`
-}
+// AlertRouteAlertSourceV2 defines model for AlertRouteAlertSourceV2.
+type AlertRouteAlertSourceV2 struct {
+	// AlertSourceId The alert source ID that will match for the route
+	AlertSourceId string `json:"alert_source_id"`
 
-// AlertRouteEscalationBindingV2 defines model for AlertRouteEscalationBindingV2.
-type AlertRouteEscalationBindingV2 struct {
-	Binding EngineParamBindingV2 `json:"binding"`
-}
-
-// AlertRouteIncidentTemplatePayloadV2 defines model for AlertRouteIncidentTemplatePayloadV2.
-type AlertRouteIncidentTemplatePayloadV2 struct {
-	// CustomFieldPriorities lookup of the priority options for each custom field in the template
-	CustomFieldPriorities map[string]string `json:"custom_field_priorities"`
-
-	// CustomFields Custom field keys mapped to values
-	CustomFields *map[string]EngineParamBindingPayloadV2 `json:"custom_fields,omitempty"`
-	IncidentMode *EngineParamBindingPayloadV2            `json:"incident_mode,omitempty"`
-	IncidentType *EngineParamBindingPayloadV2            `json:"incident_type,omitempty"`
-	Name         *EngineParamBindingPayloadV2            `json:"name,omitempty"`
-
-	// PrioritySeverity option defining whether to cause subsequent alerts to increase the severity
-	PrioritySeverity AlertRouteIncidentTemplatePayloadV2PrioritySeverity `json:"priority_severity"`
-	Severity         *EngineParamBindingPayloadV2                        `json:"severity,omitempty"`
-	StartInTriage    *EngineParamBindingPayloadV2                        `json:"start_in_triage,omitempty"`
-	Summary          *EngineParamBindingPayloadV2                        `json:"summary,omitempty"`
-	Workspace        *EngineParamBindingPayloadV2                        `json:"workspace,omitempty"`
-}
-
-// AlertRouteIncidentTemplatePayloadV2PrioritySeverity option defining whether to cause subsequent alerts to increase the severity
-type AlertRouteIncidentTemplatePayloadV2PrioritySeverity string
-
-// AlertRouteIncidentTemplateV2 defines model for AlertRouteIncidentTemplateV2.
-type AlertRouteIncidentTemplateV2 struct {
-	// CustomFieldPriorities lookup of the priority options for each custom field in the template
-	CustomFieldPriorities map[string]AlertRouteIncidentTemplateV2CustomFieldPriorities `json:"custom_field_priorities"`
-
-	// CustomFields Custom field keys mapped to values
-	CustomFields *map[string]EngineParamBindingV2 `json:"custom_fields,omitempty"`
-	IncidentMode *EngineParamBindingV2            `json:"incident_mode,omitempty"`
-	IncidentType *EngineParamBindingV2            `json:"incident_type,omitempty"`
-	Name         *EngineParamBindingV2            `json:"name,omitempty"`
-
-	// PrioritySeverity binding to use to resolve the workspace to create an incident in
-	PrioritySeverity AlertRouteIncidentTemplateV2PrioritySeverity `json:"priority_severity"`
-	Severity         *EngineParamBindingV2                        `json:"severity,omitempty"`
-	Summary          *EngineParamBindingV2                        `json:"summary,omitempty"`
-	Workspace        *EngineParamBindingV2                        `json:"workspace,omitempty"`
-}
-
-// AlertRouteIncidentTemplateV2CustomFieldPriorities defines model for AlertRouteIncidentTemplateV2.CustomFieldPriorities.
-type AlertRouteIncidentTemplateV2CustomFieldPriorities string
-
-// AlertRouteIncidentTemplateV2PrioritySeverity binding to use to resolve the workspace to create an incident in
-type AlertRouteIncidentTemplateV2PrioritySeverity string
-
-// AlertRouteV2 defines model for AlertRouteV2.
-type AlertRouteV2 struct {
-	// ConditionGroups What condition groups must be true for this alert route to fire?
+	// ConditionGroups What conditions should alerts from this source meet to be included in this alert route?
 	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+}
+
+// AlertRouteAutoGeneratedTemplateBindingPayloadV2 defines model for AlertRouteAutoGeneratedTemplateBindingPayloadV2.
+type AlertRouteAutoGeneratedTemplateBindingPayloadV2 struct {
+	// Autogenerated Whether this attribute is autogenerated using AI or not
+	Autogenerated *bool                        `json:"autogenerated,omitempty"`
+	Binding       *EngineParamBindingPayloadV2 `json:"binding,omitempty"`
+}
+
+// AlertRouteAutoGeneratedTemplateBindingV2 defines model for AlertRouteAutoGeneratedTemplateBindingV2.
+type AlertRouteAutoGeneratedTemplateBindingV2 struct {
+	// Autogenerated Whether this attribute is autogenerated using AI or not
+	Autogenerated bool                  `json:"autogenerated"`
+	Binding       *EngineParamBindingV2 `json:"binding,omitempty"`
+}
+
+// AlertRouteChannelConfigPayloadV2 defines model for AlertRouteChannelConfigPayloadV2.
+type AlertRouteChannelConfigPayloadV2 struct {
+	// ConditionGroups The conditions that must be met for this channel config to be used
+	ConditionGroups []ConditionGroupPayloadV2         `json:"condition_groups"`
+	MsTeamsTargets  *AlertRouteChannelTargetPayloadV2 `json:"ms_teams_targets,omitempty"`
+	SlackTargets    *AlertRouteChannelTargetPayloadV2 `json:"slack_targets,omitempty"`
+}
+
+// AlertRouteChannelConfigV2 defines model for AlertRouteChannelConfigV2.
+type AlertRouteChannelConfigV2 struct {
+	// ConditionGroups The conditions that must be met for this channel config to be used
+	ConditionGroups []ConditionGroupV2         `json:"condition_groups"`
+	MsTeamsTargets  *AlertRouteChannelTargetV2 `json:"ms_teams_targets,omitempty"`
+	SlackTargets    *AlertRouteChannelTargetV2 `json:"slack_targets,omitempty"`
+}
+
+// AlertRouteChannelTargetPayloadV2 defines model for AlertRouteChannelTargetPayloadV2.
+type AlertRouteChannelTargetPayloadV2 struct {
+	Binding EngineParamBindingPayloadV2 `json:"binding"`
+
+	// ChannelVisibility The visibility of the channel
+	ChannelVisibility string `json:"channel_visibility"`
+}
+
+// AlertRouteChannelTargetV2 defines model for AlertRouteChannelTargetV2.
+type AlertRouteChannelTargetV2 struct {
+	Binding EngineParamBindingV2 `json:"binding"`
+
+	// ChannelVisibility The visibility of the channel
+	ChannelVisibility string `json:"channel_visibility"`
+}
+
+// AlertRouteCustomFieldBindingPayloadV2 defines model for AlertRouteCustomFieldBindingPayloadV2.
+type AlertRouteCustomFieldBindingPayloadV2 struct {
+	Binding EngineParamBindingPayloadV2 `json:"binding"`
+
+	// CustomFieldId ID of the custom field
+	CustomFieldId string `json:"custom_field_id"`
+
+	// MergeStrategy The strategy to use when multiple alerts match this route
+	MergeStrategy AlertRouteCustomFieldBindingPayloadV2MergeStrategy `json:"merge_strategy"`
+}
+
+// AlertRouteCustomFieldBindingPayloadV2MergeStrategy The strategy to use when multiple alerts match this route
+type AlertRouteCustomFieldBindingPayloadV2MergeStrategy string
+
+// AlertRouteCustomFieldBindingV2 defines model for AlertRouteCustomFieldBindingV2.
+type AlertRouteCustomFieldBindingV2 struct {
+	Binding EngineParamBindingV2 `json:"binding"`
+
+	// CustomFieldId ID of the custom field
+	CustomFieldId string `json:"custom_field_id"`
+
+	// MergeStrategy The strategy to use when multiple alerts match this route
+	MergeStrategy AlertRouteCustomFieldBindingV2MergeStrategy `json:"merge_strategy"`
+}
+
+// AlertRouteCustomFieldBindingV2MergeStrategy The strategy to use when multiple alerts match this route
+type AlertRouteCustomFieldBindingV2MergeStrategy string
+
+// AlertRouteEscalationConfigPayloadV2 defines model for AlertRouteEscalationConfigPayloadV2.
+type AlertRouteEscalationConfigPayloadV2 struct {
+	// AutoCancelEscalations Should we auto cancel escalations when all alerts are resolved?
+	AutoCancelEscalations bool `json:"auto_cancel_escalations"`
+
+	// EscalationTargets Targets for escalation
+	EscalationTargets []AlertRouteEscalationTargetPayloadV2 `json:"escalation_targets"`
+}
+
+// AlertRouteEscalationConfigV2 defines model for AlertRouteEscalationConfigV2.
+type AlertRouteEscalationConfigV2 struct {
+	// AutoCancelEscalations Should we auto cancel escalations when all alerts are resolved?
+	AutoCancelEscalations bool `json:"auto_cancel_escalations"`
+
+	// EscalationTargets Targets for escalation
+	EscalationTargets []AlertRouteEscalationTargetV2 `json:"escalation_targets"`
+}
+
+// AlertRouteEscalationTargetPayloadV2 defines model for AlertRouteEscalationTargetPayloadV2.
+type AlertRouteEscalationTargetPayloadV2 struct {
+	EscalationPaths *EngineParamBindingPayloadV2 `json:"escalation_paths,omitempty"`
+	Users           *EngineParamBindingPayloadV2 `json:"users,omitempty"`
+}
+
+// AlertRouteEscalationTargetV2 defines model for AlertRouteEscalationTargetV2.
+type AlertRouteEscalationTargetV2 struct {
+	EscalationPaths *EngineParamBindingV2 `json:"escalation_paths,omitempty"`
+	Users           *EngineParamBindingV2 `json:"users,omitempty"`
+}
+
+// AlertRouteIncidentConfigPayloadV2 defines model for AlertRouteIncidentConfigPayloadV2.
+type AlertRouteIncidentConfigPayloadV2 struct {
+	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
+	AutoDeclineEnabled bool `json:"auto_decline_enabled"`
+
+	// ConditionGroups What condition groups must be true for this alert route to create an incident?
+	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
 
 	// DeferTimeSeconds How long should the escalation defer time be?
 	DeferTimeSeconds int64 `json:"defer_time_seconds"`
 
-	// EscalationBindings Which escalation paths should this alert route escalate to?
-	EscalationBindings []AlertRouteEscalationBindingV2 `json:"escalation_bindings"`
-
-	// Expressions The expressions used in this template
-	Expressions *[]ExpressionV2 `json:"expressions,omitempty"`
+	// Enabled Whether incident creation is enabled for this alert route
+	Enabled bool `json:"enabled"`
 
 	// GroupingKeys Which attributes should this alert route use to group alerts?
 	GroupingKeys []GroupingKeyV2 `json:"grouping_keys"`
 
 	// GroupingWindowSeconds How large should the grouping window be?
 	GroupingWindowSeconds int64 `json:"grouping_window_seconds"`
+}
+
+// AlertRouteIncidentConfigV2 defines model for AlertRouteIncidentConfigV2.
+type AlertRouteIncidentConfigV2 struct {
+	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
+	AutoDeclineEnabled bool `json:"auto_decline_enabled"`
+
+	// ConditionGroups What condition groups must be true for this alert route to create an incident?
+	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+
+	// DeferTimeSeconds How long should the escalation defer time be?
+	DeferTimeSeconds int64 `json:"defer_time_seconds"`
+
+	// Enabled Whether incident creation is enabled for this alert route
+	Enabled bool `json:"enabled"`
+
+	// GroupingKeys Which attributes should this alert route use to group alerts?
+	GroupingKeys []GroupingKeyV2 `json:"grouping_keys"`
+
+	// GroupingWindowSeconds How large should the grouping window be?
+	GroupingWindowSeconds int64 `json:"grouping_window_seconds"`
+}
+
+// AlertRouteIncidentTemplatePayloadV2 defines model for AlertRouteIncidentTemplatePayloadV2.
+type AlertRouteIncidentTemplatePayloadV2 struct {
+	// CustomFields Custom fields configuration
+	CustomFields  *[]AlertRouteCustomFieldBindingPayloadV2         `json:"custom_fields,omitempty"`
+	IncidentMode  *AlertRouteTemplateBindingPayloadV2              `json:"incident_mode,omitempty"`
+	IncidentType  *AlertRouteTemplateBindingPayloadV2              `json:"incident_type,omitempty"`
+	Name          AlertRouteAutoGeneratedTemplateBindingPayloadV2  `json:"name"`
+	Severity      *AlertRouteSeverityBindingPayloadV2              `json:"severity,omitempty"`
+	StartInTriage *AlertRouteTemplateBindingPayloadV2              `json:"start_in_triage,omitempty"`
+	Summary       *AlertRouteAutoGeneratedTemplateBindingPayloadV2 `json:"summary,omitempty"`
+	Workspace     *AlertRouteTemplateBindingPayloadV2              `json:"workspace,omitempty"`
+}
+
+// AlertRouteIncidentTemplateV2 defines model for AlertRouteIncidentTemplateV2.
+type AlertRouteIncidentTemplateV2 struct {
+	// CustomFields Custom fields configuration
+	CustomFields  *[]AlertRouteCustomFieldBindingV2         `json:"custom_fields,omitempty"`
+	IncidentMode  *AlertRouteTemplateBindingV2              `json:"incident_mode,omitempty"`
+	IncidentType  *AlertRouteTemplateBindingV2              `json:"incident_type,omitempty"`
+	Name          AlertRouteAutoGeneratedTemplateBindingV2  `json:"name"`
+	Severity      *AlertRouteSeverityBindingV2              `json:"severity,omitempty"`
+	StartInTriage *AlertRouteTemplateBindingV2              `json:"start_in_triage,omitempty"`
+	Summary       *AlertRouteAutoGeneratedTemplateBindingV2 `json:"summary,omitempty"`
+	Workspace     *AlertRouteTemplateBindingV2              `json:"workspace,omitempty"`
+}
+
+// AlertRouteSeverityBindingPayloadV2 defines model for AlertRouteSeverityBindingPayloadV2.
+type AlertRouteSeverityBindingPayloadV2 struct {
+	Binding *EngineParamBindingPayloadV2 `json:"binding,omitempty"`
+
+	// MergeStrategy Strategy for merging severity when multiple alerts create/update the same incident
+	MergeStrategy AlertRouteSeverityBindingPayloadV2MergeStrategy `json:"merge_strategy"`
+}
+
+// AlertRouteSeverityBindingPayloadV2MergeStrategy Strategy for merging severity when multiple alerts create/update the same incident
+type AlertRouteSeverityBindingPayloadV2MergeStrategy string
+
+// AlertRouteSeverityBindingV2 defines model for AlertRouteSeverityBindingV2.
+type AlertRouteSeverityBindingV2 struct {
+	Binding *EngineParamBindingV2 `json:"binding,omitempty"`
+
+	// MergeStrategy Strategy for merging severity when multiple alerts create/update the same incident
+	MergeStrategy AlertRouteSeverityBindingV2MergeStrategy `json:"merge_strategy"`
+}
+
+// AlertRouteSeverityBindingV2MergeStrategy Strategy for merging severity when multiple alerts create/update the same incident
+type AlertRouteSeverityBindingV2MergeStrategy string
+
+// AlertRouteSlimV2 defines model for AlertRouteSlimV2.
+type AlertRouteSlimV2 struct {
+	// Enabled Whether this alert route is enabled or not
+	Enabled bool `json:"enabled"`
 
 	// Id Unique identifier for this alert route config
 	Id string `json:"id"`
 
 	// Name The name of this alert route config, for the user's reference
-	Name     string                        `json:"name"`
-	Template *AlertRouteIncidentTemplateV2 `json:"template,omitempty"`
+	Name string `json:"name"`
+}
+
+// AlertRouteTemplateBindingPayloadV2 defines model for AlertRouteTemplateBindingPayloadV2.
+type AlertRouteTemplateBindingPayloadV2 struct {
+	Binding *EngineParamBindingPayloadV2 `json:"binding,omitempty"`
+}
+
+// AlertRouteTemplateBindingV2 defines model for AlertRouteTemplateBindingV2.
+type AlertRouteTemplateBindingV2 struct {
+	Binding *EngineParamBindingV2 `json:"binding,omitempty"`
+}
+
+// AlertRouteV2 defines model for AlertRouteV2.
+type AlertRouteV2 struct {
+	// AlertSources Which alert sources should this alert route match?
+	AlertSources []AlertRouteAlertSourceV2 `json:"alert_sources"`
+
+	// ChannelConfig The channel configuration for this alert route
+	ChannelConfig []AlertRouteChannelConfigV2 `json:"channel_config"`
+
+	// ConditionGroups What condition groups must be true for this alert route to fire?
+	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+
+	// CreatedAt The time of creation of this alert route
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+
+	// Enabled Whether this alert route is enabled or not
+	Enabled          bool                         `json:"enabled"`
+	EscalationConfig AlertRouteEscalationConfigV2 `json:"escalation_config"`
+
+	// Expressions The expressions used in this template
+	Expressions []ExpressionV2 `json:"expressions"`
+
+	// Id Unique identifier for this alert route config
+	Id               string                       `json:"id"`
+	IncidentConfig   AlertRouteIncidentConfigV2   `json:"incident_config"`
+	IncidentTemplate AlertRouteIncidentTemplateV2 `json:"incident_template"`
+
+	// IsPrivate Whether this alert route is private. Private alert routes will only create private incidents from alerts.
+	IsPrivate bool `json:"is_private"`
+
+	// Name The name of this alert route config, for the user's reference
+	Name string `json:"name"`
+
+	// UpdatedAt The time of last update of this alert route
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+
+	// Version The version of this alert route config
+	Version int64 `json:"version"`
 }
 
 // AlertRoutesCreatePayloadV2 defines model for AlertRoutesCreatePayloadV2.
@@ -1481,44 +1669,46 @@ type AlertRoutesCreatePayloadV2 struct {
 	// AlertSources Which alert sources should this alert route match?
 	AlertSources []AlertRouteAlertSourcePayloadV2 `json:"alert_sources"`
 
-	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
-	AutoDeclineEnabled bool `json:"auto_decline_enabled"`
+	// ChannelConfig The channel configuration for this alert route
+	ChannelConfig []AlertRouteChannelConfigPayloadV2 `json:"channel_config"`
 
 	// ConditionGroups What condition groups must be true for this alert route to fire?
 	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
 
-	// DeferTimeSeconds How long should the escalation defer time be?
-	DeferTimeSeconds int64 `json:"defer_time_seconds"`
+	// CreatedAt The time of creation of this alert route
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 
 	// Enabled Whether this alert route is enabled or not
-	Enabled bool `json:"enabled"`
-
-	// EscalationBindings Which escalation paths should this alert route escalate to?
-	EscalationBindings []AlertRouteEscalationBindingPayloadV2 `json:"escalation_bindings"`
+	Enabled          bool                                `json:"enabled"`
+	EscalationConfig AlertRouteEscalationConfigPayloadV2 `json:"escalation_config"`
 
 	// Expressions The expressions used in this template
-	Expressions *[]ExpressionPayloadV2 `json:"expressions,omitempty"`
+	Expressions      []ExpressionPayloadV2               `json:"expressions"`
+	IncidentConfig   AlertRouteIncidentConfigPayloadV2   `json:"incident_config"`
+	IncidentTemplate AlertRouteIncidentTemplatePayloadV2 `json:"incident_template"`
 
-	// GroupingKeys Which attributes should this alert route use to group alerts?
-	GroupingKeys []GroupingKeyV2 `json:"grouping_keys"`
-
-	// GroupingWindowSeconds How large should the grouping window be?
-	GroupingWindowSeconds int64 `json:"grouping_window_seconds"`
-
-	// IncidentConditionGroups What condition groups must be true for this alert route to create an incident?
-	IncidentConditionGroups []ConditionGroupPayloadV2 `json:"incident_condition_groups"`
-
-	// IncidentEnabled Whether this alert route will create incidents or not
-	IncidentEnabled bool `json:"incident_enabled"`
+	// IsPrivate Whether this alert route is private. Private alert routes will only create private incidents from alerts.
+	IsPrivate bool `json:"is_private"`
 
 	// Name The name of this alert route config, for the user's reference
-	Name     string                               `json:"name"`
-	Template *AlertRouteIncidentTemplatePayloadV2 `json:"template,omitempty"`
+	Name string `json:"name"`
+
+	// UpdatedAt The time of last update of this alert route
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+
+	// Version The version of this alert route config
+	Version int64 `json:"version"`
 }
 
 // AlertRoutesCreateResultV2 defines model for AlertRoutesCreateResultV2.
 type AlertRoutesCreateResultV2 struct {
 	AlertRoute AlertRouteV2 `json:"alert_route"`
+}
+
+// AlertRoutesListResultV2 defines model for AlertRoutesListResultV2.
+type AlertRoutesListResultV2 struct {
+	AlertRoutes    []AlertRouteSlimV2     `json:"alert_routes"`
+	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
 // AlertRoutesShowResultV2 defines model for AlertRoutesShowResultV2.
@@ -1531,39 +1721,35 @@ type AlertRoutesUpdatePayloadV2 struct {
 	// AlertSources Which alert sources should this alert route match?
 	AlertSources []AlertRouteAlertSourcePayloadV2 `json:"alert_sources"`
 
-	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
-	AutoDeclineEnabled bool `json:"auto_decline_enabled"`
+	// ChannelConfig The channel configuration for this alert route
+	ChannelConfig []AlertRouteChannelConfigPayloadV2 `json:"channel_config"`
 
 	// ConditionGroups What condition groups must be true for this alert route to fire?
 	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
 
-	// DeferTimeSeconds How long should the escalation defer time be?
-	DeferTimeSeconds int64 `json:"defer_time_seconds"`
+	// CreatedAt The time of creation of this alert route
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 
 	// Enabled Whether this alert route is enabled or not
-	Enabled bool `json:"enabled"`
-
-	// EscalationBindings Which escalation paths should this alert route escalate to?
-	EscalationBindings []AlertRouteEscalationBindingPayloadV2 `json:"escalation_bindings"`
+	Enabled          bool                                `json:"enabled"`
+	EscalationConfig AlertRouteEscalationConfigPayloadV2 `json:"escalation_config"`
 
 	// Expressions The expressions used in this template
-	Expressions *[]ExpressionPayloadV2 `json:"expressions,omitempty"`
+	Expressions      []ExpressionPayloadV2               `json:"expressions"`
+	IncidentConfig   AlertRouteIncidentConfigPayloadV2   `json:"incident_config"`
+	IncidentTemplate AlertRouteIncidentTemplatePayloadV2 `json:"incident_template"`
 
-	// GroupingKeys Which attributes should this alert route use to group alerts?
-	GroupingKeys []GroupingKeyV2 `json:"grouping_keys"`
-
-	// GroupingWindowSeconds How large should the grouping window be?
-	GroupingWindowSeconds int64 `json:"grouping_window_seconds"`
-
-	// IncidentConditionGroups What condition groups must be true for this alert route to create an incident?
-	IncidentConditionGroups []ConditionGroupPayloadV2 `json:"incident_condition_groups"`
-
-	// IncidentEnabled Whether this alert route will create incidents or not
-	IncidentEnabled bool `json:"incident_enabled"`
+	// IsPrivate Whether this alert route is private. Private alert routes will only create private incidents from alerts.
+	IsPrivate bool `json:"is_private"`
 
 	// Name The name of this alert route config, for the user's reference
-	Name     string                               `json:"name"`
-	Template *AlertRouteIncidentTemplatePayloadV2 `json:"template,omitempty"`
+	Name string `json:"name"`
+
+	// UpdatedAt The time of last update of this alert route
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+
+	// Version The version of this alert route config
+	Version int64 `json:"version"`
 }
 
 // AlertRoutesUpdateResultV2 defines model for AlertRoutesUpdateResultV2.
@@ -3649,8 +3835,8 @@ type FollowUpsShowResultV2 struct {
 
 // GroupingKeyV2 defines model for GroupingKeyV2.
 type GroupingKeyV2 struct {
-	// Id Unique identifier of the alert attribute the user wishes to group on
-	Id string `json:"id"`
+	// Reference A reference to a property of the alert to group on
+	Reference string `json:"reference"`
 }
 
 // IdentityV1 defines model for IdentityV1.
@@ -5606,6 +5792,15 @@ type AlertEventsV2CreateHTTPParams struct {
 	Token *string `form:"token,omitempty" json:"token,omitempty"`
 }
 
+// AlertRoutesV2ListParams defines parameters for AlertRoutesV2List.
+type AlertRoutesV2ListParams struct {
+	// PageSize Number of alert routes to return per page
+	PageSize int64 `form:"page_size" json:"page_size"`
+
+	// After The ID of the last alert route on the previous page
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
 // CatalogV2ListEntriesParams defines parameters for CatalogV2ListEntries.
 type CatalogV2ListEntriesParams struct {
 	// CatalogTypeId ID of this catalog type
@@ -6123,13 +6318,16 @@ type ClientInterface interface {
 
 	AlertEventsV2CreateHTTP(ctx context.Context, alertSourceConfigId string, params *AlertEventsV2CreateHTTPParams, body AlertEventsV2CreateHTTPJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// AlertRoutesV2List request
+	AlertRoutesV2List(ctx context.Context, params *AlertRoutesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// AlertRoutesV2CreateWithBody request with any body
 	AlertRoutesV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	AlertRoutesV2Create(ctx context.Context, body AlertRoutesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// AlertRoutesV2Destroy request
-	AlertRoutesV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// AlertRoutesV2Delete request
+	AlertRoutesV2Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// AlertRoutesV2Show request
 	AlertRoutesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -7173,6 +7371,18 @@ func (c *Client) AlertEventsV2CreateHTTP(ctx context.Context, alertSourceConfigI
 	return c.Client.Do(req)
 }
 
+func (c *Client) AlertRoutesV2List(ctx context.Context, params *AlertRoutesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRoutesV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) AlertRoutesV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewAlertRoutesV2CreateRequestWithBody(c.Server, contentType, body)
 	if err != nil {
@@ -7197,8 +7407,8 @@ func (c *Client) AlertRoutesV2Create(ctx context.Context, body AlertRoutesV2Crea
 	return c.Client.Do(req)
 }
 
-func (c *Client) AlertRoutesV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewAlertRoutesV2DestroyRequest(c.Server, id)
+func (c *Client) AlertRoutesV2Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRoutesV2DeleteRequest(c.Server, id)
 	if err != nil {
 		return nil, err
 	}
@@ -10318,6 +10528,67 @@ func NewAlertEventsV2CreateHTTPRequestWithBody(server string, alertSourceConfigI
 	return req, nil
 }
 
+// NewAlertRoutesV2ListRequest generates requests for AlertRoutesV2List
+func NewAlertRoutesV2ListRequest(server string, params *AlertRoutesV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alert_routes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, params.PageSize); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewAlertRoutesV2CreateRequest calls the generic AlertRoutesV2Create builder with application/json body
 func NewAlertRoutesV2CreateRequest(server string, body AlertRoutesV2CreateJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -10358,8 +10629,8 @@ func NewAlertRoutesV2CreateRequestWithBody(server string, contentType string, bo
 	return req, nil
 }
 
-// NewAlertRoutesV2DestroyRequest generates requests for AlertRoutesV2Destroy
-func NewAlertRoutesV2DestroyRequest(server string, id string) (*http.Request, error) {
+// NewAlertRoutesV2DeleteRequest generates requests for AlertRoutesV2Delete
+func NewAlertRoutesV2DeleteRequest(server string, id string) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -13666,13 +13937,16 @@ type ClientWithResponsesInterface interface {
 
 	AlertEventsV2CreateHTTPWithResponse(ctx context.Context, alertSourceConfigId string, params *AlertEventsV2CreateHTTPParams, body AlertEventsV2CreateHTTPJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertEventsV2CreateHTTPResponse, error)
 
+	// AlertRoutesV2ListWithResponse request
+	AlertRoutesV2ListWithResponse(ctx context.Context, params *AlertRoutesV2ListParams, reqEditors ...RequestEditorFn) (*AlertRoutesV2ListResponse, error)
+
 	// AlertRoutesV2CreateWithBodyWithResponse request with any body
 	AlertRoutesV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertRoutesV2CreateResponse, error)
 
 	AlertRoutesV2CreateWithResponse(ctx context.Context, body AlertRoutesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertRoutesV2CreateResponse, error)
 
-	// AlertRoutesV2DestroyWithResponse request
-	AlertRoutesV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2DestroyResponse, error)
+	// AlertRoutesV2DeleteWithResponse request
+	AlertRoutesV2DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2DeleteResponse, error)
 
 	// AlertRoutesV2ShowWithResponse request
 	AlertRoutesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2ShowResponse, error)
@@ -14984,6 +15258,28 @@ func (r AlertEventsV2CreateHTTPResponse) StatusCode() int {
 	return 0
 }
 
+type AlertRoutesV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AlertRoutesListResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertRoutesV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertRoutesV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type AlertRoutesV2CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -15006,13 +15302,13 @@ func (r AlertRoutesV2CreateResponse) StatusCode() int {
 	return 0
 }
 
-type AlertRoutesV2DestroyResponse struct {
+type AlertRoutesV2DeleteResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 }
 
 // Status returns HTTPResponse.Status
-func (r AlertRoutesV2DestroyResponse) Status() string {
+func (r AlertRoutesV2DeleteResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -15020,7 +15316,7 @@ func (r AlertRoutesV2DestroyResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r AlertRoutesV2DestroyResponse) StatusCode() int {
+func (r AlertRoutesV2DeleteResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -17103,6 +17399,15 @@ func (c *ClientWithResponses) AlertEventsV2CreateHTTPWithResponse(ctx context.Co
 	return ParseAlertEventsV2CreateHTTPResponse(rsp)
 }
 
+// AlertRoutesV2ListWithResponse request returning *AlertRoutesV2ListResponse
+func (c *ClientWithResponses) AlertRoutesV2ListWithResponse(ctx context.Context, params *AlertRoutesV2ListParams, reqEditors ...RequestEditorFn) (*AlertRoutesV2ListResponse, error) {
+	rsp, err := c.AlertRoutesV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRoutesV2ListResponse(rsp)
+}
+
 // AlertRoutesV2CreateWithBodyWithResponse request with arbitrary body returning *AlertRoutesV2CreateResponse
 func (c *ClientWithResponses) AlertRoutesV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertRoutesV2CreateResponse, error) {
 	rsp, err := c.AlertRoutesV2CreateWithBody(ctx, contentType, body, reqEditors...)
@@ -17120,13 +17425,13 @@ func (c *ClientWithResponses) AlertRoutesV2CreateWithResponse(ctx context.Contex
 	return ParseAlertRoutesV2CreateResponse(rsp)
 }
 
-// AlertRoutesV2DestroyWithResponse request returning *AlertRoutesV2DestroyResponse
-func (c *ClientWithResponses) AlertRoutesV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2DestroyResponse, error) {
-	rsp, err := c.AlertRoutesV2Destroy(ctx, id, reqEditors...)
+// AlertRoutesV2DeleteWithResponse request returning *AlertRoutesV2DeleteResponse
+func (c *ClientWithResponses) AlertRoutesV2DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2DeleteResponse, error) {
+	rsp, err := c.AlertRoutesV2Delete(ctx, id, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseAlertRoutesV2DestroyResponse(rsp)
+	return ParseAlertRoutesV2DeleteResponse(rsp)
 }
 
 // AlertRoutesV2ShowWithResponse request returning *AlertRoutesV2ShowResponse
@@ -19134,6 +19439,32 @@ func ParseAlertEventsV2CreateHTTPResponse(rsp *http.Response) (*AlertEventsV2Cre
 	return response, nil
 }
 
+// ParseAlertRoutesV2ListResponse parses an HTTP response from a AlertRoutesV2ListWithResponse call
+func ParseAlertRoutesV2ListResponse(rsp *http.Response) (*AlertRoutesV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertRoutesV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertRoutesListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseAlertRoutesV2CreateResponse parses an HTTP response from a AlertRoutesV2CreateWithResponse call
 func ParseAlertRoutesV2CreateResponse(rsp *http.Response) (*AlertRoutesV2CreateResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -19160,15 +19491,15 @@ func ParseAlertRoutesV2CreateResponse(rsp *http.Response) (*AlertRoutesV2CreateR
 	return response, nil
 }
 
-// ParseAlertRoutesV2DestroyResponse parses an HTTP response from a AlertRoutesV2DestroyWithResponse call
-func ParseAlertRoutesV2DestroyResponse(rsp *http.Response) (*AlertRoutesV2DestroyResponse, error) {
+// ParseAlertRoutesV2DeleteResponse parses an HTTP response from a AlertRoutesV2DeleteWithResponse call
+func ParseAlertRoutesV2DeleteResponse(rsp *http.Response) (*AlertRoutesV2DeleteResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &AlertRoutesV2DestroyResponse{
+	response := &AlertRoutesV2DeleteResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
