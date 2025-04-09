@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.4.0
+
+- Adds `incident_alert_route` resource for managing alert routes.
+
 ## v5.3.2
 
 - In the catalog entry resource, we now guard against cases where the type of
