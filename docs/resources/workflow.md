@@ -440,4 +440,14 @@ Required:
 - `conditions_apply_over_delay` (Boolean) If this workflow is delayed, whether the conditions should be rechecked between trigger firing and execution
 - `for_seconds` (Number) Delay in seconds between trigger firing and running the workflow
 
+## Import
 
+Import is supported using the following syntax:
+
+```shell
+#!/bin/bash
+
+# Import a workflow using its ID
+# Replace the ID with a real ID from your incident.io organization
+terraform import incident_workflow.example 01ABC123DEF456GHI789JKL
+```
