@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Add validation for RFC3339 timestamp format in `handover_start_at` and `effective_from` fields to prevent invalid dates
+- `incident_alert_route` supports dynamic values for all attributes - for example enabling `channel_config` using a variable.
 
 ## v5.4.1
 

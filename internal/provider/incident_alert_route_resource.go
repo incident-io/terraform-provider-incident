@@ -17,22 +17,13 @@ import (
 )
 
 var (
-	_ resource.ResourceWithConfigure      = &IncidentAlertRouteResource{}
-	_ resource.ResourceWithImportState    = &IncidentAlertRouteResource{}
-	_ resource.ResourceWithValidateConfig = &IncidentAlertRouteResource{}
+	_ resource.ResourceWithConfigure   = &IncidentAlertRouteResource{}
+	_ resource.ResourceWithImportState = &IncidentAlertRouteResource{}
 )
 
 type IncidentAlertRouteResource struct {
 	client           *client.ClientWithResponses
 	terraformVersion string
-}
-
-func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
-	var data models.AlertRouteResourceModel
-	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
 }
 
 func NewIncidentAlertRouteResource() resource.Resource {
