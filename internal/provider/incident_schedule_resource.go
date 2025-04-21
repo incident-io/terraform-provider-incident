@@ -101,10 +101,12 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 									},
 									"effective_from": schema.StringAttribute{
 										Optional:            true,
+										Validators:          []validator.String{RFC3339TimestampValidator{}},
 										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "effective_from"),
 									},
 									"handover_start_at": schema.StringAttribute{
 										Required:            true,
+										Validators:          []validator.String{RFC3339TimestampValidator{}},
 										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "handover_start_at"),
 									},
 									"working_intervals": schema.ListNestedAttribute{
