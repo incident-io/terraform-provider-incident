@@ -6,7 +6,8 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 )
 
 func TestAccIncidentAlertRouteResource(t *testing.T) {
@@ -19,6 +20,21 @@ func TestAccIncidentAlertRouteResource(t *testing.T) {
 				Config: testAccIncidentAlertRouteResourceConfig("test-route"),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestMatchResourceAttr("incident_alert_route.test", "id", regexp.MustCompile("^[a-zA-Z0-9]+$")),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "name", "test-route"),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "enabled", "true"),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "is_private", "false"),
+				),
+			},
+			{
+				RefreshState: true,
+				PlanOnly:     true,
+				RefreshPlanChecks: resource.RefreshPlanChecks{
+					PostRefresh: []plancheck.PlanCheck{
+						plancheck.ExpectEmptyPlan(),
+					},
+				},
+
+				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_alert_route.test", "name", "test-route"),
 					resource.TestCheckResourceAttr("incident_alert_route.test", "enabled", "true"),
 					resource.TestCheckResourceAttr("incident_alert_route.test", "is_private", "false"),
