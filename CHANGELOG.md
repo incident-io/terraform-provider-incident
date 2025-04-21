@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add validation for RFC3339 timestamp format in `handover_start_at` and `effective_from` fields to prevent invalid dates
+
 ## v5.4.1
 
 - Allow `terraform import` for `incident_catalog_type_attribute`

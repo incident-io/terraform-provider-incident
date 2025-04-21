@@ -3,6 +3,7 @@ package provider
 import (
 	"fmt"
 	"reflect"
+	"regexp"
 	"strconv"
 	"testing"
 	"time"
@@ -305,6 +306,70 @@ func TestAccIncidentScheduleResourceHolidayConfig(t *testing.T) {
 				Check: resource.TestCheckResourceAttr(
 					"incident_schedule.example", "holidays_public_config.#", "0",
 				),
+			},
+		},
+	})
+}
+
+func TestAccIncidentScheduleResourceInvalidTimestamp(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				// Use a handcrafted config with an invalid timestamp to test validation
+				Config: `
+resource "incident_schedule" "invalid_timestamp" {
+  name     = "invalid-timestamp-test"
+  timezone = "Europe/London"
+  rotations = [
+    {
+      id   = "test-rotation"
+      name = "Test Rotation"
+      versions = [
+        {
+          handover_start_at = "2024-15-11T15:00:00Z" # Invalid month (15)
+          users = []
+          layers = [
+            {
+              id   = "test-layer"
+              name = "Test Layer"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}`,
+				ExpectError: regexp.MustCompile("Invalid Timestamp Format"),
+			},
+			{
+				// Test with invalid effective_from
+				Config: `
+resource "incident_schedule" "invalid_timestamp" {
+  name     = "invalid-timestamp-test"
+  timezone = "Europe/London"
+  rotations = [
+    {
+      id   = "test-rotation"
+      name = "Test Rotation"
+      versions = [
+        {
+          handover_start_at = "2024-05-11T15:00:00Z"
+          effective_from   = "2024-05-32T15:00:00Z" # Invalid day (32)
+          users = []
+          layers = [
+            {
+              id   = "test-layer"
+              name = "Test Layer"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}`,
+				ExpectError: regexp.MustCompile("Invalid Timestamp Format"),
 			},
 		},
 	})
