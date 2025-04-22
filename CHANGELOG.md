@@ -2,6 +2,7 @@
 
 - Add validation for RFC3339 timestamp format in `handover_start_at` and `effective_from` fields to prevent invalid dates
 - `incident_alert_route` supports dynamic values for all attributes - for example enabling `channel_config` using a variable.
+- Fixed a bug where the plan for `incident_alert_route` would always show a diff for `incident_template.name.array_value` and `incident_template.summary.array_value`.
 
 ## v5.4.1
 
