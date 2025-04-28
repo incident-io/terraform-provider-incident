@@ -344,34 +344,16 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string, firstFie
     incident_template = {                                                                                                                                                              
       # Focus on custom fields in alphabetical order                                                                                                                                   
       custom_fields = {                                                                                                                                                                
-        # First custom field based on test parameter                                                                                                                                   
-        ` + firstField + ` == "first" ? {                                                                                                                                              
+       {                                                                                                                                                                          
           custom_field_id = incident_custom_field.alpha_field1.id                                                                                                                      
-          merge_strategy = "first-wins"                                                                                                                                                
-          binding = {                                                                                                                                                                  
-            value = {                                                                                                                                                                  
-              literal = "First alphabetical custom field value"                                                                                                                        
-            }                                                                                                                                                                          
-          }                                                                                                                                                                            
-        } : {                                                                                                                                                                          
-          custom_field_id = incident_custom_field.alpha_field2.id                                                                                                                      
           merge_strategy = "first-wins"                                                                                                                                                
           binding = {                                                                                                                                                                  
             value = {                                                                                                                                                                  
               literal = "Second alphabetical custom field value"                                                                                                                       
             }                                                                                                                                                                          
           }                                                                                                                                                                            
-        },                                                                                                                                                                             
-        # Second custom field based on test parameter                                                                                                                                  
-        ` + secondField + ` == "first" ? {                                                                                                                                             
-          custom_field_id = incident_custom_field.alpha_field1.id                                                                                                                      
-          merge_strategy = "first-wins"                                                                                                                                                
-          binding = {                                                                                                                                                                  
-            value = {                                                                                                                                                                  
-              literal = "First alphabetical custom field value"                                                                                                                        
-            }                                                                                                                                                                          
-          }                                                                                                                                                                            
-        } : {                                                                                                                                                                          
+        },                                                                                                                                                                            
+        {                                                                                                                                                                          
           custom_field_id = incident_custom_field.alpha_field2.id                                                                                                                      
           merge_strategy = "first-wins"                                                                                                                                                
           binding = {                                                                                                                                                                  
