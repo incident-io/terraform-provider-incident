@@ -349,7 +349,7 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
           merge_strategy = "first-wins"                                                                                                                                                
           binding = {                                                                                                                                                                  
             value = {                                                                                                                                                                  
-              literal = "Second alphabetical custom field value"                                                                                                                       
+              literal = "First alphabetical custom field value"                                                                                                                       
             }                                                                                                                                                                          
           }                                                                                                                                                                            
         },                                                                                                                                                                            
