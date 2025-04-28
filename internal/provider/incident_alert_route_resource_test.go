@@ -352,7 +352,7 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
               literal = "First alphabetical custom field value"                                                                                                                       
             }                                                                                                                                                                          
           }                                                                                                                                                                            
-        ],                                                                                                                                                                            
+        },                                                                                                                                                                            
         {                                                                                                                                                                          
           custom_field_id = incident_custom_field.alpha_field2.id                                                                                                                      
           merge_strategy = "first-wins"                                                                                                                                                
