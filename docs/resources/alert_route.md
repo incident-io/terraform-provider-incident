@@ -620,6 +620,7 @@ Required:
 - `defer_time_seconds` (Number) How long should the escalation defer time be?
 - `enabled` (Boolean) Whether incident creation is enabled for this alert route
 - `grouping_keys` (Attributes Set) Which attributes should this alert route use to group alerts? (see [below for nested schema](#nestedatt--incident_config--grouping_keys))
+- `grouping_window_seconds` (Number) How large should the grouping window be?
 
 <a id="nestedatt--incident_config--condition_groups"></a>
 ### Nested Schema for `incident_config.condition_groups`
