@@ -250,8 +250,8 @@ func TestAccIncidentCustomFieldsAlphabeticalOrder(t *testing.T) {
 
 func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
 	return `                                                                                                                                                                           
-  resource "incident_custom_field" "alpha_field1" {                                                                                                                                    
-    name        = "Alpha Test Field 1"                                                                                                                                                 
+  resource "incident_custom_field" "alpha_field1" {
+    name        = "Alpha Test Field 1"
     description = "First alphabetical custom field"                                                                                                                                    
     field_type  = "text"                                                                                                                                                               
   }                                                                                                                                                                                    
@@ -259,7 +259,9 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
   resource "incident_custom_field" "alpha_field2" {                                                                                                                                    
     name        = "Alpha Test Field 2"                                                                                                                                                 
     description = "Second alphabetical custom field"                                                                                                                                   
-    field_type  = "text"                                                                                                                                                               
+    field_type  = "text"      
+    depends_on = [incident_custom_field.alpha_field1]  
+
   }                                                                                                                                                                                    
                                                                                                                                                                                        
   resource "incident_alert_source" "alpha_test" {                                                                                                                                      
@@ -345,7 +347,7 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
       # Focus on custom fields in alphabetical order                                                                                                                                   
       custom_fields = [                                                                                                                                                                
        {                                                                                                                                                                          
-          custom_field_id = incident_custom_field.alpha_field1.id                                                                                                                      
+          custom_field_id = incident_custom_field.alpha_field2.id                                                                                                                      
           merge_strategy = "first-wins"                                                                                                                                                
           binding = {                                                                                                                                                                  
             value = {                                                                                                                                                                  
@@ -354,7 +356,7 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
           }                                                                                                                                                                            
         },                                                                                                                                                                            
         {                                                                                                                                                                          
-          custom_field_id = incident_custom_field.alpha_field2.id                                                                                                                      
+          custom_field_id = incident_custom_field.alpha_field1.id                                                                                                                      
           merge_strategy = "first-wins"                                                                                                                                                
           binding = {                                                                                                                                                                  
             value = {                                                                                                                                                                  
