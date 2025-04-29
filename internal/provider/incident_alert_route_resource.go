@@ -175,8 +175,7 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 				},
 			},
 			"incident_template": schema.SingleNestedAttribute{
-				Optional:            true,
-				Computed:            true,
+				Required:            true,
 				MarkdownDescription: apischema.Docstring("AlertRouteV2", "incident_template"),
 				Attributes: map[string]schema.Attribute{
 					"custom_fields": schema.SetNestedAttribute{

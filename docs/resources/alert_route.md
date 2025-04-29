@@ -184,13 +184,13 @@ resource "incident_alert_route" "service_alerts" {
 - `escalation_config` (Attributes) (see [below for nested schema](#nestedatt--escalation_config))
 - `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
 - `incident_config` (Attributes) (see [below for nested schema](#nestedatt--incident_config))
+- `incident_template` (Attributes) (see [below for nested schema](#nestedatt--incident_template))
 - `is_private` (Boolean) Whether this alert route is private. Private alert routes will only create private incidents from alerts.
 - `name` (String) The name of this alert route config, for the user's reference
 
 ### Optional
 
 - `channel_config` (Attributes Set) The channel configuration for this alert route (see [below for nested schema](#nestedatt--channel_config))
-- `incident_template` (Attributes) (see [below for nested schema](#nestedatt--incident_template))
 
 ### Read-Only
 
@@ -676,136 +676,6 @@ Required:
 
 
 
-<a id="nestedatt--channel_config"></a>
-### Nested Schema for `channel_config`
-
-Required:
-
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--channel_config--condition_groups))
-
-Optional:
-
-- `ms_teams_targets` (Attributes) (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets))
-- `slack_targets` (Attributes) (see [below for nested schema](#nestedatt--channel_config--slack_targets))
-
-<a id="nestedatt--channel_config--condition_groups"></a>
-### Nested Schema for `channel_config.condition_groups`
-
-Required:
-
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions))
-
-<a id="nestedatt--channel_config--condition_groups--conditions"></a>
-### Nested Schema for `channel_config.condition_groups.conditions`
-
-Required:
-
-- `operation` (String) The logical operation to be applied
-- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--param_bindings))
-- `subject` (String) The subject of the condition, on which the operation is applied
-
-<a id="nestedatt--channel_config--condition_groups--conditions--param_bindings"></a>
-### Nested Schema for `channel_config.condition_groups.conditions.subject`
-
-Optional:
-
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--subject--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--subject--value))
-
-<a id="nestedatt--channel_config--condition_groups--conditions--subject--array_value"></a>
-### Nested Schema for `channel_config.condition_groups.conditions.subject.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--channel_config--condition_groups--conditions--subject--value"></a>
-### Nested Schema for `channel_config.condition_groups.conditions.subject.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-
-
-
-<a id="nestedatt--channel_config--ms_teams_targets"></a>
-### Nested Schema for `channel_config.ms_teams_targets`
-
-Required:
-
-- `binding` (Attributes) (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding))
-- `channel_visibility` (String) The visibility of the channel
-
-<a id="nestedatt--channel_config--ms_teams_targets--binding"></a>
-### Nested Schema for `channel_config.ms_teams_targets.binding`
-
-Optional:
-
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding--value))
-
-<a id="nestedatt--channel_config--ms_teams_targets--binding--array_value"></a>
-### Nested Schema for `channel_config.ms_teams_targets.binding.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--channel_config--ms_teams_targets--binding--value"></a>
-### Nested Schema for `channel_config.ms_teams_targets.binding.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-
-
-<a id="nestedatt--channel_config--slack_targets"></a>
-### Nested Schema for `channel_config.slack_targets`
-
-Required:
-
-- `binding` (Attributes) (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding))
-- `channel_visibility` (String) The visibility of the channel
-
-<a id="nestedatt--channel_config--slack_targets--binding"></a>
-### Nested Schema for `channel_config.slack_targets.binding`
-
-Optional:
-
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding--value))
-
-<a id="nestedatt--channel_config--slack_targets--binding--array_value"></a>
-### Nested Schema for `channel_config.slack_targets.binding.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--channel_config--slack_targets--binding--value"></a>
-### Nested Schema for `channel_config.slack_targets.binding.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-
-
-
 <a id="nestedatt--incident_template"></a>
 ### Nested Schema for `incident_template`
 
@@ -1055,6 +925,135 @@ Optional:
 
 <a id="nestedatt--incident_template--workspace--value"></a>
 ### Nested Schema for `incident_template.workspace.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--channel_config"></a>
+### Nested Schema for `channel_config`
+
+Required:
+
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--channel_config--condition_groups))
+
+Optional:
+
+- `ms_teams_targets` (Attributes) (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets))
+- `slack_targets` (Attributes) (see [below for nested schema](#nestedatt--channel_config--slack_targets))
+
+<a id="nestedatt--channel_config--condition_groups"></a>
+### Nested Schema for `channel_config.condition_groups`
+
+Required:
+
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions))
+
+<a id="nestedatt--channel_config--condition_groups--conditions"></a>
+### Nested Schema for `channel_config.condition_groups.conditions`
+
+Required:
+
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
+
+<a id="nestedatt--channel_config--condition_groups--conditions--param_bindings"></a>
+### Nested Schema for `channel_config.condition_groups.conditions.subject`
+
+Optional:
+
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--subject--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--subject--value))
+
+<a id="nestedatt--channel_config--condition_groups--conditions--subject--array_value"></a>
+### Nested Schema for `channel_config.condition_groups.conditions.subject.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--channel_config--condition_groups--conditions--subject--value"></a>
+### Nested Schema for `channel_config.condition_groups.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+
+<a id="nestedatt--channel_config--ms_teams_targets"></a>
+### Nested Schema for `channel_config.ms_teams_targets`
+
+Required:
+
+- `binding` (Attributes) (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding))
+- `channel_visibility` (String) The visibility of the channel
+
+<a id="nestedatt--channel_config--ms_teams_targets--binding"></a>
+### Nested Schema for `channel_config.ms_teams_targets.binding`
+
+Optional:
+
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding--value))
+
+<a id="nestedatt--channel_config--ms_teams_targets--binding--array_value"></a>
+### Nested Schema for `channel_config.ms_teams_targets.binding.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--channel_config--ms_teams_targets--binding--value"></a>
+### Nested Schema for `channel_config.ms_teams_targets.binding.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--channel_config--slack_targets"></a>
+### Nested Schema for `channel_config.slack_targets`
+
+Required:
+
+- `binding` (Attributes) (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding))
+- `channel_visibility` (String) The visibility of the channel
+
+<a id="nestedatt--channel_config--slack_targets--binding"></a>
+### Nested Schema for `channel_config.slack_targets.binding`
+
+Optional:
+
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding--value))
+
+<a id="nestedatt--channel_config--slack_targets--binding--array_value"></a>
+### Nested Schema for `channel_config.slack_targets.binding.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--channel_config--slack_targets--binding--value"></a>
+### Nested Schema for `channel_config.slack_targets.binding.value`
 
 Optional:
 
