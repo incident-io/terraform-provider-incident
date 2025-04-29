@@ -250,167 +250,168 @@ func TestAccIncidentCustomFieldsAlphabeticalOrder(t *testing.T) {
 }
 
 func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
-	return `                                                                                                                                                                           
+	return `
   resource "incident_custom_field" "alpha_field1" {
     name        = "Alpha Test Field 1"
-    description = "First alphabetical custom field"                                                                                                                                    
-    field_type  = "text"                                                                                                                                                               
-  }                                                                                                                                                                                    
-                                                                                                                                                                                       
-  resource "incident_custom_field" "alpha_field2" {                                                                                                                                    
-    name        = "Alpha Test Field 2"                                                                                                                                                 
-    description = "Second alphabetical custom field"                                                                                                                                   
-    field_type  = "text"      
-    depends_on = [incident_custom_field.alpha_field1]  
+    description = "First alphabetical custom field"
+    field_type  = "text"
+  }
 
-  }                                                                                                                                                                                    
-                                                                                                                                                                                       
-  resource "incident_alert_source" "alpha_test" {                                                                                                                                      
-    name        = "Alpha Test Alert Source"                                                                                                                                            
-    source_type = "http"                                                                                                                                                               
-    template = {                                                                                                                                                                       
-      title = {                                                                                                                                                                        
-        literal = jsonencode({                                                                                                                                                         
-          content = [                                                                                                                                                                  
-            {                                                                                                                                                                          
-              content = [                                                                                                                                                              
-                {                                                                                                                                                                      
-                  attrs = {                                                                                                                                                            
-                    label   = "Payload → Title"                                                                                                                                        
-                    missing = false                                                                                                                                                    
-                    name    = "title"                                                                                                                                                  
-                  }                                                                                                                                                                    
-                  type = "varSpec"                                                                                                                                                     
-                },                                                                                                                                                                     
-              ]                                                                                                                                                                        
-              type = "paragraph"                                                                                                                                                       
-            },                                                                                                                                                                         
-          ]                                                                                                                                                                            
-          type = "doc"                                                                                                                                                                 
-        })                                                                                                                                                                             
-      }                                                                                                                                                                                
-      description = {                                                                                                                                                                  
-        literal = jsonencode({                                                                                                                                                         
-          content = [                                                                                                                                                                  
-            {                                                                                                                                                                          
-              content = [                                                                                                                                                              
-                {                                                                                                                                                                      
-                  attrs = {                                                                                                                                                            
-                    label   = "Payload → Description"                                                                                                                                  
-                    missing = false                                                                                                                                                    
-                    name    = "description"                                                                                                                                            
-                  }                                                                                                                                                                    
-                  type = "varSpec"                                                                                                                                                     
-                },                                                                                                                                                                     
-              ]                                                                                                                                                                        
-              type = "paragraph"                                                                                                                                                       
-            },                                                                                                                                                                         
-          ]                                                                                                                                                                            
-          type = "doc"                                                                                                                                                                 
-        })                                                                                                                                                                             
-      }                                                                                                                                                                                
-      attributes  = []                                                                                                                                                                 
-      expressions = []                                                                                                                                                                 
-    }                                                                                                                                                                                  
-  }                                                                                                                                                                                    
-                                                                                                                                                                                       
-  resource "incident_alert_route" "custom_fields_alpha_test" {                                                                                                                         
-    name       = "` + name + `"                                                                                                                                                        
-    enabled    = true                                                                                                                                                                  
-    is_private = false                                                                                                                                                                 
-                                                                                                                                                                                       
-    alert_sources = [                                                                                                                                                                  
-      {                                                                                                                                                                                
-        alert_source_id = incident_alert_source.alpha_test.id                                                                                                                          
-        condition_groups = []                                                                                                                                                          
-      }                                                                                                                                                                                
-    ]                                                                                                                                                                                  
-                                                                                                                                                                                       
-    # Minimal configuration, focusing only on custom fields                                                                                                                            
-    condition_groups = []                                                                                                                                                              
-    expressions = []                                                                                                                                                                   
-    channel_config = []                                                                                                                                                                
-                                                                                                                                                                                       
-    escalation_config = {                                                                                                                                                              
-      auto_cancel_escalations = true                                                                                                                                                   
-      escalation_targets = []                                                                                                                                                          
-    }                                                                                                                                                                                  
-                                                                                                                                                                                       
-    incident_config = {                                                                                                                                                                
-      auto_decline_enabled = false                                                                                                                                                     
-      enabled              = true                                                                                                                                                      
-      condition_groups     = []                                                                                                                                                        
-      defer_time_seconds   = 300                                                                                                                                                       
-      grouping_keys        = []                                                                                                                                                        
-    }                                                                                                                                                                                  
-                                                                                                                                                                                       
-    incident_template = {                                                                                                                                                              
-      # Focus on custom fields in reverse lexicographical order                                                                                                                                   
-      custom_fields = [                                                                                                                                                                
-       {                                                                                                                                                                          
-          custom_field_id = incident_custom_field.alpha_field2.id                                                                                                                      
-          merge_strategy = "first-wins"                                                                                                                                                
-          binding = {                                                                                                                                                                  
-            value = {                                                                                                                                                                  
-              literal = "First alphabetical custom field value"                                                                                                                       
-            }                                                                                                                                                                          
-          }                                                                                                                                                                            
-        },                                                                                                                                                                            
-        {                                                                                                                                                                          
-          custom_field_id = incident_custom_field.alpha_field1.id                                                                                                                      
-          merge_strategy = "first-wins"                                                                                                                                                
-          binding = {                                                                                                                                                                  
-            value = {                                                                                                                                                                  
-              literal = "Second alphabetical custom field value"                                                                                                                       
-            }                                                                                                                                                                          
-          }                                                                                                                                                                            
-        }                                                                                                                                                                              
-      ]                                                                                                                                                                                
-                                                                                                                                                                                       
-      # Minimal required configuration for name and summary                                                                                                                            
-      name = {                                                                                                                                                                         
-        autogenerated = false                                                                                                                                                          
-        value = {                                                                                                                                                                      
-          literal = jsonencode({                                                                                                                                                       
-            content = [                                                                                                                                                                
-              {                                                                                                                                                                        
-                content = [                                                                                                                                                            
-                  {                                                                                                                                                                    
-                    text = "Test Incident"                                                                                                                                             
-                    type = "text"                                                                                                                                                      
-                  }                                                                                                                                                                    
-                ]                                                                                                                                                                      
-                type = "paragraph"                                                                                                                                                     
-              }                                                                                                                                                                        
-            ]                                                                                                                                                                          
-            type = "doc"                                                                                                                                                               
-          })                                                                                                                                                                           
-        }                                                                                                                                                                              
-      }                                                                                                                                                                                
-      summary = {                                                                                                                                                                      
-        autogenerated = false                                                                                                                                                          
-        value = {                                                                                                                                                                      
-          literal = jsonencode({                                                                                                                                                       
-            content = [                                                                                                                                                                
-              {                                                                                                                                                                        
-                content = [                                                                                                                                                            
-                  {                                                                                                                                                                    
-                    text = "Test Incident Summary"                                                                                                                                     
-                    type = "text"                                                                                                                                                      
-                  }                                                                                                                                                                    
-                ]                                                                                                                                                                      
-                type = "paragraph"                                                                                                                                                     
-              }                                                                                                                                                                        
-            ]                                                                                                                                                                          
-            type = "doc"                                                                                                                                                               
-          })                                                                                                                                                                           
-        }                                                                                                                                                                              
-      }                                                                                                                                                                                
-      severity = {                                                                                                                                                                     
-        merge_strategy = "first-wins"                                                                                                                                                  
-      }                                                                                                                                                                                
-    }                                                                                                                                                                                  
-  }                                                                                                                                                                                    
+  resource "incident_custom_field" "alpha_field2" {
+    name        = "Alpha Test Field 2"
+    description = "Second alphabetical custom field"
+    field_type  = "text"
+    depends_on = [incident_custom_field.alpha_field1]
+
+  }
+
+  resource "incident_alert_source" "alpha_test" {
+    name        = "Alpha Test Alert Source"
+    source_type = "http"
+    template = {
+      title = {
+        literal = jsonencode({
+          content = [
+            {
+              content = [
+                {
+                  attrs = {
+                    label   = "Payload → Title"
+                    missing = false
+                    name    = "title"
+                  }
+                  type = "varSpec"
+                },
+              ]
+              type = "paragraph"
+            },
+          ]
+          type = "doc"
+        })
+      }
+      description = {
+        literal = jsonencode({
+          content = [
+            {
+              content = [
+                {
+                  attrs = {
+                    label   = "Payload → Description"
+                    missing = false
+                    name    = "description"
+                  }
+                  type = "varSpec"
+                },
+              ]
+              type = "paragraph"
+            },
+          ]
+          type = "doc"
+        })
+      }
+      attributes  = []
+      expressions = []
+    }
+  }
+
+  resource "incident_alert_route" "custom_fields_alpha_test" {
+    name       = "` + name + `"
+    enabled    = true
+    is_private = false
+
+    alert_sources = [
+      {
+        alert_source_id = incident_alert_source.alpha_test.id
+        condition_groups = []
+      }
+    ]
+
+    # Minimal configuration, focusing only on custom fields
+    condition_groups = []
+    expressions = []
+    channel_config = []
+
+    escalation_config = {
+      auto_cancel_escalations = true
+      escalation_targets = []
+    }
+
+    incident_config = {
+      auto_decline_enabled    = false
+      enabled                 = true
+      condition_groups        = []
+      defer_time_seconds      = 300
+      grouping_keys           = []
+      grouping_window_seconds = 1800
+    }
+
+    incident_template = {
+      # Focus on custom fields in reverse lexicographical order
+      custom_fields = [
+       {
+          custom_field_id = incident_custom_field.alpha_field2.id
+          merge_strategy = "first-wins"
+          binding = {
+            value = {
+              literal = "First alphabetical custom field value"
+            }
+          }
+        },
+        {
+          custom_field_id = incident_custom_field.alpha_field1.id
+          merge_strategy = "first-wins"
+          binding = {
+            value = {
+              literal = "Second alphabetical custom field value"
+            }
+          }
+        }
+      ]
+
+      # Minimal required configuration for name and summary
+      name = {
+        autogenerated = false
+        value = {
+          literal = jsonencode({
+            content = [
+              {
+                content = [
+                  {
+                    text = "Test Incident"
+                    type = "text"
+                  }
+                ]
+                type = "paragraph"
+              }
+            ]
+            type = "doc"
+          })
+        }
+      }
+      summary = {
+        autogenerated = false
+        value = {
+          literal = jsonencode({
+            content = [
+              {
+                content = [
+                  {
+                    text = "Test Incident Summary"
+                    type = "text"
+                  }
+                ]
+                type = "paragraph"
+              }
+            ]
+            type = "doc"
+          })
+        }
+      }
+      severity = {
+        merge_strategy = "first-wins"
+      }
+    }
+  }
   `
 }
 
