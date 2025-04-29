@@ -164,6 +164,10 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 							},
 						},
 					},
+					"grouping_window_seconds": schema.Int64Attribute{
+						Required:            true,
+						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "grouping_window_seconds"),
+					},
 					"defer_time_seconds": schema.Int64Attribute{
 						Required:            true,
 						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "defer_time_seconds"),
