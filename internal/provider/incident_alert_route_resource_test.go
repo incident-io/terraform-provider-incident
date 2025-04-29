@@ -216,7 +216,7 @@ func TestAccIncidentCustomFieldsAlphabeticalOrder(t *testing.T) {
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
-			// First step - create alert route with custom fields in alphabetical order
+			// First step - create alert route with custom fields in reverse alphabetical order
 			{
 				Config: testAccIncidentAlertRouteWithAlphabeticalCustomFields("custom-fields-alpha-test"),
 				Check: resource.ComposeAggregateTestCheckFunc(
