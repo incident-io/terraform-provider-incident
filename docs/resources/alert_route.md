@@ -816,7 +816,7 @@ Required:
 
 Optional:
 
-- `custom_fields` (Attributes List) Custom fields configuration (see [below for nested schema](#nestedatt--incident_template--custom_fields))
+- `custom_fields` (Attributes Set) Custom fields configuration (see [below for nested schema](#nestedatt--incident_template--custom_fields))
 - `incident_mode` (Attributes) (see [below for nested schema](#nestedatt--incident_template--incident_mode))
 - `incident_type` (Attributes) (see [below for nested schema](#nestedatt--incident_template--incident_type))
 - `severity` (Attributes) (see [below for nested schema](#nestedatt--incident_template--severity))

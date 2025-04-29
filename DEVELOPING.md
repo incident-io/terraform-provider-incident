@@ -90,7 +90,7 @@ terraform {
   required_providers {
     incident = {
       source  = "incident-io/incident"
-      version = "~> 4"
+      version = "~> 5"
     }
   }
 }
