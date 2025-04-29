@@ -1,5 +1,24 @@
 ## Unreleased
 
+## v5.5.0
+
+- Add `grouping_window_seconds` to alert route incident config. This is a required field
+  that was being defaulted to 0, meaning any alert route created through terraform ended
+  up with grouping disabled.
+- Fix a bug where custom fields would show a diff when specified in a different order to
+  when the custom field itself was created. As ordering does not matter, this now uses a
+  set rather than a list.
+- Make `incident_template` required on alert routes. This was previously marked optional,
+  but our provider would crash if it was not supplied. This is also required by our API,
+  so we have made it required in the provider.
+
+Note that we've decided to release this as a minor version despite the breaking change of
+`grouping_window_seconds` being required. This is because the field was previously
+defaulted to 0, and so any alert route created through terraform would have had
+grouping disabled. As such, we consider this a bug fix and encourage all users to upgrade.
+
+If you want to leave grouping disabled, set `grouping_window_seconds` to 0.
+
 ## v5.4.2
 
 - Add validation for RFC3339 timestamp format in `handover_start_at` and `effective_from` fields to prevent invalid dates
