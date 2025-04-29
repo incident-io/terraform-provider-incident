@@ -344,7 +344,7 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
     }                                                                                                                                                                                  
                                                                                                                                                                                        
     incident_template = {                                                                                                                                                              
-      # Focus on custom fields in alphabetical order                                                                                                                                   
+      # Focus on custom fields in reverse lexicographical order                                                                                                                                   
       custom_fields = [                                                                                                                                                                
        {                                                                                                                                                                          
           custom_field_id = incident_custom_field.alpha_field2.id                                                                                                                      
