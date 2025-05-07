@@ -58,8 +58,7 @@ resource "incident_alert_route" "service_alerts" {
   expressions = []
 
   // Used to configure which Slack channels or Microsoft Teams teams should
-  // be notified when an alert is received.
-  // This configuration allows setting up conditional notifications based on alert attributes
+  // be notified when an alert is received
   channel_config = [
     {
       // Define conditions under which this channel notification should occur
@@ -67,8 +66,8 @@ resource "incident_alert_route" "service_alerts" {
         {
           conditions = [
             {
-              subject        = "alert.title"
-              operation      = "contains"
+              subject   = "alert.title"
+              operation = "contains"
               param_bindings = [
                 {
                   value = {
@@ -80,31 +79,19 @@ resource "incident_alert_route" "service_alerts" {
           ]
         }
       ]
-      
-      // Configure Slack channel notifications
+
+      // Configure Slack channel notifications - set either slack_targets OR ms_teams_targets
       slack_targets = {
         // Define channels to notify, either with literal channel IDs or dynamic references
         binding = {
           array_value = [
             {
-              literal = "C01234567" // Example Slack channel ID
+              literal = "C01234567" // Slack channel ID
             }
           ]
         }
         channel_visibility = "public"
       }
-      
-      // Alternatively, you can configure Microsoft Teams notifications
-      // ms_teams_targets = {
-      //   binding = {
-      //     array_value = [
-      //       {
-      //         literal = "id_here" // Teams channel ID
-      //       }
-      //     ]
-      //   }
-      //   channel_visibility = "public" // We only support public Microsoft Teams channels
-      // }
     }
   ]
 

@@ -48,8 +48,8 @@ resource "incident_alert_route" "service_alerts" {
         {
           conditions = [
             {
-              subject        = "alert.title"
-              operation      = "contains"
+              subject   = "alert.title"
+              operation = "contains"
               param_bindings = [
                 {
                   value = {
@@ -61,7 +61,7 @@ resource "incident_alert_route" "service_alerts" {
           ]
         }
       ]
-      
+
       // Configure Slack channel notifications - set either slack_targets OR ms_teams_targets
       slack_targets = {
         // Define channels to notify, either with literal channel IDs or dynamic references
