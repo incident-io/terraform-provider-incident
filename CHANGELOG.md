@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Improve the documentation for `channel_config` in `incident_alert_route`
+- Improve the documentation for `team_ids` in `incident_escalation_path`
+
 ## v5.5.0
 
 - Add `grouping_window_seconds` to alert route incident config. This is a required field
