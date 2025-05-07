@@ -41,7 +41,41 @@ resource "incident_alert_route" "service_alerts" {
 
   // Used to configure which Slack channels or Microsoft Teams teams should
   // be notified when an alert is received
-  channel_config = []
+  channel_config = [
+    {
+      // Define conditions under which this channel notification should occur
+      condition_groups = [
+        {
+          conditions = [
+            {
+              subject        = "alert.title"
+              operation      = "contains"
+              param_bindings = [
+                {
+                  value = {
+                    literal = "critical"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      
+      // Configure Slack channel notifications - set either slack_targets OR ms_teams_targets
+      slack_targets = {
+        // Define channels to notify, either with literal channel IDs or dynamic references
+        binding = {
+          array_value = [
+            {
+              literal = "C01234567" // Slack channel ID
+            }
+          ]
+        }
+        channel_visibility = "public"
+      }
+    }
+  ]
 
   // Used to configure which escalation paths OR users should be notified when an alert is received
   // and the conditions under which they should be notified
