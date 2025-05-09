@@ -132,7 +132,7 @@ resource "incident_escalation_path" "urgent_support" {
 
 ### Optional
 
-- `team_ids` (Set of String) IDs of teams that own this schedule
+- `team_ids` (Set of String) IDs of teams that own this escalation path
 - `working_hours` (Attributes List) The working hours for this escalation path. (see [below for nested schema](#nestedatt--working_hours))
 
 ### Read-Only

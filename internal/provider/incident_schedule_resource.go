@@ -67,7 +67,8 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 				Optional:            true,
 				ElementType:         types.StringType,
 				Computed:            true,
-				Default:             setdefault.StaticValue(types.SetValueMust(types.StringType, []attr.Value{})),
+				// TODO: Adding a note: do we care more about this being nil?
+				Default: setdefault.StaticValue(types.SetValueMust(types.StringType, []attr.Value{})),
 			},
 			"holidays_public_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -217,11 +218,14 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 	holidaysPublicConfig := buildScheduleHolidaysPublicConfig(data)
 
 	var teamIDs *[]string
-	if len(data.TeamIDs) > 0 {
-		teamIDs = &[]string{}
-		for _, id := range data.TeamIDs {
-			*teamIDs = append(*teamIDs, id.ValueString())
+	if !data.TeamIDs.IsUnknown() && !data.TeamIDs.IsNull() {
+		ids := []string{}
+		diags := data.TeamIDs.ElementsAs(ctx, &ids, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
 		}
+		teamIDs = &ids
 	}
 
 	result, err := r.client.SchedulesV2CreateWithResponse(ctx, client.SchedulesV2CreateJSONRequestBody{
@@ -295,10 +299,12 @@ func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.Upda
 	holidaysPublicConfig := buildScheduleHolidaysPublicConfig(old)
 
 	var teamIDs *[]string
-	if len(old.TeamIDs) > 0 {
-		teamIDs = &[]string{}
-		for _, id := range old.TeamIDs {
-			*teamIDs = append(*teamIDs, id.ValueString())
+	if !old.TeamIDs.IsUnknown() && !old.TeamIDs.IsNull() {
+		ids := []string{}
+		diags := old.TeamIDs.ElementsAs(ctx, &ids, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
 		}
 	}
 
@@ -508,11 +514,19 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *model
 		}
 	}
 
-	var teamIDs []types.String
+	var teamIDsSet types.Set
 	if schedule.TeamIds != nil {
-		teamIDs = lo.Map(schedule.TeamIds, func(id string, _ int) types.String {
-			return types.StringValue(id)
-		})
+		if len(schedule.TeamIds) > 0 {
+			elements := make([]attr.Value, len(schedule.TeamIds))
+			for i, id := range schedule.TeamIds {
+				elements[i] = types.StringValue(id)
+			}
+			teamIDsSet = types.SetValueMust(types.StringType, elements)
+		} else {
+			teamIDsSet = types.SetValueMust(types.StringType, []attr.Value{})
+		}
+	} else {
+		teamIDsSet = types.SetNull(types.StringType)
 	}
 
 	return &models.IncidentScheduleResourceModelV2{
@@ -520,7 +534,7 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *model
 		ID:                   types.StringValue(schedule.Id),
 		Timezone:             types.StringValue(schedule.Timezone),
 		HolidaysPublicConfig: holidaysPublicConfig,
-		TeamIDs:              teamIDs,
+		TeamIDs:              teamIDsSet,
 		Rotations: lo.Map(rotationNames, func(rotation RotationName, _ int) models.RotationV2 {
 			newRotation := models.RotationV2{
 				ID:   types.StringValue(rotation.ID),
