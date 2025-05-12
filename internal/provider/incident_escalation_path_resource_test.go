@@ -86,8 +86,6 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 	})
 }
 
-// TestAccIncidentEscalationPathTeamIDs specifically tests the handling of team_ids
-// in empty and nil states
 func TestAccIncidentEscalationPathTeamIDs(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
