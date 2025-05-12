@@ -3673,7 +3673,7 @@ type EscalationsCreatePathPayloadV2 struct {
 	// Path The nodes that form the levels and branches of this escalation path.
 	Path []EscalationPathNodePayloadV2 `json:"path"`
 
-	// TeamIds IDs of the teams that own this escalation path
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog.
 	TeamIds *[]string `json:"team_ids,omitempty"`
 
 	// WorkingHours The working hours for this escalation path.
@@ -3698,7 +3698,7 @@ type EscalationsUpdatePathPayloadV2 struct {
 	// Path The nodes that form the levels and branches of this escalation path.
 	Path []EscalationPathNodePayloadV2 `json:"path"`
 
-	// TeamIds IDs of the teams that own this escalation path
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog.
 	TeamIds *[]string `json:"team_ids,omitempty"`
 
 	// WorkingHours The working hours for this escalation path.
@@ -5983,6 +5983,9 @@ type AlertsV2ListParams struct {
 
 	// Status Filter on alert status. The accepted operators are 'one_of', or 'not_in'.
 	Status *map[string][]string `form:"status,omitempty" json:"status,omitempty"`
+
+	// CreatedAt Filter on alert created at timestamp. The accepted operators are 'within', 'gte', 'lte', 'between'.
+	CreatedAt *map[string][]string `form:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // CatalogV2ListEntriesParams defines parameters for CatalogV2ListEntries.
@@ -11239,6 +11242,22 @@ func NewAlertsV2ListRequest(server string, params *AlertsV2ListParams) (*http.Re
 		if params.Status != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "status", runtime.ParamLocationQuery, *params.Status); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.CreatedAt != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "created_at", runtime.ParamLocationQuery, *params.CreatedAt); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err
