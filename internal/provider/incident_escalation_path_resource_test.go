@@ -273,7 +273,7 @@ func testAccIncidentEscalationPathResourceWithTeamIDs(name string, teamIDsType s
 		ScheduleName: name,
 		PathName:     name,
 		TeamIDsType:  teamIDsType, // "normal", "empty", or "omit"
-		ChannelID:    channelID(),
+		ChannelID:    channelID(false),
 		TeamTypeName: teamTypeName(),
 	}
 
