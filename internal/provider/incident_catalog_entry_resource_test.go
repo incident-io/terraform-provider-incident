@@ -13,8 +13,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
-	"github.com/incident-io/terraform-provider-incident/internal/client"
 	"github.com/samber/lo"
+
+	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
 func TestAccIncidentCatalogEntryResource(t *testing.T) {
@@ -241,6 +242,40 @@ resource "incident_catalog_entry" "test" {
 	})
 }
 
+func TestAccIncidentCatalogEntryResourceWithEmptyManagedAttributes(t *testing.T) {
+	// Use a stable ID across steps
+	testEntryID := uuid.NewString()
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create initial resource without managed_attributes
+			{
+				Config: testAccIncidentCatalogEntryResourceConfigWithID(testEntryID, "Initial", "Initial description", []string{}, false),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_catalog_entry.example", "name", "Initial"),
+				),
+			},
+			// Update with empty managed_attributes (should have no effect on syncing)
+			{
+				Config: testAccIncidentCatalogEntryResourceConfigWithEmptyManagedAttributes(testEntryID, "Initial", "Initial description", []string{}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_catalog_entry.example", "name", "Initial"),
+					// Plan should be empty - this is the key test - showing empty managed_attributes doesn't change anything
+				),
+			},
+			// Change the name with empty managed_attributes
+			{
+				Config: testAccIncidentCatalogEntryResourceConfigWithEmptyManagedAttributes(testEntryID, "Updated", "Initial description", []string{}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_catalog_entry.example", "name", "Updated"),
+				),
+			},
+		},
+	})
+}
+
 func TestIncidentCatalogEntryResource_ValidateConfigConditionalArray(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		IsUnitTest:               true,
@@ -309,21 +344,21 @@ resource "incident_catalog_entry" "example" {
   name    = {{ quote .Name }}
   aliases = {{ toJson .Aliases }}
 
-  attribute_values = [
+  attribute_values = {{ if .UseEmptyManagedAttributes }}[]{{ else }}[
     {
       attribute = incident_catalog_type_attribute.example_description.id,
       value = {{ quote .Description }}
     },
-    {{ if not .OnlyManageDescription }}
-    {
+    {{ if not .OnlyManageDescription }}{
       attribute = incident_catalog_type_attribute.example_bool.id,
       value = "true"
-    }
-    {{ end }}
-  ]
+    }{{ end }}
+  ]{{ end }}
 
   {{ if .OnlyManageDescription }}
   managed_attributes = [incident_catalog_type_attribute.example_description.id]
+  {{ else if .UseEmptyManagedAttributes }}
+  managed_attributes = []
   {{ end }}
 }
 `))
@@ -331,17 +366,42 @@ resource "incident_catalog_entry" "example" {
 func testAccIncidentCatalogEntryResourceConfigWithID(id, name, description string, aliases []string, onlyManageDescription bool) string {
 	var buf bytes.Buffer
 	if err := catalogEntryTemplate.Execute(&buf, struct {
-		ID                    string
-		Name                  string
-		Description           string
-		Aliases               []string
-		OnlyManageDescription bool
+		ID                        string
+		Name                      string
+		Description               string
+		Aliases                   []string
+		OnlyManageDescription     bool
+		UseEmptyManagedAttributes bool
 	}{
-		ID:                    id,
-		Name:                  name,
-		Description:           description,
-		Aliases:               aliases,
-		OnlyManageDescription: onlyManageDescription,
+		ID:                        id,
+		Name:                      name,
+		Description:               description,
+		Aliases:                   aliases,
+		OnlyManageDescription:     onlyManageDescription,
+		UseEmptyManagedAttributes: false,
+	}); err != nil {
+		panic(err)
+	}
+
+	return buf.String()
+}
+
+func testAccIncidentCatalogEntryResourceConfigWithEmptyManagedAttributes(id, name, description string, aliases []string) string {
+	var buf bytes.Buffer
+	if err := catalogEntryTemplate.Execute(&buf, struct {
+		ID                        string
+		Name                      string
+		Description               string
+		Aliases                   []string
+		OnlyManageDescription     bool
+		UseEmptyManagedAttributes bool
+	}{
+		ID:                        id,
+		Name:                      name,
+		Description:               description,
+		Aliases:                   aliases,
+		OnlyManageDescription:     false,
+		UseEmptyManagedAttributes: true,
 	}); err != nil {
 		panic(err)
 	}

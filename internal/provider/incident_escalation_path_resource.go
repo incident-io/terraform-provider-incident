@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -39,7 +38,7 @@ type IncidentEscalationPathResourceModel struct {
 	Name         types.String                           `tfsdk:"name"`
 	Path         []IncidentEscalationPathNode           `tfsdk:"path"`
 	WorkingHours []models.IncidentWeekdayIntervalConfig `tfsdk:"working_hours"`
-	TeamIDs      []types.String                         `tfsdk:"team_ids"`
+	TeamIDs      types.Set                              `tfsdk:"team_ids"`
 }
 
 type IncidentEscalationPathNode struct {
@@ -125,11 +124,9 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 				},
 			},
 			"team_ids": schema.SetAttribute{
-				MarkdownDescription: apischema.Docstring("ScheduleV2", "team_ids"),
+				MarkdownDescription: apischema.Docstring("EscalationPathV2", "team_ids"),
 				Optional:            true,
 				ElementType:         types.StringType,
-				Computed:            true,
-				Default:             setdefault.StaticValue(types.SetValueMust(types.StringType, []attr.Value{})),
 			},
 		},
 	}
@@ -330,11 +327,14 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 	}
 
 	var teamIDs *[]string
-	if len(data.TeamIDs) > 0 {
-		teamIDs = &[]string{}
-		for _, id := range data.TeamIDs {
-			*teamIDs = append(*teamIDs, id.ValueString())
+	if !data.TeamIDs.IsUnknown() && !data.TeamIDs.IsNull() {
+		ids := []string{}
+		diags := data.TeamIDs.ElementsAs(ctx, &ids, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
 		}
+		teamIDs = &ids
 	}
 
 	result, err := r.client.EscalationsV2CreatePathWithResponse(ctx, client.EscalationsV2CreatePathJSONRequestBody{
@@ -402,11 +402,14 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 	}
 
 	var teamIDs *[]string
-	if len(data.TeamIDs) > 0 {
-		teamIDs = &[]string{}
-		for _, id := range data.TeamIDs {
-			*teamIDs = append(*teamIDs, id.ValueString())
+	if !data.TeamIDs.IsUnknown() && !data.TeamIDs.IsNull() {
+		ids := []string{}
+		diags := data.TeamIDs.ElementsAs(ctx, &ids, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
 		}
+		teamIDs = &ids
 	}
 
 	result, err := r.client.EscalationsV2UpdatePathWithResponse(ctx, data.ID.ValueString(), client.EscalationsV2UpdatePathJSONRequestBody{
@@ -456,11 +459,19 @@ func (r *IncidentEscalationPathResource) buildModel(ep client.EscalationPathV2) 
 		})
 	}
 
-	var teamIDs []types.String
+	var teamIDsSet types.Set
 	if ep.TeamIds != nil {
-		teamIDs = lo.Map(ep.TeamIds, func(id string, _ int) types.String {
-			return types.StringValue(id)
-		})
+		if len(ep.TeamIds) > 0 {
+			elements := make([]attr.Value, len(ep.TeamIds))
+			for i, id := range ep.TeamIds {
+				elements[i] = types.StringValue(id)
+			}
+			teamIDsSet = types.SetValueMust(types.StringType, elements)
+		} else {
+			teamIDsSet = types.SetValueMust(types.StringType, []attr.Value{})
+		}
+	} else {
+		teamIDsSet = types.SetNull(types.StringType)
 	}
 
 	return &IncidentEscalationPathResourceModel{
@@ -468,7 +479,7 @@ func (r *IncidentEscalationPathResource) buildModel(ep client.EscalationPathV2) 
 		Name:         types.StringValue(ep.Name),
 		Path:         r.toPathModel(ep.Path),
 		WorkingHours: workingHours,
-		TeamIDs:      teamIDs,
+		TeamIDs:      teamIDsSet,
 	}
 }
 

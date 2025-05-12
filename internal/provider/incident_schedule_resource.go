@@ -11,7 +11,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -66,8 +65,6 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: apischema.Docstring("ScheduleV2", "team_ids"),
 				Optional:            true,
 				ElementType:         types.StringType,
-				Computed:            true,
-				Default:             setdefault.StaticValue(types.SetValueMust(types.StringType, []attr.Value{})),
 			},
 			"holidays_public_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -217,11 +214,14 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 	holidaysPublicConfig := buildScheduleHolidaysPublicConfig(data)
 
 	var teamIDs *[]string
-	if len(data.TeamIDs) > 0 {
-		teamIDs = &[]string{}
-		for _, id := range data.TeamIDs {
-			*teamIDs = append(*teamIDs, id.ValueString())
+	if !data.TeamIDs.IsUnknown() && !data.TeamIDs.IsNull() {
+		ids := []string{}
+		diags := data.TeamIDs.ElementsAs(ctx, &ids, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
 		}
+		teamIDs = &ids
 	}
 
 	result, err := r.client.SchedulesV2CreateWithResponse(ctx, client.SchedulesV2CreateJSONRequestBody{
@@ -247,7 +247,7 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created an incident schedule resource with id=%s", result.JSON201.Schedule.Id))
-	data = r.buildModel(result.JSON201.Schedule)
+	data = r.buildModel(result.JSON201.Schedule, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -275,40 +275,43 @@ func (r *IncidentScheduleResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	data = r.buildModel(result.JSON200.Schedule)
+	data = r.buildModel(result.JSON200.Schedule, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var old *models.IncidentScheduleResourceModelV2
-	resp.Diagnostics.Append(req.Plan.Get(ctx, &old)...)
+	var data *models.IncidentScheduleResourceModelV2
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	rotationArray, err := buildScheduleUpdatePayload(old, resp)
+	rotationArray, err := buildScheduleUpdatePayload(data, resp)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update schedule, got error: %s", err))
 		return
 	}
 
-	holidaysPublicConfig := buildScheduleHolidaysPublicConfig(old)
+	holidaysPublicConfig := buildScheduleHolidaysPublicConfig(data)
 
 	var teamIDs *[]string
-	if len(old.TeamIDs) > 0 {
-		teamIDs = &[]string{}
-		for _, id := range old.TeamIDs {
-			*teamIDs = append(*teamIDs, id.ValueString())
+	if !data.TeamIDs.IsUnknown() && !data.TeamIDs.IsNull() {
+		ids := []string{}
+		diags := data.TeamIDs.ElementsAs(ctx, &ids, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
 		}
+		teamIDs = &ids
 	}
 
-	result, err := r.client.SchedulesV2UpdateWithResponse(ctx, old.ID.ValueString(), client.SchedulesV2UpdateJSONRequestBody{
+	result, err := r.client.SchedulesV2UpdateWithResponse(ctx, data.ID.ValueString(), client.SchedulesV2UpdateJSONRequestBody{
 		Schedule: client.ScheduleUpdatePayloadV2{
 			Annotations: &map[string]string{
 				"incident.io/terraform/version": r.terraformVersion,
 			},
-			Name:                 old.Name.ValueStringPointer(),
-			Timezone:             old.Timezone.ValueStringPointer(),
+			Name:                 data.Name.ValueStringPointer(),
+			Timezone:             data.Timezone.ValueStringPointer(),
 			HolidaysPublicConfig: holidaysPublicConfig,
 			TeamIds:              teamIDs,
 			Config: &client.ScheduleConfigUpdatePayloadV2{
@@ -324,8 +327,8 @@ func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	old = r.buildModel(result.JSON200.Schedule)
-	resp.Diagnostics.Append(resp.State.Set(ctx, &old)...)
+	data = r.buildModel(result.JSON200.Schedule, data)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *IncidentScheduleResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -479,7 +482,7 @@ func buildEffectiveFrom(diagnostics diag.Diagnostics, effectiveFrom types.String
 // buildModel converts a schedule from the API to a resource model
 // this involves taking schedule rotations, grouping them by ID,
 // extracting the shared data, and then building the nested structure.
-func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *models.IncidentScheduleResourceModelV2 {
+func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2, plan *models.IncidentScheduleResourceModelV2) *models.IncidentScheduleResourceModelV2 {
 	rotationsGroupedByID := lo.GroupBy(schedule.Config.Rotations, func(rotation client.ScheduleRotationV2) string {
 		return rotation.Id
 	})
@@ -508,11 +511,24 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *model
 		}
 	}
 
-	var teamIDs []types.String
-	if schedule.TeamIds != nil {
-		teamIDs = lo.Map(schedule.TeamIds, func(id string, _ int) types.String {
-			return types.StringValue(id)
-		})
+	var teamIDsSet types.Set
+	// This is maybe a bit odd but we pass in the initial plan to this function to check
+	// if the team_ids field was set: this is because we return it in the API, but if it's
+	// nil it won't have any effect so we want to expect it not being passed in.
+	// We can't start validating it out in the API as that would make it required and
+	// a breaking change.
+	if schedule.TeamIds != nil && !plan.TeamIDs.IsUnknown() && !plan.TeamIDs.IsNull() {
+		if len(schedule.TeamIds) > 0 {
+			elements := make([]attr.Value, len(schedule.TeamIds))
+			for i, id := range schedule.TeamIds {
+				elements[i] = types.StringValue(id)
+			}
+			teamIDsSet = types.SetValueMust(types.StringType, elements)
+		} else {
+			teamIDsSet = types.SetValueMust(types.StringType, []attr.Value{})
+		}
+	} else {
+		teamIDsSet = types.SetNull(types.StringType)
 	}
 
 	return &models.IncidentScheduleResourceModelV2{
@@ -520,7 +536,7 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2) *model
 		ID:                   types.StringValue(schedule.Id),
 		Timezone:             types.StringValue(schedule.Timezone),
 		HolidaysPublicConfig: holidaysPublicConfig,
-		TeamIDs:              teamIDs,
+		TeamIDs:              teamIDsSet,
 		Rotations: lo.Map(rotationNames, func(rotation RotationName, _ int) models.RotationV2 {
 			newRotation := models.RotationV2{
 				ID:   types.StringValue(rotation.ID),
