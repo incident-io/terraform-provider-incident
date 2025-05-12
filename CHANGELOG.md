@@ -2,6 +2,8 @@
 
 - Improve the documentation for `channel_config` in `incident_alert_route`
 - Improve the documentation for `team_ids` in `incident_escalation_path`
+- Fix a bug where empty slices of `team_ids` would be sent to the API as `null`
+- Fix a bug where empty slices of `managed_attributes` would mean we mark every attribute as managed in Terraform, whereas it should mean every attribute is managed in the dashboard.
 
 ## v5.5.0
 
