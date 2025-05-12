@@ -11,7 +11,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -66,9 +65,6 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: apischema.Docstring("ScheduleV2", "team_ids"),
 				Optional:            true,
 				ElementType:         types.StringType,
-				Computed:            true,
-				// TODO: Adding a note: do we care more about this being nil?
-				Default: setdefault.StaticValue(types.SetValueMust(types.StringType, []attr.Value{})),
 			},
 			"holidays_public_config": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{

@@ -2,6 +2,8 @@ package provider
 
 import (
 	"bytes"
+	"os"
+	"regexp"
 	"testing"
 	"text/template"
 
@@ -71,7 +73,7 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "working_hours.0.weekday_intervals.0.end_time", "17:00"),
 					resource.TestCheckResourceAttrPair(
-						"incident_escalation_path.example", "team_ids.0", "incident_catalog_entry.response", "id"),
+						"incident_escalation_path.example", "team_ids.0", "incident_catalog_entry.terraform", "id"),
 				),
 			},
 			// Import
@@ -84,20 +86,58 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 	})
 }
 
+// TestAccIncidentEscalationPathTeamIDs specifically tests the handling of team_ids
+// in empty and nil states
+func TestAccIncidentEscalationPathTeamIDs(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Test with empty team_ids (explicitly set to [])
+			{
+				Config: testAccIncidentEscalationPathResourceWithTeamIDs(
+					StableSuffix("Empty TeamIDs Test"),
+					"empty", // Use empty team_ids
+				),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "name", StableSuffix("Empty TeamIDs Test")),
+					// Verify that team_ids is an empty set but not nil
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "team_ids.#", "0"),
+				),
+			},
+			// Test with team_ids not specified at all (omitted from config)
+			{
+				Config: testAccIncidentEscalationPathResourceWithTeamIDs(
+					StableSuffix("Omitted TeamIDs Test"),
+					"omit", // Completely omit team_ids field
+				),
+				// When omitted, the API should error as we have team settings
+				// Annoyingly Terraform returns this with indent, so this is
+				// the subset we match on.
+				ExpectError: regexp.MustCompile("must set an empty slice or a list of Team"),
+			},
+		},
+	})
+}
+
 var escalationPathTemplate = template.Must(template.New("incident_escalation_path").Funcs(sprig.TxtFuncMap()).Parse(`
-# This is the team catalog type
-resource "incident_catalog_type" "team" {
-  name            = "Test Team"
-  type_name       = "Custom[\"TestTeam\"]"
-  description     = "This is the team catalog type"
-  source_repo_url = "http://example.com"
+# This is the _official_ team catalog type
+# This means our test will only work in Github, you'll need to point this to your local
+# Team type!
+# Same as the Slack channel used here.
+data "incident_catalog_type" "team" {
+  name            = {{ quote .TeamTypeName }}
 }
 
 # This is a team catalog entry
-resource "incident_catalog_entry" "response" {
-  catalog_type_id = incident_catalog_type.team.id
-  name = "Response"
+resource "incident_catalog_entry" "terraform" {
+  catalog_type_id = data.incident_catalog_type.team.id
+  external_id = "tf-acceptance-test"
+  name = "Terraform test team"
   attribute_values = []
+  managed_attributes = []
 }
 
 # This is the primary schedule that receives pages in working hours.
@@ -129,7 +169,7 @@ resource "incident_schedule" "primary_on_call" {
   }]
 
   # Teams that use this schedule
-  team_ids = [incident_catalog_entry.response.id]
+  team_ids = [incident_catalog_entry.terraform.id]
 }
 
 # If in working hours, send high-urgency alerts. Otherwise use low-urgency.
@@ -174,7 +214,7 @@ resource "incident_escalation_path" "example" {
             notify_channel = {
               targets = [{
                type    = "slack_channel"
-               id      = "C04U0DJSG0Z"
+               id      = {{ quote .ChannelID }}
                urgency  = "low"
               }]
               time_to_ack_seconds = 300
@@ -212,17 +252,31 @@ resource "incident_escalation_path" "example" {
   ]
 
   # Teams that use this escalation path
-  team_ids = [incident_catalog_entry.response.id]
+  {{- if eq .TeamIDsType "normal" }}
+  team_ids = [incident_catalog_entry.terraform.id]
+  {{- else if eq .TeamIDsType "empty" }}
+  team_ids = []
+  {{- end }}
 }
 `))
 
 func testAccIncidentEscalationPathResourceConfig(name string) string {
+	return testAccIncidentEscalationPathResourceWithTeamIDs(name, "normal")
+}
+
+func testAccIncidentEscalationPathResourceWithTeamIDs(name string, teamIDsType string) string {
 	model := struct {
 		ScheduleName string
 		PathName     string
+		TeamIDsType  string
+		ChannelID    string
+		TeamTypeName string
 	}{
 		ScheduleName: name,
 		PathName:     name,
+		TeamIDsType:  teamIDsType, // "normal", "empty", or "omit"
+		ChannelID:    channelID(),
+		TeamTypeName: teamTypeName(),
 	}
 
 	var buf bytes.Buffer
@@ -231,4 +285,17 @@ func testAccIncidentEscalationPathResourceConfig(name string) string {
 	}
 
 	return buf.String()
+}
+
+func teamTypeName() string {
+	if os.Getenv("CI") == "true" {
+		// This is a type that exists in our test workspace
+		return "Team"
+	}
+	// Override the team type name for local testing
+	if teamType := os.Getenv("TF_TEAM_TYPE_NAME"); teamType != "" {
+		return teamType
+	}
+
+	return "Team"
 }

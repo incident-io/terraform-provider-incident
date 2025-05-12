@@ -127,7 +127,6 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "team_ids"),
 				Optional:            true,
 				ElementType:         types.StringType,
-				Computed:            true,
 			},
 		},
 	}
