@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.6.0
+
 - Improve the documentation for `channel_config` in `incident_alert_route`
 - Improve the documentation for `team_ids` in `incident_escalation_path`
 - Fix a bug where empty slices of `team_ids` would be sent to the API as `null`
