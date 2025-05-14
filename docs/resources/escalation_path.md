@@ -132,7 +132,7 @@ resource "incident_escalation_path" "urgent_support" {
 
 ### Optional
 
-- `team_ids` (Set of String) IDs of teams that own this escalation path
+- `team_ids` (Set of String) IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 - `working_hours` (Attributes List) The working hours for this escalation path. (see [below for nested schema](#nestedatt--working_hours))
 
 ### Read-Only

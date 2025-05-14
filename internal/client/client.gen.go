@@ -3658,7 +3658,7 @@ type EscalationPathV2 struct {
 	// Path The nodes that form the levels and branches of this escalation path.
 	Path []EscalationPathNodeV2 `json:"path"`
 
-	// TeamIds IDs of teams that own this escalation path
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 	TeamIds []string `json:"team_ids"`
 
 	// WorkingHours The working hours for this escalation path.
