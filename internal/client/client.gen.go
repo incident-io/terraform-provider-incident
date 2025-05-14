@@ -3673,7 +3673,7 @@ type EscalationsCreatePathPayloadV2 struct {
 	// Path The nodes that form the levels and branches of this escalation path.
 	Path []EscalationPathNodePayloadV2 `json:"path"`
 
-	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog.
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 	TeamIds *[]string `json:"team_ids,omitempty"`
 
 	// WorkingHours The working hours for this escalation path.
@@ -3698,7 +3698,7 @@ type EscalationsUpdatePathPayloadV2 struct {
 	// Path The nodes that form the levels and branches of this escalation path.
 	Path []EscalationPathNodePayloadV2 `json:"path"`
 
-	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog.
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 	TeamIds *[]string `json:"team_ids,omitempty"`
 
 	// WorkingHours The working hours for this escalation path.
@@ -5447,6 +5447,20 @@ type SeverityV2 struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+// StatusPageLinkedResponseIncidentV1 defines model for StatusPageLinkedResponseIncidentV1.
+type StatusPageLinkedResponseIncidentV1 struct {
+	// Id ID of the Response incident
+	Id string `json:"id"`
+
+	// LinkedAt When the Response incident was linked to the status page incident
+	LinkedAt time.Time `json:"linked_at"`
+}
+
+// StatusPagesListResponseIncidentsResultV1 defines model for StatusPagesListResponseIncidentsResultV1.
+type StatusPagesListResponseIncidentsResultV1 struct {
+	Incidents []StatusPageLinkedResponseIncidentV1 `json:"incidents"`
+}
+
 // StepConfigPayloadV2 defines model for StepConfigPayloadV2.
 type StepConfigPayloadV2 struct {
 	// ForEach Reference to an expression that returns resources to run this step over
@@ -6490,6 +6504,9 @@ type ClientInterface interface {
 
 	SeveritiesV1Update(ctx context.Context, id string, body SeveritiesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// StatusPagesV1ListResponseIncidents request
+	StatusPagesV1ListResponseIncidents(ctx context.Context, id string, incidentId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ActionsV2List request
 	ActionsV2List(ctx context.Context, params *ActionsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -7440,6 +7457,18 @@ func (c *Client) SeveritiesV1UpdateWithBody(ctx context.Context, id string, cont
 
 func (c *Client) SeveritiesV1Update(ctx context.Context, id string, body SeveritiesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSeveritiesV1UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) StatusPagesV1ListResponseIncidents(ctx context.Context, id string, incidentId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPagesV1ListResponseIncidentsRequest(c.Server, id, incidentId)
 	if err != nil {
 		return nil, err
 	}
@@ -10421,6 +10450,47 @@ func NewSeveritiesV1UpdateRequestWithBody(server string, id string, contentType 
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewStatusPagesV1ListResponseIncidentsRequest generates requests for StatusPagesV1ListResponseIncidents
+func NewStatusPagesV1ListResponseIncidentsRequest(server string, id string, incidentId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "incident_id", runtime.ParamLocationPath, incidentId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/status-pages/%s/incidents/%s/response-incidents", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -14390,6 +14460,9 @@ type ClientWithResponsesInterface interface {
 
 	SeveritiesV1UpdateWithResponse(ctx context.Context, id string, body SeveritiesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*SeveritiesV1UpdateResponse, error)
 
+	// StatusPagesV1ListResponseIncidentsWithResponse request
+	StatusPagesV1ListResponseIncidentsWithResponse(ctx context.Context, id string, incidentId string, reqEditors ...RequestEditorFn) (*StatusPagesV1ListResponseIncidentsResponse, error)
+
 	// ActionsV2ListWithResponse request
 	ActionsV2ListWithResponse(ctx context.Context, params *ActionsV2ListParams, reqEditors ...RequestEditorFn) (*ActionsV2ListResponse, error)
 
@@ -15569,6 +15642,28 @@ func (r SeveritiesV1UpdateResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r SeveritiesV1UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type StatusPagesV1ListResponseIncidentsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StatusPagesListResponseIncidentsResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r StatusPagesV1ListResponseIncidentsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StatusPagesV1ListResponseIncidentsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -17861,6 +17956,15 @@ func (c *ClientWithResponses) SeveritiesV1UpdateWithResponse(ctx context.Context
 	return ParseSeveritiesV1UpdateResponse(rsp)
 }
 
+// StatusPagesV1ListResponseIncidentsWithResponse request returning *StatusPagesV1ListResponseIncidentsResponse
+func (c *ClientWithResponses) StatusPagesV1ListResponseIncidentsWithResponse(ctx context.Context, id string, incidentId string, reqEditors ...RequestEditorFn) (*StatusPagesV1ListResponseIncidentsResponse, error) {
+	rsp, err := c.StatusPagesV1ListResponseIncidents(ctx, id, incidentId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPagesV1ListResponseIncidentsResponse(rsp)
+}
+
 // ActionsV2ListWithResponse request returning *ActionsV2ListResponse
 func (c *ClientWithResponses) ActionsV2ListWithResponse(ctx context.Context, params *ActionsV2ListParams, reqEditors ...RequestEditorFn) (*ActionsV2ListResponse, error) {
 	rsp, err := c.ActionsV2List(ctx, params, reqEditors...)
@@ -19816,6 +19920,32 @@ func ParseSeveritiesV1UpdateResponse(rsp *http.Response) (*SeveritiesV1UpdateRes
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest SeveritiesUpdateResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStatusPagesV1ListResponseIncidentsResponse parses an HTTP response from a StatusPagesV1ListResponseIncidentsWithResponse call
+func ParseStatusPagesV1ListResponseIncidentsResponse(rsp *http.Response) (*StatusPagesV1ListResponseIncidentsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StatusPagesV1ListResponseIncidentsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StatusPagesListResponseIncidentsResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
