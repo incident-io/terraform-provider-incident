@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Improve the documentation for `team_ids` in `incident_escalation_path`
+- `incident_alert_source` supports dynamic values for all attributes - for example initialising attributes from local variables.
 
 ## v5.6.0
 

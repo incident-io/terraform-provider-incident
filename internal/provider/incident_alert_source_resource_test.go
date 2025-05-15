@@ -272,3 +272,84 @@ const (
 	testAlertSourceTitle       = `{"content":[{"content":[{"attrs":{"label":"Payload → Title","missing":false,"name":"title"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`
 	testAlertSourceDescription = `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`
 )
+
+func TestAccAlertSourceResource_DynamicAttributes(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Test dynamic attributes
+			{
+				Config: testAccAlertSourceResourceConfigDynamicAttributes(),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "name", "tf-dynamic-alert-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "source_type", "http"),
+					// Verify we have 2 attributes
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "template.attributes.#", "2"),
+				),
+			},
+		},
+	})
+}
+
+func testAccAlertSourceResourceConfigDynamicAttributes() string {
+	return testRunTemplate("incident_alert_source_dynamic_attributes", `
+# Create alert attributes directly
+resource "incident_alert_attribute" "team" {
+  name  = "team-tf-attr"
+  type  = "String"
+  array = false
+}
+
+resource "incident_alert_attribute" "feature" {
+  name  = "feature-tf-attr"
+  type  = "String"
+  array = false
+}
+
+locals {
+	with_conds = true
+} 
+
+# Use those attributes in an alert source
+resource "incident_alert_source" "dynamic_alert_source" {
+  name        = "tf-dynamic-alert-source"
+  source_type = "http"
+
+  template = {
+    expressions = []
+    title = {
+      literal = {{ quote .Title }}
+    }
+    description = {
+      literal = {{ quote .Description }}
+    }
+
+    # Use a simple attribute list without dynamic references
+    attributes = local.with_conds ? [
+      {
+        alert_attribute_id = incident_alert_attribute.team.id
+        binding = {
+          value = {
+            literal = "team-value"
+          }
+        }
+      },
+      {
+        alert_attribute_id = incident_alert_attribute.feature.id
+        binding = {
+          value = {
+            literal = "feature-value"
+          }
+        }
+      }
+    ] : []
+  }
+}
+`, struct {
+		Title, Description string
+	}{
+		Title:       testAlertSourceTitle,
+		Description: testAlertSourceDescription,
+	})
+}
