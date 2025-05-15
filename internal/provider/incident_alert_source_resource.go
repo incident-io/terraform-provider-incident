@@ -33,11 +33,19 @@ type IncidentAlertSourceResource struct {
 // 'jira', and never set otherwise.
 func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	var data models.AlertSourceResourceModel
-	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
+	// We can't validate the whole model here because we want to support dynamic values for
+	// attributes used in the resource.
+
+	diagnostic := req.Config.GetAttribute(ctx, path.Root("template"), &data.Template)
+	if diagnostic.HasError() {
+		// If attribute_values is unknown, don't attempt to validate the managed
+		// attributes. We have to return early here because the call to req.Config.Get
+		// fails to marshal into the []CatalogEntryAttributeValue in this case.
 		return
 	}
 
+	req.Config.GetAttribute(ctx, path.Root("source_type"), &data.SourceType)
+	diagnostic = req.Config.GetAttribute(ctx, path.Root("jira_options"), &data.JiraOptions)
 	if data.JiraOptions != nil && data.SourceType.ValueString() != "jira" {
 		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
 			"jira_options can only be set when source_type is jira",

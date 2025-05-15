@@ -51,6 +51,17 @@ func TestAccAlertSourceResource(t *testing.T) {
 					resource.TestCheckResourceAttr("incident_alert_source.test", "template.attributes.0.binding.value.reference", `expressions["severity_expr"]`),
 				),
 			},
+			// Test dynamic attributes
+			{
+				Config: testAccAlertSourceResourceConfigDynamicAttributes(),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "name", "tf-dynamic-attributes-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "source_type", "http"),
+					// Verify we have 2 attributes
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "template.attributes.#", "2"),
+					// Cannot check each attribute with resource.TestCheckResourceAttrPair with for_each resources
+				),
+			},
 		},
 	})
 }
@@ -272,3 +283,69 @@ const (
 	testAlertSourceTitle       = `{"content":[{"content":[{"attrs":{"label":"Payload → Title","missing":false,"name":"title"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`
 	testAlertSourceDescription = `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`
 )
+
+func testAccAlertSourceResourceConfigDynamicAttributes() string {
+	return testRunTemplate("incident_alert_source_dynamic_attributes", `
+# Define attributes in locals instead of var
+locals {
+  attribute_configs = [
+    {
+      name  = "tf-test-team"
+      type  = "String"
+      array = false
+    },
+    {
+      name  = "tf-test-feature"
+      type  = "String"
+      array = false
+    }
+  ]
+}
+
+# Create alert attributes dynamically using for_each
+resource "incident_alert_attribute" "attrs" {
+  for_each = { for attr in local.attribute_configs : attr.name => attr }
+  name  = each.value.name
+  type  = each.value.type
+  array = each.value.array
+}
+
+locals { 
+  # Attributes - map of attributes that are referenced in the alert template.attributes
+  attributes = [
+    for key, attr in incident_alert_attribute.attrs : {
+      alert_attribute_id = attr.id
+      binding = {
+        value = {
+          literal = "value"
+        }
+      }
+    }
+  ]
+}
+
+# Use those attributes dynamically in an alert source
+resource "incident_alert_source" "dynamic_test" {
+  name        = "tf-dynamic-attributes-source"
+  source_type = "http"
+
+  template = {
+    expressions = []
+    title = {
+      literal = {{ quote .Title }}
+    }
+    description = {
+      literal = {{ quote .Description }}
+    }
+
+    # Dynamic attributes using reference to known resource
+    attributes = local.attributes
+  }
+}
+`, struct {
+		Title, Description string
+	}{
+		Title:       testAlertSourceTitle,
+		Description: testAlertSourceDescription,
+	})
+}
