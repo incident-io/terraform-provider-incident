@@ -1,11 +1,11 @@
 ## Unreleased
 
+- Improve the documentation for `team_ids` in `incident_escalation_path`
 - `incident_alert_source` supports dynamic values for all attributes - for example initialising attributes from local variables.
 
 ## v5.6.0
 
 - Improve the documentation for `channel_config` in `incident_alert_route`
-- Improve the documentation for `team_ids` in `incident_escalation_path`
 - Fix a bug where empty slices of `team_ids` would be sent to the API as `null`
 - Fix a bug where empty slices of `managed_attributes` would mean we mark every attribute as managed in Terraform, whereas it should mean every attribute is managed in the dashboard.
 

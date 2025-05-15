@@ -283,17 +283,36 @@ const (
 	testAlertSourceDescription = `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`
 )
 
+func TestAccAlertSourceResource_DynamicAttributes(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Test dynamic attributes
+			{
+				Config: testAccAlertSourceResourceConfigDynamicAttributes(),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "name", "tf-dynamic-alert-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "source_type", "http"),
+					// Verify we have 2 attributes
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "template.attributes.#", "2"),
+				),
+			},
+		},
+	})
+}
+
 func testAccAlertSourceResourceConfigDynamicAttributes() string {
 	return testRunTemplate("incident_alert_source_dynamic_attributes", `
 # Create alert attributes directly
 resource "incident_alert_attribute" "team" {
-  name  = "tf-team"
+  name  = "team-tf-attr"
   type  = "String"
   array = false
 }
 
 resource "incident_alert_attribute" "feature" {
-  name  = "tf-feature"
+  name  = "feature-tf-attr"
   type  = "String"
   array = false
 }
@@ -303,8 +322,8 @@ locals {
 } 
 
 # Use those attributes in an alert source
-resource "incident_alert_source" "dynamic_test" {
-  name        = "tf-dynamic-attributes-source"
+resource "incident_alert_source" "dynamic_alert_source" {
+  name        = "tf-dynamic-alert-source"
   source_type = "http"
 
   template = {
