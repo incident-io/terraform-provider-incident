@@ -1,5 +1,7 @@
 ## Unreleased
 
+- `incident_alert_source` supports dynamic values for all attributes - for example initialising attributes from local variables.
+
 ## v5.6.0
 
 - Improve the documentation for `channel_config` in `incident_alert_route`

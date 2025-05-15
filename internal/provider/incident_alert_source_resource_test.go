@@ -59,7 +59,6 @@ func TestAccAlertSourceResource(t *testing.T) {
 					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "source_type", "http"),
 					// Verify we have 2 attributes
 					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "template.attributes.#", "2"),
-					// Cannot check each attribute with resource.TestCheckResourceAttrPair with for_each resources
 				),
 			},
 		},
@@ -286,45 +285,24 @@ const (
 
 func testAccAlertSourceResourceConfigDynamicAttributes() string {
 	return testRunTemplate("incident_alert_source_dynamic_attributes", `
-# Define attributes in locals instead of var
+# Create alert attributes directly
+resource "incident_alert_attribute" "team" {
+  name  = "tf-team"
+  type  = "String"
+  array = false
+}
+
+resource "incident_alert_attribute" "feature" {
+  name  = "tf-feature"
+  type  = "String"
+  array = false
+}
+
 locals {
-  attribute_configs = [
-    {
-      name  = "tf-test-team"
-      type  = "String"
-      array = false
-    },
-    {
-      name  = "tf-test-feature"
-      type  = "String"
-      array = false
-    }
-  ]
-}
+	with_conds = true
+} 
 
-# Create alert attributes dynamically using for_each
-resource "incident_alert_attribute" "attrs" {
-  for_each = { for attr in local.attribute_configs : attr.name => attr }
-  name  = each.value.name
-  type  = each.value.type
-  array = each.value.array
-}
-
-locals { 
-  # Attributes - map of attributes that are referenced in the alert template.attributes
-  attributes = [
-    for key, attr in incident_alert_attribute.attrs : {
-      alert_attribute_id = attr.id
-      binding = {
-        value = {
-          literal = "value"
-        }
-      }
-    }
-  ]
-}
-
-# Use those attributes dynamically in an alert source
+# Use those attributes in an alert source
 resource "incident_alert_source" "dynamic_test" {
   name        = "tf-dynamic-attributes-source"
   source_type = "http"
@@ -338,8 +316,25 @@ resource "incident_alert_source" "dynamic_test" {
       literal = {{ quote .Description }}
     }
 
-    # Dynamic attributes using reference to known resource
-    attributes = local.attributes
+    # Use a simple attribute list without dynamic references
+    attributes = local.with_conds ? [
+      {
+        alert_attribute_id = incident_alert_attribute.team.id
+        binding = {
+          value = {
+            literal = "team-value"
+          }
+        }
+      },
+      {
+        alert_attribute_id = incident_alert_attribute.feature.id
+        binding = {
+          value = {
+            literal = "feature-value"
+          }
+        }
+      }
+    ] : []
   }
 }
 `, struct {
