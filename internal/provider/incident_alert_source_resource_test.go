@@ -51,16 +51,6 @@ func TestAccAlertSourceResource(t *testing.T) {
 					resource.TestCheckResourceAttr("incident_alert_source.test", "template.attributes.0.binding.value.reference", `expressions["severity_expr"]`),
 				),
 			},
-			// Test dynamic attributes
-			{
-				Config: testAccAlertSourceResourceConfigDynamicAttributes(),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "name", "tf-dynamic-attributes-source"),
-					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "source_type", "http"),
-					// Verify we have 2 attributes
-					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "template.attributes.#", "2"),
-				),
-			},
 		},
 	})
 }
@@ -292,10 +282,10 @@ func TestAccAlertSourceResource_DynamicAttributes(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigDynamicAttributes(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "name", "tf-dynamic-alert-source"),
-					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "source_type", "http"),
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "name", "tf-dynamic-alert-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "source_type", "http"),
 					// Verify we have 2 attributes
-					resource.TestCheckResourceAttr("incident_alert_source.dynamic_test", "template.attributes.#", "2"),
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "template.attributes.#", "2"),
 				),
 			},
 		},
