@@ -45,7 +45,7 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 	}
 
 	req.Config.GetAttribute(ctx, path.Root("source_type"), &data.SourceType)
-	diagnostic = req.Config.GetAttribute(ctx, path.Root("jira_options"), &data.JiraOptions)
+	req.Config.GetAttribute(ctx, path.Root("jira_options"), &data.JiraOptions)
 	if data.JiraOptions != nil && data.SourceType.ValueString() != "jira" {
 		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
 			"jira_options can only be set when source_type is jira",
