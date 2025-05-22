@@ -297,3 +297,147 @@ func teamTypeName() string {
 
 	return "Team"
 }
+
+func TestAccIncidentEscalationPathResourceValidateMaxDepth(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config:      testAccIncidentEscalationPathResourceConfigExceedingMaxDepth(),
+				ExpectError: regexp.MustCompile(`Struct defines fields not found in\nobject: if_else`)},
+		},
+	})
+}
+
+func testAccIncidentEscalationPathResourceConfigExceedingMaxDepth() string {
+	return `
+# This is the primary schedule that receives pages in working hours.
+resource "incident_schedule" "primary_on_call" {
+  name = "Deep Nesting Test Schedule"
+  timezone = "Europe/London"
+  rotations = [{
+    id   = "primary"
+    name = "Primary"
+
+    versions = [
+      {
+        handover_start_at = "2024-05-01T12:00:00Z"
+        users = []
+        layers = [
+          {
+            id   = "primary"
+            name = "Primary"
+          }
+        ]
+        handovers = [
+          {
+            interval_type = "daily"
+            interval      = 1
+          }
+        ]
+      },
+    ]
+  }]
+
+  team_ids = []
+}
+
+# Create a path with deeply nested if_else nodes (4 levels deep)
+resource "incident_escalation_path" "example" {
+  name = "Deeply Nested Path Test"
+
+  path = [
+    {
+      id = "start"
+      type = "if_else"
+      if_else = {
+        conditions = [
+          {
+            operation = "is_active",
+            param_bindings = []
+            subject = "escalation.working_hours[\"UK\"]"
+          }
+        ]
+        then_path = [
+          {
+            type = "if_else"
+            if_else = {
+              conditions = [
+                {
+                  operation = "is_active",
+                  param_bindings = []
+				  subject = "escalation.working_hours[\"UK\"]"
+                }
+              ]
+              then_path = [
+                {
+                  type = "if_else"
+                  if_else = {
+                    conditions = [
+						{
+						  operation = "is_active",
+						  param_bindings = []
+						  subject = "escalation.working_hours[\"UK\"]"
+						}
+                    ]
+                    then_path = [
+                      {
+                        type = "if_else"
+                        if_else = {
+                          conditions = [
+							{
+							  operation = "is_active",
+							  param_bindings = []
+							  subject = "escalation.working_hours[\"UK\"]"
+							}
+                          ]
+                          then_path = [
+                            {
+                              type = "level"
+                              level = {
+                                targets = [{
+                                  type    = "schedule"
+                                  id      = incident_schedule.primary_on_call.id
+                                  urgency  = "high"
+                                }]
+                                time_to_ack_seconds = 300
+                              }
+                            }
+                          ],
+                          else_path = []
+                        }
+                      }
+                    ],
+                    else_path = []
+                  }
+                }
+              ],
+              else_path = []
+            }
+          }
+        ],
+        else_path = []
+      }
+    }
+  ]
+
+  working_hours = [
+    {
+      id = "UK"
+      name = "UK"
+      timezone = "Europe/London"
+      weekday_intervals = [
+        {
+          weekday    = "monday"
+          start_time = "09:00"
+          end_time   = "17:00"
+        }
+      ]
+    }
+  ]
+
+  team_ids = []
+}
+`
+}
