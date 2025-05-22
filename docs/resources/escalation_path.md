@@ -128,7 +128,9 @@ resource "incident_escalation_path" "urgent_support" {
 ### Required
 
 - `name` (String) The name of this escalation path, for the user's reference.
-- `path` (Attributes List) The nodes that form the levels and branches of this escalation path. (see [below for nested schema](#nestedatt--path))
+- `path` (Attributes List) The nodes that form the levels and branches of this escalation path.
+
+-->**Note** Although the `if_else` block is recursive, currently a maximum of 3 levels are supported. Attempting to configure more than 3 levels of nesting will result in a schema error. (see [below for nested schema](#nestedatt--path))
 
 ### Optional
 
@@ -365,9 +367,258 @@ Optional:
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `if_else` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--if_else))
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--if_else"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat`
+
+Required:
+
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions))
+- `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path))
+
+Optional:
+
+- `else_path` (Attributes List) The nodes that form the levels if our condition is not met (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path))
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.conditions`
+
+Required:
+
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions--param_bindings"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.conditions.subject`
+
+Optional:
+
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--value))
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--array_value"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--value"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--level"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--notify_channel"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--level"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--notify_channel"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
 
 <a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat`
@@ -464,9 +715,258 @@ Optional:
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `if_else` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--if_else))
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--if_else"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat`
+
+Required:
+
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions))
+- `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path))
+
+Optional:
+
+- `else_path` (Attributes List) The nodes that form the levels if our condition is not met (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path))
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.conditions`
+
+Required:
+
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions--param_bindings"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.conditions.subject`
+
+Optional:
+
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--value))
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--array_value"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--value"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--level"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--notify_channel"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--level"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--notify_channel"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat"></a>
+### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
 
 <a id="nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.repeat.then_path.repeat.else_path.repeat`
@@ -713,9 +1213,258 @@ Optional:
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `if_else` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--if_else))
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--if_else"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions))
+- `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path))
+
+Optional:
+
+- `else_path` (Attributes List) The nodes that form the levels if our condition is not met (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path))
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.conditions`
+
+Required:
+
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions--param_bindings"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.conditions.subject`
+
+Optional:
+
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--value))
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--array_value"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--value"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--level"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--notify_channel"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--level"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--notify_channel"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
 
 <a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat`
@@ -812,9 +1561,258 @@ Optional:
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `if_else` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--if_else))
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--if_else"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions))
+- `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path))
+
+Optional:
+
+- `else_path` (Attributes List) The nodes that form the levels if our condition is not met (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path))
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.conditions`
+
+Required:
+
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions--param_bindings"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.conditions.subject`
+
+Optional:
+
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--value))
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--array_value"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--value"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--level"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--notify_channel"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--level"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--notify_channel"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat"></a>
+### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
 
 <a id="nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.repeat.else_path.repeat.else_path.repeat`
@@ -1211,9 +2209,258 @@ Optional:
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `if_else` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--if_else))
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--if_else"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat`
+
+Required:
+
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions))
+- `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path))
+
+Optional:
+
+- `else_path` (Attributes List) The nodes that form the levels if our condition is not met (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path))
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.conditions`
+
+Required:
+
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions--param_bindings"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.conditions.subject`
+
+Optional:
+
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--value))
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--array_value"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--value"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--level"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--notify_channel"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--level"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--notify_channel"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
 
 <a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat`
@@ -1310,9 +2557,258 @@ Optional:
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `if_else` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--if_else))
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--if_else"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat`
+
+Required:
+
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions))
+- `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path))
+
+Optional:
+
+- `else_path` (Attributes List) The nodes that form the levels if our condition is not met (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path))
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.conditions`
+
+Required:
+
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions--param_bindings"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.conditions.subject`
+
+Optional:
+
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--value))
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--array_value"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--conditions--subject--value"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--level"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--notify_channel"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--level"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--notify_channel"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat"></a>
+### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
 
 <a id="nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.repeat.then_path.repeat.else_path.repeat`
@@ -1559,9 +3055,258 @@ Optional:
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `if_else` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--if_else))
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--if_else"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions))
+- `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path))
+
+Optional:
+
+- `else_path` (Attributes List) The nodes that form the levels if our condition is not met (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path))
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.conditions`
+
+Required:
+
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions--param_bindings"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.conditions.subject`
+
+Optional:
+
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--value))
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--array_value"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--value"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--level"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--notify_channel"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--level"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--notify_channel"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
 
 <a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat`
@@ -1658,9 +3403,258 @@ Optional:
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `if_else` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--if_else))
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--if_else"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions))
+- `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path))
+
+Optional:
+
+- `else_path` (Attributes List) The nodes that form the levels if our condition is not met (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path))
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.conditions`
+
+Required:
+
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions--param_bindings"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.conditions.subject`
+
+Optional:
+
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--value))
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--array_value"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--conditions--subject--value"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.conditions.subject.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--level"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--notify_channel"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.then_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path`
+
+Required:
+
+- `type` (String) The type of this node. Available types are:
+* level: A set of targets (users or schedules) that should be paged, either all at once, or with a round-robin configuration.
+* notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
+* if_else: Branch the escalation based on a set of conditions.
+* repeat: Go back to a previous node and repeat the logic from there.
+
+Optional:
+
+- `id` (String) An ID for this node, unique within the escalation path.
+
+This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--level))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--notify_channel))
+- `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--level"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+
+Optional:
+
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--notify_channel"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets))
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--targets"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat.time_to_ack_weekday_interval_config_id`
+
+Required:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
+- `urgency` (String) The urgency of this escalation path target
+
+Optional:
+
+- `schedule_mode` (String) Only set for schedule targets, and either currently_on_call, all_users or all_users_for_rota and specifies which users to fetch from the schedule
+
+
+
+<a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat"></a>
+### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat.else_path.repeat`
+
+Required:
+
+- `repeat_times` (Number) How many times to repeat these nodes
+- `to_node` (String) Which node ID we begin repeating from.
+
+
+
 
 <a id="nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.repeat.else_path.repeat.else_path.repeat`
