@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.7.1
+
+- Support up to 3 levels of branch nesting on escalation paths
+
 ## v5.7.0
 
 - Improve the documentation for `team_ids` in `incident_escalation_path`
