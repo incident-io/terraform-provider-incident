@@ -112,9 +112,12 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 				Required:            true,
 			},
 			"path": schema.ListNestedAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathV2", "path"),
-				Required:            true,
-				NestedObject:        r.getPathSchema(3),
+				MarkdownDescription: fmt.Sprintf("%s\n%s",
+					apischema.Docstring("EscalationPathV2", "path"),
+					"\n-->**Note** Although the `if_else` block is recursive, currently a maximum of 3 levels are supported. "+
+						"Attempting to configure more than 3 levels of nesting will result in a schema error.\n"),
+				Required:     true,
+				NestedObject: r.getPathSchema(4),
 			},
 			"working_hours": schema.ListNestedAttribute{
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "working_hours"),
@@ -134,6 +137,10 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 
 // Terraform doesn't support recursive schemas so we have to manually unpack the schema to
 // a finite depth to allow recursing back into our nodes.
+//
+// We support a maximum nesting depth of 3 levels of if_else nodes.
+// The schema definition should use a depth of 4 if we want to support 3 levels of
+// nesting, as it's zero-indexed.
 func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedAttributeObject {
 	result := schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
@@ -269,6 +276,7 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 		},
 	}
 
+	// Only include if_else attribute if we haven't reached the maximum nesting depth (3 levels)
 	if depth > 0 {
 		result.Attributes["if_else"] = schema.SingleNestedAttribute{
 			MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "if_else"),
