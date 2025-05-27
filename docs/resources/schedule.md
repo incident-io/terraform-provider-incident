@@ -120,7 +120,7 @@ resource "incident_schedule" "primary_on_call" {
 ### Required
 
 - `name` (String) Human readable name synced from external provider
-- `rotations` (Attributes List) (see [below for nested schema](#nestedatt--rotations))
+- `rotations` (Attributes Set) (see [below for nested schema](#nestedatt--rotations))
 - `timezone` (String)
 
 ### Optional
