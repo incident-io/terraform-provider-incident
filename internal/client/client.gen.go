@@ -789,6 +789,7 @@ const (
 	IdentityV1RolesScheduleOverridesEditor   IdentityV1Roles = "schedule_overrides_editor"
 	IdentityV1RolesSchedulesEditor           IdentityV1Roles = "schedules_editor"
 	IdentityV1RolesSchedulesReader           IdentityV1Roles = "schedules_reader"
+	IdentityV1RolesSecuritySettingsEditor    IdentityV1Roles = "security_settings_editor"
 	IdentityV1RolesViewer                    IdentityV1Roles = "viewer"
 	IdentityV1RolesWorkflowsEditor           IdentityV1Roles = "workflows_editor"
 )
@@ -968,6 +969,8 @@ const (
 
 // Defines values for ManagedResourceV2ResourceType.
 const (
+	ManagedResourceV2ResourceTypeAlertRoute     ManagedResourceV2ResourceType = "alert_route"
+	ManagedResourceV2ResourceTypeAlertSource    ManagedResourceV2ResourceType = "alert_source"
 	ManagedResourceV2ResourceTypeEscalationPath ManagedResourceV2ResourceType = "escalation_path"
 	ManagedResourceV2ResourceTypeSchedule       ManagedResourceV2ResourceType = "schedule"
 	ManagedResourceV2ResourceTypeWorkflow       ManagedResourceV2ResourceType = "workflow"
@@ -975,6 +978,8 @@ const (
 
 // Defines values for ManagedResourcesCreateManagedResourcePayloadV2ResourceType.
 const (
+	AlertRoute     ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_route"
+	AlertSource    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_source"
 	EscalationPath ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path"
 	Schedule       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule"
 	Workflow       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "workflow"
@@ -3964,6 +3969,52 @@ type GroupingKeyV2 struct {
 	Reference string `json:"reference"`
 }
 
+// IPAllowlistItemV1 defines model for IPAllowlistItemV1.
+type IPAllowlistItemV1 struct {
+	// Label A label to help identify this IP or prefix
+	Label *string `json:"label,omitempty"`
+
+	// Value An IP address or a CIDR IP prefix to allow
+	Value string `json:"value"`
+}
+
+// IPAllowlistV1 defines model for IPAllowlistV1.
+type IPAllowlistV1 struct {
+	// Allowlist A list of IP addresses or CIDR prefixes to allow
+	Allowlist []IPAllowlistItemV1 `json:"allowlist"`
+
+	// Enabled Whether this IP allowlist is enabled or not
+	Enabled bool `json:"enabled"`
+
+	// UpdatedAt The time this allowlist was last updated
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+
+	// Version The version of this IP allowlist
+	Version int64 `json:"version"`
+}
+
+// IPAllowlistsShowIPAllowlistResultV1 defines model for IPAllowlistsShowIPAllowlistResultV1.
+type IPAllowlistsShowIPAllowlistResultV1 struct {
+	IpAllowlist IPAllowlistV1 `json:"ip_allowlist"`
+}
+
+// IPAllowlistsUpdateIPAllowlistPayloadV1 defines model for IPAllowlistsUpdateIPAllowlistPayloadV1.
+type IPAllowlistsUpdateIPAllowlistPayloadV1 struct {
+	// Allowlist A list of IP addresses or CIDR prefixes to allow
+	Allowlist []IPAllowlistItemV1 `json:"allowlist"`
+
+	// Enabled Whether this IP allowlist is enabled or not
+	Enabled bool `json:"enabled"`
+
+	// Version The version of this IP allowlist
+	Version int64 `json:"version"`
+}
+
+// IPAllowlistsUpdateIPAllowlistResultV1 defines model for IPAllowlistsUpdateIPAllowlistResultV1.
+type IPAllowlistsUpdateIPAllowlistResultV1 struct {
+	IpAllowlist IPAllowlistV1 `json:"ip_allowlist"`
+}
+
 // IdentityV1 defines model for IdentityV1.
 type IdentityV1 struct {
 	// DashboardUrl The dashboard URL for this organisation
@@ -6184,6 +6235,9 @@ type IncidentStatusesV1UpdateJSONRequestBody = IncidentStatusesUpdatePayloadV1
 // IncidentsV1CreateJSONRequestBody defines body for IncidentsV1Create for application/json ContentType.
 type IncidentsV1CreateJSONRequestBody = IncidentsCreatePayloadV1
 
+// IPAllowlistsV1UpdateIPAllowlistJSONRequestBody defines body for IPAllowlistsV1UpdateIPAllowlist for application/json ContentType.
+type IPAllowlistsV1UpdateIPAllowlistJSONRequestBody = IPAllowlistsUpdateIPAllowlistPayloadV1
+
 // SeveritiesV1CreateJSONRequestBody defines body for SeveritiesV1Create for application/json ContentType.
 type SeveritiesV1CreateJSONRequestBody = SeveritiesCreatePayloadV1
 
@@ -6478,6 +6532,14 @@ type ClientInterface interface {
 
 	// IncidentsV1Show request
 	IncidentsV1Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IPAllowlistsV1ShowIPAllowlist request
+	IPAllowlistsV1ShowIPAllowlist(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IPAllowlistsV1UpdateIPAllowlistWithBody request with any body
+	IPAllowlistsV1UpdateIPAllowlistWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	IPAllowlistsV1UpdateIPAllowlist(ctx context.Context, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// UtilitiesV1OpenAPI request
 	UtilitiesV1OpenAPI(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -7349,6 +7411,42 @@ func (c *Client) IncidentsV1Create(ctx context.Context, body IncidentsV1CreateJS
 
 func (c *Client) IncidentsV1Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewIncidentsV1ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) IPAllowlistsV1ShowIPAllowlist(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIPAllowlistsV1ShowIPAllowlistRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) IPAllowlistsV1UpdateIPAllowlistWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIPAllowlistsV1UpdateIPAllowlistRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) IPAllowlistsV1UpdateIPAllowlist(ctx context.Context, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIPAllowlistsV1UpdateIPAllowlistRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -10214,6 +10312,73 @@ func NewIncidentsV1ShowRequest(server string, id string) (*http.Request, error) 
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewIPAllowlistsV1ShowIPAllowlistRequest generates requests for IPAllowlistsV1ShowIPAllowlist
+func NewIPAllowlistsV1ShowIPAllowlistRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/ip_allowlists")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewIPAllowlistsV1UpdateIPAllowlistRequest calls the generic IPAllowlistsV1UpdateIPAllowlist builder with application/json body
+func NewIPAllowlistsV1UpdateIPAllowlistRequest(server string, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewIPAllowlistsV1UpdateIPAllowlistRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewIPAllowlistsV1UpdateIPAllowlistRequestWithBody generates requests for IPAllowlistsV1UpdateIPAllowlist with any type of body
+func NewIPAllowlistsV1UpdateIPAllowlistRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/ip_allowlists")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -14435,6 +14600,14 @@ type ClientWithResponsesInterface interface {
 	// IncidentsV1ShowWithResponse request
 	IncidentsV1ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*IncidentsV1ShowResponse, error)
 
+	// IPAllowlistsV1ShowIPAllowlistWithResponse request
+	IPAllowlistsV1ShowIPAllowlistWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*IPAllowlistsV1ShowIPAllowlistResponse, error)
+
+	// IPAllowlistsV1UpdateIPAllowlistWithBodyWithResponse request with any body
+	IPAllowlistsV1UpdateIPAllowlistWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IPAllowlistsV1UpdateIPAllowlistResponse, error)
+
+	IPAllowlistsV1UpdateIPAllowlistWithResponse(ctx context.Context, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody, reqEditors ...RequestEditorFn) (*IPAllowlistsV1UpdateIPAllowlistResponse, error)
+
 	// UtilitiesV1OpenAPIWithResponse request
 	UtilitiesV1OpenAPIWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilitiesV1OpenAPIResponse, error)
 
@@ -15489,6 +15662,50 @@ func (r IncidentsV1ShowResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r IncidentsV1ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type IPAllowlistsV1ShowIPAllowlistResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *IPAllowlistsShowIPAllowlistResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r IPAllowlistsV1ShowIPAllowlistResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IPAllowlistsV1ShowIPAllowlistResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type IPAllowlistsV1UpdateIPAllowlistResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *IPAllowlistsUpdateIPAllowlistResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r IPAllowlistsV1UpdateIPAllowlistResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IPAllowlistsV1UpdateIPAllowlistResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -17877,6 +18094,32 @@ func (c *ClientWithResponses) IncidentsV1ShowWithResponse(ctx context.Context, i
 	return ParseIncidentsV1ShowResponse(rsp)
 }
 
+// IPAllowlistsV1ShowIPAllowlistWithResponse request returning *IPAllowlistsV1ShowIPAllowlistResponse
+func (c *ClientWithResponses) IPAllowlistsV1ShowIPAllowlistWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*IPAllowlistsV1ShowIPAllowlistResponse, error) {
+	rsp, err := c.IPAllowlistsV1ShowIPAllowlist(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIPAllowlistsV1ShowIPAllowlistResponse(rsp)
+}
+
+// IPAllowlistsV1UpdateIPAllowlistWithBodyWithResponse request with arbitrary body returning *IPAllowlistsV1UpdateIPAllowlistResponse
+func (c *ClientWithResponses) IPAllowlistsV1UpdateIPAllowlistWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IPAllowlistsV1UpdateIPAllowlistResponse, error) {
+	rsp, err := c.IPAllowlistsV1UpdateIPAllowlistWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIPAllowlistsV1UpdateIPAllowlistResponse(rsp)
+}
+
+func (c *ClientWithResponses) IPAllowlistsV1UpdateIPAllowlistWithResponse(ctx context.Context, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody, reqEditors ...RequestEditorFn) (*IPAllowlistsV1UpdateIPAllowlistResponse, error) {
+	rsp, err := c.IPAllowlistsV1UpdateIPAllowlist(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIPAllowlistsV1UpdateIPAllowlistResponse(rsp)
+}
+
 // UtilitiesV1OpenAPIWithResponse request returning *UtilitiesV1OpenAPIResponse
 func (c *ClientWithResponses) UtilitiesV1OpenAPIWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilitiesV1OpenAPIResponse, error) {
 	rsp, err := c.UtilitiesV1OpenAPI(ctx, reqEditors...)
@@ -19748,6 +19991,58 @@ func ParseIncidentsV1ShowResponse(rsp *http.Response) (*IncidentsV1ShowResponse,
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest IncidentsShowResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIPAllowlistsV1ShowIPAllowlistResponse parses an HTTP response from a IPAllowlistsV1ShowIPAllowlistWithResponse call
+func ParseIPAllowlistsV1ShowIPAllowlistResponse(rsp *http.Response) (*IPAllowlistsV1ShowIPAllowlistResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IPAllowlistsV1ShowIPAllowlistResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest IPAllowlistsShowIPAllowlistResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIPAllowlistsV1UpdateIPAllowlistResponse parses an HTTP response from a IPAllowlistsV1UpdateIPAllowlistWithResponse call
+func ParseIPAllowlistsV1UpdateIPAllowlistResponse(rsp *http.Response) (*IPAllowlistsV1UpdateIPAllowlistResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IPAllowlistsV1UpdateIPAllowlistResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest IPAllowlistsUpdateIPAllowlistResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
