@@ -139,7 +139,7 @@ Required:
 
 - `id` (String) Unique internal ID of the rotation
 - `name` (String) Human readable name synced from external provider
-- `versions` (Attributes List) (see [below for nested schema](#nestedatt--rotations--versions))
+- `versions` (Attributes Set) (see [below for nested schema](#nestedatt--rotations--versions))
 
 <a id="nestedatt--rotations--versions"></a>
 ### Nested Schema for `rotations.versions`
