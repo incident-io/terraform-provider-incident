@@ -201,6 +201,8 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
+	claimResource(ctx, r.client, result.JSON200.AlertSource.Id, resp.Diagnostics, client.AlertSource, r.terraformVersion)
+
 	tflog.Trace(ctx, fmt.Sprintf("created an alert source with id=%s", result.JSON200.AlertSource.Id))
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
@@ -253,6 +255,8 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
+	claimResource(ctx, r.client, result.JSON200.AlertSource.Id, resp.Diagnostics, client.AlertSource, r.terraformVersion)
+
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -272,5 +276,6 @@ func (r *IncidentAlertSourceResource) Delete(ctx context.Context, req resource.D
 }
 
 func (r *IncidentAlertSourceResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	claimResource(ctx, r.client, req.ID, resp.Diagnostics, client.AlertSource, r.terraformVersion)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
