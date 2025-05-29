@@ -76,7 +76,7 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 				},
 				Optional: true,
 			},
-			"rotations": schema.ListNestedAttribute{
+			"rotations": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"id": schema.StringAttribute{
@@ -87,7 +87,7 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 							Required:            true,
 							MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "name"),
 						},
-						"versions": schema.ListNestedAttribute{
+						"versions": schema.SetNestedAttribute{
 							Required: true,
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
