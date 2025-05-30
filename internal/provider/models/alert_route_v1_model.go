@@ -253,10 +253,6 @@ func (AlertRouteResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV2, pla
 		result.ChannelConfig = append(result.ChannelConfig, model)
 	}
 
-	//if len(apiModel.ChannelConfig) == 0 {
-	//	result.ChannelConfig = []AlertRouteChannelConfigModel{}
-	//}
-
 	if len(apiModel.ConditionGroups) > 0 {
 		result.ConditionGroups = IncidentEngineConditionGroups{}.FromAPI(apiModel.ConditionGroups)
 	} else {
@@ -435,7 +431,7 @@ func (AlertRouteResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV2, pla
 
 			result.IncidentTemplate.CustomFields = append(result.IncidentTemplate.CustomFields, model)
 		}
-	} else if plan != nil && plan.IncidentTemplate != nil {
+	} else if plan != nil && plan.IncidentTemplate != nil && len(plan.IncidentTemplate.CustomFields) > 0 {
 		result.IncidentTemplate.CustomFields = []AlertRouteCustomFieldModel{}
 
 		// If the API didn't return custom fields but we have them in the plan, use those
