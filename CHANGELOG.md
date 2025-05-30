@@ -1,5 +1,11 @@
 ## Unreleased
 
+## v5.8.0
+
+- `incident_schedule_resource` now uses sets for rotations as the ordering of them does not matter.
+- Alert sources and alert routes created by Terraform or imported to Terraform will be tagged
+  as such and won't be editable in the incident.io dashboard.
+
 ## v5.7.1
 
 - Support up to 3 levels of branch nesting on escalation paths
