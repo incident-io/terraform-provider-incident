@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Update the documentation for `incident_alert_source` and `incident_alert_route` to reference the new 'Export' flow
+  in the dashboard, which allows you to generate Terraform from configuration
+
 ## v5.8.0
 
 - `incident_schedule_resource` now uses sets for rotations as the ordering of them does not matter.
