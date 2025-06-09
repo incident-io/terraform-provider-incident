@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   View and manage schedules.
   Manage your full schedule of on-call rotations, including the users and rotation configuration.
-  We'd generally recommend building schedules in our web dashboard https://app.incident.io/on-call/schedules, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing schedule and copy the resulting Terraform without persisting it.
+  We'd generally recommend building schedules in our web dashboard https://app.incident.io/~/on-call/schedules, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing schedule and copy the resulting Terraform without persisting it.
 ---
 
 # incident_schedule (Resource)
@@ -14,7 +14,7 @@ View and manage schedules.
 Manage your full schedule of on-call rotations, including the users and rotation configuration.
 
 
-We'd generally recommend building schedules in our [web dashboard](https://app.incident.io/on-call/schedules), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing schedule and copy the resulting Terraform without persisting it.
+We'd generally recommend building schedules in our [web dashboard](https://app.incident.io/~/on-call/schedules), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing schedule and copy the resulting Terraform without persisting it.
 
 ## Example Usage
 

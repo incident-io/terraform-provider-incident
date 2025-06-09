@@ -98,7 +98,7 @@ func (r *IncidentEscalationPathResource) Metadata(ctx context.Context, req resou
 
 func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Escalations V2"), `We'd generally recommend building escalation paths in our [web dashboard](https://app.incident.io/on-call/escalation-paths), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing escalation path and copy the resulting Terraform without persisting it.`),
+		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Escalations V2"), `We'd generally recommend building escalation paths in our [web dashboard](https://app.incident.io/~/on-call/escalation-paths), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing escalation path and copy the resulting Terraform without persisting it.`),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
