@@ -1,7 +1,7 @@
 ## Unreleased
 
-- Update the documentation for `incident_alert_source` and `incident_alert_route` to reference the new 'Export' flow
-  in the dashboard, which allows you to generate Terraform from configuration
+- Update the documentation for `incident_alert_source`, `incident_alert_route`, `incident_escalation_path` and `incident_schedule` to reference the 'Export' flow
+  in the dashboard
 
 ## v5.8.0
 
