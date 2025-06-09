@@ -42,7 +42,7 @@ func (r *IncidentScheduleResource) Metadata(ctx context.Context, req resource.Me
 
 func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("Schedules V2"),
+		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Schedules V2"), `We'd generally recommend building schedules in our [web dashboard](https://app.incident.io/~/on-call/schedules), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing schedule and copy the resulting Terraform without persisting it.`),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

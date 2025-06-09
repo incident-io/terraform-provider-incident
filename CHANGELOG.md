@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Update the documentation for `incident_alert_source`, `incident_alert_route`, `incident_escalation_path` and `incident_schedule` to reference the 'Export' flow
+  in the dashboard
+
 ## v5.8.0
 
 - `incident_schedule_resource` now uses sets for rotations as the ordering of them does not matter.
