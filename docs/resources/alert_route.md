@@ -5,6 +5,7 @@ subcategory: ""
 description: |-
   Configure your alert routes in incident.io.
   Alert routes define how alerts from different sources are processed, grouped, and routed to the right teams and people.
+  We'd generally recommend building alert routes in our web dashboard https://app.incident.io/alerts/configuration, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.
 ---
 
 # incident_alert_route (Resource)
@@ -12,6 +13,8 @@ description: |-
 Configure your alert routes in incident.io.
 
 Alert routes define how alerts from different sources are processed, grouped, and routed to the right teams and people.
+
+We'd generally recommend building alert routes in our [web dashboard](https://app.incident.io/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.
 
 ## Example Usage
 

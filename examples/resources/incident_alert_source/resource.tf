@@ -1,4 +1,4 @@
-## Create a basic Alert Source that recieves from an SNS Topic in AWS
+## Create a basic Alert Source that receives from an SNS Topic in AWS
 
 resource "incident_alert_source" "cloudwatch" {
   name        = "CloudWatch Alerts"

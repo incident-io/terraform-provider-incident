@@ -71,7 +71,7 @@ func (r *IncidentAlertSourceResource) Metadata(ctx context.Context, req resource
 
 func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("Alert Sources V2"),
+		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Alert Sources V2"), `We'd generally recommend building alert sources in our [web dashboard](https://app.incident.io/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert source and copy the resulting Terraform without persisting it.`),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
