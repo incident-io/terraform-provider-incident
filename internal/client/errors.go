@@ -25,7 +25,7 @@ func (e HTTPError) Error() string {
 	return fmt.Sprintf("status %d: %s", e.StatusCode, string(e.Body))
 }
 
-// bodyAsJSON attempts to format the HTTP response body as pretty-printed JSON
+// bodyAsJSON attempts to format the HTTP response body as pretty-printed JSON.
 func (e HTTPError) bodyAsJSON() ([]byte, error) {
 	var jsonData any
 
