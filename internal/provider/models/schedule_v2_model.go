@@ -10,7 +10,7 @@ type IncidentScheduleResourceModelV2 struct {
 	Timezone             types.String            `tfsdk:"timezone"`
 	Rotations            []RotationV2            `tfsdk:"rotations"`
 	HolidaysPublicConfig *HolidaysPublicConfigV2 `tfsdk:"holidays_public_config"`
-	TeamIDs              []types.String          `tfsdk:"team_ids"`
+	TeamIDs              types.Set               `tfsdk:"team_ids"`
 }
 
 type RotationV2 struct {

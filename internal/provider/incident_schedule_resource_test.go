@@ -3,11 +3,14 @@ package provider
 import (
 	"fmt"
 	"reflect"
+	"regexp"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
@@ -243,16 +246,51 @@ func TestAccIncidentScheduleResourceRotationUpdates(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"incident_schedule.example", "rotations.0.versions.#", "2",
 					),
-					resource.TestCheckResourceAttr(
-						"incident_schedule.example", "rotations.0.versions.1.layers.0.name", "Layer Two",
-					),
-					resource.TestCheckResourceAttr(
-						"incident_schedule.example", "rotations.0.versions.1.working_intervals.0.weekday", "monday",
+					testValueExistsInSet("incident_schedule.example", "rotations.0.versions.*.layers.0.name", "Layer One"),
+					testValueExistsInSet("incident_schedule.example", "rotations.0.versions.*.layers.0.name", "Layer Two"),
+					testValueExistsInSet(
+						"incident_schedule.example", "rotations.0.versions.*.working_intervals.0.weekday", "monday",
 					),
 				),
 			},
 		},
 	})
+}
+
+// Test that a value exists in a set, use '*' to replace the element indexing,
+// this is different from the provided helpers as the set can be anywhere in
+// the attribute path, rather than needing to be the last element.
+func testValueExistsInSet(resourceName string, attr string, value string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return fmt.Errorf("Not found: %s", resourceName)
+		}
+		is := rs.Primary
+		if is == nil {
+			return fmt.Errorf("No primary instance: %s in %s", resourceName, s.RootModule().Path)
+		}
+
+		attrParts := strings.Split(attr, ".")
+
+		for stateKey, stateValue := range is.Attributes {
+			stateKeyParts := strings.Split(stateKey, ".")
+
+			if len(stateKeyParts) != len(attrParts) {
+				continue
+			}
+
+			for i := range attrParts {
+				if attrParts[i] != stateKeyParts[i] && attrParts[i] != "*" {
+					break
+				}
+				if i == len(attrParts)-1 && stateValue == value {
+					return nil
+				}
+			}
+		}
+		return fmt.Errorf("%s not found in %s", value, attr)
+	}
 }
 
 func TestAccIncidentScheduleResourceHolidayConfig(t *testing.T) {
@@ -305,6 +343,70 @@ func TestAccIncidentScheduleResourceHolidayConfig(t *testing.T) {
 				Check: resource.TestCheckResourceAttr(
 					"incident_schedule.example", "holidays_public_config.#", "0",
 				),
+			},
+		},
+	})
+}
+
+func TestAccIncidentScheduleResourceInvalidTimestamp(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				// Use a handcrafted config with an invalid timestamp to test validation
+				Config: `
+resource "incident_schedule" "invalid_timestamp" {
+  name     = "invalid-timestamp-test"
+  timezone = "Europe/London"
+  rotations = [
+    {
+      id   = "test-rotation"
+      name = "Test Rotation"
+      versions = [
+        {
+          handover_start_at = "2024-15-11T15:00:00Z" # Invalid month (15)
+          users = []
+          layers = [
+            {
+              id   = "test-layer"
+              name = "Test Layer"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}`,
+				ExpectError: regexp.MustCompile("Invalid Timestamp Format"),
+			},
+			{
+				// Test with invalid effective_from
+				Config: `
+resource "incident_schedule" "invalid_timestamp" {
+  name     = "invalid-timestamp-test"
+  timezone = "Europe/London"
+  rotations = [
+    {
+      id   = "test-rotation"
+      name = "Test Rotation"
+      versions = [
+        {
+          handover_start_at = "2024-05-11T15:00:00Z"
+          effective_from   = "2024-05-32T15:00:00Z" # Invalid day (32)
+          users = []
+          layers = [
+            {
+              id   = "test-layer"
+              name = "Test Layer"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}`,
+				ExpectError: regexp.MustCompile("Invalid Timestamp Format"),
 			},
 		},
 	})

@@ -456,6 +456,7 @@ func (pbs IncidentEngineParamBindings) ToPayload() []client.EngineParamBindingPa
 
 func (binding IncidentEngineParamBinding) ToPayload() client.EngineParamBindingPayloadV2 {
 	arrayValue := []client.EngineParamBindingValuePayloadV2{}
+
 	for _, v := range binding.ArrayValue {
 		arrayValue = append(arrayValue, v.ToPayload())
 	}

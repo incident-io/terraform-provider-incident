@@ -36,27 +36,40 @@ const (
 
 // Defines values for AlertEventsCreateHTTPPayloadV2Status.
 const (
-	Firing   AlertEventsCreateHTTPPayloadV2Status = "firing"
-	Resolved AlertEventsCreateHTTPPayloadV2Status = "resolved"
+	AlertEventsCreateHTTPPayloadV2StatusFiring   AlertEventsCreateHTTPPayloadV2Status = "firing"
+	AlertEventsCreateHTTPPayloadV2StatusResolved AlertEventsCreateHTTPPayloadV2Status = "resolved"
 )
 
-// Defines values for AlertRouteIncidentTemplatePayloadV2PrioritySeverity.
+// Defines values for AlertRouteCustomFieldBindingPayloadV2MergeStrategy.
 const (
-	AlertRouteIncidentTemplatePayloadV2PrioritySeveritySeverityFirstWins AlertRouteIncidentTemplatePayloadV2PrioritySeverity = "severity-first-wins"
-	AlertRouteIncidentTemplatePayloadV2PrioritySeveritySeverityMax       AlertRouteIncidentTemplatePayloadV2PrioritySeverity = "severity-max"
+	AlertRouteCustomFieldBindingPayloadV2MergeStrategyAppend    AlertRouteCustomFieldBindingPayloadV2MergeStrategy = "append"
+	AlertRouteCustomFieldBindingPayloadV2MergeStrategyFirstWins AlertRouteCustomFieldBindingPayloadV2MergeStrategy = "first-wins"
+	AlertRouteCustomFieldBindingPayloadV2MergeStrategyLastWins  AlertRouteCustomFieldBindingPayloadV2MergeStrategy = "last-wins"
 )
 
-// Defines values for AlertRouteIncidentTemplateV2CustomFieldPriorities.
+// Defines values for AlertRouteCustomFieldBindingV2MergeStrategy.
 const (
-	Append    AlertRouteIncidentTemplateV2CustomFieldPriorities = "append"
-	FirstWins AlertRouteIncidentTemplateV2CustomFieldPriorities = "first-wins"
-	LastWins  AlertRouteIncidentTemplateV2CustomFieldPriorities = "last-wins"
+	AlertRouteCustomFieldBindingV2MergeStrategyAppend    AlertRouteCustomFieldBindingV2MergeStrategy = "append"
+	AlertRouteCustomFieldBindingV2MergeStrategyFirstWins AlertRouteCustomFieldBindingV2MergeStrategy = "first-wins"
+	AlertRouteCustomFieldBindingV2MergeStrategyLastWins  AlertRouteCustomFieldBindingV2MergeStrategy = "last-wins"
 )
 
-// Defines values for AlertRouteIncidentTemplateV2PrioritySeverity.
+// Defines values for AlertRouteSeverityBindingPayloadV2MergeStrategy.
 const (
-	AlertRouteIncidentTemplateV2PrioritySeveritySeverityFirstWins AlertRouteIncidentTemplateV2PrioritySeverity = "severity-first-wins"
-	AlertRouteIncidentTemplateV2PrioritySeveritySeverityMax       AlertRouteIncidentTemplateV2PrioritySeverity = "severity-max"
+	AlertRouteSeverityBindingPayloadV2MergeStrategyFirstWins AlertRouteSeverityBindingPayloadV2MergeStrategy = "first-wins"
+	AlertRouteSeverityBindingPayloadV2MergeStrategyMax       AlertRouteSeverityBindingPayloadV2MergeStrategy = "max"
+)
+
+// Defines values for AlertRouteSeverityBindingV2MergeStrategy.
+const (
+	AlertRouteSeverityBindingV2MergeStrategyFirstWins AlertRouteSeverityBindingV2MergeStrategy = "first-wins"
+	AlertRouteSeverityBindingV2MergeStrategyMax       AlertRouteSeverityBindingV2MergeStrategy = "max"
+)
+
+// Defines values for AlertSlimV2Status.
+const (
+	AlertSlimV2StatusFiring   AlertSlimV2Status = "firing"
+	AlertSlimV2StatusResolved AlertSlimV2Status = "resolved"
 )
 
 // Defines values for AlertSourceV2SourceType.
@@ -143,6 +156,12 @@ const (
 	AlertSourcesCreatePayloadV2SourceTypeSumoLogic         AlertSourcesCreatePayloadV2SourceType = "sumo_logic"
 	AlertSourcesCreatePayloadV2SourceTypeUptime            AlertSourcesCreatePayloadV2SourceType = "uptime"
 	AlertSourcesCreatePayloadV2SourceTypeZendesk           AlertSourcesCreatePayloadV2SourceType = "zendesk"
+)
+
+// Defines values for AlertV2Status.
+const (
+	Firing   AlertV2Status = "firing"
+	Resolved AlertV2Status = "resolved"
 )
 
 // Defines values for CatalogCreateTypePayloadV2Categories.
@@ -729,19 +748,6 @@ const (
 	ExternalIssueReferenceV2ProviderShortcut    ExternalIssueReferenceV2Provider = "shortcut"
 )
 
-// Defines values for ExternalIssueReferenceV4Provider.
-const (
-	Asana       ExternalIssueReferenceV4Provider = "asana"
-	AzureDevops ExternalIssueReferenceV4Provider = "azure_devops"
-	ClickUp     ExternalIssueReferenceV4Provider = "click_up"
-	Github      ExternalIssueReferenceV4Provider = "github"
-	Gitlab      ExternalIssueReferenceV4Provider = "gitlab"
-	Jira        ExternalIssueReferenceV4Provider = "jira"
-	JiraServer  ExternalIssueReferenceV4Provider = "jira_server"
-	Linear      ExternalIssueReferenceV4Provider = "linear"
-	Shortcut    ExternalIssueReferenceV4Provider = "shortcut"
-)
-
 // Defines values for ExternalResourceV1ResourceType.
 const (
 	ExternalResourceV1ResourceTypeAtlassianStatuspageIncident ExternalResourceV1ResourceType = "atlassian_statuspage_incident"
@@ -778,10 +784,12 @@ const (
 	IdentityV1RolesIncidentMembershipsEditor IdentityV1Roles = "incident_memberships_editor"
 	IdentityV1RolesManageSettings            IdentityV1Roles = "manage_settings"
 	IdentityV1RolesOnCallEditor              IdentityV1Roles = "on_call_editor"
+	IdentityV1RolesPostIncidentFlowOptOut    IdentityV1Roles = "post_incident_flow_opt_out"
 	IdentityV1RolesPrivateWorkflowsEditor    IdentityV1Roles = "private_workflows_editor"
 	IdentityV1RolesScheduleOverridesEditor   IdentityV1Roles = "schedule_overrides_editor"
 	IdentityV1RolesSchedulesEditor           IdentityV1Roles = "schedules_editor"
 	IdentityV1RolesSchedulesReader           IdentityV1Roles = "schedules_reader"
+	IdentityV1RolesSecuritySettingsEditor    IdentityV1Roles = "security_settings_editor"
 	IdentityV1RolesViewer                    IdentityV1Roles = "viewer"
 	IdentityV1RolesWorkflowsEditor           IdentityV1Roles = "workflows_editor"
 )
@@ -804,20 +812,6 @@ const (
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeZendeskTicket               IncidentAttachmentsCreatePayloadV1ResourceResourceType = "zendesk_ticket"
 )
 
-// Defines values for IncidentCreatePayloadV2Mode.
-const (
-	IncidentCreatePayloadV2ModeRetrospective IncidentCreatePayloadV2Mode = "retrospective"
-	IncidentCreatePayloadV2ModeStandard      IncidentCreatePayloadV2Mode = "standard"
-	IncidentCreatePayloadV2ModeTest          IncidentCreatePayloadV2Mode = "test"
-	IncidentCreatePayloadV2ModeTutorial      IncidentCreatePayloadV2Mode = "tutorial"
-)
-
-// Defines values for IncidentCreatePayloadV2Visibility.
-const (
-	IncidentCreatePayloadV2VisibilityPrivate IncidentCreatePayloadV2Visibility = "private"
-	IncidentCreatePayloadV2VisibilityPublic  IncidentCreatePayloadV2Visibility = "public"
-)
-
 // Defines values for IncidentRoleV1RoleType.
 const (
 	IncidentRoleV1RoleTypeCustom   IncidentRoleV1RoleType = "custom"
@@ -830,6 +824,24 @@ const (
 	Custom   IncidentRoleV2RoleType = "custom"
 	Lead     IncidentRoleV2RoleType = "lead"
 	Reporter IncidentRoleV2RoleType = "reporter"
+)
+
+// Defines values for IncidentSlimV2StatusCategory.
+const (
+	IncidentSlimV2StatusCategoryActive       IncidentSlimV2StatusCategory = "active"
+	IncidentSlimV2StatusCategoryCanceled     IncidentSlimV2StatusCategory = "canceled"
+	IncidentSlimV2StatusCategoryClosed       IncidentSlimV2StatusCategory = "closed"
+	IncidentSlimV2StatusCategoryDeclined     IncidentSlimV2StatusCategory = "declined"
+	IncidentSlimV2StatusCategoryMerged       IncidentSlimV2StatusCategory = "merged"
+	IncidentSlimV2StatusCategoryPaused       IncidentSlimV2StatusCategory = "paused"
+	IncidentSlimV2StatusCategoryPostIncident IncidentSlimV2StatusCategory = "post-incident"
+	IncidentSlimV2StatusCategoryTriage       IncidentSlimV2StatusCategory = "triage"
+)
+
+// Defines values for IncidentSlimV2Visibility.
+const (
+	IncidentSlimV2VisibilityPrivate IncidentSlimV2Visibility = "private"
+	IncidentSlimV2VisibilityPublic  IncidentSlimV2Visibility = "public"
 )
 
 // Defines values for IncidentStatusV1Category.
@@ -912,26 +924,40 @@ const (
 	IncidentV2VisibilityPublic  IncidentV2Visibility = "public"
 )
 
-// Defines values for IncidentsV1CreateRequestBodyMode.
+// Defines values for IncidentsCreatePayloadV1Mode.
 const (
-	IncidentsV1CreateRequestBodyModeReal IncidentsV1CreateRequestBodyMode = "real"
-	IncidentsV1CreateRequestBodyModeTest IncidentsV1CreateRequestBodyMode = "test"
+	IncidentsCreatePayloadV1ModeReal IncidentsCreatePayloadV1Mode = "real"
+	IncidentsCreatePayloadV1ModeTest IncidentsCreatePayloadV1Mode = "test"
 )
 
-// Defines values for IncidentsV1CreateRequestBodyStatus.
+// Defines values for IncidentsCreatePayloadV1Status.
 const (
-	Closed        IncidentsV1CreateRequestBodyStatus = "closed"
-	Declined      IncidentsV1CreateRequestBodyStatus = "declined"
-	Fixing        IncidentsV1CreateRequestBodyStatus = "fixing"
-	Investigating IncidentsV1CreateRequestBodyStatus = "investigating"
-	Monitoring    IncidentsV1CreateRequestBodyStatus = "monitoring"
-	Triage        IncidentsV1CreateRequestBodyStatus = "triage"
+	IncidentsCreatePayloadV1StatusClosed        IncidentsCreatePayloadV1Status = "closed"
+	IncidentsCreatePayloadV1StatusDeclined      IncidentsCreatePayloadV1Status = "declined"
+	IncidentsCreatePayloadV1StatusFixing        IncidentsCreatePayloadV1Status = "fixing"
+	IncidentsCreatePayloadV1StatusInvestigating IncidentsCreatePayloadV1Status = "investigating"
+	IncidentsCreatePayloadV1StatusMonitoring    IncidentsCreatePayloadV1Status = "monitoring"
+	IncidentsCreatePayloadV1StatusTriage        IncidentsCreatePayloadV1Status = "triage"
 )
 
-// Defines values for IncidentsV1CreateRequestBodyVisibility.
+// Defines values for IncidentsCreatePayloadV1Visibility.
 const (
-	IncidentsV1CreateRequestBodyVisibilityPrivate IncidentsV1CreateRequestBodyVisibility = "private"
-	IncidentsV1CreateRequestBodyVisibilityPublic  IncidentsV1CreateRequestBodyVisibility = "public"
+	IncidentsCreatePayloadV1VisibilityPrivate IncidentsCreatePayloadV1Visibility = "private"
+	IncidentsCreatePayloadV1VisibilityPublic  IncidentsCreatePayloadV1Visibility = "public"
+)
+
+// Defines values for IncidentsCreatePayloadV2Mode.
+const (
+	IncidentsCreatePayloadV2ModeRetrospective IncidentsCreatePayloadV2Mode = "retrospective"
+	IncidentsCreatePayloadV2ModeStandard      IncidentsCreatePayloadV2Mode = "standard"
+	IncidentsCreatePayloadV2ModeTest          IncidentsCreatePayloadV2Mode = "test"
+	IncidentsCreatePayloadV2ModeTutorial      IncidentsCreatePayloadV2Mode = "tutorial"
+)
+
+// Defines values for IncidentsCreatePayloadV2Visibility.
+const (
+	Private IncidentsCreatePayloadV2Visibility = "private"
+	Public  IncidentsCreatePayloadV2Visibility = "public"
 )
 
 // Defines values for ManagedResourceV2ManagedBy.
@@ -943,6 +969,8 @@ const (
 
 // Defines values for ManagedResourceV2ResourceType.
 const (
+	ManagedResourceV2ResourceTypeAlertRoute     ManagedResourceV2ResourceType = "alert_route"
+	ManagedResourceV2ResourceTypeAlertSource    ManagedResourceV2ResourceType = "alert_source"
 	ManagedResourceV2ResourceTypeEscalationPath ManagedResourceV2ResourceType = "escalation_path"
 	ManagedResourceV2ResourceTypeSchedule       ManagedResourceV2ResourceType = "schedule"
 	ManagedResourceV2ResourceTypeWorkflow       ManagedResourceV2ResourceType = "workflow"
@@ -950,6 +978,8 @@ const (
 
 // Defines values for ManagedResourcesCreateManagedResourcePayloadV2ResourceType.
 const (
+	AlertRoute     ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_route"
+	AlertSource    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_source"
 	EscalationPath ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path"
 	Schedule       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule"
 	Workflow       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "workflow"
@@ -1288,6 +1318,26 @@ type AfterPaginationMetaResultV2 struct {
 	AfterUrl string `json:"after_url"`
 }
 
+// AlertAttributeCatalogEntryV2 defines model for AlertAttributeCatalogEntryV2.
+type AlertAttributeCatalogEntryV2 struct {
+	// CatalogTypeId ID of this catalog type
+	CatalogTypeId string `json:"catalog_type_id"`
+
+	// Id ID of this catalog entry
+	Id string `json:"id"`
+
+	// Name Name is the human readable name of this entry
+	Name string `json:"name"`
+}
+
+// AlertAttributeEntryV2 defines model for AlertAttributeEntryV2.
+type AlertAttributeEntryV2 struct {
+	// ArrayValue The value of the attribute if it is an array
+	ArrayValue *[]AlertAttributeValueV2 `json:"array_value,omitempty"`
+	Attribute  AlertAttributeV2         `json:"attribute"`
+	Value      *AlertAttributeValueV2   `json:"value,omitempty"`
+}
+
 // AlertAttributeV2 defines model for AlertAttributeV2.
 type AlertAttributeV2 struct {
 	// Array Whether this attribute is an array
@@ -1301,6 +1351,17 @@ type AlertAttributeV2 struct {
 
 	// Type Engine resource name for this attribute
 	Type string `json:"type"`
+}
+
+// AlertAttributeValueV2 defines model for AlertAttributeValueV2.
+type AlertAttributeValueV2 struct {
+	CatalogEntry *AlertAttributeCatalogEntryV2 `json:"catalog_entry,omitempty"`
+
+	// Label The human readable label of this value for convenience. Will match the literal if this is a primitive type, or be the name of the catalog entry if this is a catalog entry
+	Label *string `json:"label,omitempty"`
+
+	// Literal If set, this is the literal value of the step parameter
+	Literal *string `json:"literal,omitempty"`
 }
 
 // AlertAttributesCreatePayloadV2 defines model for AlertAttributesCreatePayloadV2.
@@ -1349,7 +1410,7 @@ type AlertAttributesUpdateResultV2 struct {
 
 // AlertEventsCreateHTTPPayloadV2 defines model for AlertEventsCreateHTTPPayloadV2.
 type AlertEventsCreateHTTPPayloadV2 struct {
-	// DeduplicationKey A deduplication key can be provided to uniquely reference this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config.
+	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config. You can filter on this field to find the alert created by an event you've sent us.
 	DeduplicationKey *string `json:"deduplication_key,omitempty"`
 
 	// Description Description that optionally adds more detail to title. Supports markdown.
@@ -1364,7 +1425,7 @@ type AlertEventsCreateHTTPPayloadV2 struct {
 	// Status Current status of this alert
 	Status AlertEventsCreateHTTPPayloadV2Status `json:"status"`
 
-	// Title Alert title which is used when summarising the alert
+	// Title The title of the alert, parsed from the alert payload according to the alert source configuration
 	Title string `json:"title"`
 }
 
@@ -1392,88 +1453,268 @@ type AlertRouteAlertSourcePayloadV2 struct {
 	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
 }
 
-// AlertRouteEscalationBindingPayloadV2 defines model for AlertRouteEscalationBindingPayloadV2.
-type AlertRouteEscalationBindingPayloadV2 struct {
-	Binding EngineParamBindingPayloadV2 `json:"binding"`
-}
+// AlertRouteAlertSourceV2 defines model for AlertRouteAlertSourceV2.
+type AlertRouteAlertSourceV2 struct {
+	// AlertSourceId The alert source ID that will match for the route
+	AlertSourceId string `json:"alert_source_id"`
 
-// AlertRouteEscalationBindingV2 defines model for AlertRouteEscalationBindingV2.
-type AlertRouteEscalationBindingV2 struct {
-	Binding EngineParamBindingV2 `json:"binding"`
-}
-
-// AlertRouteIncidentTemplatePayloadV2 defines model for AlertRouteIncidentTemplatePayloadV2.
-type AlertRouteIncidentTemplatePayloadV2 struct {
-	// CustomFieldPriorities lookup of the priority options for each custom field in the template
-	CustomFieldPriorities map[string]string `json:"custom_field_priorities"`
-
-	// CustomFields Custom field keys mapped to values
-	CustomFields *map[string]EngineParamBindingPayloadV2 `json:"custom_fields,omitempty"`
-	IncidentMode *EngineParamBindingPayloadV2            `json:"incident_mode,omitempty"`
-	IncidentType *EngineParamBindingPayloadV2            `json:"incident_type,omitempty"`
-	Name         *EngineParamBindingPayloadV2            `json:"name,omitempty"`
-
-	// PrioritySeverity option defining whether to cause subsequent alerts to increase the severity
-	PrioritySeverity AlertRouteIncidentTemplatePayloadV2PrioritySeverity `json:"priority_severity"`
-	Severity         *EngineParamBindingPayloadV2                        `json:"severity,omitempty"`
-	StartInTriage    *EngineParamBindingPayloadV2                        `json:"start_in_triage,omitempty"`
-	Summary          *EngineParamBindingPayloadV2                        `json:"summary,omitempty"`
-	Workspace        *EngineParamBindingPayloadV2                        `json:"workspace,omitempty"`
-}
-
-// AlertRouteIncidentTemplatePayloadV2PrioritySeverity option defining whether to cause subsequent alerts to increase the severity
-type AlertRouteIncidentTemplatePayloadV2PrioritySeverity string
-
-// AlertRouteIncidentTemplateV2 defines model for AlertRouteIncidentTemplateV2.
-type AlertRouteIncidentTemplateV2 struct {
-	// CustomFieldPriorities lookup of the priority options for each custom field in the template
-	CustomFieldPriorities map[string]AlertRouteIncidentTemplateV2CustomFieldPriorities `json:"custom_field_priorities"`
-
-	// CustomFields Custom field keys mapped to values
-	CustomFields *map[string]EngineParamBindingV2 `json:"custom_fields,omitempty"`
-	IncidentMode *EngineParamBindingV2            `json:"incident_mode,omitempty"`
-	IncidentType *EngineParamBindingV2            `json:"incident_type,omitempty"`
-	Name         *EngineParamBindingV2            `json:"name,omitempty"`
-
-	// PrioritySeverity binding to use to resolve the workspace to create an incident in
-	PrioritySeverity AlertRouteIncidentTemplateV2PrioritySeverity `json:"priority_severity"`
-	Severity         *EngineParamBindingV2                        `json:"severity,omitempty"`
-	Summary          *EngineParamBindingV2                        `json:"summary,omitempty"`
-	Workspace        *EngineParamBindingV2                        `json:"workspace,omitempty"`
-}
-
-// AlertRouteIncidentTemplateV2CustomFieldPriorities defines model for AlertRouteIncidentTemplateV2.CustomFieldPriorities.
-type AlertRouteIncidentTemplateV2CustomFieldPriorities string
-
-// AlertRouteIncidentTemplateV2PrioritySeverity binding to use to resolve the workspace to create an incident in
-type AlertRouteIncidentTemplateV2PrioritySeverity string
-
-// AlertRouteV2 defines model for AlertRouteV2.
-type AlertRouteV2 struct {
-	// ConditionGroups What condition groups must be true for this alert route to fire?
+	// ConditionGroups What conditions should alerts from this source meet to be included in this alert route?
 	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+}
+
+// AlertRouteAutoGeneratedTemplateBindingPayloadV2 defines model for AlertRouteAutoGeneratedTemplateBindingPayloadV2.
+type AlertRouteAutoGeneratedTemplateBindingPayloadV2 struct {
+	// Autogenerated Whether this attribute is autogenerated using AI or not
+	Autogenerated *bool                        `json:"autogenerated,omitempty"`
+	Binding       *EngineParamBindingPayloadV2 `json:"binding,omitempty"`
+}
+
+// AlertRouteAutoGeneratedTemplateBindingV2 defines model for AlertRouteAutoGeneratedTemplateBindingV2.
+type AlertRouteAutoGeneratedTemplateBindingV2 struct {
+	// Autogenerated Whether this attribute is autogenerated using AI or not
+	Autogenerated bool                  `json:"autogenerated"`
+	Binding       *EngineParamBindingV2 `json:"binding,omitempty"`
+}
+
+// AlertRouteChannelConfigPayloadV2 defines model for AlertRouteChannelConfigPayloadV2.
+type AlertRouteChannelConfigPayloadV2 struct {
+	// ConditionGroups The conditions that must be met for this channel config to be used
+	ConditionGroups []ConditionGroupPayloadV2         `json:"condition_groups"`
+	MsTeamsTargets  *AlertRouteChannelTargetPayloadV2 `json:"ms_teams_targets,omitempty"`
+	SlackTargets    *AlertRouteChannelTargetPayloadV2 `json:"slack_targets,omitempty"`
+}
+
+// AlertRouteChannelConfigV2 defines model for AlertRouteChannelConfigV2.
+type AlertRouteChannelConfigV2 struct {
+	// ConditionGroups The conditions that must be met for this channel config to be used
+	ConditionGroups []ConditionGroupV2         `json:"condition_groups"`
+	MsTeamsTargets  *AlertRouteChannelTargetV2 `json:"ms_teams_targets,omitempty"`
+	SlackTargets    *AlertRouteChannelTargetV2 `json:"slack_targets,omitempty"`
+}
+
+// AlertRouteChannelTargetPayloadV2 defines model for AlertRouteChannelTargetPayloadV2.
+type AlertRouteChannelTargetPayloadV2 struct {
+	Binding EngineParamBindingPayloadV2 `json:"binding"`
+
+	// ChannelVisibility The visibility of the channel
+	ChannelVisibility string `json:"channel_visibility"`
+}
+
+// AlertRouteChannelTargetV2 defines model for AlertRouteChannelTargetV2.
+type AlertRouteChannelTargetV2 struct {
+	Binding EngineParamBindingV2 `json:"binding"`
+
+	// ChannelVisibility The visibility of the channel
+	ChannelVisibility string `json:"channel_visibility"`
+}
+
+// AlertRouteCustomFieldBindingPayloadV2 defines model for AlertRouteCustomFieldBindingPayloadV2.
+type AlertRouteCustomFieldBindingPayloadV2 struct {
+	Binding EngineParamBindingPayloadV2 `json:"binding"`
+
+	// CustomFieldId ID of the custom field
+	CustomFieldId string `json:"custom_field_id"`
+
+	// MergeStrategy The strategy to use when multiple alerts match this route
+	MergeStrategy AlertRouteCustomFieldBindingPayloadV2MergeStrategy `json:"merge_strategy"`
+}
+
+// AlertRouteCustomFieldBindingPayloadV2MergeStrategy The strategy to use when multiple alerts match this route
+type AlertRouteCustomFieldBindingPayloadV2MergeStrategy string
+
+// AlertRouteCustomFieldBindingV2 defines model for AlertRouteCustomFieldBindingV2.
+type AlertRouteCustomFieldBindingV2 struct {
+	Binding EngineParamBindingV2 `json:"binding"`
+
+	// CustomFieldId ID of the custom field
+	CustomFieldId string `json:"custom_field_id"`
+
+	// MergeStrategy The strategy to use when multiple alerts match this route
+	MergeStrategy AlertRouteCustomFieldBindingV2MergeStrategy `json:"merge_strategy"`
+}
+
+// AlertRouteCustomFieldBindingV2MergeStrategy The strategy to use when multiple alerts match this route
+type AlertRouteCustomFieldBindingV2MergeStrategy string
+
+// AlertRouteEscalationConfigPayloadV2 defines model for AlertRouteEscalationConfigPayloadV2.
+type AlertRouteEscalationConfigPayloadV2 struct {
+	// AutoCancelEscalations Should we auto cancel escalations when all alerts are resolved?
+	AutoCancelEscalations bool `json:"auto_cancel_escalations"`
+
+	// EscalationTargets Targets for escalation
+	EscalationTargets []AlertRouteEscalationTargetPayloadV2 `json:"escalation_targets"`
+}
+
+// AlertRouteEscalationConfigV2 defines model for AlertRouteEscalationConfigV2.
+type AlertRouteEscalationConfigV2 struct {
+	// AutoCancelEscalations Should we auto cancel escalations when all alerts are resolved?
+	AutoCancelEscalations bool `json:"auto_cancel_escalations"`
+
+	// EscalationTargets Targets for escalation
+	EscalationTargets []AlertRouteEscalationTargetV2 `json:"escalation_targets"`
+}
+
+// AlertRouteEscalationTargetPayloadV2 defines model for AlertRouteEscalationTargetPayloadV2.
+type AlertRouteEscalationTargetPayloadV2 struct {
+	EscalationPaths *EngineParamBindingPayloadV2 `json:"escalation_paths,omitempty"`
+	Users           *EngineParamBindingPayloadV2 `json:"users,omitempty"`
+}
+
+// AlertRouteEscalationTargetV2 defines model for AlertRouteEscalationTargetV2.
+type AlertRouteEscalationTargetV2 struct {
+	EscalationPaths *EngineParamBindingV2 `json:"escalation_paths,omitempty"`
+	Users           *EngineParamBindingV2 `json:"users,omitempty"`
+}
+
+// AlertRouteIncidentConfigPayloadV2 defines model for AlertRouteIncidentConfigPayloadV2.
+type AlertRouteIncidentConfigPayloadV2 struct {
+	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
+	AutoDeclineEnabled bool `json:"auto_decline_enabled"`
+
+	// ConditionGroups What condition groups must be true for this alert route to create an incident?
+	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
 
 	// DeferTimeSeconds How long should the escalation defer time be?
 	DeferTimeSeconds int64 `json:"defer_time_seconds"`
 
-	// EscalationBindings Which escalation paths should this alert route escalate to?
-	EscalationBindings []AlertRouteEscalationBindingV2 `json:"escalation_bindings"`
-
-	// Expressions The expressions used in this template
-	Expressions *[]ExpressionV2 `json:"expressions,omitempty"`
+	// Enabled Whether incident creation is enabled for this alert route
+	Enabled bool `json:"enabled"`
 
 	// GroupingKeys Which attributes should this alert route use to group alerts?
 	GroupingKeys []GroupingKeyV2 `json:"grouping_keys"`
 
 	// GroupingWindowSeconds How large should the grouping window be?
 	GroupingWindowSeconds int64 `json:"grouping_window_seconds"`
+}
+
+// AlertRouteIncidentConfigV2 defines model for AlertRouteIncidentConfigV2.
+type AlertRouteIncidentConfigV2 struct {
+	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
+	AutoDeclineEnabled bool `json:"auto_decline_enabled"`
+
+	// ConditionGroups What condition groups must be true for this alert route to create an incident?
+	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+
+	// DeferTimeSeconds How long should the escalation defer time be?
+	DeferTimeSeconds int64 `json:"defer_time_seconds"`
+
+	// Enabled Whether incident creation is enabled for this alert route
+	Enabled bool `json:"enabled"`
+
+	// GroupingKeys Which attributes should this alert route use to group alerts?
+	GroupingKeys []GroupingKeyV2 `json:"grouping_keys"`
+
+	// GroupingWindowSeconds How large should the grouping window be?
+	GroupingWindowSeconds int64 `json:"grouping_window_seconds"`
+}
+
+// AlertRouteIncidentTemplatePayloadV2 defines model for AlertRouteIncidentTemplatePayloadV2.
+type AlertRouteIncidentTemplatePayloadV2 struct {
+	// CustomFields Custom fields configuration
+	CustomFields  *[]AlertRouteCustomFieldBindingPayloadV2         `json:"custom_fields,omitempty"`
+	IncidentMode  *AlertRouteTemplateBindingPayloadV2              `json:"incident_mode,omitempty"`
+	IncidentType  *AlertRouteTemplateBindingPayloadV2              `json:"incident_type,omitempty"`
+	Name          AlertRouteAutoGeneratedTemplateBindingPayloadV2  `json:"name"`
+	Severity      *AlertRouteSeverityBindingPayloadV2              `json:"severity,omitempty"`
+	StartInTriage *AlertRouteTemplateBindingPayloadV2              `json:"start_in_triage,omitempty"`
+	Summary       *AlertRouteAutoGeneratedTemplateBindingPayloadV2 `json:"summary,omitempty"`
+	Workspace     *AlertRouteTemplateBindingPayloadV2              `json:"workspace,omitempty"`
+}
+
+// AlertRouteIncidentTemplateV2 defines model for AlertRouteIncidentTemplateV2.
+type AlertRouteIncidentTemplateV2 struct {
+	// CustomFields Custom fields configuration
+	CustomFields  *[]AlertRouteCustomFieldBindingV2         `json:"custom_fields,omitempty"`
+	IncidentMode  *AlertRouteTemplateBindingV2              `json:"incident_mode,omitempty"`
+	IncidentType  *AlertRouteTemplateBindingV2              `json:"incident_type,omitempty"`
+	Name          AlertRouteAutoGeneratedTemplateBindingV2  `json:"name"`
+	Severity      *AlertRouteSeverityBindingV2              `json:"severity,omitempty"`
+	StartInTriage *AlertRouteTemplateBindingV2              `json:"start_in_triage,omitempty"`
+	Summary       *AlertRouteAutoGeneratedTemplateBindingV2 `json:"summary,omitempty"`
+	Workspace     *AlertRouteTemplateBindingV2              `json:"workspace,omitempty"`
+}
+
+// AlertRouteSeverityBindingPayloadV2 defines model for AlertRouteSeverityBindingPayloadV2.
+type AlertRouteSeverityBindingPayloadV2 struct {
+	Binding *EngineParamBindingPayloadV2 `json:"binding,omitempty"`
+
+	// MergeStrategy Strategy for merging severity when multiple alerts create/update the same incident
+	MergeStrategy AlertRouteSeverityBindingPayloadV2MergeStrategy `json:"merge_strategy"`
+}
+
+// AlertRouteSeverityBindingPayloadV2MergeStrategy Strategy for merging severity when multiple alerts create/update the same incident
+type AlertRouteSeverityBindingPayloadV2MergeStrategy string
+
+// AlertRouteSeverityBindingV2 defines model for AlertRouteSeverityBindingV2.
+type AlertRouteSeverityBindingV2 struct {
+	Binding *EngineParamBindingV2 `json:"binding,omitempty"`
+
+	// MergeStrategy Strategy for merging severity when multiple alerts create/update the same incident
+	MergeStrategy AlertRouteSeverityBindingV2MergeStrategy `json:"merge_strategy"`
+}
+
+// AlertRouteSeverityBindingV2MergeStrategy Strategy for merging severity when multiple alerts create/update the same incident
+type AlertRouteSeverityBindingV2MergeStrategy string
+
+// AlertRouteSlimV2 defines model for AlertRouteSlimV2.
+type AlertRouteSlimV2 struct {
+	// Enabled Whether this alert route is enabled or not
+	Enabled bool `json:"enabled"`
 
 	// Id Unique identifier for this alert route config
 	Id string `json:"id"`
 
 	// Name The name of this alert route config, for the user's reference
-	Name     string                        `json:"name"`
-	Template *AlertRouteIncidentTemplateV2 `json:"template,omitempty"`
+	Name string `json:"name"`
+}
+
+// AlertRouteTemplateBindingPayloadV2 defines model for AlertRouteTemplateBindingPayloadV2.
+type AlertRouteTemplateBindingPayloadV2 struct {
+	Binding *EngineParamBindingPayloadV2 `json:"binding,omitempty"`
+}
+
+// AlertRouteTemplateBindingV2 defines model for AlertRouteTemplateBindingV2.
+type AlertRouteTemplateBindingV2 struct {
+	Binding *EngineParamBindingV2 `json:"binding,omitempty"`
+}
+
+// AlertRouteV2 defines model for AlertRouteV2.
+type AlertRouteV2 struct {
+	// AlertSources Which alert sources should this alert route match?
+	AlertSources []AlertRouteAlertSourceV2 `json:"alert_sources"`
+
+	// ChannelConfig The channel configuration for this alert route
+	ChannelConfig []AlertRouteChannelConfigV2 `json:"channel_config"`
+
+	// ConditionGroups What condition groups must be true for this alert route to fire?
+	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
+
+	// CreatedAt The time of creation of this alert route
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+
+	// Enabled Whether this alert route is enabled or not
+	Enabled          bool                         `json:"enabled"`
+	EscalationConfig AlertRouteEscalationConfigV2 `json:"escalation_config"`
+
+	// Expressions The expressions used in this template
+	Expressions []ExpressionV2 `json:"expressions"`
+
+	// Id Unique identifier for this alert route config
+	Id               string                       `json:"id"`
+	IncidentConfig   AlertRouteIncidentConfigV2   `json:"incident_config"`
+	IncidentTemplate AlertRouteIncidentTemplateV2 `json:"incident_template"`
+
+	// IsPrivate Whether this alert route is private. Private alert routes will only create private incidents from alerts.
+	IsPrivate bool `json:"is_private"`
+
+	// Name The name of this alert route config, for the user's reference
+	Name string `json:"name"`
+
+	// UpdatedAt The time of last update of this alert route
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+
+	// Version The version of this alert route config
+	Version int64 `json:"version"`
 }
 
 // AlertRoutesCreatePayloadV2 defines model for AlertRoutesCreatePayloadV2.
@@ -1481,44 +1722,46 @@ type AlertRoutesCreatePayloadV2 struct {
 	// AlertSources Which alert sources should this alert route match?
 	AlertSources []AlertRouteAlertSourcePayloadV2 `json:"alert_sources"`
 
-	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
-	AutoDeclineEnabled bool `json:"auto_decline_enabled"`
+	// ChannelConfig The channel configuration for this alert route
+	ChannelConfig []AlertRouteChannelConfigPayloadV2 `json:"channel_config"`
 
 	// ConditionGroups What condition groups must be true for this alert route to fire?
 	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
 
-	// DeferTimeSeconds How long should the escalation defer time be?
-	DeferTimeSeconds int64 `json:"defer_time_seconds"`
+	// CreatedAt The time of creation of this alert route
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 
 	// Enabled Whether this alert route is enabled or not
-	Enabled bool `json:"enabled"`
-
-	// EscalationBindings Which escalation paths should this alert route escalate to?
-	EscalationBindings []AlertRouteEscalationBindingPayloadV2 `json:"escalation_bindings"`
+	Enabled          bool                                `json:"enabled"`
+	EscalationConfig AlertRouteEscalationConfigPayloadV2 `json:"escalation_config"`
 
 	// Expressions The expressions used in this template
-	Expressions *[]ExpressionPayloadV2 `json:"expressions,omitempty"`
+	Expressions      []ExpressionPayloadV2               `json:"expressions"`
+	IncidentConfig   AlertRouteIncidentConfigPayloadV2   `json:"incident_config"`
+	IncidentTemplate AlertRouteIncidentTemplatePayloadV2 `json:"incident_template"`
 
-	// GroupingKeys Which attributes should this alert route use to group alerts?
-	GroupingKeys []GroupingKeyV2 `json:"grouping_keys"`
-
-	// GroupingWindowSeconds How large should the grouping window be?
-	GroupingWindowSeconds int64 `json:"grouping_window_seconds"`
-
-	// IncidentConditionGroups What condition groups must be true for this alert route to create an incident?
-	IncidentConditionGroups []ConditionGroupPayloadV2 `json:"incident_condition_groups"`
-
-	// IncidentEnabled Whether this alert route will create incidents or not
-	IncidentEnabled bool `json:"incident_enabled"`
+	// IsPrivate Whether this alert route is private. Private alert routes will only create private incidents from alerts.
+	IsPrivate bool `json:"is_private"`
 
 	// Name The name of this alert route config, for the user's reference
-	Name     string                               `json:"name"`
-	Template *AlertRouteIncidentTemplatePayloadV2 `json:"template,omitempty"`
+	Name string `json:"name"`
+
+	// UpdatedAt The time of last update of this alert route
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+
+	// Version The version of this alert route config
+	Version int64 `json:"version"`
 }
 
 // AlertRoutesCreateResultV2 defines model for AlertRoutesCreateResultV2.
 type AlertRoutesCreateResultV2 struct {
 	AlertRoute AlertRouteV2 `json:"alert_route"`
+}
+
+// AlertRoutesListResultV2 defines model for AlertRoutesListResultV2.
+type AlertRoutesListResultV2 struct {
+	AlertRoutes    []AlertRouteSlimV2     `json:"alert_routes"`
+	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
 // AlertRoutesShowResultV2 defines model for AlertRoutesShowResultV2.
@@ -1531,45 +1774,77 @@ type AlertRoutesUpdatePayloadV2 struct {
 	// AlertSources Which alert sources should this alert route match?
 	AlertSources []AlertRouteAlertSourcePayloadV2 `json:"alert_sources"`
 
-	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
-	AutoDeclineEnabled bool `json:"auto_decline_enabled"`
+	// ChannelConfig The channel configuration for this alert route
+	ChannelConfig []AlertRouteChannelConfigPayloadV2 `json:"channel_config"`
 
 	// ConditionGroups What condition groups must be true for this alert route to fire?
 	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
 
-	// DeferTimeSeconds How long should the escalation defer time be?
-	DeferTimeSeconds int64 `json:"defer_time_seconds"`
+	// CreatedAt The time of creation of this alert route
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 
 	// Enabled Whether this alert route is enabled or not
-	Enabled bool `json:"enabled"`
-
-	// EscalationBindings Which escalation paths should this alert route escalate to?
-	EscalationBindings []AlertRouteEscalationBindingPayloadV2 `json:"escalation_bindings"`
+	Enabled          bool                                `json:"enabled"`
+	EscalationConfig AlertRouteEscalationConfigPayloadV2 `json:"escalation_config"`
 
 	// Expressions The expressions used in this template
-	Expressions *[]ExpressionPayloadV2 `json:"expressions,omitempty"`
+	Expressions      []ExpressionPayloadV2               `json:"expressions"`
+	IncidentConfig   AlertRouteIncidentConfigPayloadV2   `json:"incident_config"`
+	IncidentTemplate AlertRouteIncidentTemplatePayloadV2 `json:"incident_template"`
 
-	// GroupingKeys Which attributes should this alert route use to group alerts?
-	GroupingKeys []GroupingKeyV2 `json:"grouping_keys"`
-
-	// GroupingWindowSeconds How large should the grouping window be?
-	GroupingWindowSeconds int64 `json:"grouping_window_seconds"`
-
-	// IncidentConditionGroups What condition groups must be true for this alert route to create an incident?
-	IncidentConditionGroups []ConditionGroupPayloadV2 `json:"incident_condition_groups"`
-
-	// IncidentEnabled Whether this alert route will create incidents or not
-	IncidentEnabled bool `json:"incident_enabled"`
+	// IsPrivate Whether this alert route is private. Private alert routes will only create private incidents from alerts.
+	IsPrivate bool `json:"is_private"`
 
 	// Name The name of this alert route config, for the user's reference
-	Name     string                               `json:"name"`
-	Template *AlertRouteIncidentTemplatePayloadV2 `json:"template,omitempty"`
+	Name string `json:"name"`
+
+	// UpdatedAt The time of last update of this alert route
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+
+	// Version The version of this alert route config
+	Version int64 `json:"version"`
 }
 
 // AlertRoutesUpdateResultV2 defines model for AlertRoutesUpdateResultV2.
 type AlertRoutesUpdateResultV2 struct {
 	AlertRoute AlertRouteV2 `json:"alert_route"`
 }
+
+// AlertSlimV2 defines model for AlertSlimV2.
+type AlertSlimV2 struct {
+	// AlertSourceId The ID of the alert source this alert fired on
+	AlertSourceId string `json:"alert_source_id"`
+
+	// CreatedAt When this entry was created
+	CreatedAt time.Time `json:"created_at"`
+
+	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config. You can filter on this field to find the alert created by an event you've sent us.
+	DeduplicationKey string `json:"deduplication_key"`
+
+	// Description The description of the alert
+	Description *string `json:"description,omitempty"`
+
+	// Id The ID of this alert
+	Id string `json:"id"`
+
+	// ResolvedAt When this alert was resolved
+	ResolvedAt *time.Time `json:"resolved_at,omitempty"`
+
+	// SourceUrl If applicable, a link to the alert in the upstream system
+	SourceUrl *string `json:"source_url,omitempty"`
+
+	// Status Statuses of an alert
+	Status AlertSlimV2Status `json:"status"`
+
+	// Title The title of the alert, parsed from the alert payload according to the alert source configuration
+	Title string `json:"title"`
+
+	// UpdatedAt When this alert was last updated
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// AlertSlimV2Status Statuses of an alert
+type AlertSlimV2Status string
 
 // AlertSourceEmailOptionsV2 defines model for AlertSourceEmailOptionsV2.
 type AlertSourceEmailOptionsV2 struct {
@@ -1683,6 +1958,62 @@ type AlertTemplateV2 struct {
 	// Expressions Expressions available for use in bindings within this template
 	Expressions []ExpressionV2            `json:"expressions"`
 	Title       EngineParamBindingValueV2 `json:"title"`
+}
+
+// AlertV2 defines model for AlertV2.
+type AlertV2 struct {
+	// AlertSourceId The ID of the alert source this alert fired on
+	AlertSourceId string `json:"alert_source_id"`
+
+	// Attributes Attribute values parsed from the alerts payload
+	Attributes []AlertAttributeEntryV2 `json:"attributes"`
+
+	// CreatedAt When this entry was created
+	CreatedAt time.Time `json:"created_at"`
+
+	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config. You can filter on this field to find the alert created by an event you've sent us.
+	DeduplicationKey string `json:"deduplication_key"`
+
+	// Description The description of the alert
+	Description *string `json:"description,omitempty"`
+
+	// Id The ID of this alert
+	Id string `json:"id"`
+
+	// ResolvedAt When this alert was resolved
+	ResolvedAt *time.Time `json:"resolved_at,omitempty"`
+
+	// SourceUrl If applicable, a link to the alert in the upstream system
+	SourceUrl *string `json:"source_url,omitempty"`
+
+	// Status Statuses of an alert
+	Status AlertV2Status `json:"status"`
+
+	// Title The title of the alert, parsed from the alert payload according to the alert source configuration
+	Title string `json:"title"`
+
+	// UpdatedAt When this alert was last updated
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// AlertV2Status Statuses of an alert
+type AlertV2Status string
+
+// AlertsListIncidentAlertsResultV2 defines model for AlertsListIncidentAlertsResultV2.
+type AlertsListIncidentAlertsResultV2 struct {
+	IncidentAlerts []IncidentAlertV2      `json:"incident_alerts"`
+	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
+}
+
+// AlertsListResultV2 defines model for AlertsListResultV2.
+type AlertsListResultV2 struct {
+	Alerts         []AlertV2              `json:"alerts"`
+	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
+}
+
+// AlertsShowResultV2 defines model for AlertsShowResultV2.
+type AlertsShowResultV2 struct {
+	Alert AlertV2 `json:"alert"`
 }
 
 // CatalogCreateEntryPayloadV2 defines model for CatalogCreateEntryPayloadV2.
@@ -3332,7 +3663,7 @@ type EscalationPathV2 struct {
 	// Path The nodes that form the levels and branches of this escalation path.
 	Path []EscalationPathNodeV2 `json:"path"`
 
-	// TeamIds IDs of teams that own this escalation path
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 	TeamIds []string `json:"team_ids"`
 
 	// WorkingHours The working hours for this escalation path.
@@ -3347,7 +3678,7 @@ type EscalationsCreatePathPayloadV2 struct {
 	// Path The nodes that form the levels and branches of this escalation path.
 	Path []EscalationPathNodePayloadV2 `json:"path"`
 
-	// TeamIds IDs of the teams that own this escalation path
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 	TeamIds *[]string `json:"team_ids,omitempty"`
 
 	// WorkingHours The working hours for this escalation path.
@@ -3372,7 +3703,7 @@ type EscalationsUpdatePathPayloadV2 struct {
 	// Path The nodes that form the levels and branches of this escalation path.
 	Path []EscalationPathNodePayloadV2 `json:"path"`
 
-	// TeamIds IDs of the teams that own this escalation path
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 	TeamIds *[]string `json:"team_ids,omitempty"`
 
 	// WorkingHours The working hours for this escalation path.
@@ -3555,21 +3886,6 @@ type ExternalIssueReferenceV2 struct {
 // ExternalIssueReferenceV2Provider ID of the issue tracker provider
 type ExternalIssueReferenceV2Provider string
 
-// ExternalIssueReferenceV4 defines model for ExternalIssueReferenceV4.
-type ExternalIssueReferenceV4 struct {
-	// IssueName Human readable ID for the issue
-	IssueName string `json:"issue_name"`
-
-	// IssuePermalink URL linking directly to the action in the issue tracker
-	IssuePermalink string `json:"issue_permalink"`
-
-	// Provider ID of the issue tracker provider
-	Provider ExternalIssueReferenceV4Provider `json:"provider"`
-}
-
-// ExternalIssueReferenceV4Provider ID of the issue tracker provider
-type ExternalIssueReferenceV4Provider string
-
 // ExternalResourceV1 defines model for ExternalResourceV1.
 type ExternalResourceV1 struct {
 	// ExternalId ID of the resource in the external system
@@ -3649,8 +3965,54 @@ type FollowUpsShowResultV2 struct {
 
 // GroupingKeyV2 defines model for GroupingKeyV2.
 type GroupingKeyV2 struct {
-	// Id Unique identifier of the alert attribute the user wishes to group on
-	Id string `json:"id"`
+	// Reference A reference to a property of the alert to group on
+	Reference string `json:"reference"`
+}
+
+// IPAllowlistItemV1 defines model for IPAllowlistItemV1.
+type IPAllowlistItemV1 struct {
+	// Label A label to help identify this IP or prefix
+	Label *string `json:"label,omitempty"`
+
+	// Value An IP address or a CIDR IP prefix to allow
+	Value string `json:"value"`
+}
+
+// IPAllowlistV1 defines model for IPAllowlistV1.
+type IPAllowlistV1 struct {
+	// Allowlist A list of IP addresses or CIDR prefixes to allow
+	Allowlist []IPAllowlistItemV1 `json:"allowlist"`
+
+	// Enabled Whether this IP allowlist is enabled or not
+	Enabled bool `json:"enabled"`
+
+	// UpdatedAt The time this allowlist was last updated
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+
+	// Version The version of this IP allowlist
+	Version int64 `json:"version"`
+}
+
+// IPAllowlistsShowIPAllowlistResultV1 defines model for IPAllowlistsShowIPAllowlistResultV1.
+type IPAllowlistsShowIPAllowlistResultV1 struct {
+	IpAllowlist IPAllowlistV1 `json:"ip_allowlist"`
+}
+
+// IPAllowlistsUpdateIPAllowlistPayloadV1 defines model for IPAllowlistsUpdateIPAllowlistPayloadV1.
+type IPAllowlistsUpdateIPAllowlistPayloadV1 struct {
+	// Allowlist A list of IP addresses or CIDR prefixes to allow
+	Allowlist []IPAllowlistItemV1 `json:"allowlist"`
+
+	// Enabled Whether this IP allowlist is enabled or not
+	Enabled bool `json:"enabled"`
+
+	// Version The version of this IP allowlist
+	Version int64 `json:"version"`
+}
+
+// IPAllowlistsUpdateIPAllowlistResultV1 defines model for IPAllowlistsUpdateIPAllowlistResultV1.
+type IPAllowlistsUpdateIPAllowlistResultV1 struct {
+	IpAllowlist IPAllowlistV1 `json:"ip_allowlist"`
 }
 
 // IdentityV1 defines model for IdentityV1.
@@ -3667,6 +4029,20 @@ type IdentityV1 struct {
 
 // IdentityV1Roles API key roles
 type IdentityV1Roles string
+
+// IncidentAlertV2 defines model for IncidentAlertV2.
+type IncidentAlertV2 struct {
+	Alert AlertSlimV2 `json:"alert"`
+
+	// AlertRouteId The ID of the alert route that created this incident alert
+	AlertRouteId *string `json:"alert_route_id,omitempty"`
+
+	// Id The ID of this alert
+	Id string `json:"id"`
+
+	// Incident Incident slim is a subset of the full incident object, listing key fields.
+	Incident IncidentSlimV2 `json:"incident"`
+}
 
 // IncidentAttachmentV1 defines model for IncidentAttachmentV1.
 type IncidentAttachmentV1 struct {
@@ -3703,55 +4079,6 @@ type IncidentAttachmentsCreateResultV1 struct {
 type IncidentAttachmentsListResultV1 struct {
 	IncidentAttachments []IncidentAttachmentV1 `json:"incident_attachments"`
 }
-
-// IncidentCreatePayloadV2 defines model for IncidentCreatePayloadV2.
-type IncidentCreatePayloadV2 struct {
-	// CustomFieldEntries Set the incident's custom fields to these values
-	CustomFieldEntries *[]CustomFieldEntryPayloadV2 `json:"custom_field_entries,omitempty"`
-
-	// IdempotencyKey Unique string used to de-duplicate incident create requests
-	IdempotencyKey string `json:"idempotency_key"`
-
-	// IncidentRoleAssignments Assign incident roles to these people
-	IncidentRoleAssignments *[]IncidentRoleAssignmentPayloadV2 `json:"incident_role_assignments,omitempty"`
-
-	// IncidentStatusId Incident status to assign to the incident
-	IncidentStatusId *string `json:"incident_status_id,omitempty"`
-
-	// IncidentTimestampValues Assign the incident's timestamps to these values
-	IncidentTimestampValues *[]IncidentTimestampValuePayloadV2 `json:"incident_timestamp_values,omitempty"`
-
-	// IncidentTypeId Incident type to create this incident as
-	IncidentTypeId *string `json:"incident_type_id,omitempty"`
-
-	// Mode Whether the incident is real, a test, a tutorial, or importing as a retrospective incident
-	Mode *IncidentCreatePayloadV2Mode `json:"mode,omitempty"`
-
-	// Name Explanation of the incident
-	Name                         *string                         `json:"name,omitempty"`
-	RetrospectiveIncidentOptions *RetrospectiveIncidentOptionsV2 `json:"retrospective_incident_options,omitempty"`
-
-	// SeverityId Severity to create incident as
-	SeverityId *string `json:"severity_id,omitempty"`
-
-	// SlackChannelNameOverride Name of the Slack channel to create for this incident
-	SlackChannelNameOverride *string `json:"slack_channel_name_override,omitempty"`
-
-	// SlackTeamId Slack Team to create the incident in
-	SlackTeamId *string `json:"slack_team_id,omitempty"`
-
-	// Summary Detailed description of the incident
-	Summary *string `json:"summary,omitempty"`
-
-	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
-	Visibility IncidentCreatePayloadV2Visibility `json:"visibility"`
-}
-
-// IncidentCreatePayloadV2Mode Whether the incident is real, a test, a tutorial, or importing as a retrospective incident
-type IncidentCreatePayloadV2Mode string
-
-// IncidentCreatePayloadV2Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
-type IncidentCreatePayloadV2Visibility string
 
 // IncidentDurationMetricV2 defines model for IncidentDurationMetricV2.
 type IncidentDurationMetricV2 struct {
@@ -3790,7 +4117,7 @@ type IncidentEditPayloadV2 struct {
 	// Name Explanation of the incident
 	Name *string `json:"name,omitempty"`
 
-	// SeverityId Severity to change incident to
+	// SeverityId The ID of the current severity of this incident
 	SeverityId *string `json:"severity_id,omitempty"`
 
 	// SlackChannelNameOverride Override the name of the incident Slack channel
@@ -3846,7 +4173,7 @@ type IncidentRoleAssignmentPayloadV1 struct {
 type IncidentRoleAssignmentPayloadV2 struct {
 	Assignee *UserReferencePayloadV2 `json:"assignee,omitempty"`
 
-	// IncidentRoleId Unique ID of an incident role
+	// IncidentRoleId Unique ID of an incident role. Note that the 'reporter' role can only be assigned when creating an incident.
 	IncidentRoleId string `json:"incident_role_id"`
 }
 
@@ -4031,6 +4358,36 @@ type IncidentRolesUpdateResultV2 struct {
 	IncidentRole IncidentRoleV2 `json:"incident_role"`
 }
 
+// IncidentSlimV2 Incident slim is a subset of the full incident object, listing key fields.
+type IncidentSlimV2 struct {
+	// ExternalId External identifier for the incident - often displayed with an INC- prefix
+	ExternalId int64 `json:"external_id"`
+
+	// Id Unique identifier for the incident
+	Id string `json:"id"`
+
+	// Name Explanation of the incident
+	Name string `json:"name"`
+
+	// Reference Reference to this incident, as displayed across the product
+	Reference string `json:"reference"`
+
+	// StatusCategory The category of the incidents status
+	StatusCategory IncidentSlimV2StatusCategory `json:"status_category"`
+
+	// Summary Detailed description of the incident
+	Summary *string `json:"summary,omitempty"`
+
+	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+	Visibility IncidentSlimV2Visibility `json:"visibility"`
+}
+
+// IncidentSlimV2StatusCategory The category of the incidents status
+type IncidentSlimV2StatusCategory string
+
+// IncidentSlimV2Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+type IncidentSlimV2Visibility string
+
 // IncidentStatusV1 defines model for IncidentStatusV1.
 type IncidentStatusV1 struct {
 	// Category What category of status it is. All statuses apart from live (renamed in the app to Active) and learning (renamed in the app to Post-incident) are managed by incident.io and cannot be configured
@@ -4121,15 +4478,6 @@ type IncidentStatusesUpdateResultV1 struct {
 	IncidentStatus IncidentStatusV1 `json:"incident_status"`
 }
 
-// IncidentTimestampV1 defines model for IncidentTimestampV1.
-type IncidentTimestampV1 struct {
-	// LastOccurredAt When this last occurred, if it did
-	LastOccurredAt *time.Time `json:"last_occurred_at,omitempty"`
-
-	// Name Name of the lifecycle event
-	Name string `json:"name"`
-}
-
 // IncidentTimestampV2 defines model for IncidentTimestampV2.
 type IncidentTimestampV2 struct {
 	// Id Unique ID of this incident timestamp
@@ -4149,6 +4497,15 @@ type IncidentTimestampValuePayloadV2 struct {
 
 	// Value The current value of this timestamp, for this incident
 	Value *time.Time `json:"value,omitempty"`
+}
+
+// IncidentTimestampValueV1 defines model for IncidentTimestampValueV1.
+type IncidentTimestampValueV1 struct {
+	// LastOccurredAt When this last occurred, if it did
+	LastOccurredAt *time.Time `json:"last_occurred_at,omitempty"`
+
+	// Name Name of the lifecycle event
+	Name string `json:"name"`
 }
 
 // IncidentTimestampValueV2 defines model for IncidentTimestampValueV2.
@@ -4321,7 +4678,7 @@ type IncidentV1 struct {
 	Summary *string `json:"summary,omitempty"`
 
 	// Timestamps Incident lifecycle events and when they last occurred
-	Timestamps *[]IncidentTimestampV1 `json:"timestamps,omitempty"`
+	Timestamps *[]IncidentTimestampValueV1 `json:"timestamps,omitempty"`
 
 	// UpdatedAt When the incident was last updated
 	UpdatedAt time.Time `json:"updated_at"`
@@ -4353,7 +4710,7 @@ type IncidentV2 struct {
 
 	// DurationMetrics Incident duration metrics and their measurements for this incident
 	DurationMetrics        *[]IncidentDurationMetricWithValueV2 `json:"duration_metrics,omitempty"`
-	ExternalIssueReference *ExternalIssueReferenceV4            `json:"external_issue_reference,omitempty"`
+	ExternalIssueReference *ExternalIssueReferenceV2            `json:"external_issue_reference,omitempty"`
 
 	// HasDebrief If this incident has a debrief attached
 	HasDebrief *bool `json:"has_debrief,omitempty"`
@@ -4422,8 +4779,8 @@ type IncidentV2Mode string
 // IncidentV2Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
 type IncidentV2Visibility string
 
-// IncidentsV1CreateRequestBody defines model for IncidentsV1CreateRequestBody.
-type IncidentsV1CreateRequestBody struct {
+// IncidentsCreatePayloadV1 defines model for IncidentsCreatePayloadV1.
+type IncidentsCreatePayloadV1 struct {
 	// CustomFieldEntries Set the incident's custom fields to these values
 	CustomFieldEntries *[]CustomFieldEntryPayloadV1 `json:"custom_field_entries,omitempty"`
 
@@ -4437,7 +4794,7 @@ type IncidentsV1CreateRequestBody struct {
 	IncidentTypeId *string `json:"incident_type_id,omitempty"`
 
 	// Mode Whether the incident is real or test
-	Mode *IncidentsV1CreateRequestBodyMode `json:"mode,omitempty"`
+	Mode *IncidentsCreatePayloadV1Mode `json:"mode,omitempty"`
 
 	// Name Explanation of the incident
 	Name *string `json:"name,omitempty"`
@@ -4455,66 +4812,115 @@ type IncidentsV1CreateRequestBody struct {
 	SourceMessageTimestamp *string `json:"source_message_timestamp,omitempty"`
 
 	// Status Current status of the incident
-	Status *IncidentsV1CreateRequestBodyStatus `json:"status,omitempty"`
+	Status *IncidentsCreatePayloadV1Status `json:"status,omitempty"`
 
 	// Summary Detailed description of the incident
 	Summary *string `json:"summary,omitempty"`
 
 	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
-	Visibility IncidentsV1CreateRequestBodyVisibility `json:"visibility"`
+	Visibility IncidentsCreatePayloadV1Visibility `json:"visibility"`
 }
 
-// IncidentsV1CreateRequestBodyMode Whether the incident is real or test
-type IncidentsV1CreateRequestBodyMode string
+// IncidentsCreatePayloadV1Mode Whether the incident is real or test
+type IncidentsCreatePayloadV1Mode string
 
-// IncidentsV1CreateRequestBodyStatus Current status of the incident
-type IncidentsV1CreateRequestBodyStatus string
+// IncidentsCreatePayloadV1Status Current status of the incident
+type IncidentsCreatePayloadV1Status string
 
-// IncidentsV1CreateRequestBodyVisibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
-type IncidentsV1CreateRequestBodyVisibility string
+// IncidentsCreatePayloadV1Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+type IncidentsCreatePayloadV1Visibility string
 
-// IncidentsV1CreateResponseBody defines model for IncidentsV1CreateResponseBody.
-type IncidentsV1CreateResponseBody struct {
+// IncidentsCreatePayloadV2 defines model for IncidentsCreatePayloadV2.
+type IncidentsCreatePayloadV2 struct {
+	// CustomFieldEntries Set the incident's custom fields to these values
+	CustomFieldEntries *[]CustomFieldEntryPayloadV2 `json:"custom_field_entries,omitempty"`
+
+	// IdempotencyKey Unique string used to de-duplicate incident create requests
+	IdempotencyKey string `json:"idempotency_key"`
+
+	// IncidentRoleAssignments Assign incident roles to these people
+	IncidentRoleAssignments *[]IncidentRoleAssignmentPayloadV2 `json:"incident_role_assignments,omitempty"`
+
+	// IncidentStatusId Incident status to assign to the incident
+	IncidentStatusId *string `json:"incident_status_id,omitempty"`
+
+	// IncidentTimestampValues Assign the incident's timestamps to these values
+	IncidentTimestampValues *[]IncidentTimestampValuePayloadV2 `json:"incident_timestamp_values,omitempty"`
+
+	// IncidentTypeId Incident type to create this incident as
+	IncidentTypeId *string `json:"incident_type_id,omitempty"`
+
+	// Mode Whether the incident is real, a test, a tutorial, or importing as a retrospective incident
+	Mode *IncidentsCreatePayloadV2Mode `json:"mode,omitempty"`
+
+	// Name Explanation of the incident
+	Name                         *string                         `json:"name,omitempty"`
+	RetrospectiveIncidentOptions *RetrospectiveIncidentOptionsV2 `json:"retrospective_incident_options,omitempty"`
+
+	// SeverityId Severity to create incident as
+	SeverityId *string `json:"severity_id,omitempty"`
+
+	// SlackChannelNameOverride Name of the Slack channel to create for this incident
+	SlackChannelNameOverride *string `json:"slack_channel_name_override,omitempty"`
+
+	// SlackTeamId Slack Team to create the incident in
+	SlackTeamId *string `json:"slack_team_id,omitempty"`
+
+	// Summary Detailed description of the incident
+	Summary *string `json:"summary,omitempty"`
+
+	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+	Visibility IncidentsCreatePayloadV2Visibility `json:"visibility"`
+}
+
+// IncidentsCreatePayloadV2Mode Whether the incident is real, a test, a tutorial, or importing as a retrospective incident
+type IncidentsCreatePayloadV2Mode string
+
+// IncidentsCreatePayloadV2Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+type IncidentsCreatePayloadV2Visibility string
+
+// IncidentsCreateResultV1 defines model for IncidentsCreateResultV1.
+type IncidentsCreateResultV1 struct {
 	Incident IncidentV1 `json:"incident"`
 }
 
-// IncidentsV1ListResponseBody defines model for IncidentsV1ListResponseBody.
-type IncidentsV1ListResponseBody struct {
-	Incidents      []IncidentV1                   `json:"incidents"`
-	PaginationMeta *PaginationMetaResultWithTotal `json:"pagination_meta,omitempty"`
-}
-
-// IncidentsV1ShowResponseBody defines model for IncidentsV1ShowResponseBody.
-type IncidentsV1ShowResponseBody struct {
-	Incident IncidentV1 `json:"incident"`
-}
-
-// IncidentsV2CreateResponseBody defines model for IncidentsV2CreateResponseBody.
-type IncidentsV2CreateResponseBody struct {
+// IncidentsCreateResultV2 defines model for IncidentsCreateResultV2.
+type IncidentsCreateResultV2 struct {
 	Incident IncidentV2 `json:"incident"`
 }
 
-// IncidentsV2EditRequestBody defines model for IncidentsV2EditRequestBody.
-type IncidentsV2EditRequestBody struct {
+// IncidentsEditPayloadV2 defines model for IncidentsEditPayloadV2.
+type IncidentsEditPayloadV2 struct {
 	Incident IncidentEditPayloadV2 `json:"incident"`
 
 	// NotifyIncidentChannel Should we send Slack channel notifications to inform responders of this update? Note that this won't work if the Slack channel has already been archived.
 	NotifyIncidentChannel bool `json:"notify_incident_channel"`
 }
 
-// IncidentsV2EditResponseBody defines model for IncidentsV2EditResponseBody.
-type IncidentsV2EditResponseBody struct {
+// IncidentsEditResultV2 defines model for IncidentsEditResultV2.
+type IncidentsEditResultV2 struct {
 	Incident IncidentV2 `json:"incident"`
 }
 
-// IncidentsV2ListResponseBody defines model for IncidentsV2ListResponseBody.
-type IncidentsV2ListResponseBody struct {
-	Incidents      []IncidentV2                   `json:"incidents"`
-	PaginationMeta *PaginationMetaResultWithTotal `json:"pagination_meta,omitempty"`
+// IncidentsListResultV1 defines model for IncidentsListResultV1.
+type IncidentsListResultV1 struct {
+	Incidents      []IncidentV1                     `json:"incidents"`
+	PaginationMeta *PaginationMetaResultWithTotalV1 `json:"pagination_meta,omitempty"`
 }
 
-// IncidentsV2ShowResponseBody defines model for IncidentsV2ShowResponseBody.
-type IncidentsV2ShowResponseBody struct {
+// IncidentsListResultV2 defines model for IncidentsListResultV2.
+type IncidentsListResultV2 struct {
+	Incidents      []IncidentV2                     `json:"incidents"`
+	PaginationMeta *PaginationMetaResultWithTotalV2 `json:"pagination_meta,omitempty"`
+}
+
+// IncidentsShowResultV1 defines model for IncidentsShowResultV1.
+type IncidentsShowResultV1 struct {
+	Incident IncidentV1 `json:"incident"`
+}
+
+// IncidentsShowResultV2 defines model for IncidentsShowResultV2.
+type IncidentsShowResultV2 struct {
 	Incident IncidentV2 `json:"incident"`
 }
 
@@ -4602,8 +5008,8 @@ type PaginationMetaResultV3 struct {
 	PageSize int64 `json:"page_size"`
 }
 
-// PaginationMetaResultWithTotal defines model for PaginationMetaResultWithTotal.
-type PaginationMetaResultWithTotal struct {
+// PaginationMetaResultWithTotalV1 defines model for PaginationMetaResultWithTotalV1.
+type PaginationMetaResultWithTotalV1 struct {
 	// After If provided, pass this as the 'after' param to load the next page
 	After *string `json:"after,omitempty"`
 
@@ -4646,10 +5052,10 @@ type RetrospectiveIncidentOptionsV2 struct {
 	// ExternalId The external ID (e.g. the 123 in INC-123) to assign to the incident. This can be useful when importing incidents. If you want to use this field, you'll need to talk to us first.
 	ExternalId *int64 `json:"external_id,omitempty"`
 
-	// PostmortemDocumentUrl If the incident mode is 'retrospective', pass the URL of the postmortem to attach it to the incident
+	// PostmortemDocumentUrl The URL of the postmortem, if there is one
 	PostmortemDocumentUrl *string `json:"postmortem_document_url,omitempty"`
 
-	// SlackChannelId If the incident mode is 'retrospective', pass the ID of a Slack channel in your workspace to attach the incident to an existing channel, rather than creating a new one
+	// SlackChannelId Pass the ID of a Slack channel to attach the incident to an existing channel, rather than creating a new one
 	SlackChannelId *string `json:"slack_channel_id,omitempty"`
 }
 
@@ -5090,6 +5496,20 @@ type SeverityV2 struct {
 
 	// UpdatedAt When the action was last updated
 	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// StatusPageLinkedResponseIncidentV1 defines model for StatusPageLinkedResponseIncidentV1.
+type StatusPageLinkedResponseIncidentV1 struct {
+	// Id ID of the Response incident
+	Id string `json:"id"`
+
+	// LinkedAt When the Response incident was linked to the status page incident
+	LinkedAt time.Time `json:"linked_at"`
+}
+
+// StatusPagesListResponseIncidentsResultV1 defines model for StatusPagesListResponseIncidentsResultV1.
+type StatusPagesListResponseIncidentsResultV1 struct {
+	Incidents []StatusPageLinkedResponseIncidentV1 `json:"incidents"`
 }
 
 // StepConfigPayloadV2 defines model for StepConfigPayloadV2.
@@ -5606,6 +6026,33 @@ type AlertEventsV2CreateHTTPParams struct {
 	Token *string `form:"token,omitempty" json:"token,omitempty"`
 }
 
+// AlertRoutesV2ListParams defines parameters for AlertRoutesV2List.
+type AlertRoutesV2ListParams struct {
+	// PageSize Number of alert routes to return per page
+	PageSize int64 `form:"page_size" json:"page_size"`
+
+	// After The ID of the last alert route on the previous page
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
+// AlertsV2ListParams defines parameters for AlertsV2List.
+type AlertsV2ListParams struct {
+	// PageSize Number of alerts to return per page
+	PageSize int64 `form:"page_size" json:"page_size"`
+
+	// After If provided, pass this as the 'after' param to load the next page
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// DeduplicationKey Filter on alert deduplication key. The accepted operator is 'is'.
+	DeduplicationKey *map[string][]string `form:"deduplication_key,omitempty" json:"deduplication_key,omitempty"`
+
+	// Status Filter on alert status. The accepted operators are 'one_of', or 'not_in'.
+	Status *map[string][]string `form:"status,omitempty" json:"status,omitempty"`
+
+	// CreatedAt Filter on alert created at timestamp. The accepted operators are 'within', 'gte', 'lte', 'between'.
+	CreatedAt *map[string][]string `form:"created_at,omitempty" json:"created_at,omitempty"`
+}
+
 // CatalogV2ListEntriesParams defines parameters for CatalogV2ListEntries.
 type CatalogV2ListEntriesParams struct {
 	// CatalogTypeId ID of this catalog type
@@ -5629,6 +6076,21 @@ type FollowUpsV2ListParams struct {
 
 // FollowUpsV2ListParamsIncidentMode defines parameters for FollowUpsV2List.
 type FollowUpsV2ListParamsIncidentMode string
+
+// AlertsV2ListIncidentAlertsParams defines parameters for AlertsV2ListIncidentAlerts.
+type AlertsV2ListIncidentAlertsParams struct {
+	// PageSize Number of incident alerts to return per page
+	PageSize int64 `form:"page_size" json:"page_size"`
+
+	// After If provided, pass this as the 'after' param to load the next page
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// AlertId Alert that this incident alert refers to
+	AlertId *string `form:"alert_id,omitempty" json:"alert_id,omitempty"`
+
+	// IncidentId Incident that this incident alert is attached to
+	IncidentId *string `form:"incident_id,omitempty" json:"incident_id,omitempty"`
+}
 
 // IncidentUpdatesV2ListParams defines parameters for IncidentUpdatesV2List.
 type IncidentUpdatesV2ListParams struct {
@@ -5771,7 +6233,10 @@ type IncidentStatusesV1CreateJSONRequestBody = IncidentStatusesCreatePayloadV1
 type IncidentStatusesV1UpdateJSONRequestBody = IncidentStatusesUpdatePayloadV1
 
 // IncidentsV1CreateJSONRequestBody defines body for IncidentsV1Create for application/json ContentType.
-type IncidentsV1CreateJSONRequestBody = IncidentsV1CreateRequestBody
+type IncidentsV1CreateJSONRequestBody = IncidentsCreatePayloadV1
+
+// IPAllowlistsV1UpdateIPAllowlistJSONRequestBody defines body for IPAllowlistsV1UpdateIPAllowlist for application/json ContentType.
+type IPAllowlistsV1UpdateIPAllowlistJSONRequestBody = IPAllowlistsUpdateIPAllowlistPayloadV1
 
 // SeveritiesV1CreateJSONRequestBody defines body for SeveritiesV1Create for application/json ContentType.
 type SeveritiesV1CreateJSONRequestBody = SeveritiesCreatePayloadV1
@@ -5834,10 +6299,10 @@ type IncidentRolesV2CreateJSONRequestBody = IncidentRolesCreatePayloadV2
 type IncidentRolesV2UpdateJSONRequestBody = IncidentRolesUpdatePayloadV2
 
 // IncidentsV2CreateJSONRequestBody defines body for IncidentsV2Create for application/json ContentType.
-type IncidentsV2CreateJSONRequestBody = IncidentCreatePayloadV2
+type IncidentsV2CreateJSONRequestBody = IncidentsCreatePayloadV2
 
 // IncidentsV2EditJSONRequestBody defines body for IncidentsV2Edit for application/json ContentType.
-type IncidentsV2EditJSONRequestBody = IncidentsV2EditRequestBody
+type IncidentsV2EditJSONRequestBody = IncidentsEditPayloadV2
 
 // ManagedResourcesV2CreateManagedResourceJSONRequestBody defines body for ManagedResourcesV2CreateManagedResource for application/json ContentType.
 type ManagedResourcesV2CreateManagedResourceJSONRequestBody = ManagedResourcesCreateManagedResourcePayloadV2
@@ -6068,6 +6533,14 @@ type ClientInterface interface {
 	// IncidentsV1Show request
 	IncidentsV1Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// IPAllowlistsV1ShowIPAllowlist request
+	IPAllowlistsV1ShowIPAllowlist(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IPAllowlistsV1UpdateIPAllowlistWithBody request with any body
+	IPAllowlistsV1UpdateIPAllowlistWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	IPAllowlistsV1UpdateIPAllowlist(ctx context.Context, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// UtilitiesV1OpenAPI request
 	UtilitiesV1OpenAPI(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -6092,6 +6565,9 @@ type ClientInterface interface {
 	SeveritiesV1UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	SeveritiesV1Update(ctx context.Context, id string, body SeveritiesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPagesV1ListResponseIncidents request
+	StatusPagesV1ListResponseIncidents(ctx context.Context, id string, incidentId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ActionsV2List request
 	ActionsV2List(ctx context.Context, params *ActionsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -6123,13 +6599,16 @@ type ClientInterface interface {
 
 	AlertEventsV2CreateHTTP(ctx context.Context, alertSourceConfigId string, params *AlertEventsV2CreateHTTPParams, body AlertEventsV2CreateHTTPJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// AlertRoutesV2List request
+	AlertRoutesV2List(ctx context.Context, params *AlertRoutesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// AlertRoutesV2CreateWithBody request with any body
 	AlertRoutesV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	AlertRoutesV2Create(ctx context.Context, body AlertRoutesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// AlertRoutesV2Destroy request
-	AlertRoutesV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// AlertRoutesV2Delete request
+	AlertRoutesV2Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// AlertRoutesV2Show request
 	AlertRoutesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -6157,6 +6636,12 @@ type ClientInterface interface {
 	AlertSourcesV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	AlertSourcesV2Update(ctx context.Context, id string, body AlertSourcesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertsV2List request
+	AlertsV2List(ctx context.Context, params *AlertsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertsV2Show request
+	AlertsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// CatalogV2ListEntries request
 	CatalogV2ListEntries(ctx context.Context, params *CatalogV2ListEntriesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -6244,6 +6729,9 @@ type ClientInterface interface {
 
 	// FollowUpsV2Show request
 	FollowUpsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertsV2ListIncidentAlerts request
+	AlertsV2ListIncidentAlerts(ctx context.Context, params *AlertsV2ListIncidentAlertsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// IncidentRolesV2List request
 	IncidentRolesV2List(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -6933,6 +7421,42 @@ func (c *Client) IncidentsV1Show(ctx context.Context, id string, reqEditors ...R
 	return c.Client.Do(req)
 }
 
+func (c *Client) IPAllowlistsV1ShowIPAllowlist(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIPAllowlistsV1ShowIPAllowlistRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) IPAllowlistsV1UpdateIPAllowlistWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIPAllowlistsV1UpdateIPAllowlistRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) IPAllowlistsV1UpdateIPAllowlist(ctx context.Context, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIPAllowlistsV1UpdateIPAllowlistRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) UtilitiesV1OpenAPI(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUtilitiesV1OpenAPIRequest(c.Server)
 	if err != nil {
@@ -7031,6 +7555,18 @@ func (c *Client) SeveritiesV1UpdateWithBody(ctx context.Context, id string, cont
 
 func (c *Client) SeveritiesV1Update(ctx context.Context, id string, body SeveritiesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSeveritiesV1UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) StatusPagesV1ListResponseIncidents(ctx context.Context, id string, incidentId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPagesV1ListResponseIncidentsRequest(c.Server, id, incidentId)
 	if err != nil {
 		return nil, err
 	}
@@ -7173,6 +7709,18 @@ func (c *Client) AlertEventsV2CreateHTTP(ctx context.Context, alertSourceConfigI
 	return c.Client.Do(req)
 }
 
+func (c *Client) AlertRoutesV2List(ctx context.Context, params *AlertRoutesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRoutesV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) AlertRoutesV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewAlertRoutesV2CreateRequestWithBody(c.Server, contentType, body)
 	if err != nil {
@@ -7197,8 +7745,8 @@ func (c *Client) AlertRoutesV2Create(ctx context.Context, body AlertRoutesV2Crea
 	return c.Client.Do(req)
 }
 
-func (c *Client) AlertRoutesV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewAlertRoutesV2DestroyRequest(c.Server, id)
+func (c *Client) AlertRoutesV2Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertRoutesV2DeleteRequest(c.Server, id)
 	if err != nil {
 		return nil, err
 	}
@@ -7319,6 +7867,30 @@ func (c *Client) AlertSourcesV2UpdateWithBody(ctx context.Context, id string, co
 
 func (c *Client) AlertSourcesV2Update(ctx context.Context, id string, body AlertSourcesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewAlertSourcesV2UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertsV2List(ctx context.Context, params *AlertsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertsV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertsV2ShowRequest(c.Server, id)
 	if err != nil {
 		return nil, err
 	}
@@ -7703,6 +8275,18 @@ func (c *Client) FollowUpsV2List(ctx context.Context, params *FollowUpsV2ListPar
 
 func (c *Client) FollowUpsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewFollowUpsV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertsV2ListIncidentAlerts(ctx context.Context, params *AlertsV2ListIncidentAlertsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertsV2ListIncidentAlertsRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -9732,6 +10316,73 @@ func NewIncidentsV1ShowRequest(server string, id string) (*http.Request, error) 
 	return req, nil
 }
 
+// NewIPAllowlistsV1ShowIPAllowlistRequest generates requests for IPAllowlistsV1ShowIPAllowlist
+func NewIPAllowlistsV1ShowIPAllowlistRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/ip_allowlists")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewIPAllowlistsV1UpdateIPAllowlistRequest calls the generic IPAllowlistsV1UpdateIPAllowlist builder with application/json body
+func NewIPAllowlistsV1UpdateIPAllowlistRequest(server string, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewIPAllowlistsV1UpdateIPAllowlistRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewIPAllowlistsV1UpdateIPAllowlistRequestWithBody generates requests for IPAllowlistsV1UpdateIPAllowlist with any type of body
+func NewIPAllowlistsV1UpdateIPAllowlistRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/ip_allowlists")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewUtilitiesV1OpenAPIRequest generates requests for UtilitiesV1OpenAPI
 func NewUtilitiesV1OpenAPIRequest(server string) (*http.Request, error) {
 	var err error
@@ -9964,6 +10615,47 @@ func NewSeveritiesV1UpdateRequestWithBody(server string, id string, contentType 
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewStatusPagesV1ListResponseIncidentsRequest generates requests for StatusPagesV1ListResponseIncidents
+func NewStatusPagesV1ListResponseIncidentsRequest(server string, id string, incidentId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "incident_id", runtime.ParamLocationPath, incidentId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/status-pages/%s/incidents/%s/response-incidents", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -10318,6 +11010,67 @@ func NewAlertEventsV2CreateHTTPRequestWithBody(server string, alertSourceConfigI
 	return req, nil
 }
 
+// NewAlertRoutesV2ListRequest generates requests for AlertRoutesV2List
+func NewAlertRoutesV2ListRequest(server string, params *AlertRoutesV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alert_routes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, params.PageSize); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewAlertRoutesV2CreateRequest calls the generic AlertRoutesV2Create builder with application/json body
 func NewAlertRoutesV2CreateRequest(server string, body AlertRoutesV2CreateJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -10358,8 +11111,8 @@ func NewAlertRoutesV2CreateRequestWithBody(server string, contentType string, bo
 	return req, nil
 }
 
-// NewAlertRoutesV2DestroyRequest generates requests for AlertRoutesV2Destroy
-func NewAlertRoutesV2DestroyRequest(server string, id string) (*http.Request, error) {
+// NewAlertRoutesV2DeleteRequest generates requests for AlertRoutesV2Delete
+func NewAlertRoutesV2DeleteRequest(server string, id string) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -10651,6 +11404,149 @@ func NewAlertSourcesV2UpdateRequestWithBody(server string, id string, contentTyp
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAlertsV2ListRequest generates requests for AlertsV2List
+func NewAlertsV2ListRequest(server string, params *AlertsV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alerts")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, params.PageSize); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.DeduplicationKey != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "deduplication_key", runtime.ParamLocationQuery, *params.DeduplicationKey); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Status != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "status", runtime.ParamLocationQuery, *params.Status); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.CreatedAt != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "created_at", runtime.ParamLocationQuery, *params.CreatedAt); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertsV2ShowRequest generates requests for AlertsV2Show
+func NewAlertsV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alerts/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -11569,6 +12465,99 @@ func NewFollowUpsV2ShowRequest(server string, id string) (*http.Request, error) 
 	queryURL, err := serverURL.Parse(operationPath)
 	if err != nil {
 		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertsV2ListIncidentAlertsRequest generates requests for AlertsV2ListIncidentAlerts
+func NewAlertsV2ListIncidentAlertsRequest(server string, params *AlertsV2ListIncidentAlertsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/incident_alerts")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, params.PageSize); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.AlertId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "alert_id", runtime.ParamLocationQuery, *params.AlertId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.IncidentId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "incident_id", runtime.ParamLocationQuery, *params.IncidentId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
 	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
@@ -13611,6 +14600,14 @@ type ClientWithResponsesInterface interface {
 	// IncidentsV1ShowWithResponse request
 	IncidentsV1ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*IncidentsV1ShowResponse, error)
 
+	// IPAllowlistsV1ShowIPAllowlistWithResponse request
+	IPAllowlistsV1ShowIPAllowlistWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*IPAllowlistsV1ShowIPAllowlistResponse, error)
+
+	// IPAllowlistsV1UpdateIPAllowlistWithBodyWithResponse request with any body
+	IPAllowlistsV1UpdateIPAllowlistWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IPAllowlistsV1UpdateIPAllowlistResponse, error)
+
+	IPAllowlistsV1UpdateIPAllowlistWithResponse(ctx context.Context, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody, reqEditors ...RequestEditorFn) (*IPAllowlistsV1UpdateIPAllowlistResponse, error)
+
 	// UtilitiesV1OpenAPIWithResponse request
 	UtilitiesV1OpenAPIWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilitiesV1OpenAPIResponse, error)
 
@@ -13635,6 +14632,9 @@ type ClientWithResponsesInterface interface {
 	SeveritiesV1UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SeveritiesV1UpdateResponse, error)
 
 	SeveritiesV1UpdateWithResponse(ctx context.Context, id string, body SeveritiesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*SeveritiesV1UpdateResponse, error)
+
+	// StatusPagesV1ListResponseIncidentsWithResponse request
+	StatusPagesV1ListResponseIncidentsWithResponse(ctx context.Context, id string, incidentId string, reqEditors ...RequestEditorFn) (*StatusPagesV1ListResponseIncidentsResponse, error)
 
 	// ActionsV2ListWithResponse request
 	ActionsV2ListWithResponse(ctx context.Context, params *ActionsV2ListParams, reqEditors ...RequestEditorFn) (*ActionsV2ListResponse, error)
@@ -13666,13 +14666,16 @@ type ClientWithResponsesInterface interface {
 
 	AlertEventsV2CreateHTTPWithResponse(ctx context.Context, alertSourceConfigId string, params *AlertEventsV2CreateHTTPParams, body AlertEventsV2CreateHTTPJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertEventsV2CreateHTTPResponse, error)
 
+	// AlertRoutesV2ListWithResponse request
+	AlertRoutesV2ListWithResponse(ctx context.Context, params *AlertRoutesV2ListParams, reqEditors ...RequestEditorFn) (*AlertRoutesV2ListResponse, error)
+
 	// AlertRoutesV2CreateWithBodyWithResponse request with any body
 	AlertRoutesV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertRoutesV2CreateResponse, error)
 
 	AlertRoutesV2CreateWithResponse(ctx context.Context, body AlertRoutesV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertRoutesV2CreateResponse, error)
 
-	// AlertRoutesV2DestroyWithResponse request
-	AlertRoutesV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2DestroyResponse, error)
+	// AlertRoutesV2DeleteWithResponse request
+	AlertRoutesV2DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2DeleteResponse, error)
 
 	// AlertRoutesV2ShowWithResponse request
 	AlertRoutesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2ShowResponse, error)
@@ -13700,6 +14703,12 @@ type ClientWithResponsesInterface interface {
 	AlertSourcesV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV2UpdateResponse, error)
 
 	AlertSourcesV2UpdateWithResponse(ctx context.Context, id string, body AlertSourcesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV2UpdateResponse, error)
+
+	// AlertsV2ListWithResponse request
+	AlertsV2ListWithResponse(ctx context.Context, params *AlertsV2ListParams, reqEditors ...RequestEditorFn) (*AlertsV2ListResponse, error)
+
+	// AlertsV2ShowWithResponse request
+	AlertsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertsV2ShowResponse, error)
 
 	// CatalogV2ListEntriesWithResponse request
 	CatalogV2ListEntriesWithResponse(ctx context.Context, params *CatalogV2ListEntriesParams, reqEditors ...RequestEditorFn) (*CatalogV2ListEntriesResponse, error)
@@ -13787,6 +14796,9 @@ type ClientWithResponsesInterface interface {
 
 	// FollowUpsV2ShowWithResponse request
 	FollowUpsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*FollowUpsV2ShowResponse, error)
+
+	// AlertsV2ListIncidentAlertsWithResponse request
+	AlertsV2ListIncidentAlertsWithResponse(ctx context.Context, params *AlertsV2ListIncidentAlertsParams, reqEditors ...RequestEditorFn) (*AlertsV2ListIncidentAlertsResponse, error)
 
 	// IncidentRolesV2ListWithResponse request
 	IncidentRolesV2ListWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*IncidentRolesV2ListResponse, error)
@@ -14593,7 +15605,7 @@ func (r IncidentTypesV1ShowResponse) StatusCode() int {
 type IncidentsV1ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV1ListResponseBody
+	JSON200      *IncidentsListResultV1
 }
 
 // Status returns HTTPResponse.Status
@@ -14615,7 +15627,7 @@ func (r IncidentsV1ListResponse) StatusCode() int {
 type IncidentsV1CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV1CreateResponseBody
+	JSON200      *IncidentsCreateResultV1
 }
 
 // Status returns HTTPResponse.Status
@@ -14637,7 +15649,7 @@ func (r IncidentsV1CreateResponse) StatusCode() int {
 type IncidentsV1ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV1ShowResponseBody
+	JSON200      *IncidentsShowResultV1
 }
 
 // Status returns HTTPResponse.Status
@@ -14650,6 +15662,50 @@ func (r IncidentsV1ShowResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r IncidentsV1ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type IPAllowlistsV1ShowIPAllowlistResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *IPAllowlistsShowIPAllowlistResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r IPAllowlistsV1ShowIPAllowlistResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IPAllowlistsV1ShowIPAllowlistResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type IPAllowlistsV1UpdateIPAllowlistResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *IPAllowlistsUpdateIPAllowlistResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r IPAllowlistsV1UpdateIPAllowlistResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IPAllowlistsV1UpdateIPAllowlistResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -14803,6 +15859,28 @@ func (r SeveritiesV1UpdateResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r SeveritiesV1UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type StatusPagesV1ListResponseIncidentsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StatusPagesListResponseIncidentsResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r StatusPagesV1ListResponseIncidentsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StatusPagesV1ListResponseIncidentsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -14984,6 +16062,28 @@ func (r AlertEventsV2CreateHTTPResponse) StatusCode() int {
 	return 0
 }
 
+type AlertRoutesV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AlertRoutesListResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertRoutesV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertRoutesV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type AlertRoutesV2CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -15006,13 +16106,13 @@ func (r AlertRoutesV2CreateResponse) StatusCode() int {
 	return 0
 }
 
-type AlertRoutesV2DestroyResponse struct {
+type AlertRoutesV2DeleteResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 }
 
 // Status returns HTTPResponse.Status
-func (r AlertRoutesV2DestroyResponse) Status() string {
+func (r AlertRoutesV2DeleteResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -15020,7 +16120,7 @@ func (r AlertRoutesV2DestroyResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r AlertRoutesV2DestroyResponse) StatusCode() int {
+func (r AlertRoutesV2DeleteResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -15174,6 +16274,50 @@ func (r AlertSourcesV2UpdateResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r AlertSourcesV2UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AlertsV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AlertsListResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertsV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertsV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AlertsV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AlertsShowResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertsV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertsV2ShowResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -15682,6 +16826,28 @@ func (r FollowUpsV2ShowResponse) StatusCode() int {
 	return 0
 }
 
+type AlertsV2ListIncidentAlertsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AlertsListIncidentAlertsResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertsV2ListIncidentAlertsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertsV2ListIncidentAlertsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type IncidentRolesV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -15860,7 +17026,7 @@ func (r IncidentUpdatesV2ListResponse) StatusCode() int {
 type IncidentsV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV2ListResponseBody
+	JSON200      *IncidentsListResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -15882,7 +17048,7 @@ func (r IncidentsV2ListResponse) StatusCode() int {
 type IncidentsV2CreateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV2CreateResponseBody
+	JSON200      *IncidentsCreateResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -15904,7 +17070,7 @@ func (r IncidentsV2CreateResponse) StatusCode() int {
 type IncidentsV2ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV2ShowResponseBody
+	JSON200      *IncidentsShowResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -15926,7 +17092,7 @@ func (r IncidentsV2ShowResponse) StatusCode() int {
 type IncidentsV2EditResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *IncidentsV2EditResponseBody
+	JSON200      *IncidentsEditResultV2
 }
 
 // Status returns HTTPResponse.Status
@@ -16928,6 +18094,32 @@ func (c *ClientWithResponses) IncidentsV1ShowWithResponse(ctx context.Context, i
 	return ParseIncidentsV1ShowResponse(rsp)
 }
 
+// IPAllowlistsV1ShowIPAllowlistWithResponse request returning *IPAllowlistsV1ShowIPAllowlistResponse
+func (c *ClientWithResponses) IPAllowlistsV1ShowIPAllowlistWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*IPAllowlistsV1ShowIPAllowlistResponse, error) {
+	rsp, err := c.IPAllowlistsV1ShowIPAllowlist(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIPAllowlistsV1ShowIPAllowlistResponse(rsp)
+}
+
+// IPAllowlistsV1UpdateIPAllowlistWithBodyWithResponse request with arbitrary body returning *IPAllowlistsV1UpdateIPAllowlistResponse
+func (c *ClientWithResponses) IPAllowlistsV1UpdateIPAllowlistWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IPAllowlistsV1UpdateIPAllowlistResponse, error) {
+	rsp, err := c.IPAllowlistsV1UpdateIPAllowlistWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIPAllowlistsV1UpdateIPAllowlistResponse(rsp)
+}
+
+func (c *ClientWithResponses) IPAllowlistsV1UpdateIPAllowlistWithResponse(ctx context.Context, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody, reqEditors ...RequestEditorFn) (*IPAllowlistsV1UpdateIPAllowlistResponse, error) {
+	rsp, err := c.IPAllowlistsV1UpdateIPAllowlist(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIPAllowlistsV1UpdateIPAllowlistResponse(rsp)
+}
+
 // UtilitiesV1OpenAPIWithResponse request returning *UtilitiesV1OpenAPIResponse
 func (c *ClientWithResponses) UtilitiesV1OpenAPIWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilitiesV1OpenAPIResponse, error) {
 	rsp, err := c.UtilitiesV1OpenAPI(ctx, reqEditors...)
@@ -17005,6 +18197,15 @@ func (c *ClientWithResponses) SeveritiesV1UpdateWithResponse(ctx context.Context
 		return nil, err
 	}
 	return ParseSeveritiesV1UpdateResponse(rsp)
+}
+
+// StatusPagesV1ListResponseIncidentsWithResponse request returning *StatusPagesV1ListResponseIncidentsResponse
+func (c *ClientWithResponses) StatusPagesV1ListResponseIncidentsWithResponse(ctx context.Context, id string, incidentId string, reqEditors ...RequestEditorFn) (*StatusPagesV1ListResponseIncidentsResponse, error) {
+	rsp, err := c.StatusPagesV1ListResponseIncidents(ctx, id, incidentId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPagesV1ListResponseIncidentsResponse(rsp)
 }
 
 // ActionsV2ListWithResponse request returning *ActionsV2ListResponse
@@ -17103,6 +18304,15 @@ func (c *ClientWithResponses) AlertEventsV2CreateHTTPWithResponse(ctx context.Co
 	return ParseAlertEventsV2CreateHTTPResponse(rsp)
 }
 
+// AlertRoutesV2ListWithResponse request returning *AlertRoutesV2ListResponse
+func (c *ClientWithResponses) AlertRoutesV2ListWithResponse(ctx context.Context, params *AlertRoutesV2ListParams, reqEditors ...RequestEditorFn) (*AlertRoutesV2ListResponse, error) {
+	rsp, err := c.AlertRoutesV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertRoutesV2ListResponse(rsp)
+}
+
 // AlertRoutesV2CreateWithBodyWithResponse request with arbitrary body returning *AlertRoutesV2CreateResponse
 func (c *ClientWithResponses) AlertRoutesV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertRoutesV2CreateResponse, error) {
 	rsp, err := c.AlertRoutesV2CreateWithBody(ctx, contentType, body, reqEditors...)
@@ -17120,13 +18330,13 @@ func (c *ClientWithResponses) AlertRoutesV2CreateWithResponse(ctx context.Contex
 	return ParseAlertRoutesV2CreateResponse(rsp)
 }
 
-// AlertRoutesV2DestroyWithResponse request returning *AlertRoutesV2DestroyResponse
-func (c *ClientWithResponses) AlertRoutesV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2DestroyResponse, error) {
-	rsp, err := c.AlertRoutesV2Destroy(ctx, id, reqEditors...)
+// AlertRoutesV2DeleteWithResponse request returning *AlertRoutesV2DeleteResponse
+func (c *ClientWithResponses) AlertRoutesV2DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertRoutesV2DeleteResponse, error) {
+	rsp, err := c.AlertRoutesV2Delete(ctx, id, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseAlertRoutesV2DestroyResponse(rsp)
+	return ParseAlertRoutesV2DeleteResponse(rsp)
 }
 
 // AlertRoutesV2ShowWithResponse request returning *AlertRoutesV2ShowResponse
@@ -17214,6 +18424,24 @@ func (c *ClientWithResponses) AlertSourcesV2UpdateWithResponse(ctx context.Conte
 		return nil, err
 	}
 	return ParseAlertSourcesV2UpdateResponse(rsp)
+}
+
+// AlertsV2ListWithResponse request returning *AlertsV2ListResponse
+func (c *ClientWithResponses) AlertsV2ListWithResponse(ctx context.Context, params *AlertsV2ListParams, reqEditors ...RequestEditorFn) (*AlertsV2ListResponse, error) {
+	rsp, err := c.AlertsV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertsV2ListResponse(rsp)
+}
+
+// AlertsV2ShowWithResponse request returning *AlertsV2ShowResponse
+func (c *ClientWithResponses) AlertsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertsV2ShowResponse, error) {
+	rsp, err := c.AlertsV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertsV2ShowResponse(rsp)
 }
 
 // CatalogV2ListEntriesWithResponse request returning *CatalogV2ListEntriesResponse
@@ -17493,6 +18721,15 @@ func (c *ClientWithResponses) FollowUpsV2ShowWithResponse(ctx context.Context, i
 		return nil, err
 	}
 	return ParseFollowUpsV2ShowResponse(rsp)
+}
+
+// AlertsV2ListIncidentAlertsWithResponse request returning *AlertsV2ListIncidentAlertsResponse
+func (c *ClientWithResponses) AlertsV2ListIncidentAlertsWithResponse(ctx context.Context, params *AlertsV2ListIncidentAlertsParams, reqEditors ...RequestEditorFn) (*AlertsV2ListIncidentAlertsResponse, error) {
+	rsp, err := c.AlertsV2ListIncidentAlerts(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertsV2ListIncidentAlertsResponse(rsp)
 }
 
 // IncidentRolesV2ListWithResponse request returning *IncidentRolesV2ListResponse
@@ -18701,7 +19938,7 @@ func ParseIncidentsV1ListResponse(rsp *http.Response) (*IncidentsV1ListResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV1ListResponseBody
+		var dest IncidentsListResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18727,7 +19964,7 @@ func ParseIncidentsV1CreateResponse(rsp *http.Response) (*IncidentsV1CreateRespo
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV1CreateResponseBody
+		var dest IncidentsCreateResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18753,7 +19990,59 @@ func ParseIncidentsV1ShowResponse(rsp *http.Response) (*IncidentsV1ShowResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV1ShowResponseBody
+		var dest IncidentsShowResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIPAllowlistsV1ShowIPAllowlistResponse parses an HTTP response from a IPAllowlistsV1ShowIPAllowlistWithResponse call
+func ParseIPAllowlistsV1ShowIPAllowlistResponse(rsp *http.Response) (*IPAllowlistsV1ShowIPAllowlistResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IPAllowlistsV1ShowIPAllowlistResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest IPAllowlistsShowIPAllowlistResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIPAllowlistsV1UpdateIPAllowlistResponse parses an HTTP response from a IPAllowlistsV1UpdateIPAllowlistWithResponse call
+func ParseIPAllowlistsV1UpdateIPAllowlistResponse(rsp *http.Response) (*IPAllowlistsV1UpdateIPAllowlistResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IPAllowlistsV1UpdateIPAllowlistResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest IPAllowlistsUpdateIPAllowlistResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -18926,6 +20215,32 @@ func ParseSeveritiesV1UpdateResponse(rsp *http.Response) (*SeveritiesV1UpdateRes
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest SeveritiesUpdateResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStatusPagesV1ListResponseIncidentsResponse parses an HTTP response from a StatusPagesV1ListResponseIncidentsWithResponse call
+func ParseStatusPagesV1ListResponseIncidentsResponse(rsp *http.Response) (*StatusPagesV1ListResponseIncidentsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StatusPagesV1ListResponseIncidentsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StatusPagesListResponseIncidentsResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -19134,6 +20449,32 @@ func ParseAlertEventsV2CreateHTTPResponse(rsp *http.Response) (*AlertEventsV2Cre
 	return response, nil
 }
 
+// ParseAlertRoutesV2ListResponse parses an HTTP response from a AlertRoutesV2ListWithResponse call
+func ParseAlertRoutesV2ListResponse(rsp *http.Response) (*AlertRoutesV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertRoutesV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertRoutesListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseAlertRoutesV2CreateResponse parses an HTTP response from a AlertRoutesV2CreateWithResponse call
 func ParseAlertRoutesV2CreateResponse(rsp *http.Response) (*AlertRoutesV2CreateResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -19160,15 +20501,15 @@ func ParseAlertRoutesV2CreateResponse(rsp *http.Response) (*AlertRoutesV2CreateR
 	return response, nil
 }
 
-// ParseAlertRoutesV2DestroyResponse parses an HTTP response from a AlertRoutesV2DestroyWithResponse call
-func ParseAlertRoutesV2DestroyResponse(rsp *http.Response) (*AlertRoutesV2DestroyResponse, error) {
+// ParseAlertRoutesV2DeleteResponse parses an HTTP response from a AlertRoutesV2DeleteWithResponse call
+func ParseAlertRoutesV2DeleteResponse(rsp *http.Response) (*AlertRoutesV2DeleteResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &AlertRoutesV2DestroyResponse{
+	response := &AlertRoutesV2DeleteResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -19338,6 +20679,58 @@ func ParseAlertSourcesV2UpdateResponse(rsp *http.Response) (*AlertSourcesV2Updat
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest AlertSourcesUpdateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertsV2ListResponse parses an HTTP response from a AlertsV2ListWithResponse call
+func ParseAlertsV2ListResponse(rsp *http.Response) (*AlertsV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertsV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertsListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertsV2ShowResponse parses an HTTP response from a AlertsV2ShowWithResponse call
+func ParseAlertsV2ShowResponse(rsp *http.Response) (*AlertsV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertsV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertsShowResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -19906,6 +21299,32 @@ func ParseFollowUpsV2ShowResponse(rsp *http.Response) (*FollowUpsV2ShowResponse,
 	return response, nil
 }
 
+// ParseAlertsV2ListIncidentAlertsResponse parses an HTTP response from a AlertsV2ListIncidentAlertsWithResponse call
+func ParseAlertsV2ListIncidentAlertsResponse(rsp *http.Response) (*AlertsV2ListIncidentAlertsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertsV2ListIncidentAlertsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertsListIncidentAlertsResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseIncidentRolesV2ListResponse parses an HTTP response from a IncidentRolesV2ListWithResponse call
 func ParseIncidentRolesV2ListResponse(rsp *http.Response) (*IncidentRolesV2ListResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -20119,7 +21538,7 @@ func ParseIncidentsV2ListResponse(rsp *http.Response) (*IncidentsV2ListResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV2ListResponseBody
+		var dest IncidentsListResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -20145,7 +21564,7 @@ func ParseIncidentsV2CreateResponse(rsp *http.Response) (*IncidentsV2CreateRespo
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV2CreateResponseBody
+		var dest IncidentsCreateResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -20171,7 +21590,7 @@ func ParseIncidentsV2ShowResponse(rsp *http.Response) (*IncidentsV2ShowResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV2ShowResponseBody
+		var dest IncidentsShowResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -20197,7 +21616,7 @@ func ParseIncidentsV2EditResponse(rsp *http.Response) (*IncidentsV2EditResponse,
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest IncidentsV2EditResponseBody
+		var dest IncidentsEditResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

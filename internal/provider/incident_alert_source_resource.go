@@ -33,11 +33,19 @@ type IncidentAlertSourceResource struct {
 // 'jira', and never set otherwise.
 func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	var data models.AlertSourceResourceModel
-	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
+	// We can't validate the whole model here because we want to support dynamic values for
+	// attributes used in the resource.
+
+	diagnostic := req.Config.GetAttribute(ctx, path.Root("template"), &data.Template)
+	if diagnostic.HasError() {
+		// If attribute_values is unknown, don't attempt to validate the managed
+		// attributes. We have to return early here because the call to req.Config.Get
+		// fails to marshal into the []CatalogEntryAttributeValue in this case.
 		return
 	}
 
+	req.Config.GetAttribute(ctx, path.Root("source_type"), &data.SourceType)
+	req.Config.GetAttribute(ctx, path.Root("jira_options"), &data.JiraOptions)
 	if data.JiraOptions != nil && data.SourceType.ValueString() != "jira" {
 		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
 			"jira_options can only be set when source_type is jira",
@@ -63,7 +71,7 @@ func (r *IncidentAlertSourceResource) Metadata(ctx context.Context, req resource
 
 func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("Alert Sources V2"),
+		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Alert Sources V2"), `We'd generally recommend building alert sources in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert source and copy the resulting Terraform without persisting it.`),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -193,6 +201,8 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
+	claimResource(ctx, r.client, result.JSON200.AlertSource.Id, resp.Diagnostics, client.AlertSource, r.terraformVersion)
+
 	tflog.Trace(ctx, fmt.Sprintf("created an alert source with id=%s", result.JSON200.AlertSource.Id))
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
@@ -245,6 +255,8 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
+	claimResource(ctx, r.client, result.JSON200.AlertSource.Id, resp.Diagnostics, client.AlertSource, r.terraformVersion)
+
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -264,5 +276,6 @@ func (r *IncidentAlertSourceResource) Delete(ctx context.Context, req resource.D
 }
 
 func (r *IncidentAlertSourceResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	claimResource(ctx, r.client, req.ID, resp.Diagnostics, client.AlertSource, r.terraformVersion)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

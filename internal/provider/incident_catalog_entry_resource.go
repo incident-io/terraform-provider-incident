@@ -402,7 +402,7 @@ func (m *IncidentCatalogEntryResourceModel) isAttributeManaged(attributeID strin
 	// Extract the managed attribute IDs
 	var managedAttributeIDs []string
 	diags := m.ManagedAttributes.ElementsAs(context.Background(), &managedAttributeIDs, false)
-	if diags.HasError() || len(managedAttributeIDs) == 0 {
+	if diags.HasError() {
 		// If there's an error or the list is empty, consider all attributes managed
 		return true
 	}

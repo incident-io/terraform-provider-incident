@@ -5,12 +5,16 @@ subcategory: ""
 description: |-
   View and manage schedules.
   Manage your full schedule of on-call rotations, including the users and rotation configuration.
+  We'd generally recommend building schedules in our web dashboard https://app.incident.io/~/on-call/schedules, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing schedule and copy the resulting Terraform without persisting it.
 ---
 
 # incident_schedule (Resource)
 
 View and manage schedules.
 Manage your full schedule of on-call rotations, including the users and rotation configuration.
+
+
+We'd generally recommend building schedules in our [web dashboard](https://app.incident.io/~/on-call/schedules), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing schedule and copy the resulting Terraform without persisting it.
 
 ## Example Usage
 
@@ -120,7 +124,7 @@ resource "incident_schedule" "primary_on_call" {
 ### Required
 
 - `name` (String) Human readable name synced from external provider
-- `rotations` (Attributes List) (see [below for nested schema](#nestedatt--rotations))
+- `rotations` (Attributes Set) (see [below for nested schema](#nestedatt--rotations))
 - `timezone` (String)
 
 ### Optional
@@ -139,7 +143,7 @@ Required:
 
 - `id` (String) Unique internal ID of the rotation
 - `name` (String) Human readable name synced from external provider
-- `versions` (Attributes List) (see [below for nested schema](#nestedatt--rotations--versions))
+- `versions` (Attributes Set) (see [below for nested schema](#nestedatt--rotations--versions))
 
 <a id="nestedatt--rotations--versions"></a>
 ### Nested Schema for `rotations.versions`
@@ -193,4 +197,14 @@ Required:
 
 - `country_codes` (List of String) ISO 3166-1 alpha-2 country codes for the countries that this schedule is configured to view holidays for
 
+## Import
 
+Import is supported using the following syntax:
+
+```shell
+#!/bin/bash
+
+# Import a schedule using its ID
+# Replace the ID with a real ID from your incident.io organization
+terraform import incident_schedule.example 01ABC123DEF456GHI789JKL
+```

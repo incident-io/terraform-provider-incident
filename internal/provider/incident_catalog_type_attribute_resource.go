@@ -3,10 +3,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
@@ -25,6 +27,7 @@ var (
 	_ resource.Resource                   = &IncidentCatalogTypeAttributeResource{}
 	_ resource.ResourceWithConfigure      = &IncidentCatalogTypeAttributeResource{}
 	_ resource.ResourceWithValidateConfig = &IncidentCatalogTypeAttributeResource{}
+	_ resource.ResourceWithImportState    = &IncidentCatalogTypeAttributeResource{}
 )
 
 type IncidentCatalogTypeAttributeResource struct {
@@ -439,6 +442,27 @@ func (r *IncidentCatalogTypeAttributeResource) lockFor(ctx context.Context, cata
 	}
 
 	return do(ctx, typeResult.JSON200.CatalogType)
+}
+
+func (r *IncidentCatalogTypeAttributeResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	// The import ID format is catalogTypeID:attributeID
+	idParts := strings.Split(req.ID, ":")
+	if len(idParts) != 2 {
+		resp.Diagnostics.AddError(
+			"Invalid Import ID",
+			"The import ID must be in the format: catalog_type_id:attribute_id",
+		)
+		return
+	}
+
+	catalogTypeID := idParts[0]
+	attributeID := idParts[1]
+
+	tflog.Info(ctx, fmt.Sprintf("Importing catalog type attribute with catalog_type_id=%s and attribute_id=%s", catalogTypeID, attributeID))
+
+	// Set the IDs to the state
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), attributeID)...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("catalog_type_id"), catalogTypeID)...)
 }
 
 func (*IncidentCatalogTypeAttributeResource) attributeToPayload(attribute client.CatalogTypeAttributeV3) client.CatalogTypeAttributePayloadV3 {

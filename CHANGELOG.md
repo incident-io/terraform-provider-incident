@@ -1,5 +1,63 @@
 ## Unreleased
 
+- Update the documentation for `incident_alert_source`, `incident_alert_route`, `incident_escalation_path` and `incident_schedule` to reference the 'Export' flow
+  in the dashboard
+
+## v5.8.0
+
+- `incident_schedule_resource` now uses sets for rotations as the ordering of them does not matter.
+- Alert sources and alert routes created by Terraform or imported to Terraform will be tagged
+  as such and won't be editable in the incident.io dashboard.
+
+## v5.7.1
+
+- Support up to 3 levels of branch nesting on escalation paths
+
+## v5.7.0
+
+- Improve the documentation for `team_ids` in `incident_escalation_path`
+- `incident_alert_source` supports dynamic values for all attributes - for example initialising attributes from local variables.
+
+## v5.6.0
+
+- Improve the documentation for `channel_config` in `incident_alert_route`
+- Fix a bug where empty slices of `team_ids` would be sent to the API as `null`
+- Fix a bug where empty slices of `managed_attributes` would mean we mark every attribute as managed in Terraform, whereas it should mean every attribute is managed in the dashboard.
+
+## v5.5.0
+
+- Add `grouping_window_seconds` to alert route incident config. This is a required field
+  that was being defaulted to 0, meaning any alert route created through terraform ended
+  up with grouping disabled.
+- Fix a bug where custom fields would show a diff when specified in a different order to
+  when the custom field itself was created. As ordering does not matter, this now uses a
+  set rather than a list.
+- Make `incident_template` required on alert routes. This was previously marked optional,
+  but our provider would crash if it was not supplied. This is also required by our API,
+  so we have made it required in the provider.
+
+Note that we've decided to release this as a minor version despite the breaking change of
+`grouping_window_seconds` being required. This is because the field was previously
+defaulted to 0, and so any alert route created through terraform would have had
+grouping disabled. As such, we consider this a bug fix and encourage all users to upgrade.
+
+If you want to leave grouping disabled, set `grouping_window_seconds` to 0.
+
+## v5.4.2
+
+- Add validation for RFC3339 timestamp format in `handover_start_at` and `effective_from` fields to prevent invalid dates
+- `incident_alert_route` supports dynamic values for all attributes - for example enabling `channel_config` using a variable.
+- Fixed a bug where the plan for `incident_alert_route` would always show a diff for `incident_template.name.array_value` and `incident_template.summary.array_value`.
+
+## v5.4.1
+
+- Allow `terraform import` for `incident_catalog_type_attribute`
+- Add `terraform import` support to the documentation
+
+## v5.4.0
+
+- Adds `incident_alert_route` resource for managing alert routes.
+
 ## v5.3.2
 
 - In the catalog entry resource, we now guard against cases where the type of

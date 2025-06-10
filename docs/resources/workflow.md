@@ -4,14 +4,14 @@ page_title: "incident_workflow Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
   This resource is used to manage Workflows.
-  We'd generally recommend building workflows in our web dashboard https://app.incident.io/workflows, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing workflow and copy the resulting Terraform without persisting it. You can learn more in this Loom https://www.loom.com/share/b833d7d0fd114d6ba3f24d8c72e5208f?sid=c6d3cc3f-aa93-44ba-b12d-a0a4cbe09448.
+  We'd generally recommend building workflows in our web dashboard https://app.incident.io/~/workflows, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing workflow and copy the resulting Terraform without persisting it. You can learn more in this Loom https://www.loom.com/share/b833d7d0fd114d6ba3f24d8c72e5208f?sid=c6d3cc3f-aa93-44ba-b12d-a0a4cbe09448.
 ---
 
 # incident_workflow (Resource)
 
 This resource is used to manage Workflows.
 
-We'd generally recommend building workflows in our [web dashboard](https://app.incident.io/workflows), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing workflow and copy the resulting Terraform without persisting it. You can learn more in this [Loom](https://www.loom.com/share/b833d7d0fd114d6ba3f24d8c72e5208f?sid=c6d3cc3f-aa93-44ba-b12d-a0a4cbe09448).
+We'd generally recommend building workflows in our [web dashboard](https://app.incident.io/~/workflows), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing workflow and copy the resulting Terraform without persisting it. You can learn more in this [Loom](https://www.loom.com/share/b833d7d0fd114d6ba3f24d8c72e5208f?sid=c6d3cc3f-aa93-44ba-b12d-a0a4cbe09448).
 
 ## Example Usage
 
@@ -440,4 +440,14 @@ Required:
 - `conditions_apply_over_delay` (Boolean) If this workflow is delayed, whether the conditions should be rechecked between trigger firing and execution
 - `for_seconds` (Number) Delay in seconds between trigger firing and running the workflow
 
+## Import
 
+Import is supported using the following syntax:
+
+```shell
+#!/bin/bash
+
+# Import a workflow using its ID
+# Replace the ID with a real ID from your incident.io organization
+terraform import incident_workflow.example 01ABC123DEF456GHI789JKL
+```

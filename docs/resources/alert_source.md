@@ -5,6 +5,7 @@ subcategory: ""
 description: |-
   Configure your alert sources in incident.io.
   Alert sources are the systems that send alerts to incident.io, which can then be routed to the right people and teams.
+  We'd generally recommend building alert sources in our web dashboard https://app.incident.io/~/alerts/configuration, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert source and copy the resulting Terraform without persisting it.
 ---
 
 # incident_alert_source (Resource)
@@ -13,10 +14,12 @@ Configure your alert sources in incident.io.
 
 Alert sources are the systems that send alerts to incident.io, which can then be routed to the right people and teams.
 
+We'd generally recommend building alert sources in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert source and copy the resulting Terraform without persisting it.
+
 ## Example Usage
 
 ```terraform
-## Create a basic Alert Source that recieves from an SNS Topic in AWS
+## Create a basic Alert Source that receives from an SNS Topic in AWS
 
 resource "incident_alert_source" "cloudwatch" {
   name        = "CloudWatch Alerts"
@@ -456,4 +459,14 @@ Optional:
 
 - `project_ids` (List of String) Which projects in Jira should this alert source watch for new issues? IDs can either be IDs of the projects in Jira, or ID of catalog entries in the 'Jira Project' catalog type.
 
+## Import
 
+Import is supported using the following syntax:
+
+```shell
+#!/bin/bash
+
+# Import an alert source using its ID
+# Replace the ID with a real ID from your incident.io organization
+terraform import incident_alert_source.example 01ABC123DEF456GHI789JKL
+```

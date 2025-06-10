@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -39,7 +38,7 @@ type IncidentEscalationPathResourceModel struct {
 	Name         types.String                           `tfsdk:"name"`
 	Path         []IncidentEscalationPathNode           `tfsdk:"path"`
 	WorkingHours []models.IncidentWeekdayIntervalConfig `tfsdk:"working_hours"`
-	TeamIDs      []types.String                         `tfsdk:"team_ids"`
+	TeamIDs      types.Set                              `tfsdk:"team_ids"`
 }
 
 type IncidentEscalationPathNode struct {
@@ -99,7 +98,7 @@ func (r *IncidentEscalationPathResource) Metadata(ctx context.Context, req resou
 
 func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("Escalations V2"),
+		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Escalations V2"), `We'd generally recommend building escalation paths in our [web dashboard](https://app.incident.io/~/on-call/escalation-paths), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing escalation path and copy the resulting Terraform without persisting it.`),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
@@ -113,9 +112,12 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 				Required:            true,
 			},
 			"path": schema.ListNestedAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathV2", "path"),
-				Required:            true,
-				NestedObject:        r.getPathSchema(3),
+				MarkdownDescription: fmt.Sprintf("%s\n%s",
+					apischema.Docstring("EscalationPathV2", "path"),
+					"\n-->**Note** Although the `if_else` block is recursive, currently a maximum of 3 levels are supported. "+
+						"Attempting to configure more than 3 levels of nesting will result in a schema error.\n"),
+				Required:     true,
+				NestedObject: r.getPathSchema(4),
 			},
 			"working_hours": schema.ListNestedAttribute{
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "working_hours"),
@@ -125,11 +127,9 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 				},
 			},
 			"team_ids": schema.SetAttribute{
-				MarkdownDescription: apischema.Docstring("ScheduleV2", "team_ids"),
+				MarkdownDescription: apischema.Docstring("EscalationPathV2", "team_ids"),
 				Optional:            true,
 				ElementType:         types.StringType,
-				Computed:            true,
-				Default:             setdefault.StaticValue(types.SetValueMust(types.StringType, []attr.Value{})),
 			},
 		},
 	}
@@ -137,6 +137,10 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 
 // Terraform doesn't support recursive schemas so we have to manually unpack the schema to
 // a finite depth to allow recursing back into our nodes.
+//
+// We support a maximum nesting depth of 3 levels of if_else nodes.
+// The schema definition should use a depth of 4 if we want to support 3 levels of
+// nesting, as it's zero-indexed.
 func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedAttributeObject {
 	result := schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
@@ -272,6 +276,7 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 		},
 	}
 
+	// Only include if_else attribute if we haven't reached the maximum nesting depth (3 levels)
 	if depth > 0 {
 		result.Attributes["if_else"] = schema.SingleNestedAttribute{
 			MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "if_else"),
@@ -330,11 +335,14 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 	}
 
 	var teamIDs *[]string
-	if len(data.TeamIDs) > 0 {
-		teamIDs = &[]string{}
-		for _, id := range data.TeamIDs {
-			*teamIDs = append(*teamIDs, id.ValueString())
+	if !data.TeamIDs.IsUnknown() && !data.TeamIDs.IsNull() {
+		ids := []string{}
+		diags := data.TeamIDs.ElementsAs(ctx, &ids, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
 		}
+		teamIDs = &ids
 	}
 
 	result, err := r.client.EscalationsV2CreatePathWithResponse(ctx, client.EscalationsV2CreatePathJSONRequestBody{
@@ -402,11 +410,14 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 	}
 
 	var teamIDs *[]string
-	if len(data.TeamIDs) > 0 {
-		teamIDs = &[]string{}
-		for _, id := range data.TeamIDs {
-			*teamIDs = append(*teamIDs, id.ValueString())
+	if !data.TeamIDs.IsUnknown() && !data.TeamIDs.IsNull() {
+		ids := []string{}
+		diags := data.TeamIDs.ElementsAs(ctx, &ids, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
 		}
+		teamIDs = &ids
 	}
 
 	result, err := r.client.EscalationsV2UpdatePathWithResponse(ctx, data.ID.ValueString(), client.EscalationsV2UpdatePathJSONRequestBody{
@@ -456,11 +467,19 @@ func (r *IncidentEscalationPathResource) buildModel(ep client.EscalationPathV2) 
 		})
 	}
 
-	var teamIDs []types.String
+	var teamIDsSet types.Set
 	if ep.TeamIds != nil {
-		teamIDs = lo.Map(ep.TeamIds, func(id string, _ int) types.String {
-			return types.StringValue(id)
-		})
+		if len(ep.TeamIds) > 0 {
+			elements := make([]attr.Value, len(ep.TeamIds))
+			for i, id := range ep.TeamIds {
+				elements[i] = types.StringValue(id)
+			}
+			teamIDsSet = types.SetValueMust(types.StringType, elements)
+		} else {
+			teamIDsSet = types.SetValueMust(types.StringType, []attr.Value{})
+		}
+	} else {
+		teamIDsSet = types.SetNull(types.StringType)
 	}
 
 	return &IncidentEscalationPathResourceModel{
@@ -468,7 +487,7 @@ func (r *IncidentEscalationPathResource) buildModel(ep client.EscalationPathV2) 
 		Name:         types.StringValue(ep.Name),
 		Path:         r.toPathModel(ep.Path),
 		WorkingHours: workingHours,
-		TeamIDs:      teamIDs,
+		TeamIDs:      teamIDsSet,
 	}
 }
 

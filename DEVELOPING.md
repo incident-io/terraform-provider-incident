@@ -36,7 +36,11 @@ And then run `go generate ./internal/client`
 
 The best way to develop against this provider is to write tests. You can run
 tests either with `make testacc` or targeting tests like so:
+```
+TF_ACC=1 go test ./internal/provider -run=TestAccIncidentEscalationPathResource
+```
 
+If you're running with a debugger:
 ```
 TF_ACC=1 dlv test ./internal/provider -- -test.run=TestAccIncidentCatalogEntriesResource
 ```
@@ -52,6 +56,15 @@ just as you would for a normal environment.
 > In CI, we do not run tests that require integrations to be installed
 > on the test account, to minimise flakiness. To run these tests locally, add
 > extra environment variables (e.g. `TF_ACC_JIRA=1`).
+
+### Note on running tests locally 
+
+Some tests require existing resources to be present in the test account, which we can't create from the test setup. 
+For example, a Slack channel ID or a Team catalog type. Set these up using these variables:
+```
+export TF_ACC_CHANNEL_ID=C07U7JMC29J
+export TF_TEAM_TYPE_NAME=Team
+```
 
 ## Running the provider locally
 
@@ -90,7 +103,7 @@ terraform {
   required_providers {
     incident = {
       source  = "incident-io/incident"
-      version = "~> 4"
+      version = "~> 5"
     }
   }
 }
@@ -98,8 +111,9 @@ terraform {
 provider "incident" {}
 
 resource "incident_catalog_type" "service_tier" {
-  name        = "Service Tier"
-  description = "Level of importance for each service"
+  name            = "Service Tier"
+  description     = "Level of importance for each service"
+  source_repo_url = "https://github.com/incident-io/terraform-provider-incident"
 }
 
 ```

@@ -6,7 +6,7 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
 func TestAccIncidentCustomFieldResource(t *testing.T) {
@@ -19,9 +19,9 @@ func TestAccIncidentCustomFieldResource(t *testing.T) {
 				Config: testAccIncidentCustomFieldResourceConfig(customFieldTemplateParams{}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_custom_field.example", "name", "Affected teams"),
+						"incident_custom_field.example", "name", "Features"),
 					resource.TestCheckResourceAttr(
-						"incident_custom_field.example", "description", "The teams that are affected by this incident"),
+						"incident_custom_field.example", "description", "Features impacted by this incident"),
 					resource.TestCheckResourceAttr(
 						"incident_custom_field.example", "field_type", "multi_select"),
 					resource.TestCheckNoResourceAttr(
@@ -54,9 +54,9 @@ func TestAccIncidentCustomFieldResource_CatalogBacked(t *testing.T) {
 				Config: testAccIncidentCustomFieldResourceConfig(customFieldTemplateParams{WithCatalogType: true}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_custom_field.example", "name", "Affected teams"),
+						"incident_custom_field.example", "name", "Features"),
 					resource.TestCheckResourceAttr(
-						"incident_custom_field.example", "description", "The teams that are affected by this incident"),
+						"incident_custom_field.example", "description", "Features impacted by this incident"),
 					resource.TestCheckResourceAttr(
 						"incident_custom_field.example", "field_type", "multi_select"),
 					resource.TestCheckNoResourceAttr(
@@ -129,8 +129,8 @@ resource "incident_custom_field" "other" {
 {{- end }}
 
 resource "incident_custom_field" "example" {
-  name                          = "Affected teams"
-  description                   = "The teams that are affected by this incident"
+  name                          = "Features"
+  description                   = "Features impacted by this incident"
   field_type                     = "multi_select"
 
   {{- if .WithCatalogType }}
