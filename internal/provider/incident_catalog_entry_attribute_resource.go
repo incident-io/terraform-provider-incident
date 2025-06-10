@@ -28,11 +28,11 @@ type IncidentCatalogEntryAttributeResource struct {
 }
 
 type IncidentCatalogEntryAttributeResourceModel struct {
-	ID            types.String `tfsdk:"id"`
+	ID             types.String `tfsdk:"id"`
 	CatalogEntryID types.String `tfsdk:"catalog_entry_id"`
-	AttributeID   types.String `tfsdk:"attribute_id"`
-	Value         types.String `tfsdk:"value"`
-	ArrayValue    types.List   `tfsdk:"array_value"`
+	AttributeID    types.String `tfsdk:"attribute_id"`
+	Value          types.String `tfsdk:"value"`
+	ArrayValue     types.List   `tfsdk:"array_value"`
 }
 
 func NewIncidentCatalogEntryAttributeResource() resource.Resource {
@@ -245,7 +245,7 @@ func (r *IncidentCatalogEntryAttributeResource) Read(ctx context.Context, req re
 				elements[i] = types.StringValue("")
 			}
 		}
-		
+
 		listValue, diags := types.ListValueFrom(ctx, types.StringType, elements)
 		if diags.HasError() {
 			resp.Diagnostics.Append(diags...)
