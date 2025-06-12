@@ -64,27 +64,31 @@ func (d *IncidentAlertSourceDataSource) Read(ctx context.Context, req datasource
 		return
 	}
 
+	// Get all alert sources and filter by ID or name
+	result, err := d.client.AlertSourcesV2ListWithResponse(ctx)
+	if err == nil && result.StatusCode() >= 400 {
+		err = fmt.Errorf("%s", string(result.Body))
+	}
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list alert sources, got error: %s", err))
+		return
+	}
+
 	var alertSource *client.AlertSourceV2
 	if !data.ID.IsNull() {
-		result, err := d.client.AlertSourcesV2ShowWithResponse(ctx, data.ID.ValueString())
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf("%s", string(result.Body))
+		// Filter by ID
+		for _, source := range result.JSON200.AlertSources {
+			if source.Id == data.ID.ValueString() {
+				alertSource = &source
+				break
+			}
 		}
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert source, got error: %s", err))
+		if alertSource == nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Alert source with ID '%s' not found", data.ID.ValueString()))
 			return
 		}
-		alertSource = &result.JSON200.AlertSource
 	} else if !data.Name.IsNull() {
-		result, err := d.client.AlertSourcesV2ListWithResponse(ctx)
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf("%s", string(result.Body))
-		}
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list alert sources, got error: %s", err))
-			return
-		}
-
+		// Filter by name
 		var found *client.AlertSourceV2
 		for _, source := range result.JSON200.AlertSources {
 			if source.Name == data.Name.ValueString() {
@@ -95,9 +99,8 @@ func (d *IncidentAlertSourceDataSource) Read(ctx context.Context, req datasource
 				found = &source
 			}
 		}
-
 		if found == nil {
-			resp.Diagnostics.AddError("Client Error", "Alert source not found")
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Alert source with name '%s' not found", data.Name.ValueString()))
 			return
 		}
 		alertSource = found
