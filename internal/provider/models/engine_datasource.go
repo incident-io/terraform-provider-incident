@@ -24,14 +24,14 @@ func ParamBindingValueDataSourceAttributes() map[string]schema.Attribute {
 func ParamBindingDataSourceAttributes() map[string]schema.Attribute {
 	return map[string]schema.Attribute{
 		"array_value": schema.SetNestedAttribute{
-			MarkdownDescription: "The array of literal or reference parameter values",
+			MarkdownDescription: apischema.Docstring("EngineParamBindingV2", "array_value"),
 			Computed:            true,
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: ParamBindingValueDataSourceAttributes(),
 			},
 		},
 		"value": schema.SingleNestedAttribute{
-			MarkdownDescription: "The literal or reference parameter value",
+			MarkdownDescription: apischema.Docstring("EngineParamBindingV2", "value"),
 			Computed:            true,
 			Attributes:          ParamBindingValueDataSourceAttributes(),
 		},
@@ -50,17 +50,17 @@ func ParamBindingsDataSourceAttribute() schema.ListNestedAttribute {
 
 func ConditionsDataSourceAttribute() schema.SetNestedAttribute {
 	return schema.SetNestedAttribute{
-		MarkdownDescription: "The prerequisite conditions that must all be satisfied",
+		MarkdownDescription: apischema.Docstring("ConditionGroupV2", "conditions"),
 		Computed:            true,
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: map[string]schema.Attribute{
 				"operation": schema.StringAttribute{
-					MarkdownDescription: "The logical operation to be applied",
+					MarkdownDescription: apischema.Docstring("ConditionV2", "operation"),
 					Computed:            true,
 				},
 				"param_bindings": ParamBindingsDataSourceAttribute(),
 				"subject": schema.StringAttribute{
-					MarkdownDescription: "The subject of the condition, on which the operation is applied",
+					MarkdownDescription: apischema.Docstring("ConditionV2", "subject"),
 					Computed:            true,
 				},
 			},
@@ -70,7 +70,7 @@ func ConditionsDataSourceAttribute() schema.SetNestedAttribute {
 
 func ConditionGroupsDataSourceAttribute() schema.SetNestedAttribute {
 	return schema.SetNestedAttribute{
-		MarkdownDescription: "Groups of prerequisite conditions. All conditions in at least one group must be satisfied",
+		MarkdownDescription: apischema.Docstring("ExpressionFilterOptsV2", "condition_groups"),
 		Computed:            true,
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: map[string]schema.Attribute{
@@ -82,7 +82,7 @@ func ConditionGroupsDataSourceAttribute() schema.SetNestedAttribute {
 
 func ReturnsDataSourceAttribute() schema.SingleNestedAttribute {
 	return schema.SingleNestedAttribute{
-		MarkdownDescription: "The return type of an operation",
+		MarkdownDescription: apischema.Docstring("ExpressionOperationV2", "returns"),
 		Computed:            true,
 		Attributes: map[string]schema.Attribute{
 			"array": schema.BoolAttribute{
@@ -99,7 +99,7 @@ func ReturnsDataSourceAttribute() schema.SingleNestedAttribute {
 
 func ExpressionsDataSourceAttribute() schema.SetNestedAttribute {
 	return schema.SetNestedAttribute{
-		MarkdownDescription: "The expressions to be prepared for use by steps and conditions",
+		MarkdownDescription: apischema.Docstring("WorkflowV2", "expressions"),
 		Computed:            true,
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: map[string]schema.Attribute{
@@ -116,23 +116,23 @@ func ExpressionsDataSourceAttribute() schema.SetNestedAttribute {
 					Computed:            true,
 				},
 				"else_branch": schema.SingleNestedAttribute{
-					MarkdownDescription: "The else branch to resort to if all operations fail",
+					MarkdownDescription: apischema.Docstring("ExpressionV2", "else_branch"),
 					Computed:            true,
 					Attributes: map[string]schema.Attribute{
 						"result": schema.SingleNestedAttribute{
-							MarkdownDescription: "The result assumed if the else branch is reached",
+							MarkdownDescription: apischema.Docstring("ExpressionElseBranchV2", "result"),
 							Computed:            true,
 							Attributes:          ParamBindingDataSourceAttributes(),
 						},
 					},
 				},
 				"operations": schema.ListNestedAttribute{
-					MarkdownDescription: "The operations to execute in sequence for this expression",
+					MarkdownDescription: apischema.Docstring("ExpressionV2", "operations"),
 					Computed:            true,
 					NestedObject: schema.NestedAttributeObject{
 						Attributes: map[string]schema.Attribute{
 							"branches": schema.SingleNestedAttribute{
-								MarkdownDescription: "An operation type that allows for a value to be set conditionally by a series of logical branches",
+								MarkdownDescription: apischema.Docstring("ExpressionOperationV2", "branches"),
 								Computed:            true,
 								Attributes: map[string]schema.Attribute{
 									"branches": schema.ListNestedAttribute{
@@ -142,7 +142,7 @@ func ExpressionsDataSourceAttribute() schema.SetNestedAttribute {
 											Attributes: map[string]schema.Attribute{
 												"condition_groups": ConditionGroupsDataSourceAttribute(),
 												"result": schema.SingleNestedAttribute{
-													MarkdownDescription: "The result assumed if the condition groups are satisfied",
+													MarkdownDescription: apischema.Docstring("ExpressionBranchV2", "result"),
 													Computed:            true,
 													Attributes:          ParamBindingDataSourceAttributes(),
 												},
@@ -153,32 +153,33 @@ func ExpressionsDataSourceAttribute() schema.SetNestedAttribute {
 								},
 							},
 							"filter": schema.SingleNestedAttribute{
-								MarkdownDescription: "An operation type that allows values to be filtered out by conditions",
+								MarkdownDescription: apischema.Docstring("ExpressionOperationV2", "filter"),
 								Computed:            true,
 								Attributes: map[string]schema.Attribute{
 									"condition_groups": ConditionGroupsDataSourceAttribute(),
 								},
 							},
 							"navigate": schema.SingleNestedAttribute{
-								MarkdownDescription: "An operation type that allows attributes of a type to be accessed by reference",
+								MarkdownDescription: apischema.Docstring("ExpressionOperationV2", "navigate"),
 								Computed:            true,
 								Attributes: map[string]schema.Attribute{
 									"reference": schema.StringAttribute{
-										Computed: true,
+										MarkdownDescription: apischema.Docstring("ExpressionNavigateOptsV2", "reference"),
+										Computed:            true,
 									},
 								},
 							},
 							"operation_type": schema.StringAttribute{
-								MarkdownDescription: "Indicates which operation type to execute",
+								MarkdownDescription: apischema.Docstring("ExpressionOperationV2", "operation_type"),
 								Computed:            true,
 							},
 							"parse": schema.SingleNestedAttribute{
-								MarkdownDescription: "An operation type that allows a value to parsed from within a JSON object",
+								MarkdownDescription: apischema.Docstring("ExpressionOperationV2", "parse"),
 								Computed:            true,
 								Attributes: map[string]schema.Attribute{
 									"returns": ReturnsDataSourceAttribute(),
 									"source": schema.StringAttribute{
-										MarkdownDescription: "The ES5 Javascript expression to execute",
+										MarkdownDescription: apischema.Docstring("ExpressionParseOptsV2", "source"),
 										Computed:            true,
 									},
 								},
