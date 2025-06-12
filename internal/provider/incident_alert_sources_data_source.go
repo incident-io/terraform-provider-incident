@@ -137,7 +137,7 @@ func (d *IncidentAlertSourcesDataSource) buildItemModel(source client.AlertSourc
 
 func (d *IncidentAlertSourcesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "This data source provides information about alert sources in incident.io. You can retrieve all alert sources or filter by specific criteria such as ID, name, or source type.",
+		MarkdownDescription: apischema.TagDocstring("Alert Sources V2"),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Optional:            true,
