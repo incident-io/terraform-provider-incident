@@ -3,61 +3,101 @@
 page_title: "incident_alert_sources Data Source - terraform-provider-incident"
 subcategory: ""
 description: |-
-  This data source provides information about alert sources in incident.io with flexible filtering capabilities.
-  Alert sources are the systems that send alerts to incident.io, which can then be routed to the right people and teams.
+  This data source provides information about alert sources in incident.io. You can retrieve all alert sources or filter by specific criteria such as ID, name, or source type.
 ---
 
 # incident_alert_sources (Data Source)
 
-This data source provides information about alert sources in incident.io with flexible filtering capabilities.
-
-Alert sources are the systems that send alerts to incident.io, which can then be routed to the right people and teams.
+This data source provides information about alert sources in incident.io. You can retrieve all alert sources or filter by specific criteria such as ID, name, or source type.
 
 ## Example Usage
 
 ```terraform
-# Get all alert sources
+# Example 1: Get all alert sources
 data "incident_alert_sources" "all" {}
 
-# Filter by specific ID
+# Example 2: Filter by specific ID
 data "incident_alert_sources" "by_id" {
   id = "01GW2G3V0S59R238FAHPDS1R66"
 }
 
-# Filter by name
+# Example 3: Filter by name
 data "incident_alert_sources" "by_name" {
   name = "Production Web Dashboard Alerts"
 }
 
-# Filter by source type
+# Example 4: Filter by source type
 data "incident_alert_sources" "webhooks_only" {
   source_type = "webhook"
 }
 
-# Filter by multiple criteria
+# Example 5: Filter by multiple criteria (name and source_type)
 data "incident_alert_sources" "specific_webhook" {
   name        = "Production Alerts"
   source_type = "webhook"
 }
 
-# Output all alert source names
+# Output examples
 output "all_alert_source_names" {
-  value = [for source in data.incident_alert_sources.all.alert_sources : source.name]
+  description = "Names of all alert sources"
+  value       = [for source in data.incident_alert_sources.all.alert_sources : source.name]
 }
 
-# Advanced filtering with locals
+output "all_alert_source_ids" {
+  description = "IDs of all alert sources"
+  value       = [for source in data.incident_alert_sources.all.alert_sources : source.id]
+}
+
+output "webhook_alert_sources_count" {
+  description = "Number of webhook alert sources"
+  value       = length(data.incident_alert_sources.webhooks_only.alert_sources)
+}
+
+output "specific_alert_source_details" {
+  description = "Details of the alert source found by ID"
+  value = length(data.incident_alert_sources.by_id.alert_sources) > 0 ? {
+    id           = data.incident_alert_sources.by_id.alert_sources[0].id
+    name         = data.incident_alert_sources.by_id.alert_sources[0].name
+    source_type  = data.incident_alert_sources.by_id.alert_sources[0].source_type
+    secret_token = data.incident_alert_sources.by_id.alert_sources[0].secret_token
+  } : null
+}
+
+# Advanced usage: Create local values for further processing
 locals {
   # Group alert sources by type
   alert_sources_by_type = {
     for source in data.incident_alert_sources.all.alert_sources :
     source.source_type => source...
   }
-  
-  # Get only production webhook sources
+
+  # Get only webhook sources with specific naming pattern
   production_webhooks = [
     for source in data.incident_alert_sources.webhooks_only.alert_sources :
     source if can(regex("^Production", source.name))
   ]
+
+  # Create a map of alert source names to IDs
+  alert_source_name_to_id = {
+    for source in data.incident_alert_sources.all.alert_sources :
+    source.name => source.id
+  }
+}
+
+# Output the processed data
+output "alert_sources_by_type" {
+  description = "Alert sources grouped by type"
+  value       = local.alert_sources_by_type
+}
+
+output "production_webhook_count" {
+  description = "Number of production webhook alert sources"
+  value       = length(local.production_webhooks)
+}
+
+output "alert_source_lookup" {
+  description = "Map of alert source names to IDs for easy lookup"
+  value       = local.alert_source_name_to_id
 }
 ```
 
@@ -83,34 +123,35 @@ Read-Only:
 - `id` (String) The ID of this alert source
 - `jira_options` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--jira_options))
 - `name` (String) Unique name of the alert source
-- `secret_token` (String) Secret token for authenticating requests to this alert source
-- `source_type` (String) The type of this alert source
-- `template` (Attributes) Template for alerts from this source (see [below for nested schema](#nestedatt--alert_sources--template))
+- `secret_token` (String, Sensitive) Secret token used to authenticate this source, if applicable. If applicable, this is the token that must be included in either the query string or the 'Authorization' header when sending events to this alert source.
+- `source_type` (String) Type of alert source
+- `template` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template))
 
 <a id="nestedatt--alert_sources--jira_options"></a>
 ### Nested Schema for `alert_sources.jira_options`
 
 Read-Only:
 
-- `project_ids` (List of String) List of Jira project IDs that this alert source can receive alerts from
+- `project_ids` (List of String) Which projects in Jira should this alert source watch for new issues? IDs can either be IDs of the projects in Jira, or ID of catalog entries in the 'Jira Project' catalog type.
+
 
 <a id="nestedatt--alert_sources--template"></a>
 ### Nested Schema for `alert_sources.template`
 
 Read-Only:
 
-- `attributes` (Attributes Set) Attributes for the alert template (see [below for nested schema](#nestedatt--alert_sources--template--attributes))
-- `description` (Attributes) Description template for alerts (see [below for nested schema](#nestedatt--alert_sources--template--description))
-- `expressions` (Attributes Set) Expressions for the alert template (see [below for nested schema](#nestedatt--alert_sources--template--expressions))
-- `title` (Attributes) Title template for alerts (see [below for nested schema](#nestedatt--alert_sources--template--title))
+- `attributes` (Attributes Set) Attributes to set on alerts coming from this source, with a binding describing how to set them. (see [below for nested schema](#nestedatt--alert_sources--template--attributes))
+- `description` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--description))
+- `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--alert_sources--template--expressions))
+- `title` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--title))
 
 <a id="nestedatt--alert_sources--template--attributes"></a>
 ### Nested Schema for `alert_sources.template.attributes`
 
 Read-Only:
 
-- `alert_attribute_id` (String) The ID of the alert attribute
-- `binding` (Attributes) The binding configuration for this attribute (see [below for nested schema](#nestedatt--alert_sources--template--attributes--binding))
+- `alert_attribute_id` (String) ID of the alert attribute to set with this binding
+- `binding` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--attributes--binding))
 
 <a id="nestedatt--alert_sources--template--attributes--binding"></a>
 ### Nested Schema for `alert_sources.template.attributes.binding`
@@ -125,32 +166,29 @@ Read-Only:
 
 Read-Only:
 
-- `literal` (String) A literal value
-- `reference` (String) A reference to an expression or variable
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
 
 <a id="nestedatt--alert_sources--template--attributes--binding--value"></a>
 ### Nested Schema for `alert_sources.template.attributes.binding.value`
 
 Read-Only:
 
-- `literal` (String) A literal value
-- `reference` (String) A reference to an expression or variable
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
 
 <a id="nestedatt--alert_sources--template--description"></a>
 ### Nested Schema for `alert_sources.template.description`
 
 Read-Only:
 
-- `literal` (String) A literal description value
-- `reference` (String) A reference to an expression or variable for the description
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
-<a id="nestedatt--alert_sources--template--title"></a>
-### Nested Schema for `alert_sources.template.title`
-
-Read-Only:
-
-- `literal` (String) A literal title value
-- `reference` (String) A reference to an expression or variable for the title
 
 <a id="nestedatt--alert_sources--template--expressions"></a>
 ### Nested Schema for `alert_sources.template.expressions`
@@ -158,215 +196,243 @@ Read-Only:
 Read-Only:
 
 - `else_branch` (Attributes) The else branch to resort to if all operations fail (see [below for nested schema](#nestedatt--alert_sources--template--expressions--else_branch))
-- `label` (String) The label for this expression
+- `label` (String) The human readable label of the expression
 - `operations` (Attributes List) The operations to execute in sequence for this expression (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations))
-- `reference` (String) The reference name for this expression
-- `root_reference` (String) The root reference for this expression
+- `reference` (String) A short ID that can be used to reference the expression
+- `root_reference` (String) The root reference for this expression (i.e. where the expression starts)
 
 <a id="nestedatt--alert_sources--template--expressions--else_branch"></a>
-### Nested Schema for `alert_sources.template.expressions.else_branch`
+### Nested Schema for `alert_sources.template.expressions.root_reference`
 
 Read-Only:
 
-- `result` (Attributes) The result assumed if the else branch is reached (see [below for nested schema](#nestedatt--alert_sources--template--expressions--else_branch--result))
+- `result` (Attributes) The result assumed if the else branch is reached (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--result))
 
-<a id="nestedatt--alert_sources--template--expressions--else_branch--result"></a>
-### Nested Schema for `alert_sources.template.expressions.else_branch.result`
-
-Read-Only:
-
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--else_branch--result--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--alert_sources--template--expressions--else_branch--result--value))
-
-<a id="nestedatt--alert_sources--template--expressions--else_branch--result--array_value"></a>
-### Nested Schema for `alert_sources.template.expressions.else_branch.result.array_value`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--result"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.result`
 
 Read-Only:
 
-- `literal` (String) A literal value
-- `reference` (String) A reference to an expression or variable
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--result--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--result--value))
 
-<a id="nestedatt--alert_sources--template--expressions--else_branch--result--value"></a>
-### Nested Schema for `alert_sources.template.expressions.else_branch.result.value`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--result--array_value"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.result.value`
 
 Read-Only:
 
-- `literal` (String) A literal value
-- `reference` (String) A reference to an expression or variable
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--alert_sources--template--expressions--root_reference--result--value"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.result.value`
+
+Read-Only:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
 
 <a id="nestedatt--alert_sources--template--expressions--operations"></a>
-### Nested Schema for `alert_sources.template.expressions.operations`
+### Nested Schema for `alert_sources.template.expressions.root_reference`
 
 Read-Only:
 
-- `branches` (Attributes) An operation type that allows for a value to be set conditionally by a series of logical branches (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches))
-- `filter` (Attributes) An operation type that allows values to be filtered out by conditions (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter))
-- `navigate` (Attributes) An operation type that allows attributes of a type to be accessed by reference (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--navigate))
+- `branches` (Attributes) An operation type that allows for a value to be set conditionally by a series of logical branches (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--branches))
+- `filter` (Attributes) An operation type that allows values to be filtered out by conditions (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--filter))
+- `navigate` (Attributes) An operation type that allows attributes of a type to be accessed by reference (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--navigate))
 - `operation_type` (String) Indicates which operation type to execute
-- `parse` (Attributes) An operation type that allows a value to parsed from within a JSON object (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--parse))
+- `parse` (Attributes) An operation type that allows a value to parsed from within a JSON object (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--parse))
 
-<a id="nestedatt--alert_sources--template--expressions--operations--branches"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.branches`
-
-Read-Only:
-
-- `branches` (Attributes List) The branches to evaluate (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches))
-- `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--returns))
-
-<a id="nestedatt--alert_sources--template--expressions--operations--branches--returns"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.branches.returns`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--branches"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.branches`
 
 Read-Only:
 
-- `array` (Boolean) Whether this operation returns an array
-- `type` (String) The type that this operation returns
+- `branches` (Attributes List) The branches to apply for this operation (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--branches--branches))
+- `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--branches--returns))
 
-<a id="nestedatt--alert_sources--template--expressions--operations--branches--branches"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.branches.branches`
-
-Read-Only:
-
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups))
-- `result` (Attributes) The result assumed if the condition groups are satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--result))
-
-<a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.branches.branches.condition_groups`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--branches--branches"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.branches.returns`
 
 Read-Only:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions))
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--branches--returns--condition_groups))
+- `result` (Attributes) The result assumed if the condition groups are satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result))
 
-<a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.branches.branches.condition_groups.conditions`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--branches--returns--condition_groups"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.branches.returns.result`
+
+Read-Only:
+
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result--conditions))
+
+<a id="nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result--conditions"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.branches.returns.result.conditions`
 
 Read-Only:
 
 - `operation` (String) The logical operation to be applied
-- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings))
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
-<a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.branches.branches.condition_groups.conditions.param_bindings`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result--conditions--param_bindings"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.branches.returns.result.conditions.param_bindings`
 
 Read-Only:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--value))
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result--conditions--param_bindings--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result--conditions--param_bindings--value))
 
-<a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.branches.branches.condition_groups.conditions.param_bindings.array_value`
-
-Read-Only:
-
-- `literal` (String) A literal value
-- `reference` (String) A reference to an expression or variable
-
-<a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--value"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.branches.branches.condition_groups.conditions.param_bindings.value`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result--conditions--param_bindings--array_value"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.branches.returns.result.conditions.param_bindings.value`
 
 Read-Only:
 
-- `literal` (String) A literal value
-- `reference` (String) A reference to an expression or variable
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
-<a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--result"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.branches.branches.result`
 
-Read-Only:
-
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--result--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--result--value))
-
-<a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--result--array_value"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.branches.branches.result.array_value`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result--conditions--param_bindings--value"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.branches.returns.result.conditions.param_bindings.value`
 
 Read-Only:
 
-- `literal` (String) A literal value
-- `reference` (String) A reference to an expression or variable
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
-<a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--result--value"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.branches.branches.result.value`
 
-Read-Only:
 
-- `literal` (String) A literal value
-- `reference` (String) A reference to an expression or variable
 
-<a id="nestedatt--alert_sources--template--expressions--operations--filter"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.filter`
+
+<a id="nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.branches.returns.result`
 
 Read-Only:
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups))
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result--value))
 
-<a id="nestedatt--alert_sources--template--expressions--operations--filter--condition_groups"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.filter.condition_groups`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result--array_value"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.branches.returns.result.value`
 
 Read-Only:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions))
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
-<a id="nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.filter.condition_groups.conditions`
+
+<a id="nestedatt--alert_sources--template--expressions--root_reference--branches--returns--result--value"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.branches.returns.result.value`
+
+Read-Only:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--alert_sources--template--expressions--root_reference--branches--returns"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.branches.returns`
+
+Read-Only:
+
+- `array` (Boolean) Whether the return value should be single or multi-value
+- `type` (String) Expected return type of this expression (what to try casting the result to)
+
+
+
+<a id="nestedatt--alert_sources--template--expressions--root_reference--filter"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.filter`
+
+Read-Only:
+
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--filter--condition_groups))
+
+<a id="nestedatt--alert_sources--template--expressions--root_reference--filter--condition_groups"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.filter.condition_groups`
+
+Read-Only:
+
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--filter--condition_groups--conditions))
+
+<a id="nestedatt--alert_sources--template--expressions--root_reference--filter--condition_groups--conditions"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.filter.condition_groups.conditions`
 
 Read-Only:
 
 - `operation` (String) The logical operation to be applied
-- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings))
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--filter--condition_groups--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
-<a id="nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.filter.condition_groups.conditions.param_bindings`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--filter--condition_groups--conditions--param_bindings"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.filter.condition_groups.conditions.subject`
 
 Read-Only:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings--value))
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--filter--condition_groups--conditions--subject--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--filter--condition_groups--conditions--subject--value))
 
-<a id="nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.filter.condition_groups.conditions.param_bindings.array_value`
-
-Read-Only:
-
-- `literal` (String) A literal value
-- `reference` (String) A reference to an expression or variable
-
-<a id="nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings--value"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.filter.condition_groups.conditions.param_bindings.value`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--filter--condition_groups--conditions--subject--array_value"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.filter.condition_groups.conditions.subject.array_value`
 
 Read-Only:
 
-- `literal` (String) A literal value
-- `reference` (String) A reference to an expression or variable
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
-<a id="nestedatt--alert_sources--template--expressions--operations--navigate"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.navigate`
 
-Read-Only:
-
-- `reference` (String) The reference to navigate to
-
-<a id="nestedatt--alert_sources--template--expressions--operations--parse"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.parse`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--filter--condition_groups--conditions--subject--value"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.filter.condition_groups.conditions.subject.value`
 
 Read-Only:
 
-- `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--parse--returns))
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+
+
+<a id="nestedatt--alert_sources--template--expressions--root_reference--navigate"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.navigate`
+
+Read-Only:
+
+- `reference` (String)
+
+
+<a id="nestedatt--alert_sources--template--expressions--root_reference--parse"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.parse`
+
+Read-Only:
+
+- `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--alert_sources--template--expressions--root_reference--parse--returns))
 - `source` (String) The ES5 Javascript expression to execute
 
-<a id="nestedatt--alert_sources--template--expressions--operations--parse--returns"></a>
-### Nested Schema for `alert_sources.template.expressions.operations.parse.returns`
+<a id="nestedatt--alert_sources--template--expressions--root_reference--parse--returns"></a>
+### Nested Schema for `alert_sources.template.expressions.root_reference.parse.source`
 
 Read-Only:
 
-- `array` (Boolean) Whether this operation returns an array
-- `type` (String) The type that this operation returns
+- `array` (Boolean) Whether the return value should be single or multi-value
+- `type` (String) Expected return type of this expression (what to try casting the result to)
 
-## Filtering Behavior
 
-This data source supports flexible filtering:
 
-- **No filters**: Returns all alert sources
-- **Single filter**: Returns alert sources matching that criteria
-- **Multiple filters**: Returns alert sources matching ALL specified criteria (AND logic)
+
+
+<a id="nestedatt--alert_sources--template--title"></a>
+### Nested Schema for `alert_sources.template.title`
+
+Read-Only:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
