@@ -27,8 +27,6 @@ type IncidentAlertSourcesDataSource struct {
 }
 
 type IncidentAlertSourcesDataSourceModel struct {
-	ID           types.String                              `tfsdk:"id"`
-	Name         types.String                              `tfsdk:"name"`
 	SourceType   types.String                              `tfsdk:"source_type"`
 	AlertSources []IncidentAlertSourcesDataSourceItemModel `tfsdk:"alert_sources"`
 }
@@ -85,12 +83,6 @@ func (d *IncidentAlertSourcesDataSource) Read(ctx context.Context, req datasourc
 	var filteredSources []client.AlertSourceV2
 	for _, source := range result.JSON200.AlertSources {
 		// Apply filters if they are provided
-		if !data.ID.IsNull() && source.Id != data.ID.ValueString() {
-			continue
-		}
-		if !data.Name.IsNull() && source.Name != data.Name.ValueString() {
-			continue
-		}
 		if !data.SourceType.IsNull() && string(source.SourceType) != data.SourceType.ValueString() {
 			continue
 		}
@@ -105,8 +97,6 @@ func (d *IncidentAlertSourcesDataSource) Read(ctx context.Context, req datasourc
 	}
 
 	modelResp := IncidentAlertSourcesDataSourceModel{
-		ID:           data.ID,
-		Name:         data.Name,
 		SourceType:   data.SourceType,
 		AlertSources: alertSources,
 	}
@@ -139,14 +129,6 @@ func (d *IncidentAlertSourcesDataSource) Schema(ctx context.Context, req datasou
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Alert Sources V2"),
 		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter alert sources by ID. If provided, only the alert source with this ID will be returned.",
-			},
-			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter alert sources by name. If provided, only alert sources with this name will be returned.",
-			},
 			"source_type": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Filter alert sources by source type (e.g., 'webhook', 'email', 'jira'). If provided, only alert sources of this type will be returned.",

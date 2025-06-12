@@ -18,23 +18,6 @@ func TestAccIncidentAlertSourcesDataSource(t *testing.T) {
 					resource.TestCheckResourceAttrSet("data.incident_alert_sources.all", "alert_sources.#"),
 				),
 			},
-			// Test filtering by ID
-			{
-				Config: testAccIncidentAlertSourcesDataSourceConfigByID,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("data.incident_alert_sources.by_id", "alert_sources.#", "1"),
-					resource.TestCheckResourceAttrSet("data.incident_alert_sources.by_id", "alert_sources.0.id"),
-					resource.TestCheckResourceAttr("data.incident_alert_sources.by_id", "alert_sources.0.name", "Test Alert Source for ID Filter"),
-				),
-			},
-			// Test filtering by name
-			{
-				Config: testAccIncidentAlertSourcesDataSourceConfigByName,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("data.incident_alert_sources.by_name", "alert_sources.#", "1"),
-					resource.TestCheckResourceAttr("data.incident_alert_sources.by_name", "alert_sources.0.name", "Test Alert Source for Name Filter"),
-				),
-			},
 			// Test filtering by source type
 			{
 				Config: testAccIncidentAlertSourcesDataSourceConfigBySourceType,
@@ -85,54 +68,6 @@ resource "incident_alert_source" "test2" {
 # Get all alert sources
 data "incident_alert_sources" "all" {
   depends_on = [incident_alert_source.test1, incident_alert_source.test2]
-}
-`
-
-const testAccIncidentAlertSourcesDataSourceConfigByID = `
-# Create test alert source
-resource "incident_alert_source" "test" {
-  name        = "Test Alert Source for ID Filter"
-  source_type = "webhook"
-  
-  template {
-    title {
-      literal = "Test Alert"
-    }
-    description {
-      literal = "Test alert description"
-    }
-    attributes = []
-    expressions = []
-  }
-}
-
-# Get alert source by ID
-data "incident_alert_sources" "by_id" {
-  id = incident_alert_source.test.id
-}
-`
-
-const testAccIncidentAlertSourcesDataSourceConfigByName = `
-# Create test alert source
-resource "incident_alert_source" "test" {
-  name        = "Test Alert Source for Name Filter"
-  source_type = "webhook"
-  
-  template {
-    title {
-      literal = "Test Alert"
-    }
-    description {
-      literal = "Test alert description"
-    }
-    attributes = []
-    expressions = []
-  }
-}
-
-# Get alert source by name
-data "incident_alert_sources" "by_name" {
-  name = incident_alert_source.test.name
 }
 `
 

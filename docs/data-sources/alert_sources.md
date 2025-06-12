@@ -19,25 +19,18 @@ Alert sources are the systems that send alerts to incident.io, which can then be
 # Example 1: Get all alert sources
 data "incident_alert_sources" "all" {}
 
-# Example 2: Filter by specific ID
-data "incident_alert_sources" "by_id" {
-  id = "01GW2G3V0S59R238FAHPDS1R66"
-}
-
-# Example 3: Filter by name
-data "incident_alert_sources" "by_name" {
-  name = "Production Web Dashboard Alerts"
-}
-
-# Example 4: Filter by source type
+# Example 2: Filter by source type
 data "incident_alert_sources" "webhooks_only" {
   source_type = "webhook"
 }
 
-# Example 5: Filter by multiple criteria (name and source_type)
-data "incident_alert_sources" "specific_webhook" {
-  name        = "Production Alerts"
-  source_type = "webhook"
+# Example 3: Filter by different source types
+data "incident_alert_sources" "email_sources" {
+  source_type = "email"
+}
+
+data "incident_alert_sources" "jira_sources" {
+  source_type = "jira"
 }
 
 # Output examples
@@ -56,14 +49,14 @@ output "webhook_alert_sources_count" {
   value       = length(data.incident_alert_sources.webhooks_only.alert_sources)
 }
 
-output "specific_alert_source_details" {
-  description = "Details of the alert source found by ID"
-  value = length(data.incident_alert_sources.by_id.alert_sources) > 0 ? {
-    id           = data.incident_alert_sources.by_id.alert_sources[0].id
-    name         = data.incident_alert_sources.by_id.alert_sources[0].name
-    source_type  = data.incident_alert_sources.by_id.alert_sources[0].source_type
-    secret_token = data.incident_alert_sources.by_id.alert_sources[0].secret_token
-  } : null
+output "webhook_alert_source_details" {
+  description = "Details of webhook alert sources"
+  value = [for source in data.incident_alert_sources.webhooks_only.alert_sources : {
+    id           = source.id
+    name         = source.name
+    source_type  = source.source_type
+    secret_token = source.secret_token
+  }]
 }
 
 # Advanced usage: Create local values for further processing
@@ -109,8 +102,6 @@ output "alert_source_lookup" {
 
 ### Optional
 
-- `id` (String) Filter alert sources by ID. If provided, only the alert source with this ID will be returned.
-- `name` (String) Filter alert sources by name. If provided, only alert sources with this name will be returned.
 - `source_type` (String) Filter alert sources by source type (e.g., 'webhook', 'email', 'jira'). If provided, only alert sources of this type will be returned.
 
 ### Read-Only
