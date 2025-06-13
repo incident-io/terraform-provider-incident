@@ -35,7 +35,7 @@ const testAccIncidentAlertSourcesDataSourceConfigAll = `
 # Create test alert sources
 resource "incident_alert_source" "test1" {
   name        = "Test Alert Source 1"
-  source_type = "webhook"
+  source_type = "http"
   
   template = {
     title = {
@@ -51,7 +51,7 @@ resource "incident_alert_source" "test1" {
 
 resource "incident_alert_source" "test2" {
   name        = "Test Alert Source 2"
-  source_type = "webhook"
+  source_type = "http"
   
   template = {
     title = {
@@ -74,15 +74,15 @@ data "incident_alert_sources" "all" {
 const testAccIncidentAlertSourcesDataSourceConfigBySourceType = `
 # Create test alert sources with different types
 resource "incident_alert_source" "webhook" {
-  name        = "Test Webhook Alert Source"
-  source_type = "webhook"
+  name        = "Test HTTP Alert Source"
+  source_type = "http"
   
   template = {
     title = {
-      literal = "Test Webhook Alert"
+      literal = "Test HTTP Alert"
     }
     description = {
-      literal = "Test webhook alert description"
+      literal = "Test HTTP alert description"
     }
     attributes = []
     expressions = []
@@ -91,7 +91,7 @@ resource "incident_alert_source" "webhook" {
 
 # Get alert sources by source type
 data "incident_alert_sources" "by_source_type" {
-  source_type = "webhook"
+  source_type = "http"
   depends_on = [incident_alert_source.webhook]
 }
 `
