@@ -38,7 +38,10 @@ func New(ctx context.Context, apiKey, apiEndpoint, version string, opts ...Clien
 				return nil, fmt.Errorf("status %d: no response body", resp.StatusCode)
 			}
 
-			return nil, fmt.Errorf("status %d: %s", resp.StatusCode, string(data))
+			return nil, HTTPError{
+				Body:       data,
+				StatusCode: resp.StatusCode,
+			}
 		}
 
 		return resp, err
