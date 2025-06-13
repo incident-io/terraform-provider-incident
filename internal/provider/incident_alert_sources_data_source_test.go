@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -14,9 +15,22 @@ func TestAccIncidentAlertSourcesDataSource(t *testing.T) {
 			{
 				Config: testAccIncidentAlertSourcesDataSourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("data.incident_alert_sources.test", "alert_sources.#", "2"),
-					resource.TestCheckResourceAttr("data.incident_alert_sources.test", "alert_sources.0.name", "Test HTTP Alert Source 1"),
-					resource.TestCheckResourceAttr("data.incident_alert_sources.test", "alert_sources.1.name", "Test HTTP Alert Source 2"),
+					// Check that we have at least 2 alert sources (our created ones plus any existing ones)
+					resource.TestCheckResourceAttrWith("data.incident_alert_sources.test", "alert_sources.#", func(value string) error {
+						if value == "0" || value == "1" {
+							return fmt.Errorf("expected at least 2 alert sources, got %s", value)
+						}
+						return nil
+					}),
+					// Check that our test alert sources exist in the results
+					resource.TestCheckTypeSetElemNestedAttrs("data.incident_alert_sources.test", "alert_sources.*", map[string]string{
+						"name":        "Test HTTP Alert Source 1",
+						"source_type": "http",
+					}),
+					resource.TestCheckTypeSetElemNestedAttrs("data.incident_alert_sources.test", "alert_sources.*", map[string]string{
+						"name":        "Test HTTP Alert Source 2",
+						"source_type": "http",
+					}),
 				),
 			},
 		},
@@ -29,11 +43,13 @@ resource "incident_alert_source" "test1" {
   source_type = "http"
   template = {
     title = {
-      literal = "Test Alert Title 1"
+      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Title 1\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
     }
     description = {
-      literal = "Test Alert Description 1"
+      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Description 1\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
     }
+    attributes = []
+    expressions = []
   }
 }
 
@@ -42,11 +58,13 @@ resource "incident_alert_source" "test2" {
   source_type = "http"
   template = {
     title = {
-      literal = "Test Alert Title 2"
+      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Title 2\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
     }
     description = {
-      literal = "Test Alert Description 2"
+      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Description 2\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
     }
+    attributes = []
+    expressions = []
   }
 }
 
