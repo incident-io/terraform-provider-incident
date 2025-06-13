@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -11,38 +12,41 @@ func TestAccIncidentAlertSourcesDataSource(t *testing.T) {
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
-			// Test retrieving all alert sources
 			{
-				Config: testAccIncidentAlertSourcesDataSourceConfigAll,
+				Config: testAccIncidentAlertSourcesDataSourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet("data.incident_alert_sources.all", "alert_sources.#"),
-				),
-			},
-			// Test filtering by source type
-			{
-				Config: testAccIncidentAlertSourcesDataSourceConfigBySourceType,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet("data.incident_alert_sources.by_source_type", "alert_sources.#"),
-					// All returned sources should be webhook type
-					resource.TestCheckResourceAttr("data.incident_alert_sources.by_source_type", "alert_sources.0.source_type", "webhook"),
+					// Check that we have at least 2 alert sources (our created ones plus any existing ones)
+					resource.TestCheckResourceAttrWith("data.incident_alert_sources.test", "alert_sources.#", func(value string) error {
+						if value == "0" || value == "1" {
+							return fmt.Errorf("expected at least 2 alert sources, got %s", value)
+						}
+						return nil
+					}),
+					// Check that our test alert sources exist in the results
+					resource.TestCheckTypeSetElemNestedAttrs("data.incident_alert_sources.test", "alert_sources.*", map[string]string{
+						"name":        "Test HTTP Alert Source 1",
+						"source_type": "http",
+					}),
+					resource.TestCheckTypeSetElemNestedAttrs("data.incident_alert_sources.test", "alert_sources.*", map[string]string{
+						"name":        "Test HTTP Alert Source 2",
+						"source_type": "http",
+					}),
 				),
 			},
 		},
 	})
 }
 
-const testAccIncidentAlertSourcesDataSourceConfigAll = `
-# Create test alert sources
+const testAccIncidentAlertSourcesDataSourceConfig = `
 resource "incident_alert_source" "test1" {
-  name        = "Test Alert Source 1"
-  source_type = "webhook"
-  
-  template {
-    title {
-      literal = "Test Alert 1"
+  name        = "Test HTTP Alert Source 1"
+  source_type = "http"
+  template = {
+    title = {
+      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Title 1\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
     }
-    description {
-      literal = "Test alert description 1"
+    description = {
+      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Description 1\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
     }
     attributes = []
     expressions = []
@@ -50,48 +54,25 @@ resource "incident_alert_source" "test1" {
 }
 
 resource "incident_alert_source" "test2" {
-  name        = "Test Alert Source 2"
-  source_type = "webhook"
-  
-  template {
-    title {
-      literal = "Test Alert 2"
+  name        = "Test HTTP Alert Source 2"
+  source_type = "http"
+  template = {
+    title = {
+      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Title 2\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
     }
-    description {
-      literal = "Test alert description 2"
-    }
-    attributes = []
-    expressions = []
-  }
-}
-
-# Get all alert sources
-data "incident_alert_sources" "all" {
-  depends_on = [incident_alert_source.test1, incident_alert_source.test2]
-}
-`
-
-const testAccIncidentAlertSourcesDataSourceConfigBySourceType = `
-# Create test alert sources with different types
-resource "incident_alert_source" "webhook" {
-  name        = "Test Webhook Alert Source"
-  source_type = "webhook"
-  
-  template {
-    title {
-      literal = "Test Webhook Alert"
-    }
-    description {
-      literal = "Test webhook alert description"
+    description = {
+      literal = "{\"content\":[{\"content\":[{\"text\":\"Test Alert Description 2\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"}"
     }
     attributes = []
     expressions = []
   }
 }
 
-# Get alert sources by source type
-data "incident_alert_sources" "by_source_type" {
-  source_type = "webhook"
-  depends_on = [incident_alert_source.webhook]
+data "incident_alert_sources" "test" {
+  source_type = "http"
+  depends_on = [
+    incident_alert_source.test1,
+    incident_alert_source.test2
+  ]
 }
 `
