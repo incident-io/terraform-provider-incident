@@ -37,11 +37,11 @@ resource "incident_alert_source" "test1" {
   name        = "Test Alert Source 1"
   source_type = "webhook"
   
-  template {
-    title {
+  template = {
+    title = {
       literal = "Test Alert 1"
     }
-    description {
+    description = {
       literal = "Test alert description 1"
     }
     attributes = []
@@ -53,11 +53,11 @@ resource "incident_alert_source" "test2" {
   name        = "Test Alert Source 2"
   source_type = "webhook"
   
-  template {
-    title {
+  template = {
+    title = {
       literal = "Test Alert 2"
     }
-    description {
+    description = {
       literal = "Test alert description 2"
     }
     attributes = []
@@ -77,11 +77,11 @@ resource "incident_alert_source" "webhook" {
   name        = "Test Webhook Alert Source"
   source_type = "webhook"
   
-  template {
-    title {
+  template = {
+    title = {
       literal = "Test Webhook Alert"
     }
-    description {
+    description = {
       literal = "Test webhook alert description"
     }
     attributes = []
