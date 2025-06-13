@@ -9,8 +9,6 @@ import (
 
 	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
-	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	testingresource "github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
@@ -188,7 +186,7 @@ func testAccIncidentWorkflowResourceConfig(override *workflowTemplateOverrides) 
 }
 
 // TestIncidentWorkflowResource_StateUpgradeV0ToV1 tests the state upgrade functionality
-// from version 0 (list) to version 1 (set) for runs_on_incident_modes
+// from version 0 (list) to version 1 (set) for runs_on_incident_modes.
 func TestIncidentWorkflowResource_StateUpgradeV0ToV1(t *testing.T) {
 	ctx := context.Background()
 	workflowResource := &IncidentWorkflowResource{}
@@ -201,7 +199,7 @@ func TestIncidentWorkflowResource_StateUpgradeV0ToV1(t *testing.T) {
 
 	// Test the core logic: converting a list to a set
 	// This simulates what the state upgrader does
-	
+
 	setValue, diags := types.SetValue(types.StringType, []attr.Value{
 		types.StringValue("standard"),
 		types.StringValue("test"),
@@ -247,23 +245,14 @@ func TestIncidentWorkflowResource_StateUpgradeV0ToV1(t *testing.T) {
 }
 
 // TestIncidentWorkflowResource_StateUpgradeV0ToV1_NullList tests state upgrade
-// when runs_on_incident_modes is null in the old state
+// when runs_on_incident_modes is null in the old state.
 func TestIncidentWorkflowResource_StateUpgradeV0ToV1_NullList(t *testing.T) {
 	// Test that null list converts to null set
 	nullSet := types.SetNull(types.StringType)
-	
+
 	if !nullSet.IsNull() {
 		t.Error("Expected null set to be null")
 	}
 
 	t.Logf("Null list to null set conversion test passed")
-}
-
-// Helper function to get the current schema for testing
-func (r *IncidentWorkflowResource) getSchema() schema.Schema {
-	ctx := context.Background()
-	req := resource.SchemaRequest{}
-	resp := &resource.SchemaResponse{}
-	r.Schema(ctx, req, resp)
-	return resp.Schema
 }

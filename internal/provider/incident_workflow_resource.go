@@ -424,7 +424,7 @@ func (r *IncidentWorkflowResource) UpgradeState(ctx context.Context) map[int64]r
 	}
 }
 
-// upgradeStateV0ToV1 migrates runs_on_incident_modes from List to Set
+// upgradeStateV0ToV1 migrates runs_on_incident_modes from List to Set.
 func (r *IncidentWorkflowResource) upgradeStateV0ToV1(ctx context.Context, req resource.UpgradeStateRequest, resp *resource.UpgradeStateResponse) {
 	// Define the old state structure with list
 	type StateV0 struct {
