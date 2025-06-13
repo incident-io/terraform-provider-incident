@@ -1,7 +1,9 @@
-## Unreleased
+## v5.9.0
 
 - Update the documentation for `incident_alert_source`, `incident_alert_route`, `incident_escalation_path` and `incident_schedule` to reference the 'Export' flow
   in the dashboard
+- Adds `incident_alert_sources` as a plural data source, to retrieve a list of your
+  alert sources
 
 ## v5.8.0
 

@@ -3,7 +3,7 @@ data "incident_alert_sources" "all" {}
 
 # Example 2: Filter by source type
 data "incident_alert_sources" "webhooks_only" {
-  source_type = "webhook"
+  source_type = "http"
 }
 
 # Example 3: Filter by different source types
