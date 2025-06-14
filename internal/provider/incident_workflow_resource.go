@@ -19,8 +19,9 @@ import (
 )
 
 var (
-	_ resource.Resource                = &IncidentWorkflowResource{}
-	_ resource.ResourceWithImportState = &IncidentWorkflowResource{}
+	_ resource.Resource                 = &IncidentWorkflowResource{}
+	_ resource.ResourceWithImportState  = &IncidentWorkflowResource{}
+	_ resource.ResourceWithUpgradeState = &IncidentWorkflowResource{}
 )
 
 type IncidentWorkflowResource struct {
@@ -32,7 +33,8 @@ func NewIncidentWorkflowResource() resource.Resource {
 	return &IncidentWorkflowResource{}
 }
 
-type IncidentWorkflowResourceModel struct {
+// IncidentWorkflowResourceModelV1 represents the current (v1) schema.
+type IncidentWorkflowResourceModelV1 struct {
 	ID                      types.String                         `tfsdk:"id"`
 	Name                    types.String                         `tfsdk:"name"`
 	Folder                  types.String                         `tfsdk:"folder"`
@@ -46,9 +48,31 @@ type IncidentWorkflowResourceModel struct {
 	ContinueOnStepError     types.Bool                           `tfsdk:"continue_on_step_error"`
 	Delay                   *IncidentWorkflowDelay               `tfsdk:"delay"`
 	RunsOnIncidents         types.String                         `tfsdk:"runs_on_incidents"`
-	RunsOnIncidentModes     []types.String                       `tfsdk:"runs_on_incident_modes"`
+	RunsOnIncidentModes     types.Set                            `tfsdk:"runs_on_incident_modes"` // Set in v1
 	State                   types.String                         `tfsdk:"state"`
 }
+
+// IncidentWorkflowResourceModelV0 represents the legacy (v0) schema with runs_on_incident_modes as List.
+type IncidentWorkflowResourceModelV0 struct {
+	ID                      types.String                         `tfsdk:"id"`
+	Name                    types.String                         `tfsdk:"name"`
+	Folder                  types.String                         `tfsdk:"folder"`
+	Shortform               types.String                         `tfsdk:"shortform"`
+	Trigger                 types.String                         `tfsdk:"trigger"`
+	ConditionGroups         models.IncidentEngineConditionGroups `tfsdk:"condition_groups"`
+	Steps                   []IncidentWorkflowStep               `tfsdk:"steps"`
+	Expressions             models.IncidentEngineExpressions     `tfsdk:"expressions"`
+	OnceFor                 []types.String                       `tfsdk:"once_for"`
+	IncludePrivateIncidents types.Bool                           `tfsdk:"include_private_incidents"`
+	ContinueOnStepError     types.Bool                           `tfsdk:"continue_on_step_error"`
+	Delay                   *IncidentWorkflowDelay               `tfsdk:"delay"`
+	RunsOnIncidents         types.String                         `tfsdk:"runs_on_incidents"`
+	RunsOnIncidentModes     types.List                           `tfsdk:"runs_on_incident_modes"` // List in v0
+	State                   types.String                         `tfsdk:"state"`
+}
+
+// IncidentWorkflowResourceModel is an alias for the current version.
+type IncidentWorkflowResourceModel = IncidentWorkflowResourceModelV1
 
 type IncidentWorkflowStep struct {
 	ForEach       types.String                       `tfsdk:"for_each"`
@@ -68,6 +92,7 @@ func (r *IncidentWorkflowResource) Metadata(ctx context.Context, req resource.Me
 
 func (r *IncidentWorkflowResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		Version: 1, // Incremented from 0 to support state upgrade for runs_on_incident_modes list->set migration
 		MarkdownDescription: `This resource is used to manage Workflows.
 
 We'd generally recommend building workflows in our [web dashboard](https://app.incident.io/~/workflows), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing workflow and copy the resulting Terraform without persisting it. You can learn more in this [Loom](https://www.loom.com/share/b833d7d0fd114d6ba3f24d8c72e5208f?sid=c6d3cc3f-aa93-44ba-b12d-a0a4cbe09448).`,
@@ -149,7 +174,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "runs_on_incidents"),
 				Required:            true,
 			},
-			"runs_on_incident_modes": schema.ListAttribute{
+			"runs_on_incident_modes": schema.SetAttribute{
 				MarkdownDescription: "Incidents in these modes will be affected by the workflow",
 				Required:            true,
 				ElementType:         types.StringType,
@@ -175,8 +200,10 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	runsOnIncidentModes := []client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes{}
-	for _, v := range data.RunsOnIncidentModes {
-		runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes(v.ValueString()))
+	for _, v := range data.RunsOnIncidentModes.Elements() {
+		if stringValue, ok := v.(types.String); ok {
+			runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes(stringValue.ValueString()))
+		}
 	}
 
 	payload := client.WorkflowsCreateWorkflowPayloadV2{
@@ -238,8 +265,10 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 	}
 
 	runsOnIncidentModes := []client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes{}
-	for _, v := range data.RunsOnIncidentModes {
-		runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes(v.ValueString()))
+	for _, v := range data.RunsOnIncidentModes.Elements() {
+		if stringValue, ok := v.(types.String); ok {
+			runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes(stringValue.ValueString()))
+		}
 	}
 
 	payload := client.WorkflowsV2UpdateWorkflowJSONRequestBody{
@@ -338,6 +367,131 @@ func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.C
 
 	r.client = client.Client
 	r.terraformVersion = client.TerraformVersion
+}
+
+func (r *IncidentWorkflowResource) UpgradeState(ctx context.Context) map[int64]resource.StateUpgrader {
+	return map[int64]resource.StateUpgrader{
+		// State upgrade from version 0 to version 1 (list to set migration for runs_on_incident_modes)
+		0: {
+			PriorSchema: &schema.Schema{
+				Attributes: map[string]schema.Attribute{
+					"id": schema.StringAttribute{
+						Computed: true,
+					},
+					"name": schema.StringAttribute{
+						Required: true,
+					},
+					"folder": schema.StringAttribute{
+						Optional: true,
+					},
+					"shortform": schema.StringAttribute{
+						Optional: true,
+					},
+					"trigger": schema.StringAttribute{
+						Required: true,
+					},
+					"condition_groups": models.ConditionGroupsAttribute(),
+					"steps": schema.ListNestedAttribute{
+						Required: true,
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"for_each": schema.StringAttribute{
+									Optional: true,
+								},
+								"id": schema.StringAttribute{
+									Required: true,
+								},
+								"name": schema.StringAttribute{
+									Required: true,
+								},
+								"param_bindings": models.ParamBindingsAttribute(),
+							},
+						},
+					},
+					"expressions": models.ExpressionsAttribute(),
+					"once_for": schema.ListAttribute{
+						Required:    true,
+						ElementType: types.StringType,
+					},
+					"include_private_incidents": schema.BoolAttribute{
+						Required: true,
+					},
+					"continue_on_step_error": schema.BoolAttribute{
+						Required: true,
+					},
+					"delay": schema.SingleNestedAttribute{
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"conditions_apply_over_delay": schema.BoolAttribute{
+								Required: true,
+							},
+							"for_seconds": schema.Int64Attribute{
+								Required: true,
+							},
+						},
+					},
+					"runs_on_incidents": schema.StringAttribute{
+						Required: true,
+					},
+					"runs_on_incident_modes": schema.ListAttribute{ // This was a ListAttribute in version 0
+						Required:    true,
+						ElementType: types.StringType,
+					},
+					"state": schema.StringAttribute{
+						Required: true,
+					},
+				},
+			},
+			StateUpgrader: r.upgradeStateV0ToV1,
+		},
+	}
+}
+
+// upgradeStateV0ToV1 migrates runs_on_incident_modes from List to Set.
+func (r *IncidentWorkflowResource) upgradeStateV0ToV1(ctx context.Context, req resource.UpgradeStateRequest, resp *resource.UpgradeStateResponse) {
+	var oldState IncidentWorkflowResourceModelV0
+	resp.Diagnostics.Append(req.State.Get(ctx, &oldState)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Convert list to set for runs_on_incident_modes
+	var newRunsOnIncidentModes types.Set
+	if !oldState.RunsOnIncidentModes.IsNull() && !oldState.RunsOnIncidentModes.IsUnknown() {
+		listElements := oldState.RunsOnIncidentModes.Elements()
+		setValue, diags := types.SetValue(types.StringType, listElements)
+		resp.Diagnostics.Append(diags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		newRunsOnIncidentModes = setValue
+	} else {
+		newRunsOnIncidentModes = types.SetNull(types.StringType)
+	}
+
+	// OnceFor remains the same type, no conversion needed
+
+	// Create the new state structure using V1 model
+	newState := &IncidentWorkflowResourceModelV1{
+		ID:                      oldState.ID,
+		Name:                    oldState.Name,
+		Folder:                  oldState.Folder,
+		Shortform:               oldState.Shortform,
+		Trigger:                 oldState.Trigger,
+		ConditionGroups:         oldState.ConditionGroups,
+		Steps:                   oldState.Steps,
+		Expressions:             oldState.Expressions,
+		OnceFor:                 oldState.OnceFor,
+		IncludePrivateIncidents: oldState.IncludePrivateIncidents,
+		ContinueOnStepError:     oldState.ContinueOnStepError,
+		Delay:                   oldState.Delay,
+		RunsOnIncidents:         oldState.RunsOnIncidents,
+		RunsOnIncidentModes:     newRunsOnIncidentModes, // Now a Set in v1
+		State:                   oldState.State,
+	}
+
+	// Set the upgraded state
+	resp.Diagnostics.Append(resp.State.Set(ctx, newState)...)
 }
 
 func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayloadV2 {
