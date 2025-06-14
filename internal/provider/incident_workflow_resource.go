@@ -33,7 +33,8 @@ func NewIncidentWorkflowResource() resource.Resource {
 	return &IncidentWorkflowResource{}
 }
 
-type IncidentWorkflowResourceModel struct {
+// IncidentWorkflowResourceModelV1 represents the current (v1) schema.
+type IncidentWorkflowResourceModelV1 struct {
 	ID                      types.String                         `tfsdk:"id"`
 	Name                    types.String                         `tfsdk:"name"`
 	Folder                  types.String                         `tfsdk:"folder"`
@@ -47,9 +48,31 @@ type IncidentWorkflowResourceModel struct {
 	ContinueOnStepError     types.Bool                           `tfsdk:"continue_on_step_error"`
 	Delay                   *IncidentWorkflowDelay               `tfsdk:"delay"`
 	RunsOnIncidents         types.String                         `tfsdk:"runs_on_incidents"`
-	RunsOnIncidentModes     types.Set                            `tfsdk:"runs_on_incident_modes"`
+	RunsOnIncidentModes     types.Set                            `tfsdk:"runs_on_incident_modes"` // Set in v1
 	State                   types.String                         `tfsdk:"state"`
 }
+
+// IncidentWorkflowResourceModelV0 represents the legacy (v0) schema with runs_on_incident_modes as List.
+type IncidentWorkflowResourceModelV0 struct {
+	ID                      types.String                         `tfsdk:"id"`
+	Name                    types.String                         `tfsdk:"name"`
+	Folder                  types.String                         `tfsdk:"folder"`
+	Shortform               types.String                         `tfsdk:"shortform"`
+	Trigger                 types.String                         `tfsdk:"trigger"`
+	ConditionGroups         models.IncidentEngineConditionGroups `tfsdk:"condition_groups"`
+	Steps                   []IncidentWorkflowStep               `tfsdk:"steps"`
+	Expressions             models.IncidentEngineExpressions     `tfsdk:"expressions"`
+	OnceFor                 []types.String                       `tfsdk:"once_for"`
+	IncludePrivateIncidents types.Bool                           `tfsdk:"include_private_incidents"`
+	ContinueOnStepError     types.Bool                           `tfsdk:"continue_on_step_error"`
+	Delay                   *IncidentWorkflowDelay               `tfsdk:"delay"`
+	RunsOnIncidents         types.String                         `tfsdk:"runs_on_incidents"`
+	RunsOnIncidentModes     types.List                           `tfsdk:"runs_on_incident_modes"` // List in v0
+	State                   types.String                         `tfsdk:"state"`
+}
+
+// IncidentWorkflowResourceModel is an alias for the current version.
+type IncidentWorkflowResourceModel = IncidentWorkflowResourceModelV1
 
 type IncidentWorkflowStep struct {
 	ForEach       types.String                       `tfsdk:"for_each"`
@@ -426,26 +449,7 @@ func (r *IncidentWorkflowResource) UpgradeState(ctx context.Context) map[int64]r
 
 // upgradeStateV0ToV1 migrates runs_on_incident_modes from List to Set.
 func (r *IncidentWorkflowResource) upgradeStateV0ToV1(ctx context.Context, req resource.UpgradeStateRequest, resp *resource.UpgradeStateResponse) {
-	// Define the old state structure with list
-	type StateV0 struct {
-		ID                      types.String                         `tfsdk:"id"`
-		Name                    types.String                         `tfsdk:"name"`
-		Folder                  types.String                         `tfsdk:"folder"`
-		Shortform               types.String                         `tfsdk:"shortform"`
-		Trigger                 types.String                         `tfsdk:"trigger"`
-		ConditionGroups         models.IncidentEngineConditionGroups `tfsdk:"condition_groups"`
-		Steps                   []IncidentWorkflowStep               `tfsdk:"steps"`
-		Expressions             models.IncidentEngineExpressions     `tfsdk:"expressions"`
-		OnceFor                 types.List                           `tfsdk:"once_for"`
-		IncludePrivateIncidents types.Bool                           `tfsdk:"include_private_incidents"`
-		ContinueOnStepError     types.Bool                           `tfsdk:"continue_on_step_error"`
-		Delay                   *IncidentWorkflowDelay               `tfsdk:"delay"`
-		RunsOnIncidents         types.String                         `tfsdk:"runs_on_incidents"`
-		RunsOnIncidentModes     types.List                           `tfsdk:"runs_on_incident_modes"` // List in v0
-		State                   types.String                         `tfsdk:"state"`
-	}
-
-	var oldState StateV0
+	var oldState IncidentWorkflowResourceModelV0
 	resp.Diagnostics.Append(req.State.Get(ctx, &oldState)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -465,18 +469,10 @@ func (r *IncidentWorkflowResource) upgradeStateV0ToV1(ctx context.Context, req r
 		newRunsOnIncidentModes = types.SetNull(types.StringType)
 	}
 
-	// Convert once_for list to the expected format
-	var newOnceFor []types.String
-	if !oldState.OnceFor.IsNull() && !oldState.OnceFor.IsUnknown() {
-		for _, elem := range oldState.OnceFor.Elements() {
-			if strVal, ok := elem.(types.String); ok {
-				newOnceFor = append(newOnceFor, strVal)
-			}
-		}
-	}
+	// OnceFor remains the same type, no conversion needed
 
-	// Create the new state structure
-	newState := &IncidentWorkflowResourceModel{
+	// Create the new state structure using V1 model
+	newState := &IncidentWorkflowResourceModelV1{
 		ID:                      oldState.ID,
 		Name:                    oldState.Name,
 		Folder:                  oldState.Folder,
@@ -485,7 +481,7 @@ func (r *IncidentWorkflowResource) upgradeStateV0ToV1(ctx context.Context, req r
 		ConditionGroups:         oldState.ConditionGroups,
 		Steps:                   oldState.Steps,
 		Expressions:             oldState.Expressions,
-		OnceFor:                 newOnceFor,
+		OnceFor:                 oldState.OnceFor,
 		IncludePrivateIncidents: oldState.IncludePrivateIncidents,
 		ContinueOnStepError:     oldState.ContinueOnStepError,
 		Delay:                   oldState.Delay,
