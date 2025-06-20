@@ -113,6 +113,15 @@ resource "incident_alert_route" "service_alerts" {
             }
           ]
         }
+      },
+      {
+        users = {
+          array_value = [
+            {
+              literal = "01GX3C1TK13RQSEGP59XZ3MYP0"
+            }
+          ]
+        }
       }
     ]
   }
