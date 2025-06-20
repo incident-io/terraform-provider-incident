@@ -77,13 +77,22 @@ resource "incident_alert_route" "service_alerts" {
     }
   ]
 
-  // Used to configure which escalation paths OR users should be notified when an alert is received
+  // Used to configure which escalation paths and/or users who should be notified when an alert is received
   // and the conditions under which they should be notified
   // auto_cancel_escalations is used to specify whether or not the escalation should be automatically cancelled
   // upon receiving a 'resolved' notification for the alert that triggered the escalation
   escalation_config = {
     auto_cancel_escalations = true
     escalation_targets = [
+      {
+        escalation_paths = {
+          array_value = [
+            {
+              reference = "alert.attributes.escalation_path"
+            },
+          ]
+        }
+      },
       {
         escalation_paths = {
           array_value = [
