@@ -793,7 +793,7 @@ Required:
 
 - `binding` (Attributes) Binding for the custom field (see [below for nested schema](#nestedatt--incident_template--custom_fields--binding))
 - `custom_field_id` (String) ID of the custom field
-- `merge_strategy` (String) The strategy to use when multiple alerts match this route
+- `merge_strategy` (String) The strategy to use when multiple alerts match this route. Possible values are: `first-wins`, `last-wins`, `append`.
 
 <a id="nestedatt--incident_template--custom_fields--binding"></a>
 ### Nested Schema for `incident_template.custom_fields.binding`
@@ -882,7 +882,7 @@ Optional:
 
 Required:
 
-- `merge_strategy` (String) Strategy for merging severity when multiple alerts create/update the same incident
+- `merge_strategy` (String) Strategy for merging severity when multiple alerts create/update the same incident. Possible values are: `first-wins`, `max`.
 
 Optional:
 

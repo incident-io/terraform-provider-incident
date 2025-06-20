@@ -48,7 +48,7 @@ resource "incident_custom_field" "affected_teams" {
 ### Required
 
 - `description` (String) Description of the custom field
-- `field_type` (String) Type of custom field
+- `field_type` (String) Type of custom field. Possible values are: `single_select`, `multi_select`, `text`, `link`, `numeric`.
 - `name` (String) Human readable name for the custom field
 
 ### Optional

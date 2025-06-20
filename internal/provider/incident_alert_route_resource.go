@@ -194,7 +194,7 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 								},
 								"merge_strategy": schema.StringAttribute{
 									Required:            true,
-									MarkdownDescription: apischema.Docstring("AlertRouteCustomFieldBindingV2", "merge_strategy"),
+									MarkdownDescription: EnumValuesDescription("AlertRouteCustomFieldBindingV2", "merge_strategy"),
 								}},
 						},
 					},
@@ -225,7 +225,7 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 							},
 							"merge_strategy": schema.StringAttribute{
 								Required:            true,
-								MarkdownDescription: apischema.Docstring("AlertRouteSeverityBindingV2", "merge_strategy"),
+								MarkdownDescription: EnumValuesDescription("AlertRouteSeverityBindingV2", "merge_strategy"),
 							},
 						},
 					},
