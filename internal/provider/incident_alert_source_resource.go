@@ -189,11 +189,16 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	result, err := r.client.AlertSourcesV2CreateWithResponse(ctx, client.AlertSourcesCreatePayloadV2{
-		Name:        data.Name.ValueString(),
-		SourceType:  client.AlertSourcesCreatePayloadV2SourceType(data.SourceType.ValueString()),
-		Template:    data.Template.ToPayload(),
-		JiraOptions: data.JiraOptions.ToPayload(),
+	var result *client.AlertSourcesV2CreateResponse
+	err := lockForAlertConfig(ctx, func(ctx context.Context) error {
+		var err error
+		result, err = r.client.AlertSourcesV2CreateWithResponse(ctx, client.AlertSourcesCreatePayloadV2{
+			Name:        data.Name.ValueString(),
+			SourceType:  client.AlertSourcesCreatePayloadV2SourceType(data.SourceType.ValueString()),
+			Template:    data.Template.ToPayload(),
+			JiraOptions: data.JiraOptions.ToPayload(),
+		})
+		return err
 	})
 
 	if err != nil {
@@ -244,10 +249,15 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	result, err := r.client.AlertSourcesV2UpdateWithResponse(ctx, data.ID.ValueString(), client.AlertSourcesUpdatePayloadV2{
-		Name:        data.Name.ValueString(),
-		Template:    data.Template.ToPayload(),
-		JiraOptions: data.JiraOptions.ToPayload(),
+	var result *client.AlertSourcesV2UpdateResponse
+	err := lockForAlertConfig(ctx, func(ctx context.Context) error {
+		var err error
+		result, err = r.client.AlertSourcesV2UpdateWithResponse(ctx, data.ID.ValueString(), client.AlertSourcesUpdatePayloadV2{
+			Name:        data.Name.ValueString(),
+			Template:    data.Template.ToPayload(),
+			JiraOptions: data.JiraOptions.ToPayload(),
+		})
+		return err
 	})
 
 	if err != nil {
@@ -268,6 +278,8 @@ func (r *IncidentAlertSourceResource) Delete(ctx context.Context, req resource.D
 		return
 	}
 
+	// We don't need a lock on the alert config here, since deleting an alert source
+	// doesn't affect the alert config.
 	_, err := r.client.AlertSourcesV2DeleteWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete alert source, got error: %s", err))

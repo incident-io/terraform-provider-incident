@@ -100,10 +100,15 @@ func (r *IncidentAlertAttributeResource) Create(ctx context.Context, req resourc
 		Array: data.Array.ValueBool(),
 	}
 
-	result, err := r.client.AlertAttributesV2CreateWithResponse(ctx, requestBody)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
+	var result *client.AlertAttributesV2CreateResponse
+	err := lockForAlertConfig(ctx, func(ctx context.Context) error {
+		var err error
+		result, err = r.client.AlertAttributesV2CreateWithResponse(ctx, requestBody)
+		if err == nil && result.StatusCode() >= 400 {
+			err = fmt.Errorf(string(result.Body))
+		}
+		return err
+	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create alert attribute, got error: %s", err))
 		return
@@ -147,10 +152,15 @@ func (r *IncidentAlertAttributeResource) Update(ctx context.Context, req resourc
 		Array: data.Array.ValueBool(),
 	}
 
-	result, err := r.client.AlertAttributesV2UpdateWithResponse(ctx, data.ID.ValueString(), requestBody)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
+	var result *client.AlertAttributesV2UpdateResponse
+	err := lockForAlertConfig(ctx, func(ctx context.Context) error {
+		var err error
+		result, err = r.client.AlertAttributesV2UpdateWithResponse(ctx, data.ID.ValueString(), requestBody)
+		if err == nil && result.StatusCode() >= 400 {
+			err = fmt.Errorf(string(result.Body))
+		}
+		return err
+	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update alert attribute, got error: %s", err))
 		return
@@ -167,7 +177,10 @@ func (r *IncidentAlertAttributeResource) Delete(ctx context.Context, req resourc
 		return
 	}
 
-	_, err := r.client.AlertAttributesV2DestroyWithResponse(ctx, data.ID.ValueString())
+	err := lockForAlertConfig(ctx, func(ctx context.Context) error {
+		_, err := r.client.AlertAttributesV2DestroyWithResponse(ctx, data.ID.ValueString())
+		return err
+	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete alert attribute, got error: %s", err))
 		return
