@@ -170,11 +170,11 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 									Required:            true,
 								},
 								"type": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "type"),
+									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "type"),
 									Required:            true,
 								},
 								"urgency": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "urgency"),
+									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "urgency"),
 									Required:            true,
 								},
 								"schedule_mode": schema.StringAttribute{
@@ -242,11 +242,11 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 									Required:            true,
 								},
 								"type": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "type"),
+									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "type"),
 									Required:            true,
 								},
 								"urgency": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "urgency"),
+									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "urgency"),
 									Required:            true,
 								},
 								"schedule_mode": schema.StringAttribute{

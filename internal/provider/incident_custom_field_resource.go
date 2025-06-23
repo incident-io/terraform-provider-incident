@@ -69,7 +69,7 @@ func (r *IncidentCustomFieldResource) Schema(ctx context.Context, req resource.S
 				Required:            true,
 			},
 			"field_type": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldV2", "field_type"),
+				MarkdownDescription: EnumValuesDescription("CustomFieldV2", "field_type"),
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
