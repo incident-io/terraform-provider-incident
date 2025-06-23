@@ -100,14 +100,12 @@ func (r *IncidentAlertAttributeResource) Create(ctx context.Context, req resourc
 		Array: data.Array.ValueBool(),
 	}
 
-	var result *client.AlertAttributesV2CreateResponse
-	err := lockForAlertConfig(ctx, func(ctx context.Context) error {
-		var err error
-		result, err = r.client.AlertAttributesV2CreateWithResponse(ctx, requestBody)
+	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertAttributesV2CreateResponse, error) {
+		result, err := r.client.AlertAttributesV2CreateWithResponse(ctx, requestBody)
 		if err == nil && result.StatusCode() >= 400 {
 			err = fmt.Errorf(string(result.Body))
 		}
-		return err
+		return result, err
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create alert attribute, got error: %s", err))
@@ -152,14 +150,12 @@ func (r *IncidentAlertAttributeResource) Update(ctx context.Context, req resourc
 		Array: data.Array.ValueBool(),
 	}
 
-	var result *client.AlertAttributesV2UpdateResponse
-	err := lockForAlertConfig(ctx, func(ctx context.Context) error {
-		var err error
-		result, err = r.client.AlertAttributesV2UpdateWithResponse(ctx, data.ID.ValueString(), requestBody)
+	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertAttributesV2UpdateResponse, error) {
+		result, err := r.client.AlertAttributesV2UpdateWithResponse(ctx, data.ID.ValueString(), requestBody)
 		if err == nil && result.StatusCode() >= 400 {
 			err = fmt.Errorf(string(result.Body))
 		}
-		return err
+		return result, err
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update alert attribute, got error: %s", err))
@@ -177,9 +173,8 @@ func (r *IncidentAlertAttributeResource) Delete(ctx context.Context, req resourc
 		return
 	}
 
-	err := lockForAlertConfig(ctx, func(ctx context.Context) error {
-		_, err := r.client.AlertAttributesV2DestroyWithResponse(ctx, data.ID.ValueString())
-		return err
+	_, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertAttributesV2DestroyResponse, error) {
+		return r.client.AlertAttributesV2DestroyWithResponse(ctx, data.ID.ValueString())
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete alert attribute, got error: %s", err))

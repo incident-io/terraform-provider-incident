@@ -12,9 +12,9 @@ var alertConfigMutex sync.Mutex
 //
 // Since all alert operations (both sources and attributes) affect the same global
 // alert config (for now), we use a single global lock for all operations.
-func lockForAlertConfig(ctx context.Context, do func(ctx context.Context) error) error {
+func lockForAlertConfig[T any](ctx context.Context, fn func(context.Context) (T, error)) (T, error) {
 	alertConfigMutex.Lock()
 	defer alertConfigMutex.Unlock()
 
-	return do(ctx)
+	return fn(ctx)
 }
