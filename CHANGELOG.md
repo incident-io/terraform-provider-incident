@@ -1,3 +1,7 @@
+## Unreleased
+
+- Enforce consistent ordering of keys in engine literal values which are JSON object s
+
 ## v5.9.0
 
 - Update the documentation for `incident_alert_source`, `incident_alert_route`, `incident_escalation_path` and `incident_schedule` to reference the 'Export' flow
