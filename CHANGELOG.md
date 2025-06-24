@@ -1,3 +1,8 @@
+## v5.9.1
+
+- Improve documentation to reflect potential values of enumerated values.
+- Improve example for `incident_alert_route` documentation.
+
 ## v5.9.0
 
 - Update the documentation for `incident_alert_source`, `incident_alert_route`, `incident_escalation_path` and `incident_schedule` to reference the 'Export' flow
