@@ -1,6 +1,11 @@
 ## Unreleased
 
-- Enforce consistent ordering of keys in engine literal values which are JSON object s
+- Enforce consistent ordering of keys in engine literal values which are JSON objects.
+
+## v5.9.1
+
+- Improve documentation to reflect potential values of enumerated values.
+- Improve example for `incident_alert_route` documentation.
 
 ## v5.9.0
 
