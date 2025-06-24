@@ -1,3 +1,8 @@
+## Unreleased
+
+- Made `handovers` on `incident_schedule.config.rotations.*` required, as it
+  was always required by the API, but was not marked as such in the provider.
+
 ## v5.9.1
 
 - Improve documentation to reflect potential values of enumerated values.

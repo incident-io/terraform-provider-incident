@@ -366,6 +366,12 @@ resource "incident_schedule" "invalid_timestamp" {
       versions = [
         {
           handover_start_at = "2024-15-11T15:00:00Z" # Invalid month (15)
+					handovers = [
+						{
+							interval = 1,
+							interval_type = "daily"
+						}
+					]
           users = []
           layers = [
             {
@@ -393,6 +399,12 @@ resource "incident_schedule" "invalid_timestamp" {
       versions = [
         {
           handover_start_at = "2024-05-11T15:00:00Z"
+					handovers = [
+						{
+							interval = 1,
+							interval_type = "daily"
+						}
+					]
           effective_from   = "2024-05-32T15:00:00Z" # Invalid day (32)
           users = []
           layers = [
