@@ -1,3 +1,8 @@
+## Unreleased
+
+- Made `handovers` on `incident_schedule.config.rotations.*` required, as it
+  was always required by the API, but was not marked as such in the provider.
+
 ## v5.9.0
 
 - Update the documentation for `incident_alert_source`, `incident_alert_route`, `incident_escalation_path` and `incident_schedule` to reference the 'Export' flow
