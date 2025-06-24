@@ -60,7 +60,7 @@ func (r *IncidentStatusResource) Schema(ctx context.Context, req resource.Schema
 				Required:            true,
 			},
 			"category": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("IncidentStatusV1", "category"),
+				MarkdownDescription: EnumValuesDescription("IncidentStatusV1", "category"),
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),

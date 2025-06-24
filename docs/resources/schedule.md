@@ -166,7 +166,7 @@ Optional:
 Required:
 
 - `interval` (Number)
-- `interval_type` (String)
+- `interval_type` (String) How often a handover occurs. Possible values are: `hourly`, `daily`, `weekly`.
 
 
 <a id="nestedatt--rotations--versions--layers"></a>
