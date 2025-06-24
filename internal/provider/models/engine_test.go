@@ -33,6 +33,12 @@ func TestIncidentEngineParamBindingValue_JSONOrdering(t *testing.T) {
 			expectedNormalized: `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`,
 			description:        "All nested object keys should be sorted lexicographically",
 		},
+		{
+			name:               "plain_string",
+			apiJSON:            `"plain string"`,
+			expectedNormalized: `"plain string"`,
+			description:        "Plain string should remain unchanged",
+		},
 	}
 
 	for _, tt := range tests {
