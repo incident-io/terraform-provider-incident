@@ -3,6 +3,7 @@ package provider
 import (
 	"encoding/json"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/pkg/errors"
@@ -68,14 +69,13 @@ func buildOnceFor(onceFor []client.EngineReferenceV2) []basetypes.StringValue {
 	return out
 }
 
-func buildRunsOnIncidentModes(modes []client.WorkflowV2RunsOnIncidentModes) []basetypes.StringValue {
-	out := []basetypes.StringValue{}
-
-	for _, mode := range modes {
-		out = append(out, types.StringValue(string(mode)))
+func buildRunsOnIncidentModes(modes []client.WorkflowV2RunsOnIncidentModes) types.Set {
+	elements := make([]attr.Value, len(modes))
+	for i, mode := range modes {
+		elements[i] = types.StringValue(string(mode))
 	}
 
-	return out
+	return types.SetValueMust(types.StringType, elements)
 }
 
 func buildSteps(steps []client.StepConfigV2) []IncidentWorkflowStep {

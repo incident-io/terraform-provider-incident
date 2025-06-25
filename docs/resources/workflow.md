@@ -87,7 +87,7 @@ resource "incident_workflow" "autoassign_incident_lead" {
 - `include_private_incidents` (Boolean) Whether to include private incidents
 - `name` (String) Name provided by the user when creating the workflow
 - `once_for` (List of String) This workflow will run 'once for' a list of references
-- `runs_on_incident_modes` (List of String) Incidents in these modes will be affected by the workflow
+- `runs_on_incident_modes` (Set of String) Incidents in these modes will be affected by the workflow
 - `runs_on_incidents` (String) Which incidents should the workflow be applied to?
 - `state` (String) What state this workflow is in
 - `steps` (Attributes List) Steps that are executed as part of the workflow (see [below for nested schema](#nestedatt--steps))
