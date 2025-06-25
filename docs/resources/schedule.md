@@ -151,23 +151,14 @@ Required:
 Required:
 
 - `handover_start_at` (String) Defines the next moment we'll trigger a handover
+- `handovers` (Attributes List) Defines the handover intervals for this rota, in order they should apply (see [below for nested schema](#nestedatt--rotations--versions--handovers))
 - `layers` (Attributes List) Controls how many people are on-call concurrently (see [below for nested schema](#nestedatt--rotations--versions--layers))
 - `users` (List of String) The incident.io ID of a user
 
 Optional:
 
 - `effective_from` (String) When this rotation config will be effective from
-- `handovers` (Attributes List) Defines the handover intervals for this rota, in order they should apply (see [below for nested schema](#nestedatt--rotations--versions--handovers))
 - `working_intervals` (Attributes List) Optional restrictions that define when to schedule people for this rota (see [below for nested schema](#nestedatt--rotations--versions--working_intervals))
-
-<a id="nestedatt--rotations--versions--layers"></a>
-### Nested Schema for `rotations.versions.layers`
-
-Required:
-
-- `id` (String)
-- `name` (String)
-
 
 <a id="nestedatt--rotations--versions--handovers"></a>
 ### Nested Schema for `rotations.versions.handovers`
@@ -176,6 +167,15 @@ Required:
 
 - `interval` (Number)
 - `interval_type` (String) How often a handover occurs. Possible values are: `hourly`, `daily`, `weekly`.
+
+
+<a id="nestedatt--rotations--versions--layers"></a>
+### Nested Schema for `rotations.versions.layers`
+
+Required:
+
+- `id` (String)
+- `name` (String)
 
 
 <a id="nestedatt--rotations--versions--working_intervals"></a>
