@@ -1,6 +1,8 @@
 package models
 
 import (
+	"encoding/json"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
@@ -98,10 +100,46 @@ type IncidentEngineParamBindingValue struct {
 }
 
 func (IncidentEngineParamBindingValue) FromAPI(pbv client.EngineParamBindingValueV2) IncidentEngineParamBindingValue {
+	literal := pbv.Literal
+	if literal != nil {
+		// If we have a literal engine value (that is JSON), we'll attempt to normalise it to
+		// provide consistent key ordering.
+		//
+		// Most places where we initialise engine values should already sort keys alphabetically,
+		// but there are the odd places where this is not the case.
+		normalisedJson, err := normaliseJSON(*literal)
+		if err == nil {
+			// Given not every engine value is JSON, we'll lean on the presence (or lack of) an error here
+			// rather than looking for characters that indicate JSON.
+			literal = &normalisedJson
+		}
+	}
+
 	return IncidentEngineParamBindingValue{
-		Literal:   types.StringPointerValue(pbv.Literal),
+		Literal:   types.StringPointerValue(literal),
 		Reference: types.StringPointerValue(pbv.Reference),
 	}
+}
+
+// normaliseJSON normalises JSON strings to ensure consistent key ordering.
+func normaliseJSON(jsonString string) (string, error) {
+	if jsonString == "" {
+		return "", nil
+	}
+
+	var data any
+	err := json.Unmarshal([]byte(jsonString), &data)
+	if err != nil {
+		return "", err
+	}
+
+	// json.Marshal will return alphabetically sorted keys
+	normalisedJSON, err := json.Marshal(data)
+	if err != nil {
+		return "", err
+	}
+
+	return string(normalisedJSON), nil
 }
 
 type IncidentEngineExpressions []IncidentEngineExpression

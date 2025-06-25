@@ -38,7 +38,7 @@ resource "incident_status" "clean_up" {
 
 ### Required
 
-- `category` (String) What category of status it is. All statuses apart from live (renamed in the app to Active) and learning (renamed in the app to Post-incident) are managed by incident.io and cannot be configured
+- `category` (String) What category of status it is. All statuses apart from live (renamed in the app to Active) and learning (renamed in the app to Post-incident) are managed by incident.io and cannot be configured. Possible values are: `triage`, `declined`, `merged`, `canceled`, `live`, `learning`, `closed`, `paused`.
 - `description` (String) Rich text description of the incident status
 - `name` (String) Unique name of this status
 

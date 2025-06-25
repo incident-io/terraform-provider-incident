@@ -98,7 +98,7 @@ resource "incident_alert_route" "service_alerts" {
     }
   ]
 
-  // Used to configure which escalation paths OR users should be notified when an alert is received
+  // Used to configure which escalation paths and/or users who should be notified when an alert is received
   // and the conditions under which they should be notified
   // auto_cancel_escalations is used to specify whether or not the escalation should be automatically cancelled
   // upon receiving a 'resolved' notification for the alert that triggered the escalation
@@ -109,7 +109,25 @@ resource "incident_alert_route" "service_alerts" {
         escalation_paths = {
           array_value = [
             {
+              reference = "alert.attributes.escalation_path"
+            },
+          ]
+        }
+      },
+      {
+        escalation_paths = {
+          array_value = [
+            {
               literal = "01JPQNFD3RWAAY2V83QQ80D1ZV"
+            }
+          ]
+        }
+      },
+      {
+        users = {
+          array_value = [
+            {
+              literal = "01GX3C1TK13RQSEGP59XZ3MYP0"
             }
           ]
         }
@@ -793,7 +811,7 @@ Required:
 
 - `binding` (Attributes) Binding for the custom field (see [below for nested schema](#nestedatt--incident_template--custom_fields--binding))
 - `custom_field_id` (String) ID of the custom field
-- `merge_strategy` (String) The strategy to use when multiple alerts match this route
+- `merge_strategy` (String) The strategy to use when multiple alerts match this route. Possible values are: `first-wins`, `last-wins`, `append`.
 
 <a id="nestedatt--incident_template--custom_fields--binding"></a>
 ### Nested Schema for `incident_template.custom_fields.binding`
@@ -882,7 +900,7 @@ Optional:
 
 Required:
 
-- `merge_strategy` (String) Strategy for merging severity when multiple alerts create/update the same incident
+- `merge_strategy` (String) Strategy for merging severity when multiple alerts create/update the same incident. Possible values are: `first-wins`, `max`.
 
 Optional:
 

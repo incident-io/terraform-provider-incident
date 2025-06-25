@@ -146,16 +146,16 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				},
 			},
 			"runs_on_incidents": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowV2", "runs_on_incidents"),
+				MarkdownDescription: EnumValuesDescription("WorkflowV2", "runs_on_incidents"),
 				Required:            true,
 			},
 			"runs_on_incident_modes": schema.SetAttribute{
-				MarkdownDescription: "Incidents in these modes will be affected by the workflow",
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "runs_on_incident_modes"),
 				Required:            true,
 				ElementType:         types.StringType,
 			},
 			"state": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowV2", "state"),
+				MarkdownDescription: EnumValuesDescription("WorkflowV2", "state"),
 				Required:            true,
 			},
 		},

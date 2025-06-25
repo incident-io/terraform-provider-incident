@@ -139,7 +139,7 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 										},
 									},
 									"handovers": schema.ListNestedAttribute{
-										Optional:            true,
+										Required:            true,
 										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "handovers"),
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
@@ -147,7 +147,8 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 													Required: true,
 												},
 												"interval_type": schema.StringAttribute{
-													Required: true,
+													Description: EnumValuesDescription("ScheduleRotationHandoverV2", "interval_type"),
+													Required:    true,
 												},
 											},
 										},
