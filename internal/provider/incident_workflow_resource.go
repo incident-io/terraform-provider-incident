@@ -46,7 +46,7 @@ type IncidentWorkflowResourceModel struct {
 	ContinueOnStepError     types.Bool                           `tfsdk:"continue_on_step_error"`
 	Delay                   *IncidentWorkflowDelay               `tfsdk:"delay"`
 	RunsOnIncidents         types.String                         `tfsdk:"runs_on_incidents"`
-	RunsOnIncidentModes     []types.String                       `tfsdk:"runs_on_incident_modes"`
+	RunsOnIncidentModes     types.Set                            `tfsdk:"runs_on_incident_modes"`
 	State                   types.String                         `tfsdk:"state"`
 }
 
@@ -149,7 +149,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				MarkdownDescription: EnumValuesDescription("WorkflowV2", "runs_on_incidents"),
 				Required:            true,
 			},
-			"runs_on_incident_modes": schema.ListAttribute{
+			"runs_on_incident_modes": schema.SetAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "runs_on_incident_modes"),
 				Required:            true,
 				ElementType:         types.StringType,
@@ -175,8 +175,10 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	runsOnIncidentModes := []client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes{}
-	for _, v := range data.RunsOnIncidentModes {
-		runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes(v.ValueString()))
+	for _, v := range data.RunsOnIncidentModes.Elements() {
+		if str, ok := v.(types.String); ok {
+			runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes(str.ValueString()))
+		}
 	}
 
 	payload := client.WorkflowsCreateWorkflowPayloadV2{
@@ -238,8 +240,10 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 	}
 
 	runsOnIncidentModes := []client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes{}
-	for _, v := range data.RunsOnIncidentModes {
-		runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes(v.ValueString()))
+	for _, v := range data.RunsOnIncidentModes.Elements() {
+		if str, ok := v.(types.String); ok {
+			runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes(str.ValueString()))
+		}
 	}
 
 	payload := client.WorkflowsV2UpdateWorkflowJSONRequestBody{
