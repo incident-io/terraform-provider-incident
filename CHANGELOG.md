@@ -3,6 +3,8 @@
 - Enforce consistent ordering of keys in engine literal values which are JSON objects.
 - Made `handovers` on `incident_schedule.config.rotations.*` required, as it
   was always required by the API, but was not marked as such in the provider.
+- Switch `runs_on_incident_modes` on workflow resources to be a set and not a
+  list, so it's not sensitive to ordering.
 
 ## v5.9.1
 
