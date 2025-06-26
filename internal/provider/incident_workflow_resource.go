@@ -176,7 +176,9 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 
 	runsOnIncidentModes := []client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes{}
 	for _, v := range data.RunsOnIncidentModes.Elements() {
-		runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes(v.String()))
+		if str, ok := v.(types.String); ok {
+			runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes(str.ValueString()))
+		}
 	}
 
 	payload := client.WorkflowsCreateWorkflowPayloadV2{
@@ -239,7 +241,9 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 
 	runsOnIncidentModes := []client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes{}
 	for _, v := range data.RunsOnIncidentModes.Elements() {
-		runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes(v.String()))
+		if str, ok := v.(types.String); ok {
+			runsOnIncidentModes = append(runsOnIncidentModes, client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes(str.ValueString()))
+		}
 	}
 
 	payload := client.WorkflowsV2UpdateWorkflowJSONRequestBody{
