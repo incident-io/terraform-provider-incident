@@ -90,7 +90,7 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 			},
 			"source_repo_url": schema.StringAttribute{
 				MarkdownDescription: "The url of the external repository where this type is managed. When set, users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.",
-				Required:            true,
+				Optional:            true,
 			},
 		},
 	}
