@@ -5,6 +5,7 @@
   was always required by the API, but was not marked as such in the provider.
 - Switch `runs_on_incident_modes` on workflow resources to be a set and not a
   list, so it's not sensitive to ordering.
+- Add `incident_schedule` data source for retrieving existing schedules by ID or name.
 
 ## v5.9.1
 

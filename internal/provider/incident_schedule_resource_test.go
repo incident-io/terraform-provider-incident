@@ -424,14 +424,14 @@ resource "incident_schedule" "invalid_timestamp" {
 	})
 }
 
-func incidentScheduleDefault() client.ScheduleV2 {
+func incidentScheduleDefault(name string) client.ScheduleV2 {
 	var (
 		effectiveFrom1, _   = time.Parse(time.RFC3339, "2024-04-26T16:00:00Z")
 		handoverStartAt1, _ = time.Parse(time.RFC3339, "2024-04-26T16:00:00Z")
 	)
 
 	return client.ScheduleV2{
-		Name:     "ONC",
+		Name:     name,
 		Timezone: "Europe/London",
 		Config: &client.ScheduleConfigV2{
 			Rotations: []client.ScheduleRotationV2{
@@ -618,7 +618,7 @@ func generateWorkingIntervalsArray(workingIntervals *[]client.ScheduleRotationWo
 }
 
 func testAccIncidentScheduleResourceConfig(override *client.ScheduleV2) string {
-	model := incidentScheduleDefault()
+	model := incidentScheduleDefault("ONC-Resource")
 
 	// Merge any non-zero fields in override into the model.
 	if override != nil {
