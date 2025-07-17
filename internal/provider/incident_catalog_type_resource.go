@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -29,12 +31,12 @@ type IncidentCatalogTypeResource struct {
 }
 
 type IncidentCatalogTypeResourceModel struct {
-	ID            types.String   `tfsdk:"id"`
-	Name          types.String   `tfsdk:"name"`
-	TypeName      types.String   `tfsdk:"type_name"`
-	Description   types.String   `tfsdk:"description"`
-	SourceRepoURL types.String   `tfsdk:"source_repo_url"`
-	Categories    []types.String `tfsdk:"categories"`
+	ID            types.String `tfsdk:"id"`
+	Name          types.String `tfsdk:"name"`
+	TypeName      types.String `tfsdk:"type_name"`
+	Description   types.String `tfsdk:"description"`
+	SourceRepoURL types.String `tfsdk:"source_repo_url"`
+	Categories    types.List   `tfsdk:"categories"`
 }
 
 func NewIncidentCatalogTypeResource() resource.Resource {
@@ -86,7 +88,11 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 			"categories": schema.ListAttribute{
 				MarkdownDescription: r.CategoryDescription(),
 				Optional:            true,
+				Computed:            true,
 				ElementType:         types.StringType,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"source_repo_url": schema.StringAttribute{
 				MarkdownDescription: "The url of the external repository where this type is managed. When set, users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.",
@@ -137,9 +143,15 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 	}
 
 	categories := []client.CatalogCreateTypePayloadV3Categories{}
-	for _, category := range data.Categories {
-		categories = append(categories,
-			client.CatalogCreateTypePayloadV3Categories(category.ValueString()))
+	if !data.Categories.IsNull() {
+		for _, elem := range data.Categories.Elements() {
+			category, ok := elem.(types.String)
+			if !ok {
+				continue
+			}
+			categories = append(categories,
+				client.CatalogCreateTypePayloadV3Categories(category.ValueString()))
+		}
 	}
 	requestBody.Categories = lo.ToPtr(categories)
 
@@ -198,9 +210,15 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 	}
 
 	categories := []client.CatalogUpdateTypePayloadV3Categories{}
-	for _, category := range data.Categories {
-		categories = append(categories,
-			client.CatalogUpdateTypePayloadV3Categories(category.ValueString()))
+	if !data.Categories.IsNull() {
+		for _, elem := range data.Categories.Elements() {
+			category, ok := elem.(types.String)
+			if !ok {
+				continue
+			}
+			categories = append(categories,
+				client.CatalogUpdateTypePayloadV3Categories(category.ValueString()))
+		}
 	}
 	requestBody.Categories = lo.ToPtr(categories)
 
@@ -246,12 +264,11 @@ func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV
 		model.SourceRepoURL = types.StringValue(*catalogType.SourceRepoUrl)
 	}
 
-	if len(catalogType.Categories) > 0 {
-		model.Categories = []types.String{}
-		for _, category := range catalogType.Categories {
-			model.Categories = append(model.Categories, types.StringValue(string(category)))
-		}
+	categories := []attr.Value{}
+	for _, category := range catalogType.Categories {
+		categories = append(categories, types.StringValue(string(category)))
 	}
+	model.Categories = types.ListValueMust(types.StringType, categories)
 
 	return model
 }
