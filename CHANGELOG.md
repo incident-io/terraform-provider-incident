@@ -1,4 +1,4 @@
-## Unreleased
+## v5.11.0
 
 - Add `incident_catalog_entries` data source to get catalog entries for a specific catalog type. This is useful for
   building up a list of catalog entries which you might be managing via catalog-importer.
