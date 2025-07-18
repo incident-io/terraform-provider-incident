@@ -27,8 +27,18 @@ type IncidentCatalogEntriesDataSource struct {
 }
 
 type IncidentCatalogEntriesDataSourceModel struct {
-	CatalogTypeID  types.String                          `tfsdk:"catalog_type_id"`
-	CatalogEntries []IncidentCatalogEntryDataSourceModel `tfsdk:"catalog_entries"`
+	CatalogTypeID  types.String                                 `tfsdk:"catalog_type_id"`
+	CatalogEntries []IncidentCatalogEntriesDataSourceEntryModel `tfsdk:"catalog_entries"`
+}
+
+type IncidentCatalogEntriesDataSourceEntryModel struct {
+	ID              types.String                 `tfsdk:"id"`
+	Name            types.String                 `tfsdk:"name"`
+	CatalogTypeID   types.String                 `tfsdk:"catalog_type_id"`
+	ExternalID      types.String                 `tfsdk:"external_id"`
+	Aliases         types.List                   `tfsdk:"aliases"`
+	Rank            types.Int64                  `tfsdk:"rank"`
+	AttributeValues []CatalogEntryAttributeValue `tfsdk:"attribute_values"`
 }
 
 func (d *IncidentCatalogEntriesDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
@@ -90,7 +100,7 @@ func (d *IncidentCatalogEntriesDataSource) Read(ctx context.Context, req datasou
 	}
 
 	// Convert catalog entries to the model
-	var catalogEntries []IncidentCatalogEntryDataSourceModel
+	var catalogEntries []IncidentCatalogEntriesDataSourceEntryModel
 	for _, entry := range allEntries {
 		catalogEntries = append(catalogEntries, *d.buildItemModel(entry))
 	}
@@ -102,7 +112,7 @@ func (d *IncidentCatalogEntriesDataSource) Read(ctx context.Context, req datasou
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
 }
 
-func (d *IncidentCatalogEntriesDataSource) buildItemModel(entry client.CatalogEntryV3) *IncidentCatalogEntryDataSourceModel {
+func (d *IncidentCatalogEntriesDataSource) buildItemModel(entry client.CatalogEntryV3) *IncidentCatalogEntriesDataSourceEntryModel {
 	attributeValues := buildCatalogEntryAttributeValuesFromV3(entry.AttributeValues)
 
 	aliases := []attr.Value{}
@@ -110,7 +120,7 @@ func (d *IncidentCatalogEntriesDataSource) buildItemModel(entry client.CatalogEn
 		aliases = append(aliases, types.StringValue(alias))
 	}
 
-	return &IncidentCatalogEntryDataSourceModel{
+	return &IncidentCatalogEntriesDataSourceEntryModel{
 		ID:              types.StringValue(entry.Id),
 		Name:            types.StringValue(entry.Name),
 		CatalogTypeID:   types.StringValue(entry.CatalogTypeId),
