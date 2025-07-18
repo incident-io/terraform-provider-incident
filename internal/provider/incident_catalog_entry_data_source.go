@@ -3,7 +3,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"sort"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -165,33 +164,7 @@ func (i *IncidentCatalogEntryDataSource) Read(ctx context.Context, req datasourc
 	}
 
 	// Build the data model from the matched entry
-	values := []CatalogEntryAttributeValue{}
-	for attributeID, binding := range matchedEntry.AttributeValues {
-		value := CatalogEntryAttributeValue{
-			Attribute:  types.StringValue(attributeID),
-			ArrayValue: types.ListNull(types.StringType),
-		}
-
-		if binding.Value != nil {
-			value.Value = types.StringValue(*binding.Value.Literal)
-		}
-
-		if binding.ArrayValue != nil {
-			elements := []attr.Value{}
-			for _, value := range *binding.ArrayValue {
-				elements = append(elements, types.StringValue(*value.Literal))
-			}
-
-			value.ArrayValue = types.ListValueMust(types.StringType, elements)
-		}
-
-		values = append(values, value)
-	}
-
-	// Ensure consistent ordering
-	sort.Slice(values, func(i, j int) bool {
-		return values[i].Attribute.ValueString() < values[j].Attribute.ValueString()
-	})
+	values := buildCatalogEntryAttributeValuesFromV3(matchedEntry.AttributeValues)
 
 	aliases := []attr.Value{}
 	for _, alias := range matchedEntry.Aliases {

@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Add `incident_catalog_entries` data source to get catalog entries for a specific catalog type. This is useful for
+  building up a list of catalog entries which you might be managing via catalog-importer.
+
 ## v5.10.0
 
 - Enforce consistent ordering of keys in engine literal values which are JSON objects.

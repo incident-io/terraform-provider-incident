@@ -2,6 +2,7 @@ package provider
 
 import (
 	"encoding/json"
+	"sort"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -91,4 +92,37 @@ func buildSteps(steps []client.StepConfigV2) []IncidentWorkflowStep {
 	}
 
 	return out
+}
+
+func buildCatalogEntryAttributeValuesFromV3(attributes map[string]client.CatalogEntryEngineParamBindingV3) []CatalogEntryAttributeValue {
+	var values []CatalogEntryAttributeValue
+
+	for attributeID, binding := range attributes {
+		value := CatalogEntryAttributeValue{
+			Attribute:  types.StringValue(attributeID),
+			Value:      types.StringNull(),
+			ArrayValue: types.ListNull(types.StringType),
+		}
+
+		if binding.Value != nil {
+			value.Value = types.StringValue(*binding.Value.Literal)
+		}
+
+		if binding.ArrayValue != nil {
+			elements := []attr.Value{}
+			for _, v := range *binding.ArrayValue {
+				elements = append(elements, types.StringValue(*v.Literal))
+			}
+			value.ArrayValue = types.ListValueMust(types.StringType, elements)
+		}
+
+		values = append(values, value)
+	}
+
+	// Ensure consistent ordering
+	sort.Slice(values, func(i, j int) bool {
+		return values[i].Attribute.ValueString() < values[j].Attribute.ValueString()
+	})
+
+	return values
 }
