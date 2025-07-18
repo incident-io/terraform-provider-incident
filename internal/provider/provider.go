@@ -135,6 +135,7 @@ func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.
 		NewIncidentCatalogTypeDataSource,
 		NewIncidentCatalogTypeAttributeDataSource,
 		NewIncidentCatalogEntryDataSource,
+		NewIncidentCatalogEntriesDataSource,
 		NewIncidentCustomFieldDataSource,
 		NewIncidentCustomFieldOptionDataSource,
 		NewIncidentUserDataSource,
