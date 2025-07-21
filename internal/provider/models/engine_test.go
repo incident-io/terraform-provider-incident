@@ -86,21 +86,21 @@ func TestNormaliseJSON_PreservesHTMLCharacters(t *testing.T) {
 	// This test specifically validates that HTML characters are not escaped
 	// which is critical for the alert route incident template issue
 	input := `{"attrs":{"label":"Alert -> Title","description":"Test <summary> with & special > characters"}}`
-	
+
 	result, err := normaliseJSON(input)
 	if err != nil {
 		t.Fatalf("normaliseJSON() unexpected error: %v", err)
 	}
-	
+
 	// Ensure the result contains the actual characters, not escaped versions
 	if !strings.Contains(result, `"Alert -> Title"`) {
 		t.Errorf("Expected result to contain %s, but got: %s", `"Alert -> Title"`, result)
 	}
-	
+
 	if !strings.Contains(result, `"Test <summary> with & special > characters"`) {
 		t.Errorf("Expected result to contain %s, but got: %s", `"Test <summary> with & special > characters"`, result)
 	}
-	
+
 	// Ensure HTML escape sequences are NOT present
 	escapeSequences := []string{`\u003e`, `\u003c`, `\u0026`}
 	for _, seq := range escapeSequences {
