@@ -275,6 +275,65 @@ func TestAccIncidentAlertRouteResourceWithVars(t *testing.T) {
 	})
 }
 
+func TestAccIncidentAlertRouteResourceConditionalConfig(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create and Read testing
+			{
+				Config: testAccIncidentAlertRouteResourceConfigWithVars("test-route"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestMatchResourceAttr("incident_alert_route.test", "id", regexp.MustCompile("^[a-zA-Z0-9]+$")),
+				),
+			},
+			// ImportState testing
+			{
+				ResourceName:      "incident_alert_route.test",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+func TestAccIncidentCustomFieldsAlphabeticalOrder(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// First step - create alert route with custom fields in reverse alphabetical order
+			{
+				Config: testAccIncidentAlertRouteWithAlphabeticalCustomFields("custom-fields-alpha-test"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestMatchResourceAttr("incident_alert_route.custom_fields_alpha_test", "id", regexp.MustCompile("^[a-zA-Z0-9]+$")),
+
+					// Verify both custom fields exist
+					resource.TestCheckResourceAttrSet("incident_custom_field.alpha_field1", "id"),
+					resource.TestCheckResourceAttrSet("incident_custom_field.alpha_field2", "id"),
+
+					// Check that we have exactly 2 custom fields
+					resource.TestCheckResourceAttr("incident_alert_route.custom_fields_alpha_test", "incident_template.custom_fields.#", "2"),
+				),
+			},
+			// Second step - refresh state and verify no diff
+			{
+				RefreshState: true,
+				PlanOnly:     true,
+				RefreshPlanChecks: resource.RefreshPlanChecks{
+					PostRefresh: []plancheck.PlanCheck{
+						plancheck.ExpectEmptyPlan(),
+					},
+				},
+				Check: resource.ComposeAggregateTestCheckFunc(
+					// Only check custom fields, not other attributes
+					resource.TestCheckResourceAttr("incident_alert_route.custom_fields_alpha_test", "incident_template.custom_fields.#", "2"),
+				),
+			},
+		},
+	})
+}
+
 func skipUnlessTypedSlackChannelID(t *testing.T) {
 	if os.Getenv("INCIDENT_SLACK_CHANNEL_ID") == "" {
 		t.Skip("INCIDENT_SLACK_CHANNEL_ID must be set for this test")
@@ -344,6 +403,28 @@ resource "incident_alert_source" "auto_gen_test" {
         type = "doc"
       })
     }
+    description = {
+      literal = jsonencode({
+        content = [
+          {
+            content = [
+              {
+                attrs = {
+                  label   = "Payload → Description"
+                  missing = false
+                  name    = "description"
+                }
+                type = "varSpec"
+              }
+            ]
+            type = "paragraph"
+          }
+        ]
+        type = "doc"
+      })
+    }
+    attributes = []
+    expressions = []
   }
 }
 
@@ -448,6 +529,28 @@ resource "incident_alert_source" "http_test" {
         type = "doc"
       })
     }
+    description = {
+      literal = jsonencode({
+        content = [
+          {
+            content = [
+              {
+                attrs = {
+                  label   = "Payload → Description"
+                  missing = false
+                  name    = "description"
+                }
+                type = "varSpec"
+              }
+            ]
+            type = "paragraph"
+          }
+        ]
+        type = "doc"
+      })
+    }
+    attributes = []
+    expressions = []
   }
 }
 
@@ -543,6 +646,28 @@ resource "incident_alert_source" "channel_test" {
         type = "doc"
       })
     }
+    description = {
+      literal = jsonencode({
+        content = [
+          {
+            content = [
+              {
+                attrs = {
+                  label   = "Payload → Description"
+                  missing = false
+                  name    = "description"
+                }
+                type = "varSpec"
+              }
+            ]
+            type = "paragraph"
+          }
+        ]
+        type = "doc"
+      })
+    }
+    attributes = []
+    expressions = []
   }
 }
 
@@ -624,6 +749,28 @@ resource "incident_alert_source" "channel_test" {
         type = "doc"
       })
     }
+    description = {
+      literal = jsonencode({
+        content = [
+          {
+            content = [
+              {
+                attrs = {
+                  label   = "Payload → Description"
+                  missing = false
+                  name    = "description"
+                }
+                type = "varSpec"
+              }
+            ]
+            type = "paragraph"
+          }
+        ]
+        type = "doc"
+      })
+    }
+    attributes = []
+    expressions = []
   }
 }
 
@@ -786,6 +933,28 @@ resource "incident_alert_source" "html_test" {
         type = "doc"
       })
     }
+    description = {
+      literal = jsonencode({
+        content = [
+          {
+            content = [
+              {
+                attrs = {
+                  label   = "Alert -> Description"
+                  missing = false
+                  name    = "alert.description"
+                }
+                type = "varSpec"
+              }
+            ]
+            type = "paragraph"
+          }
+        ]
+        type = "doc"
+      })
+    }
+    attributes = []
+    expressions = []
   }
 }
 
@@ -868,6 +1037,172 @@ resource "incident_alert_route" "html_test" {
 }
 `, name)
 }
+func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
+	return `
+  resource "incident_custom_field" "alpha_field1" {
+    name        = "Alpha Test Field 1"
+    description = "First alphabetical custom field"
+    field_type  = "text"
+  }
+
+  resource "incident_custom_field" "alpha_field2" {
+    name        = "Alpha Test Field 2"
+    description = "Second alphabetical custom field"
+    field_type  = "text"
+    depends_on = [incident_custom_field.alpha_field1]
+
+  }
+
+  resource "incident_alert_source" "alpha_test" {
+    name        = "Alpha Test Alert Source"
+    source_type = "http"
+    template = {
+      title = {
+        literal = jsonencode({
+          content = [
+            {
+              content = [
+                {
+                  attrs = {
+                    label   = "Payload → Title"
+                    missing = false
+                    name    = "title"
+                  }
+                  type = "varSpec"
+                },
+              ]
+              type = "paragraph"
+            },
+          ]
+          type = "doc"
+        })
+      }
+      description = {
+        literal = jsonencode({
+          content = [
+            {
+              content = [
+                {
+                  attrs = {
+                    label   = "Payload → Description"
+                    missing = false
+                    name    = "description"
+                  }
+                  type = "varSpec"
+                },
+              ]
+              type = "paragraph"
+            },
+          ]
+          type = "doc"
+        })
+      }
+      attributes  = []
+      expressions = []
+    }
+  }
+
+  resource "incident_alert_route" "custom_fields_alpha_test" {
+    name       = "` + name + `"
+    enabled    = true
+    is_private = false
+
+    alert_sources = [
+      {
+        alert_source_id = incident_alert_source.alpha_test.id
+        condition_groups = []
+      }
+    ]
+
+    # Minimal configuration, focusing only on custom fields
+    condition_groups = []
+    expressions = []
+    channel_config = []
+
+    escalation_config = {
+      auto_cancel_escalations = true
+      escalation_targets = []
+    }
+
+    incident_config = {
+      auto_decline_enabled    = false
+      enabled                 = true
+      condition_groups        = []
+      defer_time_seconds      = 300
+      grouping_keys           = []
+      grouping_window_seconds = 1800
+    }
+
+    incident_template = {
+      # Focus on custom fields in reverse lexicographical order
+      custom_fields = [
+       {
+          custom_field_id = incident_custom_field.alpha_field2.id
+          merge_strategy = "first-wins"
+          binding = {
+            value = {
+              literal = "First alphabetical custom field value"
+            }
+          }
+        },
+        {
+          custom_field_id = incident_custom_field.alpha_field1.id
+          merge_strategy = "first-wins"
+          binding = {
+            value = {
+              literal = "Second alphabetical custom field value"
+            }
+          }
+        }
+      ]
+
+      # Minimal required configuration for name and summary
+      name = {
+        autogenerated = false
+        value = {
+          literal = jsonencode({
+            content = [
+              {
+                content = [
+                  {
+                    text = "Test Incident"
+                    type = "text"
+                  }
+                ]
+                type = "paragraph"
+              }
+            ]
+            type = "doc"
+          })
+        }
+      }
+      summary = {
+        autogenerated = false
+        value = {
+          literal = jsonencode({
+            content = [
+              {
+                content = [
+                  {
+                    text = "Test Incident Summary"
+                    type = "text"
+                  }
+                ]
+                type = "paragraph"
+              }
+            ]
+            type = "doc"
+          })
+        }
+      }
+      severity = {
+        merge_strategy = "first-wins"
+      }
+    }
+  }
+  `
+}
+
 func channelID(withTeam bool) string {
 	if os.Getenv("CI") == "true" {
 		// This is a channel that exists in our integration test workspace
