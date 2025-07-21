@@ -1,7 +1,9 @@
 package models
 
 import (
+	"bytes"
 	"encoding/json"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -133,13 +135,18 @@ func normaliseJSON(jsonString string) (string, error) {
 		return "", err
 	}
 
-	// json.Marshal will return alphabetically sorted keys
-	normalisedJSON, err := json.Marshal(data)
+	// Use a buffer and encoder to control HTML escaping
+	var buf bytes.Buffer
+	encoder := json.NewEncoder(&buf)
+	encoder.SetEscapeHTML(false) // Disable HTML escaping to preserve characters like >, <, &
+
+	err = encoder.Encode(data)
 	if err != nil {
 		return "", err
 	}
 
-	return string(normalisedJSON), nil
+	// Encode adds a trailing newline, so we trim it
+	return strings.TrimSuffix(buf.String(), "\n"), nil
 }
 
 type IncidentEngineExpressions []IncidentEngineExpression
