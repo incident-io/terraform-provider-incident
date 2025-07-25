@@ -36,6 +36,8 @@ func TestAccIncidentAlertAttributeDataSource(t *testing.T) {
 						"data.incident_alert_attribute.by_name", "type", defaultAlertAttribute.Type),
 					resource.TestCheckResourceAttr(
 						"data.incident_alert_attribute.by_name", "array", fmt.Sprintf("%t", defaultAlertAttribute.Array)),
+					resource.TestCheckResourceAttr(
+						"data.incident_alert_attribute.by_name", "required", "false"),
 				),
 			},
 		},

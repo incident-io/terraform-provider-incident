@@ -18,9 +18,18 @@ Alert attributes are used to parse structured data from alerts coming in via ale
 ```terraform
 # Create an alert attribute that points at a single Github user in the catalog
 resource "incident_alert_attribute" "github_user" {
-  name  = "Github user"
-  type  = "CatalogEntry[\"Github User\"]"
-  array = false
+  name     = "Github user"
+  type     = "CatalogEntry[\"Github User\"]"
+  array    = false
+  required = true
+}
+
+# Create an optional alert attribute for severity information
+resource "incident_alert_attribute" "severity" {
+  name     = "Severity"
+  type     = "String"
+  array    = false
+  required = false
 }
 ```
 
@@ -32,6 +41,10 @@ resource "incident_alert_attribute" "github_user" {
 - `array` (Boolean) Whether this attribute is an array
 - `name` (String) Unique name of this attribute
 - `type` (String) Engine resource name for this attribute
+
+### Optional
+
+- `required` (Boolean) Whether this attribute is required. If this field is not set, the existing setting will be preserved.
 
 ### Read-Only
 

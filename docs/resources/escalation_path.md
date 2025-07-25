@@ -3,20 +3,18 @@
 page_title: "incident_escalation_path Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  Create and manage escalations.
+  Create and manage escalation paths, and list and filter escalations.
   With incident.io On-call you can create escalation paths that describe how a page should
-  be escalated to people and schedules, and create escalations that will execute those
-  paths.
+  be escalated to people and schedules.
   We'd generally recommend building escalation paths in our web dashboard https://app.incident.io/~/on-call/escalation-paths, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing escalation path and copy the resulting Terraform without persisting it.
 ---
 
 # incident_escalation_path (Resource)
 
-Create and manage escalations.
+Create and manage escalation paths, and list and filter escalations.
 
 With incident.io On-call you can create escalation paths that describe how a page should
-be escalated to people and schedules, and create escalations that will execute those
-paths.
+be escalated to people and schedules.
 
 
 We'd generally recommend building escalation paths in our [web dashboard](https://app.incident.io/~/on-call/escalation-paths), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing escalation path and copy the resulting Terraform without persisting it.

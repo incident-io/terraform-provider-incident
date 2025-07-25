@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
@@ -43,6 +44,10 @@ func (i *IncidentAlertAttributeDataSource) Schema(ctx context.Context, req datas
 			},
 			"array": schema.BoolAttribute{
 				MarkdownDescription: apischema.Docstring("AlertAttributeV2", "array"),
+				Computed:            true,
+			},
+			"required": schema.BoolAttribute{
+				MarkdownDescription: apischema.Docstring("AlertAttributeV2", "required"),
 				Computed:            true,
 			},
 		},
@@ -102,7 +107,7 @@ func (i *IncidentAlertAttributeDataSource) Read(ctx context.Context, req datasou
 		return
 	}
 
-	modelResp := new(IncidentAlertAttributeResource).buildModel(*alertAttribute)
+	modelResp := new(IncidentAlertAttributeResource).buildModel(*alertAttribute, types.BoolValue(alertAttribute.Required))
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
 }
