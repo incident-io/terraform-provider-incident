@@ -27,10 +27,11 @@ type IncidentAlertAttributeResource struct {
 }
 
 type IncidentAlertAttributeResourceModel struct {
-	ID    types.String `tfsdk:"id"`
-	Name  types.String `tfsdk:"name"`
-	Type  types.String `tfsdk:"type"`
-	Array types.Bool   `tfsdk:"array"`
+	ID       types.String `tfsdk:"id"`
+	Name     types.String `tfsdk:"name"`
+	Type     types.String `tfsdk:"type"`
+	Array    types.Bool   `tfsdk:"array"`
+	Required types.Bool   `tfsdk:"required"`
 }
 
 func NewIncidentAlertAttributeResource() resource.Resource {
@@ -64,6 +65,11 @@ func (r *IncidentAlertAttributeResource) Schema(ctx context.Context, req resourc
 				MarkdownDescription: apischema.Docstring("AlertAttributeV2", "array"),
 				Required:            true,
 			},
+			"required": schema.BoolAttribute{
+				MarkdownDescription: apischema.Docstring("AlertAttributeV2", "required"),
+				Optional:            true,
+				Computed:            true,
+			},
 		},
 	}
 }
@@ -95,9 +101,10 @@ func (r *IncidentAlertAttributeResource) Create(ctx context.Context, req resourc
 	}
 
 	requestBody := client.AlertAttributesCreatePayloadV2{
-		Name:  data.Name.ValueString(),
-		Type:  data.Type.ValueString(),
-		Array: data.Array.ValueBool(),
+		Name:     data.Name.ValueString(),
+		Type:     data.Type.ValueString(),
+		Array:    data.Array.ValueBool(),
+		Required: data.Required.ValueBoolPointer(),
 	}
 
 	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertAttributesV2CreateResponse, error) {
@@ -113,7 +120,7 @@ func (r *IncidentAlertAttributeResource) Create(ctx context.Context, req resourc
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created an alert attribute resource with id=%s", result.JSON201.AlertAttribute.Id))
-	data = r.buildModel(result.JSON201.AlertAttribute)
+	data = r.buildModel(result.JSON201.AlertAttribute, data.Required)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -133,7 +140,7 @@ func (r *IncidentAlertAttributeResource) Read(ctx context.Context, req resource.
 		return
 	}
 
-	data = r.buildModel(result.JSON200.AlertAttribute)
+	data = r.buildModel(result.JSON200.AlertAttribute, data.Required)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -149,6 +156,9 @@ func (r *IncidentAlertAttributeResource) Update(ctx context.Context, req resourc
 		Type:  data.Type.ValueString(),
 		Array: data.Array.ValueBool(),
 	}
+	if !data.Required.IsNull() {
+		requestBody.Required = data.Required.ValueBoolPointer()
+	}
 
 	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertAttributesV2UpdateResponse, error) {
 		result, err := r.client.AlertAttributesV2UpdateWithResponse(ctx, data.ID.ValueString(), requestBody)
@@ -162,7 +172,7 @@ func (r *IncidentAlertAttributeResource) Update(ctx context.Context, req resourc
 		return
 	}
 
-	data = r.buildModel(result.JSON200.AlertAttribute)
+	data = r.buildModel(result.JSON200.AlertAttribute, data.Required)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -184,14 +194,42 @@ func (r *IncidentAlertAttributeResource) Delete(ctx context.Context, req resourc
 
 func (r *IncidentAlertAttributeResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+
+	// After import, we need to read the full resource and set all attributes
+	// including the required field based on API response
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Get the resource data from API
+	result, err := r.client.AlertAttributesV2ShowWithResponse(ctx, req.ID)
+	if err == nil && result.StatusCode() >= 400 {
+		err = fmt.Errorf(string(result.Body))
+	}
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert attribute during import, got error: %s", err))
+		return
+	}
+
+	// For import, always set required based on API response
+	data := r.buildModel(result.JSON200.AlertAttribute, types.BoolValue(result.JSON200.AlertAttribute.Required))
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *IncidentAlertAttributeResource) buildModel(alertAttribute client.AlertAttributeV2) *IncidentAlertAttributeResourceModel {
+func (r *IncidentAlertAttributeResource) buildModel(alertAttribute client.AlertAttributeV2, configuredRequired types.Bool) *IncidentAlertAttributeResourceModel {
 	model := &IncidentAlertAttributeResourceModel{
 		ID:    types.StringValue(alertAttribute.Id),
 		Name:  types.StringValue(alertAttribute.Name),
 		Type:  types.StringValue(alertAttribute.Type),
 		Array: types.BoolValue(alertAttribute.Array),
 	}
+
+	// Only set Required if it was explicitly configured, otherwise keep it null
+	if configuredRequired.IsNull() {
+		model.Required = types.BoolNull()
+	} else {
+		model.Required = types.BoolValue(alertAttribute.Required)
+	}
+
 	return model
 }

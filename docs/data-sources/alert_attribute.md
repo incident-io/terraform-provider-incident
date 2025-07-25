@@ -30,6 +30,7 @@ data "incident_alert_attribute" "github_user" {
 
 - `array` (Boolean) Whether this attribute is an array
 - `id` (String) The ID of this attribute
+- `required` (Boolean) Whether this attribute is required. If this field is not set, the existing setting will be preserved.
 - `type` (String) Engine resource name for this attribute
 
 
