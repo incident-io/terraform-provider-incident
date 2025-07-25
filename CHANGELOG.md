@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.12.0
+
 - Fix `incident_catalog_type` to be able to better handle undefined or empty category lists
 - Expose `incident_catalog_entries` in the documentation
 - No longer escape HTML characters in engine JSON strings
