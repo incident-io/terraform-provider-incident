@@ -1906,6 +1906,15 @@ type AlertSourceEmailOptionsV2 struct {
 	EmailAddress string `json:"email_address"`
 }
 
+// AlertSourceHTTPCustomOptionsV2 defines model for AlertSourceHTTPCustomOptionsV2.
+type AlertSourceHTTPCustomOptionsV2 struct {
+	// DeduplicationKeyPath JSON path to extract the deduplication key from the payload
+	DeduplicationKeyPath string `json:"deduplication_key_path"`
+
+	// TransformExpression JavaScript expression that returns an object with all alert fields
+	TransformExpression string `json:"transform_expression"`
+}
+
 // AlertSourceJiraOptionsV2 defines model for AlertSourceJiraOptionsV2.
 type AlertSourceJiraOptionsV2 struct {
 	// ProjectIds Which projects in Jira should this alert source watch for new issues? IDs can either be IDs of the projects in Jira, or ID of catalog entries in the 'Jira Project' catalog type.
@@ -1936,7 +1945,8 @@ type AlertSourceV2SourceType string
 
 // AlertSourcesCreatePayloadV2 defines model for AlertSourcesCreatePayloadV2.
 type AlertSourcesCreatePayloadV2 struct {
-	JiraOptions *AlertSourceJiraOptionsV2 `json:"jira_options,omitempty"`
+	HttpCustomOptions *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
+	JiraOptions       *AlertSourceJiraOptionsV2       `json:"jira_options,omitempty"`
 
 	// Name Unique name of the alert source
 	Name string `json:"name"`
@@ -1966,7 +1976,8 @@ type AlertSourcesShowResultV2 struct {
 
 // AlertSourcesUpdatePayloadV2 defines model for AlertSourcesUpdatePayloadV2.
 type AlertSourcesUpdatePayloadV2 struct {
-	JiraOptions *AlertSourceJiraOptionsV2 `json:"jira_options,omitempty"`
+	HttpCustomOptions *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
+	JiraOptions       *AlertSourceJiraOptionsV2       `json:"jira_options,omitempty"`
 
 	// Name Unique name of the alert source
 	Name     string                 `json:"name"`
@@ -3627,7 +3638,7 @@ type EscalationPathNodeIfElseV2 struct {
 
 // EscalationPathNodeLevelV2 defines model for EscalationPathNodeLevelV2.
 type EscalationPathNodeLevelV2 struct {
-	// AckMode When true, all other pending or sent notifications for other users on this level will be cancelled when any user acknowledges the escalation
+	// AckMode Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 	AckMode          *EscalationPathNodeLevelV2AckMode `json:"ack_mode,omitempty"`
 	RoundRobinConfig *EscalationPathRoundRobinConfigV2 `json:"round_robin_config,omitempty"`
 
@@ -3644,7 +3655,7 @@ type EscalationPathNodeLevelV2 struct {
 	TimeToAckWeekdayIntervalConfigId *string `json:"time_to_ack_weekday_interval_config_id,omitempty"`
 }
 
-// EscalationPathNodeLevelV2AckMode When true, all other pending or sent notifications for other users on this level will be cancelled when any user acknowledges the escalation
+// EscalationPathNodeLevelV2AckMode Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 type EscalationPathNodeLevelV2AckMode string
 
 // EscalationPathNodeLevelV2TimeToAckIntervalCondition If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
