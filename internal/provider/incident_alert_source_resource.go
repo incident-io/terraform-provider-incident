@@ -160,6 +160,20 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"http_custom_options": schema.SingleNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV2", "http_custom_options"),
+				Attributes: map[string]schema.Attribute{
+					"transform_expression": schema.StringAttribute{
+						Required:            true,
+						MarkdownDescription: apischema.Docstring("AlertSourceHTTPCustomOptionsV2", "transform_expression"),
+					},
+					"deduplication_key_path": schema.StringAttribute{
+						Required:            true,
+						MarkdownDescription: apischema.Docstring("AlertSourceHTTPCustomOptionsV2", "deduplication_key_path"),
+					},
+				},
+			},
 		},
 	}
 }
@@ -191,10 +205,11 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 
 	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertSourcesV2CreateResponse, error) {
 		return r.client.AlertSourcesV2CreateWithResponse(ctx, client.AlertSourcesCreatePayloadV2{
-			Name:        data.Name.ValueString(),
-			SourceType:  client.AlertSourcesCreatePayloadV2SourceType(data.SourceType.ValueString()),
-			Template:    data.Template.ToPayload(),
-			JiraOptions: data.JiraOptions.ToPayload(),
+			Name:              data.Name.ValueString(),
+			SourceType:        client.AlertSourcesCreatePayloadV2SourceType(data.SourceType.ValueString()),
+			Template:          data.Template.ToPayload(),
+			JiraOptions:       data.JiraOptions.ToPayload(),
+			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
 		})
 	})
 
@@ -248,9 +263,10 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 
 	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertSourcesV2UpdateResponse, error) {
 		return r.client.AlertSourcesV2UpdateWithResponse(ctx, data.ID.ValueString(), client.AlertSourcesUpdatePayloadV2{
-			Name:        data.Name.ValueString(),
-			Template:    data.Template.ToPayload(),
-			JiraOptions: data.JiraOptions.ToPayload(),
+			Name:              data.Name.ValueString(),
+			Template:          data.Template.ToPayload(),
+			JiraOptions:       data.JiraOptions.ToPayload(),
+			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
 		})
 	})
 
