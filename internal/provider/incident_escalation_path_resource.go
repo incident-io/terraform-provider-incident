@@ -62,6 +62,8 @@ type IncidentEscalationPathNodeLevel struct {
 	TimeToAckIntervalCondition       types.String                        `tfsdk:"time_to_ack_interval_condition"`
 	TimeToAckSeconds                 types.Int64                         `tfsdk:"time_to_ack_seconds"`
 	TimeToAckWeekdayIntervalConfigID types.String                        `tfsdk:"time_to_ack_weekday_interval_config_id"`
+
+	AckMode types.String `tfsdk:"ack_mode"`
 }
 
 type IncidentEscalationPathNodeNotifyChannel struct {
@@ -210,6 +212,11 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 					"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
 						MarkdownDescription: apischema.Docstring(
 							"EscalationPathNodeLevelV2", "time_to_ack_weekday_interval_config_id"),
+						Optional: true,
+					},
+					"ack_mode": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring(
+							"EscalationPathNodeLevelV2", "ack_mode"),
 						Optional: true,
 					},
 				},
@@ -549,6 +556,9 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 			if value := node.Level.TimeToAckWeekdayIntervalConfigId; value != nil && *value != "" {
 				elem.Level.TimeToAckWeekdayIntervalConfigID = types.StringValue(*value)
 			}
+			if value := node.Level.AckMode; value != nil {
+				elem.Level.AckMode = types.StringValue(string(*value))
+			}
 		}
 		if node.NotifyChannel != nil {
 			elem.NotifyChannel = &IncidentEscalationPathNodeNotifyChannel{
@@ -641,6 +651,13 @@ func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalation
 					Enabled:            node.Level.RoundRobinConfig.Enabled.ValueBool(),
 					RotateAfterSeconds: node.Level.RoundRobinConfig.RotateAfterSeconds.ValueInt64Pointer(),
 				}
+			}
+
+			if !node.Level.AckMode.IsNull() {
+				val := node.Level.AckMode.ValueString()
+
+				ptr := client.EscalationPathNodeLevelV2AckMode(val)
+				elem.Level.AckMode = &ptr
 			}
 		}
 		if !reflect.ValueOf(node.NotifyChannel).IsZero() {
