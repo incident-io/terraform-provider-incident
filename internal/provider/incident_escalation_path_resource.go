@@ -219,6 +219,7 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 						MarkdownDescription: apischema.Docstring(
 							"EscalationPathNodeLevelV2", "ack_mode"),
 						Optional: true,
+						Computed: true,
 						Default:  stringdefault.StaticString("all"),
 					},
 				},
