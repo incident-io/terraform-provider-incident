@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Support for custom HTTP alert source configuration
+- Allow configuration of `ack_mode` for escalation paths
+
 ## v5.12.0
 
 - Fix `incident_catalog_type` to be able to better handle undefined or empty category lists
