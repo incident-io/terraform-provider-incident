@@ -7,14 +7,14 @@ import (
 )
 
 type AlertSourceResourceModel struct {
-	ID                 types.String                       `tfsdk:"id"`
-	Name               types.String                       `tfsdk:"name"`
-	SourceType         types.String                       `tfsdk:"source_type"`
-	SecretToken        types.String                       `tfsdk:"secret_token"`
-	Template           *AlertTemplateModel                `tfsdk:"template"`
-	JiraOptions        *AlertSourceJiraOptionsModel       `tfsdk:"jira_options"`
-	EmailAddress       types.String                       `tfsdk:"email_address"`
-	HTTPCustomOptions  *AlertSourceHTTPCustomOptionsModel `tfsdk:"http_custom_options"`
+	ID                types.String                       `tfsdk:"id"`
+	Name              types.String                       `tfsdk:"name"`
+	SourceType        types.String                       `tfsdk:"source_type"`
+	SecretToken       types.String                       `tfsdk:"secret_token"`
+	Template          *AlertTemplateModel                `tfsdk:"template"`
+	JiraOptions       *AlertSourceJiraOptionsModel       `tfsdk:"jira_options"`
+	EmailAddress      types.String                       `tfsdk:"email_address"`
+	HTTPCustomOptions *AlertSourceHTTPCustomOptionsModel `tfsdk:"http_custom_options"`
 }
 
 func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSourceResourceModel {
@@ -124,8 +124,8 @@ func (opts *AlertSourceJiraOptionsModel) ToPayload() *client.AlertSourceJiraOpti
 }
 
 type AlertSourceHTTPCustomOptionsModel struct {
-	TransformExpression   types.String `tfsdk:"transform_expression"`
-	DeduplicationKeyPath  types.String `tfsdk:"deduplication_key_path"`
+	TransformExpression  types.String `tfsdk:"transform_expression"`
+	DeduplicationKeyPath types.String `tfsdk:"deduplication_key_path"`
 }
 
 func (AlertSourceHTTPCustomOptionsModel) FromAPI(opts *client.AlertSourceHTTPCustomOptionsV2) *AlertSourceHTTPCustomOptionsModel {
