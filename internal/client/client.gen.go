@@ -669,6 +669,12 @@ const (
 	EscalationEventV2UrgencyLow  EscalationEventV2Urgency = "low"
 )
 
+// Defines values for EscalationPathNodeLevelV2AckMode.
+const (
+	EscalationPathNodeLevelV2AckModeAll   EscalationPathNodeLevelV2AckMode = "all"
+	EscalationPathNodeLevelV2AckModeFirst EscalationPathNodeLevelV2AckMode = "first"
+)
+
 // Defines values for EscalationPathNodeLevelV2TimeToAckIntervalCondition.
 const (
 	EscalationPathNodeLevelV2TimeToAckIntervalConditionActive   EscalationPathNodeLevelV2TimeToAckIntervalCondition = "active"
@@ -730,30 +736,32 @@ const (
 
 // Defines values for ExpressionOperationPayloadV2OperationType.
 const (
-	ExpressionOperationPayloadV2OperationTypeBranches ExpressionOperationPayloadV2OperationType = "branches"
-	ExpressionOperationPayloadV2OperationTypeCount    ExpressionOperationPayloadV2OperationType = "count"
-	ExpressionOperationPayloadV2OperationTypeFilter   ExpressionOperationPayloadV2OperationType = "filter"
-	ExpressionOperationPayloadV2OperationTypeFirst    ExpressionOperationPayloadV2OperationType = "first"
-	ExpressionOperationPayloadV2OperationTypeMax      ExpressionOperationPayloadV2OperationType = "max"
-	ExpressionOperationPayloadV2OperationTypeMin      ExpressionOperationPayloadV2OperationType = "min"
-	ExpressionOperationPayloadV2OperationTypeNavigate ExpressionOperationPayloadV2OperationType = "navigate"
-	ExpressionOperationPayloadV2OperationTypeParse    ExpressionOperationPayloadV2OperationType = "parse"
-	ExpressionOperationPayloadV2OperationTypeRandom   ExpressionOperationPayloadV2OperationType = "random"
-	ExpressionOperationPayloadV2OperationTypeSum      ExpressionOperationPayloadV2OperationType = "sum"
+	ExpressionOperationPayloadV2OperationTypeBranches    ExpressionOperationPayloadV2OperationType = "branches"
+	ExpressionOperationPayloadV2OperationTypeConcatenate ExpressionOperationPayloadV2OperationType = "concatenate"
+	ExpressionOperationPayloadV2OperationTypeCount       ExpressionOperationPayloadV2OperationType = "count"
+	ExpressionOperationPayloadV2OperationTypeFilter      ExpressionOperationPayloadV2OperationType = "filter"
+	ExpressionOperationPayloadV2OperationTypeFirst       ExpressionOperationPayloadV2OperationType = "first"
+	ExpressionOperationPayloadV2OperationTypeMax         ExpressionOperationPayloadV2OperationType = "max"
+	ExpressionOperationPayloadV2OperationTypeMin         ExpressionOperationPayloadV2OperationType = "min"
+	ExpressionOperationPayloadV2OperationTypeNavigate    ExpressionOperationPayloadV2OperationType = "navigate"
+	ExpressionOperationPayloadV2OperationTypeParse       ExpressionOperationPayloadV2OperationType = "parse"
+	ExpressionOperationPayloadV2OperationTypeRandom      ExpressionOperationPayloadV2OperationType = "random"
+	ExpressionOperationPayloadV2OperationTypeSum         ExpressionOperationPayloadV2OperationType = "sum"
 )
 
 // Defines values for ExpressionOperationV2OperationType.
 const (
-	ExpressionOperationV2OperationTypeBranches ExpressionOperationV2OperationType = "branches"
-	ExpressionOperationV2OperationTypeCount    ExpressionOperationV2OperationType = "count"
-	ExpressionOperationV2OperationTypeFilter   ExpressionOperationV2OperationType = "filter"
-	ExpressionOperationV2OperationTypeFirst    ExpressionOperationV2OperationType = "first"
-	ExpressionOperationV2OperationTypeMax      ExpressionOperationV2OperationType = "max"
-	ExpressionOperationV2OperationTypeMin      ExpressionOperationV2OperationType = "min"
-	ExpressionOperationV2OperationTypeNavigate ExpressionOperationV2OperationType = "navigate"
-	ExpressionOperationV2OperationTypeParse    ExpressionOperationV2OperationType = "parse"
-	ExpressionOperationV2OperationTypeRandom   ExpressionOperationV2OperationType = "random"
-	ExpressionOperationV2OperationTypeSum      ExpressionOperationV2OperationType = "sum"
+	Branches    ExpressionOperationV2OperationType = "branches"
+	Concatenate ExpressionOperationV2OperationType = "concatenate"
+	Count       ExpressionOperationV2OperationType = "count"
+	Filter      ExpressionOperationV2OperationType = "filter"
+	First       ExpressionOperationV2OperationType = "first"
+	Max         ExpressionOperationV2OperationType = "max"
+	Min         ExpressionOperationV2OperationType = "min"
+	Navigate    ExpressionOperationV2OperationType = "navigate"
+	Parse       ExpressionOperationV2OperationType = "parse"
+	Random      ExpressionOperationV2OperationType = "random"
+	Sum         ExpressionOperationV2OperationType = "sum"
 )
 
 // Defines values for ExternalIssueReferenceV1Provider.
@@ -1452,7 +1460,9 @@ type AlertAttributesUpdateResultV2 struct {
 
 // AlertEventsCreateHTTPPayloadV2 defines model for AlertEventsCreateHTTPPayloadV2.
 type AlertEventsCreateHTTPPayloadV2 struct {
-	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config. You can filter on this field to find the alert created by an event you've sent us.
+	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. For newly created HTTP sources, this field is required.
+	// If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config.
+	// You can filter on this field to find the alert created by an event you've sent us.
 	DeduplicationKey *string `json:"deduplication_key,omitempty"`
 
 	// Description Description that optionally adds more detail to title. Supports markdown.
@@ -1860,7 +1870,9 @@ type AlertSlimV2 struct {
 	// CreatedAt When this entry was created
 	CreatedAt time.Time `json:"created_at"`
 
-	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config. You can filter on this field to find the alert created by an event you've sent us.
+	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. For newly created HTTP sources, this field is required.
+	// If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config.
+	// You can filter on this field to find the alert created by an event you've sent us.
 	DeduplicationKey string `json:"deduplication_key"`
 
 	// Description The description of the alert
@@ -1894,6 +1906,15 @@ type AlertSourceEmailOptionsV2 struct {
 	EmailAddress string `json:"email_address"`
 }
 
+// AlertSourceHTTPCustomOptionsV2 defines model for AlertSourceHTTPCustomOptionsV2.
+type AlertSourceHTTPCustomOptionsV2 struct {
+	// DeduplicationKeyPath JSON path to extract the deduplication key from the payload
+	DeduplicationKeyPath string `json:"deduplication_key_path"`
+
+	// TransformExpression JavaScript expression that returns an object with all alert fields
+	TransformExpression string `json:"transform_expression"`
+}
+
 // AlertSourceJiraOptionsV2 defines model for AlertSourceJiraOptionsV2.
 type AlertSourceJiraOptionsV2 struct {
 	// ProjectIds Which projects in Jira should this alert source watch for new issues? IDs can either be IDs of the projects in Jira, or ID of catalog entries in the 'Jira Project' catalog type.
@@ -1924,7 +1945,8 @@ type AlertSourceV2SourceType string
 
 // AlertSourcesCreatePayloadV2 defines model for AlertSourcesCreatePayloadV2.
 type AlertSourcesCreatePayloadV2 struct {
-	JiraOptions *AlertSourceJiraOptionsV2 `json:"jira_options,omitempty"`
+	HttpCustomOptions *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
+	JiraOptions       *AlertSourceJiraOptionsV2       `json:"jira_options,omitempty"`
 
 	// Name Unique name of the alert source
 	Name string `json:"name"`
@@ -1954,7 +1976,8 @@ type AlertSourcesShowResultV2 struct {
 
 // AlertSourcesUpdatePayloadV2 defines model for AlertSourcesUpdatePayloadV2.
 type AlertSourcesUpdatePayloadV2 struct {
-	JiraOptions *AlertSourceJiraOptionsV2 `json:"jira_options,omitempty"`
+	HttpCustomOptions *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
+	JiraOptions       *AlertSourceJiraOptionsV2       `json:"jira_options,omitempty"`
 
 	// Name Unique name of the alert source
 	Name     string                 `json:"name"`
@@ -2013,7 +2036,9 @@ type AlertV2 struct {
 	// CreatedAt When this entry was created
 	CreatedAt time.Time `json:"created_at"`
 
-	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config. You can filter on this field to find the alert created by an event you've sent us.
+	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. For newly created HTTP sources, this field is required.
+	// If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config.
+	// You can filter on this field to find the alert created by an event you've sent us.
 	DeduplicationKey string `json:"deduplication_key"`
 
 	// Description The description of the alert
@@ -3613,6 +3638,8 @@ type EscalationPathNodeIfElseV2 struct {
 
 // EscalationPathNodeLevelV2 defines model for EscalationPathNodeLevelV2.
 type EscalationPathNodeLevelV2 struct {
+	// AckMode Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+	AckMode          *EscalationPathNodeLevelV2AckMode `json:"ack_mode,omitempty"`
 	RoundRobinConfig *EscalationPathRoundRobinConfigV2 `json:"round_robin_config,omitempty"`
 
 	// Targets The targets (users or schedules) for this level
@@ -3627,6 +3654,9 @@ type EscalationPathNodeLevelV2 struct {
 	// TimeToAckWeekdayIntervalConfigId If the time to ack is relative to a time window, this identifies which window it is relative to
 	TimeToAckWeekdayIntervalConfigId *string `json:"time_to_ack_weekday_interval_config_id,omitempty"`
 }
+
+// EscalationPathNodeLevelV2AckMode Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+type EscalationPathNodeLevelV2AckMode string
 
 // EscalationPathNodeLevelV2TimeToAckIntervalCondition If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 type EscalationPathNodeLevelV2TimeToAckIntervalCondition string
@@ -3890,6 +3920,12 @@ type ExpressionBranchesOptsV2 struct {
 	Returns  ReturnsMetaV2        `json:"returns"`
 }
 
+// ExpressionConcatenateOptsPayloadV2 defines model for ExpressionConcatenateOptsPayloadV2.
+type ExpressionConcatenateOptsPayloadV2 struct {
+	// Reference The reference that you want to concatenate with
+	Reference string `json:"reference"`
+}
+
 // ExpressionElseBranchPayloadV2 defines model for ExpressionElseBranchPayloadV2.
 type ExpressionElseBranchPayloadV2 struct {
 	Result EngineParamBindingPayloadV2 `json:"result"`
@@ -3929,9 +3965,10 @@ type ExpressionNavigateOptsV2 struct {
 
 // ExpressionOperationPayloadV2 defines model for ExpressionOperationPayloadV2.
 type ExpressionOperationPayloadV2 struct {
-	Branches *ExpressionBranchesOptsPayloadV2 `json:"branches,omitempty"`
-	Filter   *ExpressionFilterOptsPayloadV2   `json:"filter,omitempty"`
-	Navigate *ExpressionNavigateOptsPayloadV2 `json:"navigate,omitempty"`
+	Branches    *ExpressionBranchesOptsPayloadV2    `json:"branches,omitempty"`
+	Concatenate *ExpressionConcatenateOptsPayloadV2 `json:"concatenate,omitempty"`
+	Filter      *ExpressionFilterOptsPayloadV2      `json:"filter,omitempty"`
+	Navigate    *ExpressionNavigateOptsPayloadV2    `json:"navigate,omitempty"`
 
 	// OperationType The type of the operation
 	OperationType ExpressionOperationPayloadV2OperationType `json:"operation_type"`
