@@ -452,6 +452,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -551,6 +552,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -631,6 +633,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -800,6 +803,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -899,6 +903,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -979,6 +984,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1059,6 +1065,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--then_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1298,6 +1305,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1397,6 +1405,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1477,6 +1486,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1646,6 +1656,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1745,6 +1756,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1825,6 +1837,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1905,6 +1918,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1985,6 +1999,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2294,6 +2309,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2393,6 +2409,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2473,6 +2490,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2642,6 +2660,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2741,6 +2760,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2821,6 +2841,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2901,6 +2922,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--then_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3140,6 +3162,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3239,6 +3262,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3319,6 +3343,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3488,6 +3513,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--then_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3587,6 +3613,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3667,6 +3694,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3747,6 +3775,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3827,6 +3856,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3907,6 +3937,7 @@ Required:
 
 Optional:
 
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
