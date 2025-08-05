@@ -7,13 +7,14 @@ import (
 )
 
 type AlertSourceResourceModel struct {
-	ID           types.String                 `tfsdk:"id"`
-	Name         types.String                 `tfsdk:"name"`
-	SourceType   types.String                 `tfsdk:"source_type"`
-	SecretToken  types.String                 `tfsdk:"secret_token"`
-	Template     *AlertTemplateModel          `tfsdk:"template"`
-	JiraOptions  *AlertSourceJiraOptionsModel `tfsdk:"jira_options"`
-	EmailAddress types.String                 `tfsdk:"email_address"`
+	ID                types.String                       `tfsdk:"id"`
+	Name              types.String                       `tfsdk:"name"`
+	SourceType        types.String                       `tfsdk:"source_type"`
+	SecretToken       types.String                       `tfsdk:"secret_token"`
+	Template          *AlertTemplateModel                `tfsdk:"template"`
+	JiraOptions       *AlertSourceJiraOptionsModel       `tfsdk:"jira_options"`
+	EmailAddress      types.String                       `tfsdk:"email_address"`
+	HTTPCustomOptions *AlertSourceHTTPCustomOptionsModel `tfsdk:"http_custom_options"`
 }
 
 func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSourceResourceModel {
@@ -33,8 +34,9 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 			Attributes:  AlertTemplateAttributesModel{}.FromAPI(source.Template.Attributes),
 			Expressions: IncidentEngineExpressions{}.FromAPI(source.Template.Expressions),
 		},
-		JiraOptions:  AlertSourceJiraOptionsModel{}.FromAPI(source.JiraOptions),
-		EmailAddress: types.StringPointerValue(emailAddress),
+		JiraOptions:       AlertSourceJiraOptionsModel{}.FromAPI(source.JiraOptions),
+		EmailAddress:      types.StringPointerValue(emailAddress),
+		HTTPCustomOptions: AlertSourceHTTPCustomOptionsModel{}.FromAPI(source.HttpCustomOptions),
 	}
 }
 
@@ -118,5 +120,32 @@ func (opts *AlertSourceJiraOptionsModel) ToPayload() *client.AlertSourceJiraOpti
 
 	return &client.AlertSourceJiraOptionsV2{
 		ProjectIds: projectIDs,
+	}
+}
+
+type AlertSourceHTTPCustomOptionsModel struct {
+	TransformExpression  types.String `tfsdk:"transform_expression"`
+	DeduplicationKeyPath types.String `tfsdk:"deduplication_key_path"`
+}
+
+func (AlertSourceHTTPCustomOptionsModel) FromAPI(opts *client.AlertSourceHTTPCustomOptionsV2) *AlertSourceHTTPCustomOptionsModel {
+	if opts == nil {
+		return nil
+	}
+
+	return &AlertSourceHTTPCustomOptionsModel{
+		TransformExpression:  types.StringValue(opts.TransformExpression),
+		DeduplicationKeyPath: types.StringValue(opts.DeduplicationKeyPath),
+	}
+}
+
+func (opts *AlertSourceHTTPCustomOptionsModel) ToPayload() *client.AlertSourceHTTPCustomOptionsV2 {
+	if opts == nil {
+		return nil
+	}
+
+	return &client.AlertSourceHTTPCustomOptionsV2{
+		TransformExpression:  opts.TransformExpression.ValueString(),
+		DeduplicationKeyPath: opts.DeduplicationKeyPath.ValueString(),
 	}
 }

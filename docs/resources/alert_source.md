@@ -137,6 +137,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 ### Optional
 
 - `email_address` (String) Email address this alert source receives alerts to
+- `http_custom_options` (Attributes) (see [below for nested schema](#nestedatt--http_custom_options))
 - `jira_options` (Attributes) (see [below for nested schema](#nestedatt--jira_options))
 
 ### Read-Only
@@ -450,6 +451,15 @@ Optional:
 - `literal` (String) If set, this is the literal value of the step parameter
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
+
+
+<a id="nestedatt--http_custom_options"></a>
+### Nested Schema for `http_custom_options`
+
+Required:
+
+- `deduplication_key_path` (String) JSON path to extract the deduplication key from the payload
+- `transform_expression` (String) JavaScript expression that returns an object with all alert fields
 
 
 <a id="nestedatt--jira_options"></a>

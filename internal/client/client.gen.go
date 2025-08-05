@@ -1923,7 +1923,8 @@ type AlertSourceJiraOptionsV2 struct {
 
 // AlertSourceV2 defines model for AlertSourceV2.
 type AlertSourceV2 struct {
-	EmailOptions *AlertSourceEmailOptionsV2 `json:"email_options,omitempty"`
+	EmailOptions      *AlertSourceEmailOptionsV2      `json:"email_options,omitempty"`
+	HttpCustomOptions *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
 
 	// Id The ID of this alert source
 	Id          string                    `json:"id"`
