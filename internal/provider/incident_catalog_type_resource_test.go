@@ -90,6 +90,38 @@ func TestAccIncidentCatalogTypeResource(t *testing.T) {
 			},
 		},
 	})
+
+	// Test use_name_as_identifier field
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create with use_name_as_identifier = true
+			{
+				Config: testAccIncidentCatalogTypeResourceConfigWithUseNameAsIdentifier(true),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type.example", "name", StableSuffix("Service")),
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type.example", "use_name_as_identifier", "true"),
+				),
+			},
+			// Import
+			{
+				ResourceName:      "incident_catalog_type.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			// Update to use_name_as_identifier = false
+			{
+				Config: testAccIncidentCatalogTypeResourceConfigWithUseNameAsIdentifier(false),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type.example", "use_name_as_identifier", "false"),
+				),
+			},
+		},
+	})
 }
 
 func generateTypeName() string {
@@ -108,6 +140,16 @@ resource "incident_catalog_type" "example" {
   name        = {{ quote .Name }}
   {{ if ne .TypeName "" }}type_name   = {{ quote .TypeName }}{{ end }}
   description = {{ quote .Description }}
+
+  source_repo_url = "https://github.com/incident-io/terraform-demo"
+}
+`))
+
+var catalogTypeWithUseNameAsIdentifierTemplate = template.Must(template.New("incident_catalog_type_with_use_name").Funcs(sprig.TxtFuncMap()).Parse(`
+resource "incident_catalog_type" "example" {
+  name                   = {{ quote .Name }}
+  description            = {{ quote .Description }}
+  use_name_as_identifier = {{ .UseNameAsIdentifier }}
 
   source_repo_url = "https://github.com/incident-io/terraform-demo"
 }
@@ -143,6 +185,25 @@ func testAccIncidentCatalogTypeResourceConfig(override *client.CatalogTypeV2) st
 
 	var buf bytes.Buffer
 	if err := catalogTypeTemplate.Execute(&buf, model); err != nil {
+		panic(err)
+	}
+
+	return buf.String()
+}
+
+func testAccIncidentCatalogTypeResourceConfigWithUseNameAsIdentifier(useNameAsIdentifier bool) string {
+	model := struct {
+		Name                 string
+		Description          string
+		UseNameAsIdentifier  bool
+	}{
+		Name:                 StableSuffix("Service"),
+		Description:          "Catalog Type Acceptance tests",
+		UseNameAsIdentifier:  useNameAsIdentifier,
+	}
+
+	var buf bytes.Buffer
+	if err := catalogTypeWithUseNameAsIdentifierTemplate.Execute(&buf, model); err != nil {
 		panic(err)
 	}
 

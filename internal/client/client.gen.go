@@ -82,6 +82,7 @@ const (
 	AlertSourceV2SourceTypeChronosphere      AlertSourceV2SourceType = "chronosphere"
 	AlertSourceV2SourceTypeCloudflare        AlertSourceV2SourceType = "cloudflare"
 	AlertSourceV2SourceTypeCloudwatch        AlertSourceV2SourceType = "cloudwatch"
+	AlertSourceV2SourceTypeCoralogix         AlertSourceV2SourceType = "coralogix"
 	AlertSourceV2SourceTypeCronitor          AlertSourceV2SourceType = "cronitor"
 	AlertSourceV2SourceTypeCrowdstrikeFalcon AlertSourceV2SourceType = "crowdstrike_falcon"
 	AlertSourceV2SourceTypeDatadog           AlertSourceV2SourceType = "datadog"
@@ -94,6 +95,7 @@ const (
 	AlertSourceV2SourceTypeGrafana           AlertSourceV2SourceType = "grafana"
 	AlertSourceV2SourceTypeHoneycomb         AlertSourceV2SourceType = "honeycomb"
 	AlertSourceV2SourceTypeHttp              AlertSourceV2SourceType = "http"
+	AlertSourceV2SourceTypeHttpCustom        AlertSourceV2SourceType = "http_custom"
 	AlertSourceV2SourceTypeIncomingCalls     AlertSourceV2SourceType = "incoming_calls"
 	AlertSourceV2SourceTypeJira              AlertSourceV2SourceType = "jira"
 	AlertSourceV2SourceTypeMonteCarlo        AlertSourceV2SourceType = "monte_carlo"
@@ -106,6 +108,7 @@ const (
 	AlertSourceV2SourceTypePrtg              AlertSourceV2SourceType = "prtg"
 	AlertSourceV2SourceTypeRunscope          AlertSourceV2SourceType = "runscope"
 	AlertSourceV2SourceTypeSentry            AlertSourceV2SourceType = "sentry"
+	AlertSourceV2SourceTypeSentryMetric      AlertSourceV2SourceType = "sentry_metric"
 	AlertSourceV2SourceTypeSns               AlertSourceV2SourceType = "sns"
 	AlertSourceV2SourceTypeSplunk            AlertSourceV2SourceType = "splunk"
 	AlertSourceV2SourceTypeStatusCake        AlertSourceV2SourceType = "status_cake"
@@ -125,6 +128,7 @@ const (
 	AlertSourcesCreatePayloadV2SourceTypeChronosphere      AlertSourcesCreatePayloadV2SourceType = "chronosphere"
 	AlertSourcesCreatePayloadV2SourceTypeCloudflare        AlertSourcesCreatePayloadV2SourceType = "cloudflare"
 	AlertSourcesCreatePayloadV2SourceTypeCloudwatch        AlertSourcesCreatePayloadV2SourceType = "cloudwatch"
+	AlertSourcesCreatePayloadV2SourceTypeCoralogix         AlertSourcesCreatePayloadV2SourceType = "coralogix"
 	AlertSourcesCreatePayloadV2SourceTypeCronitor          AlertSourcesCreatePayloadV2SourceType = "cronitor"
 	AlertSourcesCreatePayloadV2SourceTypeCrowdstrikeFalcon AlertSourcesCreatePayloadV2SourceType = "crowdstrike_falcon"
 	AlertSourcesCreatePayloadV2SourceTypeDatadog           AlertSourcesCreatePayloadV2SourceType = "datadog"
@@ -137,6 +141,7 @@ const (
 	AlertSourcesCreatePayloadV2SourceTypeGrafana           AlertSourcesCreatePayloadV2SourceType = "grafana"
 	AlertSourcesCreatePayloadV2SourceTypeHoneycomb         AlertSourcesCreatePayloadV2SourceType = "honeycomb"
 	AlertSourcesCreatePayloadV2SourceTypeHttp              AlertSourcesCreatePayloadV2SourceType = "http"
+	AlertSourcesCreatePayloadV2SourceTypeHttpCustom        AlertSourcesCreatePayloadV2SourceType = "http_custom"
 	AlertSourcesCreatePayloadV2SourceTypeIncomingCalls     AlertSourcesCreatePayloadV2SourceType = "incoming_calls"
 	AlertSourcesCreatePayloadV2SourceTypeJira              AlertSourcesCreatePayloadV2SourceType = "jira"
 	AlertSourcesCreatePayloadV2SourceTypeMonteCarlo        AlertSourcesCreatePayloadV2SourceType = "monte_carlo"
@@ -149,6 +154,7 @@ const (
 	AlertSourcesCreatePayloadV2SourceTypePrtg              AlertSourcesCreatePayloadV2SourceType = "prtg"
 	AlertSourcesCreatePayloadV2SourceTypeRunscope          AlertSourcesCreatePayloadV2SourceType = "runscope"
 	AlertSourcesCreatePayloadV2SourceTypeSentry            AlertSourcesCreatePayloadV2SourceType = "sentry"
+	AlertSourcesCreatePayloadV2SourceTypeSentryMetric      AlertSourcesCreatePayloadV2SourceType = "sentry_metric"
 	AlertSourcesCreatePayloadV2SourceTypeSns               AlertSourcesCreatePayloadV2SourceType = "sns"
 	AlertSourcesCreatePayloadV2SourceTypeSplunk            AlertSourcesCreatePayloadV2SourceType = "splunk"
 	AlertSourcesCreatePayloadV2SourceTypeStatusCake        AlertSourcesCreatePayloadV2SourceType = "status_cake"
@@ -160,8 +166,8 @@ const (
 
 // Defines values for AlertV2Status.
 const (
-	Firing   AlertV2Status = "firing"
-	Resolved AlertV2Status = "resolved"
+	AlertV2StatusFiring   AlertV2Status = "firing"
+	AlertV2StatusResolved AlertV2Status = "resolved"
 )
 
 // Defines values for CatalogCreateTypePayloadV2Categories.
@@ -645,6 +651,30 @@ const (
 	EmbeddedIncidentRoleV2RoleTypeReporter EmbeddedIncidentRoleV2RoleType = "reporter"
 )
 
+// Defines values for EscalationEventV2Event.
+const (
+	EscalationEventV2EventAcked              EscalationEventV2Event = "acked"
+	EscalationEventV2EventCancelled          EscalationEventV2Event = "cancelled"
+	EscalationEventV2EventEnteredGracePeriod EscalationEventV2Event = "entered_grace_period"
+	EscalationEventV2EventExpired            EscalationEventV2Event = "expired"
+	EscalationEventV2EventNotifiedChannels   EscalationEventV2Event = "notified_channels"
+	EscalationEventV2EventNotifiedUsers      EscalationEventV2Event = "notified_users"
+	EscalationEventV2EventResolved           EscalationEventV2Event = "resolved"
+	EscalationEventV2EventTriggered          EscalationEventV2Event = "triggered"
+)
+
+// Defines values for EscalationEventV2Urgency.
+const (
+	EscalationEventV2UrgencyHigh EscalationEventV2Urgency = "high"
+	EscalationEventV2UrgencyLow  EscalationEventV2Urgency = "low"
+)
+
+// Defines values for EscalationPathNodeLevelV2AckMode.
+const (
+	EscalationPathNodeLevelV2AckModeAll   EscalationPathNodeLevelV2AckMode = "all"
+	EscalationPathNodeLevelV2AckModeFirst EscalationPathNodeLevelV2AckMode = "first"
+)
+
 // Defines values for EscalationPathNodeLevelV2TimeToAckIntervalCondition.
 const (
 	EscalationPathNodeLevelV2TimeToAckIntervalConditionActive   EscalationPathNodeLevelV2TimeToAckIntervalCondition = "active"
@@ -690,36 +720,48 @@ const (
 
 // Defines values for EscalationPathTargetV2Urgency.
 const (
-	High EscalationPathTargetV2Urgency = "high"
-	Low  EscalationPathTargetV2Urgency = "low"
+	EscalationPathTargetV2UrgencyHigh EscalationPathTargetV2Urgency = "high"
+	EscalationPathTargetV2UrgencyLow  EscalationPathTargetV2Urgency = "low"
+)
+
+// Defines values for EscalationV2Status.
+const (
+	Acked     EscalationV2Status = "acked"
+	Cancelled EscalationV2Status = "cancelled"
+	Expired   EscalationV2Status = "expired"
+	Pending   EscalationV2Status = "pending"
+	Resolved  EscalationV2Status = "resolved"
+	Triggered EscalationV2Status = "triggered"
 )
 
 // Defines values for ExpressionOperationPayloadV2OperationType.
 const (
-	ExpressionOperationPayloadV2OperationTypeBranches ExpressionOperationPayloadV2OperationType = "branches"
-	ExpressionOperationPayloadV2OperationTypeCount    ExpressionOperationPayloadV2OperationType = "count"
-	ExpressionOperationPayloadV2OperationTypeFilter   ExpressionOperationPayloadV2OperationType = "filter"
-	ExpressionOperationPayloadV2OperationTypeFirst    ExpressionOperationPayloadV2OperationType = "first"
-	ExpressionOperationPayloadV2OperationTypeMax      ExpressionOperationPayloadV2OperationType = "max"
-	ExpressionOperationPayloadV2OperationTypeMin      ExpressionOperationPayloadV2OperationType = "min"
-	ExpressionOperationPayloadV2OperationTypeNavigate ExpressionOperationPayloadV2OperationType = "navigate"
-	ExpressionOperationPayloadV2OperationTypeParse    ExpressionOperationPayloadV2OperationType = "parse"
-	ExpressionOperationPayloadV2OperationTypeRandom   ExpressionOperationPayloadV2OperationType = "random"
-	ExpressionOperationPayloadV2OperationTypeSum      ExpressionOperationPayloadV2OperationType = "sum"
+	ExpressionOperationPayloadV2OperationTypeBranches    ExpressionOperationPayloadV2OperationType = "branches"
+	ExpressionOperationPayloadV2OperationTypeConcatenate ExpressionOperationPayloadV2OperationType = "concatenate"
+	ExpressionOperationPayloadV2OperationTypeCount       ExpressionOperationPayloadV2OperationType = "count"
+	ExpressionOperationPayloadV2OperationTypeFilter      ExpressionOperationPayloadV2OperationType = "filter"
+	ExpressionOperationPayloadV2OperationTypeFirst       ExpressionOperationPayloadV2OperationType = "first"
+	ExpressionOperationPayloadV2OperationTypeMax         ExpressionOperationPayloadV2OperationType = "max"
+	ExpressionOperationPayloadV2OperationTypeMin         ExpressionOperationPayloadV2OperationType = "min"
+	ExpressionOperationPayloadV2OperationTypeNavigate    ExpressionOperationPayloadV2OperationType = "navigate"
+	ExpressionOperationPayloadV2OperationTypeParse       ExpressionOperationPayloadV2OperationType = "parse"
+	ExpressionOperationPayloadV2OperationTypeRandom      ExpressionOperationPayloadV2OperationType = "random"
+	ExpressionOperationPayloadV2OperationTypeSum         ExpressionOperationPayloadV2OperationType = "sum"
 )
 
 // Defines values for ExpressionOperationV2OperationType.
 const (
-	ExpressionOperationV2OperationTypeBranches ExpressionOperationV2OperationType = "branches"
-	ExpressionOperationV2OperationTypeCount    ExpressionOperationV2OperationType = "count"
-	ExpressionOperationV2OperationTypeFilter   ExpressionOperationV2OperationType = "filter"
-	ExpressionOperationV2OperationTypeFirst    ExpressionOperationV2OperationType = "first"
-	ExpressionOperationV2OperationTypeMax      ExpressionOperationV2OperationType = "max"
-	ExpressionOperationV2OperationTypeMin      ExpressionOperationV2OperationType = "min"
-	ExpressionOperationV2OperationTypeNavigate ExpressionOperationV2OperationType = "navigate"
-	ExpressionOperationV2OperationTypeParse    ExpressionOperationV2OperationType = "parse"
-	ExpressionOperationV2OperationTypeRandom   ExpressionOperationV2OperationType = "random"
-	ExpressionOperationV2OperationTypeSum      ExpressionOperationV2OperationType = "sum"
+	Branches    ExpressionOperationV2OperationType = "branches"
+	Concatenate ExpressionOperationV2OperationType = "concatenate"
+	Count       ExpressionOperationV2OperationType = "count"
+	Filter      ExpressionOperationV2OperationType = "filter"
+	First       ExpressionOperationV2OperationType = "first"
+	Max         ExpressionOperationV2OperationType = "max"
+	Min         ExpressionOperationV2OperationType = "min"
+	Navigate    ExpressionOperationV2OperationType = "navigate"
+	Parse       ExpressionOperationV2OperationType = "parse"
+	Random      ExpressionOperationV2OperationType = "random"
+	Sum         ExpressionOperationV2OperationType = "sum"
 )
 
 // Defines values for ExternalIssueReferenceV1Provider.
@@ -1010,17 +1052,6 @@ const (
 	ScheduleRotationWorkingIntervalCreatePayloadV2WeekdayWednesday ScheduleRotationWorkingIntervalCreatePayloadV2Weekday = "wednesday"
 )
 
-// Defines values for ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday.
-const (
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayFriday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "friday"
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayMonday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "monday"
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdaySaturday  ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "saturday"
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdaySunday    ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "sunday"
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayThursday  ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "thursday"
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayTuesday   ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "tuesday"
-	ScheduleRotationWorkingIntervalUpdatePayloadV2WeekdayWednesday ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday = "wednesday"
-)
-
 // Defines values for ScheduleRotationWorkingIntervalV2Weekday.
 const (
 	ScheduleRotationWorkingIntervalV2WeekdayFriday    ScheduleRotationWorkingIntervalV2Weekday = "friday"
@@ -1061,13 +1092,13 @@ const (
 
 // Defines values for WeekdayIntervalV2Weekday.
 const (
-	WeekdayIntervalV2WeekdayFriday    WeekdayIntervalV2Weekday = "friday"
-	WeekdayIntervalV2WeekdayMonday    WeekdayIntervalV2Weekday = "monday"
-	WeekdayIntervalV2WeekdaySaturday  WeekdayIntervalV2Weekday = "saturday"
-	WeekdayIntervalV2WeekdaySunday    WeekdayIntervalV2Weekday = "sunday"
-	WeekdayIntervalV2WeekdayThursday  WeekdayIntervalV2Weekday = "thursday"
-	WeekdayIntervalV2WeekdayTuesday   WeekdayIntervalV2Weekday = "tuesday"
-	WeekdayIntervalV2WeekdayWednesday WeekdayIntervalV2Weekday = "wednesday"
+	Friday    WeekdayIntervalV2Weekday = "friday"
+	Monday    WeekdayIntervalV2Weekday = "monday"
+	Saturday  WeekdayIntervalV2Weekday = "saturday"
+	Sunday    WeekdayIntervalV2Weekday = "sunday"
+	Thursday  WeekdayIntervalV2Weekday = "thursday"
+	Tuesday   WeekdayIntervalV2Weekday = "tuesday"
+	Wednesday WeekdayIntervalV2Weekday = "wednesday"
 )
 
 // Defines values for WorkflowSlimV2RunsOnIncidentModes.
@@ -1305,8 +1336,9 @@ type ActorV1 struct {
 
 // ActorV2 defines model for ActorV2.
 type ActorV2 struct {
-	ApiKey *APIKeyV2 `json:"api_key,omitempty"`
-	User   *UserV2   `json:"user,omitempty"`
+	Alert  *AlertActorV2 `json:"alert,omitempty"`
+	ApiKey *APIKeyV2     `json:"api_key,omitempty"`
+	User   *UserV2       `json:"user,omitempty"`
 }
 
 // AfterPaginationMetaResultV2 defines model for AfterPaginationMetaResultV2.
@@ -1316,6 +1348,15 @@ type AfterPaginationMetaResultV2 struct {
 
 	// AfterUrl The URL to fetch the next page of entries
 	AfterUrl string `json:"after_url"`
+}
+
+// AlertActorV2 defines model for AlertActorV2.
+type AlertActorV2 struct {
+	// Id The ID of this alert
+	Id string `json:"id"`
+
+	// Title The title of the alert, parsed from the alert payload according to the alert source configuration
+	Title string `json:"title"`
 }
 
 // AlertAttributeCatalogEntryV2 defines model for AlertAttributeCatalogEntryV2.
@@ -1349,6 +1390,9 @@ type AlertAttributeV2 struct {
 	// Name Unique name of this attribute
 	Name string `json:"name"`
 
+	// Required Whether this attribute is required. If this field is not set, the existing setting will be preserved.
+	Required bool `json:"required"`
+
 	// Type Engine resource name for this attribute
 	Type string `json:"type"`
 }
@@ -1371,6 +1415,9 @@ type AlertAttributesCreatePayloadV2 struct {
 
 	// Name Unique name of this attribute
 	Name string `json:"name"`
+
+	// Required Whether this attribute is required. If this field is not set, the existing setting will be preserved.
+	Required *bool `json:"required,omitempty"`
 
 	// Type Engine resource name for this attribute
 	Type string `json:"type"`
@@ -1399,6 +1446,9 @@ type AlertAttributesUpdatePayloadV2 struct {
 	// Name Unique name of this attribute
 	Name string `json:"name"`
 
+	// Required Whether this attribute is required. If this field is not set, the existing setting will be preserved.
+	Required *bool `json:"required,omitempty"`
+
 	// Type Engine resource name for this attribute
 	Type string `json:"type"`
 }
@@ -1410,7 +1460,9 @@ type AlertAttributesUpdateResultV2 struct {
 
 // AlertEventsCreateHTTPPayloadV2 defines model for AlertEventsCreateHTTPPayloadV2.
 type AlertEventsCreateHTTPPayloadV2 struct {
-	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config. You can filter on this field to find the alert created by an event you've sent us.
+	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. For newly created HTTP sources, this field is required.
+	// If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config.
+	// You can filter on this field to find the alert created by an event you've sent us.
 	DeduplicationKey *string `json:"deduplication_key,omitempty"`
 
 	// Description Description that optionally adds more detail to title. Supports markdown.
@@ -1818,7 +1870,9 @@ type AlertSlimV2 struct {
 	// CreatedAt When this entry was created
 	CreatedAt time.Time `json:"created_at"`
 
-	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config. You can filter on this field to find the alert created by an event you've sent us.
+	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. For newly created HTTP sources, this field is required.
+	// If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config.
+	// You can filter on this field to find the alert created by an event you've sent us.
 	DeduplicationKey string `json:"deduplication_key"`
 
 	// Description The description of the alert
@@ -1852,6 +1906,15 @@ type AlertSourceEmailOptionsV2 struct {
 	EmailAddress string `json:"email_address"`
 }
 
+// AlertSourceHTTPCustomOptionsV2 defines model for AlertSourceHTTPCustomOptionsV2.
+type AlertSourceHTTPCustomOptionsV2 struct {
+	// DeduplicationKeyPath JSON path to extract the deduplication key from the payload
+	DeduplicationKeyPath string `json:"deduplication_key_path"`
+
+	// TransformExpression JavaScript expression that returns an object with all alert fields
+	TransformExpression string `json:"transform_expression"`
+}
+
 // AlertSourceJiraOptionsV2 defines model for AlertSourceJiraOptionsV2.
 type AlertSourceJiraOptionsV2 struct {
 	// ProjectIds Which projects in Jira should this alert source watch for new issues? IDs can either be IDs of the projects in Jira, or ID of catalog entries in the 'Jira Project' catalog type.
@@ -1860,7 +1923,8 @@ type AlertSourceJiraOptionsV2 struct {
 
 // AlertSourceV2 defines model for AlertSourceV2.
 type AlertSourceV2 struct {
-	EmailOptions *AlertSourceEmailOptionsV2 `json:"email_options,omitempty"`
+	EmailOptions      *AlertSourceEmailOptionsV2      `json:"email_options,omitempty"`
+	HttpCustomOptions *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
 
 	// Id The ID of this alert source
 	Id          string                    `json:"id"`
@@ -1882,7 +1946,8 @@ type AlertSourceV2SourceType string
 
 // AlertSourcesCreatePayloadV2 defines model for AlertSourcesCreatePayloadV2.
 type AlertSourcesCreatePayloadV2 struct {
-	JiraOptions *AlertSourceJiraOptionsV2 `json:"jira_options,omitempty"`
+	HttpCustomOptions *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
+	JiraOptions       *AlertSourceJiraOptionsV2       `json:"jira_options,omitempty"`
 
 	// Name Unique name of the alert source
 	Name string `json:"name"`
@@ -1912,7 +1977,8 @@ type AlertSourcesShowResultV2 struct {
 
 // AlertSourcesUpdatePayloadV2 defines model for AlertSourcesUpdatePayloadV2.
 type AlertSourcesUpdatePayloadV2 struct {
-	JiraOptions *AlertSourceJiraOptionsV2 `json:"jira_options,omitempty"`
+	HttpCustomOptions *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
+	JiraOptions       *AlertSourceJiraOptionsV2       `json:"jira_options,omitempty"`
 
 	// Name Unique name of the alert source
 	Name     string                 `json:"name"`
@@ -1971,7 +2037,9 @@ type AlertV2 struct {
 	// CreatedAt When this entry was created
 	CreatedAt time.Time `json:"created_at"`
 
-	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config. You can filter on this field to find the alert created by an event you've sent us.
+	// DeduplicationKey A deduplication key which uniquely references this alert from your alert source. For newly created HTTP sources, this field is required.
+	// If you send an event with the same deduplication_key multiple times, only one alert will be created in incident.io for this alert source config.
+	// You can filter on this field to find the alert created by an event you've sent us.
 	DeduplicationKey string `json:"deduplication_key"`
 
 	// Description The description of the alert
@@ -2135,6 +2203,9 @@ type CatalogCreateTypePayloadV3 struct {
 
 	// TypeName The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom["SomeName"]
 	TypeName *string `json:"type_name,omitempty"`
+
+	// UseNameAsIdentifier If populated, the name of the entry will be added to the list of identifiers for this type
+	UseNameAsIdentifier *bool `json:"use_name_as_identifier,omitempty"`
 }
 
 // CatalogCreateTypePayloadV3Categories defines model for CatalogCreateTypePayloadV3.Categories.
@@ -2687,6 +2758,9 @@ type CatalogTypeV3 struct {
 
 	// UpdatedAt When this type was last updated
 	UpdatedAt time.Time `json:"updated_at"`
+
+	// UseNameAsIdentifier If populated, the name of the entry will be added to the list of identifiers for this type
+	UseNameAsIdentifier bool `json:"use_name_as_identifier"`
 }
 
 // CatalogTypeV3Categories defines model for CatalogTypeV3.Categories.
@@ -2811,6 +2885,9 @@ type CatalogUpdateTypePayloadV3 struct {
 
 	// SourceRepoUrl The url of the external repository where this type is managed
 	SourceRepoUrl *string `json:"source_repo_url,omitempty"`
+
+	// UseNameAsIdentifier If populated, the name of the entry will be added to the list of identifiers for this type
+	UseNameAsIdentifier *bool `json:"use_name_as_identifier,omitempty"`
 }
 
 // CatalogUpdateTypePayloadV3Categories defines model for CatalogUpdateTypePayloadV3.Categories.
@@ -2852,6 +2929,21 @@ type CatalogUpdateTypeSchemaResultV2 struct {
 // CatalogUpdateTypeSchemaResultV3 defines model for CatalogUpdateTypeSchemaResultV3.
 type CatalogUpdateTypeSchemaResultV3 struct {
 	CatalogType CatalogTypeV3 `json:"catalog_type"`
+}
+
+// ChatChannelSlimV2 defines model for ChatChannelSlimV2.
+type ChatChannelSlimV2 struct {
+	// MicrosoftTeamsChannelId ID of the Microsoft Teams channel, if there is one
+	MicrosoftTeamsChannelId *string `json:"microsoft_teams_channel_id,omitempty"`
+
+	// MicrosoftTeamsTeamId ID of the Microsoft Teams team, if there is one
+	MicrosoftTeamsTeamId *string `json:"microsoft_teams_team_id,omitempty"`
+
+	// SlackChannelId ID of the Slack channel, if there is one
+	SlackChannelId *string `json:"slack_channel_id,omitempty"`
+
+	// SlackTeamId ID of the Slack team, if there is one
+	SlackTeamId *string `json:"slack_team_id,omitempty"`
 }
 
 // ConditionGroupPayloadV2 defines model for ConditionGroupPayloadV2.
@@ -3496,6 +3588,40 @@ type EngineReferenceV2 struct {
 	Type string `json:"type"`
 }
 
+// EscalationCreatorV2 The creator of this escalation. Can be a user, a workflow, or an alert. If the escalation came from a call route, this will be empty.
+type EscalationCreatorV2 struct {
+	Alert    *AlertActorV2    `json:"alert,omitempty"`
+	User     *UserV2          `json:"user,omitempty"`
+	Workflow *WorkflowActorV2 `json:"workflow,omitempty"`
+}
+
+// EscalationEventV2 defines model for EscalationEventV2.
+type EscalationEventV2 struct {
+	// Channels This field will be populated for notified_channels events.
+	Channels *[]ChatChannelSlimV2 `json:"channels,omitempty"`
+
+	// Event The type of event that occured.
+	Event EscalationEventV2Event `json:"event"`
+
+	// Id The unique ID for this escalation event
+	Id string `json:"id"`
+
+	// OccurredAt The time when this escalation event was processed
+	OccurredAt time.Time `json:"occurred_at"`
+
+	// Urgency The urgency at which we tried to notify users. This field will be populated for notified_users events.
+	Urgency *EscalationEventV2Urgency `json:"urgency,omitempty"`
+
+	// Users This field will be populated for notified_users and acked events.
+	Users *[]UserV2 `json:"users,omitempty"`
+}
+
+// EscalationEventV2Event The type of event that occured.
+type EscalationEventV2Event string
+
+// EscalationEventV2Urgency The urgency at which we tried to notify users. This field will be populated for notified_users events.
+type EscalationEventV2Urgency string
+
 // EscalationPathNodeIfElsePayloadV2 defines model for EscalationPathNodeIfElsePayloadV2.
 type EscalationPathNodeIfElsePayloadV2 struct {
 	// Conditions The condition that defines which branch to take
@@ -3522,6 +3648,8 @@ type EscalationPathNodeIfElseV2 struct {
 
 // EscalationPathNodeLevelV2 defines model for EscalationPathNodeLevelV2.
 type EscalationPathNodeLevelV2 struct {
+	// AckMode Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+	AckMode          *EscalationPathNodeLevelV2AckMode `json:"ack_mode,omitempty"`
 	RoundRobinConfig *EscalationPathRoundRobinConfigV2 `json:"round_robin_config,omitempty"`
 
 	// Targets The targets (users or schedules) for this level
@@ -3536,6 +3664,9 @@ type EscalationPathNodeLevelV2 struct {
 	// TimeToAckWeekdayIntervalConfigId If the time to ack is relative to a time window, this identifies which window it is relative to
 	TimeToAckWeekdayIntervalConfigId *string `json:"time_to_ack_weekday_interval_config_id,omitempty"`
 }
+
+// EscalationPathNodeLevelV2AckMode Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+type EscalationPathNodeLevelV2AckMode string
 
 // EscalationPathNodeLevelV2TimeToAckIntervalCondition If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 type EscalationPathNodeLevelV2TimeToAckIntervalCondition string
@@ -3670,6 +3801,51 @@ type EscalationPathV2 struct {
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
 
+// EscalationPriorityV2 The priority associated with this escalation.
+type EscalationPriorityV2 struct {
+	// Name The human readable label for this priority
+	Name string `json:"name"`
+}
+
+// EscalationV2 defines model for EscalationV2.
+type EscalationV2 struct {
+	// CreatedAt When this escalation was created
+	CreatedAt time.Time `json:"created_at"`
+
+	// Creator The creator of this escalation. Can be a user, a workflow, or an alert. If the escalation came from a call route, this will be empty.
+	Creator EscalationCreatorV2 `json:"creator"`
+
+	// EscalationPathId Unique identifier of the escalation path that the escalation was created from
+	EscalationPathId *string `json:"escalation_path_id,omitempty"`
+
+	// Events Events which describe the history of this escalation. Events include information about what users or channels were notified and what users acked.
+	Events []EscalationEventV2 `json:"events"`
+
+	// Id Unique ID of the escalation
+	Id string `json:"id"`
+
+	// Priority The priority associated with this escalation.
+	Priority EscalationPriorityV2 `json:"priority"`
+
+	// RelatedAlerts Alerts related to this escalation
+	RelatedAlerts []AlertSlimV2 `json:"related_alerts"`
+
+	// RelatedIncidents Incidents related to this escalation
+	RelatedIncidents []IncidentSlimV2 `json:"related_incidents"`
+
+	// Status Status of the escalation
+	Status EscalationV2Status `json:"status"`
+
+	// Title The title of this escalation
+	Title string `json:"title"`
+
+	// UpdatedAt When this escalation was last updated
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// EscalationV2Status Status of the escalation
+type EscalationV2Status string
+
 // EscalationsCreatePathPayloadV2 defines model for EscalationsCreatePathPayloadV2.
 type EscalationsCreatePathPayloadV2 struct {
 	// Name The name of this escalation path, for the user's reference.
@@ -3690,9 +3866,20 @@ type EscalationsCreatePathResultV2 struct {
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
+// EscalationsListResultV2 defines model for EscalationsListResultV2.
+type EscalationsListResultV2 struct {
+	Escalations    []EscalationV2         `json:"escalations"`
+	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
+}
+
 // EscalationsShowPathResultV2 defines model for EscalationsShowPathResultV2.
 type EscalationsShowPathResultV2 struct {
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
+}
+
+// EscalationsShowResultV2 defines model for EscalationsShowResultV2.
+type EscalationsShowResultV2 struct {
+	Escalation EscalationV2 `json:"escalation"`
 }
 
 // EscalationsUpdatePathPayloadV2 defines model for EscalationsUpdatePathPayloadV2.
@@ -3743,6 +3930,12 @@ type ExpressionBranchesOptsV2 struct {
 	Returns  ReturnsMetaV2        `json:"returns"`
 }
 
+// ExpressionConcatenateOptsPayloadV2 defines model for ExpressionConcatenateOptsPayloadV2.
+type ExpressionConcatenateOptsPayloadV2 struct {
+	// Reference The reference that you want to concatenate with
+	Reference string `json:"reference"`
+}
+
 // ExpressionElseBranchPayloadV2 defines model for ExpressionElseBranchPayloadV2.
 type ExpressionElseBranchPayloadV2 struct {
 	Result EngineParamBindingPayloadV2 `json:"result"`
@@ -3782,9 +3975,10 @@ type ExpressionNavigateOptsV2 struct {
 
 // ExpressionOperationPayloadV2 defines model for ExpressionOperationPayloadV2.
 type ExpressionOperationPayloadV2 struct {
-	Branches *ExpressionBranchesOptsPayloadV2 `json:"branches,omitempty"`
-	Filter   *ExpressionFilterOptsPayloadV2   `json:"filter,omitempty"`
-	Navigate *ExpressionNavigateOptsPayloadV2 `json:"navigate,omitempty"`
+	Branches    *ExpressionBranchesOptsPayloadV2    `json:"branches,omitempty"`
+	Concatenate *ExpressionConcatenateOptsPayloadV2 `json:"concatenate,omitempty"`
+	Filter      *ExpressionFilterOptsPayloadV2      `json:"filter,omitempty"`
+	Navigate    *ExpressionNavigateOptsPayloadV2    `json:"navigate,omitempty"`
 
 	// OperationType The type of the operation
 	OperationType ExpressionOperationPayloadV2OperationType `json:"operation_type"`
@@ -4159,6 +4353,31 @@ type IncidentMembershipsRevokePayloadV1 struct {
 	// IncidentId Revoke memberships to incident
 	IncidentId string `json:"incident_id"`
 	UserId     string `json:"user_id"`
+}
+
+// IncidentRelationshipDetailsV1 defines model for IncidentRelationshipDetailsV1.
+type IncidentRelationshipDetailsV1 struct {
+	// ExternalId External ID of this incident often prepended with 'INC-'
+	ExternalId int64 `json:"external_id"`
+
+	// Id Unique identifier of this incident
+	Id string `json:"id"`
+
+	// Name Name of this incident
+	Name string `json:"name"`
+}
+
+// IncidentRelationshipV1 defines model for IncidentRelationshipV1.
+type IncidentRelationshipV1 struct {
+	// Id Unique identifier of this incident relationship
+	Id       string                        `json:"id"`
+	Incident IncidentRelationshipDetailsV1 `json:"incident"`
+}
+
+// IncidentRelationshipsListResultV1 defines model for IncidentRelationshipsListResultV1.
+type IncidentRelationshipsListResultV1 struct {
+	IncidentRelationships []IncidentRelationshipV1 `json:"incident_relationships"`
+	PaginationMeta        *PaginationMetaResultV1  `json:"pagination_meta,omitempty"`
 }
 
 // IncidentRoleAssignmentPayloadV1 defines model for IncidentRoleAssignmentPayloadV1.
@@ -5229,9 +5448,9 @@ type ScheduleRotationUpdatePayloadV2 struct {
 	Layers *[]ScheduleLayerUpdatePayloadV2 `json:"layers,omitempty"`
 
 	// Name Name of the rotation
-	Name            *string                                           `json:"name,omitempty"`
-	Users           *[]UserReferencePayloadV2                         `json:"users,omitempty"`
-	WorkingInterval *[]ScheduleRotationWorkingIntervalUpdatePayloadV2 `json:"working_interval,omitempty"`
+	Name            *string                              `json:"name,omitempty"`
+	Users           *[]UserReferencePayloadV2            `json:"users,omitempty"`
+	WorkingInterval *[]ScheduleRotationWorkingIntervalV2 `json:"working_interval,omitempty"`
 }
 
 // ScheduleRotationV2 defines model for ScheduleRotationV2.
@@ -5278,21 +5497,6 @@ type ScheduleRotationWorkingIntervalCreatePayloadV2 struct {
 
 // ScheduleRotationWorkingIntervalCreatePayloadV2Weekday Weekdays for use with a schedule
 type ScheduleRotationWorkingIntervalCreatePayloadV2Weekday string
-
-// ScheduleRotationWorkingIntervalUpdatePayloadV2 defines model for ScheduleRotationWorkingIntervalUpdatePayloadV2.
-type ScheduleRotationWorkingIntervalUpdatePayloadV2 struct {
-	// EndTime End time of the interval, in 24hr format
-	EndTime *string `json:"end_time,omitempty"`
-
-	// StartTime Start time of the interval, in 24hr format
-	StartTime *string `json:"start_time,omitempty"`
-
-	// Weekday Weekdays for use with a schedule
-	Weekday *ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday `json:"weekday,omitempty"`
-}
-
-// ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday Weekdays for use with a schedule
-type ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday string
 
 // ScheduleRotationWorkingIntervalV2 defines model for ScheduleRotationWorkingIntervalV2.
 type ScheduleRotationWorkingIntervalV2 struct {
@@ -5697,6 +5901,15 @@ type WeekdayIntervalV2 struct {
 // WeekdayIntervalV2Weekday Weekdays for use within a schedule or escalation path
 type WeekdayIntervalV2Weekday string
 
+// WorkflowActorV2 defines model for WorkflowActorV2.
+type WorkflowActorV2 struct {
+	// Id Unique identifier for the workflow
+	Id string `json:"id"`
+
+	// Name Name provided by the user when creating the workflow
+	Name string `json:"name"`
+}
+
 // WorkflowDelayV2 defines model for WorkflowDelayV2.
 type WorkflowDelayV2 struct {
 	// ConditionsApplyOverDelay If this workflow is delayed, whether the conditions should be rechecked between trigger firing and execution
@@ -5971,7 +6184,7 @@ type ActionsV1ListParamsIncidentMode string
 
 // CustomFieldOptionsV1ListParams defines parameters for CustomFieldOptionsV1List.
 type CustomFieldOptionsV1ListParams struct {
-	// PageSize number of records to return
+	// PageSize Integer number of records to return
 	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// After A custom field option's ID. This endpoint will return a list of custom field options created after this option.
@@ -5995,6 +6208,18 @@ type IncidentAttachmentsV1ListParams struct {
 
 // IncidentAttachmentsV1ListParamsResourceType defines parameters for IncidentAttachmentsV1List.
 type IncidentAttachmentsV1ListParamsResourceType string
+
+// IncidentRelationshipsV1ListParams defines parameters for IncidentRelationshipsV1List.
+type IncidentRelationshipsV1ListParams struct {
+	// IncidentId ID of the incident to find relationships for
+	IncidentId string `form:"incident_id" json:"incident_id"`
+
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
 
 // IncidentsV1ListParams defines parameters for IncidentsV1List.
 type IncidentsV1ListParams struct {
@@ -6049,7 +6274,7 @@ type AlertsV2ListParams struct {
 	// Status Filter on alert status. The accepted operators are 'one_of', or 'not_in'.
 	Status *map[string][]string `form:"status,omitempty" json:"status,omitempty"`
 
-	// CreatedAt Filter on alert created at timestamp. The accepted operators are 'within', 'gte', 'lte', 'between'.
+	// CreatedAt Filter on alert created at timestamp. Accepted operators are 'gte', 'lte' and 'date_range'.
 	CreatedAt *map[string][]string `form:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
@@ -6063,6 +6288,30 @@ type CatalogV2ListEntriesParams struct {
 
 	// After An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.
 	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
+// EscalationsV2ListParams defines parameters for EscalationsV2List.
+type EscalationsV2ListParams struct {
+	// PageSize Number of escalations to return per page
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An escalation's ID. This endpoint will return a list of escalations after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// EscalationPath Filter on the escalation path for which the escalation was triggered. Accepted operators are 'one_of' and 'not_in'.
+	EscalationPath *map[string][]string `form:"escalation_path,omitempty" json:"escalation_path,omitempty"`
+
+	// Status Filter on the status of the escalation. Accepted operators are 'one_of' and 'not_in'.
+	Status *map[string][]string `form:"status,omitempty" json:"status,omitempty"`
+
+	// Alert Filter on the alert that created an escalation. Accepted operators are 'one_of' and 'not_in'.
+	Alert *map[string][]string `form:"alert,omitempty" json:"alert,omitempty"`
+
+	// CreatedAt Filter on the created_at timestamp of the escalation. Accepted operators are 'gte', 'lte' and 'date_range'.
+	CreatedAt *map[string][]string `form:"created_at,omitempty" json:"created_at,omitempty"`
+
+	// UpdatedAt Filter on the updated_at timestamp of the escalation. Accepted operators are 'gte', 'lte' and 'date_range'.
+	UpdatedAt *map[string][]string `form:"updated_at,omitempty" json:"updated_at,omitempty"`
 }
 
 // FollowUpsV2ListParams defines parameters for FollowUpsV2List.
@@ -6106,7 +6355,7 @@ type IncidentUpdatesV2ListParams struct {
 
 // IncidentsV2ListParams defines parameters for IncidentsV2List.
 type IncidentsV2ListParams struct {
-	// PageSize number of records to return
+	// PageSize Integer number of records to return
 	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// After An incident's ID. This endpoint will return a list of incidents after this ID in relation to the API response order.
@@ -6154,7 +6403,7 @@ type SchedulesV2ListScheduleEntriesParams struct {
 
 // SchedulesV2ListParams defines parameters for SchedulesV2List.
 type SchedulesV2ListParams struct {
-	// PageSize number of records to return
+	// PageSize Integer number of records to return
 	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// After A schedule's ID. This endpoint will return a list of schedules after this ID in relation to the API response order.
@@ -6478,6 +6727,9 @@ type ClientInterface interface {
 
 	IncidentMembershipsV1Revoke(ctx context.Context, body IncidentMembershipsV1RevokeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// IncidentRelationshipsV1List request
+	IncidentRelationshipsV1List(ctx context.Context, params *IncidentRelationshipsV1ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// IncidentRolesV1List request
 	IncidentRolesV1List(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -6723,6 +6975,12 @@ type ClientInterface interface {
 	EscalationsV2UpdatePathWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	EscalationsV2UpdatePath(ctx context.Context, id string, body EscalationsV2UpdatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV2List request
+	EscalationsV2List(ctx context.Context, params *EscalationsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV2Show request
+	EscalationsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// FollowUpsV2List request
 	FollowUpsV2List(ctx context.Context, params *FollowUpsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -7171,6 +7429,18 @@ func (c *Client) IncidentMembershipsV1RevokeWithBody(ctx context.Context, conten
 
 func (c *Client) IncidentMembershipsV1Revoke(ctx context.Context, body IncidentMembershipsV1RevokeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewIncidentMembershipsV1RevokeRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) IncidentRelationshipsV1List(ctx context.Context, params *IncidentRelationshipsV1ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentRelationshipsV1ListRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -8251,6 +8521,30 @@ func (c *Client) EscalationsV2UpdatePathWithBody(ctx context.Context, id string,
 
 func (c *Client) EscalationsV2UpdatePath(ctx context.Context, id string, body EscalationsV2UpdatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewEscalationsV2UpdatePathRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EscalationsV2List(ctx context.Context, params *EscalationsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EscalationsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2ShowRequest(c.Server, id)
 	if err != nil {
 		return nil, err
 	}
@@ -9732,6 +10026,83 @@ func NewIncidentMembershipsV1RevokeRequestWithBody(server string, contentType st
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewIncidentRelationshipsV1ListRequest generates requests for IncidentRelationshipsV1List
+func NewIncidentRelationshipsV1ListRequest(server string, params *IncidentRelationshipsV1ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/incident_relationships")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "incident_id", runtime.ParamLocationQuery, params.IncidentId); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -12376,6 +12747,185 @@ func NewEscalationsV2UpdatePathRequestWithBody(server string, id string, content
 	return req, nil
 }
 
+// NewEscalationsV2ListRequest generates requests for EscalationsV2List
+func NewEscalationsV2ListRequest(server string, params *EscalationsV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalations")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.EscalationPath != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "escalation_path", runtime.ParamLocationQuery, *params.EscalationPath); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Status != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "status", runtime.ParamLocationQuery, *params.Status); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Alert != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "alert", runtime.ParamLocationQuery, *params.Alert); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.CreatedAt != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "created_at", runtime.ParamLocationQuery, *params.CreatedAt); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.UpdatedAt != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "updated_at", runtime.ParamLocationQuery, *params.UpdatedAt); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewEscalationsV2ShowRequest generates requests for EscalationsV2Show
+func NewEscalationsV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalations/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewFollowUpsV2ListRequest generates requests for FollowUpsV2List
 func NewFollowUpsV2ListRequest(server string, params *FollowUpsV2ListParams) (*http.Request, error) {
 	var err error
@@ -14545,6 +15095,9 @@ type ClientWithResponsesInterface interface {
 
 	IncidentMembershipsV1RevokeWithResponse(ctx context.Context, body IncidentMembershipsV1RevokeJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentMembershipsV1RevokeResponse, error)
 
+	// IncidentRelationshipsV1ListWithResponse request
+	IncidentRelationshipsV1ListWithResponse(ctx context.Context, params *IncidentRelationshipsV1ListParams, reqEditors ...RequestEditorFn) (*IncidentRelationshipsV1ListResponse, error)
+
 	// IncidentRolesV1ListWithResponse request
 	IncidentRolesV1ListWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*IncidentRolesV1ListResponse, error)
 
@@ -14790,6 +15343,12 @@ type ClientWithResponsesInterface interface {
 	EscalationsV2UpdatePathWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2UpdatePathResponse, error)
 
 	EscalationsV2UpdatePathWithResponse(ctx context.Context, id string, body EscalationsV2UpdatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2UpdatePathResponse, error)
+
+	// EscalationsV2ListWithResponse request
+	EscalationsV2ListWithResponse(ctx context.Context, params *EscalationsV2ListParams, reqEditors ...RequestEditorFn) (*EscalationsV2ListResponse, error)
+
+	// EscalationsV2ShowWithResponse request
+	EscalationsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV2ShowResponse, error)
 
 	// FollowUpsV2ListWithResponse request
 	FollowUpsV2ListWithResponse(ctx context.Context, params *FollowUpsV2ListParams, reqEditors ...RequestEditorFn) (*FollowUpsV2ListResponse, error)
@@ -15334,6 +15893,28 @@ func (r IncidentMembershipsV1RevokeResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r IncidentMembershipsV1RevokeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type IncidentRelationshipsV1ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *IncidentRelationshipsListResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentRelationshipsV1ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentRelationshipsV1ListResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -16782,6 +17363,50 @@ func (r EscalationsV2UpdatePathResponse) StatusCode() int {
 	return 0
 }
 
+type EscalationsV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *EscalationsListResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type EscalationsV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *EscalationsShowResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type FollowUpsV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -17919,6 +18544,15 @@ func (c *ClientWithResponses) IncidentMembershipsV1RevokeWithResponse(ctx contex
 	return ParseIncidentMembershipsV1RevokeResponse(rsp)
 }
 
+// IncidentRelationshipsV1ListWithResponse request returning *IncidentRelationshipsV1ListResponse
+func (c *ClientWithResponses) IncidentRelationshipsV1ListWithResponse(ctx context.Context, params *IncidentRelationshipsV1ListParams, reqEditors ...RequestEditorFn) (*IncidentRelationshipsV1ListResponse, error) {
+	rsp, err := c.IncidentRelationshipsV1List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentRelationshipsV1ListResponse(rsp)
+}
+
 // IncidentRolesV1ListWithResponse request returning *IncidentRolesV1ListResponse
 func (c *ClientWithResponses) IncidentRolesV1ListWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*IncidentRolesV1ListResponse, error) {
 	rsp, err := c.IncidentRolesV1List(ctx, reqEditors...)
@@ -18703,6 +19337,24 @@ func (c *ClientWithResponses) EscalationsV2UpdatePathWithResponse(ctx context.Co
 		return nil, err
 	}
 	return ParseEscalationsV2UpdatePathResponse(rsp)
+}
+
+// EscalationsV2ListWithResponse request returning *EscalationsV2ListResponse
+func (c *ClientWithResponses) EscalationsV2ListWithResponse(ctx context.Context, params *EscalationsV2ListParams, reqEditors ...RequestEditorFn) (*EscalationsV2ListResponse, error) {
+	rsp, err := c.EscalationsV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2ListResponse(rsp)
+}
+
+// EscalationsV2ShowWithResponse request returning *EscalationsV2ShowResponse
+func (c *ClientWithResponses) EscalationsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV2ShowResponse, error) {
+	rsp, err := c.EscalationsV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2ShowResponse(rsp)
 }
 
 // FollowUpsV2ListWithResponse request returning *FollowUpsV2ListResponse
@@ -19626,6 +20278,32 @@ func ParseIncidentMembershipsV1RevokeResponse(rsp *http.Response) (*IncidentMemb
 	response := &IncidentMembershipsV1RevokeResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseIncidentRelationshipsV1ListResponse parses an HTTP response from a IncidentRelationshipsV1ListWithResponse call
+func ParseIncidentRelationshipsV1ListResponse(rsp *http.Response) (*IncidentRelationshipsV1ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentRelationshipsV1ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest IncidentRelationshipsListResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
 	}
 
 	return response, nil
@@ -21237,6 +21915,58 @@ func ParseEscalationsV2UpdatePathResponse(rsp *http.Response) (*EscalationsV2Upd
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest EscalationsUpdatePathResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationsV2ListResponse parses an HTTP response from a EscalationsV2ListWithResponse call
+func ParseEscalationsV2ListResponse(rsp *http.Response) (*EscalationsV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationsListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationsV2ShowResponse parses an HTTP response from a EscalationsV2ShowWithResponse call
+func ParseEscalationsV2ShowResponse(rsp *http.Response) (*EscalationsV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationsShowResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

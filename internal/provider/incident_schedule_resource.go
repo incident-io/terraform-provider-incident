@@ -401,13 +401,13 @@ func buildScheduleUpdatePayload(data *models.IncidentScheduleResourceModelV2, re
 	rotationArray := make([]client.ScheduleRotationUpdatePayloadV2, 0, len(data.Rotations))
 	for _, rotation := range data.Rotations {
 		for _, version := range rotation.Versions {
-			workingIntervals := make([]client.ScheduleRotationWorkingIntervalUpdatePayloadV2, 0, len(version.WorkingIntervals))
+			workingIntervals := make([]client.ScheduleRotationWorkingIntervalV2, 0, len(version.WorkingIntervals))
 			for _, workingInterval := range version.WorkingIntervals {
-				workingIntervalWeekday := client.ScheduleRotationWorkingIntervalUpdatePayloadV2Weekday(workingInterval.Weekday.ValueString())
-				workingIntervals = append(workingIntervals, client.ScheduleRotationWorkingIntervalUpdatePayloadV2{
-					StartTime: workingInterval.StartTime.ValueStringPointer(),
-					EndTime:   workingInterval.EndTime.ValueStringPointer(),
-					Weekday:   &workingIntervalWeekday,
+				workingIntervalWeekday := client.ScheduleRotationWorkingIntervalV2Weekday(workingInterval.Weekday.ValueString())
+				workingIntervals = append(workingIntervals, client.ScheduleRotationWorkingIntervalV2{
+					StartTime: workingInterval.StartTime.ValueString(),
+					EndTime:   workingInterval.EndTime.ValueString(),
+					Weekday:   workingIntervalWeekday,
 				})
 			}
 
