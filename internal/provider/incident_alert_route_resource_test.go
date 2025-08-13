@@ -220,7 +220,7 @@ func TestAccIncidentCustomFieldsAlphabeticalOrder(t *testing.T) {
 		Steps: []resource.TestStep{
 			// First step - create alert route with custom fields in reverse alphabetical order
 			{
-				Config: testAccIncidentAlertRouteWithAlphabeticalCustomFields("custom-fields-alpha-test"),
+				Config: testAccIncidentAlertRouteWithAlphabeticalCustomFields(StableSuffix("custom-fields-alpha-test")),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestMatchResourceAttr("incident_alert_route.custom_fields_alpha_test", "id", regexp.MustCompile("^[a-zA-Z0-9]+$")),
 
