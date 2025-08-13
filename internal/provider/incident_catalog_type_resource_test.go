@@ -193,13 +193,13 @@ func testAccIncidentCatalogTypeResourceConfig(override *client.CatalogTypeV2) st
 
 func testAccIncidentCatalogTypeResourceConfigWithUseNameAsIdentifier(useNameAsIdentifier bool) string {
 	model := struct {
-		Name                 string
-		Description          string
-		UseNameAsIdentifier  bool
+		Name                string
+		Description         string
+		UseNameAsIdentifier bool
 	}{
-		Name:                 StableSuffix("Service"),
-		Description:          "Catalog Type Acceptance tests",
-		UseNameAsIdentifier:  useNameAsIdentifier,
+		Name:                StableSuffix("Service"),
+		Description:         "Catalog Type Acceptance tests",
+		UseNameAsIdentifier: useNameAsIdentifier,
 	}
 
 	var buf bytes.Buffer
