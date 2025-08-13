@@ -31,13 +31,13 @@ type IncidentCatalogTypeResource struct {
 }
 
 type IncidentCatalogTypeResourceModel struct {
-	ID                   types.String `tfsdk:"id"`
-	Name                 types.String `tfsdk:"name"`
-	TypeName             types.String `tfsdk:"type_name"`
-	Description          types.String `tfsdk:"description"`
-	SourceRepoURL        types.String `tfsdk:"source_repo_url"`
-	Categories           types.List   `tfsdk:"categories"`
-	UseNameAsIdentifier  types.Bool   `tfsdk:"use_name_as_identifier"`
+	ID                  types.String `tfsdk:"id"`
+	Name                types.String `tfsdk:"name"`
+	TypeName            types.String `tfsdk:"type_name"`
+	Description         types.String `tfsdk:"description"`
+	SourceRepoURL       types.String `tfsdk:"source_repo_url"`
+	Categories          types.List   `tfsdk:"categories"`
+	UseNameAsIdentifier types.Bool   `tfsdk:"use_name_as_identifier"`
 }
 
 func NewIncidentCatalogTypeResource() resource.Resource {
