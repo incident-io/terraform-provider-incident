@@ -31,12 +31,13 @@ type IncidentCatalogTypeResource struct {
 }
 
 type IncidentCatalogTypeResourceModel struct {
-	ID            types.String `tfsdk:"id"`
-	Name          types.String `tfsdk:"name"`
-	TypeName      types.String `tfsdk:"type_name"`
-	Description   types.String `tfsdk:"description"`
-	SourceRepoURL types.String `tfsdk:"source_repo_url"`
-	Categories    types.List   `tfsdk:"categories"`
+	ID                  types.String `tfsdk:"id"`
+	Name                types.String `tfsdk:"name"`
+	TypeName            types.String `tfsdk:"type_name"`
+	Description         types.String `tfsdk:"description"`
+	SourceRepoURL       types.String `tfsdk:"source_repo_url"`
+	Categories          types.List   `tfsdk:"categories"`
+	UseNameAsIdentifier types.Bool   `tfsdk:"use_name_as_identifier"`
 }
 
 func NewIncidentCatalogTypeResource() resource.Resource {
@@ -98,6 +99,11 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: "The url of the external repository where this type is managed. When set, users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.",
 				Required:            true,
 			},
+			"use_name_as_identifier": schema.BoolAttribute{
+				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "use_name_as_identifier"),
+				Optional:            true,
+				Computed:            true,
+			},
 		},
 	}
 }
@@ -140,6 +146,9 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 	}
 	if sourceRepoURL := data.SourceRepoURL.ValueString(); sourceRepoURL != "" {
 		requestBody.SourceRepoUrl = &sourceRepoURL
+	}
+	if !data.UseNameAsIdentifier.IsNull() {
+		requestBody.UseNameAsIdentifier = lo.ToPtr(data.UseNameAsIdentifier.ValueBool())
 	}
 
 	categories := []client.CatalogCreateTypePayloadV3Categories{}
@@ -208,6 +217,9 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 	if sourceRepoURL := data.SourceRepoURL.ValueString(); sourceRepoURL != "" {
 		requestBody.SourceRepoUrl = &sourceRepoURL
 	}
+	if !data.UseNameAsIdentifier.IsNull() {
+		requestBody.UseNameAsIdentifier = lo.ToPtr(data.UseNameAsIdentifier.ValueBool())
+	}
 
 	categories := []client.CatalogUpdateTypePayloadV3Categories{}
 	if !data.Categories.IsNull() {
@@ -255,10 +267,11 @@ func (r *IncidentCatalogTypeResource) ImportState(ctx context.Context, req resou
 
 func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV3) *IncidentCatalogTypeResourceModel {
 	model := &IncidentCatalogTypeResourceModel{
-		ID:          types.StringValue(catalogType.Id),
-		Name:        types.StringValue(catalogType.Name),
-		TypeName:    types.StringValue(catalogType.TypeName),
-		Description: types.StringValue(catalogType.Description),
+		ID:                  types.StringValue(catalogType.Id),
+		Name:                types.StringValue(catalogType.Name),
+		TypeName:            types.StringValue(catalogType.TypeName),
+		Description:         types.StringValue(catalogType.Description),
+		UseNameAsIdentifier: types.BoolValue(catalogType.UseNameAsIdentifier),
 	}
 	if catalogType.SourceRepoUrl != nil {
 		model.SourceRepoURL = types.StringValue(*catalogType.SourceRepoUrl)

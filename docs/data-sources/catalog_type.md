@@ -49,5 +49,6 @@ resource "incident_catalog_entries" "services" {
 - `description` (String) Human readble description of this type
 - `id` (String) ID of this catalog type
 - `source_repo_url` (String) The url of the external repository where this type is managed. When set, users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.
+- `use_name_as_identifier` (Boolean) If populated, the name of the entry will be added to the list of identifiers for this type
 
 

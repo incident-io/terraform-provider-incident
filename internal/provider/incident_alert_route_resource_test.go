@@ -220,7 +220,7 @@ func TestAccIncidentCustomFieldsAlphabeticalOrder(t *testing.T) {
 		Steps: []resource.TestStep{
 			// First step - create alert route with custom fields in reverse alphabetical order
 			{
-				Config: testAccIncidentAlertRouteWithAlphabeticalCustomFields("custom-fields-alpha-test"),
+				Config: testAccIncidentAlertRouteWithAlphabeticalCustomFields(StableSuffix("custom-fields-alpha-test")),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestMatchResourceAttr("incident_alert_route.custom_fields_alpha_test", "id", regexp.MustCompile("^[a-zA-Z0-9]+$")),
 
@@ -251,15 +251,15 @@ func TestAccIncidentCustomFieldsAlphabeticalOrder(t *testing.T) {
 }
 
 func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
-	return `
+	return fmt.Sprintf(`
   resource "incident_custom_field" "alpha_field1" {
-    name        = "Alpha Test Field 1"
+    name        = "Alpha Test Field 1 (%s)"
     description = "First alphabetical custom field"
     field_type  = "text"
   }
 
   resource "incident_custom_field" "alpha_field2" {
-    name        = "Alpha Test Field 2"
+    name        = "Alpha Test Field 2 (%s)"
     description = "Second alphabetical custom field"
     field_type  = "text"
     depends_on = [incident_custom_field.alpha_field1]
@@ -267,7 +267,7 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
   }
 
   resource "incident_alert_source" "alpha_test" {
-    name        = "Alpha Test Alert Source"
+    name        = "Alpha Test Alert Source (%s)"
     source_type = "http"
     template = {
       title = {
@@ -316,7 +316,7 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
   }
 
   resource "incident_alert_route" "custom_fields_alpha_test" {
-    name       = "` + name + `"
+    name       = "%s"
     enabled    = true
     is_private = false
 
@@ -413,7 +413,7 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
       }
     }
   }
-  `
+  `, testRunID[:8], testRunID[:8], testRunID[:8], name)
 }
 
 func testAccIncidentAlertRouteResourceConfig(name string) string {
