@@ -413,7 +413,7 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
       }
     }
   }
-  `, testRunID, testRunID, testRunID, name)
+  `, testRunID[:8], testRunID[:8], testRunID[:8], name)
 }
 
 func testAccIncidentAlertRouteResourceConfig(name string) string {
