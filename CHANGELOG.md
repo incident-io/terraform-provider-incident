@@ -1,7 +1,11 @@
 ## Unreleased
 
+## v5.13.0
+
 - Support for custom HTTP alert source configuration
 - Allow configuration of `ack_mode` for escalation paths
+- Improve description for `use_name_as_identifier` field in catalog types to be clearer
+- Improve escalation path resource description to be more focused
 
 ## v5.12.0
 
