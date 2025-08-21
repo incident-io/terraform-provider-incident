@@ -2203,6 +2203,9 @@ type CatalogCreateTypePayloadV3 struct {
 
 	// TypeName The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom["SomeName"]
 	TypeName *string `json:"type_name,omitempty"`
+
+	// UseNameAsIdentifier If enabled, you can refer to entries of this type by their name, as well as their external ID and any aliases.
+	UseNameAsIdentifier *bool `json:"use_name_as_identifier,omitempty"`
 }
 
 // CatalogCreateTypePayloadV3Categories defines model for CatalogCreateTypePayloadV3.Categories.
@@ -2755,6 +2758,9 @@ type CatalogTypeV3 struct {
 
 	// UpdatedAt When this type was last updated
 	UpdatedAt time.Time `json:"updated_at"`
+
+	// UseNameAsIdentifier If enabled, you can refer to entries of this type by their name, as well as their external ID and any aliases.
+	UseNameAsIdentifier bool `json:"use_name_as_identifier"`
 }
 
 // CatalogTypeV3Categories defines model for CatalogTypeV3.Categories.
@@ -2879,6 +2885,9 @@ type CatalogUpdateTypePayloadV3 struct {
 
 	// SourceRepoUrl The url of the external repository where this type is managed
 	SourceRepoUrl *string `json:"source_repo_url,omitempty"`
+
+	// UseNameAsIdentifier If enabled, you can refer to entries of this type by their name, as well as their external ID and any aliases.
+	UseNameAsIdentifier *bool `json:"use_name_as_identifier,omitempty"`
 }
 
 // CatalogUpdateTypePayloadV3Categories defines model for CatalogUpdateTypePayloadV3.Categories.
