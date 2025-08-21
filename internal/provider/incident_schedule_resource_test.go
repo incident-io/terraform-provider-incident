@@ -26,6 +26,10 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
 					Name:     "example",
 					Timezone: "Europe/London",
+					Annotations: map[string]string{
+						"custom.annotation/test": "test-value",
+						"env":                    "dev",
+					},
 					Config: &client.ScheduleConfigV2{
 						Rotations: []client.ScheduleRotationV2{
 							{
@@ -85,6 +89,12 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 					),
 					resource.TestCheckResourceAttr(
 						"incident_schedule.example", "holidays_public_config.country_codes.1", "FR",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "annotations.custom.annotation/test", "test-value",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "annotations.env", "dev",
 					),
 				),
 			},
@@ -293,6 +303,72 @@ func testValueExistsInSet(resourceName string, attr string, value string) resour
 	}
 }
 
+func TestAccIncidentScheduleResourceAnnotations(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create with annotations
+			{
+				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
+					Name:     "annotations-test",
+					Timezone: "Europe/London",
+					Annotations: map[string]string{
+						"custom.annotation/test": "test-value",
+						"env":                    "dev",
+					},
+				}),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "annotations.%", "2",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "annotations.custom.annotation/test", "test-value",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "annotations.env", "dev",
+					),
+				),
+			},
+			// Update annotations
+			{
+				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
+					Name:     "annotations-test",
+					Timezone: "Europe/London",
+					Annotations: map[string]string{
+						"custom.annotation/test": "updated-value",
+						"new-key":                "new-value",
+					},
+				}),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "annotations.%", "2",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "annotations.custom.annotation/test", "updated-value",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_schedule.example", "annotations.new-key", "new-value",
+					),
+					resource.TestCheckNoResourceAttr(
+						"incident_schedule.example", "annotations.env",
+					),
+				),
+			},
+			// Remove annotations
+			{
+				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
+					Name:     "annotations-test",
+					Timezone: "Europe/London",
+				}),
+				Check: resource.TestCheckResourceAttr(
+					"incident_schedule.example", "annotations.%", "0",
+				),
+			},
+		},
+	})
+}
+
 func TestAccIncidentScheduleResourceHolidayConfig(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -431,8 +507,9 @@ func incidentScheduleDefault(name string) client.ScheduleV2 {
 	)
 
 	return client.ScheduleV2{
-		Name:     name,
-		Timezone: "Europe/London",
+		Annotations: map[string]string{},
+		Name:        name,
+		Timezone:    "Europe/London",
 		Config: &client.ScheduleConfigV2{
 			Rotations: []client.ScheduleRotationV2{
 				{
@@ -473,6 +550,18 @@ func generateScheduleTerraform(name string, schedule *client.ScheduleV2) string 
 	result += "  name     = " + quote(name) + "\n"
 	result += "  timezone = " + quote(schedule.Timezone) + "\n"
 	result += "  team_ids = " + generateTeamIDsArray(schedule.TeamIds) + "\n"
+
+	// Add annotations if they exist
+	if schedule.Annotations != nil {
+		result += "  annotations = {\n"
+		for k, v := range schedule.Annotations {
+			// Skip the internal terraform version annotation
+			if k != "incident.io/terraform/version" {
+				result += "    " + k + " = " + quote(v) + "\n"
+			}
+		}
+		result += "  }\n"
+	}
 	result += "  " + generateRotationsArray(schedule.Config.Rotations)
 
 	if schedule.HolidaysPublicConfig != nil {

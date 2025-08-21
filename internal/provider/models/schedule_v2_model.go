@@ -11,6 +11,7 @@ type IncidentScheduleResourceModelV2 struct {
 	Rotations            []RotationV2            `tfsdk:"rotations"`
 	HolidaysPublicConfig *HolidaysPublicConfigV2 `tfsdk:"holidays_public_config"`
 	TeamIDs              types.Set               `tfsdk:"team_ids"`
+	Annotations          types.Map               `tfsdk:"annotations"`
 }
 
 type RotationV2 struct {
