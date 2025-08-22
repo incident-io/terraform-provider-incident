@@ -109,11 +109,11 @@ func (IncidentEngineParamBindingValue) FromAPI(pbv client.EngineParamBindingValu
 		//
 		// Most places where we initialise engine values should already sort keys alphabetically,
 		// but there are the odd places where this is not the case.
-		normalisedJson, err := normaliseJSON(*literal)
+		normalisedJSON, err := normaliseJSON(*literal)
 		if err == nil {
 			// Given not every engine value is JSON, we'll lean on the presence (or lack of) an error here
 			// rather than looking for characters that indicate JSON.
-			literal = &normalisedJson
+			literal = &normalisedJSON
 		}
 	}
 

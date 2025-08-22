@@ -70,15 +70,15 @@ func TestAccIncidentCatalogTypeAttributeResource(t *testing.T) {
 				ResourceName:      "incident_catalog_type_attribute.example",
 				ImportState:       true,
 				ImportStateVerify: true,
-				ImportStateIdFunc: testAccIncidentCatalogTypeAttributeImportStateIdFunc,
+				ImportStateIdFunc: testAccIncidentCatalogTypeAttributeImportStateIDFunc,
 			},
 		},
 	})
 }
 
-// testAccIncidentCatalogTypeAttributeImportStateIdFunc generates the import ID
+// testAccIncidentCatalogTypeAttributeImportStateIDFunc generates the import ID
 // in the format catalog_type_id:attribute_id for testing import.
-func testAccIncidentCatalogTypeAttributeImportStateIdFunc(s *terraform.State) (string, error) {
+func testAccIncidentCatalogTypeAttributeImportStateIDFunc(s *terraform.State) (string, error) {
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type != "incident_catalog_type_attribute" {
 			continue
