@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.14.0
+
 - Fix issue with HTML-like characters (e.g. `>`) in JSON engine values being incorrectly encoded
 - Clarify that `source_repo_url` is required for catalog types in documentation
 - Update dependencies to latest versions
