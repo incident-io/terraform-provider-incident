@@ -122,7 +122,7 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
 }
 
-func (r *IncidentUserDataSource) buildModel(userType client.UserWithRolesV2) *IncidentUserDataSourceModel {
+func (i *IncidentUserDataSource) buildModel(userType client.UserWithRolesV2) *IncidentUserDataSourceModel {
 	model := &IncidentUserDataSourceModel{
 		Email:       types.StringPointerValue(userType.Email),
 		ID:          types.StringValue(userType.Id),

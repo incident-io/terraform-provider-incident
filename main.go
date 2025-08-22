@@ -8,7 +8,6 @@ import (
 
 	"net/http"
 	"net/http/pprof"
-	_ "net/http/pprof"
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 	"github.com/incident-io/terraform-provider-incident/internal/provider"
