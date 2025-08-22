@@ -138,7 +138,6 @@ func normaliseJSON(jsonString string) (string, error) {
 	// Use encoder with HTML escaping disabled to preserve special characters like >
 	var buf bytes.Buffer
 	encoder := json.NewEncoder(&buf)
-	encoder.SetEscapeHTML(false)
 	err = encoder.Encode(data)
 	if err != nil {
 		return "", err
