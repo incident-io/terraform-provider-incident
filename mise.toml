@@ -1,0 +1,4 @@
+[tools]
+go = "1.24.4"
+golangci-lint = "latest"
+node = "latest"

@@ -28,5 +28,3 @@ This data source provides information about a catalog type attribute.
 - `path` (List of String) If this is a path attribute, the path that we should use to pull the data
 - `schema_only` (Boolean) If true, Terraform will only manage the schema of the attribute. Values for this attribute can be managed from the incident.io web dashboard.
 - `type` (String) The type of this attribute.
-
-

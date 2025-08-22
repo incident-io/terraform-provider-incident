@@ -27,5 +27,3 @@ This data source provides information about a custom field option.
 ### Read-Only
 
 - `id` (String) Unique identifier for the custom field option
-
-

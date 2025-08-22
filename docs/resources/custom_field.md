@@ -76,6 +76,8 @@ When this filtering field is set on an incident, the options for this custom fie
 
 Import is supported using the following syntax:
 
+The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
+
 ```shell
 #!/bin/bash
 

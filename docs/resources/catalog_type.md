@@ -67,7 +67,7 @@ resource "incident_catalog_type" "service_tier" {
 
 - `description` (String) Human readble description of this type
 - `name` (String) Name is the human readable name of this type
-- `source_repo_url` (String) The url of the external repository where this type is managed. When set, users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.
+- `source_repo_url` (String) The url of the external repository where this type is managed. Users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.
 
 ### Optional
 
@@ -82,6 +82,8 @@ resource "incident_catalog_type" "service_tier" {
 ## Import
 
 Import is supported using the following syntax:
+
+The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell
 #!/bin/bash

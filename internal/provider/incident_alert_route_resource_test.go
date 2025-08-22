@@ -1149,7 +1149,8 @@ resource "incident_alert_route" "test" {
               content = [
                 {
                   attrs = {
-                    label   = "Alert → Title"
+                    # Note that this uses '->' not '→' to test escaping if you dislike the fancy character
+                    label   = "Alert -> Title"
                     missing = false
                     name    = "alert.title"
                   }
@@ -1173,6 +1174,7 @@ resource "incident_alert_route" "test" {
 						content = [
 							{
 								attrs = {
+                  # Note that this uses '→' not '->' to test if you use a fancy character
 									label   = "Alert → Description"
 									missing = false
 									name    = "alert.description"
