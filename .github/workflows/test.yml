@@ -59,6 +59,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    concurrency:
+      group: acceptance-tests
+      cancel-in-progress: false
     strategy:
       fail-fast: false
       # Running in parallel will cause each test to collide on resource names.
