@@ -50,5 +50,3 @@ resource "incident_catalog_entries" "services" {
 - `id` (String) ID of this catalog type
 - `source_repo_url` (String) The url of the external repository where this type is managed. If set, users will not be able to edit the catalog type (or its entries) via the UI, and will instead be provided a link to this URL.
 - `use_name_as_identifier` (Boolean) If enabled, you can refer to entries of this type by their name, as well as their external ID and any aliases.
-
-

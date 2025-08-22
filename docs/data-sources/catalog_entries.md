@@ -76,5 +76,3 @@ Read-Only:
 - `array_value` (List of String) The value of this element of the array, in a format suitable for this attribute type.
 - `attribute` (String) The ID of this attribute.
 - `value` (String) The value of this attribute, in a format suitable for this attribute type.
-
-

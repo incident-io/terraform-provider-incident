@@ -38,5 +38,3 @@ Read-Only:
 - `custom_field_id` (String) This must be the ID of a custom field, which must have values of the same type as the attribute you are filtering by.
 
 When this filtering field is set on an incident, the options for this custom field will be filtered to only those with the attribute value that matches the value of the filtering field.
-
-

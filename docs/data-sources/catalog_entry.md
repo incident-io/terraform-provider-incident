@@ -4,7 +4,7 @@ page_title: "incident_catalog_entry Data Source - terraform-provider-incident"
 subcategory: ""
 description: |-
   This data source provides information about a catalog entry.
-  It can be used to look up a catalog entry by providing the catalogtypeid and an identifier.
+  It can be used to look up a catalog entry by providing the catalog_type_id and an identifier.
   The API will automatically match the identifier against names, external IDs, and aliases.
 ---
 
@@ -42,5 +42,3 @@ Read-Only:
 - `array_value` (List of String) The value of this element of the array, in a format suitable for this attribute type.
 - `attribute` (String) The ID of this attribute.
 - `value` (String) The value of this attribute, in a format suitable for this attribute type.
-
-

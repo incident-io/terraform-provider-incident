@@ -27,5 +27,3 @@ Users all have a single base role, and can be assigned multiple custom roles. Th
 
 - `id` (String) The ID of this resource.
 - `name` (String)
-
-

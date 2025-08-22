@@ -25,5 +25,3 @@ This data source provides information about an incident role.
 - `instructions` (String) Provided to whoever is nominated for the role. Note that this will be empty for the 'reporter' role.
 - `name` (String) Human readable name of the incident role
 - `shortform` (String) Short human readable name for Slack. Note that this will be empty for the 'reporter' role.
-
-

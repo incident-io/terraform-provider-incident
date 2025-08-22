@@ -55,5 +55,3 @@ output "schedule_team_ids" {
 
 - `team_ids` (Set of String) IDs of teams that own this schedule
 - `timezone` (String) Timezone of the schedule, as interpreted at the point of generating the report
-
-
