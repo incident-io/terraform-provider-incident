@@ -51,6 +51,11 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 				},
 				MarkdownDescription: apischema.Docstring("ScheduleV2", "id"),
 			},
+			"annotations": schema.MapAttribute{
+				Optional:            true,
+				ElementType:         types.StringType,
+				MarkdownDescription: "Custom annotations for this schedule. The annotation 'incident.io/terraform/version' will be automatically added by the provider. These annotations can be used for organization, filtering and integrations with other systems.",
+			},
 			"name": schema.StringAttribute{
 				Required:            true,
 				MarkdownDescription: apischema.Docstring("ScheduleV2", "name"),
@@ -225,13 +230,31 @@ func (r *IncidentScheduleResource) Create(ctx context.Context, req resource.Crea
 		teamIDs = &ids
 	}
 
+	// Build annotations map with default terraform version
+	annotations := map[string]string{
+		"incident.io/terraform/version": r.terraformVersion,
+	}
+
+	// Add user-provided annotations if present
+	if !data.Annotations.IsNull() && !data.Annotations.IsUnknown() {
+		userAnnotations := map[string]string{}
+		diags := data.Annotations.ElementsAs(ctx, &userAnnotations, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
+		}
+
+		// Merge user annotations with required annotations
+		for k, v := range userAnnotations {
+			annotations[k] = v
+		}
+	}
+
 	result, err := r.client.SchedulesV2CreateWithResponse(ctx, client.SchedulesV2CreateJSONRequestBody{
 		Schedule: client.ScheduleCreatePayloadV2{
-			Annotations: &map[string]string{
-				"incident.io/terraform/version": r.terraformVersion,
-			},
-			Name:     data.Name.ValueStringPointer(),
-			Timezone: data.Timezone.ValueStringPointer(),
+			Annotations: &annotations,
+			Name:        data.Name.ValueStringPointer(),
+			Timezone:    data.Timezone.ValueStringPointer(),
 			Config: &client.ScheduleConfigCreatePayloadV2{
 				Rotations: &rotationArray,
 			},
@@ -306,11 +329,29 @@ func (r *IncidentScheduleResource) Update(ctx context.Context, req resource.Upda
 		teamIDs = &ids
 	}
 
+	// Build annotations map with default terraform version
+	annotations := map[string]string{
+		"incident.io/terraform/version": r.terraformVersion,
+	}
+
+	// Add user-provided annotations if present
+	if !data.Annotations.IsNull() && !data.Annotations.IsUnknown() {
+		userAnnotations := map[string]string{}
+		diags := data.Annotations.ElementsAs(ctx, &userAnnotations, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
+		}
+
+		// Merge user annotations with required annotations
+		for k, v := range userAnnotations {
+			annotations[k] = v
+		}
+	}
+
 	result, err := r.client.SchedulesV2UpdateWithResponse(ctx, data.ID.ValueString(), client.SchedulesV2UpdateJSONRequestBody{
 		Schedule: client.ScheduleUpdatePayloadV2{
-			Annotations: &map[string]string{
-				"incident.io/terraform/version": r.terraformVersion,
-			},
+			Annotations:          &annotations,
 			Name:                 data.Name.ValueStringPointer(),
 			Timezone:             data.Timezone.ValueStringPointer(),
 			HolidaysPublicConfig: holidaysPublicConfig,
@@ -532,12 +573,54 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2, plan *
 		teamIDsSet = types.SetNull(types.StringType)
 	}
 
+	// Prepare annotations map
+	var annotationsMap types.Map
+	if schedule.Annotations != nil {
+		// Create a map of attributes
+		elements := map[string]attr.Value{}
+		for k, v := range schedule.Annotations {
+			// Skip the terraform version annotation as it's managed internally
+			if k != "incident.io/terraform/version" {
+				elements[k] = types.StringValue(v)
+			}
+		}
+
+		// If we have annotations in the plan and no annotations from the API, or we want to
+		// preserve plan annotations that aren't in the API response
+		if !plan.Annotations.IsUnknown() && !plan.Annotations.IsNull() {
+			planAnnotations := map[string]string{}
+			diags := plan.Annotations.ElementsAs(context.Background(), &planAnnotations, false)
+			if diags == nil {
+				for k, v := range planAnnotations {
+					if _, exists := elements[k]; !exists {
+						elements[k] = types.StringValue(v)
+					}
+				}
+			}
+		}
+
+		// Convert to types.Map
+		if len(elements) > 0 {
+			annotationsMap = types.MapValueMust(types.StringType, elements)
+		} else {
+			annotationsMap = types.MapNull(types.StringType)
+		}
+	} else {
+		// If there are no annotations from API but there are in the plan, keep them
+		if !plan.Annotations.IsUnknown() && !plan.Annotations.IsNull() {
+			annotationsMap = plan.Annotations
+		} else {
+			annotationsMap = types.MapNull(types.StringType)
+		}
+	}
+
 	return &models.IncidentScheduleResourceModelV2{
 		Name:                 types.StringValue(schedule.Name),
 		ID:                   types.StringValue(schedule.Id),
 		Timezone:             types.StringValue(schedule.Timezone),
 		HolidaysPublicConfig: holidaysPublicConfig,
 		TeamIDs:              teamIDsSet,
+		Annotations:          annotationsMap,
 		Rotations: lo.Map(rotationNames, func(rotation RotationName, _ int) models.RotationV2 {
 			newRotation := models.RotationV2{
 				ID:   types.StringValue(rotation.ID),
