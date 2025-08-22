@@ -1,0 +1,31 @@
+# Visit https://golangci-lint.run/ for usage documentation
+# and information on other useful linters
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+
+linters:
+  disable-all: true
+  enable:
+    - copyloopvar
+    - durationcheck
+    - errcheck
+    - forcetypeassert
+    - godot
+    - gofmt
+    - gosimple
+    - ineffassign
+    - makezero
+    - misspell
+    - nilerr
+    - predeclared
+    - staticcheck
+    - tenv
+    - unconvert
+    - unparam
+    - unused
+linters-settings:
+  staticcheck:
+    checks:
+      - all
+      - '-SA1006' # disable the rule SA1006 which doesn't like how we do errors
