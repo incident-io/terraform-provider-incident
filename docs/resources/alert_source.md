@@ -172,7 +172,7 @@ Optional:
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--attributes--binding--value))
 
 <a id="nestedatt--template--attributes--binding--array_value"></a>
-### Nested Schema for `template.attributes.binding.value`
+### Nested Schema for `template.attributes.binding.array_value`
 
 Optional:
 
@@ -229,56 +229,47 @@ Optional:
 - `parse` (Attributes) An operation type that allows a value to parsed from within a JSON object (see [below for nested schema](#nestedatt--template--expressions--operations--parse))
 
 <a id="nestedatt--template--expressions--operations--branches"></a>
-### Nested Schema for `template.expressions.operations.parse`
+### Nested Schema for `template.expressions.operations.branches`
 
 Required:
 
-- `branches` (Attributes List) The branches to apply for this operation (see [below for nested schema](#nestedatt--template--expressions--operations--parse--branches))
-- `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--template--expressions--operations--parse--returns))
+- `branches` (Attributes List) The branches to apply for this operation (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches))
+- `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--template--expressions--operations--branches--returns))
 
-<a id="nestedatt--template--expressions--operations--parse--branches"></a>
-### Nested Schema for `template.expressions.operations.parse.branches`
-
-Required:
-
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--parse--branches--condition_groups))
-- `result` (Attributes) The result assumed if the condition groups are satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--parse--branches--result))
-
-<a id="nestedatt--template--expressions--operations--parse--branches--condition_groups"></a>
-### Nested Schema for `template.expressions.operations.parse.branches.result`
+<a id="nestedatt--template--expressions--operations--branches--branches"></a>
+### Nested Schema for `template.expressions.operations.branches.branches`
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--parse--branches--result--conditions))
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups))
+- `result` (Attributes) The result assumed if the condition groups are satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--result))
 
-<a id="nestedatt--template--expressions--operations--parse--branches--result--conditions"></a>
-### Nested Schema for `template.expressions.operations.parse.branches.result.conditions`
+<a id="nestedatt--template--expressions--operations--branches--branches--condition_groups"></a>
+### Nested Schema for `template.expressions.operations.branches.branches.condition_groups`
+
+Required:
+
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions))
+
+<a id="nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions"></a>
+### Nested Schema for `template.expressions.operations.branches.branches.condition_groups.conditions`
 
 Required:
 
 - `operation` (String) The logical operation to be applied
-- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--template--expressions--operations--parse--branches--result--conditions--param_bindings))
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
-<a id="nestedatt--template--expressions--operations--parse--branches--result--conditions--param_bindings"></a>
-### Nested Schema for `template.expressions.operations.parse.branches.result.conditions.subject`
+<a id="nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings"></a>
+### Nested Schema for `template.expressions.operations.branches.branches.condition_groups.conditions.param_bindings`
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--expressions--operations--parse--branches--result--conditions--subject--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--expressions--operations--parse--branches--result--conditions--subject--value))
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--value))
 
-<a id="nestedatt--template--expressions--operations--parse--branches--result--conditions--subject--array_value"></a>
-### Nested Schema for `template.expressions.operations.parse.branches.result.conditions.subject.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--template--expressions--operations--parse--branches--result--conditions--subject--value"></a>
-### Nested Schema for `template.expressions.operations.parse.branches.result.conditions.subject.value`
+<a id="nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value"></a>
+### Nested Schema for `template.expressions.operations.branches.branches.condition_groups.conditions.param_bindings.array_value`
 
 Optional:
 
@@ -286,28 +277,8 @@ Optional:
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
-
-
-
-<a id="nestedatt--template--expressions--operations--parse--branches--result"></a>
-### Nested Schema for `template.expressions.operations.parse.branches.result`
-
-Optional:
-
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--expressions--operations--parse--branches--result--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--expressions--operations--parse--branches--result--value))
-
-<a id="nestedatt--template--expressions--operations--parse--branches--result--array_value"></a>
-### Nested Schema for `template.expressions.operations.parse.branches.result.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--template--expressions--operations--parse--branches--result--value"></a>
-### Nested Schema for `template.expressions.operations.parse.branches.result.value`
+<a id="nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--value"></a>
+### Nested Schema for `template.expressions.operations.branches.branches.condition_groups.conditions.param_bindings.value`
 
 Optional:
 
@@ -317,8 +288,37 @@ Optional:
 
 
 
-<a id="nestedatt--template--expressions--operations--parse--returns"></a>
-### Nested Schema for `template.expressions.operations.parse.returns`
+
+<a id="nestedatt--template--expressions--operations--branches--branches--result"></a>
+### Nested Schema for `template.expressions.operations.branches.branches.result`
+
+Optional:
+
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--result--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--result--value))
+
+<a id="nestedatt--template--expressions--operations--branches--branches--result--array_value"></a>
+### Nested Schema for `template.expressions.operations.branches.branches.result.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--template--expressions--operations--branches--branches--result--value"></a>
+### Nested Schema for `template.expressions.operations.branches.branches.result.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--template--expressions--operations--branches--returns"></a>
+### Nested Schema for `template.expressions.operations.branches.returns`
 
 Required:
 
@@ -328,38 +328,38 @@ Required:
 
 
 <a id="nestedatt--template--expressions--operations--filter"></a>
-### Nested Schema for `template.expressions.operations.parse`
+### Nested Schema for `template.expressions.operations.filter`
 
 Required:
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--parse--condition_groups))
+- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups))
 
-<a id="nestedatt--template--expressions--operations--parse--condition_groups"></a>
-### Nested Schema for `template.expressions.operations.parse.condition_groups`
+<a id="nestedatt--template--expressions--operations--filter--condition_groups"></a>
+### Nested Schema for `template.expressions.operations.filter.condition_groups`
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--parse--condition_groups--conditions))
+- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups--conditions))
 
-<a id="nestedatt--template--expressions--operations--parse--condition_groups--conditions"></a>
-### Nested Schema for `template.expressions.operations.parse.condition_groups.conditions`
+<a id="nestedatt--template--expressions--operations--filter--condition_groups--conditions"></a>
+### Nested Schema for `template.expressions.operations.filter.condition_groups.conditions`
 
 Required:
 
 - `operation` (String) The logical operation to be applied
-- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--template--expressions--operations--parse--condition_groups--conditions--param_bindings))
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
-<a id="nestedatt--template--expressions--operations--parse--condition_groups--conditions--param_bindings"></a>
-### Nested Schema for `template.expressions.operations.parse.condition_groups.conditions.subject`
+<a id="nestedatt--template--expressions--operations--filter--condition_groups--conditions--param_bindings"></a>
+### Nested Schema for `template.expressions.operations.filter.condition_groups.conditions.param_bindings`
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--expressions--operations--parse--condition_groups--conditions--subject--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--expressions--operations--parse--condition_groups--conditions--subject--value))
+- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups--conditions--param_bindings--value))
 
-<a id="nestedatt--template--expressions--operations--parse--condition_groups--conditions--subject--array_value"></a>
-### Nested Schema for `template.expressions.operations.parse.condition_groups.conditions.subject.value`
+<a id="nestedatt--template--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value"></a>
+### Nested Schema for `template.expressions.operations.filter.condition_groups.conditions.param_bindings.array_value`
 
 Optional:
 
@@ -367,8 +367,8 @@ Optional:
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
-<a id="nestedatt--template--expressions--operations--parse--condition_groups--conditions--subject--value"></a>
-### Nested Schema for `template.expressions.operations.parse.condition_groups.conditions.subject.value`
+<a id="nestedatt--template--expressions--operations--filter--condition_groups--conditions--param_bindings--value"></a>
+### Nested Schema for `template.expressions.operations.filter.condition_groups.conditions.param_bindings.value`
 
 Optional:
 
@@ -381,7 +381,7 @@ Optional:
 
 
 <a id="nestedatt--template--expressions--operations--navigate"></a>
-### Nested Schema for `template.expressions.operations.parse`
+### Nested Schema for `template.expressions.operations.navigate`
 
 Required:
 
@@ -472,6 +472,8 @@ Optional:
 ## Import
 
 Import is supported using the following syntax:
+
+The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell
 #!/bin/bash

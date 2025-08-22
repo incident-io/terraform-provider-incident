@@ -113,6 +113,8 @@ NOTE: When enabled, you should use the `managed_attributes` argument on either `
 
 Import is supported using the following syntax:
 
+The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
+
 ```shell
 #!/bin/bash
 
