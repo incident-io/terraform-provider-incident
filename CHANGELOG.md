@@ -1,5 +1,9 @@
 ## Unreleased
 
+- Fix issue with HTML-like characters (e.g. `>`) in JSON engine values being incorrectly encoded
+- Clarify that `source_repo_url` is required for catalog types in documentation
+- Update dependencies to latest versions
+
 ## v5.13.0
 
 - Support for custom HTTP alert source configuration
