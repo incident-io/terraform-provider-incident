@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add debug logging for outbound HTTP requests
+
 ## v5.14.0
 
 - Fix issue with HTML-like characters (e.g. `>`) in JSON engine values being incorrectly encoded
