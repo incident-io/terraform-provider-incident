@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/oapi-codegen/oapi-codegen/v2/pkg/securityprovider"
 	"github.com/pkg/errors"
 )
@@ -28,10 +29,21 @@ func New(ctx context.Context, apiKey, apiEndpoint, version string, opts ...Clien
 	// The generated client won't turn validation errors into actual errors, so we do this
 	// inside of a generic middleware.
 	base.Transport = Wrap(base.Transport, func(req *http.Request, next http.RoundTripper) (*http.Response, error) {
+		start := time.Now()
+
 		resp, err := next.RoundTrip(req)
 		if err != nil {
 			return nil, err
 		}
+
+		tflog.Debug(ctx, "Received API response", map[string]any{
+			"method":      req.Method,
+			"url":         req.URL.String(),
+			"path":        req.URL.Path,
+			"status_code": resp.StatusCode,
+			"duration":    time.Since(start),
+		})
+
 		if resp.StatusCode > 299 {
 			data, err := io.ReadAll(resp.Body)
 			if err != nil {
