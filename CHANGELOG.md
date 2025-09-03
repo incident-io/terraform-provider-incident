@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.15.0
+
 - Add debug logging for outbound HTTP requests
 
 ## v5.14.0
