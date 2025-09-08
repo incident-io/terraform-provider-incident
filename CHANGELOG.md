@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Add debug logging for outbound HTTP requests
+- Default catalog type attributes to being managed via Terraform, unless marked as schema-only.
 
 ## v5.14.0
 
