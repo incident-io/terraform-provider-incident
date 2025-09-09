@@ -3,6 +3,7 @@
 ## v5.15.0
 
 - Add debug logging for outbound HTTP requests
+- Fixed a bug where catalog type attributes weren't defaulting to being marked as managed via Terraform, unless explicitly marked. You may see a change in the state of schema_only in your next plan if you hadn't set it previously.
 
 ## v5.14.0
 

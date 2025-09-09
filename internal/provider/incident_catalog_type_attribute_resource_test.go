@@ -10,6 +10,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
@@ -31,6 +32,9 @@ func TestAccIncidentCatalogTypeAttributeResource(t *testing.T) {
 						"incident_catalog_type_attribute.example", "type", "Text"),
 					resource.TestCheckResourceAttr(
 						"incident_catalog_type_attribute.example", "array", "false"),
+					// We haven't set mode, so should default to "api", meaning schema_only is false
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type_attribute.example", "schema_only", "false"),
 				),
 			},
 			// Update and read
@@ -39,6 +43,7 @@ func TestAccIncidentCatalogTypeAttributeResource(t *testing.T) {
 					Name:  "Description",
 					Type:  "String",
 					Array: true,
+					Mode:  "api",
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
@@ -47,6 +52,8 @@ func TestAccIncidentCatalogTypeAttributeResource(t *testing.T) {
 						"incident_catalog_type_attribute.example", "type", "String"),
 					resource.TestCheckResourceAttr(
 						"incident_catalog_type_attribute.example", "array", "true"),
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type_attribute.example", "schema_only", "false"),
 				),
 			},
 			// Schema-only
