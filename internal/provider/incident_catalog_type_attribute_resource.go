@@ -61,7 +61,9 @@ func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.C
 	}
 
 	var (
-		mode              *client.CatalogTypeAttributePayloadV3Mode
+		// We always default to API mode first, as we assume that the attribute is managed
+		// in Terraform unless told otherwise.
+		mode              = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeApi)
 		backlinkAttribute *string
 		path              *[]client.CatalogTypeAttributePathItemPayloadV3
 	)
@@ -467,7 +469,7 @@ func (r *IncidentCatalogTypeAttributeResource) ImportState(ctx context.Context, 
 
 func (*IncidentCatalogTypeAttributeResource) attributeToPayload(attribute client.CatalogTypeAttributeV3) client.CatalogTypeAttributePayloadV3 {
 	var (
-		mode *client.CatalogTypeAttributePayloadV3Mode
+		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeApi)
 		path *[]client.CatalogTypeAttributePathItemPayloadV3
 	)
 
