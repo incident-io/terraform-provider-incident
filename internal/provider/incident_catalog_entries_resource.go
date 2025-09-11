@@ -368,6 +368,9 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 				for _, element := range attributeValue.ArrayValue.Elements() {
 					elementString, ok := element.(types.String)
 					if !ok {
+						tflog.Error(ctx, "Failed to map attribute for catalog entries to string", map[string]any{
+							"element": spew.Sdump(element),
+						})
 						panic(fmt.Sprintf("element should have been types.String but was %T", element))
 					}
 					arrayValue = append(arrayValue, client.CatalogEngineParamBindingValuePayloadV3{
@@ -384,6 +387,9 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 		aliases := []string{}
 		if !entry.Aliases.IsUnknown() {
 			if diags := entry.Aliases.ElementsAs(ctx, &aliases, false); diags.HasError() {
+				tflog.Error(ctx, "Failed to convert aliases", map[string]any{
+					"error": spew.Sdump(diags.Errors()),
+				})
 				panic(spew.Sdump(diags.Errors()))
 			}
 		}
@@ -577,7 +583,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 						Rank:             payload.Payload.Rank,
 						Aliases:          payload.Payload.Aliases,
 						AttributeValues:  payload.Payload.AttributeValues,
-						UpdateAttributes: data.buildUpdateAttributes(),
+						UpdateAttributes: data.buildUpdateAttributes(ctx),
 					})
 					if err == nil && result.StatusCode() >= 400 {
 						err = fmt.Errorf(string(result.Body))
@@ -671,7 +677,7 @@ func (m *IncidentCatalogEntriesResourceModel) managedAttributesSet() (map[string
 	return managedAttrSet, true
 }
 
-func (m *IncidentCatalogEntriesResourceModel) buildUpdateAttributes() *[]string {
+func (m *IncidentCatalogEntriesResourceModel) buildUpdateAttributes(ctx context.Context) *[]string {
 	if m.ManagedAttributes.IsNull() {
 		return nil
 	}
@@ -679,6 +685,9 @@ func (m *IncidentCatalogEntriesResourceModel) buildUpdateAttributes() *[]string 
 	var managedAttributeIDs []string
 	diags := m.ManagedAttributes.ElementsAs(context.Background(), &managedAttributeIDs, false)
 	if diags.HasError() {
+		tflog.Error(ctx, "Failed to convert managed attributes", map[string]any{
+			"error": spew.Sdump(diags.Errors()),
+		})
 		panic(diags.Errors())
 	}
 

@@ -84,6 +84,9 @@ func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.C
 		// Do a little dance to get the path into the right format.
 		pathAsStrings := []string{}
 		if diags := m.Path.ElementsAs(ctx, &pathAsStrings, false); diags.HasError() {
+			tflog.Error(ctx, "Failed to convert paths", map[string]any{
+				"error": spew.Sdump(diags.Errors()),
+			})
 			panic(spew.Sdump(diags.Errors()))
 		}
 

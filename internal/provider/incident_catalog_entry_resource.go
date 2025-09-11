@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"sort"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -42,7 +43,7 @@ type IncidentCatalogEntryResourceModel struct {
 	ManagedAttributes types.Set                    `tfsdk:"managed_attributes"`
 }
 
-func (m IncidentCatalogEntryResourceModel) buildAttributeValues() map[string]client.CatalogEngineParamBindingPayloadV3 {
+func (m IncidentCatalogEntryResourceModel) buildAttributeValues(ctx context.Context) map[string]client.CatalogEngineParamBindingPayloadV3 {
 	values := map[string]client.CatalogEngineParamBindingPayloadV3{}
 
 	for _, attributeValue := range m.AttributeValues {
@@ -64,6 +65,9 @@ func (m IncidentCatalogEntryResourceModel) buildAttributeValues() map[string]cli
 			for _, element := range attributeValue.ArrayValue.Elements() {
 				elementString, ok := element.(types.String)
 				if !ok {
+					tflog.Error(ctx, "Failed to map attribute for catalog entry to string", map[string]any{
+						"element": spew.Sdump(element),
+					})
 					panic(fmt.Sprintf("element should have been types.String but was %T", element))
 				}
 				arrayValue = append(arrayValue, client.CatalogEngineParamBindingValuePayloadV3{
@@ -218,7 +222,7 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 		ExternalId:      data.ExternalID.ValueStringPointer(),
 		Rank:            rank,
 		Aliases:         &aliases,
-		AttributeValues: data.buildAttributeValues(),
+		AttributeValues: data.buildAttributeValues(ctx),
 	})
 	if err == nil && result.StatusCode() >= 400 {
 		err = fmt.Errorf(string(result.Body))
@@ -296,7 +300,7 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		Rank:             rank,
 		ExternalId:       data.ExternalID.ValueStringPointer(),
 		Aliases:          &aliases,
-		AttributeValues:  data.buildAttributeValues(),
+		AttributeValues:  data.buildAttributeValues(ctx),
 		UpdateAttributes: updateAttributes,
 	})
 	if err == nil && result.StatusCode() >= 400 {

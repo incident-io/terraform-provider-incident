@@ -1,12 +1,14 @@
 package provider
 
 import (
+	"context"
 	"encoding/json"
 	"sort"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/pkg/errors"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
@@ -15,29 +17,35 @@ import (
 
 // forceCoerce converts between two API client types which we are certain are
 // identical, but the Go type system does not know that.
-func forceCoerce[T any](input any) T {
+func forceCoerce[T any](ctx context.Context, input any) T {
 	// This is a horrible hack to work around the schema having a bunch of
 	// duplicated types. Until we've sorted that out, this to-and-from JSONs
 	jsoned, err := json.Marshal(input)
 	if err != nil {
+		tflog.Error(ctx, "Failed to marshal input", map[string]any{
+			"error": err.Error(),
+		})
 		panic(errors.Wrap(err, "failed to marshal input"))
 	}
 	var res T
 	if err := json.Unmarshal(jsoned, &res); err != nil {
+		tflog.Error(ctx, "Failed to unmarshal input", map[string]any{
+			"error": err.Error(),
+		})
 		panic(errors.Wrap(err, "failed to unmarshal input"))
 	}
 	return res
 }
 
 // buildModel converts from the response type to the terraform model/schema type.
-func (r *IncidentWorkflowResource) buildModel(workflow client.WorkflowV2) *IncidentWorkflowResourceModel {
+func (r *IncidentWorkflowResource) buildModel(ctx context.Context, workflow client.WorkflowV2) *IncidentWorkflowResourceModel {
 	model := &IncidentWorkflowResourceModel{
 		ID:                      types.StringValue(workflow.Id),
 		Name:                    types.StringValue(workflow.Name),
 		Trigger:                 types.StringValue(workflow.Trigger.Name),
-		ConditionGroups:         models.IncidentEngineConditionGroups{}.FromAPI(forceCoerce[[]client.ConditionGroupV2](workflow.ConditionGroups)),
+		ConditionGroups:         models.IncidentEngineConditionGroups{}.FromAPI(forceCoerce[[]client.ConditionGroupV2](ctx, workflow.ConditionGroups)),
 		Steps:                   buildSteps(workflow.Steps),
-		Expressions:             models.IncidentEngineExpressions{}.FromAPI(forceCoerce[[]client.ExpressionV2](workflow.Expressions)),
+		Expressions:             models.IncidentEngineExpressions{}.FromAPI(forceCoerce[[]client.ExpressionV2](ctx, workflow.Expressions)),
 		OnceFor:                 buildOnceFor(workflow.OnceFor),
 		RunsOnIncidentModes:     buildRunsOnIncidentModes(workflow.RunsOnIncidentModes),
 		IncludePrivateIncidents: types.BoolValue(workflow.IncludePrivateIncidents),
