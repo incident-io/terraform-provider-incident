@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add error logging for panics
+
 ## v5.15.0
 
 - Add debug logging for outbound HTTP requests
