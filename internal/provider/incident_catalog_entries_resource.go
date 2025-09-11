@@ -369,7 +369,7 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 					elementString, ok := element.(types.String)
 					if !ok {
 						tflog.Error(ctx, "Failed to map attribute for catalog entries to string", map[string]any{
-							"element": spew.Sdump(element),
+							"element_type": fmt.Sprintf("element should have been types.String but was %T", element),
 						})
 						panic(fmt.Sprintf("element should have been types.String but was %T", element))
 					}

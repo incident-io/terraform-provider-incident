@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -66,7 +65,7 @@ func (m IncidentCatalogEntryResourceModel) buildAttributeValues(ctx context.Cont
 				elementString, ok := element.(types.String)
 				if !ok {
 					tflog.Error(ctx, "Failed to map attribute for catalog entry to string", map[string]any{
-						"element": spew.Sdump(element),
+						"element_type": fmt.Sprintf("element should have been types.String but was %T", element),
 					})
 					panic(fmt.Sprintf("element should have been types.String but was %T", element))
 				}
