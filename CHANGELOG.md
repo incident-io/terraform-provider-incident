@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.16.0
+
 - Add error logging for panics
 
 ## v5.15.0
