@@ -90,7 +90,7 @@ func attentiveBackoff(minDuration, maxDuration time.Duration, attemptNum int, re
 			retryAfterDate, err := time.Parse(time.RFC1123, retryAfter)
 			if err != nil {
 				// If we can't parse the Retry-After, lets just wait for 10 seconds
-				return 10
+				return 10 * time.Second
 			}
 
 			timeToWait := time.Until(retryAfterDate)
