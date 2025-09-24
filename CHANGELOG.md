@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.17.0
+
+- Fix rate limiting by adding missing unit to backoff
+
 ## v5.16.0
 
 - Add error logging for panics
