@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.17.1
+
+- Handle 404s when an alert attribute has been deleted outside of Terraform (contribution from @maxtacu)
+
 ## v5.17.0
 
 - Fix rate limiting by adding missing unit to backoff
