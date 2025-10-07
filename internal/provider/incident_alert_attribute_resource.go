@@ -2,8 +2,8 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -136,8 +136,8 @@ func (r *IncidentAlertAttributeResource) Read(ctx context.Context, req resource.
 	if err != nil {
 		// Check if error message contains any indication of a 404 not found
 		httpErr := client.HTTPError{}
-    if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
-			tflog.Warn(ctx, fmt.Sprintf("Alert attribute with ID %s not found (from error), removing from state. Error: %s", data.ID.ValueString(), errStr))
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Alert attribute with ID %s not found: removing from state.", data.ID.ValueString()))
 			resp.State.RemoveResource(ctx)
 			return
 		}
