@@ -11,7 +11,7 @@ import (
 type NonEmptyListValidator struct{}
 
 func (n NonEmptyListValidator) ValidateList(ctx context.Context, req validator.ListRequest, resp *validator.ListResponse) {
-	if req.ConfigValue.IsNull() {
+	if req.ConfigValue.IsNull() || req.ConfigValue.IsUnknown() {
 		return
 	} else if len(req.ConfigValue.Elements()) == 0 {
 		resp.Diagnostics.AddError("List cannot be empty", fmt.Sprintf("%s cannot be empty", req.Path.String()))
