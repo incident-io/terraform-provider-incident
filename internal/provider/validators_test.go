@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/stretchr/testify/assert"
@@ -98,5 +99,84 @@ func TestTimestampValidatorWithNullAndUnknown(t *testing.T) {
 	}
 	unknownResponse := validator.StringResponse{}
 	v.ValidateString(context.Background(), unknownRequest, &unknownResponse)
+	assert.False(t, unknownResponse.Diagnostics.HasError(), "unknown values should not cause validation errors")
+}
+
+func TestNonEmptyListValidator(t *testing.T) {
+	testCases := []struct {
+		name          string
+		elements      []string
+		expectedError bool
+	}{
+		{
+			name:          "valid non-empty list with one element",
+			elements:      []string{"item1"},
+			expectedError: false,
+		},
+		{
+			name:          "valid non-empty list with multiple elements",
+			elements:      []string{"item1", "item2", "item3"},
+			expectedError: false,
+		},
+		{
+			name:          "empty list should fail validation",
+			elements:      []string{},
+			expectedError: true,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			// Convert string slice to types.List
+			elements := make([]types.String, len(tc.elements))
+			for i, elem := range tc.elements {
+				elements[i] = types.StringValue(elem)
+			}
+
+			listValue, diags := types.ListValue(types.StringType, []attr.Value{})
+			if len(elements) > 0 {
+				attrValues := make([]attr.Value, len(elements))
+				for i, elem := range elements {
+					attrValues[i] = elem
+				}
+				listValue, diags = types.ListValue(types.StringType, attrValues)
+			}
+			assert.False(t, diags.HasError(), "should not have diagnostics creating test list")
+
+			request := validator.ListRequest{
+				ConfigValue: listValue,
+			}
+			response := validator.ListResponse{}
+
+			v := NonEmptyListValidator{}
+			v.ValidateList(context.Background(), request, &response)
+
+			if tc.expectedError {
+				assert.True(t, response.Diagnostics.HasError(), "expected validation to fail")
+				assert.Contains(t, response.Diagnostics.Errors()[0].Summary(), "List cannot be empty")
+			} else {
+				assert.False(t, response.Diagnostics.HasError(), "expected validation to succeed")
+			}
+		})
+	}
+}
+
+func TestNonEmptyListValidatorWithNullAndUnknown(t *testing.T) {
+	v := NonEmptyListValidator{}
+
+	// Test with null value
+	nullRequest := validator.ListRequest{
+		ConfigValue: types.ListNull(types.StringType),
+	}
+	nullResponse := validator.ListResponse{}
+	v.ValidateList(context.Background(), nullRequest, &nullResponse)
+	assert.False(t, nullResponse.Diagnostics.HasError(), "null values should not cause validation errors")
+
+	// Test with unknown value
+	unknownRequest := validator.ListRequest{
+		ConfigValue: types.ListUnknown(types.StringType),
+	}
+	unknownResponse := validator.ListResponse{}
+	v.ValidateList(context.Background(), unknownRequest, &unknownResponse)
 	assert.False(t, unknownResponse.Diagnostics.HasError(), "unknown values should not cause validation errors")
 }
