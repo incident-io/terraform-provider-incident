@@ -107,7 +107,7 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "handover_start_at"),
 									},
 									"working_intervals": schema.ListNestedAttribute{
-										Validators:          []validator.List{NonEmptyListValidator{}},
+										Validators:          []validator.List{NonEmptyListValidator{AllowUnknownValues: true}},
 										Optional:            true,
 										MarkdownDescription: apischema.Docstring("ScheduleRotationV2", "working_intervals"),
 										NestedObject: schema.NestedAttributeObject{
