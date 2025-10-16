@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.18.0
+
 - We will now allow you to use dynamic variables for `working_intervals` in `incident_schedule`.
 
 ## v5.17.1
