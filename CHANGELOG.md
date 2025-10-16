@@ -1,5 +1,7 @@
 ## Unreleased
 
+- We will now allow you to use dynamic variables for `working_intervals` in `incident_schedule`.
+
 ## v5.17.1
 
 - Handle 404s when an alert attribute has been deleted outside of Terraform (contribution from @maxtacu)

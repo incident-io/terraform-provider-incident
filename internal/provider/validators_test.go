@@ -148,7 +148,9 @@ func TestNonEmptyListValidator(t *testing.T) {
 			}
 			response := validator.ListResponse{}
 
-			v := NonEmptyListValidator{}
+			v := NonEmptyListValidator{
+				AllowUnknownValues: true,
+			}
 			v.ValidateList(context.Background(), request, &response)
 
 			if tc.expectedError {
@@ -162,7 +164,9 @@ func TestNonEmptyListValidator(t *testing.T) {
 }
 
 func TestNonEmptyListValidatorWithNullAndUnknown(t *testing.T) {
-	v := NonEmptyListValidator{}
+	v := NonEmptyListValidator{
+		AllowUnknownValues: true,
+	}
 
 	// Test with null value
 	nullRequest := validator.ListRequest{

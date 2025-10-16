@@ -8,10 +8,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 )
 
-type NonEmptyListValidator struct{}
+type NonEmptyListValidator struct {
+	AllowUnknownValues bool
+}
 
 func (n NonEmptyListValidator) ValidateList(ctx context.Context, req validator.ListRequest, resp *validator.ListResponse) {
-	if req.ConfigValue.IsNull() || req.ConfigValue.IsUnknown() {
+	if req.ConfigValue.IsNull() || (n.AllowUnknownValues && req.ConfigValue.IsUnknown()) {
 		return
 	} else if len(req.ConfigValue.Elements()) == 0 {
 		resp.Diagnostics.AddError("List cannot be empty", fmt.Sprintf("%s cannot be empty", req.Path.String()))
