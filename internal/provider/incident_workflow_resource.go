@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -208,9 +209,6 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	result, err := r.client.WorkflowsV2CreateWorkflowWithResponse(ctx, payload)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create workflow, got error: %s", err))
 		return
@@ -272,9 +270,6 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 	}
 
 	result, err := r.client.WorkflowsV2UpdateWorkflowWithResponse(ctx, state.ID.ValueString(), payload)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update workflow, got error: %s", err))
 		return
@@ -294,10 +289,14 @@ func (r *IncidentWorkflowResource) Read(ctx context.Context, req resource.ReadRe
 	result, err := r.client.WorkflowsV2ShowWorkflowWithResponse(ctx, data.ID.ValueString(), &client.WorkflowsV2ShowWorkflowParams{
 		SkipStepUpgrades: lo.ToPtr(true),
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Workflow with ID %s not found: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read workflow, got error: %s", err))
 		return
 	}

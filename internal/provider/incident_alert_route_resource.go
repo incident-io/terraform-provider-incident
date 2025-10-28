@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -310,17 +311,14 @@ func (r *IncidentAlertRouteResource) Read(ctx context.Context, req resource.Read
 
 	result, err := r.client.AlertRoutesV2ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Alert route with ID %s not found: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert route, got error: %s", err))
-		return
-	}
-
-	if result.StatusCode() == 404 {
-		resp.State.RemoveResource(ctx)
-		return
-	}
-
-	if result.StatusCode() >= 400 {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert route, got error: %s", string(result.Body)))
 		return
 	}
 
@@ -340,12 +338,14 @@ func (r *IncidentAlertRouteResource) Update(ctx context.Context, req resource.Up
 
 	result, err := r.client.AlertRoutesV2ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Alert route with ID %s not found: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert route before updating, got error: %s", err))
-		return
-	}
-
-	if result.StatusCode() >= 400 {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert route before updating, got error: %s", string(result.Body)))
 		return
 	}
 

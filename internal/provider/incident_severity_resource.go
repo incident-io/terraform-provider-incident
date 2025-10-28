@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -102,9 +103,6 @@ func (r *IncidentSeverityResource) Create(ctx context.Context, req resource.Crea
 		Description: data.Description.ValueString(),
 		Rank:        rank,
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create incident severity '%s', got error: %s", data.Name.ValueString(), err))
 		return
@@ -124,18 +122,14 @@ func (r *IncidentSeverityResource) Read(ctx context.Context, req resource.ReadRe
 
 	result, err := r.client.SeveritiesV1ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Incident severity with ID %s not found: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read incident severity, got error: %s", err))
-		return
-	}
-
-	if result.StatusCode() == 404 {
-		resp.Diagnostics.AddWarning("Not Found", fmt.Sprintf("Unable to read incident severity, got status code: %d", result.StatusCode()))
-		resp.State.RemoveResource(ctx)
-		return
-	}
-
-	if result.StatusCode() >= 400 {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read incident severity, got status code: %d", result.StatusCode()))
 		return
 	}
 
@@ -159,9 +153,6 @@ func (r *IncidentSeverityResource) Update(ctx context.Context, req resource.Upda
 		Description: data.Description.ValueString(),
 		Rank:        rank,
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update incident severity, got error: %s", err))
 		return

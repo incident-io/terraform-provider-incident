@@ -84,9 +84,6 @@ func (i *IncidentAlertAttributeDataSource) Read(ctx context.Context, req datasou
 	}
 
 	result, err := i.client.AlertAttributesV2ListWithResponse(ctx)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert attributes, got error: %s", err))
 		return

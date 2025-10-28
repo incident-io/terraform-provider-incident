@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -236,17 +237,14 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 
 	result, err := r.client.AlertSourcesV2ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Alert source with ID %s not found: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert source, got error: %s", err))
-		return
-	}
-
-	if result.StatusCode() == 404 {
-		resp.State.RemoveResource(ctx)
-		return
-	}
-
-	if result.StatusCode() >= 400 {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert source, got error: %s", string(result.Body)))
 		return
 	}
 

@@ -90,9 +90,6 @@ func (i *IncidentCustomFieldOptionDataSource) Read(ctx context.Context, req data
 	result, err := i.client.CustomFieldOptionsV1ListWithResponse(ctx, &client.CustomFieldOptionsV1ListParams{
 		CustomFieldId: data.CustomFieldID.ValueString(),
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read custom field options, got error: %s", err))
 		return

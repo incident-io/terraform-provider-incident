@@ -82,9 +82,6 @@ func (d *IncidentCatalogEntriesDataSource) Read(ctx context.Context, req datasou
 
 	for {
 		result, err := d.client.CatalogV3ListEntriesWithResponse(ctx, params)
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf("%s", string(result.Body))
-		}
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list catalog entries, got error: %s", err))
 			return

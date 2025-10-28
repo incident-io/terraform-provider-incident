@@ -142,11 +142,6 @@ func (i *IncidentCatalogEntryDataSource) Read(ctx context.Context, req datasourc
 		return
 	}
 
-	if result.StatusCode() >= 400 {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to find catalog entry, got status code: %d", result.StatusCode()))
-		return
-	}
-
 	// Check if we got any matching entries
 	var matchedEntry *client.CatalogEntryV3
 	if len(result.JSON200.CatalogEntries) > 0 {

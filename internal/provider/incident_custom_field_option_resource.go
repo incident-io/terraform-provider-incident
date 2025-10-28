@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -106,9 +107,6 @@ func (r *IncidentCustomFieldOptionResource) Create(ctx context.Context, req reso
 		SortKey:       sortKey,
 		Value:         data.Value.ValueString(),
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create custom field option, got error: %s", err))
 		return
@@ -128,18 +126,14 @@ func (r *IncidentCustomFieldOptionResource) Read(ctx context.Context, req resour
 
 	result, err := r.client.CustomFieldOptionsV1ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Custom field option with ID %s not found: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read custom field option, got error: %s", err))
-		return
-	}
-
-	if result.StatusCode() == 404 {
-		resp.Diagnostics.AddWarning("Not Found", fmt.Sprintf("Unable to read custom field option, got status code: %d", result.StatusCode()))
-		resp.State.RemoveResource(ctx)
-		return
-	}
-
-	if result.StatusCode() >= 400 {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read custom field option, got status code: %d", result.StatusCode()))
 		return
 	}
 
@@ -158,9 +152,6 @@ func (r *IncidentCustomFieldOptionResource) Update(ctx context.Context, req reso
 		SortKey: data.SortKey.ValueInt64(),
 		Value:   data.Value.ValueString(),
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update custom field, got error: %s", err))
 		return

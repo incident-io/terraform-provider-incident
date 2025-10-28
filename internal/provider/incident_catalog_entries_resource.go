@@ -427,9 +427,6 @@ func (r *IncidentCatalogEntriesResource) getEntries(ctx context.Context, catalog
 			PageSize:      250,
 			After:         after,
 		})
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf(string(result.Body))
-		}
 		if err != nil {
 			return nil, nil, errors.Wrap(err, "listing entries")
 		}
@@ -489,10 +486,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 				entry = entry // avoid shadow loop variable
 			)
 			g.Go(func() error {
-				result, err := r.client.CatalogV3DestroyEntryWithResponse(ctx, entry.Id)
-				if err == nil && result.StatusCode() >= 400 {
-					err = fmt.Errorf(string(result.Body))
-				}
+				_, err := r.client.CatalogV3DestroyEntryWithResponse(ctx, entry.Id)
 				if err != nil {
 					return errors.Wrap(err, "unable to destroy catalog entry, got error")
 				}
@@ -577,7 +571,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 
 			g.Go(func() error {
 				if shouldUpdate {
-					result, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, entry.Id, client.CatalogUpdateEntryPayloadV3{
+					_, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, entry.Id, client.CatalogUpdateEntryPayloadV3{
 						Name:             payload.Payload.Name,
 						ExternalId:       payload.Payload.ExternalId,
 						Rank:             payload.Payload.Rank,
@@ -585,9 +579,6 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 						AttributeValues:  payload.Payload.AttributeValues,
 						UpdateAttributes: data.buildUpdateAttributes(ctx),
 					})
-					if err == nil && result.StatusCode() >= 400 {
-						err = fmt.Errorf(string(result.Body))
-					}
 					if err != nil {
 						return errors.Wrap(err, fmt.Sprintf("unable to update catalog entry with id=%s, got error", entry.Id))
 					}
@@ -602,9 +593,6 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 						Aliases:         payload.Payload.Aliases,
 						AttributeValues: payload.Payload.AttributeValues,
 					})
-					if err == nil && result.StatusCode() >= 400 {
-						err = fmt.Errorf(string(result.Body))
-					}
 					if err != nil {
 						return errors.Wrap(err, fmt.Sprintf("unable to create catalog entry with external_id=%s, got error", *payload.Payload.ExternalId))
 					}

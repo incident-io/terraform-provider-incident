@@ -111,9 +111,6 @@ func (i *IncidentCatalogTypeAttributeDataSource) Read(ctx context.Context, req d
 	tflog.Trace(ctx, fmt.Sprintf("Reading catalog type attribute with name=%s for catalog type id=%s", data.Name.ValueString(), data.CatalogTypeID.ValueString()))
 
 	result, err := i.client.CatalogV3ShowTypeWithResponse(ctx, data.CatalogTypeID.ValueString())
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog type, got error: %s", err))
 		return

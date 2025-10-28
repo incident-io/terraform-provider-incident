@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -100,9 +101,6 @@ func (r *IncidentStatusResource) Create(ctx context.Context, req resource.Create
 		Description: data.Description.ValueString(),
 		Category:    client.IncidentStatusesCreatePayloadV1Category(data.Category.ValueString()),
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create incident status, got error: %s", err))
 		return
@@ -122,17 +120,14 @@ func (r *IncidentStatusResource) Read(ctx context.Context, req resource.ReadRequ
 
 	result, err := r.client.IncidentStatusesV1ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Incident status with ID %s not found: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read incident status, got error: %s", err))
-		return
-	}
-	if result.StatusCode() == 404 {
-		resp.Diagnostics.AddWarning("Not Found", fmt.Sprintf("Unable to read incident status, got status code: %d", result.StatusCode()))
-		resp.State.RemoveResource(ctx)
-		return
-	}
-
-	if result.StatusCode() >= 400 {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read incident status, got status code: %d", result.StatusCode()))
 		return
 	}
 
@@ -151,9 +146,6 @@ func (r *IncidentStatusResource) Update(ctx context.Context, req resource.Update
 		Name:        data.Name.ValueString(),
 		Description: data.Description.ValueString(),
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update incident status, got error: %s", err))
 		return

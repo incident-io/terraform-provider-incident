@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 	"sync"
@@ -16,7 +17,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/pkg/errors"
 	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
@@ -228,15 +228,12 @@ func (r *IncidentCatalogTypeAttributeResource) Create(ctx context.Context, req r
 		attributes = append(attributes, data.buildAttribute(ctx))
 
 		var err error
-		result, err = r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, catalogType.Id, client.CatalogUpdateTypeSchemaPayloadV3{
+		_, err = r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, catalogType.Id, client.CatalogUpdateTypeSchemaPayloadV3{
 			Version:    catalogType.Schema.Version,
 			Attributes: attributes,
 		})
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf(string(result.Body))
-		}
 		if err != nil {
-			return errors.Wrap(err, "Unable to update catalog type schema, got error")
+			return fmt.Errorf("unable to update catalog type schema, got error: %w", err)
 		}
 
 		return nil
@@ -270,10 +267,14 @@ func (r *IncidentCatalogTypeAttributeResource) Read(ctx context.Context, req res
 	}
 
 	result, err := r.client.CatalogV3ShowTypeWithResponse(ctx, data.CatalogTypeID.ValueString())
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Catalog type with ID %s not found: removing from state.", data.CatalogTypeID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog type, got error: %s", err))
 		return
 	}
@@ -315,15 +316,12 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 
 		tflog.Trace(ctx, fmt.Sprintf("Updating catalog type with attributes: %v", attributes))
 		var err error
-		result, err = r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.CatalogUpdateTypeSchemaPayloadV3{
+		_, err = r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.CatalogUpdateTypeSchemaPayloadV3{
 			Version:    catalogType.Schema.Version,
 			Attributes: attributes,
 		})
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf(string(result.Body))
-		}
 		if err != nil {
-			return errors.Wrap(err, "Unable to update catalog type schema, got error")
+			return fmt.Errorf("unable to update catalog type schema, got error: %w", err)
 		}
 
 		return nil
@@ -370,15 +368,12 @@ func (r *IncidentCatalogTypeAttributeResource) Delete(ctx context.Context, req r
 			attributes = append(attributes, r.attributeToPayload(attribute))
 		}
 
-		result, err := r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.CatalogUpdateTypeSchemaPayloadV3{
+		_, err := r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.CatalogUpdateTypeSchemaPayloadV3{
 			Version:    catalogType.Schema.Version,
 			Attributes: attributes,
 		})
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf(string(result.Body))
-		}
 		if err != nil {
-			return errors.Wrap(err, "Unable to update catalog type schema, got error")
+			return fmt.Errorf("unable to update catalog type schema, got error: %w", err)
 		}
 
 		return nil
@@ -439,11 +434,8 @@ func (r *IncidentCatalogTypeAttributeResource) lockFor(ctx context.Context, cata
 	defer mutex.Unlock()
 
 	typeResult, err := r.client.CatalogV3ShowTypeWithResponse(ctx, catalogTypeID)
-	if err == nil && typeResult.StatusCode() >= 400 {
-		err = fmt.Errorf(string(typeResult.Body))
-	}
 	if err != nil {
-		return errors.Wrap(err, "Unable to get catalog type, got error")
+		return fmt.Errorf("unable to get catalog type, got error: %w", err)
 	}
 
 	return do(ctx, typeResult.JSON200.CatalogType)
