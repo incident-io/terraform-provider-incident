@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"reflect"
 
@@ -361,9 +362,6 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 		WorkingHours: workingHours,
 		TeamIds:      teamIDs,
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create escalation path, got error: %s", err))
 		return
@@ -385,18 +383,14 @@ func (r *IncidentEscalationPathResource) Read(ctx context.Context, req resource.
 
 	result, err := r.client.EscalationsV2ShowPathWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Escalation path with ID %s not found: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path, got error: %s", err))
-		return
-	}
-
-	if result.StatusCode() == 404 {
-		resp.Diagnostics.AddWarning("Not Found", fmt.Sprintf("Unable to read escalation path, got status code: %d", result.StatusCode()))
-		resp.State.RemoveResource(ctx)
-		return
-	}
-
-	if result.StatusCode() >= 400 {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path, got status code: %d", result.StatusCode()))
 		return
 	}
 
@@ -436,9 +430,6 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 		WorkingHours: workingHours,
 		TeamIds:      teamIDs,
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update escalation path, got error: %s", err))
 		return

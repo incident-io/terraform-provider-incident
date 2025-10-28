@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -103,9 +104,6 @@ func (r *IncidentRoleResource) Create(ctx context.Context, req resource.CreateRe
 		Instructions: data.Instructions.ValueString(),
 		Shortform:    data.Shortform.ValueString(),
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create incident role, got error: %s", err))
 		return
@@ -125,12 +123,14 @@ func (r *IncidentRoleResource) Read(ctx context.Context, req resource.ReadReques
 
 	result, err := r.client.IncidentRolesV2ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Incident role with ID %s not found: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read incident role, got error: %s", err))
-		return
-	}
-
-	if result.StatusCode() >= 400 {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read incident role, got status code: %d", result.StatusCode()))
 		return
 	}
 
@@ -151,9 +151,6 @@ func (r *IncidentRoleResource) Update(ctx context.Context, req resource.UpdateRe
 		Instructions: data.Instructions.ValueString(),
 		Shortform:    data.Shortform.ValueString(),
 	})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update incident role, got error: %s", err))
 		return
@@ -170,10 +167,7 @@ func (r *IncidentRoleResource) Delete(ctx context.Context, req resource.DeleteRe
 		return
 	}
 
-	result, err := r.client.IncidentRolesV2DeleteWithResponse(ctx, data.ID.ValueString())
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
+	_, err := r.client.IncidentRolesV2DeleteWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete incident role, got error: %s", err))
 		return

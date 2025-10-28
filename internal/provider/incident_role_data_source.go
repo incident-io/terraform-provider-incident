@@ -93,9 +93,6 @@ func (i *IncidentRoleDataSource) Read(ctx context.Context, req datasource.ReadRe
 			return
 		}
 		result, err := i.client.IncidentRolesV2ShowWithResponse(ctx, data.ID.ValueString())
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf(string(result.Body))
-		}
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read role, got error: %s", err))
 			return

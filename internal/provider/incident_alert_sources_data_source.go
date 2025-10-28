@@ -71,9 +71,6 @@ func (d *IncidentAlertSourcesDataSource) Read(ctx context.Context, req datasourc
 
 	// Get all alert sources
 	result, err := d.client.AlertSourcesV2ListWithResponse(ctx)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf("%s", string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list alert sources, got error: %s", err))
 		return

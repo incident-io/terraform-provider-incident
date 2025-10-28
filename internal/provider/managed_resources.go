@@ -24,10 +24,7 @@ func claimResource(
 		ResourceId:   resourceID,
 	}
 
-	result, err := apiClient.ManagedResourcesV2CreateManagedResourceWithResponse(ctx, payload)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
+	_, err := apiClient.ManagedResourcesV2CreateManagedResourceWithResponse(ctx, payload)
 	if err != nil {
 		diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create managed resource, got error: %s", err))
 		return

@@ -67,9 +67,6 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 			return
 		}
 		result, err := i.client.UsersV2ShowWithResponse(ctx, data.ID.ValueString())
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf(string(result.Body))
-		}
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
 			return
@@ -79,9 +76,6 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 		result, err := i.client.UsersV2ListWithResponse(ctx, &client.UsersV2ListParams{
 			Email: data.Email.ValueStringPointer(),
 		})
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf(string(result.Body))
-		}
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
 			return
@@ -98,9 +92,6 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 		result, err := i.client.UsersV2ListWithResponse(ctx, &client.UsersV2ListParams{
 			SlackUserId: data.SlackUserID.ValueStringPointer(),
 		})
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf(string(result.Body))
-		}
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
 			return

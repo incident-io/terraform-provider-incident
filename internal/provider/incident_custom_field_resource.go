@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -150,9 +151,6 @@ func (r *IncidentCustomFieldResource) Create(ctx context.Context, req resource.C
 	}
 
 	result, err := r.client.CustomFieldsV2CreateWithResponse(ctx, payload)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create custom field '%s', got error: %s", data.Name.ValueString(), err))
 		return
@@ -172,18 +170,14 @@ func (r *IncidentCustomFieldResource) Read(ctx context.Context, req resource.Rea
 
 	result, err := r.client.CustomFieldsV2ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Custom field with ID %s not found: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read custom field, got error: %s", err))
-		return
-	}
-
-	if result.StatusCode() == 404 {
-		resp.Diagnostics.AddWarning("Not Found", fmt.Sprintf("Unable to read custom field, got status code: %d", result.StatusCode()))
-		resp.State.RemoveResource(ctx)
-		return
-	}
-
-	if result.StatusCode() >= 400 {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read custom field, got status code: %d", result.StatusCode()))
 		return
 	}
 
@@ -212,9 +206,6 @@ func (r *IncidentCustomFieldResource) Update(ctx context.Context, req resource.U
 	}
 
 	result, err := r.client.CustomFieldsV2UpdateWithResponse(ctx, data.ID.ValueString(), payload)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update custom field, got error: %s", err))
 		return
