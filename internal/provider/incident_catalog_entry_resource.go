@@ -129,6 +129,7 @@ If you're working with a large number of entries (>100) or want to be authoritat
 			"external_id": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CatalogEntryV2", "external_id"),
 				Optional:            true,
+				Computed:            true,
 			},
 			"aliases": schema.ListAttribute{
 				ElementType: types.StringType,
