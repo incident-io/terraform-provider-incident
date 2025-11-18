@@ -110,10 +110,10 @@ func (r *IncidentAlertAttributeResource) Create(ctx context.Context, req resourc
 
 	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertAttributesV2CreateResponse, error) {
 		result, err := r.client.AlertAttributesV2CreateWithResponse(ctx, requestBody)
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf(string(result.Body))
+		if err != nil {
+			return result, err
 		}
-		return result, err
+		return result, nil
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create alert attribute, got error: %s", err))
@@ -167,10 +167,10 @@ func (r *IncidentAlertAttributeResource) Update(ctx context.Context, req resourc
 
 	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertAttributesV2UpdateResponse, error) {
 		result, err := r.client.AlertAttributesV2UpdateWithResponse(ctx, data.ID.ValueString(), requestBody)
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf(string(result.Body))
+		if err != nil {
+			return result, err
 		}
-		return result, err
+		return result, nil
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update alert attribute, got error: %s", err))
@@ -208,11 +208,15 @@ func (r *IncidentAlertAttributeResource) ImportState(ctx context.Context, req re
 
 	// Get the resource data from API
 	result, err := r.client.AlertAttributesV2ShowWithResponse(ctx, req.ID)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert attribute during import, got error: %s", err))
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Alert attribute with ID %s not found: removing from state.", req.ID))
+			resp.State.RemoveResource(ctx)
+			return
+		}
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert attribute, got error: %s", err))
 		return
 	}
 

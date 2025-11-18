@@ -95,9 +95,6 @@ func (i *IncidentCatalogTypeDataSource) Read(ctx context.Context, req datasource
 	}
 
 	result, err := i.client.CatalogV3ListTypesWithResponse(ctx)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog types, got error: %s", err))
 		return

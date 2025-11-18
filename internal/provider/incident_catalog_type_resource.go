@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -165,9 +166,6 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 	requestBody.Categories = lo.ToPtr(categories)
 
 	result, err := r.client.CatalogV3CreateTypeWithResponse(ctx, requestBody)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create catalog type, got error: %s", err))
 		return
@@ -186,10 +184,14 @@ func (r *IncidentCatalogTypeResource) Read(ctx context.Context, req resource.Rea
 	}
 
 	result, err := r.client.CatalogV3ShowTypeWithResponse(ctx, data.ID.ValueString())
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
+		// Check if error message contains any indication of a 404 not found
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Catalog type with ID %s not found: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog type, got error: %s", err))
 		return
 	}
@@ -235,9 +237,6 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 	requestBody.Categories = lo.ToPtr(categories)
 
 	result, err := r.client.CatalogV3UpdateTypeWithResponse(ctx, data.ID.ValueString(), requestBody)
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf(string(result.Body))
-	}
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update catalog type, got error: %s", err))
 		return

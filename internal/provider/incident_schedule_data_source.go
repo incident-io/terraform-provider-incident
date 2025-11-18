@@ -96,9 +96,6 @@ func (d *IncidentScheduleDataSource) Read(ctx context.Context, req datasource.Re
 	if !data.ID.IsNull() {
 		// Lookup by ID
 		result, err := d.client.SchedulesV2ShowWithResponse(ctx, data.ID.ValueString())
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf(string(result.Body))
-		}
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read schedule, got error: %s", err))
 			return
@@ -143,9 +140,6 @@ func (d *IncidentScheduleDataSource) Read(ctx context.Context, req datasource.Re
 		// Step 3: Fetch schedule by ID using the external ID from catalog entry
 		scheduleID := *catalogEntry.ExternalId
 		result, err := d.client.SchedulesV2ShowWithResponse(ctx, scheduleID)
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf(string(result.Body))
-		}
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read schedule with ID %s, got error: %s", scheduleID, err))
 			return
