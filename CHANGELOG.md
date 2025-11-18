@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.19.0
+
+- Automatically remove resources from Terraform state if they're not found remotely (contribution from @maxtacu)
+
 ## v5.18.0
 
 - We will now allow you to use dynamic variables for `working_intervals` in `incident_schedule`.
