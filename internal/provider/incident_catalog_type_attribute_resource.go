@@ -228,7 +228,7 @@ func (r *IncidentCatalogTypeAttributeResource) Create(ctx context.Context, req r
 		attributes = append(attributes, data.buildAttribute(ctx))
 
 		var err error
-		_, err = r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, catalogType.Id, client.CatalogUpdateTypeSchemaPayloadV3{
+		result, err = r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, catalogType.Id, client.CatalogUpdateTypeSchemaPayloadV3{
 			Version:    catalogType.Schema.Version,
 			Attributes: attributes,
 		})
@@ -316,7 +316,7 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 
 		tflog.Trace(ctx, fmt.Sprintf("Updating catalog type with attributes: %v", attributes))
 		var err error
-		_, err = r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.CatalogUpdateTypeSchemaPayloadV3{
+		result, err = r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, data.CatalogTypeID.ValueString(), client.CatalogUpdateTypeSchemaPayloadV3{
 			Version:    catalogType.Schema.Version,
 			Attributes: attributes,
 		})

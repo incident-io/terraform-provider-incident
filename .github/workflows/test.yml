@@ -3,6 +3,14 @@ name: Tests
 
 on:
   push:
+    branches:
+      - master
+    paths-ignore:
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'DEVELOPING.md'
+  pull_request:
     paths-ignore:
       - 'README.md'
       - 'CHANGELOG.md'
@@ -81,7 +89,6 @@ jobs:
           terraform_wrapper: false
       - run: go mod download
       - env:
-          TF_ACC: "1"
           INCIDENT_API_KEY: ${{ secrets.INCIDENT_API_KEY }}
-        run: go test -v -cover ./internal/provider/
+        run: make testacc
         timeout-minutes: 10

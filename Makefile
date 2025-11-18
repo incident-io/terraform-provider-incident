@@ -7,11 +7,11 @@ default: testacc
 # Run acceptance tests
 .PHONY: testacc
 testacc:
-	TF_ACC=1 go test ./... -v $(TESTARGS) -timeout 2m
+	TF_ACC=1 go test ./internal/provider -v $(TESTARGS)
 
 .PHONY: debug
 debug:
-	TF_ACC=1 dlv test ./internal/provider -v $(TESTARGS) -timeout 2m
+	TF_ACC=1 dlv test ./internal/provider -v $(TESTARGS)
 
 # Installs tools as defined in tools/tools.go
 .PHONY: install

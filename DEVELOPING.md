@@ -21,6 +21,9 @@ export INCIDENT_ENDPOINT="https://incident-io-name.eu.ngrok.io/api/public"
 export INCIDENT_API_KEY="inc_development_<token>"
 ```
 
+>[!NOTE]
+> If you're using `mise` you can set these variables in `.env`
+
 This points the provider at your local instance via ngrok.
 
 If you need to regenerate the client, you first need to copy the following file from `core`:
@@ -34,23 +37,36 @@ And then run `go generate ./internal/client`
 
 ## Running tests
 
-The best way to develop against this provider is to write tests. You can run
-tests either with `make testacc` or targeting tests like so:
-```
-TF_ACC=1 go test ./internal/provider -run=TestAccIncidentEscalationPathResource
-```
-
-If you're running with a debugger:
-```
-TF_ACC=1 dlv test ./internal/provider -- -test.run=TestAccIncidentCatalogEntriesResource
-```
+The best way to develop against this provider is to write tests.
 
 Tests run against a real API, either the production/staging incident.io API or
 whatever you may be running locally (for incident.io staff). If you're staff,
 it's best to use a localhost endpoint for lower latency if possible.
 
-See the above for setting environment variables, otherwise configure your tests
-just as you would for a normal environment.
+To run the tests:
+
+```console
+# Run the whole suite
+$> make testacc
+# Run a single test
+$> make testacc TESTARGS=-run=TestAccIncidentEscalationPathResource
+```
+
+If you're running with a debugger use `make debug` instead:
+
+```console
+# Debug the whole suite
+$> make testacc
+# Debug a single test
+$> make testacc TESTARGS=-run=TestAccIncidentEscalationPathResource
+```
+
+To run the tests with GoLand & Mise:
+
+1. Install the [Mise plugin](https://plugins.jetbrains.com/plugin/24904-mise)
+2. Add a new `Go Test` Run Configuration
+3. In the `Mise` tab of the Run Configuration, check `Use environment variables from mise`
+4. In the `Configuration` tab, add an environment variable `TF_ACC=1`
 
 > [!NOTE]
 > In CI, we do not run tests that require integrations to be installed
