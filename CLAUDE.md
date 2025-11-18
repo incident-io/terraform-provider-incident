@@ -2,6 +2,8 @@ This repository contains the source code for the incident.io Terraform provider.
 - Implement a new resource 
 - Fix a bug reported to the provider
 
+See also CONTRIBUTING.md
+
 # Development guidelines
 
 If you're developing a new resource:
