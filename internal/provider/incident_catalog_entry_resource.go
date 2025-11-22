@@ -313,7 +313,19 @@ func (r *IncidentCatalogEntryResource) Delete(ctx context.Context, req resource.
 		return
 	}
 
-	_, err := r.client.CatalogV2DestroyEntry(ctx, data.ID.ValueString())
+	// Check if the catalog type is editable before attempting to delete the entry
+	catalogTypeResult, err := r.client.CatalogV3ShowTypeWithResponse(ctx, data.CatalogTypeID.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog type, got error: %s", err))
+		return
+	}
+
+	if !catalogTypeResult.JSON200.CatalogType.IsEditable {
+		tflog.Info(ctx, fmt.Sprintf("Skipping deletion of catalog entry %s because catalog type %s is not editable (externally synced)", data.ID.ValueString(), data.CatalogTypeID.ValueString()))
+		return
+	}
+
+	_, err = r.client.CatalogV2DestroyEntry(ctx, data.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete catalog entry, got error: %s", err))
 		return
