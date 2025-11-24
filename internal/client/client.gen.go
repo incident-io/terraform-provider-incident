@@ -98,6 +98,7 @@ const (
 	AlertSourceV2SourceTypeHttpCustom        AlertSourceV2SourceType = "http_custom"
 	AlertSourceV2SourceTypeIncomingCalls     AlertSourceV2SourceType = "incoming_calls"
 	AlertSourceV2SourceTypeJira              AlertSourceV2SourceType = "jira"
+	AlertSourceV2SourceTypeJsm               AlertSourceV2SourceType = "jsm"
 	AlertSourceV2SourceTypeMonteCarlo        AlertSourceV2SourceType = "monte_carlo"
 	AlertSourceV2SourceTypeNagios            AlertSourceV2SourceType = "nagios"
 	AlertSourceV2SourceTypeNewRelic          AlertSourceV2SourceType = "new_relic"
@@ -144,6 +145,7 @@ const (
 	AlertSourcesCreatePayloadV2SourceTypeHttpCustom        AlertSourcesCreatePayloadV2SourceType = "http_custom"
 	AlertSourcesCreatePayloadV2SourceTypeIncomingCalls     AlertSourcesCreatePayloadV2SourceType = "incoming_calls"
 	AlertSourcesCreatePayloadV2SourceTypeJira              AlertSourcesCreatePayloadV2SourceType = "jira"
+	AlertSourcesCreatePayloadV2SourceTypeJsm               AlertSourcesCreatePayloadV2SourceType = "jsm"
 	AlertSourcesCreatePayloadV2SourceTypeMonteCarlo        AlertSourcesCreatePayloadV2SourceType = "monte_carlo"
 	AlertSourcesCreatePayloadV2SourceTypeNagios            AlertSourcesCreatePayloadV2SourceType = "nagios"
 	AlertSourcesCreatePayloadV2SourceTypeNewRelic          AlertSourcesCreatePayloadV2SourceType = "new_relic"
@@ -713,9 +715,10 @@ const (
 
 // Defines values for EscalationPathTargetV2Type.
 const (
-	EscalationPathTargetV2TypeSchedule     EscalationPathTargetV2Type = "schedule"
-	EscalationPathTargetV2TypeSlackChannel EscalationPathTargetV2Type = "slack_channel"
-	EscalationPathTargetV2TypeUser         EscalationPathTargetV2Type = "user"
+	EscalationPathTargetV2TypeMsteamsChannel EscalationPathTargetV2Type = "msteams_channel"
+	EscalationPathTargetV2TypeSchedule       EscalationPathTargetV2Type = "schedule"
+	EscalationPathTargetV2TypeSlackChannel   EscalationPathTargetV2Type = "slack_channel"
+	EscalationPathTargetV2TypeUser           EscalationPathTargetV2Type = "user"
 )
 
 // Defines values for EscalationPathTargetV2Urgency.
@@ -774,6 +777,7 @@ const (
 	ExternalIssueReferenceV1ProviderJira        ExternalIssueReferenceV1Provider = "jira"
 	ExternalIssueReferenceV1ProviderJiraServer  ExternalIssueReferenceV1Provider = "jira_server"
 	ExternalIssueReferenceV1ProviderLinear      ExternalIssueReferenceV1Provider = "linear"
+	ExternalIssueReferenceV1ProviderServiceNow  ExternalIssueReferenceV1Provider = "service_now"
 	ExternalIssueReferenceV1ProviderShortcut    ExternalIssueReferenceV1Provider = "shortcut"
 )
 
@@ -787,6 +791,7 @@ const (
 	ExternalIssueReferenceV2ProviderJira        ExternalIssueReferenceV2Provider = "jira"
 	ExternalIssueReferenceV2ProviderJiraServer  ExternalIssueReferenceV2Provider = "jira_server"
 	ExternalIssueReferenceV2ProviderLinear      ExternalIssueReferenceV2Provider = "linear"
+	ExternalIssueReferenceV2ProviderServiceNow  ExternalIssueReferenceV2Provider = "service_now"
 	ExternalIssueReferenceV2ProviderShortcut    ExternalIssueReferenceV2Provider = "shortcut"
 )
 
@@ -798,6 +803,7 @@ const (
 	ExternalResourceV1ResourceTypeGitlabMergeRequest          ExternalResourceV1ResourceType = "gitlab_merge_request"
 	ExternalResourceV1ResourceTypeGoogleCalendarEvent         ExternalResourceV1ResourceType = "google_calendar_event"
 	ExternalResourceV1ResourceTypeJiraIssue                   ExternalResourceV1ResourceType = "jira_issue"
+	ExternalResourceV1ResourceTypeJsmAlert                    ExternalResourceV1ResourceType = "jsm_alert"
 	ExternalResourceV1ResourceTypeOpsgenieAlert               ExternalResourceV1ResourceType = "opsgenie_alert"
 	ExternalResourceV1ResourceTypeOutlookCalendarEvent        ExternalResourceV1ResourceType = "outlook_calendar_event"
 	ExternalResourceV1ResourceTypePagerDutyIncident           ExternalResourceV1ResourceType = "pager_duty_incident"
@@ -820,10 +826,12 @@ const (
 const (
 	IdentityV1RolesCatalogEditor             IdentityV1Roles = "catalog_editor"
 	IdentityV1RolesCatalogViewer             IdentityV1Roles = "catalog_viewer"
+	IdentityV1RolesEscalationCreator         IdentityV1Roles = "escalation_creator"
 	IdentityV1RolesGlobalAccess              IdentityV1Roles = "global_access"
 	IdentityV1RolesIncidentCreator           IdentityV1Roles = "incident_creator"
 	IdentityV1RolesIncidentEditor            IdentityV1Roles = "incident_editor"
 	IdentityV1RolesIncidentMembershipsEditor IdentityV1Roles = "incident_memberships_editor"
+	IdentityV1RolesInvestigationDownload     IdentityV1Roles = "investigation_download"
 	IdentityV1RolesManageSettings            IdentityV1Roles = "manage_settings"
 	IdentityV1RolesOnCallEditor              IdentityV1Roles = "on_call_editor"
 	IdentityV1RolesPostIncidentFlowOptOut    IdentityV1Roles = "post_incident_flow_opt_out"
@@ -832,6 +840,7 @@ const (
 	IdentityV1RolesSchedulesEditor           IdentityV1Roles = "schedules_editor"
 	IdentityV1RolesSchedulesReader           IdentityV1Roles = "schedules_reader"
 	IdentityV1RolesSecuritySettingsEditor    IdentityV1Roles = "security_settings_editor"
+	IdentityV1RolesTeamMembershipsManage     IdentityV1Roles = "team_memberships_manage"
 	IdentityV1RolesViewer                    IdentityV1Roles = "viewer"
 	IdentityV1RolesWorkflowsEditor           IdentityV1Roles = "workflows_editor"
 )
@@ -844,6 +853,7 @@ const (
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeGitlabMergeRequest          IncidentAttachmentsCreatePayloadV1ResourceResourceType = "gitlab_merge_request"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeGoogleCalendarEvent         IncidentAttachmentsCreatePayloadV1ResourceResourceType = "google_calendar_event"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeJiraIssue                   IncidentAttachmentsCreatePayloadV1ResourceResourceType = "jira_issue"
+	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeJsmAlert                    IncidentAttachmentsCreatePayloadV1ResourceResourceType = "jsm_alert"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeOpsgenieAlert               IncidentAttachmentsCreatePayloadV1ResourceResourceType = "opsgenie_alert"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeOutlookCalendarEvent        IncidentAttachmentsCreatePayloadV1ResourceResourceType = "outlook_calendar_event"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypePagerDutyIncident           IncidentAttachmentsCreatePayloadV1ResourceResourceType = "pager_duty_incident"
@@ -1034,11 +1044,29 @@ const (
 	ManagementMetaV2ManagedByTerraform ManagementMetaV2ManagedBy = "terraform"
 )
 
+// Defines values for ScheduleRotationCreatePayloadV2SchedulingMode.
+const (
+	ScheduleRotationCreatePayloadV2SchedulingModeFair       ScheduleRotationCreatePayloadV2SchedulingMode = "fair"
+	ScheduleRotationCreatePayloadV2SchedulingModeSequential ScheduleRotationCreatePayloadV2SchedulingMode = "sequential"
+)
+
 // Defines values for ScheduleRotationHandoverV2IntervalType.
 const (
 	Daily  ScheduleRotationHandoverV2IntervalType = "daily"
 	Hourly ScheduleRotationHandoverV2IntervalType = "hourly"
 	Weekly ScheduleRotationHandoverV2IntervalType = "weekly"
+)
+
+// Defines values for ScheduleRotationUpdatePayloadV2SchedulingMode.
+const (
+	ScheduleRotationUpdatePayloadV2SchedulingModeFair       ScheduleRotationUpdatePayloadV2SchedulingMode = "fair"
+	ScheduleRotationUpdatePayloadV2SchedulingModeSequential ScheduleRotationUpdatePayloadV2SchedulingMode = "sequential"
+)
+
+// Defines values for ScheduleRotationV2SchedulingMode.
+const (
+	Fair       ScheduleRotationV2SchedulingMode = "fair"
+	Sequential ScheduleRotationV2SchedulingMode = "sequential"
 )
 
 // Defines values for ScheduleRotationWorkingIntervalCreatePayloadV2Weekday.
@@ -1200,6 +1228,7 @@ const (
 	GitlabMergeRequest          IncidentAttachmentsV1ListParamsResourceType = "gitlab_merge_request"
 	GoogleCalendarEvent         IncidentAttachmentsV1ListParamsResourceType = "google_calendar_event"
 	JiraIssue                   IncidentAttachmentsV1ListParamsResourceType = "jira_issue"
+	JsmAlert                    IncidentAttachmentsV1ListParamsResourceType = "jsm_alert"
 	OpsgenieAlert               IncidentAttachmentsV1ListParamsResourceType = "opsgenie_alert"
 	OutlookCalendarEvent        IncidentAttachmentsV1ListParamsResourceType = "outlook_calendar_event"
 	PagerDutyIncident           IncidentAttachmentsV1ListParamsResourceType = "pager_duty_incident"
@@ -1288,6 +1317,7 @@ type ActionV2 struct {
 
 	// CreatedAt When the action was created
 	CreatedAt time.Time `json:"created_at"`
+	Creator   ActorV2   `json:"creator"`
 
 	// Description Description of the action
 	Description string `json:"description"`
@@ -1336,9 +1366,10 @@ type ActorV1 struct {
 
 // ActorV2 defines model for ActorV2.
 type ActorV2 struct {
-	Alert  *AlertActorV2 `json:"alert,omitempty"`
-	ApiKey *APIKeyV2     `json:"api_key,omitempty"`
-	User   *UserV2       `json:"user,omitempty"`
+	Alert    *AlertActorV2    `json:"alert,omitempty"`
+	ApiKey   *APIKeyV2        `json:"api_key,omitempty"`
+	User     *UserV2          `json:"user,omitempty"`
+	Workflow *WorkflowActorV2 `json:"workflow,omitempty"`
 }
 
 // AfterPaginationMetaResultV2 defines model for AfterPaginationMetaResultV2.
@@ -2082,6 +2113,18 @@ type AlertsListResultV2 struct {
 // AlertsShowResultV2 defines model for AlertsShowResultV2.
 type AlertsShowResultV2 struct {
 	Alert AlertV2 `json:"alert"`
+}
+
+// CatalogBulkUpdateEntriesPayloadV3 defines model for CatalogBulkUpdateEntriesPayloadV3.
+type CatalogBulkUpdateEntriesPayloadV3 struct {
+	// CatalogTypeId The unique identifier of the catalog type containing the entries
+	CatalogTypeId string `json:"catalog_type_id"`
+
+	// Entries A list of entries to update with their new values. Maximum 100 entries per request.
+	Entries []PartialEntryPayloadV3 `json:"entries"`
+
+	// UpdateAttributes Optional list of specific attribute IDs to update across all entries. When provided, only these attributes will be updated and all other attributes will be preserved. When omitted, all attributes in each entry's attribute_values will be updated.
+	UpdateAttributes *[]string `json:"update_attributes,omitempty"`
 }
 
 // CatalogCreateEntryPayloadV2 defines model for CatalogCreateEntryPayloadV2.
@@ -3866,6 +3909,29 @@ type EscalationsCreatePathResultV2 struct {
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
+// EscalationsCreatePayloadV2 defines model for EscalationsCreatePayloadV2.
+type EscalationsCreatePayloadV2 struct {
+	// Description Additional details about the escalation
+	Description *string `json:"description,omitempty"`
+
+	// EscalationPathId ID of the escalation path to follow
+	EscalationPathId *string `json:"escalation_path_id,omitempty"`
+
+	// IdempotencyKey Unique key to prevent duplicate escalations. If this key has already been used, the existing escalation will be returned.
+	IdempotencyKey string `json:"idempotency_key"`
+
+	// Title The title of the escalation. This message will be included in all notifications about this escalation.
+	Title string `json:"title"`
+
+	// UserIds IDs of users to escalate directly to
+	UserIds *[]string `json:"user_ids,omitempty"`
+}
+
+// EscalationsCreateResultV2 defines model for EscalationsCreateResultV2.
+type EscalationsCreateResultV2 struct {
+	Escalation EscalationV2 `json:"escalation"`
+}
+
 // EscalationsListResultV2 defines model for EscalationsListResultV2.
 type EscalationsListResultV2 struct {
 	Escalations    []EscalationV2         `json:"escalations"`
@@ -4122,6 +4188,7 @@ type FollowUpV2 struct {
 
 	// CreatedAt When the follow-up was created
 	CreatedAt time.Time `json:"created_at"`
+	Creator   ActorV2   `json:"creator"`
 
 	// Description Description of the follow-up
 	Description            *string                   `json:"description,omitempty"`
@@ -4131,8 +4198,11 @@ type FollowUpV2 struct {
 	Id string `json:"id"`
 
 	// IncidentId Unique identifier of the incident the follow-up belongs to
-	IncidentId string              `json:"incident_id"`
-	Priority   *FollowUpPriorityV2 `json:"priority,omitempty"`
+	IncidentId string `json:"incident_id"`
+
+	// Labels Labels associated with this follow-up
+	Labels   []string            `json:"labels"`
+	Priority *FollowUpPriorityV2 `json:"priority,omitempty"`
 
 	// Status Status of the follow-up
 	Status FollowUpV2Status `json:"status"`
@@ -5251,6 +5321,27 @@ type PaginationMetaResultWithTotalV2 struct {
 	TotalRecordCount *int64 `json:"total_record_count,omitempty"`
 }
 
+// PartialEntryPayloadV3 Represents a partial entry update, allowing selective field updates
+type PartialEntryPayloadV3 struct {
+	// Aliases If specified, will update the aliases of the entry. When omitted, preserves the existing aliases.
+	Aliases *[]string `json:"aliases,omitempty"`
+
+	// AttributeValues The attribute values to apply to this entry
+	AttributeValues map[string]CatalogEngineParamBindingPayloadV3 `json:"attribute_values"`
+
+	// EntryId ID of the relevant catalog entry
+	EntryId string `json:"entry_id"`
+
+	// ExternalId If specified, will update the external ID of the entry. When omitted, preserves the existing external ID.
+	ExternalId *string `json:"external_id,omitempty"`
+
+	// Name If specified, will update the name of the entry. When omitted, preserves the existing name.
+	Name *string `json:"name,omitempty"`
+
+	// Rank If specified, will update the rank of the entry. When omitted, rank will be set to null (allowing rank removal).
+	Rank *int32 `json:"rank,omitempty"`
+}
+
 // RBACRoleV2 defines model for RBACRoleV2.
 type RBACRoleV2 struct {
 	// Description Description of the purpose for the RBAC role
@@ -5421,10 +5512,16 @@ type ScheduleRotationCreatePayloadV2 struct {
 	Layers *[]ScheduleLayerCreatePayloadV2 `json:"layers,omitempty"`
 
 	// Name Name of the rotation
-	Name            string                                            `json:"name"`
+	Name string `json:"name"`
+
+	// SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
+	SchedulingMode  *ScheduleRotationCreatePayloadV2SchedulingMode    `json:"scheduling_mode,omitempty"`
 	Users           *[]UserReferencePayloadV2                         `json:"users,omitempty"`
 	WorkingInterval *[]ScheduleRotationWorkingIntervalCreatePayloadV2 `json:"working_interval,omitempty"`
 }
+
+// ScheduleRotationCreatePayloadV2SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
+type ScheduleRotationCreatePayloadV2SchedulingMode string
 
 // ScheduleRotationHandoverV2 defines model for ScheduleRotationHandoverV2.
 type ScheduleRotationHandoverV2 struct {
@@ -5448,10 +5545,16 @@ type ScheduleRotationUpdatePayloadV2 struct {
 	Layers *[]ScheduleLayerUpdatePayloadV2 `json:"layers,omitempty"`
 
 	// Name Name of the rotation
-	Name            *string                              `json:"name,omitempty"`
-	Users           *[]UserReferencePayloadV2            `json:"users,omitempty"`
-	WorkingInterval *[]ScheduleRotationWorkingIntervalV2 `json:"working_interval,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
+	SchedulingMode  *ScheduleRotationUpdatePayloadV2SchedulingMode `json:"scheduling_mode,omitempty"`
+	Users           *[]UserReferencePayloadV2                      `json:"users,omitempty"`
+	WorkingInterval *[]ScheduleRotationWorkingIntervalV2           `json:"working_interval,omitempty"`
 }
+
+// ScheduleRotationUpdatePayloadV2SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
+type ScheduleRotationUpdatePayloadV2SchedulingMode string
 
 // ScheduleRotationV2 defines model for ScheduleRotationV2.
 type ScheduleRotationV2 struct {
@@ -5473,6 +5576,9 @@ type ScheduleRotationV2 struct {
 	// Name Human readable name synced from external provider
 	Name string `json:"name"`
 
+	// SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
+	SchedulingMode *ScheduleRotationV2SchedulingMode `json:"scheduling_mode,omitempty"`
+
 	// Users Users who are available to be scheduled on this rota
 	Users []UserV2 `json:"users"`
 
@@ -5482,6 +5588,9 @@ type ScheduleRotationV2 struct {
 	// WorkingIntervals Optional restrictions that define when to schedule people for this rota
 	WorkingIntervals []ScheduleRotationWorkingIntervalV2 `json:"working_intervals"`
 }
+
+// ScheduleRotationV2SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
+type ScheduleRotationV2SchedulingMode string
 
 // ScheduleRotationWorkingIntervalCreatePayloadV2 defines model for ScheduleRotationWorkingIntervalCreatePayloadV2.
 type ScheduleRotationWorkingIntervalCreatePayloadV2 struct {
@@ -6541,6 +6650,9 @@ type EscalationsV2CreatePathJSONRequestBody = EscalationsCreatePathPayloadV2
 // EscalationsV2UpdatePathJSONRequestBody defines body for EscalationsV2UpdatePath for application/json ContentType.
 type EscalationsV2UpdatePathJSONRequestBody = EscalationsUpdatePathPayloadV2
 
+// EscalationsV2CreateJSONRequestBody defines body for EscalationsV2Create for application/json ContentType.
+type EscalationsV2CreateJSONRequestBody = EscalationsCreatePayloadV2
+
 // IncidentRolesV2CreateJSONRequestBody defines body for IncidentRolesV2Create for application/json ContentType.
 type IncidentRolesV2CreateJSONRequestBody = IncidentRolesCreatePayloadV2
 
@@ -6573,6 +6685,9 @@ type WorkflowsV2UpdateWorkflowJSONRequestBody = WorkflowsUpdateWorkflowPayloadV2
 
 // CatalogV3CreateEntryJSONRequestBody defines body for CatalogV3CreateEntry for application/json ContentType.
 type CatalogV3CreateEntryJSONRequestBody = CatalogCreateEntryPayloadV3
+
+// CatalogV3BulkUpdateEntriesJSONRequestBody defines body for CatalogV3BulkUpdateEntries for application/json ContentType.
+type CatalogV3BulkUpdateEntriesJSONRequestBody = CatalogBulkUpdateEntriesPayloadV3
 
 // CatalogV3UpdateEntryJSONRequestBody defines body for CatalogV3UpdateEntry for application/json ContentType.
 type CatalogV3UpdateEntryJSONRequestBody = CatalogUpdateEntryPayloadV3
@@ -6979,6 +7094,11 @@ type ClientInterface interface {
 	// EscalationsV2List request
 	EscalationsV2List(ctx context.Context, params *EscalationsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// EscalationsV2CreateWithBody request with any body
+	EscalationsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	EscalationsV2Create(ctx context.Context, body EscalationsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// EscalationsV2Show request
 	EscalationsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -7099,6 +7219,11 @@ type ClientInterface interface {
 	CatalogV3CreateEntryWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	CatalogV3CreateEntry(ctx context.Context, body CatalogV3CreateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CatalogV3BulkUpdateEntriesWithBody request with any body
+	CatalogV3BulkUpdateEntriesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CatalogV3BulkUpdateEntries(ctx context.Context, body CatalogV3BulkUpdateEntriesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// CatalogV3DestroyEntry request
 	CatalogV3DestroyEntry(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -8543,6 +8668,30 @@ func (c *Client) EscalationsV2List(ctx context.Context, params *EscalationsV2Lis
 	return c.Client.Do(req)
 }
 
+func (c *Client) EscalationsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EscalationsV2Create(ctx context.Context, body EscalationsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) EscalationsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewEscalationsV2ShowRequest(c.Server, id)
 	if err != nil {
@@ -9061,6 +9210,30 @@ func (c *Client) CatalogV3CreateEntryWithBody(ctx context.Context, contentType s
 
 func (c *Client) CatalogV3CreateEntry(ctx context.Context, body CatalogV3CreateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewCatalogV3CreateEntryRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV3BulkUpdateEntriesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV3BulkUpdateEntriesRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CatalogV3BulkUpdateEntries(ctx context.Context, body CatalogV3BulkUpdateEntriesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCatalogV3BulkUpdateEntriesRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -12892,6 +13065,46 @@ func NewEscalationsV2ListRequest(server string, params *EscalationsV2ListParams)
 	return req, nil
 }
 
+// NewEscalationsV2CreateRequest calls the generic EscalationsV2Create builder with application/json body
+func NewEscalationsV2CreateRequest(server string, body EscalationsV2CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationsV2CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewEscalationsV2CreateRequestWithBody generates requests for EscalationsV2Create with any type of body
+func NewEscalationsV2CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalations")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewEscalationsV2ShowRequest generates requests for EscalationsV2Show
 func NewEscalationsV2ShowRequest(server string, id string) (*http.Request, error) {
 	var err error
@@ -14613,6 +14826,46 @@ func NewCatalogV3CreateEntryRequestWithBody(server string, contentType string, b
 	return req, nil
 }
 
+// NewCatalogV3BulkUpdateEntriesRequest calls the generic CatalogV3BulkUpdateEntries builder with application/json body
+func NewCatalogV3BulkUpdateEntriesRequest(server string, body CatalogV3BulkUpdateEntriesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCatalogV3BulkUpdateEntriesRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCatalogV3BulkUpdateEntriesRequestWithBody generates requests for CatalogV3BulkUpdateEntries with any type of body
+func NewCatalogV3BulkUpdateEntriesRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/catalog_entries/actions/bulk_update")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewCatalogV3DestroyEntryRequest generates requests for CatalogV3DestroyEntry
 func NewCatalogV3DestroyEntryRequest(server string, id string) (*http.Request, error) {
 	var err error
@@ -15347,6 +15600,11 @@ type ClientWithResponsesInterface interface {
 	// EscalationsV2ListWithResponse request
 	EscalationsV2ListWithResponse(ctx context.Context, params *EscalationsV2ListParams, reqEditors ...RequestEditorFn) (*EscalationsV2ListResponse, error)
 
+	// EscalationsV2CreateWithBodyWithResponse request with any body
+	EscalationsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2CreateResponse, error)
+
+	EscalationsV2CreateWithResponse(ctx context.Context, body EscalationsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2CreateResponse, error)
+
 	// EscalationsV2ShowWithResponse request
 	EscalationsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV2ShowResponse, error)
 
@@ -15467,6 +15725,11 @@ type ClientWithResponsesInterface interface {
 	CatalogV3CreateEntryWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV3CreateEntryResponse, error)
 
 	CatalogV3CreateEntryWithResponse(ctx context.Context, body CatalogV3CreateEntryJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV3CreateEntryResponse, error)
+
+	// CatalogV3BulkUpdateEntriesWithBodyWithResponse request with any body
+	CatalogV3BulkUpdateEntriesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV3BulkUpdateEntriesResponse, error)
+
+	CatalogV3BulkUpdateEntriesWithResponse(ctx context.Context, body CatalogV3BulkUpdateEntriesJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV3BulkUpdateEntriesResponse, error)
 
 	// CatalogV3DestroyEntryWithResponse request
 	CatalogV3DestroyEntryWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CatalogV3DestroyEntryResponse, error)
@@ -17385,6 +17648,28 @@ func (r EscalationsV2ListResponse) StatusCode() int {
 	return 0
 }
 
+type EscalationsV2CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *EscalationsCreateResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV2CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV2CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type EscalationsV2ShowResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -18102,6 +18387,27 @@ func (r CatalogV3CreateEntryResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r CatalogV3CreateEntryResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CatalogV3BulkUpdateEntriesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r CatalogV3BulkUpdateEntriesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CatalogV3BulkUpdateEntriesResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -19348,6 +19654,23 @@ func (c *ClientWithResponses) EscalationsV2ListWithResponse(ctx context.Context,
 	return ParseEscalationsV2ListResponse(rsp)
 }
 
+// EscalationsV2CreateWithBodyWithResponse request with arbitrary body returning *EscalationsV2CreateResponse
+func (c *ClientWithResponses) EscalationsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2CreateResponse, error) {
+	rsp, err := c.EscalationsV2CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2CreateResponse(rsp)
+}
+
+func (c *ClientWithResponses) EscalationsV2CreateWithResponse(ctx context.Context, body EscalationsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2CreateResponse, error) {
+	rsp, err := c.EscalationsV2Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2CreateResponse(rsp)
+}
+
 // EscalationsV2ShowWithResponse request returning *EscalationsV2ShowResponse
 func (c *ClientWithResponses) EscalationsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV2ShowResponse, error) {
 	rsp, err := c.EscalationsV2Show(ctx, id, reqEditors...)
@@ -19731,6 +20054,23 @@ func (c *ClientWithResponses) CatalogV3CreateEntryWithResponse(ctx context.Conte
 		return nil, err
 	}
 	return ParseCatalogV3CreateEntryResponse(rsp)
+}
+
+// CatalogV3BulkUpdateEntriesWithBodyWithResponse request with arbitrary body returning *CatalogV3BulkUpdateEntriesResponse
+func (c *ClientWithResponses) CatalogV3BulkUpdateEntriesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV3BulkUpdateEntriesResponse, error) {
+	rsp, err := c.CatalogV3BulkUpdateEntriesWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV3BulkUpdateEntriesResponse(rsp)
+}
+
+func (c *ClientWithResponses) CatalogV3BulkUpdateEntriesWithResponse(ctx context.Context, body CatalogV3BulkUpdateEntriesJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV3BulkUpdateEntriesResponse, error) {
+	rsp, err := c.CatalogV3BulkUpdateEntries(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCatalogV3BulkUpdateEntriesResponse(rsp)
 }
 
 // CatalogV3DestroyEntryWithResponse request returning *CatalogV3DestroyEntryResponse
@@ -21951,6 +22291,32 @@ func ParseEscalationsV2ListResponse(rsp *http.Response) (*EscalationsV2ListRespo
 	return response, nil
 }
 
+// ParseEscalationsV2CreateResponse parses an HTTP response from a EscalationsV2CreateWithResponse call
+func ParseEscalationsV2CreateResponse(rsp *http.Response) (*EscalationsV2CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV2CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest EscalationsCreateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseEscalationsV2ShowResponse parses an HTTP response from a EscalationsV2ShowWithResponse call
 func ParseEscalationsV2ShowResponse(rsp *http.Response) (*EscalationsV2ShowResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -22774,6 +23140,22 @@ func ParseCatalogV3CreateEntryResponse(rsp *http.Response) (*CatalogV3CreateEntr
 		}
 		response.JSON201 = &dest
 
+	}
+
+	return response, nil
+}
+
+// ParseCatalogV3BulkUpdateEntriesResponse parses an HTTP response from a CatalogV3BulkUpdateEntriesWithResponse call
+func ParseCatalogV3BulkUpdateEntriesResponse(rsp *http.Response) (*CatalogV3BulkUpdateEntriesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CatalogV3BulkUpdateEntriesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
 	}
 
 	return response, nil

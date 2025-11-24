@@ -350,6 +350,24 @@ type catalogEntryModelPayload struct {
 	Payload        client.CatalogCreateEntryPayloadV3
 }
 
+// updatePayload wraps a payload with its existing entry ID for bulk updates.
+type updatePayload struct {
+	entryID string
+	payload *catalogEntryModelPayload
+}
+
+// toPartialEntryPayload converts an updatePayload to the format required by the bulk update API.
+func (u updatePayload) toPartialEntryPayload() client.PartialEntryPayloadV3 {
+	return client.PartialEntryPayloadV3{
+		EntryId:         u.entryID,
+		Name:            &u.payload.Payload.Name,
+		ExternalId:      u.payload.Payload.ExternalId,
+		Rank:            u.payload.Payload.Rank,
+		Aliases:         u.payload.Payload.Aliases,
+		AttributeValues: u.payload.Payload.AttributeValues,
+	}
+}
+
 // buildPayloads produces a list of payloads that are used to either create or update an
 // entry depending on whether we're already tracking it in our model.
 func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) []*catalogEntryModelPayload {
@@ -514,98 +532,108 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 		entriesByExternalID[*entry.ExternalId] = lo.ToPtr(entry)
 	}
 
-	{
-		g, ctx := errgroup.WithContext(ctx)
-		g.SetLimit(10)
+	// Separate entries into those that need updating vs creating
+	var (
+		toUpdate []updatePayload
+		toCreate []*catalogEntryModelPayload
+	)
 
-		// For everything in our model, we know we either want to create or update it.
-	eachPayload:
-		for _, payload := range data.buildPayloads(ctx) {
-			var (
-				payload      = payload              // alias this for concurrent loop
-				shouldUpdate bool                   // mark this if we think we should update things
-				entry        *client.CatalogEntryV3 // existing entry
-			)
+	for _, payload := range data.buildPayloads(ctx) {
+		entry, alreadyExists := entriesByExternalID[*payload.Payload.ExternalId]
+		if alreadyExists && entry != nil {
+			// If we found the entry in the list of all entries, then we need to diff it and
+			// update as appropriate.
+			isSame :=
+				reflect.DeepEqual(payload.Payload.Name, entry.Name) &&
+					reflect.DeepEqual(payload.Payload.Aliases, entry.Aliases) &&
+					(payload.Payload.Rank == nil || (*payload.Payload.Rank == entry.Rank))
 
-			entry, alreadyExists := entriesByExternalID[*payload.Payload.ExternalId]
-			if alreadyExists {
-				// If we found the entry in the list of all entries, then we need to diff it and
-				// update as appropriate.
-				if entry != nil {
-					isSame :=
-						reflect.DeepEqual(payload.Payload.Name, entry.Name) &&
-							reflect.DeepEqual(payload.Payload.Aliases, entry.Aliases) &&
-							(payload.Payload.Rank == nil || (*payload.Payload.Rank == entry.Rank))
-
-					for attributeID, value := range entry.AttributeValues {
-						current := client.CatalogEngineParamBindingPayloadV3{}
-						if value.ArrayValue != nil {
-							current.ArrayValue = lo.ToPtr(lo.Map(*value.ArrayValue, func(binding client.CatalogEntryEngineParamBindingValueV3, _ int) client.CatalogEngineParamBindingValuePayloadV3 {
-								return client.CatalogEngineParamBindingValuePayloadV3{
-									Literal: binding.Literal,
-								}
-							}))
+			for attributeID, value := range entry.AttributeValues {
+				current := client.CatalogEngineParamBindingPayloadV3{}
+				if value.ArrayValue != nil {
+					current.ArrayValue = lo.ToPtr(lo.Map(*value.ArrayValue, func(binding client.CatalogEntryEngineParamBindingValueV3, _ int) client.CatalogEngineParamBindingValuePayloadV3 {
+						return client.CatalogEngineParamBindingValuePayloadV3{
+							Literal: binding.Literal,
 						}
-						if value.Value != nil {
-							current.Value = &client.CatalogEngineParamBindingValuePayloadV3{
-								Literal: value.Value.Literal,
-							}
-						}
-
-						if data.isAttributeManaged(attributeID) && !reflect.DeepEqual(payload.Payload.AttributeValues[attributeID], current) {
-							tflog.Debug(ctx, fmt.Sprintf("catalog entry with id=%s has changed, scheduling for update", entry.Id))
-							isSame = false
-						}
-
+					}))
+				}
+				if value.Value != nil {
+					current.Value = &client.CatalogEngineParamBindingValuePayloadV3{
+						Literal: value.Value.Literal,
 					}
+				}
 
-					if isSame {
-						tflog.Debug(ctx, fmt.Sprintf("catalog entry with id=%s has not changed, not updating", entry.Id))
-						continue eachPayload
-					} else {
-						tflog.Debug(ctx, fmt.Sprintf("catalog entry with id=%s has changed, scheduling for update", entry.Id))
-						shouldUpdate = true
-					}
+				if data.isAttributeManaged(attributeID) && !reflect.DeepEqual(payload.Payload.AttributeValues[attributeID], current) {
+					tflog.Debug(ctx, fmt.Sprintf("catalog entry with id=%s has changed, scheduling for update", entry.Id))
+					isSame = false
 				}
 			}
 
+			if isSame {
+				tflog.Debug(ctx, fmt.Sprintf("catalog entry with id=%s has not changed, not updating", entry.Id))
+				continue
+			}
+
+			tflog.Debug(ctx, fmt.Sprintf("catalog entry with id=%s has changed, scheduling for update", entry.Id))
+			toUpdate = append(toUpdate, updatePayload{
+				entryID: entry.Id,
+				payload: payload,
+			})
+		} else {
+			// Entry doesn't exist, need to create it
+			toCreate = append(toCreate, payload)
+		}
+	}
+
+	tflog.Debug(ctx, fmt.Sprintf("found %d entries to update, %d entries to create", len(toUpdate), len(toCreate)))
+
+	// Bulk update entries in batches of 100
+	if len(toUpdate) > 0 {
+		batches := lo.Chunk(toUpdate, 100)
+		for i, batch := range batches {
+			partialEntries := lo.Map(batch, func(u updatePayload, _ int) client.PartialEntryPayloadV3 {
+				return u.toPartialEntryPayload()
+			})
+
+			_, err := r.client.CatalogV3BulkUpdateEntriesWithResponse(ctx, client.CatalogBulkUpdateEntriesPayloadV3{
+				CatalogTypeId:    data.ID.ValueString(),
+				Entries:          partialEntries,
+				UpdateAttributes: data.buildUpdateAttributes(ctx),
+			})
+			if err != nil {
+				return nil, nil, errors.Wrap(err, fmt.Sprintf("unable to bulk update catalog entries (batch %d of %d)", i+1, len(batches)))
+			}
+
+			tflog.Debug(ctx, fmt.Sprintf("bulk updated %d catalog entries (batch %d of %d)", len(batch), i+1, len(batches)))
+		}
+	}
+
+	// Create new entries concurrently
+	if len(toCreate) > 0 {
+		g, ctx := errgroup.WithContext(ctx)
+		g.SetLimit(10)
+
+		for _, payload := range toCreate {
 			g.Go(func() error {
-				if shouldUpdate {
-					_, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, entry.Id, client.CatalogUpdateEntryPayloadV3{
-						Name:             payload.Payload.Name,
-						ExternalId:       payload.Payload.ExternalId,
-						Rank:             payload.Payload.Rank,
-						Aliases:          payload.Payload.Aliases,
-						AttributeValues:  payload.Payload.AttributeValues,
-						UpdateAttributes: data.buildUpdateAttributes(ctx),
-					})
-					if err != nil {
-						return errors.Wrap(err, fmt.Sprintf("unable to update catalog entry with id=%s, got error", entry.Id))
-					}
-
-					tflog.Debug(ctx, fmt.Sprintf("updated catalog entry with id=%s", entry.Id))
-				} else {
-					result, err := r.client.CatalogV3CreateEntryWithResponse(ctx, client.CatalogCreateEntryPayloadV3{
-						CatalogTypeId:   data.ID.ValueString(),
-						Name:            payload.Payload.Name,
-						ExternalId:      payload.Payload.ExternalId,
-						Rank:            payload.Payload.Rank,
-						Aliases:         payload.Payload.Aliases,
-						AttributeValues: payload.Payload.AttributeValues,
-					})
-					if err != nil {
-						return errors.Wrap(err, fmt.Sprintf("unable to create catalog entry with external_id=%s, got error", *payload.Payload.ExternalId))
-					}
-
-					tflog.Debug(ctx, fmt.Sprintf("created a catalog entry resource with id=%s", result.JSON201.CatalogEntry.Id))
+				result, err := r.client.CatalogV3CreateEntryWithResponse(ctx, client.CatalogCreateEntryPayloadV3{
+					CatalogTypeId:   data.ID.ValueString(),
+					Name:            payload.Payload.Name,
+					ExternalId:      payload.Payload.ExternalId,
+					Rank:            payload.Payload.Rank,
+					Aliases:         payload.Payload.Aliases,
+					AttributeValues: payload.Payload.AttributeValues,
+				})
+				if err != nil {
+					return errors.Wrap(err, fmt.Sprintf("unable to create catalog entry with external_id=%s, got error", *payload.Payload.ExternalId))
 				}
 
+				tflog.Debug(ctx, fmt.Sprintf("created a catalog entry resource with id=%s", result.JSON201.CatalogEntry.Id))
 				return nil
 			})
 		}
 
 		if err := g.Wait(); err != nil {
-			return nil, nil, errors.Wrap(err, "reconciling catalog entries")
+			return nil, nil, errors.Wrap(err, "creating catalog entries")
 		}
 	}
 
