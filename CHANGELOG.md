@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.19.1
+
 - Performance improvement: `incident_catalog_entries` now uses bulk update API to batch updates in groups of 100, significantly reducing API calls for large catalog syncs
 
 ## v5.19.0
