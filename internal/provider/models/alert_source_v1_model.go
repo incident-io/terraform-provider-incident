@@ -26,8 +26,7 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 
 	var visibleToTeams *IncidentEngineParamBinding
 	if source.Template.VisibleToTeams != nil {
-		v := IncidentEngineParamBinding{}.FromAPI(*source.Template.VisibleToTeams)
-		visibleToTeams = &v
+		visibleToTeams = lo.ToPtr(IncidentEngineParamBinding{}.FromAPI(*source.Template.VisibleToTeams))
 	}
 
 	return AlertSourceResourceModel{
