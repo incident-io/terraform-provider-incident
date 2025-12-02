@@ -1,5 +1,13 @@
 ## Unreleased
 
+## v5.20.0
+
+- Improve terraform plan performance by using a list type rather than set for `array_values`
+
+## v5.19.1
+
+- Performance improvement: `incident_catalog_entries` now uses bulk update API to batch updates in groups of 100, significantly reducing API calls for large catalog syncs
+
 ## v5.19.0
 
 - Automatically remove resources from Terraform state if they're not found remotely (contribution from @maxtacu)

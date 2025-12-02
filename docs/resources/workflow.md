@@ -124,7 +124,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--condition_groups--conditions--param_bindings--array_value"></a>
@@ -213,7 +213,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value"></a>
@@ -242,7 +242,7 @@ Optional:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--result--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--result--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--result--value))
 
 <a id="nestedatt--expressions--operations--branches--branches--result--array_value"></a>
@@ -303,7 +303,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value"></a>
@@ -367,7 +367,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--else_branch--result--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--else_branch--result--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--else_branch--result--value))
 
 <a id="nestedatt--expressions--else_branch--result--array_value"></a>
@@ -409,7 +409,7 @@ Optional:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--steps--param_bindings--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--steps--param_bindings--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--steps--param_bindings--value))
 
 <a id="nestedatt--steps--param_bindings--array_value"></a>

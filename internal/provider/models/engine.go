@@ -293,7 +293,7 @@ func ParamBindingValueAttributes() map[string]schema.Attribute {
 
 func ParamBindingAttributes() map[string]schema.Attribute {
 	return map[string]schema.Attribute{
-		"array_value": schema.SetNestedAttribute{
+		"array_value": schema.ListNestedAttribute{
 			MarkdownDescription: "The array of literal or reference parameter values",
 			Optional:            true,
 			NestedObject: schema.NestedAttributeObject{
