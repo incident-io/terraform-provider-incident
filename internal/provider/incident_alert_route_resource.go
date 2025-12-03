@@ -150,6 +150,7 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 					},
 					"auto_relate_grouped_alerts": schema.BoolAttribute{
 						Optional:            true,
+						Computed:            true,
 						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "auto_relate_grouped_alerts"),
 					},
 					"enabled": schema.BoolAttribute{
