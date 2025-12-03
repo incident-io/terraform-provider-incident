@@ -81,6 +81,7 @@ func TestAccIncidentAlertRouteResourceComprehensive(t *testing.T) {
 
 					// Check incident config
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.auto_decline_enabled", "false"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.auto_relate_grouped_alerts", "false"),
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.enabled", "true"),
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.defer_time_seconds", "300"),
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.grouping_window_seconds", "1800"),
@@ -338,12 +339,13 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
     }
 
     incident_config = {
-      auto_decline_enabled    = false
-      enabled                 = true
-      condition_groups        = []
-      defer_time_seconds      = 300
-      grouping_keys           = []
-      grouping_window_seconds = 1800
+      auto_decline_enabled       = false
+      auto_relate_grouped_alerts = false
+      enabled                    = true
+      condition_groups           = []
+      defer_time_seconds         = 300
+      grouping_keys              = []
+      grouping_window_seconds    = 1800
     }
 
     incident_template = {
@@ -434,12 +436,13 @@ resource "incident_alert_route" "test" {
   }
 
   incident_config = {
-    auto_decline_enabled    = true
-    condition_groups        = []
-    defer_time_seconds      = 0
-    grouping_keys           = []
-    grouping_window_seconds = 0
-    enabled                 = true
+    auto_decline_enabled       = true
+    auto_relate_grouped_alerts = false
+    condition_groups           = []
+    defer_time_seconds         = 0
+    grouping_keys              = []
+    grouping_window_seconds    = 0
+    enabled                    = true
   }
 
   incident_template = {
@@ -574,12 +577,13 @@ resource "incident_alert_route" "auto_gen" {
   }
 
   incident_config = {
-    auto_decline_enabled    = false
-    enabled                 = true
-    condition_groups        = []
-    defer_time_seconds      = 300
-    grouping_keys           = []
-    grouping_window_seconds = 1800
+    auto_decline_enabled       = false
+    auto_relate_grouped_alerts = false
+    enabled                    = true
+    condition_groups           = []
+    defer_time_seconds         = 300
+    grouping_keys              = []
+    grouping_window_seconds    = 1800
   }
 
   incident_template = {
@@ -729,12 +733,13 @@ resource "incident_alert_route" "comprehensive" {
   }
 
   incident_config = {
-    auto_decline_enabled    = false
-    enabled                 = true
-    condition_groups        = []
-    defer_time_seconds      = 300
-    grouping_keys           = []
-    grouping_window_seconds = 1800
+    auto_decline_enabled       = false
+    auto_relate_grouped_alerts = false
+    enabled                    = true
+    condition_groups           = []
+    defer_time_seconds         = 300
+    grouping_keys              = []
+    grouping_window_seconds    = 1800
   }
 
   incident_template = {
@@ -894,12 +899,13 @@ resource "incident_alert_route" "channel_config_test" {
   }
 
   incident_config = {
-    auto_decline_enabled    = false
-    enabled                 = true
-    condition_groups        = []
-    defer_time_seconds      = 300
-    grouping_keys           = []
-    grouping_window_seconds = 1800
+    auto_decline_enabled       = false
+    auto_relate_grouped_alerts = false
+    enabled                    = true
+    condition_groups           = []
+    defer_time_seconds         = 300
+    grouping_keys              = []
+    grouping_window_seconds    = 1800
   }
 
   incident_template = {
@@ -1036,12 +1042,13 @@ resource "incident_alert_route" "channel_config_test" {
   }
 
   incident_config = {
-    auto_decline_enabled    = false
-    enabled                 = true
-    condition_groups        = []
-    defer_time_seconds      = 300
-    grouping_keys           = []
-    grouping_window_seconds = 1800
+    auto_decline_enabled       = false
+    auto_relate_grouped_alerts = false
+    enabled                    = true
+    condition_groups           = []
+    defer_time_seconds         = 300
+    grouping_keys              = []
+    grouping_window_seconds    = 1800
   }
 
   incident_template = {
@@ -1131,12 +1138,13 @@ resource "incident_alert_route" "test" {
   }
 
   incident_config = {
-    auto_decline_enabled    = true
-    condition_groups        = []
-    defer_time_seconds      = 0
-    grouping_keys           = []
-    grouping_window_seconds = 1800
-    enabled                 = true
+    auto_decline_enabled       = true
+    auto_relate_grouped_alerts = false
+    condition_groups           = []
+    defer_time_seconds         = 0
+    grouping_keys              = []
+    grouping_window_seconds    = 1800
+    enabled                    = true
   }
 
   incident_template = {

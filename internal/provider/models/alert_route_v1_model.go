@@ -54,12 +54,13 @@ type AlertRouteEscalationTargetModel struct {
 }
 
 type AlertRouteIncidentConfigModel struct {
-	AutoDeclineEnabled    types.Bool                    `tfsdk:"auto_decline_enabled"`
-	ConditionGroups       IncidentEngineConditionGroups `tfsdk:"condition_groups"`
-	DeferTimeSeconds      types.Int64                   `tfsdk:"defer_time_seconds"`
-	Enabled               types.Bool                    `tfsdk:"enabled"`
-	GroupingKeys          []AlertRouteGroupingKey       `tfsdk:"grouping_keys"`
-	GroupingWindowSeconds types.Int64                   `tfsdk:"grouping_window_seconds"`
+	AutoDeclineEnabled      types.Bool                    `tfsdk:"auto_decline_enabled"`
+	AutoRelateGroupedAlerts types.Bool                    `tfsdk:"auto_relate_grouped_alerts"`
+	ConditionGroups         IncidentEngineConditionGroups `tfsdk:"condition_groups"`
+	DeferTimeSeconds        types.Int64                   `tfsdk:"defer_time_seconds"`
+	Enabled                 types.Bool                    `tfsdk:"enabled"`
+	GroupingKeys            []AlertRouteGroupingKey       `tfsdk:"grouping_keys"`
+	GroupingWindowSeconds   types.Int64                   `tfsdk:"grouping_window_seconds"`
 }
 
 type AlertRouteGroupingKey struct {
@@ -291,11 +292,12 @@ func (AlertRouteResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV2, pla
 	}
 
 	result.IncidentConfig = &AlertRouteIncidentConfigModel{
-		AutoDeclineEnabled:    types.BoolValue(apiModel.IncidentConfig.AutoDeclineEnabled),
-		DeferTimeSeconds:      types.Int64Value(apiModel.IncidentConfig.DeferTimeSeconds),
-		Enabled:               types.BoolValue(apiModel.IncidentConfig.Enabled),
-		GroupingKeys:          []AlertRouteGroupingKey{},
-		GroupingWindowSeconds: types.Int64Value(apiModel.IncidentConfig.GroupingWindowSeconds),
+		AutoDeclineEnabled:      types.BoolValue(apiModel.IncidentConfig.AutoDeclineEnabled),
+		AutoRelateGroupedAlerts: types.BoolValue(apiModel.IncidentConfig.AutoRelateGroupedAlerts),
+		DeferTimeSeconds:        types.Int64Value(apiModel.IncidentConfig.DeferTimeSeconds),
+		Enabled:                 types.BoolValue(apiModel.IncidentConfig.Enabled),
+		GroupingKeys:            []AlertRouteGroupingKey{},
+		GroupingWindowSeconds:   types.Int64Value(apiModel.IncidentConfig.GroupingWindowSeconds),
 	}
 
 	for _, gk := range apiModel.IncidentConfig.GroupingKeys {
@@ -520,10 +522,11 @@ func (m AlertRouteResourceModel) ToCreatePayload() client.AlertRoutesCreatePaylo
 			EscalationTargets:     []client.AlertRouteEscalationTargetPayloadV2{},
 		},
 		IncidentConfig: client.AlertRouteIncidentConfigPayloadV2{
-			AutoDeclineEnabled: false,
-			ConditionGroups:    []client.ConditionGroupPayloadV2{},
-			DeferTimeSeconds:   0,
-			GroupingKeys:       []client.GroupingKeyV2{},
+			AutoDeclineEnabled:      false,
+			AutoRelateGroupedAlerts: nil,
+			ConditionGroups:         []client.ConditionGroupPayloadV2{},
+			DeferTimeSeconds:        0,
+			GroupingKeys:            []client.GroupingKeyV2{},
 		},
 		IncidentTemplate: client.AlertRouteIncidentTemplatePayloadV2{},
 	}
@@ -596,12 +599,13 @@ func (m AlertRouteResourceModel) ToCreatePayload() client.AlertRoutesCreatePaylo
 
 	if m.IncidentConfig != nil {
 		payload.IncidentConfig = client.AlertRouteIncidentConfigPayloadV2{
-			AutoDeclineEnabled:    m.IncidentConfig.AutoDeclineEnabled.ValueBool(),
-			DeferTimeSeconds:      m.IncidentConfig.DeferTimeSeconds.ValueInt64(),
-			Enabled:               m.IncidentConfig.Enabled.ValueBool(),
-			ConditionGroups:       m.IncidentConfig.ConditionGroups.ToPayload(),
-			GroupingKeys:          []client.GroupingKeyV2{},
-			GroupingWindowSeconds: m.IncidentConfig.GroupingWindowSeconds.ValueInt64(),
+			AutoDeclineEnabled:      m.IncidentConfig.AutoDeclineEnabled.ValueBool(),
+			AutoRelateGroupedAlerts: m.IncidentConfig.AutoRelateGroupedAlerts.ValueBoolPointer(),
+			DeferTimeSeconds:        m.IncidentConfig.DeferTimeSeconds.ValueInt64(),
+			Enabled:                 m.IncidentConfig.Enabled.ValueBool(),
+			ConditionGroups:         m.IncidentConfig.ConditionGroups.ToPayload(),
+			GroupingKeys:            []client.GroupingKeyV2{},
+			GroupingWindowSeconds:   m.IncidentConfig.GroupingWindowSeconds.ValueInt64(),
 		}
 
 		for _, gk := range m.IncidentConfig.GroupingKeys {
