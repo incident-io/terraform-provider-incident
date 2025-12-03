@@ -1209,7 +1209,7 @@ resource "incident_alert_route" "test" {
 }
 
 // TestAccIncidentAlertRouteResourceAutoRelateGroupedAlertsOmitted tests that when
-// auto_relate_grouped_alerts is omitted from the config, it defaults to false
+// auto_relate_grouped_alerts is omitted from the config, it defaults to false.
 func TestAccIncidentAlertRouteResourceAutoRelateGroupedAlertsOmitted(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -1230,7 +1230,7 @@ func TestAccIncidentAlertRouteResourceAutoRelateGroupedAlertsOmitted(t *testing.
 }
 
 // TestAccIncidentAlertRouteResourceAutoRelateGroupedAlertsTrue tests that when
-// auto_relate_grouped_alerts is explicitly set to true, it is correctly stored and retrieved
+// auto_relate_grouped_alerts is explicitly set to true, it is correctly stored and retrieved.
 func TestAccIncidentAlertRouteResourceAutoRelateGroupedAlertsTrue(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
