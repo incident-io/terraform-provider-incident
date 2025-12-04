@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
@@ -106,16 +107,23 @@ func (d *IncidentAlertSourcesDataSource) buildItemModel(source client.AlertSourc
 		emailAddress = &source.EmailOptions.EmailAddress
 	}
 
+	var visibleToTeams *models.IncidentEngineParamBinding
+	if source.Template.VisibleToTeams != nil {
+		visibleToTeams = lo.ToPtr(models.IncidentEngineParamBinding{}.FromAPI(*source.Template.VisibleToTeams))
+	}
+
 	return &IncidentAlertSourcesDataSourceItemModel{
 		ID:          types.StringValue(source.Id),
 		Name:        types.StringValue(source.Name),
 		SourceType:  types.StringValue(string(source.SourceType)),
 		SecretToken: types.StringPointerValue(source.SecretToken),
 		Template: &models.AlertTemplateModel{
-			Title:       models.IncidentEngineParamBindingValue{}.FromAPI(source.Template.Title),
-			Description: models.IncidentEngineParamBindingValue{}.FromAPI(source.Template.Description),
-			Attributes:  models.AlertTemplateAttributesModel{}.FromAPI(source.Template.Attributes),
-			Expressions: models.IncidentEngineExpressions{}.FromAPI(source.Template.Expressions),
+			Title:          models.IncidentEngineParamBindingValue{}.FromAPI(source.Template.Title),
+			Description:    models.IncidentEngineParamBindingValue{}.FromAPI(source.Template.Description),
+			Attributes:     models.AlertTemplateAttributesModel{}.FromAPI(source.Template.Attributes),
+			Expressions:    models.IncidentEngineExpressions{}.FromAPI(source.Template.Expressions),
+			IsPrivate:      types.BoolValue(source.Template.IsPrivate),
+			VisibleToTeams: visibleToTeams,
 		},
 		JiraOptions:  models.AlertSourceJiraOptionsModel{}.FromAPI(source.JiraOptions),
 		EmailAddress: types.StringPointerValue(emailAddress),
@@ -183,6 +191,15 @@ func (d *IncidentAlertSourcesDataSource) Schema(ctx context.Context, req datasou
 											},
 										},
 									},
+								},
+								"is_private": schema.BoolAttribute{
+									Computed:            true,
+									MarkdownDescription: apischema.Docstring("AlertTemplateV2", "is_private"),
+								},
+								"visible_to_teams": schema.SingleNestedAttribute{
+									Computed:            true,
+									MarkdownDescription: apischema.Docstring("AlertTemplateV2", "visible_to_teams"),
+									Attributes:          models.ParamBindingDataSourceAttributes(),
 								},
 							},
 						},
