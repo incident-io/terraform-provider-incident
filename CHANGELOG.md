@@ -2,7 +2,8 @@
 
 ## v5.20.0
 
-- Improve terraform plan performance by using a list type rather than set for `array_values`
+- Improve terraform plan performance by using a list type rather than set for `array_values`. This may cause ordering changes in the plan, but this is to be expected.
+- Add support for `auto_relate_grouped_alerts` for Alert Routes
 
 ## v5.19.1
 
