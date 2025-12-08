@@ -136,7 +136,7 @@ Read-Only:
 
 - `attributes` (Attributes Set) Attributes to set on alerts coming from this source, with a binding describing how to set them. (see [below for nested schema](#nestedatt--alert_sources--template--attributes))
 - `description` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--description))
-- `expressions` (Attributes Set) Expressions that make variables available in the scope (see [below for nested schema](#nestedatt--alert_sources--template--expressions))
+- `expressions` (Attributes List) Expressions that make variables available in the scope (see [below for nested schema](#nestedatt--alert_sources--template--expressions))
 - `title` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--title))
 
 <a id="nestedatt--alert_sources--template--attributes"></a>
@@ -152,7 +152,7 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes Set) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--attributes--binding--array_value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--attributes--binding--array_value))
 - `value` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--attributes--binding--value))
 
 <a id="nestedatt--alert_sources--template--attributes--binding--array_value"></a>
@@ -207,7 +207,7 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes Set) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--else_branch--result--array_value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--else_branch--result--array_value))
 - `value` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--else_branch--result--value))
 
 <a id="nestedatt--alert_sources--template--expressions--else_branch--result--array_value"></a>
@@ -254,7 +254,7 @@ Read-Only:
 
 Read-Only:
 
-- `condition_groups` (Attributes Set) The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass. (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups))
+- `condition_groups` (Attributes List) The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass. (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups))
 - `result` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--result))
 
 <a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups"></a>
@@ -262,7 +262,7 @@ Read-Only:
 
 Read-Only:
 
-- `conditions` (Attributes Set) All conditions in this list must be satisfied for the group to be satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions))
+- `conditions` (Attributes List) All conditions in this list must be satisfied for the group to be satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions))
 
 <a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions"></a>
 ### Nested Schema for `alert_sources.template.expressions.operations.branches.branches.condition_groups.conditions`
@@ -278,7 +278,7 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes Set) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value))
 - `value` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value"></a>
@@ -307,7 +307,7 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes Set) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--result--array_value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--result--array_value))
 - `value` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--result--value))
 
 <a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--result--array_value"></a>
@@ -345,14 +345,14 @@ Read-Only:
 
 Read-Only:
 
-- `condition_groups` (Attributes Set) The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass. (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups))
+- `condition_groups` (Attributes List) The condition groups to apply in this filter. Only one group needs to be satisfied for the filter to pass. (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups))
 
 <a id="nestedatt--alert_sources--template--expressions--operations--filter--condition_groups"></a>
 ### Nested Schema for `alert_sources.template.expressions.operations.filter.condition_groups`
 
 Read-Only:
 
-- `conditions` (Attributes Set) All conditions in this list must be satisfied for the group to be satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions))
+- `conditions` (Attributes List) All conditions in this list must be satisfied for the group to be satisfied (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions))
 
 <a id="nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions"></a>
 ### Nested Schema for `alert_sources.template.expressions.operations.filter.condition_groups.conditions`
@@ -368,7 +368,7 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes Set) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value))
 - `value` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value"></a>

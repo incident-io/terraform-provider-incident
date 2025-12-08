@@ -163,7 +163,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--then_path))
 
 Optional:
@@ -233,7 +233,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path))
 
 Optional:
@@ -303,7 +303,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path))
 
 Optional:
@@ -373,7 +373,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path))
 
 Optional:
@@ -724,7 +724,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path))
 
 Optional:
@@ -1156,7 +1156,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path))
 
 Optional:
@@ -1226,7 +1226,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path))
 
 Optional:
@@ -1577,7 +1577,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path))
 
 Optional:
@@ -2090,7 +2090,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path))
 
 Optional:
@@ -2160,7 +2160,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path))
 
 Optional:
@@ -2230,7 +2230,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path))
 
 Optional:
@@ -2581,7 +2581,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path))
 
 Optional:
@@ -3013,7 +3013,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path))
 
 Optional:
@@ -3083,7 +3083,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path))
 
 Optional:
@@ -3434,7 +3434,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions))
 - `then_path` (Attributes List) Then path nodes (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path))
 
 Optional:
