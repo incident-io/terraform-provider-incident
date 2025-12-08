@@ -152,7 +152,7 @@ Required:
 
 - `attributes` (Attributes Set) Attributes to set on alerts coming from this source, with a binding describing how to set them. (see [below for nested schema](#nestedatt--template--attributes))
 - `description` (Attributes) (see [below for nested schema](#nestedatt--template--description))
-- `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--template--expressions))
+- `expressions` (Attributes List) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--template--expressions))
 - `title` (Attributes) (see [below for nested schema](#nestedatt--template--title))
 
 <a id="nestedatt--template--attributes"></a>
@@ -241,7 +241,7 @@ Required:
 
 Required:
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups))
+- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups))
 - `result` (Attributes) The result assumed if the condition groups are satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--result))
 
 <a id="nestedatt--template--expressions--operations--branches--branches--condition_groups"></a>
@@ -249,7 +249,7 @@ Required:
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions))
 
 <a id="nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions"></a>
 ### Nested Schema for `template.expressions.operations.branches.branches.condition_groups.conditions`
@@ -332,14 +332,14 @@ Required:
 
 Required:
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups))
+- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups))
 
 <a id="nestedatt--template--expressions--operations--filter--condition_groups"></a>
 ### Nested Schema for `template.expressions.operations.filter.condition_groups`
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups--conditions))
 
 <a id="nestedatt--template--expressions--operations--filter--condition_groups--conditions"></a>
 ### Nested Schema for `template.expressions.operations.filter.condition_groups.conditions`
