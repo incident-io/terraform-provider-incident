@@ -2,11 +2,11 @@
 
 ## v5.21.0
 
-- Improve terraform plan performance by using a list type rather than set for `conditions`, `condition_groups` and `expressions`. This may cause some ordering changes in plans after the first apply.
+- Improve terraform plan performance by using a list type rather than set for `conditions`, `condition_groups` and `expressions`. This may cause a one-time ordering changes in plans, this is expected and will resolve after applying.
 
 ## v5.20.0
 
-- Improve terraform plan performance by using a list type rather than set for `array_values`. This may cause some ordering changes in plans after the first apply.
+- Improve terraform plan performance by using a list type rather than set for `array_values`. This may cause a one-time ordering changes in plans, this is expected and will resolve after applying.
 - Add support for `auto_relate_grouped_alerts` for Alert Routes
 
 ## v5.19.1
