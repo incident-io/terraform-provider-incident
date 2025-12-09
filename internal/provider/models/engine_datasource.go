@@ -97,8 +97,8 @@ func ReturnsDataSourceAttribute() schema.SingleNestedAttribute {
 	}
 }
 
-func ExpressionsDataSourceAttribute() schema.ListNestedAttribute {
-	return schema.ListNestedAttribute{
+func ExpressionsDataSourceAttribute() schema.SetNestedAttribute {
+	return schema.SetNestedAttribute{
 		MarkdownDescription: apischema.Docstring("WorkflowV2", "expressions"),
 		Computed:            true,
 		NestedObject: schema.NestedAttributeObject{

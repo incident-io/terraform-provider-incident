@@ -136,7 +136,7 @@ Read-Only:
 
 - `attributes` (Attributes Set) Attributes to set on alerts coming from this source, with a binding describing how to set them. (see [below for nested schema](#nestedatt--alert_sources--template--attributes))
 - `description` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--description))
-- `expressions` (Attributes List) Expressions that make variables available in the scope (see [below for nested schema](#nestedatt--alert_sources--template--expressions))
+- `expressions` (Attributes Set) Expressions that make variables available in the scope (see [below for nested schema](#nestedatt--alert_sources--template--expressions))
 - `title` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--title))
 
 <a id="nestedatt--alert_sources--template--attributes"></a>
