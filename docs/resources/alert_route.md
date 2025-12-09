@@ -237,7 +237,7 @@ resource "incident_alert_route" "service_alerts" {
 - `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--condition_groups))
 - `enabled` (Boolean) Whether this alert route is enabled or not
 - `escalation_config` (Attributes) (see [below for nested schema](#nestedatt--escalation_config))
-- `expressions` (Attributes List) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
+- `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
 - `incident_config` (Attributes) (see [below for nested schema](#nestedatt--incident_config))
 - `incident_template` (Attributes) (see [below for nested schema](#nestedatt--incident_template))
 - `is_private` (Boolean) Whether this alert route is private. Private alert routes will only create private incidents from alerts.
