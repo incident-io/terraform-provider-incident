@@ -81,6 +81,7 @@ func TestAccIncidentAlertRouteResourceComprehensive(t *testing.T) {
 
 					// Check incident config
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.auto_decline_enabled", "false"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.auto_relate_grouped_alerts", "false"),
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.enabled", "true"),
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.defer_time_seconds", "300"),
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.grouping_window_seconds", "1800"),
@@ -338,12 +339,13 @@ func testAccIncidentAlertRouteWithAlphabeticalCustomFields(name string) string {
     }
 
     incident_config = {
-      auto_decline_enabled    = false
-      enabled                 = true
-      condition_groups        = []
-      defer_time_seconds      = 300
-      grouping_keys           = []
-      grouping_window_seconds = 1800
+      auto_decline_enabled       = false
+      auto_relate_grouped_alerts = false
+      enabled                    = true
+      condition_groups           = []
+      defer_time_seconds         = 300
+      grouping_keys              = []
+      grouping_window_seconds    = 1800
     }
 
     incident_template = {
@@ -434,12 +436,13 @@ resource "incident_alert_route" "test" {
   }
 
   incident_config = {
-    auto_decline_enabled    = true
-    condition_groups        = []
-    defer_time_seconds      = 0
-    grouping_keys           = []
-    grouping_window_seconds = 0
-    enabled                 = true
+    auto_decline_enabled       = true
+    auto_relate_grouped_alerts = false
+    condition_groups           = []
+    defer_time_seconds         = 0
+    grouping_keys              = []
+    grouping_window_seconds    = 0
+    enabled                    = true
   }
 
   incident_template = {
@@ -574,12 +577,13 @@ resource "incident_alert_route" "auto_gen" {
   }
 
   incident_config = {
-    auto_decline_enabled    = false
-    enabled                 = true
-    condition_groups        = []
-    defer_time_seconds      = 300
-    grouping_keys           = []
-    grouping_window_seconds = 1800
+    auto_decline_enabled       = false
+    auto_relate_grouped_alerts = false
+    enabled                    = true
+    condition_groups           = []
+    defer_time_seconds         = 300
+    grouping_keys              = []
+    grouping_window_seconds    = 1800
   }
 
   incident_template = {
@@ -729,12 +733,13 @@ resource "incident_alert_route" "comprehensive" {
   }
 
   incident_config = {
-    auto_decline_enabled    = false
-    enabled                 = true
-    condition_groups        = []
-    defer_time_seconds      = 300
-    grouping_keys           = []
-    grouping_window_seconds = 1800
+    auto_decline_enabled       = false
+    auto_relate_grouped_alerts = false
+    enabled                    = true
+    condition_groups           = []
+    defer_time_seconds         = 300
+    grouping_keys              = []
+    grouping_window_seconds    = 1800
   }
 
   incident_template = {
@@ -894,12 +899,13 @@ resource "incident_alert_route" "channel_config_test" {
   }
 
   incident_config = {
-    auto_decline_enabled    = false
-    enabled                 = true
-    condition_groups        = []
-    defer_time_seconds      = 300
-    grouping_keys           = []
-    grouping_window_seconds = 1800
+    auto_decline_enabled       = false
+    auto_relate_grouped_alerts = false
+    enabled                    = true
+    condition_groups           = []
+    defer_time_seconds         = 300
+    grouping_keys              = []
+    grouping_window_seconds    = 1800
   }
 
   incident_template = {
@@ -1036,12 +1042,13 @@ resource "incident_alert_route" "channel_config_test" {
   }
 
   incident_config = {
-    auto_decline_enabled    = false
-    enabled                 = true
-    condition_groups        = []
-    defer_time_seconds      = 300
-    grouping_keys           = []
-    grouping_window_seconds = 1800
+    auto_decline_enabled       = false
+    auto_relate_grouped_alerts = false
+    enabled                    = true
+    condition_groups           = []
+    defer_time_seconds         = 300
+    grouping_keys              = []
+    grouping_window_seconds    = 1800
   }
 
   incident_template = {
@@ -1131,12 +1138,13 @@ resource "incident_alert_route" "test" {
   }
 
   incident_config = {
-    auto_decline_enabled    = true
-    condition_groups        = []
-    defer_time_seconds      = 0
-    grouping_keys           = []
-    grouping_window_seconds = 1800
-    enabled                 = true
+    auto_decline_enabled       = true
+    auto_relate_grouped_alerts = false
+    condition_groups           = []
+    defer_time_seconds         = 0
+    grouping_keys              = []
+    grouping_window_seconds    = 1800
+    enabled                    = true
   }
 
   incident_template = {
@@ -1175,6 +1183,220 @@ resource "incident_alert_route" "test" {
 							{
 								attrs = {
                   # Note that this uses '→' not '->' to test if you use a fancy character
+									label   = "Alert → Description"
+									missing = false
+									name    = "alert.description"
+								}
+								type = "varSpec"
+							}
+						]
+						type = "paragraph"
+					}
+				]
+				type = "doc"
+			})
+		}
+	}
+
+	custom_fields = []
+
+	severity = {
+      merge_strategy = "first-wins"
+	}
+  }
+}
+`, name)
+}
+
+// TestAccIncidentAlertRouteResourceAutoRelateGroupedAlertsOmitted tests that when
+// auto_relate_grouped_alerts is omitted from the config, it defaults to false.
+func TestAccIncidentAlertRouteResourceAutoRelateGroupedAlertsOmitted(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentAlertRouteResourceConfigAutoRelateGroupedAlertsOmitted("auto-relate-omitted-test"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_route.test", "name", "auto-relate-omitted-test"),
+					// Verify field defaults to false when omitted
+					resource.TestCheckResourceAttr("incident_alert_route.test", "incident_config.auto_relate_grouped_alerts", "false"),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "incident_config.auto_decline_enabled", "true"),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "incident_config.enabled", "true"),
+				),
+			},
+		},
+	})
+}
+
+// TestAccIncidentAlertRouteResourceAutoRelateGroupedAlertsTrue tests that when
+// auto_relate_grouped_alerts is explicitly set to true, it is correctly stored and retrieved.
+func TestAccIncidentAlertRouteResourceAutoRelateGroupedAlertsTrue(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentAlertRouteResourceConfigAutoRelateGroupedAlertsTrue("auto-relate-true-test"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_route.test", "name", "auto-relate-true-test"),
+					// Verify field is set to true
+					resource.TestCheckResourceAttr("incident_alert_route.test", "incident_config.auto_relate_grouped_alerts", "true"),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "incident_config.auto_decline_enabled", "false"),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "incident_config.enabled", "true"),
+				),
+			},
+		},
+	})
+}
+
+func testAccIncidentAlertRouteResourceConfigAutoRelateGroupedAlertsOmitted(name string) string {
+	return fmt.Sprintf(`
+resource "incident_alert_route" "test" {
+  name = %[1]q
+  enabled = true
+  is_private = false
+
+  alert_sources = []
+  channel_config = []
+  condition_groups = []
+  expressions = []
+
+  escalation_config = {
+    auto_cancel_escalations = true
+    escalation_targets = []
+  }
+
+  incident_config = {
+    auto_decline_enabled    = true
+    # auto_relate_grouped_alerts is intentionally omitted to test default behavior
+    condition_groups        = []
+    defer_time_seconds      = 0
+    grouping_keys           = []
+    grouping_window_seconds = 0
+    enabled                 = true
+  }
+
+  incident_template = {
+    name = {
+      autogenerated = false
+      value = {
+        literal = jsonencode({
+          content = [
+            {
+              content = [
+                {
+                  attrs = {
+                    label   = "Alert → Title"
+                    missing = false
+                    name    = "alert.title"
+                  }
+                  type = "varSpec"
+                }
+              ]
+              type = "paragraph"
+            }
+          ]
+          type = "doc"
+        })
+      }
+    }
+
+	summary = {
+		autogenerated = false
+		value = {
+			literal = jsonencode({
+				content = [
+					{
+						content = [
+							{
+								attrs = {
+									label   = "Alert → Description"
+									missing = false
+									name    = "alert.description"
+								}
+								type = "varSpec"
+							}
+						]
+						type = "paragraph"
+					}
+				]
+				type = "doc"
+			})
+		}
+	}
+
+	custom_fields = []
+
+	severity = {
+      merge_strategy = "first-wins"
+	}
+  }
+}
+`, name)
+}
+
+func testAccIncidentAlertRouteResourceConfigAutoRelateGroupedAlertsTrue(name string) string {
+	return fmt.Sprintf(`
+resource "incident_alert_route" "test" {
+  name = %[1]q
+  enabled = true
+  is_private = false
+
+  alert_sources = []
+  channel_config = []
+  condition_groups = []
+  expressions = []
+
+  escalation_config = {
+    auto_cancel_escalations = true
+    escalation_targets = []
+  }
+
+  incident_config = {
+    auto_decline_enabled       = false
+    auto_relate_grouped_alerts = true  # Explicitly set to true
+    condition_groups           = []
+    defer_time_seconds         = 0
+    grouping_keys              = []
+    grouping_window_seconds    = 0
+    enabled                    = true
+  }
+
+  incident_template = {
+    name = {
+      autogenerated = false
+      value = {
+        literal = jsonencode({
+          content = [
+            {
+              content = [
+                {
+                  attrs = {
+                    label   = "Alert → Title"
+                    missing = false
+                    name    = "alert.title"
+                  }
+                  type = "varSpec"
+                }
+              ]
+              type = "paragraph"
+            }
+          ]
+          type = "doc"
+        })
+      }
+    }
+
+	summary = {
+		autogenerated = false
+		value = {
+			literal = jsonencode({
+				content = [
+					{
+						content = [
+							{
+								attrs = {
 									label   = "Alert → Description"
 									missing = false
 									name    = "alert.description"

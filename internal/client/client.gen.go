@@ -1654,6 +1654,9 @@ type AlertRouteIncidentConfigPayloadV2 struct {
 	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
 	AutoDeclineEnabled bool `json:"auto_decline_enabled"`
 
+	// AutoRelateGroupedAlerts Should grouped alerts automatically be related to active incidents without confirmation?
+	AutoRelateGroupedAlerts *bool `json:"auto_relate_grouped_alerts,omitempty"`
+
 	// ConditionGroups What condition groups must be true for this alert route to create an incident?
 	ConditionGroups []ConditionGroupPayloadV2 `json:"condition_groups"`
 
@@ -1674,6 +1677,9 @@ type AlertRouteIncidentConfigPayloadV2 struct {
 type AlertRouteIncidentConfigV2 struct {
 	// AutoDeclineEnabled Should triage incidents be declined when alerts are resolved?
 	AutoDeclineEnabled bool `json:"auto_decline_enabled"`
+
+	// AutoRelateGroupedAlerts Should grouped alerts automatically be related to active incidents without confirmation?
+	AutoRelateGroupedAlerts bool `json:"auto_relate_grouped_alerts"`
 
 	// ConditionGroups What condition groups must be true for this alert route to create an incident?
 	ConditionGroups []ConditionGroupV2 `json:"condition_groups"`
@@ -2042,8 +2048,12 @@ type AlertTemplatePayloadV2 struct {
 	Description EngineParamBindingValuePayloadV2  `json:"description"`
 
 	// Expressions Expressions available for use in bindings within this template
-	Expressions []ExpressionPayloadV2            `json:"expressions"`
-	Title       EngineParamBindingValuePayloadV2 `json:"title"`
+	Expressions []ExpressionPayloadV2 `json:"expressions"`
+
+	// IsPrivate Whether or not alerts produced by this source should be private
+	IsPrivate      *bool                            `json:"is_private,omitempty"`
+	Title          EngineParamBindingValuePayloadV2 `json:"title"`
+	VisibleToTeams *EngineParamBindingPayloadV2     `json:"visible_to_teams,omitempty"`
 }
 
 // AlertTemplateV2 defines model for AlertTemplateV2.
@@ -2053,8 +2063,12 @@ type AlertTemplateV2 struct {
 	Description EngineParamBindingValueV2  `json:"description"`
 
 	// Expressions Expressions available for use in bindings within this template
-	Expressions []ExpressionV2            `json:"expressions"`
-	Title       EngineParamBindingValueV2 `json:"title"`
+	Expressions []ExpressionV2 `json:"expressions"`
+
+	// IsPrivate Whether or not alerts produced by this source should be private
+	IsPrivate      bool                      `json:"is_private"`
+	Title          EngineParamBindingValueV2 `json:"title"`
+	VisibleToTeams *EngineParamBindingV2     `json:"visible_to_teams,omitempty"`
 }
 
 // AlertV2 defines model for AlertV2.
@@ -2123,7 +2137,7 @@ type CatalogBulkUpdateEntriesPayloadV3 struct {
 	// Entries A list of entries to update with their new values. Maximum 100 entries per request.
 	Entries []PartialEntryPayloadV3 `json:"entries"`
 
-	// UpdateAttributes Optional list of specific attribute IDs to update across all entries. When provided, only these attributes will be updated and all other attributes will be preserved. When omitted, all attributes in each entry's attribute_values will be updated.
+	// UpdateAttributes Optional list of specific attribute IDs to update across all entries. When provided, only these attributes in attribute_values will be updated and all other attributes will be preserved. This parameter only affects attribute_values - it does not affect core entry fields like name, rank, aliases, or external_id, which follow their individual omission rules.
 	UpdateAttributes *[]string `json:"update_attributes,omitempty"`
 }
 
