@@ -6060,6 +6060,9 @@ type WorkflowSlimV2 struct {
 	// Id Unique identifier for the workflow
 	Id string `json:"id"`
 
+	// IncludePrivateEscalations Whether to include private escalations
+	IncludePrivateEscalations *bool `json:"include_private_escalations,omitempty"`
+
 	// IncludePrivateIncidents Whether to include private incidents
 	IncludePrivateIncidents bool `json:"include_private_incidents"`
 
@@ -6119,6 +6122,9 @@ type WorkflowV2 struct {
 	// Id Unique identifier for the workflow
 	Id string `json:"id"`
 
+	// IncludePrivateEscalations Whether to include private escalations
+	IncludePrivateEscalations *bool `json:"include_private_escalations,omitempty"`
+
 	// IncludePrivateIncidents Whether to include private incidents
 	IncludePrivateIncidents bool `json:"include_private_incidents"`
 
@@ -6177,6 +6183,9 @@ type WorkflowsCreateWorkflowPayloadV2 struct {
 
 	// Folder Folder to display the workflow in
 	Folder *string `json:"folder,omitempty"`
+
+	// IncludePrivateEscalations Whether to include private escalations
+	IncludePrivateEscalations *bool `json:"include_private_escalations,omitempty"`
 
 	// IncludePrivateIncidents Whether to include private incidents
 	IncludePrivateIncidents bool `json:"include_private_incidents"`
@@ -6249,6 +6258,9 @@ type WorkflowsUpdateWorkflowPayloadV2 struct {
 
 	// Folder Folder to display the workflow in
 	Folder *string `json:"folder,omitempty"`
+
+	// IncludePrivateEscalations Whether to include private escalations
+	IncludePrivateEscalations *bool `json:"include_private_escalations,omitempty"`
 
 	// IncludePrivateIncidents Whether to include private incidents
 	IncludePrivateIncidents bool `json:"include_private_incidents"`

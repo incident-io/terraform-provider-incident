@@ -34,21 +34,22 @@ func NewIncidentWorkflowResource() resource.Resource {
 }
 
 type IncidentWorkflowResourceModel struct {
-	ID                      types.String                         `tfsdk:"id"`
-	Name                    types.String                         `tfsdk:"name"`
-	Folder                  types.String                         `tfsdk:"folder"`
-	Shortform               types.String                         `tfsdk:"shortform"`
-	Trigger                 types.String                         `tfsdk:"trigger"`
-	ConditionGroups         models.IncidentEngineConditionGroups `tfsdk:"condition_groups"`
-	Steps                   []IncidentWorkflowStep               `tfsdk:"steps"`
-	Expressions             models.IncidentEngineExpressions     `tfsdk:"expressions"`
-	OnceFor                 []types.String                       `tfsdk:"once_for"`
-	IncludePrivateIncidents types.Bool                           `tfsdk:"include_private_incidents"`
-	ContinueOnStepError     types.Bool                           `tfsdk:"continue_on_step_error"`
-	Delay                   *IncidentWorkflowDelay               `tfsdk:"delay"`
-	RunsOnIncidents         types.String                         `tfsdk:"runs_on_incidents"`
-	RunsOnIncidentModes     types.Set                            `tfsdk:"runs_on_incident_modes"`
-	State                   types.String                         `tfsdk:"state"`
+	ID                        types.String                         `tfsdk:"id"`
+	Name                      types.String                         `tfsdk:"name"`
+	Folder                    types.String                         `tfsdk:"folder"`
+	Shortform                 types.String                         `tfsdk:"shortform"`
+	Trigger                   types.String                         `tfsdk:"trigger"`
+	ConditionGroups           models.IncidentEngineConditionGroups `tfsdk:"condition_groups"`
+	Steps                     []IncidentWorkflowStep               `tfsdk:"steps"`
+	Expressions               models.IncidentEngineExpressions     `tfsdk:"expressions"`
+	OnceFor                   []types.String                       `tfsdk:"once_for"`
+	IncludePrivateIncidents   types.Bool                           `tfsdk:"include_private_incidents"`
+	IncludePrivateEscalations types.Bool                           `tfsdk:"include_private_escalations"`
+	ContinueOnStepError       types.Bool                           `tfsdk:"continue_on_step_error"`
+	Delay                     *IncidentWorkflowDelay               `tfsdk:"delay"`
+	RunsOnIncidents           types.String                         `tfsdk:"runs_on_incidents"`
+	RunsOnIncidentModes       types.Set                            `tfsdk:"runs_on_incident_modes"`
+	State                     types.String                         `tfsdk:"state"`
 }
 
 type IncidentWorkflowStep struct {
@@ -128,6 +129,10 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "include_private_incidents"),
 				Required:            true,
 			},
+			"include_private_escalations": schema.BoolAttribute{
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "include_private_escalations"),
+				Optional:            true,
+			},
 			"continue_on_step_error": schema.BoolAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "continue_on_step_error"),
 				Required:            true,
@@ -201,6 +206,10 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 		},
 	}
 
+	if !data.IncludePrivateEscalations.IsNull() {
+		payload.IncludePrivateEscalations = lo.ToPtr(data.IncludePrivateEscalations.ValueBool())
+	}
+
 	if data.Delay != nil {
 		payload.Delay = &client.WorkflowDelayV2{
 			ConditionsApplyOverDelay: data.Delay.ConditionsApplyOverDelay.ValueBool(),
@@ -260,6 +269,10 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
+	}
+
+	if !data.IncludePrivateEscalations.IsNull() {
+		payload.IncludePrivateEscalations = lo.ToPtr(data.IncludePrivateEscalations.ValueBool())
 	}
 
 	if data.Delay != nil {

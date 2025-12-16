@@ -97,6 +97,7 @@ resource "incident_workflow" "autoassign_incident_lead" {
 
 - `delay` (Attributes) Configuration controlling workflow delay behaviour (see [below for nested schema](#nestedatt--delay))
 - `folder` (String) Folder to display the workflow in
+- `include_private_escalations` (Boolean) Whether to include private escalations
 - `shortform` (String) The shortform used to trigger this workflow (only applicable for manual triggers)
 
 ### Read-Only

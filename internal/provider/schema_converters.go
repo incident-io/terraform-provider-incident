@@ -40,18 +40,19 @@ func forceCoerce[T any](ctx context.Context, input any) T {
 // buildModel converts from the response type to the terraform model/schema type.
 func (r *IncidentWorkflowResource) buildModel(ctx context.Context, workflow client.WorkflowV2) *IncidentWorkflowResourceModel {
 	model := &IncidentWorkflowResourceModel{
-		ID:                      types.StringValue(workflow.Id),
-		Name:                    types.StringValue(workflow.Name),
-		Trigger:                 types.StringValue(workflow.Trigger.Name),
-		ConditionGroups:         models.IncidentEngineConditionGroups{}.FromAPI(forceCoerce[[]client.ConditionGroupV2](ctx, workflow.ConditionGroups)),
-		Steps:                   buildSteps(workflow.Steps),
-		Expressions:             models.IncidentEngineExpressions{}.FromAPI(forceCoerce[[]client.ExpressionV2](ctx, workflow.Expressions)),
-		OnceFor:                 buildOnceFor(workflow.OnceFor),
-		RunsOnIncidentModes:     buildRunsOnIncidentModes(workflow.RunsOnIncidentModes),
-		IncludePrivateIncidents: types.BoolValue(workflow.IncludePrivateIncidents),
-		ContinueOnStepError:     types.BoolValue(workflow.ContinueOnStepError),
-		RunsOnIncidents:         types.StringValue(string(workflow.RunsOnIncidents)),
-		State:                   types.StringValue(string(workflow.State)),
+		ID:                        types.StringValue(workflow.Id),
+		Name:                      types.StringValue(workflow.Name),
+		Trigger:                   types.StringValue(workflow.Trigger.Name),
+		ConditionGroups:           models.IncidentEngineConditionGroups{}.FromAPI(forceCoerce[[]client.ConditionGroupV2](ctx, workflow.ConditionGroups)),
+		Steps:                     buildSteps(workflow.Steps),
+		Expressions:               models.IncidentEngineExpressions{}.FromAPI(forceCoerce[[]client.ExpressionV2](ctx, workflow.Expressions)),
+		OnceFor:                   buildOnceFor(workflow.OnceFor),
+		RunsOnIncidentModes:       buildRunsOnIncidentModes(workflow.RunsOnIncidentModes),
+		IncludePrivateIncidents:   types.BoolValue(workflow.IncludePrivateIncidents),
+		IncludePrivateEscalations: types.BoolPointerValue(workflow.IncludePrivateEscalations),
+		ContinueOnStepError:       types.BoolValue(workflow.ContinueOnStepError),
+		RunsOnIncidents:           types.StringValue(string(workflow.RunsOnIncidents)),
+		State:                     types.StringValue(string(workflow.State)),
 	}
 	if workflow.Folder != nil {
 		model.Folder = types.StringValue(*workflow.Folder)
