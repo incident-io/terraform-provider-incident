@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.22.0
+
+- Add "incident_escalation_path" data source for getting escalation paths by id or name
+
 ## v5.21.1
 
 - Revert `expressions` to use a set type. There order isn't consistent when coming back from the server.
