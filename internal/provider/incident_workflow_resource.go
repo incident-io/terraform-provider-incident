@@ -132,6 +132,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 			"include_private_escalations": schema.BoolAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "include_private_escalations"),
 				Optional:            true,
+				Computed:            true,
 			},
 			"continue_on_step_error": schema.BoolAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "continue_on_step_error"),
