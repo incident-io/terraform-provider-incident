@@ -36,8 +36,6 @@ type IncidentIncidentTypesDataSourceItemModel struct {
 	CreateInTriage       types.String `tfsdk:"create_in_triage"`
 	IsDefault            types.Bool   `tfsdk:"is_default"`
 	PrivateIncidentsOnly types.Bool   `tfsdk:"private_incidents_only"`
-	CreatedAt            types.String `tfsdk:"created_at"`
-	UpdatedAt            types.String `tfsdk:"updated_at"`
 }
 
 func (d *IncidentIncidentTypesDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
@@ -95,8 +93,6 @@ func (d *IncidentIncidentTypesDataSource) buildItemModel(incidentType client.Inc
 		CreateInTriage:       types.StringValue(string(incidentType.CreateInTriage)),
 		IsDefault:            types.BoolValue(incidentType.IsDefault),
 		PrivateIncidentsOnly: types.BoolValue(incidentType.PrivateIncidentsOnly),
-		CreatedAt:            types.StringValue(incidentType.CreatedAt.Format("2006-01-02T15:04:05.000000Z")),
-		UpdatedAt:            types.StringValue(incidentType.UpdatedAt.Format("2006-01-02T15:04:05.000000Z")),
 	}
 }
 
@@ -132,14 +128,6 @@ func (d *IncidentIncidentTypesDataSource) Schema(ctx context.Context, req dataso
 						"private_incidents_only": schema.BoolAttribute{
 							Computed:            true,
 							MarkdownDescription: apischema.Docstring("IncidentTypeV1", "private_incidents_only"),
-						},
-						"created_at": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("IncidentTypeV1", "created_at"),
-						},
-						"updated_at": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("IncidentTypeV1", "updated_at"),
 						},
 					},
 				},
