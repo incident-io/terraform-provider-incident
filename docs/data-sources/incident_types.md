@@ -43,10 +43,8 @@ output "incident_type_names" {
 Read-Only:
 
 - `create_in_triage` (String) Whether incidents of this must always, or can optionally, be created in triage
-- `created_at` (String) When this resource was created
 - `description` (String) What is this incident type for?
 - `id` (String) Unique identifier for this Incident Type
 - `is_default` (Boolean) The default Incident Type is used when no other type is explicitly specified
 - `name` (String) The name of this Incident Type
 - `private_incidents_only` (Boolean) Should all incidents created with this Incident Type be private?
-- `updated_at` (String) When this resource was last updated
