@@ -23,7 +23,7 @@ func ParamBindingValueDataSourceAttributes() map[string]schema.Attribute {
 
 func ParamBindingDataSourceAttributes() map[string]schema.Attribute {
 	return map[string]schema.Attribute{
-		"array_value": schema.SetNestedAttribute{
+		"array_value": schema.ListNestedAttribute{
 			MarkdownDescription: apischema.Docstring("EngineParamBindingV2", "array_value"),
 			Computed:            true,
 			NestedObject: schema.NestedAttributeObject{
@@ -48,8 +48,8 @@ func ParamBindingsDataSourceAttribute() schema.ListNestedAttribute {
 	}
 }
 
-func ConditionsDataSourceAttribute() schema.SetNestedAttribute {
-	return schema.SetNestedAttribute{
+func ConditionsDataSourceAttribute() schema.ListNestedAttribute {
+	return schema.ListNestedAttribute{
 		MarkdownDescription: apischema.Docstring("ConditionGroupV2", "conditions"),
 		Computed:            true,
 		NestedObject: schema.NestedAttributeObject{
@@ -68,8 +68,8 @@ func ConditionsDataSourceAttribute() schema.SetNestedAttribute {
 	}
 }
 
-func ConditionGroupsDataSourceAttribute() schema.SetNestedAttribute {
-	return schema.SetNestedAttribute{
+func ConditionGroupsDataSourceAttribute() schema.ListNestedAttribute {
+	return schema.ListNestedAttribute{
 		MarkdownDescription: apischema.Docstring("ExpressionFilterOptsV2", "condition_groups"),
 		Computed:            true,
 		NestedObject: schema.NestedAttributeObject{

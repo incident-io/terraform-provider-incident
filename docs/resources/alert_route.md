@@ -234,7 +234,7 @@ resource "incident_alert_route" "service_alerts" {
 ### Required
 
 - `alert_sources` (Attributes Set) Which alert sources should this alert route match? (see [below for nested schema](#nestedatt--alert_sources))
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--condition_groups))
+- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--condition_groups))
 - `enabled` (Boolean) Whether this alert route is enabled or not
 - `escalation_config` (Attributes) (see [below for nested schema](#nestedatt--escalation_config))
 - `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
@@ -257,14 +257,14 @@ resource "incident_alert_route" "service_alerts" {
 Required:
 
 - `alert_source_id` (String) The alert source ID that will match for the route
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--alert_sources--condition_groups))
+- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--alert_sources--condition_groups))
 
 <a id="nestedatt--alert_sources--condition_groups"></a>
 ### Nested Schema for `alert_sources.condition_groups`
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--alert_sources--condition_groups--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--alert_sources--condition_groups--conditions))
 
 <a id="nestedatt--alert_sources--condition_groups--conditions"></a>
 ### Nested Schema for `alert_sources.condition_groups.conditions`
@@ -280,7 +280,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_sources--condition_groups--conditions--param_bindings--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_sources--condition_groups--conditions--param_bindings--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--alert_sources--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--alert_sources--condition_groups--conditions--param_bindings--array_value"></a>
@@ -310,7 +310,7 @@ Optional:
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--condition_groups--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--condition_groups--conditions))
 
 <a id="nestedatt--condition_groups--conditions"></a>
 ### Nested Schema for `condition_groups.conditions`
@@ -326,7 +326,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--condition_groups--conditions--param_bindings--array_value"></a>
@@ -371,7 +371,7 @@ Optional:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--escalation_config--escalation_targets--escalation_paths--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--escalation_config--escalation_targets--escalation_paths--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--escalation_config--escalation_targets--escalation_paths--value))
 
 <a id="nestedatt--escalation_config--escalation_targets--escalation_paths--array_value"></a>
@@ -398,7 +398,7 @@ Optional:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--escalation_config--escalation_targets--users--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--escalation_config--escalation_targets--users--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--escalation_config--escalation_targets--users--value))
 
 <a id="nestedatt--escalation_config--escalation_targets--users--array_value"></a>
@@ -463,7 +463,7 @@ Required:
 
 Required:
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups))
+- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups))
 - `result` (Attributes) The result assumed if the condition groups are satisfied (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--result))
 
 <a id="nestedatt--expressions--operations--branches--branches--condition_groups"></a>
@@ -471,7 +471,7 @@ Required:
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions))
 
 <a id="nestedatt--expressions--operations--branches--branches--condition_groups--conditions"></a>
 ### Nested Schema for `expressions.operations.branches.branches.condition_groups.conditions`
@@ -487,7 +487,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value"></a>
@@ -516,7 +516,7 @@ Optional:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--result--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--result--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--result--value))
 
 <a id="nestedatt--expressions--operations--branches--branches--result--array_value"></a>
@@ -554,14 +554,14 @@ Required:
 
 Required:
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups))
+- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups))
 
 <a id="nestedatt--expressions--operations--filter--condition_groups"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups`
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions))
 
 <a id="nestedatt--expressions--operations--filter--condition_groups--conditions"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups.conditions`
@@ -577,7 +577,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value"></a>
@@ -641,7 +641,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--else_branch--result--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--else_branch--result--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--else_branch--result--value))
 
 <a id="nestedatt--expressions--else_branch--result--array_value"></a>
@@ -671,18 +671,22 @@ Optional:
 Required:
 
 - `auto_decline_enabled` (Boolean) Should triage incidents be declined when alerts are resolved?
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--incident_config--condition_groups))
+- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--incident_config--condition_groups))
 - `defer_time_seconds` (Number) How long should the escalation defer time be?
 - `enabled` (Boolean) Whether incident creation is enabled for this alert route
 - `grouping_keys` (Attributes Set) Which attributes should this alert route use to group alerts? (see [below for nested schema](#nestedatt--incident_config--grouping_keys))
 - `grouping_window_seconds` (Number) How large should the grouping window be?
+
+Optional:
+
+- `auto_relate_grouped_alerts` (Boolean) Should grouped alerts automatically be related to active incidents without confirmation?
 
 <a id="nestedatt--incident_config--condition_groups"></a>
 ### Nested Schema for `incident_config.condition_groups`
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--incident_config--condition_groups--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--incident_config--condition_groups--conditions))
 
 <a id="nestedatt--incident_config--condition_groups--conditions"></a>
 ### Nested Schema for `incident_config.condition_groups.conditions`
@@ -698,7 +702,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_config--condition_groups--conditions--param_bindings--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_config--condition_groups--conditions--param_bindings--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_config--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--incident_config--condition_groups--conditions--param_bindings--array_value"></a>
@@ -818,7 +822,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_template--custom_fields--binding--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_template--custom_fields--binding--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_template--custom_fields--binding--value))
 
 <a id="nestedatt--incident_template--custom_fields--binding--array_value"></a>
@@ -846,7 +850,7 @@ Optional:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_template--incident_mode--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_template--incident_mode--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_template--incident_mode--value))
 
 <a id="nestedatt--incident_template--incident_mode--array_value"></a>
@@ -873,7 +877,7 @@ Optional:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_template--incident_type--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_template--incident_type--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_template--incident_type--value))
 
 <a id="nestedatt--incident_template--incident_type--array_value"></a>
@@ -911,7 +915,7 @@ Optional:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_template--severity--binding--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_template--severity--binding--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_template--severity--binding--value))
 
 <a id="nestedatt--incident_template--severity--binding--array_value"></a>
@@ -939,7 +943,7 @@ Optional:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_template--start_in_triage--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_template--start_in_triage--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_template--start_in_triage--value))
 
 <a id="nestedatt--incident_template--start_in_triage--array_value"></a>
@@ -966,7 +970,7 @@ Optional:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_template--workspace--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_template--workspace--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_template--workspace--value))
 
 <a id="nestedatt--incident_template--workspace--array_value"></a>
@@ -994,7 +998,7 @@ Optional:
 
 Required:
 
-- `condition_groups` (Attributes Set) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--channel_config--condition_groups))
+- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--channel_config--condition_groups))
 
 Optional:
 
@@ -1006,7 +1010,7 @@ Optional:
 
 Required:
 
-- `conditions` (Attributes Set) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions))
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions))
 
 <a id="nestedatt--channel_config--condition_groups--conditions"></a>
 ### Nested Schema for `channel_config.condition_groups.conditions`
@@ -1022,7 +1026,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--param_bindings--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--param_bindings--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--param_bindings--value))
 
 <a id="nestedatt--channel_config--condition_groups--conditions--param_bindings--array_value"></a>
@@ -1059,7 +1063,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding--value))
 
 <a id="nestedatt--channel_config--ms_teams_targets--binding--array_value"></a>
@@ -1095,7 +1099,7 @@ Required:
 
 Optional:
 
-- `array_value` (Attributes Set) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding--array_value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding--array_value))
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding--value))
 
 <a id="nestedatt--channel_config--slack_targets--binding--array_value"></a>

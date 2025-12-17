@@ -1,5 +1,26 @@
 ## Unreleased
 
+## v5.22.0
+
+- Add "incident_escalation_path" data source for getting escalation paths by id or name
+
+## v5.21.1
+
+- Revert `expressions` to use a set type. There order isn't consistent when coming back from the server.
+
+## v5.21.0
+
+- Improve terraform plan performance by using a list type rather than set for `conditions`, `condition_groups` and `expressions`. This may cause a one-time ordering changes in plans, this is expected and will resolve after applying.
+
+## v5.20.0
+
+- Improve terraform plan performance by using a list type rather than set for `array_values`. This may cause a one-time ordering changes in plans, this is expected and will resolve after applying.
+- Add support for `auto_relate_grouped_alerts` for Alert Routes
+
+## v5.19.1
+
+- Performance improvement: `incident_catalog_entries` now uses bulk update API to batch updates in groups of 100, significantly reducing API calls for large catalog syncs
+
 ## v5.19.0
 
 - Automatically remove resources from Terraform state if they're not found remotely (contribution from @maxtacu)

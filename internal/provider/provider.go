@@ -148,5 +148,6 @@ func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.
 		NewIncidentAlertSourcesDataSource,
 		NewIncidentScheduleDataSource,
 		NewIncidentIncidentTypesDataSource,
+		NewIncidentEscalationPathDataSource,
 	}
 }

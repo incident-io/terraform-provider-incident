@@ -6,6 +6,12 @@ See also CONTRIBUTING.md
 
 # Development guidelines
 
+## Available libraries
+
+- **`lo` (samber/lo)** - Generic utility library for Go. Use for common helpers like `lo.Chunk`, `lo.Map`, `lo.ToPtr`, `lo.Filter`, etc. Prefer this over writing custom helpers.
+
+## Resources
+
 If you're developing a new resource:
 - DEVELOPING.md has development guidelines about how to best write your resource schema
 - The repository follows a structure of:
