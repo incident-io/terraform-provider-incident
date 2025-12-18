@@ -1,5 +1,8 @@
 ## Unreleased
 
+## v5.23.0
+- Add "include_private_escalations" option to workflows
+
 ## v5.22.0
 
 - Add "incident_escalation_path" data source for getting escalation paths by id or name
