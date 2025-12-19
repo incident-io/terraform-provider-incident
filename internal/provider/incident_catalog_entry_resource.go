@@ -217,10 +217,15 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 		}
 	}
 
+	var externalId *string
+	if !data.ExternalID.IsNull() {
+		externalId = data.ExternalID.ValueStringPointer()
+	}
+
 	result, err := r.client.CatalogV3CreateEntryWithResponse(ctx, client.CatalogCreateEntryPayloadV3{
 		CatalogTypeId:   data.CatalogTypeID.ValueString(),
 		Name:            data.Name.ValueString(),
-		ExternalId:      data.ExternalID.ValueStringPointer(),
+		ExternalId:      externalId,
 		Rank:            rank,
 		Aliases:         &aliases,
 		AttributeValues: data.buildAttributeValues(ctx),
@@ -289,10 +294,15 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		updateAttributes = &attributeIDs
 	}
 
+	var externalId *string
+	if !data.ExternalID.IsNull() {
+		externalId = data.ExternalID.ValueStringPointer()
+	}
+
 	result, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.CatalogUpdateEntryPayloadV3{
 		Name:             data.Name.ValueString(),
 		Rank:             rank,
-		ExternalId:       data.ExternalID.ValueStringPointer(),
+		ExternalId:       externalId,
 		Aliases:          &aliases,
 		AttributeValues:  data.buildAttributeValues(ctx),
 		UpdateAttributes: updateAttributes,
