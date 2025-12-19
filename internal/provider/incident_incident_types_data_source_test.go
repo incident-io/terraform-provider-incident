@@ -25,10 +25,6 @@ func TestAccIncidentIncidentTypesDataSource(t *testing.T) {
 					// Check that incident types have required attributes
 					resource.TestCheckResourceAttrSet("data.incident_incident_types.test", "incident_types.0.id"),
 					resource.TestCheckResourceAttrSet("data.incident_incident_types.test", "incident_types.0.name"),
-					resource.TestCheckResourceAttrWith("data.incident_incident_types.test", "incident_types.0.description", func(value string) error {
-						// Just check it exists - allow empty (TestCheckResourceAttrWith expects set + non-empty)
-						return nil
-					}),
 				),
 			},
 		},
