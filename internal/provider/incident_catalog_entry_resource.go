@@ -297,15 +297,15 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		updateAttributes = &attributeIDs
 	}
 
-	externalId := data.ExternalID.ValueStringPointer()
-	if externalId != nil && *externalId == "" {
-		externalId = nil
+	externalID := data.ExternalID.ValueStringPointer()
+	if externalID != nil && *externalID == "" {
+		externalID = nil
 	}
 
 	result, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.CatalogUpdateEntryPayloadV3{
 		Name:             data.Name.ValueString(),
 		Rank:             rank,
-		ExternalId:       externalId,
+		ExternalId:       externalID,
 		Aliases:          &aliases,
 		AttributeValues:  data.buildAttributeValues(ctx),
 		UpdateAttributes: updateAttributes,
