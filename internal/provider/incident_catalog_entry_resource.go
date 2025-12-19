@@ -131,6 +131,9 @@ If you're working with a large number of entries (>100) or want to be authoritat
 				MarkdownDescription: apischema.Docstring("CatalogEntryV2", "external_id"),
 				Optional:            true,
 				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"aliases": schema.ListAttribute{
 				ElementType: types.StringType,
@@ -217,9 +220,9 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 		}
 	}
 
-	var externalId *string
-	if !data.ExternalID.IsNull() {
-		externalId = data.ExternalID.ValueStringPointer()
+	externalId := data.ExternalID.ValueStringPointer()
+	if externalId != nil && *externalId == "" {
+		externalId = nil
 	}
 
 	result, err := r.client.CatalogV3CreateEntryWithResponse(ctx, client.CatalogCreateEntryPayloadV3{
@@ -294,9 +297,9 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		updateAttributes = &attributeIDs
 	}
 
-	var externalId *string
-	if !data.ExternalID.IsNull() {
-		externalId = data.ExternalID.ValueStringPointer()
+	externalId := data.ExternalID.ValueStringPointer()
+	if externalId != nil && *externalId == "" {
+		externalId = nil
 	}
 
 	result, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.CatalogUpdateEntryPayloadV3{
