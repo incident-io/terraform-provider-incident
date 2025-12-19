@@ -220,15 +220,15 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 		}
 	}
 
-	externalId := data.ExternalID.ValueStringPointer()
-	if externalId != nil && *externalId == "" {
-		externalId = nil
+	externalID := data.ExternalID.ValueStringPointer()
+	if externalID != nil && *externalID == "" {
+		externalID = nil
 	}
 
 	result, err := r.client.CatalogV3CreateEntryWithResponse(ctx, client.CatalogCreateEntryPayloadV3{
 		CatalogTypeId:   data.CatalogTypeID.ValueString(),
 		Name:            data.Name.ValueString(),
-		ExternalId:      externalId,
+		ExternalId:      externalID,
 		Rank:            rank,
 		Aliases:         &aliases,
 		AttributeValues: data.buildAttributeValues(ctx),
