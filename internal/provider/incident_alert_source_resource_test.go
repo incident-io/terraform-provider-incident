@@ -264,6 +264,18 @@ resource "incident_alert_source" "test" {
 				PlanOnly:    true,
 				ExpectError: regexp.MustCompile("required"),
 			},
+			{
+				// Test visible_to_teams without is_private=true
+				Config:      testAccAlertSourceResourceConfigVisibleToTeamsWithoutPrivate(),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile("visible_to_teams can only be set when is_private is true"),
+			},
+			{
+				// Test is_private=true without visible_to_teams
+				Config:      testAccAlertSourceResourceConfigPrivateWithoutTeams(),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile("visible_to_teams must be set when is_private is true"),
+			},
 		},
 	})
 }
@@ -309,7 +321,7 @@ resource "incident_alert_attribute" "feature" {
 
 locals {
 	with_conds = true
-} 
+}
 
 # Use those attributes in an alert source
 resource "incident_alert_source" "dynamic_alert_source" {
@@ -351,5 +363,128 @@ resource "incident_alert_source" "dynamic_alert_source" {
 	}{
 		Title:       testAlertSourceTitle,
 		Description: testAlertSourceDescription,
+	})
+}
+
+func testAccAlertSourceResourceConfigVisibleToTeamsWithoutPrivate() string {
+	return testRunTemplate("incident_alert_source_visible_to_teams_without_private", `
+resource "incident_alert_source" "test" {
+  name        = "test-source-invalid"
+  source_type = "http"
+
+  template = {
+    expressions = []
+    title = {
+      literal = {{ quote .Title }}
+    }
+    description = {
+      literal = {{ quote .Description }}
+    }
+    attributes = []
+    visible_to_teams = {
+      array_value = [{ literal = "some-team-id" }]
+    }
+  }
+}
+`, struct {
+		Title, Description string
+	}{
+		Title:       testAlertSourceTitle,
+		Description: testAlertSourceDescription,
+	})
+}
+
+func testAccAlertSourceResourceConfigPrivateWithoutTeams() string {
+	return testRunTemplate("incident_alert_source_private_without_teams", `
+resource "incident_alert_source" "test" {
+  name        = "test-source-invalid"
+  source_type = "http"
+
+  template = {
+    expressions = []
+    title = {
+      literal = {{ quote .Title }}
+    }
+    description = {
+      literal = {{ quote .Description }}
+    }
+    attributes = []
+    is_private = true
+  }
+}
+`, struct {
+		Title, Description string
+	}{
+		Title:       testAlertSourceTitle,
+		Description: testAlertSourceDescription,
+	})
+}
+
+// TestAccAlertSourceResource_Private checks that privacy settings work correctly.
+func TestAccAlertSourceResource_Private(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create a private alert source
+			{
+				Config: testAccAlertSourceResourceConfigPrivate(),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "private-alert-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "http"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "template.is_private", "true"),
+					resource.TestCheckResourceAttrSet("incident_alert_source.test", "template.visible_to_teams.array_value.0.literal"),
+				),
+			},
+			// ImportState testing
+			{
+				ResourceName:      "incident_alert_source.test",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+func testAccAlertSourceResourceConfigPrivate() string {
+	return testRunTemplate("incident_alert_source_private", `
+# Look up the Team catalog type
+data "incident_catalog_type" "team" {
+  name = {{ quote .TeamTypeName }}
+}
+
+# Create a team catalog entry for this test
+resource "incident_catalog_entry" "test_team" {
+  catalog_type_id = data.incident_catalog_type.team.id
+  external_id     = "tf-alert-source-privacy-test"
+  name            = "Terraform Alert Source Privacy Test Team"
+  attribute_values = []
+}
+
+resource "incident_alert_source" "test" {
+  name        = "private-alert-source"
+  source_type = "http"
+
+  template = {
+    expressions = []
+    title = {
+      literal = {{ quote .Title }}
+    }
+    description = {
+      literal = {{ quote .Description }}
+    }
+    attributes = []
+    is_private = true
+    visible_to_teams = {
+      array_value = [{ literal = incident_catalog_entry.test_team.id }]
+    }
+  }
+}
+`, struct {
+		Title, Description, TeamTypeName string
+	}{
+		Title:        testAlertSourceTitle,
+		Description:  testAlertSourceDescription,
+		TeamTypeName: teamTypeName(),
 	})
 }
