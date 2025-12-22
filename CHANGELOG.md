@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.24.0
+
+- Add support for private alert sources
+
 ## v5.23.1
 - Fix handling of empty `external_id` in catalog entries
 
