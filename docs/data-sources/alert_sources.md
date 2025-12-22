@@ -137,7 +137,9 @@ Read-Only:
 - `attributes` (Attributes Set) Attributes to set on alerts coming from this source, with a binding describing how to set them. (see [below for nested schema](#nestedatt--alert_sources--template--attributes))
 - `description` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--description))
 - `expressions` (Attributes Set) Expressions that make variables available in the scope (see [below for nested schema](#nestedatt--alert_sources--template--expressions))
+- `is_private` (Boolean) Whether or not alerts produced by this source should be private
 - `title` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--title))
+- `visible_to_teams` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--visible_to_teams))
 
 <a id="nestedatt--alert_sources--template--attributes"></a>
 ### Nested Schema for `alert_sources.template.attributes`
@@ -423,6 +425,32 @@ Read-Only:
 
 <a id="nestedatt--alert_sources--template--title"></a>
 ### Nested Schema for `alert_sources.template.title`
+
+Read-Only:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--alert_sources--template--visible_to_teams"></a>
+### Nested Schema for `alert_sources.template.visible_to_teams`
+
+Read-Only:
+
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--visible_to_teams--array_value))
+- `value` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--visible_to_teams--value))
+
+<a id="nestedatt--alert_sources--template--visible_to_teams--array_value"></a>
+### Nested Schema for `alert_sources.template.visible_to_teams.array_value`
+
+Read-Only:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--alert_sources--template--visible_to_teams--value"></a>
+### Nested Schema for `alert_sources.template.visible_to_teams.value`
 
 Read-Only:
 
