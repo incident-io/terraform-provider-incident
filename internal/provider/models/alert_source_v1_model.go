@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -23,16 +24,23 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 		emailAddress = &source.EmailOptions.EmailAddress
 	}
 
+	var visibleToTeams *IncidentEngineParamBinding
+	if source.Template.VisibleToTeams != nil {
+		visibleToTeams = lo.ToPtr(IncidentEngineParamBinding{}.FromAPI(*source.Template.VisibleToTeams))
+	}
+
 	return AlertSourceResourceModel{
 		ID:          types.StringValue(source.Id),
 		Name:        types.StringValue(source.Name),
 		SourceType:  types.StringValue(string(source.SourceType)),
 		SecretToken: types.StringPointerValue(source.SecretToken),
 		Template: &AlertTemplateModel{
-			Title:       IncidentEngineParamBindingValue{}.FromAPI(source.Template.Title),
-			Description: IncidentEngineParamBindingValue{}.FromAPI(source.Template.Description),
-			Attributes:  AlertTemplateAttributesModel{}.FromAPI(source.Template.Attributes),
-			Expressions: IncidentEngineExpressions{}.FromAPI(source.Template.Expressions),
+			Title:          IncidentEngineParamBindingValue{}.FromAPI(source.Template.Title),
+			Description:    IncidentEngineParamBindingValue{}.FromAPI(source.Template.Description),
+			Attributes:     AlertTemplateAttributesModel{}.FromAPI(source.Template.Attributes),
+			Expressions:    IncidentEngineExpressions{}.FromAPI(source.Template.Expressions),
+			IsPrivate:      types.BoolValue(source.Template.IsPrivate),
+			VisibleToTeams: visibleToTeams,
 		},
 		JiraOptions:       AlertSourceJiraOptionsModel{}.FromAPI(source.JiraOptions),
 		EmailAddress:      types.StringPointerValue(emailAddress),
@@ -41,18 +49,27 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 }
 
 type AlertTemplateModel struct {
-	Expressions IncidentEngineExpressions       `tfsdk:"expressions"`
-	Title       IncidentEngineParamBindingValue `tfsdk:"title"`
-	Description IncidentEngineParamBindingValue `tfsdk:"description"`
-	Attributes  AlertTemplateAttributesModel    `tfsdk:"attributes"`
+	Expressions    IncidentEngineExpressions       `tfsdk:"expressions"`
+	Title          IncidentEngineParamBindingValue `tfsdk:"title"`
+	Description    IncidentEngineParamBindingValue `tfsdk:"description"`
+	Attributes     AlertTemplateAttributesModel    `tfsdk:"attributes"`
+	IsPrivate      types.Bool                      `tfsdk:"is_private"`
+	VisibleToTeams *IncidentEngineParamBinding     `tfsdk:"visible_to_teams"`
 }
 
 func (template AlertTemplateModel) ToPayload() client.AlertTemplatePayloadV2 {
+	var visibleToTeams *client.EngineParamBindingPayloadV2
+	if template.VisibleToTeams != nil {
+		visibleToTeams = lo.ToPtr(template.VisibleToTeams.ToPayload())
+	}
+
 	return client.AlertTemplatePayloadV2{
-		Expressions: template.Expressions.ToPayload(),
-		Title:       template.Title.ToPayload(),
-		Description: template.Description.ToPayload(),
-		Attributes:  template.Attributes.ToPayload(),
+		Expressions:    template.Expressions.ToPayload(),
+		Title:          template.Title.ToPayload(),
+		Description:    template.Description.ToPayload(),
+		Attributes:     template.Attributes.ToPayload(),
+		IsPrivate:      template.IsPrivate.ValueBoolPointer(),
+		VisibleToTeams: visibleToTeams,
 	}
 }
 
