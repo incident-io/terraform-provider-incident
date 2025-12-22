@@ -1,5 +1,8 @@
 ## Unreleased
 
+## v5.23.1
+- Fix handling of empty `external_id` in catalog entries
+
 ## v5.23.0
 - Add "include_private_escalations" option to workflows
 
