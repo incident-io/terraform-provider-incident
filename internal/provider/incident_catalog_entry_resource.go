@@ -131,6 +131,9 @@ If you're working with a large number of entries (>100) or want to be authoritat
 				MarkdownDescription: apischema.Docstring("CatalogEntryV2", "external_id"),
 				Optional:            true,
 				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"aliases": schema.ListAttribute{
 				ElementType: types.StringType,
@@ -217,10 +220,15 @@ func (r *IncidentCatalogEntryResource) Create(ctx context.Context, req resource.
 		}
 	}
 
+	externalID := data.ExternalID.ValueStringPointer()
+	if externalID != nil && *externalID == "" {
+		externalID = nil
+	}
+
 	result, err := r.client.CatalogV3CreateEntryWithResponse(ctx, client.CatalogCreateEntryPayloadV3{
 		CatalogTypeId:   data.CatalogTypeID.ValueString(),
 		Name:            data.Name.ValueString(),
-		ExternalId:      data.ExternalID.ValueStringPointer(),
+		ExternalId:      externalID,
 		Rank:            rank,
 		Aliases:         &aliases,
 		AttributeValues: data.buildAttributeValues(ctx),
@@ -289,10 +297,15 @@ func (r *IncidentCatalogEntryResource) Update(ctx context.Context, req resource.
 		updateAttributes = &attributeIDs
 	}
 
+	externalID := data.ExternalID.ValueStringPointer()
+	if externalID != nil && *externalID == "" {
+		externalID = nil
+	}
+
 	result, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.CatalogUpdateEntryPayloadV3{
 		Name:             data.Name.ValueString(),
 		Rank:             rank,
-		ExternalId:       data.ExternalID.ValueStringPointer(),
+		ExternalId:       externalID,
 		Aliases:          &aliases,
 		AttributeValues:  data.buildAttributeValues(ctx),
 		UpdateAttributes: updateAttributes,
