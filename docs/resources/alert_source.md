@@ -155,6 +155,11 @@ Required:
 - `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--template--expressions))
 - `title` (Attributes) (see [below for nested schema](#nestedatt--template--title))
 
+Optional:
+
+- `is_private` (Boolean) Whether or not alerts produced by this source should be private
+- `visible_to_teams` (Attributes) (see [below for nested schema](#nestedatt--template--visible_to_teams))
+
 <a id="nestedatt--template--attributes"></a>
 ### Nested Schema for `template.attributes`
 
@@ -450,6 +455,33 @@ Optional:
 
 - `literal` (String) If set, this is the literal value of the step parameter
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--template--visible_to_teams"></a>
+### Nested Schema for `template.visible_to_teams`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--visible_to_teams--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--visible_to_teams--value))
+
+<a id="nestedatt--template--visible_to_teams--array_value"></a>
+### Nested Schema for `template.visible_to_teams.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--template--visible_to_teams--value"></a>
+### Nested Schema for `template.visible_to_teams.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
 
 
 

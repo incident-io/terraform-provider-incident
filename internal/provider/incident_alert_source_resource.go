@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -59,6 +60,26 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 			"jira_options must be set when source_type is jira",
 			"These options are required for the 'jira' source type, to specify which projects to watch for new issues."))
 		return
+	}
+
+	// Validate visible_to_teams only set when is_private is true
+	if data.Template != nil && data.Template.VisibleToTeams != nil {
+		if data.Template.IsPrivate.IsNull() || !data.Template.IsPrivate.ValueBool() {
+			resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+				"visible_to_teams can only be set when is_private is true",
+				"The visible_to_teams field specifies which teams can view private alerts, so it requires is_private to be true."))
+			return
+		}
+	}
+
+	// Validate visible_to_teams must be set when is_private is true
+	if data.Template != nil && !data.Template.IsPrivate.IsNull() && data.Template.IsPrivate.ValueBool() {
+		if data.Template.VisibleToTeams == nil {
+			resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+				"visible_to_teams must be set when is_private is true",
+				"Private alert sources require specifying which teams can view the alerts."))
+			return
+		}
 	}
 }
 
@@ -138,6 +159,17 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 								},
 							},
 						},
+					},
+					"is_private": schema.BoolAttribute{
+						Optional:            true,
+						Computed:            true,
+						Default:             booldefault.StaticBool(false),
+						MarkdownDescription: apischema.Docstring("AlertTemplateV2", "is_private"),
+					},
+					"visible_to_teams": schema.SingleNestedAttribute{
+						Optional:            true,
+						MarkdownDescription: apischema.Docstring("AlertTemplateV2", "visible_to_teams"),
+						Attributes:          models.ParamBindingAttributes(),
 					},
 				},
 			},
