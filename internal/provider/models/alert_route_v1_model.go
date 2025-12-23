@@ -524,7 +524,9 @@ func (m AlertRouteResourceModel) ToCreatePayload() client.AlertRoutesCreatePaylo
 	if !m.OwningTeamIDs.IsNull() {
 		teamIDs := []string{}
 		for _, elem := range m.OwningTeamIDs.Elements() {
-			teamIDs = append(teamIDs, elem.(types.String).ValueString())
+			if str, ok := elem.(types.String); ok {
+				teamIDs = append(teamIDs, str.ValueString())
+			}
 		}
 
 		owningTeamIDs = &teamIDs
