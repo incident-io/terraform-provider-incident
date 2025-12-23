@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
@@ -179,6 +180,11 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "defer_time_seconds"),
 					},
 				},
+			},
+			"owning_team_ids": schema.SetAttribute{
+				Optional:            true,
+				ElementType:         types.StringType,
+				MarkdownDescription: apischema.Docstring("AlertRouteV2", "owning_team_ids"),
 			},
 			"incident_template": schema.SingleNestedAttribute{
 				Required:            true,
