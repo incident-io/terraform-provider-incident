@@ -246,7 +246,9 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 		if !data.OwningTeamIDs.IsNull() {
 			teamIDs := []string{}
 			for _, elem := range data.OwningTeamIDs.Elements() {
-				teamIDs = append(teamIDs, elem.(types.String).ValueString())
+				if str, ok := elem.(types.String); ok {
+					teamIDs = append(teamIDs, str.ValueString())
+				}
 			}
 
 			owningTeamIDs = &teamIDs
@@ -312,7 +314,9 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 		if !data.OwningTeamIDs.IsNull() {
 			teamIDs := []string{}
 			for _, elem := range data.OwningTeamIDs.Elements() {
-				teamIDs = append(teamIDs, elem.(types.String).ValueString())
+				if str, ok := elem.(types.String); ok {
+					teamIDs = append(teamIDs, str.ValueString())
+				}
 			}
 
 			owningTeamIDs = &teamIDs
