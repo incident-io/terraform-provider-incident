@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
 
@@ -16,6 +17,7 @@ type AlertSourceResourceModel struct {
 	JiraOptions       *AlertSourceJiraOptionsModel       `tfsdk:"jira_options"`
 	EmailAddress      types.String                       `tfsdk:"email_address"`
 	HTTPCustomOptions *AlertSourceHTTPCustomOptionsModel `tfsdk:"http_custom_options"`
+	OwningTeamIDs     types.Set                          `tfsdk:"owning_team_ids"`
 }
 
 func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSourceResourceModel {
@@ -27,6 +29,16 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 	var visibleToTeams *IncidentEngineParamBinding
 	if source.Template.VisibleToTeams != nil {
 		visibleToTeams = lo.ToPtr(IncidentEngineParamBinding{}.FromAPI(*source.Template.VisibleToTeams))
+	}
+
+	owningTeamIDs := types.SetNull(types.StringType)
+	if source.OwningTeamIds != nil {
+		teamIDValues := []attr.Value{}
+		for _, teamID := range *source.OwningTeamIds {
+			teamIDValues = append(teamIDValues, types.StringValue(teamID))
+		}
+
+		owningTeamIDs, _ = types.SetValue(types.StringType, teamIDValues)
 	}
 
 	return AlertSourceResourceModel{
@@ -45,6 +57,7 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 		JiraOptions:       AlertSourceJiraOptionsModel{}.FromAPI(source.JiraOptions),
 		EmailAddress:      types.StringPointerValue(emailAddress),
 		HTTPCustomOptions: AlertSourceHTTPCustomOptionsModel{}.FromAPI(source.HttpCustomOptions),
+		OwningTeamIDs:     owningTeamIDs,
 	}
 }
 
