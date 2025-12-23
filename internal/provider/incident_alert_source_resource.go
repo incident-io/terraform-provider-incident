@@ -207,6 +207,11 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 					},
 				},
 			},
+			"owning_team_ids": schema.SetAttribute{
+				Optional:            true,
+				ElementType:         types.StringType,
+				MarkdownDescription: apischema.Docstring("AlertSourceV2", "owning_team_ids"),
+			},
 		},
 	}
 }
@@ -237,12 +242,23 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 	}
 
 	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertSourcesV2CreateResponse, error) {
+		var owningTeamIDs *[]string
+		if !data.OwningTeamIDs.IsNull() {
+			teamIDs := []string{}
+			for _, elem := range data.OwningTeamIDs.Elements() {
+				teamIDs = append(teamIDs, elem.(types.String).ValueString())
+			}
+
+			owningTeamIDs = &teamIDs
+		}
+
 		return r.client.AlertSourcesV2CreateWithResponse(ctx, client.AlertSourcesCreatePayloadV2{
 			Name:              data.Name.ValueString(),
 			SourceType:        client.AlertSourcesCreatePayloadV2SourceType(data.SourceType.ValueString()),
 			Template:          data.Template.ToPayload(),
 			JiraOptions:       data.JiraOptions.ToPayload(),
 			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
+			OwningTeamIds:     owningTeamIDs,
 		})
 	})
 
@@ -292,11 +308,22 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 	}
 
 	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertSourcesV2UpdateResponse, error) {
+		var owningTeamIDs *[]string
+		if !data.OwningTeamIDs.IsNull() {
+			teamIDs := []string{}
+			for _, elem := range data.OwningTeamIDs.Elements() {
+				teamIDs = append(teamIDs, elem.(types.String).ValueString())
+			}
+
+			owningTeamIDs = &teamIDs
+		}
+
 		return r.client.AlertSourcesV2UpdateWithResponse(ctx, data.ID.ValueString(), client.AlertSourcesUpdatePayloadV2{
 			Name:              data.Name.ValueString(),
 			Template:          data.Template.ToPayload(),
 			JiraOptions:       data.JiraOptions.ToPayload(),
 			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
+			OwningTeamIds:     owningTeamIDs,
 		})
 	})
 
