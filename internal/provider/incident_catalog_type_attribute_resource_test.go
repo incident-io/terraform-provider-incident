@@ -10,6 +10,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -135,4 +136,46 @@ func testAccIncidentCatalogTypeAttributeResourceConfig(attribute client.CatalogT
 	}
 
 	return buf.String()
+}
+
+func TestAttributeToPayload_PreservesModes(t *testing.T) {
+	tests := []struct {
+		mode              client.CatalogTypeAttributeV3Mode
+		backlinkAttribute *string
+		path              *[]client.CatalogTypeAttributePathItemV3
+		expectedMode      client.CatalogTypeAttributePayloadV3Mode
+	}{
+		// Schema-only modes should be preserved
+		{client.CatalogTypeAttributeV3ModeDashboard, nil, nil, client.CatalogTypeAttributePayloadV3ModeDashboard},
+		{client.CatalogTypeAttributeV3ModeInternal, nil, nil, client.CatalogTypeAttributePayloadV3ModeInternal},
+		{client.CatalogTypeAttributeV3ModeExternal, nil, nil, client.CatalogTypeAttributePayloadV3ModeExternal},
+		{client.CatalogTypeAttributeV3ModeDynamic, nil, nil, client.CatalogTypeAttributePayloadV3ModeDynamic},
+		// Non-schema-only modes default to api
+		{client.CatalogTypeAttributeV3ModeApi, nil, nil, client.CatalogTypeAttributePayloadV3ModeApi},
+		{client.CatalogTypeAttributeV3ModeEmpty, nil, nil, client.CatalogTypeAttributePayloadV3ModeApi},
+		// Backlink and path modes
+		{client.CatalogTypeAttributeV3ModeBacklink, lo.ToPtr("other-attr"), nil, client.CatalogTypeAttributePayloadV3ModeBacklink},
+		{client.CatalogTypeAttributeV3ModePath, nil, &[]client.CatalogTypeAttributePathItemV3{{AttributeId: "attr-1"}}, client.CatalogTypeAttributePayloadV3ModePath},
+	}
+
+	for _, tt := range tests {
+		t.Run(string(tt.mode), func(t *testing.T) {
+			r := &IncidentCatalogTypeAttributeResource{}
+			attribute := client.CatalogTypeAttributeV3{
+				Id:                "attr-id",
+				Name:              "Test Attribute",
+				Type:              "Text",
+				Array:             false,
+				Mode:              tt.mode,
+				BacklinkAttribute: tt.backlinkAttribute,
+				Path:              tt.path,
+			}
+
+			payload := r.attributeToPayload(attribute)
+
+			if *payload.Mode != tt.expectedMode {
+				t.Errorf("attributeToPayload() Mode = %v, want %v", *payload.Mode, tt.expectedMode)
+			}
+		})
+	}
 }
