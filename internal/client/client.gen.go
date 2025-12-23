@@ -1799,6 +1799,9 @@ type AlertRouteV2 struct {
 	// Name The name of this alert route config, for the user's reference
 	Name string `json:"name"`
 
+	// OwningTeamIds Optional array of team IDs that are the owners of this alert route
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
 	// UpdatedAt The time of last update of this alert route
 	UpdatedAt *time.Time `json:"updated_at,omitempty"`
 
@@ -1834,6 +1837,9 @@ type AlertRoutesCreatePayloadV2 struct {
 
 	// Name The name of this alert route config, for the user's reference
 	Name string `json:"name"`
+
+	// OwningTeamIds Optional array of team IDs that are the owners of this alert route
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
 
 	// UpdatedAt The time of last update of this alert route
 	UpdatedAt *time.Time `json:"updated_at,omitempty"`
@@ -1886,6 +1892,9 @@ type AlertRoutesUpdatePayloadV2 struct {
 
 	// Name The name of this alert route config, for the user's reference
 	Name string `json:"name"`
+
+	// OwningTeamIds Optional array of team IDs that are the owners of this alert route
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
 
 	// UpdatedAt The time of last update of this alert route
 	UpdatedAt *time.Time `json:"updated_at,omitempty"`
@@ -1970,6 +1979,9 @@ type AlertSourceV2 struct {
 	// Name Unique name of the alert source
 	Name string `json:"name"`
 
+	// OwningTeamIds Optional array of team IDs that are the owners of this alert source
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
 	// SecretToken Secret token used to authenticate this source, if applicable. If applicable, this is the token that must be included in either the query string or the 'Authorization' header when sending events to this alert source.
 	SecretToken *string `json:"secret_token,omitempty"`
 
@@ -1988,6 +2000,9 @@ type AlertSourcesCreatePayloadV2 struct {
 
 	// Name Unique name of the alert source
 	Name string `json:"name"`
+
+	// OwningTeamIds Optional array of team IDs that are the owners of this alert source
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
 
 	// SourceType Type of alert source
 	SourceType AlertSourcesCreatePayloadV2SourceType `json:"source_type"`
@@ -2018,8 +2033,11 @@ type AlertSourcesUpdatePayloadV2 struct {
 	JiraOptions       *AlertSourceJiraOptionsV2       `json:"jira_options,omitempty"`
 
 	// Name Unique name of the alert source
-	Name     string                 `json:"name"`
-	Template AlertTemplatePayloadV2 `json:"template"`
+	Name string `json:"name"`
+
+	// OwningTeamIds Optional array of team IDs that are the owners of this alert source
+	OwningTeamIds *[]string              `json:"owning_team_ids,omitempty"`
+	Template      AlertTemplatePayloadV2 `json:"template"`
 }
 
 // AlertSourcesUpdateResultV2 defines model for AlertSourcesUpdateResultV2.
