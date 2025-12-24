@@ -30,6 +30,24 @@ var (
 	_ resource.ResourceWithImportState    = &IncidentCatalogTypeAttributeResource{}
 )
 
+// isSchemaOnlyMode returns true if the mode indicates that Terraform manages only
+// the schema (attribute definition), not the values. This includes:
+// - dashboard: user sets schema_only=true in Terraform
+// - internal: system changes mode when attribute is used as team's escalation path
+// - external: values managed by external integrations
+// - dynamic: values dynamically computed.
+func isSchemaOnlyMode(mode client.CatalogTypeAttributeV3Mode) bool {
+	switch mode {
+	case client.CatalogTypeAttributeV3ModeDashboard,
+		client.CatalogTypeAttributeV3ModeInternal,
+		client.CatalogTypeAttributeV3ModeExternal,
+		client.CatalogTypeAttributeV3ModeDynamic:
+		return true
+	default:
+		return false
+	}
+}
+
 type IncidentCatalogTypeAttributeResource struct {
 	client *client.ClientWithResponses
 }
@@ -395,7 +413,7 @@ func (r *IncidentCatalogTypeAttributeResource) buildModel(catalogType client.Cat
 			result.Name = types.StringValue(attribute.Name)
 			result.Type = types.StringValue(attribute.Type)
 			result.Array = types.BoolValue(attribute.Array)
-			result.SchemaOnly = types.BoolValue(attribute.Mode == client.CatalogTypeAttributeV3ModeDashboard)
+			result.SchemaOnly = types.BoolValue(isSchemaOnlyMode(attribute.Mode))
 			if attribute.BacklinkAttribute != nil {
 				result.BacklinkAttribute = types.StringValue(*attribute.BacklinkAttribute)
 			}
@@ -463,19 +481,8 @@ func (r *IncidentCatalogTypeAttributeResource) ImportState(ctx context.Context, 
 }
 
 func (*IncidentCatalogTypeAttributeResource) attributeToPayload(attribute client.CatalogTypeAttributeV3) client.CatalogTypeAttributePayloadV3 {
-	var (
-		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeApi)
-		path *[]client.CatalogTypeAttributePathItemPayloadV3
-	)
-
-	if attribute.Mode == client.CatalogTypeAttributeV3ModeDashboard {
-		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeDashboard)
-	}
-	if attribute.BacklinkAttribute != nil {
-		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeBacklink)
-	}
+	var path *[]client.CatalogTypeAttributePathItemPayloadV3
 	if attribute.Path != nil {
-		mode = lo.ToPtr(client.CatalogTypeAttributePayloadV3ModePath)
 		path = &[]client.CatalogTypeAttributePathItemPayloadV3{}
 		for _, item := range *attribute.Path {
 			*path = append(*path, client.CatalogTypeAttributePathItemPayloadV3{
@@ -491,6 +498,30 @@ func (*IncidentCatalogTypeAttributeResource) attributeToPayload(attribute client
 		Array:             attribute.Array,
 		BacklinkAttribute: attribute.BacklinkAttribute,
 		Path:              path,
-		Mode:              mode,
+		Mode:              toPayloadMode(attribute),
 	}
+}
+
+// toPayloadMode converts a response attribute to a payload mode, handling backlink, path,
+// and schema-only modes.
+func toPayloadMode(attribute client.CatalogTypeAttributeV3) *client.CatalogTypeAttributePayloadV3Mode {
+	if attribute.BacklinkAttribute != nil {
+		return lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeBacklink)
+	}
+	if attribute.Path != nil {
+		return lo.ToPtr(client.CatalogTypeAttributePayloadV3ModePath)
+	}
+	if isSchemaOnlyMode(attribute.Mode) {
+		switch attribute.Mode {
+		case client.CatalogTypeAttributeV3ModeDashboard:
+			return lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeDashboard)
+		case client.CatalogTypeAttributeV3ModeInternal:
+			return lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeInternal)
+		case client.CatalogTypeAttributeV3ModeExternal:
+			return lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeExternal)
+		case client.CatalogTypeAttributeV3ModeDynamic:
+			return lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeDynamic)
+		}
+	}
+	return lo.ToPtr(client.CatalogTypeAttributePayloadV3ModeApi)
 }

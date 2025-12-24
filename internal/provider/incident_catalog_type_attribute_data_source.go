@@ -122,7 +122,7 @@ func (i *IncidentCatalogTypeAttributeDataSource) Read(ctx context.Context, req d
 			data.ID = types.StringValue(attribute.Id)
 			data.Type = types.StringValue(attribute.Type)
 			data.Array = types.BoolValue(attribute.Array)
-			data.SchemaOnly = types.BoolValue(attribute.Mode == client.CatalogTypeAttributeV3ModeDashboard)
+			data.SchemaOnly = types.BoolValue(isSchemaOnlyMode(attribute.Mode))
 
 			if attribute.BacklinkAttribute != nil {
 				data.BacklinkAttribute = types.StringValue(*attribute.BacklinkAttribute)
