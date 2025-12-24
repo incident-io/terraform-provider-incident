@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.24.1
+
+- Fix `schema_only` drift when catalog type attribute mode changes
+
 ## v5.24.0
 
 - Add support for private alert sources
