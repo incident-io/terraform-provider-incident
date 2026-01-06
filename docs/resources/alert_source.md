@@ -139,6 +139,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 - `email_address` (String) Email address this alert source receives alerts to
 - `http_custom_options` (Attributes) (see [below for nested schema](#nestedatt--http_custom_options))
 - `jira_options` (Attributes) (see [below for nested schema](#nestedatt--jira_options))
+- `owning_team_ids` (Set of String) Optional array of team IDs that are the owners of this alert source
 
 ### Read-Only
 

@@ -488,3 +488,132 @@ resource "incident_alert_source" "test" {
 		TeamTypeName: teamTypeName(),
 	})
 }
+
+// TestAccAlertSourceResource_OwningTeamIDs checks that owning_team_ids work correctly.
+func TestAccAlertSourceResourceOwningTeamIDs(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create without owning_team_ids
+			{
+				Config: testAccAlertSourceResourceConfig("test-source-no-teams", "datadog"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "test-source-no-teams"),
+					resource.TestCheckNoResourceAttr("incident_alert_source.test", "owning_team_ids"),
+				),
+			},
+			// Update to add owning_team_ids
+			{
+				Config: testAccAlertSourceResourceConfigWithOwningTeamIDs("test-source-with-teams"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "test-source-with-teams"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "owning_team_ids.#", "1"),
+					resource.TestCheckResourceAttrPair("incident_alert_source.test", "owning_team_ids.0", "incident_catalog_entry.owner_team", "id"),
+				),
+			},
+			// Update to change the team
+			{
+				Config: testAccAlertSourceResourceConfigWithDifferentOwningTeamIDs("test-source-updated-teams"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "test-source-updated-teams"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "owning_team_ids.#", "2"),
+				),
+			},
+		},
+	})
+}
+
+func testAccAlertSourceResourceConfigWithOwningTeamIDs(name string) string {
+	return testRunTemplate("incident_alert_source_with_owning_teams", `
+# Look up the Team catalog type
+data "incident_catalog_type" "team" {
+  name = {{ quote .TeamTypeName }}
+}
+
+# Create a team catalog entry for this test
+resource "incident_catalog_entry" "owner_team" {
+  catalog_type_id = data.incident_catalog_type.team.id
+  external_id     = "tf-alert-source-owning-team-test"
+  name            = "Terraform Alert Source Owning Team Test"
+  attribute_values = []
+}
+
+resource "incident_alert_source" "test" {
+  name        = {{ quote .Name }}
+  source_type = "datadog"
+
+  template = {
+    expressions = []
+    title = {
+      literal = {{ quote .Title }}
+    }
+    description = {
+      literal = {{ quote .Description }}
+    }
+    attributes = []
+  }
+
+  owning_team_ids = [incident_catalog_entry.owner_team.id]
+}
+`, struct {
+		Name, Title, Description, TeamTypeName string
+	}{
+		Name:         name,
+		Title:        testAlertSourceTitle,
+		Description:  testAlertSourceDescription,
+		TeamTypeName: teamTypeName(),
+	})
+}
+
+func testAccAlertSourceResourceConfigWithDifferentOwningTeamIDs(name string) string {
+	return testRunTemplate("incident_alert_source_with_different_owning_teams", `
+# Look up the Team catalog type
+data "incident_catalog_type" "team" {
+  name = {{ quote .TeamTypeName }}
+}
+
+# Create team catalog entries for this test
+resource "incident_catalog_entry" "owner_team" {
+  catalog_type_id = data.incident_catalog_type.team.id
+  external_id     = "tf-alert-source-owning-team-test"
+  name            = "Terraform Alert Source Owning Team Test"
+  attribute_values = []
+}
+
+resource "incident_catalog_entry" "owner_team_2" {
+  catalog_type_id = data.incident_catalog_type.team.id
+  external_id     = "tf-alert-source-owning-team-test-2"
+  name            = "Terraform Alert Source Owning Team Test 2"
+  attribute_values = []
+}
+
+resource "incident_alert_source" "test" {
+  name        = {{ quote .Name }}
+  source_type = "datadog"
+
+  template = {
+    expressions = []
+    title = {
+      literal = {{ quote .Title }}
+    }
+    description = {
+      literal = {{ quote .Description }}
+    }
+    attributes = []
+  }
+
+  owning_team_ids = [
+    incident_catalog_entry.owner_team.id,
+    incident_catalog_entry.owner_team_2.id
+  ]
+}
+`, struct {
+		Name, Title, Description, TeamTypeName string
+	}{
+		Name:         name,
+		Title:        testAlertSourceTitle,
+		Description:  testAlertSourceDescription,
+		TeamTypeName: teamTypeName(),
+	})
+}
