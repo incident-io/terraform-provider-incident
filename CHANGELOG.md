@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.25.0
+
+- Add support for `owning_team_ids` for alert sources and alert routes
+
 ## v5.24.1
 
 - Fix `schema_only` drift when catalog type attribute mode changes
