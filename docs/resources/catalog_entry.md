@@ -90,6 +90,8 @@ resource "incident_catalog_entry" "service_tier" {
 - `managed_attributes` (Set of String) The set of attributes that are managed by this resource. By default, all attributes are managed by this resource.
 
 This can be used to allow other attributes of a catalog entry to be managed elsewhere, for example in another Terraform repository or the incident.io web UI.
+
+When `managed_attributes` is set, destroying the Terraform resource will clear only those attributes instead of deleting the catalog entry. This enables partial management of entries owned by external systems (e.g., Schedules from the on-call product).
 - `rank` (Number) When catalog type is ranked, this is used to help order things
 
 ### Read-Only

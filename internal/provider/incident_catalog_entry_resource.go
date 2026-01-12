@@ -313,6 +313,37 @@ func (r *IncidentCatalogEntryResource) Delete(ctx context.Context, req resource.
 		return
 	}
 
+	// If managed_attributes is set, we're only managing specific attributes on an entry
+	// that may be owned elsewhere. Instead of deleting the entry, clear the managed
+	// attributes by sending an update with empty values.
+	if !data.ManagedAttributes.IsNull() && !data.ManagedAttributes.IsUnknown() {
+		var managedAttributeIDs []string
+		diags := data.ManagedAttributes.ElementsAs(ctx, &managedAttributeIDs, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
+		}
+
+		// Only proceed if there are actually managed attributes to clear
+		if len(managedAttributeIDs) > 0 {
+			// Clear the managed attributes by sending an update with empty attribute values
+			// and specifying the managed attributes in UpdateAttributes (this clears them)
+			_, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.CatalogUpdateEntryPayloadV3{
+				Name:             data.Name.ValueString(),
+				AttributeValues:  map[string]client.CatalogEngineParamBindingPayloadV3{},
+				UpdateAttributes: &managedAttributeIDs,
+			})
+			if err != nil {
+				resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to clear managed attributes on catalog entry, got error: %s", err))
+				return
+			}
+
+			tflog.Info(ctx, fmt.Sprintf("Cleared managed attributes on catalog entry %s instead of deleting (entry is partially managed)", data.ID.ValueString()))
+			return
+		}
+	}
+
+	// If no managed_attributes set, delete the entire entry as before
 	_, err := r.client.CatalogV2DestroyEntry(ctx, data.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete catalog entry, got error: %s", err))
