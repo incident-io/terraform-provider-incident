@@ -107,6 +107,20 @@ for_each, or you don't want terraform to remove any entries that it is not manag
 
 If you're working with a large number of entries (>100) or want to be authoritative
 (remove anything Terraform does not manage) then prefer ` + "`incident_catalog_entries`" + `.
+
+## Managing attributes on internal catalog types
+
+Some catalog types like Schedule are managed internally by incident.io - their entries are
+created and maintained by the product (e.g., the on-call system). You can't create or delete
+these entries via Terraform, but you can extend them with custom attributes.
+
+To do this:
+1. Add a custom attribute to the catalog type via the incident.io web UI
+2. Use data sources to look up the existing type, attribute, and entry
+3. Set ` + "`managed_attributes`" + ` to manage only your custom attribute
+
+When you run ` + "`terraform destroy`" + `, Terraform will clear the managed attributes rather than
+attempting to delete the entry.
 		`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -173,7 +187,9 @@ If you're working with a large number of entries (>100) or want to be authoritat
 				ElementType: types.StringType,
 				MarkdownDescription: `The set of attributes that are managed by this resource. By default, all attributes are managed by this resource.
 
-This can be used to allow other attributes of a catalog entry to be managed elsewhere, for example in another Terraform repository or the incident.io web UI.`,
+This can be used to allow other attributes of a catalog entry to be managed elsewhere, for example in another Terraform repository or the incident.io web UI.
+
+When ` + "`managed_attributes`" + ` is set, destroying the Terraform resource will clear only those attributes instead of deleting the catalog entry. This enables partial management of entries owned by external systems (e.g., Schedules from the on-call product).`,
 				Optional: true,
 				PlanModifiers: []planmodifier.Set{
 					setplanmodifier.UseStateForUnknown(),
@@ -326,6 +342,37 @@ func (r *IncidentCatalogEntryResource) Delete(ctx context.Context, req resource.
 		return
 	}
 
+	// If managed_attributes is set, we're only managing specific attributes on an entry
+	// that may be owned elsewhere. Instead of deleting the entry, clear the managed
+	// attributes by sending an update with empty values.
+	if !data.ManagedAttributes.IsNull() && !data.ManagedAttributes.IsUnknown() {
+		var managedAttributeIDs []string
+		diags := data.ManagedAttributes.ElementsAs(ctx, &managedAttributeIDs, false)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
+		}
+
+		// Only proceed if there are actually managed attributes to clear
+		if len(managedAttributeIDs) > 0 {
+			// Clear the managed attributes by sending an update with empty attribute values
+			// and specifying the managed attributes in UpdateAttributes (this clears them)
+			_, err := r.client.CatalogV3UpdateEntryWithResponse(ctx, data.ID.ValueString(), client.CatalogUpdateEntryPayloadV3{
+				Name:             data.Name.ValueString(),
+				AttributeValues:  map[string]client.CatalogEngineParamBindingPayloadV3{},
+				UpdateAttributes: &managedAttributeIDs,
+			})
+			if err != nil {
+				resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to clear managed attributes on catalog entry, got error: %s", err))
+				return
+			}
+
+			tflog.Info(ctx, fmt.Sprintf("Cleared managed attributes on catalog entry %s instead of deleting (entry is partially managed)", data.ID.ValueString()))
+			return
+		}
+	}
+
+	// If no managed_attributes set, delete the entire entry as before
 	_, err := r.client.CatalogV2DestroyEntry(ctx, data.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete catalog entry, got error: %s", err))

@@ -276,6 +276,81 @@ func TestAccIncidentCatalogEntryResourceWithEmptyManagedAttributes(t *testing.T)
 	})
 }
 
+func TestAccIncidentCatalogEntryResourceManagedAttributesDestroy(t *testing.T) {
+	// This test verifies that when managed_attributes is set, destroying the
+	// Terraform resource clears the managed attributes instead of deleting the entry.
+	testID := uuid.NewString()
+
+	var entryID string
+	var descriptionAttrID string
+
+	// Capture resource IDs during step 1
+	captureIDs := func(s *terraform.State) error {
+		resources := s.RootModule().Resources
+
+		if res, ok := resources["incident_catalog_entry.example"]; ok {
+			entryID = res.Primary.ID
+		}
+		if res, ok := resources["incident_catalog_type_attribute.example_description"]; ok {
+			descriptionAttrID = res.Primary.ID
+		}
+
+		return nil
+	}
+
+	// Verify entry still exists but has cleared Description attribute
+	checkEntryExistsWithClearedAttribute := func(s *terraform.State) error {
+		if entryID == "" {
+			return fmt.Errorf("entry ID not captured during test")
+		}
+
+		// Fetch the entry directly from the API
+		entry, err := testClient.CatalogV3ShowEntryWithResponse(context.Background(), entryID)
+		if err != nil {
+			return fmt.Errorf("error fetching catalog entry: %w", err)
+		}
+
+		// Entry should still exist
+		if entry.JSON200 == nil {
+			return fmt.Errorf("expected entry to still exist after destroy with managed_attributes, but it was deleted")
+		}
+
+		// The managed attribute (Description) should be cleared
+		if descriptionAttrID != "" {
+			if binding, ok := entry.JSON200.CatalogEntry.AttributeValues[descriptionAttrID]; ok {
+				// If the attribute exists, its value should be nil/empty
+				if binding.Value != nil && binding.Value.Literal != nil && *binding.Value.Literal != "" {
+					return fmt.Errorf("expected Description attribute to be cleared, but got: %q", *binding.Value.Literal)
+				}
+			}
+			// If attribute doesn't exist at all, that's fine - it's been cleared
+		}
+
+		return nil
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Step 1: Create entry with managed_attributes set
+			{
+				Config: testAccIncidentCatalogEntryResourceConfigWithID(testID, "ManagedDestroy", "This should be cleared on destroy", []string{}, true),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_catalog_entry.example", "name", "ManagedDestroy"),
+					captureIDs,
+				),
+			},
+			// Step 2: Remove the entry from config (keep catalog type)
+			// This triggers destroy of the entry, which should clear attributes not delete
+			{
+				Config: testAccIncidentCatalogEntryResourceConfigTypeOnly(testID),
+				Check:  checkEntryExistsWithClearedAttribute,
+			},
+		},
+	})
+}
+
 func TestIncidentCatalogEntryResource_ValidateConfigConditionalArray(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		IsUnitTest:               true,
@@ -338,6 +413,7 @@ resource "incident_catalog_type_attribute" "example_bool" {
   type = "Bool"
 }
 
+{{ if .IncludeEntry }}
 resource "incident_catalog_entry" "example" {
   catalog_type_id = incident_catalog_type.example.id
 
@@ -361,6 +437,7 @@ resource "incident_catalog_entry" "example" {
   managed_attributes = []
   {{ end }}
 }
+{{ end }}
 `))
 
 func testAccIncidentCatalogEntryResourceConfigWithID(id, name, description string, aliases []string, onlyManageDescription bool) string {
@@ -372,6 +449,7 @@ func testAccIncidentCatalogEntryResourceConfigWithID(id, name, description strin
 		Aliases                   []string
 		OnlyManageDescription     bool
 		UseEmptyManagedAttributes bool
+		IncludeEntry              bool
 	}{
 		ID:                        id,
 		Name:                      name,
@@ -379,6 +457,7 @@ func testAccIncidentCatalogEntryResourceConfigWithID(id, name, description strin
 		Aliases:                   aliases,
 		OnlyManageDescription:     onlyManageDescription,
 		UseEmptyManagedAttributes: false,
+		IncludeEntry:              true,
 	}); err != nil {
 		panic(err)
 	}
@@ -395,6 +474,7 @@ func testAccIncidentCatalogEntryResourceConfigWithEmptyManagedAttributes(id, nam
 		Aliases                   []string
 		OnlyManageDescription     bool
 		UseEmptyManagedAttributes bool
+		IncludeEntry              bool
 	}{
 		ID:                        id,
 		Name:                      name,
@@ -402,6 +482,27 @@ func testAccIncidentCatalogEntryResourceConfigWithEmptyManagedAttributes(id, nam
 		Aliases:                   aliases,
 		OnlyManageDescription:     false,
 		UseEmptyManagedAttributes: true,
+		IncludeEntry:              true,
+	}); err != nil {
+		panic(err)
+	}
+
+	return buf.String()
+}
+
+func testAccIncidentCatalogEntryResourceConfigTypeOnly(id string) string {
+	var buf bytes.Buffer
+	if err := catalogEntryTemplate.Execute(&buf, struct {
+		ID                        string
+		Name                      string
+		Description               string
+		Aliases                   []string
+		OnlyManageDescription     bool
+		UseEmptyManagedAttributes bool
+		IncludeEntry              bool
+	}{
+		ID:           id,
+		IncludeEntry: false,
 	}); err != nil {
 		panic(err)
 	}
