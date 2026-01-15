@@ -1,5 +1,10 @@
 ## Unreleased
 
+## v5.26.0
+
+- Fixes an issue where you couldn't destroy catalog entries where the type was managed and you were only managing a subset of its attributes
+- Fixes an issue where `incident_template.severity` was being required, when it's actually optional
+
 ## v5.25.0
 
 - Add support for `owning_team_ids` for alert sources and alert routes
