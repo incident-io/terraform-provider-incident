@@ -270,6 +270,7 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
+		SkipStepUpgrades: lo.ToPtr(true),
 	}
 
 	if !data.IncludePrivateEscalations.IsNull() {
