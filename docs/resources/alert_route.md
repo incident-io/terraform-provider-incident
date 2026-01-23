@@ -246,7 +246,7 @@ resource "incident_alert_route" "service_alerts" {
 ### Optional
 
 - `channel_config` (Attributes Set) The channel configuration for this alert route (see [below for nested schema](#nestedatt--channel_config))
-- `owning_team_ids` (Set of String) Optional array of team IDs that are the owners of this alert route
+- `owning_team_ids` (Set of String) IDs of teams that own this alert route
 
 ### Read-Only
 
