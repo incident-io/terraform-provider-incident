@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/pkg/errors"
+	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
@@ -49,7 +50,7 @@ func (r *IncidentWorkflowResource) buildModel(ctx context.Context, workflow clie
 		OnceFor:                   buildOnceFor(workflow.OnceFor),
 		RunsOnIncidentModes:       buildRunsOnIncidentModes(workflow.RunsOnIncidentModes),
 		IncludePrivateIncidents:   types.BoolValue(workflow.IncludePrivateIncidents),
-		IncludePrivateEscalations: types.BoolPointerValue(workflow.IncludePrivateEscalations),
+		IncludePrivateEscalations: types.BoolPointerValue(lo.ToPtr(workflow.IncludePrivateEscalations)),
 		ContinueOnStepError:       types.BoolValue(workflow.ContinueOnStepError),
 		RunsOnIncidents:           types.StringValue(string(workflow.RunsOnIncidents)),
 		State:                     types.StringValue(string(workflow.State)),

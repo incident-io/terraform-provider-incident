@@ -451,10 +451,10 @@ func (AlertRouteResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV2, pla
 	result.IncidentConfig = &AlertRouteIncidentConfigModel{
 		AutoDeclineEnabled:      types.BoolValue(apiModel.IncidentConfig.AutoDeclineEnabled),
 		AutoRelateGroupedAlerts: types.BoolValue(apiModel.IncidentConfig.AutoRelateGroupedAlerts),
-		DeferTimeSeconds:        types.Int64Value(apiModel.IncidentConfig.DeferTimeSeconds),
+		DeferTimeSeconds:        types.Int64Value(int64(apiModel.IncidentConfig.DeferTimeSeconds)),
 		Enabled:                 types.BoolValue(apiModel.IncidentConfig.Enabled),
 		GroupingKeys:            []AlertRouteGroupingKey{},
-		GroupingWindowSeconds:   types.Int64Value(apiModel.IncidentConfig.GroupingWindowSeconds),
+		GroupingWindowSeconds:   types.Int64Value(int64(apiModel.IncidentConfig.GroupingWindowSeconds)),
 	}
 
 	for _, gk := range apiModel.IncidentConfig.GroupingKeys {
@@ -757,11 +757,11 @@ func (m AlertRouteResourceModel) ToCreatePayload() client.AlertRoutesCreatePaylo
 		payload.IncidentConfig = client.AlertRouteIncidentConfigPayloadV2{
 			AutoDeclineEnabled:      m.IncidentConfig.AutoDeclineEnabled.ValueBool(),
 			AutoRelateGroupedAlerts: m.IncidentConfig.AutoRelateGroupedAlerts.ValueBoolPointer(),
-			DeferTimeSeconds:        m.IncidentConfig.DeferTimeSeconds.ValueInt64(),
+			DeferTimeSeconds:        int32(m.IncidentConfig.DeferTimeSeconds.ValueInt64()),
 			Enabled:                 m.IncidentConfig.Enabled.ValueBool(),
 			ConditionGroups:         m.IncidentConfig.ConditionGroups.ToPayload(),
 			GroupingKeys:            []client.GroupingKeyV2{},
-			GroupingWindowSeconds:   m.IncidentConfig.GroupingWindowSeconds.ValueInt64(),
+			GroupingWindowSeconds:   int32(m.IncidentConfig.GroupingWindowSeconds.ValueInt64()),
 		}
 
 		for _, gk := range m.IncidentConfig.GroupingKeys {
