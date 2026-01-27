@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.26.1
+
+- Fix error when workflow steps are upgraded
+
 ## v5.26.0
 
 - Fixes an issue where you couldn't destroy catalog entries where the type was managed and you were only managing a subset of its attributes
