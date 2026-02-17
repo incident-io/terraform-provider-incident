@@ -2,6 +2,7 @@ package provider
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"regexp"
 	"testing"
@@ -276,8 +277,73 @@ resource "incident_alert_source" "test" {
 				PlanOnly:    true,
 				ExpectError: regexp.MustCompile("visible_to_teams must be set when is_private is true"),
 			},
+			{
+				// Test branches operation with invalid root_reference
+				Config:      testAccAlertSourceResourceConfigInvalidBranches(),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile("Invalid root_reference for branches operation"),
+			},
 		},
 	})
+}
+
+func testAccAlertSourceResourceConfigInvalidBranches() string {
+	return fmt.Sprintf(`
+resource "incident_alert_source" "invalid_branches" {
+  name        = "invalid-branches-test"
+  source_type = "http"
+
+  template = {
+    title = {
+      literal = %[1]q
+    }
+    description = {
+      literal = %[2]q
+    }
+    attributes = []
+
+    # Invalid: branches operation with non-"." root_reference
+    expressions = [
+      {
+        label          = "Test Expression"
+        reference      = "test-expr"
+        root_reference = "payload.some_field"
+        operations = [
+          {
+            operation_type = "branches"
+            branches = {
+              returns = {
+                type  = "Text"
+                array = false
+              }
+              branches = [
+                {
+                  condition_groups = [
+                    {
+                      conditions = [
+                        {
+                          subject   = "payload.title"
+                          operation = "is_set"
+                          param_bindings = []
+                        }
+                      ]
+                    }
+                  ]
+                  result = {
+                    value = {
+                      literal = "some-value"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+`, testAlertSourceTitle, testAlertSourceDescription)
 }
 
 const (
