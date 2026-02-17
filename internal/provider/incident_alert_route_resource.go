@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -21,8 +22,9 @@ import (
 )
 
 var (
-	_ resource.ResourceWithConfigure   = &IncidentAlertRouteResource{}
-	_ resource.ResourceWithImportState = &IncidentAlertRouteResource{}
+	_ resource.ResourceWithConfigure      = &IncidentAlertRouteResource{}
+	_ resource.ResourceWithImportState    = &IncidentAlertRouteResource{}
+	_ resource.ResourceWithValidateConfig = &IncidentAlertRouteResource{}
 )
 
 type IncidentAlertRouteResource struct {
@@ -286,6 +288,50 @@ func (r *IncidentAlertRouteResource) Configure(ctx context.Context, req resource
 
 	r.client = client.Client
 	r.terraformVersion = client.TerraformVersion
+}
+
+func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var expressions []models.IncidentEngineExpression
+
+	diags := req.Config.GetAttribute(ctx, path.Root("expressions"), &expressions)
+	if diags.HasError() {
+		// If expressions is unknown (e.g., depends on another resource), skip validation.
+		return
+	}
+
+	// Validate that branches operations have valid root references:
+	// Branches operations require root_reference to be "." (the whole scope), with conditions
+	// referencing absolute paths like "alert.attributes.xxx".
+	for i, expr := range expressions {
+		hasBranches := false
+		for _, op := range expr.Operations {
+			if op.Branches != nil {
+				hasBranches = true
+				break
+			}
+		}
+
+		if !hasBranches {
+			continue
+		}
+
+		// If it has branches, root_reference must be "." or empty.
+		rootRef := expr.RootReference.ValueString()
+		if rootRef != "" && rootRef != "." {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				path.Root("expressions").AtListIndex(i).AtName("root_reference"),
+				"Invalid root_reference for branches operation",
+				fmt.Sprintf(
+					"Expression %q uses a branches (if/else) operation, which requires "+
+						"root_reference to be \".\" (the whole scope). Got %q instead.\n\n"+
+						"When using branches operations, set root_reference = \".\" and have "+
+						"conditions reference absolute paths like \"alert.attributes.xxx\".",
+					expr.Label.ValueString(),
+					rootRef,
+				),
+			))
+		}
+	}
 }
 
 func (r *IncidentAlertRouteResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {

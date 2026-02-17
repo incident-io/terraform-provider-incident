@@ -81,6 +81,39 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 			return
 		}
 	}
+
+	// Validate that branches operations have valid root references.
+	if data.Template != nil {
+		for i, expr := range data.Template.Expressions {
+			hasBranches := false
+			for _, op := range expr.Operations {
+				if op.Branches != nil {
+					hasBranches = true
+					break
+				}
+			}
+
+			if !hasBranches {
+				continue
+			}
+
+			rootRef := expr.RootReference.ValueString()
+			if rootRef != "" && rootRef != "." {
+				resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+					path.Root("template").AtName("expressions").AtListIndex(i).AtName("root_reference"),
+					"Invalid root_reference for branches operation",
+					fmt.Sprintf(
+						"Expression %q uses a branches (if/else) operation, which requires "+
+							"root_reference to be \".\" (the whole scope). Got %q instead.\n\n"+
+							"When using branches operations, set root_reference = \".\" and have "+
+							"conditions reference absolute paths like \"alert.attributes.xxx\".",
+						expr.Label.ValueString(),
+						rootRef,
+					),
+				))
+			}
+		}
+	}
 }
 
 func NewIncidentAlertSourceResource() resource.Resource {
