@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.26.2
+
+- Add plan-time validation to the `branches` operations in `expressions`
+
 ## v5.26.1
 
 - Fix error when workflow steps are upgraded
