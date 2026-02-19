@@ -25,6 +25,7 @@ type AlertRouteResourceModel struct {
 	EscalationConfig *AlertRouteEscalationConfigModel `tfsdk:"escalation_config"`
 	IncidentConfig   *AlertRouteIncidentConfigModel   `tfsdk:"incident_config"`
 	IncidentTemplate *AlertRouteIncidentTemplateModel `tfsdk:"incident_template"`
+	MessageTemplate  *IncidentEngineParamBinding      `tfsdk:"message_template"`
 	OwningTeamIDs    types.Set                        `tfsdk:"owning_team_ids"`
 }
 
@@ -602,6 +603,12 @@ func (AlertRouteResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV2, pla
 		}
 	}
 
+	// Handle message_template
+	if apiModel.MessageTemplate != nil {
+		binding := IncidentEngineParamBinding{}.FromAPI(*apiModel.MessageTemplate)
+		result.MessageTemplate = &binding
+	}
+
 	return result
 }
 
@@ -849,6 +856,12 @@ func (m AlertRouteResourceModel) ToCreatePayload() client.AlertRoutesCreatePaylo
 		payload.IncidentTemplate = incidentTemplate
 	}
 
+	// Handle message_template
+	if m.MessageTemplate != nil {
+		messageTemplateBinding := m.MessageTemplate.ToPayload()
+		payload.MessageTemplate = &messageTemplateBinding
+	}
+
 	return payload
 }
 
@@ -870,6 +883,7 @@ func (m AlertRouteResourceModel) ToUpdatePayload() client.AlertRoutesUpdatePaylo
 		EscalationConfig: createPayload.EscalationConfig,
 		IncidentConfig:   createPayload.IncidentConfig,
 		IncidentTemplate: createPayload.IncidentTemplate,
+		MessageTemplate:  createPayload.MessageTemplate,
 		OwningTeamIds:    createPayload.OwningTeamIds,
 	}
 

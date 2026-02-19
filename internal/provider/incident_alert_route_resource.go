@@ -193,6 +193,11 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 				ElementType:         types.StringType,
 				MarkdownDescription: apischema.Docstring("AlertRouteV2", "owning_team_ids"),
 			},
+			"message_template": schema.SingleNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("AlertRouteV2", "message_template"),
+				Attributes:          models.ParamBindingAttributes(),
+			},
 			"incident_template": schema.SingleNestedAttribute{
 				Required:            true,
 				MarkdownDescription: apischema.Docstring("AlertRouteV2", "incident_template"),

@@ -204,4 +204,12 @@ resource "incident_alert_route" "service_alerts" {
       merge_strategy = "first-wins"
     }
   }
+
+  // Used to optionally configure a template which customizes how alert messages appear in your communications platform
+  message_template = {
+    // Define template to apply, either with a literal ID or a dynamic reference e.g. the catalog entry
+    value = {
+      literal = "01KHJTJR4FZJJZQ6G02EBFJAAY"
+    }
+  }
 }
