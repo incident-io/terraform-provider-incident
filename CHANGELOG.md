@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add support for `message_template` on alert routes
+
 ## v5.26.2
 
 - Add plan-time validation to the `branches` operations in `expressions`
