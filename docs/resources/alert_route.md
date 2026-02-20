@@ -225,6 +225,15 @@ resource "incident_alert_route" "service_alerts" {
       merge_strategy = "first-wins"
     }
   }
+
+  // Used to optionally configure a template which customizes how alert messages appear in your communications platform
+  message_template = {
+    // Define template to apply, either with a literal ID or a dynamic reference
+    // You can choose to express the template ID using a catalog entry data source, e.g. data.incident_catalog_entry.my_message_template.id
+    value = {
+      literal = "01KHJTJR4FZJJZQ6G02EBFJAAY"
+    }
+  }
 }
 ```
 
@@ -246,6 +255,7 @@ resource "incident_alert_route" "service_alerts" {
 ### Optional
 
 - `channel_config` (Attributes Set) The channel configuration for this alert route (see [below for nested schema](#nestedatt--channel_config))
+- `message_template` (Attributes) (see [below for nested schema](#nestedatt--message_template))
 - `owning_team_ids` (Set of String) IDs of teams that own this alert route
 
 ### Read-Only
@@ -1114,6 +1124,35 @@ Optional:
 
 <a id="nestedatt--channel_config--slack_targets--binding--value"></a>
 ### Nested Schema for `channel_config.slack_targets.binding.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+
+<a id="nestedatt--message_template"></a>
+### Nested Schema for `message_template`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--message_template--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--message_template--value))
+
+<a id="nestedatt--message_template--array_value"></a>
+### Nested Schema for `message_template.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--message_template--value"></a>
+### Nested Schema for `message_template.value`
 
 Optional:
 

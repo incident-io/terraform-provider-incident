@@ -734,6 +734,7 @@ const (
 	EscalationV2StatusExpired   EscalationV2Status = "expired"
 	EscalationV2StatusPending   EscalationV2Status = "pending"
 	EscalationV2StatusResolved  EscalationV2Status = "resolved"
+	EscalationV2StatusSnoozed   EscalationV2Status = "snoozed"
 	EscalationV2StatusTriggered EscalationV2Status = "triggered"
 )
 
@@ -765,6 +766,24 @@ const (
 	Parse       ExpressionOperationV2OperationType = "parse"
 	Random      ExpressionOperationV2OperationType = "random"
 	Sum         ExpressionOperationV2OperationType = "sum"
+)
+
+// Defines values for ExternalEscalationPathV2ImportUnavailableReasons.
+const (
+	DirectUsersMissing               ExternalEscalationPathV2ImportUnavailableReasons = "direct_users_missing"
+	ExceedsScheduleLimit             ExternalEscalationPathV2ImportUnavailableReasons = "exceeds_schedule_limit"
+	MissingScheduleIds               ExternalEscalationPathV2ImportUnavailableReasons = "missing_schedule_ids"
+	NestedEscalationPathNotSupported ExternalEscalationPathV2ImportUnavailableReasons = "nested_escalation_path_not_supported"
+	ScheduleForTeamMissing           ExternalEscalationPathV2ImportUnavailableReasons = "schedule_for_team_missing"
+	ScheduleWithAllUserIdsMissing    ExternalEscalationPathV2ImportUnavailableReasons = "schedule_with_all_user_ids_missing"
+	TooManyRepeats                   ExternalEscalationPathV2ImportUnavailableReasons = "too_many_repeats"
+	UnsupportedFeature               ExternalEscalationPathV2ImportUnavailableReasons = "unsupported_feature"
+)
+
+// Defines values for ExternalEscalationPathV2ImportWarnings.
+const (
+	GroupsSkipped        ExternalEscalationPathV2ImportWarnings = "groups_skipped"
+	TeamSchedulesSkipped ExternalEscalationPathV2ImportWarnings = "team_schedules_skipped"
 )
 
 // Defines values for ExternalIssueReferenceV1Provider.
@@ -1092,101 +1111,85 @@ const (
 	ScheduleRotationWorkingIntervalV2WeekdayWednesday ScheduleRotationWorkingIntervalV2Weekday = "wednesday"
 )
 
-// Defines values for StatusPageIncidentAffectedComponentSlimV2CurrentStatus.
+// Defines values for StatusPageIncidentAffectedComponentV2ComponentStatus.
 const (
-	StatusPageIncidentAffectedComponentSlimV2CurrentStatusDegradedPerformance StatusPageIncidentAffectedComponentSlimV2CurrentStatus = "degraded_performance"
-	StatusPageIncidentAffectedComponentSlimV2CurrentStatusFullOutage          StatusPageIncidentAffectedComponentSlimV2CurrentStatus = "full_outage"
-	StatusPageIncidentAffectedComponentSlimV2CurrentStatusOperational         StatusPageIncidentAffectedComponentSlimV2CurrentStatus = "operational"
-	StatusPageIncidentAffectedComponentSlimV2CurrentStatusPartialOutage       StatusPageIncidentAffectedComponentSlimV2CurrentStatus = "partial_outage"
+	StatusPageIncidentAffectedComponentV2ComponentStatusDegradedPerformance StatusPageIncidentAffectedComponentV2ComponentStatus = "degraded_performance"
+	StatusPageIncidentAffectedComponentV2ComponentStatusFullOutage          StatusPageIncidentAffectedComponentV2ComponentStatus = "full_outage"
+	StatusPageIncidentAffectedComponentV2ComponentStatusOperational         StatusPageIncidentAffectedComponentV2ComponentStatus = "operational"
+	StatusPageIncidentAffectedComponentV2ComponentStatusPartialOutage       StatusPageIncidentAffectedComponentV2ComponentStatus = "partial_outage"
 )
 
-// Defines values for StatusPageIncidentAffectedComponentV2CurrentStatus.
+// Defines values for StatusPageIncidentComponentImpactV2ComponentStatus.
 const (
-	StatusPageIncidentAffectedComponentV2CurrentStatusDegradedPerformance StatusPageIncidentAffectedComponentV2CurrentStatus = "degraded_performance"
-	StatusPageIncidentAffectedComponentV2CurrentStatusFullOutage          StatusPageIncidentAffectedComponentV2CurrentStatus = "full_outage"
-	StatusPageIncidentAffectedComponentV2CurrentStatusOperational         StatusPageIncidentAffectedComponentV2CurrentStatus = "operational"
-	StatusPageIncidentAffectedComponentV2CurrentStatusPartialOutage       StatusPageIncidentAffectedComponentV2CurrentStatus = "partial_outage"
+	StatusPageIncidentComponentImpactV2ComponentStatusDegradedPerformance StatusPageIncidentComponentImpactV2ComponentStatus = "degraded_performance"
+	StatusPageIncidentComponentImpactV2ComponentStatusFullOutage          StatusPageIncidentComponentImpactV2ComponentStatus = "full_outage"
+	StatusPageIncidentComponentImpactV2ComponentStatusPartialOutage       StatusPageIncidentComponentImpactV2ComponentStatus = "partial_outage"
 )
 
-// Defines values for StatusPageIncidentAffectedComponentV2Status.
+// Defines values for StatusPageIncidentUpdateV2IncidentStatus.
 const (
-	StatusPageIncidentAffectedComponentV2StatusDegradedPerformance StatusPageIncidentAffectedComponentV2Status = "degraded_performance"
-	StatusPageIncidentAffectedComponentV2StatusFullOutage          StatusPageIncidentAffectedComponentV2Status = "full_outage"
-	StatusPageIncidentAffectedComponentV2StatusOperational         StatusPageIncidentAffectedComponentV2Status = "operational"
-	StatusPageIncidentAffectedComponentV2StatusPartialOutage       StatusPageIncidentAffectedComponentV2Status = "partial_outage"
+	StatusPageIncidentUpdateV2IncidentStatusIdentified    StatusPageIncidentUpdateV2IncidentStatus = "identified"
+	StatusPageIncidentUpdateV2IncidentStatusInvestigating StatusPageIncidentUpdateV2IncidentStatus = "investigating"
+	StatusPageIncidentUpdateV2IncidentStatusMonitoring    StatusPageIncidentUpdateV2IncidentStatus = "monitoring"
+	StatusPageIncidentUpdateV2IncidentStatusResolved      StatusPageIncidentUpdateV2IncidentStatus = "resolved"
 )
 
-// Defines values for StatusPageIncidentComponentImpactV2Status.
+// Defines values for StatusPageIncidentV2IncidentStatus.
 const (
-	StatusPageIncidentComponentImpactV2StatusDegradedPerformance StatusPageIncidentComponentImpactV2Status = "degraded_performance"
-	StatusPageIncidentComponentImpactV2StatusFullOutage          StatusPageIncidentComponentImpactV2Status = "full_outage"
-	StatusPageIncidentComponentImpactV2StatusPartialOutage       StatusPageIncidentComponentImpactV2Status = "partial_outage"
+	StatusPageIncidentV2IncidentStatusIdentified    StatusPageIncidentV2IncidentStatus = "identified"
+	StatusPageIncidentV2IncidentStatusInvestigating StatusPageIncidentV2IncidentStatus = "investigating"
+	StatusPageIncidentV2IncidentStatusMonitoring    StatusPageIncidentV2IncidentStatus = "monitoring"
+	StatusPageIncidentV2IncidentStatusResolved      StatusPageIncidentV2IncidentStatus = "resolved"
 )
 
-// Defines values for StatusPageIncidentUpdateV2ToStatus.
+// Defines values for StatusPageMaintenanceAffectedComponentV2ComponentStatus.
 const (
-	StatusPageIncidentUpdateV2ToStatusIdentified    StatusPageIncidentUpdateV2ToStatus = "identified"
-	StatusPageIncidentUpdateV2ToStatusInvestigating StatusPageIncidentUpdateV2ToStatus = "investigating"
-	StatusPageIncidentUpdateV2ToStatusMonitoring    StatusPageIncidentUpdateV2ToStatus = "monitoring"
-	StatusPageIncidentUpdateV2ToStatusResolved      StatusPageIncidentUpdateV2ToStatus = "resolved"
+	Operational      StatusPageMaintenanceAffectedComponentV2ComponentStatus = "operational"
+	UnderMaintenance StatusPageMaintenanceAffectedComponentV2ComponentStatus = "under_maintenance"
 )
 
-// Defines values for StatusPageIncidentV2Status.
+// Defines values for StatusPageMaintenanceUpdateV2MaintenanceStatus.
 const (
-	StatusPageIncidentV2StatusIdentified    StatusPageIncidentV2Status = "identified"
-	StatusPageIncidentV2StatusInvestigating StatusPageIncidentV2Status = "investigating"
-	StatusPageIncidentV2StatusMonitoring    StatusPageIncidentV2Status = "monitoring"
-	StatusPageIncidentV2StatusResolved      StatusPageIncidentV2Status = "resolved"
+	StatusPageMaintenanceUpdateV2MaintenanceStatusMaintenanceComplete   StatusPageMaintenanceUpdateV2MaintenanceStatus = "maintenance_complete"
+	StatusPageMaintenanceUpdateV2MaintenanceStatusMaintenanceInProgress StatusPageMaintenanceUpdateV2MaintenanceStatus = "maintenance_in_progress"
+	StatusPageMaintenanceUpdateV2MaintenanceStatusMaintenanceScheduled  StatusPageMaintenanceUpdateV2MaintenanceStatus = "maintenance_scheduled"
 )
 
-// Defines values for StatusPageMaintenanceAffectedComponentV2CurrentStatus.
+// Defines values for StatusPageMaintenanceV2MaintenanceStatus.
 const (
-	Operational      StatusPageMaintenanceAffectedComponentV2CurrentStatus = "operational"
-	UnderMaintenance StatusPageMaintenanceAffectedComponentV2CurrentStatus = "under_maintenance"
+	StatusPageMaintenanceV2MaintenanceStatusMaintenanceComplete   StatusPageMaintenanceV2MaintenanceStatus = "maintenance_complete"
+	StatusPageMaintenanceV2MaintenanceStatusMaintenanceInProgress StatusPageMaintenanceV2MaintenanceStatus = "maintenance_in_progress"
+	StatusPageMaintenanceV2MaintenanceStatusMaintenanceScheduled  StatusPageMaintenanceV2MaintenanceStatus = "maintenance_scheduled"
 )
 
-// Defines values for StatusPageMaintenanceUpdateV2ToStatus.
+// Defines values for StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatus.
 const (
-	StatusPageMaintenanceUpdateV2ToStatusMaintenanceComplete   StatusPageMaintenanceUpdateV2ToStatus = "maintenance_complete"
-	StatusPageMaintenanceUpdateV2ToStatusMaintenanceInProgress StatusPageMaintenanceUpdateV2ToStatus = "maintenance_in_progress"
-	StatusPageMaintenanceUpdateV2ToStatusMaintenanceScheduled  StatusPageMaintenanceUpdateV2ToStatus = "maintenance_scheduled"
+	StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatusIdentified    StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatus = "identified"
+	StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatusInvestigating StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatus = "investigating"
+	StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatusMonitoring    StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatus = "monitoring"
+	StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatusResolved      StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatus = "resolved"
 )
 
-// Defines values for StatusPageMaintenanceV2Status.
+// Defines values for StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus.
 const (
-	StatusPageMaintenanceV2StatusMaintenanceComplete   StatusPageMaintenanceV2Status = "maintenance_complete"
-	StatusPageMaintenanceV2StatusMaintenanceInProgress StatusPageMaintenanceV2Status = "maintenance_in_progress"
-	StatusPageMaintenanceV2StatusMaintenanceScheduled  StatusPageMaintenanceV2Status = "maintenance_scheduled"
+	Identified    StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus = "identified"
+	Investigating StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus = "investigating"
+	Monitoring    StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus = "monitoring"
+	Resolved      StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus = "resolved"
 )
 
-// Defines values for StatusPagesCreateStatusPageIncidentPayloadV2Status.
+// Defines values for StatusPagesCreateStatusPageMaintenancePayloadV2MaintenanceStatus.
 const (
-	StatusPagesCreateStatusPageIncidentPayloadV2StatusIdentified    StatusPagesCreateStatusPageIncidentPayloadV2Status = "identified"
-	StatusPagesCreateStatusPageIncidentPayloadV2StatusInvestigating StatusPagesCreateStatusPageIncidentPayloadV2Status = "investigating"
-	StatusPagesCreateStatusPageIncidentPayloadV2StatusMonitoring    StatusPagesCreateStatusPageIncidentPayloadV2Status = "monitoring"
-	StatusPagesCreateStatusPageIncidentPayloadV2StatusResolved      StatusPagesCreateStatusPageIncidentPayloadV2Status = "resolved"
+	StatusPagesCreateStatusPageMaintenancePayloadV2MaintenanceStatusMaintenanceComplete   StatusPagesCreateStatusPageMaintenancePayloadV2MaintenanceStatus = "maintenance_complete"
+	StatusPagesCreateStatusPageMaintenancePayloadV2MaintenanceStatusMaintenanceInProgress StatusPagesCreateStatusPageMaintenancePayloadV2MaintenanceStatus = "maintenance_in_progress"
+	StatusPagesCreateStatusPageMaintenancePayloadV2MaintenanceStatusMaintenanceScheduled  StatusPagesCreateStatusPageMaintenancePayloadV2MaintenanceStatus = "maintenance_scheduled"
 )
 
-// Defines values for StatusPagesCreateStatusPageIncidentUpdatePayloadV2ToStatus.
+// Defines values for StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatus.
 const (
-	Identified    StatusPagesCreateStatusPageIncidentUpdatePayloadV2ToStatus = "identified"
-	Investigating StatusPagesCreateStatusPageIncidentUpdatePayloadV2ToStatus = "investigating"
-	Monitoring    StatusPagesCreateStatusPageIncidentUpdatePayloadV2ToStatus = "monitoring"
-	Resolved      StatusPagesCreateStatusPageIncidentUpdatePayloadV2ToStatus = "resolved"
-)
-
-// Defines values for StatusPagesCreateStatusPageMaintenancePayloadV2Status.
-const (
-	StatusPagesCreateStatusPageMaintenancePayloadV2StatusMaintenanceComplete   StatusPagesCreateStatusPageMaintenancePayloadV2Status = "maintenance_complete"
-	StatusPagesCreateStatusPageMaintenancePayloadV2StatusMaintenanceInProgress StatusPagesCreateStatusPageMaintenancePayloadV2Status = "maintenance_in_progress"
-	StatusPagesCreateStatusPageMaintenancePayloadV2StatusMaintenanceScheduled  StatusPagesCreateStatusPageMaintenancePayloadV2Status = "maintenance_scheduled"
-)
-
-// Defines values for StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2ToStatus.
-const (
-	StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2ToStatusMaintenanceComplete   StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2ToStatus = "maintenance_complete"
-	StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2ToStatusMaintenanceInProgress StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2ToStatus = "maintenance_in_progress"
-	StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2ToStatusMaintenanceScheduled  StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2ToStatus = "maintenance_scheduled"
+	StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatusMaintenanceComplete   StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatus = "maintenance_complete"
+	StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatusMaintenanceInProgress StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatus = "maintenance_in_progress"
+	StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatusMaintenanceScheduled  StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatus = "maintenance_scheduled"
 )
 
 // Defines values for UserV1Role.
@@ -1898,7 +1901,8 @@ type AlertRouteV2 struct {
 	IncidentTemplate AlertRouteIncidentTemplateV2 `json:"incident_template"`
 
 	// IsPrivate Whether this alert route is private. Private alert routes will only create private incidents from alerts.
-	IsPrivate bool `json:"is_private"`
+	IsPrivate       bool                  `json:"is_private"`
+	MessageTemplate *EngineParamBindingV2 `json:"message_template,omitempty"`
 
 	// Name The name of this alert route config, for the user's reference
 	Name string `json:"name"`
@@ -1937,7 +1941,8 @@ type AlertRoutesCreatePayloadV2 struct {
 	IncidentTemplate AlertRouteIncidentTemplatePayloadV2 `json:"incident_template"`
 
 	// IsPrivate Whether this alert route is private. Private alert routes will only create private incidents from alerts.
-	IsPrivate bool `json:"is_private"`
+	IsPrivate       bool                         `json:"is_private"`
+	MessageTemplate *EngineParamBindingPayloadV2 `json:"message_template,omitempty"`
 
 	// Name The name of this alert route config, for the user's reference
 	Name string `json:"name"`
@@ -1992,7 +1997,8 @@ type AlertRoutesUpdatePayloadV2 struct {
 	IncidentTemplate AlertRouteIncidentTemplatePayloadV2 `json:"incident_template"`
 
 	// IsPrivate Whether this alert route is private. Private alert routes will only create private incidents from alerts.
-	IsPrivate bool `json:"is_private"`
+	IsPrivate       bool                         `json:"is_private"`
+	MessageTemplate *EngineParamBindingPayloadV2 `json:"message_template,omitempty"`
 
 	// Name The name of this alert route config, for the user's reference
 	Name string `json:"name"`
@@ -4028,6 +4034,17 @@ type EscalationV2 struct {
 // EscalationV2Status Status of the escalation
 type EscalationV2Status string
 
+// EscalationsCreateExternalEscalationPathPayloadV2 defines model for EscalationsCreateExternalEscalationPathPayloadV2.
+type EscalationsCreateExternalEscalationPathPayloadV2 struct {
+	// ExternalEscalationPathId ID of the external escalation path to import
+	ExternalEscalationPathId string `json:"external_escalation_path_id"`
+}
+
+// EscalationsCreateExternalEscalationPathResultV2 defines model for EscalationsCreateExternalEscalationPathResultV2.
+type EscalationsCreateExternalEscalationPathResultV2 struct {
+	EscalationPath EscalationPathV2 `json:"escalation_path"`
+}
+
 // EscalationsCreatePathPayloadV2 defines model for EscalationsCreatePathPayloadV2.
 type EscalationsCreatePathPayloadV2 struct {
 	// Name The name of this escalation path, for the user's reference.
@@ -4069,6 +4086,18 @@ type EscalationsCreatePayloadV2 struct {
 // EscalationsCreateResultV2 defines model for EscalationsCreateResultV2.
 type EscalationsCreateResultV2 struct {
 	Escalation EscalationV2 `json:"escalation"`
+}
+
+// EscalationsListExternalEscalationPathsResultV2 defines model for EscalationsListExternalEscalationPathsResultV2.
+type EscalationsListExternalEscalationPathsResultV2 struct {
+	ExternalEscalationPaths []ExternalEscalationPathV2 `json:"external_escalation_paths"`
+	PaginationMeta          PaginationMetaResultV2     `json:"pagination_meta"`
+}
+
+// EscalationsListPathsResultV2 defines model for EscalationsListPathsResultV2.
+type EscalationsListPathsResultV2 struct {
+	EscalationPaths []EscalationPathV2     `json:"escalation_paths"`
+	PaginationMeta  PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
 // EscalationsListResultV2 defines model for EscalationsListResultV2.
@@ -4255,6 +4284,42 @@ type ExpressionV2 struct {
 	RootReference string `json:"root_reference"`
 }
 
+// ExternalEscalationPathV2 defines model for ExternalEscalationPathV2.
+type ExternalEscalationPathV2 struct {
+	// CreatedNativeEscalationPathId If this has already been imported, this is the ID of the native escalation path
+	CreatedNativeEscalationPathId *string `json:"created_native_escalation_path_id,omitempty"`
+
+	// ExternalProvider Type of the external provider (e.g. pagerduty)
+	ExternalProvider string `json:"external_provider"`
+
+	// ExternalProviderId In the external provider, this uniquely identifies the escalation path
+	ExternalProviderId string `json:"external_provider_id"`
+
+	// Id Unique ID of this external escalation path in incident.io
+	Id string `json:"id"`
+
+	// ImportUnavailableReasons If present, explains why this escalation path cannot be imported
+	ImportUnavailableReasons []ExternalEscalationPathV2ImportUnavailableReasons `json:"import_unavailable_reasons"`
+
+	// ImportWarnings Warnings about the import that don't prevent it but indicate differences
+	ImportWarnings []ExternalEscalationPathV2ImportWarnings `json:"import_warnings"`
+
+	// Name Name of the escalation path in the external provider
+	Name string `json:"name"`
+
+	// ReferencedExternalSchedules Schedules referenced by this escalation path, including their import status
+	ReferencedExternalSchedules []ExternalScheduleSlimV2 `json:"referenced_external_schedules"`
+
+	// UnresolvableUsers Users referenced by this escalation path that could not be matched to incident.io users
+	UnresolvableUsers []UserV2 `json:"unresolvable_users"`
+}
+
+// ExternalEscalationPathV2ImportUnavailableReasons The reason an external escalation path cannot be imported
+type ExternalEscalationPathV2ImportUnavailableReasons string
+
+// ExternalEscalationPathV2ImportWarnings A warning about an import that doesn't prevent it
+type ExternalEscalationPathV2ImportWarnings string
+
 // ExternalIssueReferenceV1 defines model for ExternalIssueReferenceV1.
 type ExternalIssueReferenceV1 struct {
 	// IssueName Human readable ID for the issue
@@ -4302,6 +4367,24 @@ type ExternalResourceV1 struct {
 
 // ExternalResourceV1ResourceType E.g. PagerDuty: the external system that holds the resource
 type ExternalResourceV1ResourceType string
+
+// ExternalScheduleSlimV2 defines model for ExternalScheduleSlimV2.
+type ExternalScheduleSlimV2 struct {
+	// CreatedNativeScheduleId If this has already been imported, this is the ID of the native schedule
+	CreatedNativeScheduleId *string `json:"created_native_schedule_id,omitempty"`
+
+	// ExternalProviderId In the external provider, this uniquely identifies the schedule
+	ExternalProviderId string `json:"external_provider_id"`
+
+	// Id Unique ID of this external schedule in incident.io
+	Id string `json:"id"`
+
+	// Name Name of the schedule in the external provider
+	Name string `json:"name"`
+
+	// NativeConfigUnavailableReason If we can't import this schedule, this explains why
+	NativeConfigUnavailableReason *string `json:"native_config_unavailable_reason,omitempty"`
+}
 
 // FollowUpPriorityV2 defines model for FollowUpPriorityV2.
 type FollowUpPriorityV2 struct {
@@ -5657,9 +5740,12 @@ type ScheduleRotationCreatePayloadV2 struct {
 	Name string `json:"name"`
 
 	// SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
-	SchedulingMode  *ScheduleRotationCreatePayloadV2SchedulingMode    `json:"scheduling_mode,omitempty"`
-	Users           *[]UserReferencePayloadV2                         `json:"users,omitempty"`
-	WorkingInterval *[]ScheduleRotationWorkingIntervalCreatePayloadV2 `json:"working_interval,omitempty"`
+	SchedulingMode *ScheduleRotationCreatePayloadV2SchedulingMode `json:"scheduling_mode,omitempty"`
+	Users          *[]UserReferencePayloadV2                      `json:"users,omitempty"`
+
+	// WorkingInterval DEPRECATED: Use working_intervals instead.
+	WorkingInterval  *[]ScheduleRotationWorkingIntervalCreatePayloadV2 `json:"working_interval,omitempty"`
+	WorkingIntervals *[]ScheduleRotationWorkingIntervalCreatePayloadV2 `json:"working_intervals,omitempty"`
 }
 
 // ScheduleRotationCreatePayloadV2SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
@@ -5690,9 +5776,12 @@ type ScheduleRotationUpdatePayloadV2 struct {
 	Name *string `json:"name,omitempty"`
 
 	// SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
-	SchedulingMode  *ScheduleRotationUpdatePayloadV2SchedulingMode `json:"scheduling_mode,omitempty"`
-	Users           *[]UserReferencePayloadV2                      `json:"users,omitempty"`
-	WorkingInterval *[]ScheduleRotationWorkingIntervalV2           `json:"working_interval,omitempty"`
+	SchedulingMode *ScheduleRotationUpdatePayloadV2SchedulingMode `json:"scheduling_mode,omitempty"`
+	Users          *[]UserReferencePayloadV2                      `json:"users,omitempty"`
+
+	// WorkingInterval DEPRECATED: Use working_intervals instead.
+	WorkingInterval  *[]ScheduleRotationWorkingIntervalV2 `json:"working_interval,omitempty"`
+	WorkingIntervals *[]ScheduleRotationWorkingIntervalV2 `json:"working_intervals,omitempty"`
 }
 
 // ScheduleRotationUpdatePayloadV2SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
@@ -5953,53 +6042,35 @@ type SeverityV2 struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-// StatusPageIncidentAffectedComponentSlimV2 defines model for StatusPageIncidentAffectedComponentSlimV2.
-type StatusPageIncidentAffectedComponentSlimV2 struct {
-	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPage endpoint.
-	ComponentId string `json:"component_id"`
-
-	// CurrentStatus The status of the relevant component in a status page incident
-	CurrentStatus StatusPageIncidentAffectedComponentSlimV2CurrentStatus `json:"current_status"`
-}
-
-// StatusPageIncidentAffectedComponentSlimV2CurrentStatus The status of the relevant component in a status page incident
-type StatusPageIncidentAffectedComponentSlimV2CurrentStatus string
-
 // StatusPageIncidentAffectedComponentV2 defines model for StatusPageIncidentAffectedComponentV2.
 type StatusPageIncidentAffectedComponentV2 struct {
-	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPage endpoint.
+	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPageStructure endpoint.
 	ComponentId string `json:"component_id"`
 
-	// CurrentStatus The status of the relevant component in a status page incident
-	CurrentStatus StatusPageIncidentAffectedComponentV2CurrentStatus `json:"current_status"`
-
-	// Status The status of the relevant component in a status page incident
-	Status StatusPageIncidentAffectedComponentV2Status `json:"status"`
+	// ComponentStatus The status of the relevant component in a status page incident
+	ComponentStatus StatusPageIncidentAffectedComponentV2ComponentStatus `json:"component_status"`
 }
 
-// StatusPageIncidentAffectedComponentV2CurrentStatus The status of the relevant component in a status page incident
-type StatusPageIncidentAffectedComponentV2CurrentStatus string
-
-// StatusPageIncidentAffectedComponentV2Status The status of the relevant component in a status page incident
-type StatusPageIncidentAffectedComponentV2Status string
+// StatusPageIncidentAffectedComponentV2ComponentStatus The status of the relevant component in a status page incident
+type StatusPageIncidentAffectedComponentV2ComponentStatus string
 
 // StatusPageIncidentComponentImpactV2 defines model for StatusPageIncidentComponentImpactV2.
 type StatusPageIncidentComponentImpactV2 struct {
-	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPage endpoint.
+	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPageStructure endpoint.
 	ComponentId string `json:"component_id"`
+
+	// ComponentStatus The status of the relevant component impact in a status page incident - this excludes the operational status.
+	ComponentStatus StatusPageIncidentComponentImpactV2ComponentStatus `json:"component_status"`
 
 	// EndAt When the component left this status. If this is null, the impact is ongoing.
 	EndAt *time.Time `json:"end_at,omitempty"`
 
 	// StartAt When the component entered this status
 	StartAt time.Time `json:"start_at"`
-
-	// Status The status of the relevant component impact in a status page incident - this excludes the operational status.
-	Status StatusPageIncidentComponentImpactV2Status `json:"status"`
 }
 
-// StatusPageIncidentComponentImpactV2Status The status of the relevant component impact in a status page incident - this excludes the operational status.
-type StatusPageIncidentComponentImpactV2Status string
+// StatusPageIncidentComponentImpactV2ComponentStatus The status of the relevant component impact in a status page incident - this excludes the operational status.
+type StatusPageIncidentComponentImpactV2ComponentStatus string
 
 // StatusPageIncidentUpdateV2 defines model for StatusPageIncidentUpdateV2.
 type StatusPageIncidentUpdateV2 struct {
@@ -6009,6 +6080,9 @@ type StatusPageIncidentUpdateV2 struct {
 	// Id A unique ID for this status page incident update
 	Id string `json:"id"`
 
+	// IncidentStatus Current status for this incident
+	IncidentStatus StatusPageIncidentUpdateV2IncidentStatus `json:"incident_status"`
+
 	// Message Markdown update on what's changed about this status page incident
 	Message string `json:"message"`
 
@@ -6017,33 +6091,27 @@ type StatusPageIncidentUpdateV2 struct {
 
 	// StatusPageIncidentId The ID of the corresponding status page incident
 	StatusPageIncidentId string `json:"status_page_incident_id"`
-
-	// ToStatus Current status for this incident
-	ToStatus StatusPageIncidentUpdateV2ToStatus `json:"to_status"`
 }
 
-// StatusPageIncidentUpdateV2ToStatus Current status for this incident
-type StatusPageIncidentUpdateV2ToStatus string
+// StatusPageIncidentUpdateV2IncidentStatus Current status for this incident
+type StatusPageIncidentUpdateV2IncidentStatus string
 
 // StatusPageIncidentV2 defines model for StatusPageIncidentV2.
 type StatusPageIncidentV2 struct {
-	// AffectedComponents A summary of the affected components
-	AffectedComponents []StatusPageIncidentAffectedComponentV2 `json:"affected_components"`
-
 	// ComponentImpacts A list of time periods that this status page incident had an impact on a component
 	ComponentImpacts []StatusPageIncidentComponentImpactV2 `json:"component_impacts"`
 
 	// Id A unique ID for this status page incident
 	Id string `json:"id"`
 
+	// IncidentStatus Current status for this incident
+	IncidentStatus StatusPageIncidentV2IncidentStatus `json:"incident_status"`
+
 	// Name A title for the incident
 	Name string `json:"name"`
 
 	// PublishedAt When this status page incident was published to the status page
 	PublishedAt time.Time `json:"published_at"`
-
-	// Status Current status for this incident
-	Status StatusPageIncidentV2Status `json:"status"`
 
 	// StatusPageId The ID of the corresponding status page
 	StatusPageId string `json:"status_page_id"`
@@ -6052,8 +6120,8 @@ type StatusPageIncidentV2 struct {
 	Updates []StatusPageIncidentUpdateV2 `json:"updates"`
 }
 
-// StatusPageIncidentV2Status Current status for this incident
-type StatusPageIncidentV2Status string
+// StatusPageIncidentV2IncidentStatus Current status for this incident
+type StatusPageIncidentV2IncidentStatus string
 
 // StatusPageLinkedResponseIncidentV1 defines model for StatusPageLinkedResponseIncidentV1.
 type StatusPageLinkedResponseIncidentV1 struct {
@@ -6066,19 +6134,19 @@ type StatusPageLinkedResponseIncidentV1 struct {
 
 // StatusPageMaintenanceAffectedComponentV2 defines model for StatusPageMaintenanceAffectedComponentV2.
 type StatusPageMaintenanceAffectedComponentV2 struct {
-	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPage endpoint.
+	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPageStructure endpoint.
 	ComponentId string `json:"component_id"`
 
-	// CurrentStatus The status of the relevant component in a status page maintenance window
-	CurrentStatus StatusPageMaintenanceAffectedComponentV2CurrentStatus `json:"current_status"`
+	// ComponentStatus The status of the relevant component in a status page maintenance window
+	ComponentStatus StatusPageMaintenanceAffectedComponentV2ComponentStatus `json:"component_status"`
 }
 
-// StatusPageMaintenanceAffectedComponentV2CurrentStatus The status of the relevant component in a status page maintenance window
-type StatusPageMaintenanceAffectedComponentV2CurrentStatus string
+// StatusPageMaintenanceAffectedComponentV2ComponentStatus The status of the relevant component in a status page maintenance window
+type StatusPageMaintenanceAffectedComponentV2ComponentStatus string
 
-// StatusPageMaintenanceComponentImpactV2 defines model for StatusPageMaintenanceComponentImpactV2.
-type StatusPageMaintenanceComponentImpactV2 struct {
-	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPage endpoint.
+// StatusPageMaintenanceComponentMaintenancePeriodV2 defines model for StatusPageMaintenanceComponentMaintenancePeriodV2.
+type StatusPageMaintenanceComponentMaintenancePeriodV2 struct {
+	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPageStructure endpoint.
 	ComponentId string `json:"component_id"`
 
 	// EndAt When the component stopped being under maintenance. If this is null, the impact is ongoing.
@@ -6096,6 +6164,9 @@ type StatusPageMaintenanceUpdateV2 struct {
 	// Id A unique ID for this status page maintenance update
 	Id string `json:"id"`
 
+	// MaintenanceStatus Current status for this maintenance window
+	MaintenanceStatus StatusPageMaintenanceUpdateV2MaintenanceStatus `json:"maintenance_status"`
+
 	// Message Markdown update on what's changed about this status page maintenance window
 	Message string `json:"message"`
 
@@ -6104,30 +6175,27 @@ type StatusPageMaintenanceUpdateV2 struct {
 
 	// StatusPageMaintenanceId The ID of the corresponding status page maintenance window
 	StatusPageMaintenanceId string `json:"status_page_maintenance_id"`
-
-	// ToStatus Current status for this maintenance window
-	ToStatus StatusPageMaintenanceUpdateV2ToStatus `json:"to_status"`
 }
 
-// StatusPageMaintenanceUpdateV2ToStatus Current status for this maintenance window
-type StatusPageMaintenanceUpdateV2ToStatus string
+// StatusPageMaintenanceUpdateV2MaintenanceStatus Current status for this maintenance window
+type StatusPageMaintenanceUpdateV2MaintenanceStatus string
 
 // StatusPageMaintenanceV2 defines model for StatusPageMaintenanceV2.
 type StatusPageMaintenanceV2 struct {
-	// ComponentImpacts A list of time periods that this status page maintenance window had an impact on components
-	ComponentImpacts []StatusPageMaintenanceComponentImpactV2 `json:"component_impacts"`
+	// ComponentMaintenancePeriods A list of time periods where components were under maintenance during this status page maintenance window
+	ComponentMaintenancePeriods []StatusPageMaintenanceComponentMaintenancePeriodV2 `json:"component_maintenance_periods"`
 
 	// Id A unique ID for this status page maintenance window
 	Id string `json:"id"`
+
+	// MaintenanceStatus Current status for this maintenance window
+	MaintenanceStatus StatusPageMaintenanceV2MaintenanceStatus `json:"maintenance_status"`
 
 	// Name A title for the maintenance window
 	Name string `json:"name"`
 
 	// PublishedAt When this status page maintenance window was published to the status page
 	PublishedAt time.Time `json:"published_at"`
-
-	// Status Current status for this maintenance window
-	Status StatusPageMaintenanceV2Status `json:"status"`
 
 	// StatusPageId The ID of the corresponding status page
 	StatusPageId string `json:"status_page_id"`
@@ -6136,12 +6204,12 @@ type StatusPageMaintenanceV2 struct {
 	Updates []StatusPageMaintenanceUpdateV2 `json:"updates"`
 }
 
-// StatusPageMaintenanceV2Status Current status for this maintenance window
-type StatusPageMaintenanceV2Status string
+// StatusPageMaintenanceV2MaintenanceStatus Current status for this maintenance window
+type StatusPageMaintenanceV2MaintenanceStatus string
 
 // StatusPageStructureComponentV2 defines model for StatusPageStructureComponentV2.
 type StatusPageStructureComponentV2 struct {
-	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPage endpoint.
+	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPageStructure endpoint.
 	ComponentId string `json:"component_id"`
 
 	// Name The name of this component
@@ -6164,6 +6232,25 @@ type StatusPageStructureGroupV2 struct {
 type StatusPageStructureItemV2 struct {
 	Component *StatusPageStructureComponentV2 `json:"component,omitempty"`
 	Group     *StatusPageStructureGroupV2     `json:"group,omitempty"`
+	SubPage   *StatusPageStructureSubPageV2   `json:"sub_page,omitempty"`
+}
+
+// StatusPageStructureSubPageItemV2 defines model for StatusPageStructureSubPageItemV2.
+type StatusPageStructureSubPageItemV2 struct {
+	Component *StatusPageStructureComponentV2 `json:"component,omitempty"`
+	Group     *StatusPageStructureGroupV2     `json:"group,omitempty"`
+}
+
+// StatusPageStructureSubPageV2 defines model for StatusPageStructureSubPageV2.
+type StatusPageStructureSubPageV2 struct {
+	// Id Unique ID of this subpage
+	Id string `json:"id"`
+
+	// Items Array of components and groups belonging to this subpage
+	Items []StatusPageStructureSubPageItemV2 `json:"items"`
+
+	// Name The name of this subpage
+	Name string `json:"name"`
 }
 
 // StatusPageStructureV2 defines model for StatusPageStructureV2.
@@ -6189,11 +6276,14 @@ type StatusPageV2 struct {
 
 // StatusPagesCreateStatusPageIncidentPayloadV2 defines model for StatusPagesCreateStatusPageIncidentPayloadV2.
 type StatusPagesCreateStatusPageIncidentPayloadV2 struct {
-	// ComponentStatuses An array of mappings from component ID to current status
-	ComponentStatuses *[]StatusPageIncidentAffectedComponentSlimV2 `json:"component_statuses,omitempty"`
+	// ComponentStatuses An array of mappings from component ID to current component status
+	ComponentStatuses *[]StatusPageIncidentAffectedComponentV2 `json:"component_statuses,omitempty"`
 
-	// IdempotencyKey A unique key to de-duplicate incidents
+	// IdempotencyKey A unique key to de-duplicate requests. If you send a request with an idempotency_key that was already used, the original response will be returned.
 	IdempotencyKey string `json:"idempotency_key"`
+
+	// IncidentStatus Current status for this status page incident
+	IncidentStatus StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatus `json:"incident_status"`
 
 	// Message Markdown initial update on this status page incident
 	Message string `json:"message"`
@@ -6201,18 +6291,15 @@ type StatusPagesCreateStatusPageIncidentPayloadV2 struct {
 	// Name A title for the incident
 	Name string `json:"name"`
 
-	// NotifySubscribers Whether to notify subscribers about this status page incident.
+	// NotifySubscribers Whether to notify subscribers about this status page incident. This will not work if your status page has more than 1000 subscribers.
 	NotifySubscribers bool `json:"notify_subscribers"`
 
-	// Status Current status for this status page incident
-	Status StatusPagesCreateStatusPageIncidentPayloadV2Status `json:"status"`
-
-	// StatusPageId ID of the status page
+	// StatusPageId ID of the status page. You can find this by calling the ListStatusPages endpoint.
 	StatusPageId string `json:"status_page_id"`
 }
 
-// StatusPagesCreateStatusPageIncidentPayloadV2Status Current status for this status page incident
-type StatusPagesCreateStatusPageIncidentPayloadV2Status string
+// StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatus Current status for this status page incident
+type StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatus string
 
 // StatusPagesCreateStatusPageIncidentResultV2 defines model for StatusPagesCreateStatusPageIncidentResultV2.
 type StatusPagesCreateStatusPageIncidentResultV2 struct {
@@ -6222,23 +6309,23 @@ type StatusPagesCreateStatusPageIncidentResultV2 struct {
 // StatusPagesCreateStatusPageIncidentUpdatePayloadV2 defines model for StatusPagesCreateStatusPageIncidentUpdatePayloadV2.
 type StatusPagesCreateStatusPageIncidentUpdatePayloadV2 struct {
 	// ComponentStatuses An array of mappings from component ID to component status. This must not be set if the status page incident status is being set to "resolved", as all components statuses will update to "operational".
-	ComponentStatuses *[]StatusPageIncidentAffectedComponentSlimV2 `json:"component_statuses,omitempty"`
+	ComponentStatuses *[]StatusPageIncidentAffectedComponentV2 `json:"component_statuses,omitempty"`
+
+	// IncidentStatus Optional new status for this status page incident. If not provided, the status will remain unchanged. Setting to "resolved" will end the incident and all component statuses will update to "operational".
+	IncidentStatus *StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus `json:"incident_status,omitempty"`
 
 	// Message Markdown update on what's changed about this status page incident
 	Message string `json:"message"`
 
-	// NotifySubscribers Whether to notify subscribers about this incident update
+	// NotifySubscribers Whether to notify subscribers about this incident update. This will not work if your status page has more than 1000 subscribers.
 	NotifySubscribers bool `json:"notify_subscribers"`
 
 	// StatusPageIncidentId ID of the status page incident
 	StatusPageIncidentId string `json:"status_page_incident_id"`
-
-	// ToStatus New status for this status page incident. Setting to "resolved" will end the status page incident.
-	ToStatus *StatusPagesCreateStatusPageIncidentUpdatePayloadV2ToStatus `json:"to_status,omitempty"`
 }
 
-// StatusPagesCreateStatusPageIncidentUpdatePayloadV2ToStatus New status for this status page incident. Setting to "resolved" will end the status page incident.
-type StatusPagesCreateStatusPageIncidentUpdatePayloadV2ToStatus string
+// StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus Optional new status for this status page incident. If not provided, the status will remain unchanged. Setting to "resolved" will end the incident and all component statuses will update to "operational".
+type StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus string
 
 // StatusPagesCreateStatusPageIncidentUpdateResultV2 defines model for StatusPagesCreateStatusPageIncidentUpdateResultV2.
 type StatusPagesCreateStatusPageIncidentUpdateResultV2 struct {
@@ -6253,8 +6340,11 @@ type StatusPagesCreateStatusPageMaintenancePayloadV2 struct {
 	// EndAt The time the maintenance window ends
 	EndAt time.Time `json:"end_at"`
 
-	// IdempotencyKey A unique key to de-duplicate maintenances
+	// IdempotencyKey A unique key to de-duplicate requests. If you send a request with an idempotency_key that was already used, the original response will be returned.
 	IdempotencyKey string `json:"idempotency_key"`
+
+	// MaintenanceStatus Current status for this status page maintenance window
+	MaintenanceStatus StatusPagesCreateStatusPageMaintenancePayloadV2MaintenanceStatus `json:"maintenance_status"`
 
 	// Message Markdown initial update on this status page maintenance window
 	Message string `json:"message"`
@@ -6262,18 +6352,18 @@ type StatusPagesCreateStatusPageMaintenancePayloadV2 struct {
 	// Name A title for the maintenance window
 	Name string `json:"name"`
 
+	// NotifySubscribers Whether to notify subscribers about this status page maintenance. This will not work if your status page has more than 1000 subscribers.
+	NotifySubscribers bool `json:"notify_subscribers"`
+
 	// StartAt The time the maintenance window starts
 	StartAt time.Time `json:"start_at"`
 
-	// Status Current status for this status page maintenance window
-	Status StatusPagesCreateStatusPageMaintenancePayloadV2Status `json:"status"`
-
-	// StatusPageId ID of the status page
+	// StatusPageId ID of the status page. You can find this by calling the ListStatusPages endpoint.
 	StatusPageId string `json:"status_page_id"`
 }
 
-// StatusPagesCreateStatusPageMaintenancePayloadV2Status Current status for this status page maintenance window
-type StatusPagesCreateStatusPageMaintenancePayloadV2Status string
+// StatusPagesCreateStatusPageMaintenancePayloadV2MaintenanceStatus Current status for this status page maintenance window
+type StatusPagesCreateStatusPageMaintenancePayloadV2MaintenanceStatus string
 
 // StatusPagesCreateStatusPageMaintenanceResultV2 defines model for StatusPagesCreateStatusPageMaintenanceResultV2.
 type StatusPagesCreateStatusPageMaintenanceResultV2 struct {
@@ -6285,18 +6375,21 @@ type StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2 struct {
 	// ComponentStatuses An array of mappings from component ID to component status. This must not be set if the status page maintenance window status is being set to "maintenance_complete", as all components statuses will update to "operational".
 	ComponentStatuses *[]StatusPageMaintenanceAffectedComponentV2 `json:"component_statuses,omitempty"`
 
+	// MaintenanceStatus Optional new status for this status page maintenance window. If not provided, the status will remain unchanged. Setting to "maintenance_complete" will end the maintenance window and all component statuses will update to "operational".
+	MaintenanceStatus *StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatus `json:"maintenance_status,omitempty"`
+
 	// Message Markdown update on what's changed about this status page maintenance window
 	Message string `json:"message"`
 
+	// NotifySubscribers Whether to notify subscribers about this status page maintenance update. This will not work if your status page has more than 1000 subscribers.
+	NotifySubscribers bool `json:"notify_subscribers"`
+
 	// StatusPageMaintenanceId ID of the status page maintenance window
 	StatusPageMaintenanceId string `json:"status_page_maintenance_id"`
-
-	// ToStatus Current status for this status page maintenance window
-	ToStatus *StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2ToStatus `json:"to_status,omitempty"`
 }
 
-// StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2ToStatus Current status for this status page maintenance window
-type StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2ToStatus string
+// StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatus Optional new status for this status page maintenance window. If not provided, the status will remain unchanged. Setting to "maintenance_complete" will end the maintenance window and all component statuses will update to "operational".
+type StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatus string
 
 // StatusPagesCreateStatusPageMaintenanceUpdateResultV2 defines model for StatusPagesCreateStatusPageMaintenanceUpdateResultV2.
 type StatusPagesCreateStatusPageMaintenanceUpdateResultV2 struct {
@@ -6308,13 +6401,16 @@ type StatusPagesListResponseIncidentsResultV1 struct {
 	Incidents []StatusPageLinkedResponseIncidentV1 `json:"incidents"`
 }
 
-// StatusPagesListStatusPagesPayloadV2 defines model for StatusPagesListStatusPagesPayloadV2.
-type StatusPagesListStatusPagesPayloadV2 struct {
-	// After An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.
-	After *string `json:"after,omitempty"`
+// StatusPagesListStatusPageIncidentsResultV2 defines model for StatusPagesListStatusPageIncidentsResultV2.
+type StatusPagesListStatusPageIncidentsResultV2 struct {
+	PaginationMeta      PaginationMetaResultV2 `json:"pagination_meta"`
+	StatusPageIncidents []StatusPageIncidentV2 `json:"status_page_incidents"`
+}
 
-	// PageSize Integer number of records to return
-	PageSize *int64 `json:"page_size,omitempty"`
+// StatusPagesListStatusPageMaintenancesResultV2 defines model for StatusPagesListStatusPageMaintenancesResultV2.
+type StatusPagesListStatusPageMaintenancesResultV2 struct {
+	PaginationMeta         PaginationMetaResultV2    `json:"pagination_meta"`
+	StatusPageMaintenances []StatusPageMaintenanceV2 `json:"status_page_maintenances"`
 }
 
 // StatusPagesListStatusPagesResultV2 defines model for StatusPagesListStatusPagesResultV2.
@@ -6938,6 +7034,27 @@ type CatalogV2ListEntriesParams struct {
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
+// EscalationsV2ListPathsParams defines parameters for EscalationsV2ListPaths.
+type EscalationsV2ListPathsParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
+// EscalationsV2ListExternalEscalationPathsParams defines parameters for EscalationsV2ListExternalEscalationPaths.
+type EscalationsV2ListExternalEscalationPathsParams struct {
+	// PageSize Number of results to return per page
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An external escalation path's name. This endpoint will return results after this name in alphabetical order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// Search Search query to filter results by name or external provider ID
+	Search *string `form:"search,omitempty" json:"search,omitempty"`
+}
+
 // EscalationsV2ListParams defines parameters for EscalationsV2List.
 type EscalationsV2ListParams struct {
 	// PageSize Number of escalations to return per page
@@ -7033,7 +7150,7 @@ type IncidentsV2ListParams struct {
 	// IncidentType Filter on incident type. The accepted operators are 'one_of, or 'not_in'.
 	IncidentType *map[string][]string `form:"incident_type,omitempty" json:"incident_type,omitempty"`
 
-	// IncidentRole Filter on an incident role. Role ID should be sent, followed by the operator and values. The accepted operators are 'one_of', 'is_blank'.
+	// IncidentRole Filter on an incident role. Role ID should be sent, along with backlink attribute ID (if needed) followed by the operator and values. The accepted operators are 'one_of', 'is_blank'.
 	IncidentRole *map[string]map[string][]string `form:"incident_role,omitempty" json:"incident_role,omitempty"`
 
 	// CustomField Filter on an incident custom field. Custom field ID should be sent, followed by the operator and values. Accepted operator will depend on the custom field type.
@@ -7064,6 +7181,69 @@ type SchedulesV2ListParams struct {
 	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// After A schedule's ID. This endpoint will return a list of schedules after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
+// StatusPagesV2ListStatusPageIncidentsParams defines parameters for StatusPagesV2ListStatusPageIncidents.
+type StatusPagesV2ListStatusPageIncidentsParams struct {
+	// StatusPageId ID of the status page. You can find this by calling the ListStatusPages endpoint.
+	StatusPageId string `form:"status_page_id" json:"status_page_id"`
+
+	// ComponentId Filter status page incidents to only those that impacted the specified component. This ID may be found by calling the ShowStatusPageStructure endpoint.
+	ComponentId *string `form:"component_id,omitempty" json:"component_id,omitempty"`
+
+	// GroupId Filter status page incidents to only those that impacted components in the specified group. This ID may be found by calling the ShowStatusPageStructure endpoint.
+	GroupId *string `form:"group_id,omitempty" json:"group_id,omitempty"`
+
+	// SubPageId Filter status page incidents to only those that impacted the specified sub-page. This ID may be found by calling the ShowStatusPageStructure endpoint.
+	SubPageId *string `form:"sub_page_id,omitempty" json:"sub_page_id,omitempty"`
+
+	// StartAt Filter status page incidents to only those that had impacts during or after this time.
+	StartAt *time.Time `form:"start_at,omitempty" json:"start_at,omitempty"`
+
+	// EndAt Filter status page incidents to only those that had impacts during or before this time.
+	EndAt *time.Time `form:"end_at,omitempty" json:"end_at,omitempty"`
+
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
+// StatusPagesV2ListStatusPageMaintenancesParams defines parameters for StatusPagesV2ListStatusPageMaintenances.
+type StatusPagesV2ListStatusPageMaintenancesParams struct {
+	// StatusPageId ID of the status page. You can find this by calling the ListStatusPages endpoint.
+	StatusPageId string `form:"status_page_id" json:"status_page_id"`
+
+	// ComponentId Filter status page maintenance windows to only those that impacted the specified component. This ID may be found by calling the ShowStatusPageStructure endpoint.
+	ComponentId *string `form:"component_id,omitempty" json:"component_id,omitempty"`
+
+	// GroupId Filter status page maintenance windows to only those that impacted components in the specified group. This ID may be found by calling the ShowStatusPageStructure endpoint.
+	GroupId *string `form:"group_id,omitempty" json:"group_id,omitempty"`
+
+	// SubPageId Filter status page maintenance windows to only those that impacted the specified sub-page. This ID may be found by calling the ShowStatusPageStructure endpoint.
+	SubPageId *string `form:"sub_page_id,omitempty" json:"sub_page_id,omitempty"`
+
+	// StartAt Filter status page maintenance windows to only those that had impacts during or after this time.
+	StartAt *time.Time `form:"start_at,omitempty" json:"start_at,omitempty"`
+
+	// EndAt Filter status page maintenance windows to only those that had impacts during or before this time.
+	EndAt *time.Time `form:"end_at,omitempty" json:"end_at,omitempty"`
+
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
+// StatusPagesV2ListStatusPagesParams defines parameters for StatusPagesV2ListStatusPages.
+type StatusPagesV2ListStatusPagesParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
@@ -7195,6 +7375,9 @@ type CustomFieldsV2UpdateJSONRequestBody = CustomFieldsUpdatePayloadV2
 // EscalationsV2CreatePathJSONRequestBody defines body for EscalationsV2CreatePath for application/json ContentType.
 type EscalationsV2CreatePathJSONRequestBody = EscalationsCreatePathPayloadV2
 
+// EscalationsV2CreateExternalEscalationPathJSONRequestBody defines body for EscalationsV2CreateExternalEscalationPath for application/json ContentType.
+type EscalationsV2CreateExternalEscalationPathJSONRequestBody = EscalationsCreateExternalEscalationPathPayloadV2
+
 // EscalationsV2UpdatePathJSONRequestBody defines body for EscalationsV2UpdatePath for application/json ContentType.
 type EscalationsV2UpdatePathJSONRequestBody = EscalationsUpdatePathPayloadV2
 
@@ -7239,9 +7422,6 @@ type StatusPagesV2CreateStatusPageMaintenanceUpdateJSONRequestBody = StatusPages
 
 // StatusPagesV2CreateStatusPageMaintenanceJSONRequestBody defines body for StatusPagesV2CreateStatusPageMaintenance for application/json ContentType.
 type StatusPagesV2CreateStatusPageMaintenanceJSONRequestBody = StatusPagesCreateStatusPageMaintenancePayloadV2
-
-// StatusPagesV2ListStatusPagesJSONRequestBody defines body for StatusPagesV2ListStatusPages for application/json ContentType.
-type StatusPagesV2ListStatusPagesJSONRequestBody = StatusPagesListStatusPagesPayloadV2
 
 // WorkflowsV2CreateWorkflowJSONRequestBody defines body for WorkflowsV2CreateWorkflow for application/json ContentType.
 type WorkflowsV2CreateWorkflowJSONRequestBody = WorkflowsCreateWorkflowPayloadV2
@@ -7641,10 +7821,21 @@ type ClientInterface interface {
 
 	CustomFieldsV2Update(ctx context.Context, id string, body CustomFieldsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// EscalationsV2ListPaths request
+	EscalationsV2ListPaths(ctx context.Context, params *EscalationsV2ListPathsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// EscalationsV2CreatePathWithBody request with any body
 	EscalationsV2CreatePathWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	EscalationsV2CreatePath(ctx context.Context, body EscalationsV2CreatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV2ListExternalEscalationPaths request
+	EscalationsV2ListExternalEscalationPaths(ctx context.Context, params *EscalationsV2ListExternalEscalationPathsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV2CreateExternalEscalationPathWithBody request with any body
+	EscalationsV2CreateExternalEscalationPathWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	EscalationsV2CreateExternalEscalationPath(ctx context.Context, body EscalationsV2CreateExternalEscalationPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// EscalationsV2DestroyPath request
 	EscalationsV2DestroyPath(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -7758,6 +7949,9 @@ type ClientInterface interface {
 
 	StatusPagesV2CreateStatusPageIncidentUpdate(ctx context.Context, body StatusPagesV2CreateStatusPageIncidentUpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// StatusPagesV2ListStatusPageIncidents request
+	StatusPagesV2ListStatusPageIncidents(ctx context.Context, params *StatusPagesV2ListStatusPageIncidentsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// StatusPagesV2CreateStatusPageIncidentWithBody request with any body
 	StatusPagesV2CreateStatusPageIncidentWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -7776,6 +7970,9 @@ type ClientInterface interface {
 
 	StatusPagesV2CreateStatusPageMaintenanceUpdate(ctx context.Context, body StatusPagesV2CreateStatusPageMaintenanceUpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// StatusPagesV2ListStatusPageMaintenances request
+	StatusPagesV2ListStatusPageMaintenances(ctx context.Context, params *StatusPagesV2ListStatusPageMaintenancesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// StatusPagesV2CreateStatusPageMaintenanceWithBody request with any body
 	StatusPagesV2CreateStatusPageMaintenanceWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -7787,10 +7984,8 @@ type ClientInterface interface {
 	// StatusPagesV2ShowStatusPageStructure request
 	StatusPagesV2ShowStatusPageStructure(ctx context.Context, statusPageId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// StatusPagesV2ListStatusPagesWithBody request with any body
-	StatusPagesV2ListStatusPagesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	StatusPagesV2ListStatusPages(ctx context.Context, body StatusPagesV2ListStatusPagesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// StatusPagesV2ListStatusPages request
+	StatusPagesV2ListStatusPages(ctx context.Context, params *StatusPagesV2ListStatusPagesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// UsersV2List request
 	UsersV2List(ctx context.Context, params *UsersV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -9189,6 +9384,18 @@ func (c *Client) CustomFieldsV2Update(ctx context.Context, id string, body Custo
 	return c.Client.Do(req)
 }
 
+func (c *Client) EscalationsV2ListPaths(ctx context.Context, params *EscalationsV2ListPathsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2ListPathsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) EscalationsV2CreatePathWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewEscalationsV2CreatePathRequestWithBody(c.Server, contentType, body)
 	if err != nil {
@@ -9203,6 +9410,42 @@ func (c *Client) EscalationsV2CreatePathWithBody(ctx context.Context, contentTyp
 
 func (c *Client) EscalationsV2CreatePath(ctx context.Context, body EscalationsV2CreatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewEscalationsV2CreatePathRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EscalationsV2ListExternalEscalationPaths(ctx context.Context, params *EscalationsV2ListExternalEscalationPathsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2ListExternalEscalationPathsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EscalationsV2CreateExternalEscalationPathWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2CreateExternalEscalationPathRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EscalationsV2CreateExternalEscalationPath(ctx context.Context, body EscalationsV2CreateExternalEscalationPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2CreateExternalEscalationPathRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -9705,6 +9948,18 @@ func (c *Client) StatusPagesV2CreateStatusPageIncidentUpdate(ctx context.Context
 	return c.Client.Do(req)
 }
 
+func (c *Client) StatusPagesV2ListStatusPageIncidents(ctx context.Context, params *StatusPagesV2ListStatusPageIncidentsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPagesV2ListStatusPageIncidentsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) StatusPagesV2CreateStatusPageIncidentWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewStatusPagesV2CreateStatusPageIncidentRequestWithBody(c.Server, contentType, body)
 	if err != nil {
@@ -9789,6 +10044,18 @@ func (c *Client) StatusPagesV2CreateStatusPageMaintenanceUpdate(ctx context.Cont
 	return c.Client.Do(req)
 }
 
+func (c *Client) StatusPagesV2ListStatusPageMaintenances(ctx context.Context, params *StatusPagesV2ListStatusPageMaintenancesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPagesV2ListStatusPageMaintenancesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) StatusPagesV2CreateStatusPageMaintenanceWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewStatusPagesV2CreateStatusPageMaintenanceRequestWithBody(c.Server, contentType, body)
 	if err != nil {
@@ -9837,20 +10104,8 @@ func (c *Client) StatusPagesV2ShowStatusPageStructure(ctx context.Context, statu
 	return c.Client.Do(req)
 }
 
-func (c *Client) StatusPagesV2ListStatusPagesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewStatusPagesV2ListStatusPagesRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) StatusPagesV2ListStatusPages(ctx context.Context, body StatusPagesV2ListStatusPagesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewStatusPagesV2ListStatusPagesRequest(c.Server, body)
+func (c *Client) StatusPagesV2ListStatusPages(ctx context.Context, params *StatusPagesV2ListStatusPagesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPagesV2ListStatusPagesRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -13550,6 +13805,71 @@ func NewCustomFieldsV2UpdateRequestWithBody(server string, id string, contentTyp
 	return req, nil
 }
 
+// NewEscalationsV2ListPathsRequest generates requests for EscalationsV2ListPaths
+func NewEscalationsV2ListPathsRequest(server string, params *EscalationsV2ListPathsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalation_paths")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewEscalationsV2CreatePathRequest calls the generic EscalationsV2CreatePath builder with application/json body
 func NewEscalationsV2CreatePathRequest(server string, body EscalationsV2CreatePathJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -13571,6 +13891,127 @@ func NewEscalationsV2CreatePathRequestWithBody(server string, contentType string
 	}
 
 	operationPath := fmt.Sprintf("/v2/escalation_paths")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewEscalationsV2ListExternalEscalationPathsRequest generates requests for EscalationsV2ListExternalEscalationPaths
+func NewEscalationsV2ListExternalEscalationPathsRequest(server string, params *EscalationsV2ListExternalEscalationPathsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalation_paths/external")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Search != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "search", runtime.ParamLocationQuery, *params.Search); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewEscalationsV2CreateExternalEscalationPathRequest calls the generic EscalationsV2CreateExternalEscalationPath builder with application/json body
+func NewEscalationsV2CreateExternalEscalationPathRequest(server string, body EscalationsV2CreateExternalEscalationPathJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationsV2CreateExternalEscalationPathRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewEscalationsV2CreateExternalEscalationPathRequestWithBody generates requests for EscalationsV2CreateExternalEscalationPath with any type of body
+func NewEscalationsV2CreateExternalEscalationPathRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalation_paths/external")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -15219,6 +15660,163 @@ func NewStatusPagesV2CreateStatusPageIncidentUpdateRequestWithBody(server string
 	return req, nil
 }
 
+// NewStatusPagesV2ListStatusPageIncidentsRequest generates requests for StatusPagesV2ListStatusPageIncidents
+func NewStatusPagesV2ListStatusPageIncidentsRequest(server string, params *StatusPagesV2ListStatusPageIncidentsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/status_page_incidents")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "status_page_id", runtime.ParamLocationQuery, params.StatusPageId); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		if params.ComponentId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "component_id", runtime.ParamLocationQuery, *params.ComponentId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.GroupId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "group_id", runtime.ParamLocationQuery, *params.GroupId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.SubPageId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sub_page_id", runtime.ParamLocationQuery, *params.SubPageId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.StartAt != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "start_at", runtime.ParamLocationQuery, *params.StartAt); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.EndAt != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "end_at", runtime.ParamLocationQuery, *params.EndAt); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewStatusPagesV2CreateStatusPageIncidentRequest calls the generic StatusPagesV2CreateStatusPageIncident builder with application/json body
 func NewStatusPagesV2CreateStatusPageIncidentRequest(server string, body StatusPagesV2CreateStatusPageIncidentJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -15380,6 +15978,163 @@ func NewStatusPagesV2CreateStatusPageMaintenanceUpdateRequestWithBody(server str
 	return req, nil
 }
 
+// NewStatusPagesV2ListStatusPageMaintenancesRequest generates requests for StatusPagesV2ListStatusPageMaintenances
+func NewStatusPagesV2ListStatusPageMaintenancesRequest(server string, params *StatusPagesV2ListStatusPageMaintenancesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/status_page_maintenances")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "status_page_id", runtime.ParamLocationQuery, params.StatusPageId); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		if params.ComponentId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "component_id", runtime.ParamLocationQuery, *params.ComponentId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.GroupId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "group_id", runtime.ParamLocationQuery, *params.GroupId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.SubPageId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sub_page_id", runtime.ParamLocationQuery, *params.SubPageId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.StartAt != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "start_at", runtime.ParamLocationQuery, *params.StartAt); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.EndAt != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "end_at", runtime.ParamLocationQuery, *params.EndAt); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewStatusPagesV2CreateStatusPageMaintenanceRequest calls the generic StatusPagesV2CreateStatusPageMaintenance builder with application/json body
 func NewStatusPagesV2CreateStatusPageMaintenanceRequest(server string, body StatusPagesV2CreateStatusPageMaintenanceJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -15488,19 +16243,8 @@ func NewStatusPagesV2ShowStatusPageStructureRequest(server string, statusPageId 
 	return req, nil
 }
 
-// NewStatusPagesV2ListStatusPagesRequest calls the generic StatusPagesV2ListStatusPages builder with application/json body
-func NewStatusPagesV2ListStatusPagesRequest(server string, body StatusPagesV2ListStatusPagesJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewStatusPagesV2ListStatusPagesRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewStatusPagesV2ListStatusPagesRequestWithBody generates requests for StatusPagesV2ListStatusPages with any type of body
-func NewStatusPagesV2ListStatusPagesRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+// NewStatusPagesV2ListStatusPagesRequest generates requests for StatusPagesV2ListStatusPages
+func NewStatusPagesV2ListStatusPagesRequest(server string, params *StatusPagesV2ListStatusPagesParams) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -15518,12 +16262,48 @@ func NewStatusPagesV2ListStatusPagesRequestWithBody(server string, contentType s
 		return nil, err
 	}
 
-	req, err := http.NewRequest("GET", queryURL.String(), body)
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
 		return nil, err
 	}
-
-	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -16747,10 +17527,21 @@ type ClientWithResponsesInterface interface {
 
 	CustomFieldsV2UpdateWithResponse(ctx context.Context, id string, body CustomFieldsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*CustomFieldsV2UpdateResponse, error)
 
+	// EscalationsV2ListPathsWithResponse request
+	EscalationsV2ListPathsWithResponse(ctx context.Context, params *EscalationsV2ListPathsParams, reqEditors ...RequestEditorFn) (*EscalationsV2ListPathsResponse, error)
+
 	// EscalationsV2CreatePathWithBodyWithResponse request with any body
 	EscalationsV2CreatePathWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2CreatePathResponse, error)
 
 	EscalationsV2CreatePathWithResponse(ctx context.Context, body EscalationsV2CreatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2CreatePathResponse, error)
+
+	// EscalationsV2ListExternalEscalationPathsWithResponse request
+	EscalationsV2ListExternalEscalationPathsWithResponse(ctx context.Context, params *EscalationsV2ListExternalEscalationPathsParams, reqEditors ...RequestEditorFn) (*EscalationsV2ListExternalEscalationPathsResponse, error)
+
+	// EscalationsV2CreateExternalEscalationPathWithBodyWithResponse request with any body
+	EscalationsV2CreateExternalEscalationPathWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2CreateExternalEscalationPathResponse, error)
+
+	EscalationsV2CreateExternalEscalationPathWithResponse(ctx context.Context, body EscalationsV2CreateExternalEscalationPathJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2CreateExternalEscalationPathResponse, error)
 
 	// EscalationsV2DestroyPathWithResponse request
 	EscalationsV2DestroyPathWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV2DestroyPathResponse, error)
@@ -16864,6 +17655,9 @@ type ClientWithResponsesInterface interface {
 
 	StatusPagesV2CreateStatusPageIncidentUpdateWithResponse(ctx context.Context, body StatusPagesV2CreateStatusPageIncidentUpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPagesV2CreateStatusPageIncidentUpdateResponse, error)
 
+	// StatusPagesV2ListStatusPageIncidentsWithResponse request
+	StatusPagesV2ListStatusPageIncidentsWithResponse(ctx context.Context, params *StatusPagesV2ListStatusPageIncidentsParams, reqEditors ...RequestEditorFn) (*StatusPagesV2ListStatusPageIncidentsResponse, error)
+
 	// StatusPagesV2CreateStatusPageIncidentWithBodyWithResponse request with any body
 	StatusPagesV2CreateStatusPageIncidentWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2CreateStatusPageIncidentResponse, error)
 
@@ -16882,6 +17676,9 @@ type ClientWithResponsesInterface interface {
 
 	StatusPagesV2CreateStatusPageMaintenanceUpdateWithResponse(ctx context.Context, body StatusPagesV2CreateStatusPageMaintenanceUpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPagesV2CreateStatusPageMaintenanceUpdateResponse, error)
 
+	// StatusPagesV2ListStatusPageMaintenancesWithResponse request
+	StatusPagesV2ListStatusPageMaintenancesWithResponse(ctx context.Context, params *StatusPagesV2ListStatusPageMaintenancesParams, reqEditors ...RequestEditorFn) (*StatusPagesV2ListStatusPageMaintenancesResponse, error)
+
 	// StatusPagesV2CreateStatusPageMaintenanceWithBodyWithResponse request with any body
 	StatusPagesV2CreateStatusPageMaintenanceWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2CreateStatusPageMaintenanceResponse, error)
 
@@ -16893,10 +17690,8 @@ type ClientWithResponsesInterface interface {
 	// StatusPagesV2ShowStatusPageStructureWithResponse request
 	StatusPagesV2ShowStatusPageStructureWithResponse(ctx context.Context, statusPageId string, reqEditors ...RequestEditorFn) (*StatusPagesV2ShowStatusPageStructureResponse, error)
 
-	// StatusPagesV2ListStatusPagesWithBodyWithResponse request with any body
-	StatusPagesV2ListStatusPagesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2ListStatusPagesResponse, error)
-
-	StatusPagesV2ListStatusPagesWithResponse(ctx context.Context, body StatusPagesV2ListStatusPagesJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPagesV2ListStatusPagesResponse, error)
+	// StatusPagesV2ListStatusPagesWithResponse request
+	StatusPagesV2ListStatusPagesWithResponse(ctx context.Context, params *StatusPagesV2ListStatusPagesParams, reqEditors ...RequestEditorFn) (*StatusPagesV2ListStatusPagesResponse, error)
 
 	// UsersV2ListWithResponse request
 	UsersV2ListWithResponse(ctx context.Context, params *UsersV2ListParams, reqEditors ...RequestEditorFn) (*UsersV2ListResponse, error)
@@ -18744,6 +19539,28 @@ func (r CustomFieldsV2UpdateResponse) StatusCode() int {
 	return 0
 }
 
+type EscalationsV2ListPathsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *EscalationsListPathsResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV2ListPathsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV2ListPathsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type EscalationsV2CreatePathResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -18760,6 +19577,50 @@ func (r EscalationsV2CreatePathResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r EscalationsV2CreatePathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type EscalationsV2ListExternalEscalationPathsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *EscalationsListExternalEscalationPathsResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV2ListExternalEscalationPathsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV2ListExternalEscalationPathsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type EscalationsV2CreateExternalEscalationPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *EscalationsCreateExternalEscalationPathResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV2CreateExternalEscalationPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV2CreateExternalEscalationPathResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -19423,6 +20284,28 @@ func (r StatusPagesV2CreateStatusPageIncidentUpdateResponse) StatusCode() int {
 	return 0
 }
 
+type StatusPagesV2ListStatusPageIncidentsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StatusPagesListStatusPageIncidentsResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r StatusPagesV2ListStatusPageIncidentsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StatusPagesV2ListStatusPageIncidentsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type StatusPagesV2CreateStatusPageIncidentResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -19505,6 +20388,28 @@ func (r StatusPagesV2CreateStatusPageMaintenanceUpdateResponse) Status() string 
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r StatusPagesV2CreateStatusPageMaintenanceUpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type StatusPagesV2ListStatusPageMaintenancesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StatusPagesListStatusPageMaintenancesResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r StatusPagesV2ListStatusPageMaintenancesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StatusPagesV2ListStatusPageMaintenancesResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -20996,6 +21901,15 @@ func (c *ClientWithResponses) CustomFieldsV2UpdateWithResponse(ctx context.Conte
 	return ParseCustomFieldsV2UpdateResponse(rsp)
 }
 
+// EscalationsV2ListPathsWithResponse request returning *EscalationsV2ListPathsResponse
+func (c *ClientWithResponses) EscalationsV2ListPathsWithResponse(ctx context.Context, params *EscalationsV2ListPathsParams, reqEditors ...RequestEditorFn) (*EscalationsV2ListPathsResponse, error) {
+	rsp, err := c.EscalationsV2ListPaths(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2ListPathsResponse(rsp)
+}
+
 // EscalationsV2CreatePathWithBodyWithResponse request with arbitrary body returning *EscalationsV2CreatePathResponse
 func (c *ClientWithResponses) EscalationsV2CreatePathWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2CreatePathResponse, error) {
 	rsp, err := c.EscalationsV2CreatePathWithBody(ctx, contentType, body, reqEditors...)
@@ -21011,6 +21925,32 @@ func (c *ClientWithResponses) EscalationsV2CreatePathWithResponse(ctx context.Co
 		return nil, err
 	}
 	return ParseEscalationsV2CreatePathResponse(rsp)
+}
+
+// EscalationsV2ListExternalEscalationPathsWithResponse request returning *EscalationsV2ListExternalEscalationPathsResponse
+func (c *ClientWithResponses) EscalationsV2ListExternalEscalationPathsWithResponse(ctx context.Context, params *EscalationsV2ListExternalEscalationPathsParams, reqEditors ...RequestEditorFn) (*EscalationsV2ListExternalEscalationPathsResponse, error) {
+	rsp, err := c.EscalationsV2ListExternalEscalationPaths(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2ListExternalEscalationPathsResponse(rsp)
+}
+
+// EscalationsV2CreateExternalEscalationPathWithBodyWithResponse request with arbitrary body returning *EscalationsV2CreateExternalEscalationPathResponse
+func (c *ClientWithResponses) EscalationsV2CreateExternalEscalationPathWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2CreateExternalEscalationPathResponse, error) {
+	rsp, err := c.EscalationsV2CreateExternalEscalationPathWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2CreateExternalEscalationPathResponse(rsp)
+}
+
+func (c *ClientWithResponses) EscalationsV2CreateExternalEscalationPathWithResponse(ctx context.Context, body EscalationsV2CreateExternalEscalationPathJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2CreateExternalEscalationPathResponse, error) {
+	rsp, err := c.EscalationsV2CreateExternalEscalationPath(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2CreateExternalEscalationPathResponse(rsp)
 }
 
 // EscalationsV2DestroyPathWithResponse request returning *EscalationsV2DestroyPathResponse
@@ -21371,6 +22311,15 @@ func (c *ClientWithResponses) StatusPagesV2CreateStatusPageIncidentUpdateWithRes
 	return ParseStatusPagesV2CreateStatusPageIncidentUpdateResponse(rsp)
 }
 
+// StatusPagesV2ListStatusPageIncidentsWithResponse request returning *StatusPagesV2ListStatusPageIncidentsResponse
+func (c *ClientWithResponses) StatusPagesV2ListStatusPageIncidentsWithResponse(ctx context.Context, params *StatusPagesV2ListStatusPageIncidentsParams, reqEditors ...RequestEditorFn) (*StatusPagesV2ListStatusPageIncidentsResponse, error) {
+	rsp, err := c.StatusPagesV2ListStatusPageIncidents(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPagesV2ListStatusPageIncidentsResponse(rsp)
+}
+
 // StatusPagesV2CreateStatusPageIncidentWithBodyWithResponse request with arbitrary body returning *StatusPagesV2CreateStatusPageIncidentResponse
 func (c *ClientWithResponses) StatusPagesV2CreateStatusPageIncidentWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2CreateStatusPageIncidentResponse, error) {
 	rsp, err := c.StatusPagesV2CreateStatusPageIncidentWithBody(ctx, contentType, body, reqEditors...)
@@ -21431,6 +22380,15 @@ func (c *ClientWithResponses) StatusPagesV2CreateStatusPageMaintenanceUpdateWith
 	return ParseStatusPagesV2CreateStatusPageMaintenanceUpdateResponse(rsp)
 }
 
+// StatusPagesV2ListStatusPageMaintenancesWithResponse request returning *StatusPagesV2ListStatusPageMaintenancesResponse
+func (c *ClientWithResponses) StatusPagesV2ListStatusPageMaintenancesWithResponse(ctx context.Context, params *StatusPagesV2ListStatusPageMaintenancesParams, reqEditors ...RequestEditorFn) (*StatusPagesV2ListStatusPageMaintenancesResponse, error) {
+	rsp, err := c.StatusPagesV2ListStatusPageMaintenances(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPagesV2ListStatusPageMaintenancesResponse(rsp)
+}
+
 // StatusPagesV2CreateStatusPageMaintenanceWithBodyWithResponse request with arbitrary body returning *StatusPagesV2CreateStatusPageMaintenanceResponse
 func (c *ClientWithResponses) StatusPagesV2CreateStatusPageMaintenanceWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2CreateStatusPageMaintenanceResponse, error) {
 	rsp, err := c.StatusPagesV2CreateStatusPageMaintenanceWithBody(ctx, contentType, body, reqEditors...)
@@ -21466,17 +22424,9 @@ func (c *ClientWithResponses) StatusPagesV2ShowStatusPageStructureWithResponse(c
 	return ParseStatusPagesV2ShowStatusPageStructureResponse(rsp)
 }
 
-// StatusPagesV2ListStatusPagesWithBodyWithResponse request with arbitrary body returning *StatusPagesV2ListStatusPagesResponse
-func (c *ClientWithResponses) StatusPagesV2ListStatusPagesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2ListStatusPagesResponse, error) {
-	rsp, err := c.StatusPagesV2ListStatusPagesWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseStatusPagesV2ListStatusPagesResponse(rsp)
-}
-
-func (c *ClientWithResponses) StatusPagesV2ListStatusPagesWithResponse(ctx context.Context, body StatusPagesV2ListStatusPagesJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPagesV2ListStatusPagesResponse, error) {
-	rsp, err := c.StatusPagesV2ListStatusPages(ctx, body, reqEditors...)
+// StatusPagesV2ListStatusPagesWithResponse request returning *StatusPagesV2ListStatusPagesResponse
+func (c *ClientWithResponses) StatusPagesV2ListStatusPagesWithResponse(ctx context.Context, params *StatusPagesV2ListStatusPagesParams, reqEditors ...RequestEditorFn) (*StatusPagesV2ListStatusPagesResponse, error) {
+	rsp, err := c.StatusPagesV2ListStatusPages(ctx, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -23703,6 +24653,32 @@ func ParseCustomFieldsV2UpdateResponse(rsp *http.Response) (*CustomFieldsV2Updat
 	return response, nil
 }
 
+// ParseEscalationsV2ListPathsResponse parses an HTTP response from a EscalationsV2ListPathsWithResponse call
+func ParseEscalationsV2ListPathsResponse(rsp *http.Response) (*EscalationsV2ListPathsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV2ListPathsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationsListPathsResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseEscalationsV2CreatePathResponse parses an HTTP response from a EscalationsV2CreatePathWithResponse call
 func ParseEscalationsV2CreatePathResponse(rsp *http.Response) (*EscalationsV2CreatePathResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -23719,6 +24695,58 @@ func ParseEscalationsV2CreatePathResponse(rsp *http.Response) (*EscalationsV2Cre
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
 		var dest EscalationsCreatePathResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationsV2ListExternalEscalationPathsResponse parses an HTTP response from a EscalationsV2ListExternalEscalationPathsWithResponse call
+func ParseEscalationsV2ListExternalEscalationPathsResponse(rsp *http.Response) (*EscalationsV2ListExternalEscalationPathsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV2ListExternalEscalationPathsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationsListExternalEscalationPathsResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEscalationsV2CreateExternalEscalationPathResponse parses an HTTP response from a EscalationsV2CreateExternalEscalationPathWithResponse call
+func ParseEscalationsV2CreateExternalEscalationPathResponse(rsp *http.Response) (*EscalationsV2CreateExternalEscalationPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV2CreateExternalEscalationPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest EscalationsCreateExternalEscalationPathResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -24479,6 +25507,32 @@ func ParseStatusPagesV2CreateStatusPageIncidentUpdateResponse(rsp *http.Response
 	return response, nil
 }
 
+// ParseStatusPagesV2ListStatusPageIncidentsResponse parses an HTTP response from a StatusPagesV2ListStatusPageIncidentsWithResponse call
+func ParseStatusPagesV2ListStatusPageIncidentsResponse(rsp *http.Response) (*StatusPagesV2ListStatusPageIncidentsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StatusPagesV2ListStatusPageIncidentsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StatusPagesListStatusPageIncidentsResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseStatusPagesV2CreateStatusPageIncidentResponse parses an HTTP response from a StatusPagesV2CreateStatusPageIncidentWithResponse call
 func ParseStatusPagesV2CreateStatusPageIncidentResponse(rsp *http.Response) (*StatusPagesV2CreateStatusPageIncidentResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -24577,6 +25631,32 @@ func ParseStatusPagesV2CreateStatusPageMaintenanceUpdateResponse(rsp *http.Respo
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStatusPagesV2ListStatusPageMaintenancesResponse parses an HTTP response from a StatusPagesV2ListStatusPageMaintenancesWithResponse call
+func ParseStatusPagesV2ListStatusPageMaintenancesResponse(rsp *http.Response) (*StatusPagesV2ListStatusPageMaintenancesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StatusPagesV2ListStatusPageMaintenancesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StatusPagesListStatusPageMaintenancesResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	}
 
