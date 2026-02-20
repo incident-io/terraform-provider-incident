@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/samber/lo"
@@ -158,6 +159,9 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 			"type": schema.StringAttribute{
 				Description: `The type of this attribute.`,
 				Required:    true,
+				Validators: []validator.String{
+					CatalogTypeAttributeTypeValidator{},
+				},
 			},
 			"array": schema.BoolAttribute{
 				Description: `Whether this attribute is an array or scalar.`,
