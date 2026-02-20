@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.27.0
+
 - Add support for `message_template` on alert routes
 
 ## v5.26.2
