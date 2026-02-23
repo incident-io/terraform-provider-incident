@@ -1,5 +1,10 @@
 ## Unreleased
 
+## v5.28.0
+
+- Added support for `merge_strategy` on alert attributes
+
+
 ## v5.27.0
 
 - Add support for `message_template` on alert routes
