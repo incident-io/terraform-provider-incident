@@ -55,6 +55,8 @@ resource "incident_alert_source" "cloudwatch" {
             ## Bind the expression below to this attribute for this Source
             reference = "expressions[\"cloudwatch-team\"]"
           }
+          ## Controls how the attribute value is handled when alert fires multiple times
+          merge_strategy = "first_wins"
         }
       },
     ]

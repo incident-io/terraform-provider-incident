@@ -76,6 +76,8 @@ resource "incident_alert_source" "cloudwatch" {
             ## Bind the expression below to this attribute for this Source
             reference = "expressions[\"cloudwatch-team\"]"
           }
+          ## Controls how the attribute value is handled when alert fires multiple times
+          merge_strategy = "first_wins"
         }
       },
     ]
@@ -175,6 +177,7 @@ Required:
 Optional:
 
 - `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--attributes--binding--array_value))
+- `merge_strategy` (String) Merge strategy for this attribute when alert updates. Possible values are: `first_wins`, `last_wins`, `append`, `max`, `min`.
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--attributes--binding--value))
 
 <a id="nestedatt--template--attributes--binding--array_value"></a>

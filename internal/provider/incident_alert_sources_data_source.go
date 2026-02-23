@@ -188,7 +188,24 @@ func (d *IncidentAlertSourcesDataSource) Schema(ctx context.Context, req datasou
 											"binding": schema.SingleNestedAttribute{
 												Computed:            true,
 												MarkdownDescription: apischema.Docstring("AlertTemplateAttributePayloadV2", "binding"),
-												Attributes:          models.ParamBindingDataSourceAttributes(),
+												Attributes: map[string]schema.Attribute{
+													"array_value": schema.ListNestedAttribute{
+														Computed:            true,
+														MarkdownDescription: "The array of literal or reference parameter values",
+														NestedObject: schema.NestedAttributeObject{
+															Attributes: models.ParamBindingValueDataSourceAttributes(),
+														},
+													},
+													"value": schema.SingleNestedAttribute{
+														Computed:            true,
+														MarkdownDescription: "The literal or reference parameter value",
+														Attributes:          models.ParamBindingValueDataSourceAttributes(),
+													},
+													"merge_strategy": schema.StringAttribute{
+														Computed:            true,
+														MarkdownDescription: "Merge strategy for this attribute when alert updates",
+													},
+												},
 											},
 										},
 									},
