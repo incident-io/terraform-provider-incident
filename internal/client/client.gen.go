@@ -166,6 +166,24 @@ const (
 	AlertSourcesCreatePayloadV2SourceTypeZendesk           AlertSourcesCreatePayloadV2SourceType = "zendesk"
 )
 
+// Defines values for AlertTemplateAttributeBindingPayloadV2MergeStrategy.
+const (
+	AlertTemplateAttributeBindingPayloadV2MergeStrategyAppend    AlertTemplateAttributeBindingPayloadV2MergeStrategy = "append"
+	AlertTemplateAttributeBindingPayloadV2MergeStrategyFirstWins AlertTemplateAttributeBindingPayloadV2MergeStrategy = "first_wins"
+	AlertTemplateAttributeBindingPayloadV2MergeStrategyLastWins  AlertTemplateAttributeBindingPayloadV2MergeStrategy = "last_wins"
+	AlertTemplateAttributeBindingPayloadV2MergeStrategyMax       AlertTemplateAttributeBindingPayloadV2MergeStrategy = "max"
+	AlertTemplateAttributeBindingPayloadV2MergeStrategyMin       AlertTemplateAttributeBindingPayloadV2MergeStrategy = "min"
+)
+
+// Defines values for AlertTemplateAttributeBindingV2MergeStrategy.
+const (
+	AlertTemplateAttributeBindingV2MergeStrategyAppend    AlertTemplateAttributeBindingV2MergeStrategy = "append"
+	AlertTemplateAttributeBindingV2MergeStrategyFirstWins AlertTemplateAttributeBindingV2MergeStrategy = "first_wins"
+	AlertTemplateAttributeBindingV2MergeStrategyLastWins  AlertTemplateAttributeBindingV2MergeStrategy = "last_wins"
+	AlertTemplateAttributeBindingV2MergeStrategyMax       AlertTemplateAttributeBindingV2MergeStrategy = "max"
+	AlertTemplateAttributeBindingV2MergeStrategyMin       AlertTemplateAttributeBindingV2MergeStrategy = "min"
+)
+
 // Defines values for AlertV2Status.
 const (
 	AlertV2StatusFiring   AlertV2Status = "firing"
@@ -2155,18 +2173,44 @@ type AlertSourcesUpdateResultV2 struct {
 	AlertSource AlertSourceV2 `json:"alert_source"`
 }
 
+// AlertTemplateAttributeBindingPayloadV2 defines model for AlertTemplateAttributeBindingPayloadV2.
+type AlertTemplateAttributeBindingPayloadV2 struct {
+	// ArrayValue If set, this is the array value of the step parameter
+	ArrayValue *[]EngineParamBindingValuePayloadV2 `json:"array_value,omitempty"`
+
+	// MergeStrategy Merge strategy for this attribute when alert updates
+	MergeStrategy *AlertTemplateAttributeBindingPayloadV2MergeStrategy `json:"merge_strategy,omitempty"`
+	Value         *EngineParamBindingValuePayloadV2                    `json:"value,omitempty"`
+}
+
+// AlertTemplateAttributeBindingPayloadV2MergeStrategy Merge strategy for this attribute when alert updates
+type AlertTemplateAttributeBindingPayloadV2MergeStrategy string
+
+// AlertTemplateAttributeBindingV2 defines model for AlertTemplateAttributeBindingV2.
+type AlertTemplateAttributeBindingV2 struct {
+	// ArrayValue If array_value is set, this helps render the values
+	ArrayValue *[]EngineParamBindingValueV2 `json:"array_value,omitempty"`
+
+	// MergeStrategy Merge strategy for this attribute when alert updates
+	MergeStrategy *AlertTemplateAttributeBindingV2MergeStrategy `json:"merge_strategy,omitempty"`
+	Value         *EngineParamBindingValueV2                    `json:"value,omitempty"`
+}
+
+// AlertTemplateAttributeBindingV2MergeStrategy Merge strategy for this attribute when alert updates
+type AlertTemplateAttributeBindingV2MergeStrategy string
+
 // AlertTemplateAttributePayloadV2 defines model for AlertTemplateAttributePayloadV2.
 type AlertTemplateAttributePayloadV2 struct {
 	// AlertAttributeId ID of the alert attribute to set with this binding
-	AlertAttributeId string                      `json:"alert_attribute_id"`
-	Binding          EngineParamBindingPayloadV2 `json:"binding"`
+	AlertAttributeId string                                 `json:"alert_attribute_id"`
+	Binding          AlertTemplateAttributeBindingPayloadV2 `json:"binding"`
 }
 
 // AlertTemplateAttributeV2 defines model for AlertTemplateAttributeV2.
 type AlertTemplateAttributeV2 struct {
 	// AlertAttributeId ID of the alert attribute to set with this binding
-	AlertAttributeId string               `json:"alert_attribute_id"`
-	Binding          EngineParamBindingV2 `json:"binding"`
+	AlertAttributeId string                          `json:"alert_attribute_id"`
+	Binding          AlertTemplateAttributeBindingV2 `json:"binding"`
 }
 
 // AlertTemplatePayloadV2 defines model for AlertTemplatePayloadV2.
@@ -7053,6 +7097,12 @@ type EscalationsV2ListExternalEscalationPathsParams struct {
 
 	// Search Search query to filter results by name or external provider ID
 	Search *string `form:"search,omitempty" json:"search,omitempty"`
+
+	// ExternalId Filter results to the escalation path matching this external provider ID (e.g. a PagerDuty escalation policy ID)
+	ExternalId *string `form:"external_id,omitempty" json:"external_id,omitempty"`
+
+	// Imported Filter by whether the escalation path has already been imported into incident.io
+	Imported *bool `form:"imported,omitempty" json:"imported,omitempty"`
 }
 
 // EscalationsV2ListParams defines parameters for EscalationsV2List.
@@ -13967,6 +14017,38 @@ func NewEscalationsV2ListExternalEscalationPathsRequest(server string, params *E
 		if params.Search != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "search", runtime.ParamLocationQuery, *params.Search); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.ExternalId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "external_id", runtime.ParamLocationQuery, *params.ExternalId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Imported != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "imported", runtime.ParamLocationQuery, *params.Imported); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err

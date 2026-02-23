@@ -86,9 +86,70 @@ func (template AlertTemplateModel) ToPayload() client.AlertTemplatePayloadV2 {
 	}
 }
 
+// AlertTemplateAttributeBinding extends IncidentEngineParamBinding with merge_strategy.
+type AlertTemplateAttributeBinding struct {
+	ArrayValue    []IncidentEngineParamBindingValue `tfsdk:"array_value"`
+	Value         *IncidentEngineParamBindingValue  `tfsdk:"value"`
+	MergeStrategy types.String                      `tfsdk:"merge_strategy"`
+}
+
+func (AlertTemplateAttributeBinding) FromAPI(pb client.AlertTemplateAttributeBindingV2) AlertTemplateAttributeBinding {
+	var arrayValue []IncidentEngineParamBindingValue
+	if pb.ArrayValue != nil {
+		for _, v := range *pb.ArrayValue {
+			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+				Literal:   types.StringPointerValue(v.Literal),
+				Reference: types.StringPointerValue(v.Reference),
+			})
+		}
+	}
+
+	var value *IncidentEngineParamBindingValue
+	if pb.Value != nil {
+		value = lo.ToPtr(IncidentEngineParamBindingValue{}.FromAPI(*pb.Value))
+	}
+
+	var mergeStrategy types.String
+	if pb.MergeStrategy != nil {
+		mergeStrategy = types.StringValue(string(*pb.MergeStrategy))
+	} else {
+		mergeStrategy = types.StringNull()
+	}
+
+	return AlertTemplateAttributeBinding{
+		ArrayValue:    arrayValue,
+		Value:         value,
+		MergeStrategy: mergeStrategy,
+	}
+}
+
+func (binding AlertTemplateAttributeBinding) ToPayload() client.AlertTemplateAttributeBindingPayloadV2 {
+	arrayValue := []client.EngineParamBindingValuePayloadV2{}
+	for _, v := range binding.ArrayValue {
+		arrayValue = append(arrayValue, v.ToPayload())
+	}
+
+	var value *client.EngineParamBindingValuePayloadV2
+	if binding.Value != nil {
+		value = lo.ToPtr(binding.Value.ToPayload())
+	}
+
+	var mergeStrategy *client.AlertTemplateAttributeBindingPayloadV2MergeStrategy
+	if !binding.MergeStrategy.IsNull() && !binding.MergeStrategy.IsUnknown() {
+		ms := client.AlertTemplateAttributeBindingPayloadV2MergeStrategy(binding.MergeStrategy.ValueString())
+		mergeStrategy = &ms
+	}
+
+	return client.AlertTemplateAttributeBindingPayloadV2{
+		ArrayValue:    &arrayValue,
+		Value:         value,
+		MergeStrategy: mergeStrategy,
+	}
+}
+
 type AlertTemplateAttributeModel struct {
-	AlertAttributeID types.String               `tfsdk:"alert_attribute_id"`
-	Binding          IncidentEngineParamBinding `tfsdk:"binding"`
+	AlertAttributeID types.String                  `tfsdk:"alert_attribute_id"`
+	Binding          AlertTemplateAttributeBinding `tfsdk:"binding"`
 }
 
 type AlertTemplateAttributesModel []AlertTemplateAttributeModel
@@ -99,7 +160,7 @@ func (AlertTemplateAttributesModel) FromAPI(data []client.AlertTemplateAttribute
 	for _, attr := range data {
 		out = append(out, AlertTemplateAttributeModel{
 			AlertAttributeID: types.StringValue(attr.AlertAttributeId),
-			Binding:          IncidentEngineParamBinding{}.FromAPI(attr.Binding),
+			Binding:          AlertTemplateAttributeBinding{}.FromAPI(attr.Binding),
 		})
 	}
 
