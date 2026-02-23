@@ -154,8 +154,9 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--attributes--binding--array_value))
-- `value` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--attributes--binding--value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_sources--template--attributes--binding--array_value))
+- `merge_strategy` (String) Merge strategy for this attribute when alert updates
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--alert_sources--template--attributes--binding--value))
 
 <a id="nestedatt--alert_sources--template--attributes--binding--array_value"></a>
 ### Nested Schema for `alert_sources.template.attributes.binding.array_value`
