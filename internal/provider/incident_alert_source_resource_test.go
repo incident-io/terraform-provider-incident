@@ -391,8 +391,8 @@ locals {
 
 # Use those attributes in an alert source
 resource "incident_alert_source" "dynamic_alert_source" {
-  name        = "tf-dynamic-alert-source"
-  source_type = "http"
+  name                         = "tf-dynamic-alert-source"
+  source_type                  = "http"
 
   template = {
     expressions = []
