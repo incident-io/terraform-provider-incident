@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
@@ -170,7 +171,9 @@ func (r *IncidentAlertAttributeResource) Update(ctx context.Context, req resourc
 	if !data.Required.IsNull() {
 		requestBody.Required = data.Required.ValueBoolPointer()
 	}
-	if !data.Emoji.IsNull() {
+	if data.Emoji.IsNull() {
+		requestBody.Emoji = lo.ToPtr("")
+	} else {
 		requestBody.Emoji = data.Emoji.ValueStringPointer()
 	}
 

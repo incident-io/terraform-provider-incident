@@ -41,19 +41,22 @@ func TestAccAlertAttributeResource(t *testing.T) {
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
-			// Update to include required=true
+			// Update to include required=true and emoji
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
 					Name:     "Severity",
 					Type:     "String",
 					Array:    false,
 					Required: boolPtr(true),
+					Emoji:    "fire",
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
 						"incident_alert_attribute.example", "name", "Severity"),
 					resource.TestCheckResourceAttr(
 						"incident_alert_attribute.example", "required", "true"),
+					resource.TestCheckResourceAttr(
+						"incident_alert_attribute.example", "emoji", "fire"),
 				),
 			},
 			// Update to required=false
@@ -138,7 +141,8 @@ resource "incident_alert_attribute" "example" {
   name  = {{ quote .Name }}
   type  = {{ quote .Type }}
   array = {{ .Array }}{{- if .Required }}
-  required = {{ .Required }}{{- end }}
+  required = {{ .Required }}{{- end }}{{- if ne .Emoji "" }}
+  emoji = {{ quote .Emoji }}{{- end }}
 }
 `))
 
@@ -146,7 +150,8 @@ type alertAttributeElement struct {
 	Name     string
 	Type     string
 	Array    bool
-	Required *bool // pointer to handle optional field
+	Required *bool  // pointer to handle optional field
+	Emoji    string // empty string means not set
 }
 
 func testAccAlertAttributeResourceConfig(attribute alertAttributeElement) string {
