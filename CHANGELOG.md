@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Added support for `emoji` on alert attributes
+
 ## v5.28.0
 
 - Added support for `merge_strategy` on alert attributes

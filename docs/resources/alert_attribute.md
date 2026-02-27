@@ -22,7 +22,6 @@ resource "incident_alert_attribute" "github_user" {
   type     = "CatalogEntry[\"Github User\"]"
   array    = false
   required = true
-  emoji    = "silhouette"
 }
 
 # Create an optional alert attribute for severity information
@@ -31,6 +30,7 @@ resource "incident_alert_attribute" "severity" {
   type     = "String"
   array    = false
   required = false
+  emoji    = "warning"
 }
 ```
 
