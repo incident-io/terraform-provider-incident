@@ -853,10 +853,10 @@ const (
 
 // Defines values for FollowUpV2Status.
 const (
-	Completed   FollowUpV2Status = "completed"
-	Deleted     FollowUpV2Status = "deleted"
-	NotDoing    FollowUpV2Status = "not_doing"
-	Outstanding FollowUpV2Status = "outstanding"
+	FollowUpV2StatusCompleted   FollowUpV2Status = "completed"
+	FollowUpV2StatusDeleted     FollowUpV2Status = "deleted"
+	FollowUpV2StatusNotDoing    FollowUpV2Status = "not_doing"
+	FollowUpV2StatusOutstanding FollowUpV2Status = "outstanding"
 )
 
 // Defines values for IdentityV1Roles.
@@ -872,6 +872,7 @@ const (
 	IdentityV1RolesManageSettings            IdentityV1Roles = "manage_settings"
 	IdentityV1RolesOnCallEditor              IdentityV1Roles = "on_call_editor"
 	IdentityV1RolesPostIncidentFlowOptOut    IdentityV1Roles = "post_incident_flow_opt_out"
+	IdentityV1RolesPostmortemsManage         IdentityV1Roles = "postmortems_manage"
 	IdentityV1RolesPrivateWorkflowsEditor    IdentityV1Roles = "private_workflows_editor"
 	IdentityV1RolesScheduleOverridesEditor   IdentityV1Roles = "schedule_overrides_editor"
 	IdentityV1RolesSchedulesEditor           IdentityV1Roles = "schedules_editor"
@@ -1080,6 +1081,20 @@ const (
 	ManagementMetaV2ManagedByDashboard ManagementMetaV2ManagedBy = "dashboard"
 	ManagementMetaV2ManagedByExternal  ManagementMetaV2ManagedBy = "external"
 	ManagementMetaV2ManagedByTerraform ManagementMetaV2ManagedBy = "terraform"
+)
+
+// Defines values for PostmortemDocumentV1Status.
+const (
+	PostmortemDocumentV1StatusCompleted  PostmortemDocumentV1Status = "completed"
+	PostmortemDocumentV1StatusInProgress PostmortemDocumentV1Status = "in_progress"
+	PostmortemDocumentV1StatusInReview   PostmortemDocumentV1Status = "in_review"
+)
+
+// Defines values for PostmortemDocumentsUpdateStatusPayloadV1Status.
+const (
+	Completed  PostmortemDocumentsUpdateStatusPayloadV1Status = "completed"
+	InProgress PostmortemDocumentsUpdateStatusPayloadV1Status = "in_progress"
+	InReview   PostmortemDocumentsUpdateStatusPayloadV1Status = "in_review"
 )
 
 // Defines values for ScheduleRotationCreatePayloadV2SchedulingMode.
@@ -1358,6 +1373,12 @@ const (
 	ZendeskTicket               IncidentAttachmentsV1ListParamsResourceType = "zendesk_ticket"
 )
 
+// Defines values for PostmortemDocumentsV1ListParamsSortBy.
+const (
+	NewestFirst PostmortemDocumentsV1ListParamsSortBy = "newest_first"
+	OldestFirst PostmortemDocumentsV1ListParamsSortBy = "oldest_first"
+)
+
 // Defines values for ActionsV2ListParamsIncidentMode.
 const (
 	ActionsV2ListParamsIncidentModeRetrospective ActionsV2ListParamsIncidentMode = "retrospective"
@@ -1374,6 +1395,12 @@ const (
 	Stream        FollowUpsV2ListParamsIncidentMode = "stream"
 	Test          FollowUpsV2ListParamsIncidentMode = "test"
 	Tutorial      FollowUpsV2ListParamsIncidentMode = "tutorial"
+)
+
+// Defines values for IncidentsV2ListParamsSortBy.
+const (
+	CreatedAtNewestFirst IncidentsV2ListParamsSortBy = "created_at_newest_first"
+	CreatedAtOldestFirst IncidentsV2ListParamsSortBy = "created_at_oldest_first"
 )
 
 // Defines values for IncidentsV2ListParamsFilterMode.
@@ -1540,6 +1567,9 @@ type AlertAttributeV2 struct {
 	// Array Whether this attribute is an array
 	Array bool `json:"array"`
 
+	// Emoji The emoji to display alongside this attribute in chat messages, stored without colons
+	Emoji *string `json:"emoji,omitempty"`
+
 	// Id The ID of this attribute
 	Id string `json:"id"`
 
@@ -1568,6 +1598,9 @@ type AlertAttributeValueV2 struct {
 type AlertAttributesCreatePayloadV2 struct {
 	// Array Whether this attribute is an array
 	Array bool `json:"array"`
+
+	// Emoji The emoji to display alongside this attribute in chat messages, stored without colons
+	Emoji *string `json:"emoji,omitempty"`
 
 	// Name Unique name of this attribute
 	Name string `json:"name"`
@@ -1598,6 +1631,9 @@ type AlertAttributesShowResultV2 struct {
 type AlertAttributesUpdatePayloadV2 struct {
 	// Array Whether this attribute is an array
 	Array bool `json:"array"`
+
+	// Emoji The emoji to display alongside this attribute in chat messages, stored without colons
+	Emoji *string `json:"emoji,omitempty"`
 
 	// Name Unique name of this attribute
 	Name string `json:"name"`
@@ -2097,8 +2133,13 @@ type AlertSourceJiraOptionsV2 struct {
 
 // AlertSourceV2 defines model for AlertSourceV2.
 type AlertSourceV2 struct {
-	EmailOptions      *AlertSourceEmailOptionsV2      `json:"email_options,omitempty"`
-	HttpCustomOptions *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
+	// AutoResolveIncidentAlerts Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true.
+	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
+
+	// AutoResolveTimeoutMinutes When set, alerts from this source will automatically resolve after this many minutes.
+	AutoResolveTimeoutMinutes *int64                          `json:"auto_resolve_timeout_minutes,omitempty"`
+	EmailOptions              *AlertSourceEmailOptionsV2      `json:"email_options,omitempty"`
+	HttpCustomOptions         *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
 
 	// Id The ID of this alert source
 	Id          string                    `json:"id"`
@@ -2123,8 +2164,13 @@ type AlertSourceV2SourceType string
 
 // AlertSourcesCreatePayloadV2 defines model for AlertSourcesCreatePayloadV2.
 type AlertSourcesCreatePayloadV2 struct {
-	HttpCustomOptions *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
-	JiraOptions       *AlertSourceJiraOptionsV2       `json:"jira_options,omitempty"`
+	// AutoResolveIncidentAlerts Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true.
+	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
+
+	// AutoResolveTimeoutMinutes When set, alerts from this source will automatically resolve after this many minutes.
+	AutoResolveTimeoutMinutes *int64                          `json:"auto_resolve_timeout_minutes,omitempty"`
+	HttpCustomOptions         *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
+	JiraOptions               *AlertSourceJiraOptionsV2       `json:"jira_options,omitempty"`
 
 	// Name Unique name of the alert source
 	Name string `json:"name"`
@@ -2157,8 +2203,13 @@ type AlertSourcesShowResultV2 struct {
 
 // AlertSourcesUpdatePayloadV2 defines model for AlertSourcesUpdatePayloadV2.
 type AlertSourcesUpdatePayloadV2 struct {
-	HttpCustomOptions *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
-	JiraOptions       *AlertSourceJiraOptionsV2       `json:"jira_options,omitempty"`
+	// AutoResolveIncidentAlerts Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true.
+	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
+
+	// AutoResolveTimeoutMinutes When set, alerts from this source will automatically resolve after this many minutes.
+	AutoResolveTimeoutMinutes *int64                          `json:"auto_resolve_timeout_minutes,omitempty"`
+	HttpCustomOptions         *AlertSourceHTTPCustomOptionsV2 `json:"http_custom_options,omitempty"`
+	JiraOptions               *AlertSourceJiraOptionsV2       `json:"jira_options,omitempty"`
 
 	// Name Unique name of the alert source
 	Name string `json:"name"`
@@ -4933,14 +4984,14 @@ type IncidentSlimV2 struct {
 	// Summary Detailed description of the incident
 	Summary *string `json:"summary,omitempty"`
 
-	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [docs](https://docs.incident.io/incidents/sensitive-incidents).
 	Visibility IncidentSlimV2Visibility `json:"visibility"`
 }
 
 // IncidentSlimV2StatusCategory The category of the incidents status
 type IncidentSlimV2StatusCategory string
 
-// IncidentSlimV2Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+// IncidentSlimV2Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [docs](https://docs.incident.io/incidents/sensitive-incidents).
 type IncidentSlimV2Visibility string
 
 // IncidentStatusV1 defines model for IncidentStatusV1.
@@ -5238,7 +5289,7 @@ type IncidentV1 struct {
 	// UpdatedAt When the incident was last updated
 	UpdatedAt time.Time `json:"updated_at"`
 
-	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [docs](https://docs.incident.io/incidents/sensitive-incidents).
 	Visibility IncidentV1Visibility `json:"visibility"`
 }
 
@@ -5248,7 +5299,7 @@ type IncidentV1Mode string
 // IncidentV1Status Current status of the incident
 type IncidentV1Status string
 
-// IncidentV1Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+// IncidentV1Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [docs](https://docs.incident.io/incidents/sensitive-incidents).
 type IncidentV1Visibility string
 
 // IncidentV2 defines model for IncidentV2.
@@ -5290,6 +5341,9 @@ type IncidentV2 struct {
 	// Permalink A permanent link to the homepage for this incident
 	Permalink *string `json:"permalink,omitempty"`
 
+	// PostmortemDocumentIds An array of IDs of postmortem documents for this incident
+	PostmortemDocumentIds *[]string `json:"postmortem_document_ids,omitempty"`
+
 	// PostmortemDocumentUrl The URL of the incident post-mortem document
 	PostmortemDocumentUrl *string `json:"postmortem_document_url,omitempty"`
 
@@ -5312,7 +5366,7 @@ type IncidentV2 struct {
 	// UpdatedAt When the incident was last updated
 	UpdatedAt time.Time `json:"updated_at"`
 
-	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [docs](https://docs.incident.io/incidents/sensitive-incidents).
 	Visibility IncidentV2Visibility `json:"visibility"`
 
 	// WorkloadMinutesLate Amount of time spent on the incident in late hours
@@ -5331,7 +5385,7 @@ type IncidentV2 struct {
 // IncidentV2Mode Whether the incident is real, a test, a tutorial, or importing as a retrospective incident
 type IncidentV2Mode string
 
-// IncidentV2Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+// IncidentV2Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [docs](https://docs.incident.io/incidents/sensitive-incidents).
 type IncidentV2Visibility string
 
 // IncidentsCreatePayloadV1 defines model for IncidentsCreatePayloadV1.
@@ -5372,7 +5426,7 @@ type IncidentsCreatePayloadV1 struct {
 	// Summary Detailed description of the incident
 	Summary *string `json:"summary,omitempty"`
 
-	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [docs](https://docs.incident.io/incidents/sensitive-incidents).
 	Visibility IncidentsCreatePayloadV1Visibility `json:"visibility"`
 }
 
@@ -5382,7 +5436,7 @@ type IncidentsCreatePayloadV1Mode string
 // IncidentsCreatePayloadV1Status Current status of the incident
 type IncidentsCreatePayloadV1Status string
 
-// IncidentsCreatePayloadV1Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+// IncidentsCreatePayloadV1Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [docs](https://docs.incident.io/incidents/sensitive-incidents).
 type IncidentsCreatePayloadV1Visibility string
 
 // IncidentsCreatePayloadV2 defines model for IncidentsCreatePayloadV2.
@@ -5424,14 +5478,14 @@ type IncidentsCreatePayloadV2 struct {
 	// Summary Detailed description of the incident
 	Summary *string `json:"summary,omitempty"`
 
-	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+	// Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [docs](https://docs.incident.io/incidents/sensitive-incidents).
 	Visibility IncidentsCreatePayloadV2Visibility `json:"visibility"`
 }
 
 // IncidentsCreatePayloadV2Mode Whether the incident is real, a test, a tutorial, or importing as a retrospective incident
 type IncidentsCreatePayloadV2Mode string
 
-// IncidentsCreatePayloadV2Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [help centre](https://help.incident.io/articles/5905558102-can-we-mark-incidents-as-sensitive-and-restrict-access).
+// IncidentsCreatePayloadV2Visibility Whether the incident should be open to anyone in your Slack workspace (public), or invite-only (private). For more information on Private Incidents see our [docs](https://docs.incident.io/incidents/sensitive-incidents).
 type IncidentsCreatePayloadV2Visibility string
 
 // IncidentsCreateResultV1 defines model for IncidentsCreateResultV1.
@@ -5609,6 +5663,67 @@ type PartialEntryPayloadV3 struct {
 
 	// Rank If specified, will update the rank of the entry. When omitted, rank will be set to null (allowing rank removal).
 	Rank *int32 `json:"rank,omitempty"`
+}
+
+// PostmortemDocumentV1 defines model for PostmortemDocumentV1.
+type PostmortemDocumentV1 struct {
+	// CreatedAt Timestamp when the document was created
+	CreatedAt time.Time `json:"created_at"`
+
+	// DocumentUrl URL to view the postmortem document
+	DocumentUrl string `json:"document_url"`
+
+	// Editors Users who have edited this document
+	Editors []UserV1 `json:"editors"`
+
+	// ExportedUrls URLs where this document has been exported to
+	ExportedUrls []string `json:"exported_urls"`
+
+	// Id Unique identifier for the postmortem document
+	Id string `json:"id"`
+
+	// IncidentId ID of the incident this document belongs to
+	IncidentId string `json:"incident_id"`
+
+	// Status The postmortem workflow status of this document
+	Status PostmortemDocumentV1Status `json:"status"`
+
+	// Title The display title of this document
+	Title string `json:"title"`
+}
+
+// PostmortemDocumentV1Status The postmortem workflow status of this document
+type PostmortemDocumentV1Status string
+
+// PostmortemDocumentsListResultV1 defines model for PostmortemDocumentsListResultV1.
+type PostmortemDocumentsListResultV1 struct {
+	PaginationMeta      *PaginationMetaResultWithTotalV1 `json:"pagination_meta,omitempty"`
+	PostmortemDocuments []PostmortemDocumentV1           `json:"postmortem_documents"`
+}
+
+// PostmortemDocumentsShowContentResultV1 defines model for PostmortemDocumentsShowContentResultV1.
+type PostmortemDocumentsShowContentResultV1 struct {
+	// Markdown The postmortem content as markdown
+	Markdown string `json:"markdown"`
+}
+
+// PostmortemDocumentsShowResultV1 defines model for PostmortemDocumentsShowResultV1.
+type PostmortemDocumentsShowResultV1 struct {
+	PostmortemDocument PostmortemDocumentV1 `json:"postmortem_document"`
+}
+
+// PostmortemDocumentsUpdateStatusPayloadV1 defines model for PostmortemDocumentsUpdateStatusPayloadV1.
+type PostmortemDocumentsUpdateStatusPayloadV1 struct {
+	// Status The new status to set on the postmortem document
+	Status PostmortemDocumentsUpdateStatusPayloadV1Status `json:"status"`
+}
+
+// PostmortemDocumentsUpdateStatusPayloadV1Status The new status to set on the postmortem document
+type PostmortemDocumentsUpdateStatusPayloadV1Status string
+
+// PostmortemDocumentsUpdateStatusResultV1 defines model for PostmortemDocumentsUpdateStatusResultV1.
+type PostmortemDocumentsUpdateStatusResultV1 struct {
+	PostmortemDocument PostmortemDocumentV1 `json:"postmortem_document"`
 }
 
 // RBACRoleV2 defines model for RBACRoleV2.
@@ -7021,6 +7136,24 @@ type IncidentsV1ListParams struct {
 	Status *[]string `form:"status,omitempty" json:"status,omitempty"`
 }
 
+// PostmortemDocumentsV1ListParams defines parameters for PostmortemDocumentsV1List.
+type PostmortemDocumentsV1ListParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A post-mortem document's ID. This endpoint will return a list of post-mortem documents created after this post-mortem document.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// IncidentId Filter by incident ID to get all postmortem documents for a specific incident
+	IncidentId *string `form:"incident_id,omitempty" json:"incident_id,omitempty"`
+
+	// SortBy What to sort documents by, defaults to newest_first
+	SortBy *PostmortemDocumentsV1ListParamsSortBy `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+}
+
+// PostmortemDocumentsV1ListParamsSortBy defines parameters for PostmortemDocumentsV1List.
+type PostmortemDocumentsV1ListParamsSortBy string
+
 // ActionsV2ListParams defines parameters for ActionsV2List.
 type ActionsV2ListParams struct {
 	// IncidentId Find actions related to this incident
@@ -7179,6 +7312,9 @@ type IncidentsV2ListParams struct {
 	// After An incident's ID. This endpoint will return a list of incidents after this ID in relation to the API response order.
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 
+	// SortBy What order to return results in.
+	SortBy *IncidentsV2ListParamsSortBy `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+
 	// FilterMode How to combine the filters: 'all' combines them with AND logic (all must match), 'any' combines them with OR logic (any can match). Defaults to 'all'.
 	FilterMode *IncidentsV2ListParamsFilterMode `form:"filter_mode,omitempty" json:"filter_mode,omitempty"`
 
@@ -7209,6 +7345,9 @@ type IncidentsV2ListParams struct {
 	// Mode Filter on incident mode. The accepted operator is 'one_of'.  If this is not provided, this value defaults to `{"one_of": ["standard", "retrospective"] }`, meaning that test and tutorial incidents are not included.
 	Mode *map[string][]string `form:"mode,omitempty" json:"mode,omitempty"`
 }
+
+// IncidentsV2ListParamsSortBy defines parameters for IncidentsV2List.
+type IncidentsV2ListParamsSortBy string
 
 // IncidentsV2ListParamsFilterMode defines parameters for IncidentsV2List.
 type IncidentsV2ListParamsFilterMode string
@@ -7373,6 +7512,9 @@ type IncidentsV1CreateJSONRequestBody = IncidentsCreatePayloadV1
 
 // IPAllowlistsV1UpdateIPAllowlistJSONRequestBody defines body for IPAllowlistsV1UpdateIPAllowlist for application/json ContentType.
 type IPAllowlistsV1UpdateIPAllowlistJSONRequestBody = IPAllowlistsUpdateIPAllowlistPayloadV1
+
+// PostmortemDocumentsV1UpdateStatusJSONRequestBody defines body for PostmortemDocumentsV1UpdateStatus for application/json ContentType.
+type PostmortemDocumentsV1UpdateStatusJSONRequestBody = PostmortemDocumentsUpdateStatusPayloadV1
 
 // SeveritiesV1CreateJSONRequestBody defines body for SeveritiesV1Create for application/json ContentType.
 type SeveritiesV1CreateJSONRequestBody = SeveritiesCreatePayloadV1
@@ -7709,6 +7851,20 @@ type ClientInterface interface {
 
 	// UtilitiesV1OpenAPIV3 request
 	UtilitiesV1OpenAPIV3(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostmortemDocumentsV1List request
+	PostmortemDocumentsV1List(ctx context.Context, params *PostmortemDocumentsV1ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostmortemDocumentsV1Show request
+	PostmortemDocumentsV1Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostmortemDocumentsV1UpdateStatusWithBody request with any body
+	PostmortemDocumentsV1UpdateStatusWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostmortemDocumentsV1UpdateStatus(ctx context.Context, id string, body PostmortemDocumentsV1UpdateStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostmortemDocumentsV1ShowContent request
+	PostmortemDocumentsV1ShowContent(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// SeveritiesV1List request
 	SeveritiesV1List(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -8716,6 +8872,66 @@ func (c *Client) UtilitiesV1OpenAPI(ctx context.Context, reqEditors ...RequestEd
 
 func (c *Client) UtilitiesV1OpenAPIV3(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUtilitiesV1OpenAPIV3Request(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostmortemDocumentsV1List(ctx context.Context, params *PostmortemDocumentsV1ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostmortemDocumentsV1ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostmortemDocumentsV1Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostmortemDocumentsV1ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostmortemDocumentsV1UpdateStatusWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostmortemDocumentsV1UpdateStatusRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostmortemDocumentsV1UpdateStatus(ctx context.Context, id string, body PostmortemDocumentsV1UpdateStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostmortemDocumentsV1UpdateStatusRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostmortemDocumentsV1ShowContent(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostmortemDocumentsV1ShowContentRequest(c.Server, id)
 	if err != nil {
 		return nil, err
 	}
@@ -12071,6 +12287,218 @@ func NewUtilitiesV1OpenAPIV3Request(server string) (*http.Request, error) {
 	return req, nil
 }
 
+// NewPostmortemDocumentsV1ListRequest generates requests for PostmortemDocumentsV1List
+func NewPostmortemDocumentsV1ListRequest(server string, params *PostmortemDocumentsV1ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/postmortem_documents")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.IncidentId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "incident_id", runtime.ParamLocationQuery, *params.IncidentId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.SortBy != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sort_by", runtime.ParamLocationQuery, *params.SortBy); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostmortemDocumentsV1ShowRequest generates requests for PostmortemDocumentsV1Show
+func NewPostmortemDocumentsV1ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/postmortem_documents/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostmortemDocumentsV1UpdateStatusRequest calls the generic PostmortemDocumentsV1UpdateStatus builder with application/json body
+func NewPostmortemDocumentsV1UpdateStatusRequest(server string, id string, body PostmortemDocumentsV1UpdateStatusJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostmortemDocumentsV1UpdateStatusRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewPostmortemDocumentsV1UpdateStatusRequestWithBody generates requests for PostmortemDocumentsV1UpdateStatus with any type of body
+func NewPostmortemDocumentsV1UpdateStatusRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/postmortem_documents/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPostmortemDocumentsV1ShowContentRequest generates requests for PostmortemDocumentsV1ShowContent
+func NewPostmortemDocumentsV1ShowContentRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/postmortem_documents/%s/content", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewSeveritiesV1ListRequest generates requests for SeveritiesV1List
 func NewSeveritiesV1ListRequest(server string) (*http.Request, error) {
 	var err error
@@ -15033,6 +15461,22 @@ func NewIncidentsV2ListRequest(server string, params *IncidentsV2ListParams) (*h
 
 		}
 
+		if params.SortBy != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sort_by", runtime.ParamLocationQuery, *params.SortBy); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
 		if params.FilterMode != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "filter_mode", runtime.ParamLocationQuery, *params.FilterMode); err != nil {
@@ -17448,6 +17892,20 @@ type ClientWithResponsesInterface interface {
 	// UtilitiesV1OpenAPIV3WithResponse request
 	UtilitiesV1OpenAPIV3WithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilitiesV1OpenAPIV3Response, error)
 
+	// PostmortemDocumentsV1ListWithResponse request
+	PostmortemDocumentsV1ListWithResponse(ctx context.Context, params *PostmortemDocumentsV1ListParams, reqEditors ...RequestEditorFn) (*PostmortemDocumentsV1ListResponse, error)
+
+	// PostmortemDocumentsV1ShowWithResponse request
+	PostmortemDocumentsV1ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*PostmortemDocumentsV1ShowResponse, error)
+
+	// PostmortemDocumentsV1UpdateStatusWithBodyWithResponse request with any body
+	PostmortemDocumentsV1UpdateStatusWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostmortemDocumentsV1UpdateStatusResponse, error)
+
+	PostmortemDocumentsV1UpdateStatusWithResponse(ctx context.Context, id string, body PostmortemDocumentsV1UpdateStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*PostmortemDocumentsV1UpdateStatusResponse, error)
+
+	// PostmortemDocumentsV1ShowContentWithResponse request
+	PostmortemDocumentsV1ShowContentWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*PostmortemDocumentsV1ShowContentResponse, error)
+
 	// SeveritiesV1ListWithResponse request
 	SeveritiesV1ListWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*SeveritiesV1ListResponse, error)
 
@@ -18676,6 +19134,94 @@ func (r UtilitiesV1OpenAPIV3Response) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r UtilitiesV1OpenAPIV3Response) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostmortemDocumentsV1ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PostmortemDocumentsListResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r PostmortemDocumentsV1ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostmortemDocumentsV1ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostmortemDocumentsV1ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PostmortemDocumentsShowResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r PostmortemDocumentsV1ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostmortemDocumentsV1ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostmortemDocumentsV1UpdateStatusResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PostmortemDocumentsUpdateStatusResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r PostmortemDocumentsV1UpdateStatusResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostmortemDocumentsV1UpdateStatusResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostmortemDocumentsV1ShowContentResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PostmortemDocumentsShowContentResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r PostmortemDocumentsV1ShowContentResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostmortemDocumentsV1ShowContentResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -21468,6 +22014,50 @@ func (c *ClientWithResponses) UtilitiesV1OpenAPIV3WithResponse(ctx context.Conte
 	return ParseUtilitiesV1OpenAPIV3Response(rsp)
 }
 
+// PostmortemDocumentsV1ListWithResponse request returning *PostmortemDocumentsV1ListResponse
+func (c *ClientWithResponses) PostmortemDocumentsV1ListWithResponse(ctx context.Context, params *PostmortemDocumentsV1ListParams, reqEditors ...RequestEditorFn) (*PostmortemDocumentsV1ListResponse, error) {
+	rsp, err := c.PostmortemDocumentsV1List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostmortemDocumentsV1ListResponse(rsp)
+}
+
+// PostmortemDocumentsV1ShowWithResponse request returning *PostmortemDocumentsV1ShowResponse
+func (c *ClientWithResponses) PostmortemDocumentsV1ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*PostmortemDocumentsV1ShowResponse, error) {
+	rsp, err := c.PostmortemDocumentsV1Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostmortemDocumentsV1ShowResponse(rsp)
+}
+
+// PostmortemDocumentsV1UpdateStatusWithBodyWithResponse request with arbitrary body returning *PostmortemDocumentsV1UpdateStatusResponse
+func (c *ClientWithResponses) PostmortemDocumentsV1UpdateStatusWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostmortemDocumentsV1UpdateStatusResponse, error) {
+	rsp, err := c.PostmortemDocumentsV1UpdateStatusWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostmortemDocumentsV1UpdateStatusResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostmortemDocumentsV1UpdateStatusWithResponse(ctx context.Context, id string, body PostmortemDocumentsV1UpdateStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*PostmortemDocumentsV1UpdateStatusResponse, error) {
+	rsp, err := c.PostmortemDocumentsV1UpdateStatus(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostmortemDocumentsV1UpdateStatusResponse(rsp)
+}
+
+// PostmortemDocumentsV1ShowContentWithResponse request returning *PostmortemDocumentsV1ShowContentResponse
+func (c *ClientWithResponses) PostmortemDocumentsV1ShowContentWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*PostmortemDocumentsV1ShowContentResponse, error) {
+	rsp, err := c.PostmortemDocumentsV1ShowContent(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostmortemDocumentsV1ShowContentResponse(rsp)
+}
+
 // SeveritiesV1ListWithResponse request returning *SeveritiesV1ListResponse
 func (c *ClientWithResponses) SeveritiesV1ListWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*SeveritiesV1ListResponse, error) {
 	rsp, err := c.SeveritiesV1List(ctx, reqEditors...)
@@ -23677,6 +24267,110 @@ func ParseUtilitiesV1OpenAPIV3Response(rsp *http.Response) (*UtilitiesV1OpenAPIV
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest openapi_types.File
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostmortemDocumentsV1ListResponse parses an HTTP response from a PostmortemDocumentsV1ListWithResponse call
+func ParsePostmortemDocumentsV1ListResponse(rsp *http.Response) (*PostmortemDocumentsV1ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostmortemDocumentsV1ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PostmortemDocumentsListResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostmortemDocumentsV1ShowResponse parses an HTTP response from a PostmortemDocumentsV1ShowWithResponse call
+func ParsePostmortemDocumentsV1ShowResponse(rsp *http.Response) (*PostmortemDocumentsV1ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostmortemDocumentsV1ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PostmortemDocumentsShowResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostmortemDocumentsV1UpdateStatusResponse parses an HTTP response from a PostmortemDocumentsV1UpdateStatusWithResponse call
+func ParsePostmortemDocumentsV1UpdateStatusResponse(rsp *http.Response) (*PostmortemDocumentsV1UpdateStatusResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostmortemDocumentsV1UpdateStatusResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PostmortemDocumentsUpdateStatusResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostmortemDocumentsV1ShowContentResponse parses an HTTP response from a PostmortemDocumentsV1ShowContentWithResponse call
+func ParsePostmortemDocumentsV1ShowContentResponse(rsp *http.Response) (*PostmortemDocumentsV1ShowContentResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostmortemDocumentsV1ShowContentResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PostmortemDocumentsShowContentResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

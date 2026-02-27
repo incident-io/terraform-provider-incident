@@ -33,6 +33,7 @@ type IncidentAlertAttributeResourceModel struct {
 	Type     types.String `tfsdk:"type"`
 	Array    types.Bool   `tfsdk:"array"`
 	Required types.Bool   `tfsdk:"required"`
+	Emoji    types.String `tfsdk:"emoji"`
 }
 
 func NewIncidentAlertAttributeResource() resource.Resource {
@@ -71,6 +72,10 @@ func (r *IncidentAlertAttributeResource) Schema(ctx context.Context, req resourc
 				Optional:            true,
 				Computed:            true,
 			},
+			"emoji": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("AlertAttributeV2", "emoji"),
+				Optional:            true,
+			},
 		},
 	}
 }
@@ -106,6 +111,7 @@ func (r *IncidentAlertAttributeResource) Create(ctx context.Context, req resourc
 		Type:     data.Type.ValueString(),
 		Array:    data.Array.ValueBool(),
 		Required: data.Required.ValueBoolPointer(),
+		Emoji:    data.Emoji.ValueStringPointer(),
 	}
 
 	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertAttributesV2CreateResponse, error) {
@@ -163,6 +169,9 @@ func (r *IncidentAlertAttributeResource) Update(ctx context.Context, req resourc
 	}
 	if !data.Required.IsNull() {
 		requestBody.Required = data.Required.ValueBoolPointer()
+	}
+	if !data.Emoji.IsNull() {
+		requestBody.Emoji = data.Emoji.ValueStringPointer()
 	}
 
 	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertAttributesV2UpdateResponse, error) {
@@ -238,6 +247,13 @@ func (r *IncidentAlertAttributeResource) buildModel(alertAttribute client.AlertA
 		model.Required = types.BoolNull()
 	} else {
 		model.Required = types.BoolValue(alertAttribute.Required)
+	}
+
+	// Set emoji from API response, will be null if not set or empty
+	if alertAttribute.Emoji != nil && *alertAttribute.Emoji != "" {
+		model.Emoji = types.StringValue(*alertAttribute.Emoji)
+	} else {
+		model.Emoji = types.StringNull()
 	}
 
 	return model

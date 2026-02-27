@@ -50,6 +50,10 @@ func (i *IncidentAlertAttributeDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: apischema.Docstring("AlertAttributeV2", "required"),
 				Computed:            true,
 			},
+			"emoji": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring("AlertAttributeV2", "emoji"),
+				Computed:            true,
+			},
 		},
 	}
 }
