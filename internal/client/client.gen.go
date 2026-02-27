@@ -853,10 +853,10 @@ const (
 
 // Defines values for FollowUpV2Status.
 const (
-	Completed   FollowUpV2Status = "completed"
-	Deleted     FollowUpV2Status = "deleted"
-	NotDoing    FollowUpV2Status = "not_doing"
-	Outstanding FollowUpV2Status = "outstanding"
+	FollowUpV2StatusCompleted   FollowUpV2Status = "completed"
+	FollowUpV2StatusDeleted     FollowUpV2Status = "deleted"
+	FollowUpV2StatusNotDoing    FollowUpV2Status = "not_doing"
+	FollowUpV2StatusOutstanding FollowUpV2Status = "outstanding"
 )
 
 // Defines values for IdentityV1Roles.
@@ -1085,17 +1085,16 @@ const (
 
 // Defines values for PostmortemDocumentV1Status.
 const (
-	PostmortemDocumentV1StatusComplete   PostmortemDocumentV1Status = "complete"
-	PostmortemDocumentV1StatusCreated    PostmortemDocumentV1Status = "created"
-	PostmortemDocumentV1StatusNotStarted PostmortemDocumentV1Status = "not_started"
-	PostmortemDocumentV1StatusReview     PostmortemDocumentV1Status = "review"
+	PostmortemDocumentV1StatusCompleted  PostmortemDocumentV1Status = "completed"
+	PostmortemDocumentV1StatusInProgress PostmortemDocumentV1Status = "in_progress"
+	PostmortemDocumentV1StatusInReview   PostmortemDocumentV1Status = "in_review"
 )
 
 // Defines values for PostmortemDocumentsUpdateStatusPayloadV1Status.
 const (
-	PostmortemDocumentsUpdateStatusPayloadV1StatusComplete PostmortemDocumentsUpdateStatusPayloadV1Status = "complete"
-	PostmortemDocumentsUpdateStatusPayloadV1StatusCreated  PostmortemDocumentsUpdateStatusPayloadV1Status = "created"
-	PostmortemDocumentsUpdateStatusPayloadV1StatusReview   PostmortemDocumentsUpdateStatusPayloadV1Status = "review"
+	Completed  PostmortemDocumentsUpdateStatusPayloadV1Status = "completed"
+	InProgress PostmortemDocumentsUpdateStatusPayloadV1Status = "in_progress"
+	InReview   PostmortemDocumentsUpdateStatusPayloadV1Status = "in_review"
 )
 
 // Defines values for ScheduleRotationCreatePayloadV2SchedulingMode.
@@ -1568,6 +1567,9 @@ type AlertAttributeV2 struct {
 	// Array Whether this attribute is an array
 	Array bool `json:"array"`
 
+	// Emoji The emoji to display alongside this attribute in chat messages, stored without colons
+	Emoji *string `json:"emoji,omitempty"`
+
 	// Id The ID of this attribute
 	Id string `json:"id"`
 
@@ -1596,6 +1598,9 @@ type AlertAttributeValueV2 struct {
 type AlertAttributesCreatePayloadV2 struct {
 	// Array Whether this attribute is an array
 	Array bool `json:"array"`
+
+	// Emoji The emoji to display alongside this attribute in chat messages, stored without colons
+	Emoji *string `json:"emoji,omitempty"`
 
 	// Name Unique name of this attribute
 	Name string `json:"name"`
@@ -1626,6 +1631,9 @@ type AlertAttributesShowResultV2 struct {
 type AlertAttributesUpdatePayloadV2 struct {
 	// Array Whether this attribute is an array
 	Array bool `json:"array"`
+
+	// Emoji The emoji to display alongside this attribute in chat messages, stored without colons
+	Emoji *string `json:"emoji,omitempty"`
 
 	// Name Unique name of this attribute
 	Name string `json:"name"`
