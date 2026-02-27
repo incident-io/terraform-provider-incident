@@ -116,6 +116,41 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 	}
 }
 
+// useStateForUnknownIncludingNull is like stringplanmodifier.UseStateForUnknown()
+// but also preserves null state values. The built-in UseStateForUnknown skips when
+// state is null, which causes Computed+Optional attributes to show as "known after
+// apply" on every plan when the API doesn't return the field (e.g. email_address
+// for non-email alert sources).
+type useStateForUnknownIncludingNull struct{}
+
+func (m useStateForUnknownIncludingNull) Description(ctx context.Context) string {
+	return "Use the state value for unknown, including null."
+}
+
+func (m useStateForUnknownIncludingNull) MarkdownDescription(ctx context.Context) string {
+	return m.Description(ctx)
+}
+
+func (m useStateForUnknownIncludingNull) PlanModifyString(ctx context.Context, req planmodifier.StringRequest, resp *planmodifier.StringResponse) {
+	// Do nothing if there is a known planned value.
+	if !req.PlanValue.IsUnknown() {
+		return
+	}
+
+	// Do nothing if there is an unknown configuration value.
+	if req.ConfigValue.IsUnknown() {
+		return
+	}
+
+	// Do nothing if there is no prior state (first creation).
+	if req.State.Raw.IsNull() {
+		return
+	}
+
+	// Preserve the prior state value, even if it's null.
+	resp.PlanValue = req.StateValue
+}
+
 func NewIncidentAlertSourceResource() resource.Resource {
 	return &IncidentAlertSourceResource{}
 }
@@ -243,8 +278,7 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 				Optional:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsV2", "email_address"),
 				PlanModifiers: []planmodifier.String{
-					// This does not change after creation
-					stringplanmodifier.UseStateForUnknown(),
+					useStateForUnknownIncludingNull{},
 				},
 			},
 			"http_custom_options": schema.SingleNestedAttribute{
