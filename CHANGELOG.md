@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Added support for `emoji` on alert attributes
+
 ## v5.29.0
 
 - Add auto_resolve_incident_alerts and auto_resolve_timeout_minutes to alert source provider
