@@ -184,3 +184,131 @@ func TestNonEmptyListValidatorWithNullAndUnknown(t *testing.T) {
 	v.ValidateList(context.Background(), unknownRequest, &unknownResponse)
 	assert.False(t, unknownResponse.Diagnostics.HasError(), "unknown values should not cause validation errors")
 }
+
+func TestCatalogTypeAttributeTypeValidator(t *testing.T) {
+	testCases := []struct {
+		name          string
+		value         string
+		expectedError bool
+	}{
+		// Valid primitive types
+		{
+			name:          "valid String type",
+			value:         "String",
+			expectedError: false,
+		},
+		{
+			name:          "valid Text type",
+			value:         "Text",
+			expectedError: false,
+		},
+		{
+			name:          "valid Number type",
+			value:         "Number",
+			expectedError: false,
+		},
+		{
+			name:          "valid Bool type",
+			value:         "Bool",
+			expectedError: false,
+		},
+		// Valid Custom types
+		{
+			name:          "valid Custom type with simple name",
+			value:         `Custom["Service"]`,
+			expectedError: false,
+		},
+		{
+			name:          "valid Custom type with spaces",
+			value:         `Custom["Service Tier"]`,
+			expectedError: false,
+		},
+		{
+			name:          "valid Custom type with special characters",
+			value:         `Custom["Service-Tier_123"]`,
+			expectedError: false,
+		},
+		// Invalid types
+		{
+			name:          "invalid type - lowercase string",
+			value:         "string",
+			expectedError: true,
+		},
+		{
+			name:          "invalid type - DateTime",
+			value:         "DateTime",
+			expectedError: true,
+		},
+		{
+			name:          "invalid type - Integer",
+			value:         "Integer",
+			expectedError: true,
+		},
+		{
+			name:          "invalid Custom type - single quotes",
+			value:         `Custom['Service']`,
+			expectedError: true,
+		},
+		{
+			name:          "invalid Custom type - no quotes",
+			value:         "Custom[Service]",
+			expectedError: true,
+		},
+		{
+			name:          "invalid Custom type - missing closing bracket",
+			value:         `Custom["Service"`,
+			expectedError: true,
+		},
+		{
+			name:          "invalid Custom type - empty name",
+			value:         `Custom[""]`,
+			expectedError: true,
+		},
+		{
+			name:          "completely invalid value",
+			value:         "random-invalid-type",
+			expectedError: true,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			request := validator.StringRequest{
+				ConfigValue: types.StringValue(tc.value),
+			}
+			response := validator.StringResponse{}
+
+			v := CatalogTypeAttributeTypeValidator{}
+			v.ValidateString(context.Background(), request, &response)
+
+			if tc.expectedError {
+				assert.True(t, response.Diagnostics.HasError(), "expected validation to fail")
+				if response.Diagnostics.HasError() {
+					assert.Contains(t, response.Diagnostics.Errors()[0].Summary(), "Invalid Catalog Type Attribute Type")
+				}
+			} else {
+				assert.False(t, response.Diagnostics.HasError(), "expected validation to succeed")
+			}
+		})
+	}
+}
+
+func TestCatalogTypeAttributeTypeValidatorWithNullAndUnknown(t *testing.T) {
+	v := CatalogTypeAttributeTypeValidator{}
+
+	// Test with null value
+	nullRequest := validator.StringRequest{
+		ConfigValue: types.StringNull(),
+	}
+	nullResponse := validator.StringResponse{}
+	v.ValidateString(context.Background(), nullRequest, &nullResponse)
+	assert.False(t, nullResponse.Diagnostics.HasError(), "null values should not cause validation errors")
+
+	// Test with unknown value
+	unknownRequest := validator.StringRequest{
+		ConfigValue: types.StringUnknown(),
+	}
+	unknownResponse := validator.StringResponse{}
+	v.ValidateString(context.Background(), unknownRequest, &unknownResponse)
+	assert.False(t, unknownResponse.Diagnostics.HasError(), "unknown values should not cause validation errors")
+}

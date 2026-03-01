@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -52,4 +53,43 @@ func (v RFC3339TimestampValidator) Description(ctx context.Context) string {
 
 func (v RFC3339TimestampValidator) MarkdownDescription(ctx context.Context) string {
 	return "Value must be a valid RFC3339 timestamp (YYYY-MM-DDThh:mm:ssZ)"
+}
+
+// CatalogTypeAttributeTypeValidator validates that a catalog type attribute type is valid.
+type CatalogTypeAttributeTypeValidator struct{}
+
+var catalogCustomTypePattern = regexp.MustCompile(`^Custom\["[^"]+"\]$`)
+
+func (v CatalogTypeAttributeTypeValidator) ValidateString(ctx context.Context, req validator.StringRequest, resp *validator.StringResponse) {
+	if req.ConfigValue.IsNull() || req.ConfigValue.IsUnknown() {
+		return
+	}
+
+	value := req.ConfigValue.ValueString()
+
+	// Check if it's a valid primitive type
+	validPrimitiveTypes := []string{"String", "Text", "Number", "Bool"}
+	for _, validType := range validPrimitiveTypes {
+		if value == validType {
+			return
+		}
+	}
+
+	// Check if it matches the Custom["TypeName"] pattern
+	if catalogCustomTypePattern.MatchString(value) {
+		return
+	}
+
+	resp.Diagnostics.AddError(
+		"Invalid Catalog Type Attribute Type",
+		fmt.Sprintf("The type %q is not valid. Must be one of: String, Text, Number, Bool, or Custom[\"TypeName\"] format.", value),
+	)
+}
+
+func (v CatalogTypeAttributeTypeValidator) Description(ctx context.Context) string {
+	return "Value must be a valid catalog attribute type (String, Text, Number, Bool) or Custom[\"TypeName\"] format"
+}
+
+func (v CatalogTypeAttributeTypeValidator) MarkdownDescription(ctx context.Context) string {
+	return "Value must be a valid catalog attribute type (String, Text, Number, Bool) or Custom[\"TypeName\"] format"
 }
