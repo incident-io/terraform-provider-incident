@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.29.0
+
+- Add auto_resolve_incident_alerts and auto_resolve_timeout_minutes to alert source provider
+
 ## v5.28.0
 
 - Added support for `merge_strategy` on alert attributes
