@@ -151,6 +151,19 @@ func (m useStateForUnknownIncludingNull) PlanModifyString(ctx context.Context, r
 	resp.PlanValue = req.StateValue
 }
 
+func (m useStateForUnknownIncludingNull) PlanModifyBool(ctx context.Context, req planmodifier.BoolRequest, resp *planmodifier.BoolResponse) {
+	if !req.PlanValue.IsUnknown() {
+		return
+	}
+	if req.ConfigValue.IsUnknown() {
+		return
+	}
+	if req.State.Raw.IsNull() {
+		return
+	}
+	resp.PlanValue = req.StateValue
+}
+
 func NewIncidentAlertSourceResource() resource.Resource {
 	return &IncidentAlertSourceResource{}
 }
@@ -295,6 +308,18 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 					},
 				},
 			},
+			"auto_resolve_timeout_minutes": schema.Int64Attribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV2", "auto_resolve_timeout_minutes"),
+			},
+			"auto_resolve_incident_alerts": schema.BoolAttribute{
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV2", "auto_resolve_incident_alerts"),
+				PlanModifiers: []planmodifier.Bool{
+					useStateForUnknownIncludingNull{},
+				},
+			},
 			"owning_team_ids": schema.SetAttribute{
 				Optional:            true,
 				ElementType:         types.StringType,
@@ -343,12 +368,14 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 		}
 
 		return r.client.AlertSourcesV2CreateWithResponse(ctx, client.AlertSourcesCreatePayloadV2{
-			Name:              data.Name.ValueString(),
-			SourceType:        client.AlertSourcesCreatePayloadV2SourceType(data.SourceType.ValueString()),
-			Template:          data.Template.ToPayload(),
-			JiraOptions:       data.JiraOptions.ToPayload(),
-			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
-			OwningTeamIds:     owningTeamIDs,
+			Name:                      data.Name.ValueString(),
+			SourceType:                client.AlertSourcesCreatePayloadV2SourceType(data.SourceType.ValueString()),
+			Template:                  data.Template.ToPayload(),
+			JiraOptions:               data.JiraOptions.ToPayload(),
+			HttpCustomOptions:         data.HTTPCustomOptions.ToPayload(),
+			AutoResolveTimeoutMinutes: data.AutoResolveTimeoutMinutes.ValueInt64Pointer(),
+			AutoResolveIncidentAlerts: data.AutoResolveIncidentAlerts.ValueBoolPointer(),
+			OwningTeamIds:             owningTeamIDs,
 		})
 	})
 
@@ -411,11 +438,13 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 		}
 
 		return r.client.AlertSourcesV2UpdateWithResponse(ctx, data.ID.ValueString(), client.AlertSourcesUpdatePayloadV2{
-			Name:              data.Name.ValueString(),
-			Template:          data.Template.ToPayload(),
-			JiraOptions:       data.JiraOptions.ToPayload(),
-			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
-			OwningTeamIds:     owningTeamIDs,
+			Name:                      data.Name.ValueString(),
+			Template:                  data.Template.ToPayload(),
+			JiraOptions:               data.JiraOptions.ToPayload(),
+			HttpCustomOptions:         data.HTTPCustomOptions.ToPayload(),
+			AutoResolveTimeoutMinutes: data.AutoResolveTimeoutMinutes.ValueInt64Pointer(),
+			AutoResolveIncidentAlerts: data.AutoResolveIncidentAlerts.ValueBoolPointer(),
+			OwningTeamIds:             owningTeamIDs,
 		})
 	})
 

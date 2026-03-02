@@ -9,15 +9,17 @@ import (
 )
 
 type AlertSourceResourceModel struct {
-	ID                types.String                       `tfsdk:"id"`
-	Name              types.String                       `tfsdk:"name"`
-	SourceType        types.String                       `tfsdk:"source_type"`
-	SecretToken       types.String                       `tfsdk:"secret_token"`
-	Template          *AlertTemplateModel                `tfsdk:"template"`
-	JiraOptions       *AlertSourceJiraOptionsModel       `tfsdk:"jira_options"`
-	EmailAddress      types.String                       `tfsdk:"email_address"`
-	HTTPCustomOptions *AlertSourceHTTPCustomOptionsModel `tfsdk:"http_custom_options"`
-	OwningTeamIDs     types.Set                          `tfsdk:"owning_team_ids"`
+	ID                        types.String                       `tfsdk:"id"`
+	Name                      types.String                       `tfsdk:"name"`
+	SourceType                types.String                       `tfsdk:"source_type"`
+	SecretToken               types.String                       `tfsdk:"secret_token"`
+	Template                  *AlertTemplateModel                `tfsdk:"template"`
+	JiraOptions               *AlertSourceJiraOptionsModel       `tfsdk:"jira_options"`
+	EmailAddress              types.String                       `tfsdk:"email_address"`
+	HTTPCustomOptions         *AlertSourceHTTPCustomOptionsModel `tfsdk:"http_custom_options"`
+	OwningTeamIDs             types.Set                          `tfsdk:"owning_team_ids"`
+	AutoResolveTimeoutMinutes types.Int64                        `tfsdk:"auto_resolve_timeout_minutes"`
+	AutoResolveIncidentAlerts types.Bool                         `tfsdk:"auto_resolve_incident_alerts"`
 }
 
 func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSourceResourceModel {
@@ -54,10 +56,12 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 			IsPrivate:      types.BoolValue(source.Template.IsPrivate),
 			VisibleToTeams: visibleToTeams,
 		},
-		JiraOptions:       AlertSourceJiraOptionsModel{}.FromAPI(source.JiraOptions),
-		EmailAddress:      types.StringPointerValue(emailAddress),
-		HTTPCustomOptions: AlertSourceHTTPCustomOptionsModel{}.FromAPI(source.HttpCustomOptions),
-		OwningTeamIDs:     owningTeamIDs,
+		JiraOptions:               AlertSourceJiraOptionsModel{}.FromAPI(source.JiraOptions),
+		EmailAddress:              types.StringPointerValue(emailAddress),
+		HTTPCustomOptions:         AlertSourceHTTPCustomOptionsModel{}.FromAPI(source.HttpCustomOptions),
+		OwningTeamIDs:             owningTeamIDs,
+		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
+		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),
 	}
 }
 
