@@ -151,6 +151,19 @@ func (m useStateForUnknownIncludingNull) PlanModifyString(ctx context.Context, r
 	resp.PlanValue = req.StateValue
 }
 
+func (m useStateForUnknownIncludingNull) PlanModifyBool(ctx context.Context, req planmodifier.BoolRequest, resp *planmodifier.BoolResponse) {
+	if !req.PlanValue.IsUnknown() {
+		return
+	}
+	if req.ConfigValue.IsUnknown() {
+		return
+	}
+	if req.State.Raw.IsNull() {
+		return
+	}
+	resp.PlanValue = req.StateValue
+}
+
 func NewIncidentAlertSourceResource() resource.Resource {
 	return &IncidentAlertSourceResource{}
 }
@@ -303,6 +316,9 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 				Optional:            true,
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV2", "auto_resolve_incident_alerts"),
+				PlanModifiers: []planmodifier.Bool{
+					useStateForUnknownIncludingNull{},
+				},
 			},
 			"owning_team_ids": schema.SetAttribute{
 				Optional:            true,
