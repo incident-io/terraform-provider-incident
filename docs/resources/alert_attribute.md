@@ -30,6 +30,7 @@ resource "incident_alert_attribute" "severity" {
   type     = "String"
   array    = false
   required = false
+  emoji    = "warning"
 }
 ```
 
@@ -44,6 +45,7 @@ resource "incident_alert_attribute" "severity" {
 
 ### Optional
 
+- `emoji` (String) The emoji to display alongside this attribute in chat messages, stored without colons
 - `required` (Boolean) Whether this attribute is required. If this field is not set, the existing setting will be preserved.
 
 ### Read-Only

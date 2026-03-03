@@ -116,6 +116,7 @@ const (
 	AlertSourceV2SourceTypeStatusPageViews   AlertSourceV2SourceType = "status_page_views"
 	AlertSourceV2SourceTypeSumoLogic         AlertSourceV2SourceType = "sumo_logic"
 	AlertSourceV2SourceTypeUptime            AlertSourceV2SourceType = "uptime"
+	AlertSourceV2SourceTypeVercel            AlertSourceV2SourceType = "vercel"
 	AlertSourceV2SourceTypeZendesk           AlertSourceV2SourceType = "zendesk"
 )
 
@@ -163,6 +164,7 @@ const (
 	AlertSourcesCreatePayloadV2SourceTypeStatusPageViews   AlertSourcesCreatePayloadV2SourceType = "status_page_views"
 	AlertSourcesCreatePayloadV2SourceTypeSumoLogic         AlertSourcesCreatePayloadV2SourceType = "sumo_logic"
 	AlertSourcesCreatePayloadV2SourceTypeUptime            AlertSourcesCreatePayloadV2SourceType = "uptime"
+	AlertSourcesCreatePayloadV2SourceTypeVercel            AlertSourcesCreatePayloadV2SourceType = "vercel"
 	AlertSourcesCreatePayloadV2SourceTypeZendesk           AlertSourcesCreatePayloadV2SourceType = "zendesk"
 )
 
@@ -853,10 +855,10 @@ const (
 
 // Defines values for FollowUpV2Status.
 const (
-	Completed   FollowUpV2Status = "completed"
-	Deleted     FollowUpV2Status = "deleted"
-	NotDoing    FollowUpV2Status = "not_doing"
-	Outstanding FollowUpV2Status = "outstanding"
+	FollowUpV2StatusCompleted   FollowUpV2Status = "completed"
+	FollowUpV2StatusDeleted     FollowUpV2Status = "deleted"
+	FollowUpV2StatusNotDoing    FollowUpV2Status = "not_doing"
+	FollowUpV2StatusOutstanding FollowUpV2Status = "outstanding"
 )
 
 // Defines values for IdentityV1Roles.
@@ -1085,17 +1087,16 @@ const (
 
 // Defines values for PostmortemDocumentV1Status.
 const (
-	PostmortemDocumentV1StatusComplete   PostmortemDocumentV1Status = "complete"
-	PostmortemDocumentV1StatusCreated    PostmortemDocumentV1Status = "created"
-	PostmortemDocumentV1StatusNotStarted PostmortemDocumentV1Status = "not_started"
-	PostmortemDocumentV1StatusReview     PostmortemDocumentV1Status = "review"
+	PostmortemDocumentV1StatusCompleted  PostmortemDocumentV1Status = "completed"
+	PostmortemDocumentV1StatusInProgress PostmortemDocumentV1Status = "in_progress"
+	PostmortemDocumentV1StatusInReview   PostmortemDocumentV1Status = "in_review"
 )
 
 // Defines values for PostmortemDocumentsUpdateStatusPayloadV1Status.
 const (
-	PostmortemDocumentsUpdateStatusPayloadV1StatusComplete PostmortemDocumentsUpdateStatusPayloadV1Status = "complete"
-	PostmortemDocumentsUpdateStatusPayloadV1StatusCreated  PostmortemDocumentsUpdateStatusPayloadV1Status = "created"
-	PostmortemDocumentsUpdateStatusPayloadV1StatusReview   PostmortemDocumentsUpdateStatusPayloadV1Status = "review"
+	Completed  PostmortemDocumentsUpdateStatusPayloadV1Status = "completed"
+	InProgress PostmortemDocumentsUpdateStatusPayloadV1Status = "in_progress"
+	InReview   PostmortemDocumentsUpdateStatusPayloadV1Status = "in_review"
 )
 
 // Defines values for ScheduleRotationCreatePayloadV2SchedulingMode.
@@ -1376,8 +1377,8 @@ const (
 
 // Defines values for PostmortemDocumentsV1ListParamsSortBy.
 const (
-	NewestFirst PostmortemDocumentsV1ListParamsSortBy = "newest_first"
-	OldestFirst PostmortemDocumentsV1ListParamsSortBy = "oldest_first"
+	PostmortemDocumentsV1ListParamsSortByCreatedAtNewestFirst PostmortemDocumentsV1ListParamsSortBy = "created_at_newest_first"
+	PostmortemDocumentsV1ListParamsSortByCreatedAtOldestFirst PostmortemDocumentsV1ListParamsSortBy = "created_at_oldest_first"
 )
 
 // Defines values for ActionsV2ListParamsIncidentMode.
@@ -1400,8 +1401,8 @@ const (
 
 // Defines values for IncidentsV2ListParamsSortBy.
 const (
-	CreatedAtNewestFirst IncidentsV2ListParamsSortBy = "created_at_newest_first"
-	CreatedAtOldestFirst IncidentsV2ListParamsSortBy = "created_at_oldest_first"
+	IncidentsV2ListParamsSortByCreatedAtNewestFirst IncidentsV2ListParamsSortBy = "created_at_newest_first"
+	IncidentsV2ListParamsSortByCreatedAtOldestFirst IncidentsV2ListParamsSortBy = "created_at_oldest_first"
 )
 
 // Defines values for IncidentsV2ListParamsFilterMode.
@@ -1568,6 +1569,9 @@ type AlertAttributeV2 struct {
 	// Array Whether this attribute is an array
 	Array bool `json:"array"`
 
+	// Emoji The emoji to display alongside this attribute in chat messages, stored without colons
+	Emoji *string `json:"emoji,omitempty"`
+
 	// Id The ID of this attribute
 	Id string `json:"id"`
 
@@ -1596,6 +1600,9 @@ type AlertAttributeValueV2 struct {
 type AlertAttributesCreatePayloadV2 struct {
 	// Array Whether this attribute is an array
 	Array bool `json:"array"`
+
+	// Emoji The emoji to display alongside this attribute in chat messages, stored without colons
+	Emoji *string `json:"emoji,omitempty"`
 
 	// Name Unique name of this attribute
 	Name string `json:"name"`
@@ -1626,6 +1633,9 @@ type AlertAttributesShowResultV2 struct {
 type AlertAttributesUpdatePayloadV2 struct {
 	// Array Whether this attribute is an array
 	Array bool `json:"array"`
+
+	// Emoji The emoji to display alongside this attribute in chat messages, stored without colons
+	Emoji *string `json:"emoji,omitempty"`
 
 	// Name Unique name of this attribute
 	Name string `json:"name"`
@@ -4681,7 +4691,17 @@ type IncidentEditPayloadV2 struct {
 	// IncidentRoleAssignments Assign incident roles to these people
 	IncidentRoleAssignments *[]IncidentRoleAssignmentPayloadV2 `json:"incident_role_assignments,omitempty"`
 
-	// IncidentStatusId Incident status to change incident to. You can only change an incident from one active status to another, or close an incident from a post-incident status. Any other lifecycle changes must be taken via the app.
+	// IncidentStatusId Incident status to move the incident to. Allowed transitions are:
+	//
+	// - Moving between statuses within the same category (e.g. between active statuses)
+	// - Resolving an incident by moving from active/triage to a post-incident or closed status
+	// - Closing an incident from a post-incident status
+	//
+	// When resolving to a post-incident status, the incident enters the post-incident flow and tasks are created. The status must belong to the post-incident flow that applies to this incident based on its severity, incident type, and other properties. If you specify a status from a different post-incident flow, the request will fail with a validation error.
+	//
+	// When resolving directly to closed, any configured post-incident flow is skipped entirely. This requires the 'Close incidents by opting out of post-incident flow' permission on the API key, if your incident lifecycle normally requires you to run a post-incident flow for this incident.
+	//
+	// Note: Once an incident is in the post-incident flow, its status is managed automatically based on task completion. Moving between post-incident statuses via the API is not recommended as the system will recalculate the correct status when tasks are updated.
 	IncidentStatusId *string `json:"incident_status_id,omitempty"`
 
 	// IncidentTimestampValues Assign the incident's timestamps to these values
@@ -5659,43 +5679,46 @@ type PartialEntryPayloadV3 struct {
 
 // PostmortemDocumentV1 defines model for PostmortemDocumentV1.
 type PostmortemDocumentV1 struct {
-	// CreatedAt Timestamp when the document was created
+	// CreatedAt Timestamp for when the document was created
 	CreatedAt time.Time `json:"created_at"`
 
-	// DocumentUrl URL to view the postmortem document
+	// DocumentUrl A URL to view the post-mortem document in the incident.io dashboard
 	DocumentUrl string `json:"document_url"`
 
-	// Editors Users who have edited this document
+	// Editors The list of users who have edited this post-mortem document
 	Editors []UserV1 `json:"editors"`
 
-	// ExportedUrls URLs where this document has been exported to
+	// ExportedUrls URLs of any external locations this document has been exported to
 	ExportedUrls []string `json:"exported_urls"`
 
-	// Id Unique identifier for the postmortem document
+	// Id Unique identifier for the post-mortem document
 	Id string `json:"id"`
 
-	// IncidentId ID of the incident this document belongs to
+	// IncidentId The unique identifier of the incident that this post-mortem document belongs to
 	IncidentId string `json:"incident_id"`
 
-	// Status The postmortem workflow status of this document
+	// Status The current status of this post-mortem document
 	Status PostmortemDocumentV1Status `json:"status"`
 
-	// Title The display title of this document
+	// Title The display title of the post-mortem document
 	Title string `json:"title"`
+
+	// UpdatedAt Timestamp for when the document was last updated
+	UpdatedAt string `json:"updated_at"`
 }
 
-// PostmortemDocumentV1Status The postmortem workflow status of this document
+// PostmortemDocumentV1Status The current status of this post-mortem document
 type PostmortemDocumentV1Status string
 
 // PostmortemDocumentsListResultV1 defines model for PostmortemDocumentsListResultV1.
 type PostmortemDocumentsListResultV1 struct {
-	PaginationMeta      *PaginationMetaResultWithTotalV1 `json:"pagination_meta,omitempty"`
-	PostmortemDocuments []PostmortemDocumentV1           `json:"postmortem_documents"`
+	PaginationMeta      PaginationMetaResultV1 `json:"pagination_meta"`
+	PostmortemDocuments []PostmortemDocumentV1 `json:"postmortem_documents"`
 }
 
 // PostmortemDocumentsShowContentResultV1 defines model for PostmortemDocumentsShowContentResultV1.
 type PostmortemDocumentsShowContentResultV1 struct {
-	// Markdown The postmortem content as markdown
+	// Markdown The full content of the post-mortem document rendered as markdown
 	Markdown string `json:"markdown"`
 }
 
@@ -5706,11 +5729,11 @@ type PostmortemDocumentsShowResultV1 struct {
 
 // PostmortemDocumentsUpdateStatusPayloadV1 defines model for PostmortemDocumentsUpdateStatusPayloadV1.
 type PostmortemDocumentsUpdateStatusPayloadV1 struct {
-	// Status The new status to set on the postmortem document
+	// Status The new status to set the post-mortem document to
 	Status PostmortemDocumentsUpdateStatusPayloadV1Status `json:"status"`
 }
 
-// PostmortemDocumentsUpdateStatusPayloadV1Status The new status to set on the postmortem document
+// PostmortemDocumentsUpdateStatusPayloadV1Status The new status to set the post-mortem document to
 type PostmortemDocumentsUpdateStatusPayloadV1Status string
 
 // PostmortemDocumentsUpdateStatusResultV1 defines model for PostmortemDocumentsUpdateStatusResultV1.
@@ -7133,13 +7156,13 @@ type PostmortemDocumentsV1ListParams struct {
 	// PageSize Integer number of records to return
 	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
 
-	// After A post-mortem document's ID. This endpoint will return a list of post-mortem documents created after this post-mortem document.
+	// After A post-mortem document's ID. This endpoint will return a list of post-mortem documents after this ID.
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 
-	// IncidentId Filter by incident ID to get all postmortem documents for a specific incident
+	// IncidentId Filter to only return post-mortem documents for the given incident
 	IncidentId *string `form:"incident_id,omitempty" json:"incident_id,omitempty"`
 
-	// SortBy What to sort documents by, defaults to newest_first
+	// SortBy Controls the order that results are returned in
 	SortBy *PostmortemDocumentsV1ListParamsSortBy `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
@@ -7186,6 +7209,9 @@ type AlertsV2ListParams struct {
 
 	// Status Filter on alert status. The accepted operators are 'one_of', or 'not_in'.
 	Status *map[string][]string `form:"status,omitempty" json:"status,omitempty"`
+
+	// AlertSource Filter on alert source by ID. The accepted operators are 'one_of', or 'not_in'.
+	AlertSource *map[string][]string `form:"alert_source,omitempty" json:"alert_source,omitempty"`
 
 	// CreatedAt Filter on alert created at timestamp. Accepted operators are 'gte', 'lte' and 'date_range'.
 	CreatedAt *map[string][]string `form:"created_at,omitempty" json:"created_at,omitempty"`
@@ -13531,6 +13557,22 @@ func NewAlertsV2ListRequest(server string, params *AlertsV2ListParams) (*http.Re
 		if params.Status != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "status", runtime.ParamLocationQuery, *params.Status); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.AlertSource != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "alert_source", runtime.ParamLocationQuery, *params.AlertSource); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err

@@ -12,4 +12,5 @@ resource "incident_alert_attribute" "severity" {
   type     = "String"
   array    = false
   required = false
+  emoji    = "warning"
 }
