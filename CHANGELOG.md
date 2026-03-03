@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Added support for `emoji` on alert attributes
+- Add support for `emoji` on alert attributes
 
 ## v5.29.0
 
