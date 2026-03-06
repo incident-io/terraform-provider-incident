@@ -10,10 +10,13 @@ import (
 	"github.com/Masterminds/sprig"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/google/uuid"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 	"github.com/samber/lo"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestAccIncidentCatalogEntriesResource(t *testing.T) {
@@ -213,6 +216,108 @@ func TestAccIncidentCatalogEntriesResourceWithManagedAttributes(t *testing.T) {
 			},
 		},
 	})
+}
+
+func TestIncidentCatalogEntriesIsAttributeManagedForEntry(t *testing.T) {
+	entryID := "prod"
+	attrA := "attrA"
+	attrB := "attrB"
+
+	tests := []struct {
+		name        string
+		model       *IncidentCatalogEntriesResourceModel
+		attributeID string
+		expected    bool
+	}{
+		{
+			name: "unknown_managed_attributes_use_plan_entry",
+			model: &IncidentCatalogEntriesResourceModel{
+				ManagedAttributes: types.SetValueMust(types.StringType, []attr.Value{
+					types.StringUnknown(),
+				}),
+				Entries: map[string]CatalogEntryModel{
+					entryID: {
+						AttributeValues: map[string]CatalogEntryAttributeBindingModel{
+							attrA: {},
+						},
+					},
+				},
+			},
+			attributeID: attrA,
+			expected:    true,
+		},
+		{
+			name: "unknown_managed_attributes_exclude_unplanned_attribute",
+			model: &IncidentCatalogEntriesResourceModel{
+				ManagedAttributes: types.SetValueMust(types.StringType, []attr.Value{
+					types.StringUnknown(),
+				}),
+				Entries: map[string]CatalogEntryModel{
+					entryID: {
+						AttributeValues: map[string]CatalogEntryAttributeBindingModel{
+							attrA: {},
+						},
+					},
+				},
+			},
+			attributeID: attrB,
+			expected:    false,
+		},
+		{
+			name: "known_managed_attributes_match",
+			model: &IncidentCatalogEntriesResourceModel{
+				ManagedAttributes: types.SetValueMust(types.StringType, []attr.Value{
+					types.StringValue(attrA),
+				}),
+				Entries: map[string]CatalogEntryModel{
+					entryID: {
+						AttributeValues: map[string]CatalogEntryAttributeBindingModel{
+							attrA: {},
+						},
+					},
+				},
+			},
+			attributeID: attrA,
+			expected:    true,
+		},
+		{
+			name: "known_managed_attributes_exclude_unlisted",
+			model: &IncidentCatalogEntriesResourceModel{
+				ManagedAttributes: types.SetValueMust(types.StringType, []attr.Value{
+					types.StringValue(attrA),
+				}),
+				Entries: map[string]CatalogEntryModel{
+					entryID: {
+						AttributeValues: map[string]CatalogEntryAttributeBindingModel{
+							attrA: {},
+						},
+					},
+				},
+			},
+			attributeID: attrB,
+			expected:    false,
+		},
+		{
+			name: "null_managed_attributes_manage_all",
+			model: &IncidentCatalogEntriesResourceModel{
+				ManagedAttributes: types.SetNull(types.StringType),
+				Entries: map[string]CatalogEntryModel{
+					entryID: {
+						AttributeValues: map[string]CatalogEntryAttributeBindingModel{},
+					},
+				},
+			},
+			attributeID: attrA,
+			expected:    true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			actual := tt.model.isAttributeManagedForEntry(tt.attributeID, entryID)
+			assert.Equal(t, tt.expected, actual)
+		})
+	}
 }
 
 var catalogEntriesTemplate = template.Must(template.New("incident_catalog_entries").Funcs(sprig.TxtFuncMap()).Parse(`
