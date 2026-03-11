@@ -130,6 +130,7 @@ resource "incident_escalation_path" "urgent_support" {
 
 ### Optional
 
+- `repeat_config` (Attributes) (see [below for nested schema](#nestedatt--repeat_config))
 - `team_ids` (Set of String) IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 - `working_hours` (Attributes List) The working hours for this escalation path. (see [below for nested schema](#nestedatt--working_hours))
 
@@ -4000,6 +4001,15 @@ Required:
 - `repeat_times` (Number) How many times to repeat these nodes
 - `to_node` (String) Which node ID we begin repeating from.
 
+
+
+<a id="nestedatt--repeat_config"></a>
+### Nested Schema for `repeat_config`
+
+Required:
+
+- `delay_repeat_on_activity` (Boolean)
+- `repeat_after_seconds` (Number)
 
 
 <a id="nestedatt--working_hours"></a>
