@@ -138,13 +138,16 @@ func (d *IncidentEscalationPathDataSource) Schema(ctx context.Context, req datas
 				},
 			},
 			"repeat_config": schema.SingleNestedAttribute{
-				Computed: true,
+				MarkdownDescription: apischema.Docstring("EscalationPathV2", "repeat_config"),
+				Computed:            true,
 				Attributes: map[string]schema.Attribute{
 					"repeat_after_seconds": schema.Int64Attribute{
-						Computed: true,
+						MarkdownDescription: apischema.Docstring("EscalationPathRepeatConfigV2", "repeat_after_seconds"),
+						Computed:            true,
 					},
 					"delay_repeat_on_activity": schema.BoolAttribute{
-						Computed: true,
+						MarkdownDescription: apischema.Docstring("EscalationPathRepeatConfigV2", "delay_repeat_on_activity"),
+						Computed:            true,
 					},
 				},
 			},

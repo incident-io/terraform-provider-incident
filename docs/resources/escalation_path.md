@@ -4008,8 +4008,8 @@ Required:
 
 Required:
 
-- `delay_repeat_on_activity` (Boolean)
-- `repeat_after_seconds` (Number)
+- `delay_repeat_on_activity` (Boolean) When true, incident activity resets the repeat timer.
+- `repeat_after_seconds` (Number) Number of seconds we'll wait before repeating an escalation.
 
 
 <a id="nestedatt--working_hours"></a>
