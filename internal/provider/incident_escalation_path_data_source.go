@@ -137,6 +137,20 @@ func (d *IncidentEscalationPathDataSource) Schema(ctx context.Context, req datas
 					},
 				},
 			},
+			"repeat_config": schema.SingleNestedAttribute{
+				MarkdownDescription: "Controls whether and how the escalation path repeats after reaching the end. When configured, the path will restart from the beginning after the specified delay.",
+				Computed:            true,
+				Attributes: map[string]schema.Attribute{
+					"repeat_after_seconds": schema.Int64Attribute{
+						MarkdownDescription: apischema.Docstring("EscalationPathRepeatConfigV2", "repeat_after_seconds"),
+						Computed:            true,
+					},
+					"delay_repeat_on_activity": schema.BoolAttribute{
+						MarkdownDescription: apischema.Docstring("EscalationPathRepeatConfigV2", "delay_repeat_on_activity"),
+						Computed:            true,
+					},
+				},
+			},
 			"team_ids": schema.SetAttribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "team_ids"),

@@ -749,13 +749,14 @@ const (
 
 // Defines values for EscalationV2Status.
 const (
-	EscalationV2StatusAcked     EscalationV2Status = "acked"
-	EscalationV2StatusCancelled EscalationV2Status = "cancelled"
-	EscalationV2StatusExpired   EscalationV2Status = "expired"
-	EscalationV2StatusPending   EscalationV2Status = "pending"
-	EscalationV2StatusResolved  EscalationV2Status = "resolved"
-	EscalationV2StatusSnoozed   EscalationV2Status = "snoozed"
-	EscalationV2StatusTriggered EscalationV2Status = "triggered"
+	EscalationV2StatusAcked         EscalationV2Status = "acked"
+	EscalationV2StatusCancelled     EscalationV2Status = "cancelled"
+	EscalationV2StatusExpired       EscalationV2Status = "expired"
+	EscalationV2StatusPending       EscalationV2Status = "pending"
+	EscalationV2StatusPendingRepeat EscalationV2Status = "pending_repeat"
+	EscalationV2StatusResolved      EscalationV2Status = "resolved"
+	EscalationV2StatusSnoozed       EscalationV2Status = "snoozed"
+	EscalationV2StatusTriggered     EscalationV2Status = "triggered"
 )
 
 // Defines values for ExpressionOperationPayloadV2OperationType.
@@ -4032,6 +4033,15 @@ type EscalationPathNodeV2 struct {
 // * repeat: Go back to a previous node and repeat the logic from there.
 type EscalationPathNodeV2Type string
 
+// EscalationPathRepeatConfigV2 defines model for EscalationPathRepeatConfigV2.
+type EscalationPathRepeatConfigV2 struct {
+	// DelayRepeatOnActivity When true, incident activity resets the repeat timer.
+	DelayRepeatOnActivity bool `json:"delay_repeat_on_activity"`
+
+	// RepeatAfterSeconds Number of seconds we'll wait before repeating an escalation.
+	RepeatAfterSeconds int32 `json:"repeat_after_seconds"`
+}
+
 // EscalationPathRoundRobinConfigV2 defines model for EscalationPathRoundRobinConfigV2.
 type EscalationPathRoundRobinConfigV2 struct {
 	// Enabled Whether round robin is enabled for this level
@@ -4077,7 +4087,8 @@ type EscalationPathV2 struct {
 	Name string `json:"name"`
 
 	// Path The nodes that form the levels and branches of this escalation path.
-	Path []EscalationPathNodeV2 `json:"path"`
+	Path         []EscalationPathNodeV2        `json:"path"`
+	RepeatConfig *EscalationPathRepeatConfigV2 `json:"repeat_config,omitempty"`
 
 	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 	TeamIds []string `json:"team_ids"`
@@ -4148,7 +4159,8 @@ type EscalationsCreatePathPayloadV2 struct {
 	Name string `json:"name"`
 
 	// Path The nodes that form the levels and branches of this escalation path.
-	Path []EscalationPathNodePayloadV2 `json:"path"`
+	Path         []EscalationPathNodePayloadV2 `json:"path"`
+	RepeatConfig *EscalationPathRepeatConfigV2 `json:"repeat_config,omitempty"`
 
 	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 	TeamIds *[]string `json:"team_ids,omitempty"`
@@ -4219,7 +4231,8 @@ type EscalationsUpdatePathPayloadV2 struct {
 	Name string `json:"name"`
 
 	// Path The nodes that form the levels and branches of this escalation path.
-	Path []EscalationPathNodePayloadV2 `json:"path"`
+	Path         []EscalationPathNodePayloadV2 `json:"path"`
+	RepeatConfig *EscalationPathRepeatConfigV2 `json:"repeat_config,omitempty"`
 
 	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 	TeamIds *[]string `json:"team_ids,omitempty"`

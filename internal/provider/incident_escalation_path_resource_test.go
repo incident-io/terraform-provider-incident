@@ -72,6 +72,10 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 						"incident_escalation_path.example", "working_hours.0.weekday_intervals.0.start_time", "09:00"),
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "working_hours.0.weekday_intervals.0.end_time", "17:00"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "repeat_config.repeat_after_seconds", "1800"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "repeat_config.delay_repeat_on_activity", "true"),
 					resource.TestCheckResourceAttrPair(
 						"incident_escalation_path.example", "team_ids.0", "incident_catalog_entry.terraform", "id"),
 				),
@@ -248,6 +252,11 @@ resource "incident_escalation_path" "example" {
       ]
     }
   ]
+
+  repeat_config = {
+    repeat_after_seconds     = 1800
+    delay_repeat_on_activity = true
+  }
 
   # Teams that use this escalation path
   {{- if eq .TeamIDsType "normal" }}

@@ -40,6 +40,7 @@ type IncidentEscalationPathResourceModel struct {
 	Name         types.String                           `tfsdk:"name"`
 	Path         []IncidentEscalationPathNode           `tfsdk:"path"`
 	WorkingHours []models.IncidentWeekdayIntervalConfig `tfsdk:"working_hours"`
+	RepeatConfig types.Object                           `tfsdk:"repeat_config"`
 	TeamIDs      types.Set                              `tfsdk:"team_ids"`
 }
 
@@ -92,6 +93,11 @@ type IncidentEscalationPathTarget struct {
 	ScheduleMode types.String `tfsdk:"schedule_mode"`
 }
 
+type IncidentEscalationPathRepeatConfig struct {
+	RepeatAfterSeconds    types.Int64 `tfsdk:"repeat_after_seconds"`
+	DelayRepeatOnActivity types.Bool  `tfsdk:"delay_repeat_on_activity"`
+}
+
 func NewIncidentEscalationPathResource() resource.Resource {
 	return &IncidentEscalationPathResource{}
 }
@@ -128,6 +134,20 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 				Optional:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: models.IncidentWeekdayIntervalConfig{}.Attributes(),
+				},
+			},
+			"repeat_config": schema.SingleNestedAttribute{
+				MarkdownDescription: "Controls if an escalation will repeat after acknowledgement, when the alert is unresolved. When configured, it will repeat after the specified delay.",
+				Optional:            true,
+				Attributes: map[string]schema.Attribute{
+					"repeat_after_seconds": schema.Int64Attribute{
+						MarkdownDescription: apischema.Docstring("EscalationPathRepeatConfigV2", "repeat_after_seconds"),
+						Required:            true,
+					},
+					"delay_repeat_on_activity": schema.BoolAttribute{
+						MarkdownDescription: apischema.Docstring("EscalationPathRepeatConfigV2", "delay_repeat_on_activity"),
+						Required:            true,
+					},
 				},
 			},
 			"team_ids": schema.SetAttribute{
@@ -356,11 +376,25 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 		teamIDs = &ids
 	}
 
+	var repeatConfig *client.EscalationPathRepeatConfigV2
+	if !data.RepeatConfig.IsNull() && !data.RepeatConfig.IsUnknown() {
+		var rc IncidentEscalationPathRepeatConfig
+		resp.Diagnostics.Append(data.RepeatConfig.As(ctx, &rc, basetypes.ObjectAsOptions{})...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		repeatConfig = &client.EscalationPathRepeatConfigV2{
+			RepeatAfterSeconds:    int32(rc.RepeatAfterSeconds.ValueInt64()),
+			DelayRepeatOnActivity: rc.DelayRepeatOnActivity.ValueBool(),
+		}
+	}
+
 	result, err := r.client.EscalationsV2CreatePathWithResponse(ctx, client.EscalationsV2CreatePathJSONRequestBody{
 		Name:         data.Name.ValueString(),
 		Path:         r.toPathPayload(data.Path),
 		WorkingHours: workingHours,
 		TeamIds:      teamIDs,
+		RepeatConfig: repeatConfig,
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create escalation path, got error: %s", err))
@@ -424,11 +458,25 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 		teamIDs = &ids
 	}
 
+	var repeatConfig *client.EscalationPathRepeatConfigV2
+	if !data.RepeatConfig.IsNull() && !data.RepeatConfig.IsUnknown() {
+		var rc IncidentEscalationPathRepeatConfig
+		resp.Diagnostics.Append(data.RepeatConfig.As(ctx, &rc, basetypes.ObjectAsOptions{})...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		repeatConfig = &client.EscalationPathRepeatConfigV2{
+			RepeatAfterSeconds:    int32(rc.RepeatAfterSeconds.ValueInt64()),
+			DelayRepeatOnActivity: rc.DelayRepeatOnActivity.ValueBool(),
+		}
+	}
+
 	result, err := r.client.EscalationsV2UpdatePathWithResponse(ctx, data.ID.ValueString(), client.EscalationsV2UpdatePathJSONRequestBody{
 		Name:         data.Name.ValueString(),
 		Path:         r.toPathPayload(data.Path),
 		WorkingHours: workingHours,
 		TeamIds:      teamIDs,
+		RepeatConfig: repeatConfig,
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update escalation path, got error: %s", err))
@@ -483,11 +531,26 @@ func (r *IncidentEscalationPathResource) buildModel(ep client.EscalationPathV2) 
 		teamIDsSet = types.SetNull(types.StringType)
 	}
 
+	repeatConfigAttrTypes := map[string]attr.Type{
+		"repeat_after_seconds":     types.Int64Type,
+		"delay_repeat_on_activity": types.BoolType,
+	}
+	var repeatConfigObj types.Object
+	if ep.RepeatConfig != nil {
+		repeatConfigObj = types.ObjectValueMust(repeatConfigAttrTypes, map[string]attr.Value{
+			"repeat_after_seconds":     types.Int64Value(int64(ep.RepeatConfig.RepeatAfterSeconds)),
+			"delay_repeat_on_activity": types.BoolValue(ep.RepeatConfig.DelayRepeatOnActivity),
+		})
+	} else {
+		repeatConfigObj = types.ObjectNull(repeatConfigAttrTypes)
+	}
+
 	return &IncidentEscalationPathResourceModel{
 		ID:           types.StringValue(ep.Id),
 		Name:         types.StringValue(ep.Name),
 		Path:         r.toPathModel(ep.Path),
 		WorkingHours: workingHours,
+		RepeatConfig: repeatConfigObj,
 		TeamIDs:      teamIDsSet,
 	}
 }

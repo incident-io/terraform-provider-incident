@@ -130,6 +130,7 @@ resource "incident_escalation_path" "urgent_support" {
 
 ### Optional
 
+- `repeat_config` (Attributes) Controls if an escalation will repeat after acknowledgement, when the alert is unresolved. When configured, it will repeat after the specified delay. (see [below for nested schema](#nestedatt--repeat_config))
 - `team_ids` (Set of String) IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 - `working_hours` (Attributes List) The working hours for this escalation path. (see [below for nested schema](#nestedatt--working_hours))
 
@@ -4000,6 +4001,15 @@ Required:
 - `repeat_times` (Number) How many times to repeat these nodes
 - `to_node` (String) Which node ID we begin repeating from.
 
+
+
+<a id="nestedatt--repeat_config"></a>
+### Nested Schema for `repeat_config`
+
+Required:
+
+- `delay_repeat_on_activity` (Boolean) When true, incident activity resets the repeat timer.
+- `repeat_after_seconds` (Number) Number of seconds we'll wait before repeating an escalation.
 
 
 <a id="nestedatt--working_hours"></a>
