@@ -23,7 +23,7 @@ Use this data source to retrieve information about an existing escalation path b
 ### Read-Only
 
 - `path` (Attributes List) The nodes that form the levels and branches of this escalation path. (see [below for nested schema](#nestedatt--path))
-- `repeat_config` (Attributes) (see [below for nested schema](#nestedatt--repeat_config))
+- `repeat_config` (Attributes) Controls whether and how the escalation path repeats after reaching the end. When configured, the path will restart from the beginning after the specified delay. (see [below for nested schema](#nestedatt--repeat_config))
 - `team_ids` (Set of String) IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 - `working_hours` (Attributes List) The working hours for this escalation path. (see [below for nested schema](#nestedatt--working_hours))
 

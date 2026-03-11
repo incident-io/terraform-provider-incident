@@ -7,7 +7,6 @@ import (
 	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -95,7 +94,7 @@ type IncidentEscalationPathTarget struct {
 }
 
 type IncidentEscalationPathRepeatConfig struct {
-	RepeatAfterSeconds    types.Int32 `tfsdk:"repeat_after_seconds"`
+	RepeatAfterSeconds    types.Int64 `tfsdk:"repeat_after_seconds"`
 	DelayRepeatOnActivity types.Bool  `tfsdk:"delay_repeat_on_activity"`
 }
 
@@ -138,7 +137,7 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 				},
 			},
 			"repeat_config": schema.SingleNestedAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathV2", "repeat_config"),
+				MarkdownDescription: "Controls if an escalation will repeat after acknowledgement, when the alert is unresolved. When configured, it will repeat after the specified delay.",
 				Optional:            true,
 				Attributes: map[string]schema.Attribute{
 					"repeat_after_seconds": schema.Int64Attribute{
@@ -377,10 +376,17 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 		teamIDs = &ids
 	}
 
-	repeatConfig, diags := r.toRepeatConfigPayload(ctx, data.RepeatConfig)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
+	var repeatConfig *client.EscalationPathRepeatConfigV2
+	if !data.RepeatConfig.IsNull() && !data.RepeatConfig.IsUnknown() {
+		var rc IncidentEscalationPathRepeatConfig
+		resp.Diagnostics.Append(data.RepeatConfig.As(ctx, &rc, basetypes.ObjectAsOptions{})...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		repeatConfig = &client.EscalationPathRepeatConfigV2{
+			RepeatAfterSeconds:    int32(rc.RepeatAfterSeconds.ValueInt64()),
+			DelayRepeatOnActivity: rc.DelayRepeatOnActivity.ValueBool(),
+		}
 	}
 
 	result, err := r.client.EscalationsV2CreatePathWithResponse(ctx, client.EscalationsV2CreatePathJSONRequestBody{
@@ -452,10 +458,17 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 		teamIDs = &ids
 	}
 
-	repeatConfig, diags := r.toRepeatConfigPayload(ctx, data.RepeatConfig)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
+	var repeatConfig *client.EscalationPathRepeatConfigV2
+	if !data.RepeatConfig.IsNull() && !data.RepeatConfig.IsUnknown() {
+		var rc IncidentEscalationPathRepeatConfig
+		resp.Diagnostics.Append(data.RepeatConfig.As(ctx, &rc, basetypes.ObjectAsOptions{})...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		repeatConfig = &client.EscalationPathRepeatConfigV2{
+			RepeatAfterSeconds:    int32(rc.RepeatAfterSeconds.ValueInt64()),
+			DelayRepeatOnActivity: rc.DelayRepeatOnActivity.ValueBool(),
+		}
 	}
 
 	result, err := r.client.EscalationsV2UpdatePathWithResponse(ctx, data.ID.ValueString(), client.EscalationsV2UpdatePathJSONRequestBody{
@@ -495,21 +508,6 @@ func (r *IncidentEscalationPathResource) ImportState(ctx context.Context, req re
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *IncidentEscalationPathResource) toRepeatConfigPayload(ctx context.Context, obj types.Object) (*client.EscalationPathRepeatConfigV2, diag.Diagnostics) {
-	if obj.IsNull() || obj.IsUnknown() {
-		return nil, nil
-	}
-	var rc IncidentEscalationPathRepeatConfig
-	diags := obj.As(ctx, &rc, basetypes.ObjectAsOptions{})
-	if diags.HasError() {
-		return nil, diags
-	}
-	return &client.EscalationPathRepeatConfigV2{
-		RepeatAfterSeconds:    rc.RepeatAfterSeconds.ValueInt32(),
-		DelayRepeatOnActivity: rc.DelayRepeatOnActivity.ValueBool(),
-	}, nil
-}
-
 func (r *IncidentEscalationPathResource) buildModel(ep client.EscalationPathV2) *IncidentEscalationPathResourceModel {
 	var workingHours []models.IncidentWeekdayIntervalConfig
 	if ep.WorkingHours != nil {
@@ -534,13 +532,13 @@ func (r *IncidentEscalationPathResource) buildModel(ep client.EscalationPathV2) 
 	}
 
 	repeatConfigAttrTypes := map[string]attr.Type{
-		"repeat_after_seconds":     types.Int32Type,
+		"repeat_after_seconds":     types.Int64Type,
 		"delay_repeat_on_activity": types.BoolType,
 	}
 	var repeatConfigObj types.Object
 	if ep.RepeatConfig != nil {
 		repeatConfigObj = types.ObjectValueMust(repeatConfigAttrTypes, map[string]attr.Value{
-			"repeat_after_seconds":     types.Int32Value(ep.RepeatConfig.RepeatAfterSeconds),
+			"repeat_after_seconds":     types.Int64Value(int64(ep.RepeatConfig.RepeatAfterSeconds)),
 			"delay_repeat_on_activity": types.BoolValue(ep.RepeatConfig.DelayRepeatOnActivity),
 		})
 	} else {
