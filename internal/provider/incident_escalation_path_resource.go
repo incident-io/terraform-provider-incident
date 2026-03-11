@@ -502,7 +502,7 @@ func (r *IncidentEscalationPathResource) toRepeatConfigPayload(ctx context.Conte
 		return nil, diags
 	}
 	return &client.EscalationPathRepeatConfigV2{
-		RepeatAfterSeconds:    int32(rc.RepeatAfterSeconds.ValueInt32()),
+		RepeatAfterSeconds:    rc.RepeatAfterSeconds.ValueInt32(),
 		DelayRepeatOnActivity: rc.DelayRepeatOnActivity.ValueBool(),
 	}, nil
 }
