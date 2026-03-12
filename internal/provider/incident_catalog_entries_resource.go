@@ -267,10 +267,12 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 			continue
 		}
 
+		externalID := *entry.ExternalId
+
 		values := map[string]CatalogEntryAttributeBindingModel{}
 		for attributeID, binding := range entry.AttributeValues {
 			// Don't include unmanaged attributes in the result - that produces diffs!
-			if !plan.isAttributeManaged(attributeID) {
+			if !plan.isAttributeManagedForEntry(attributeID, externalID) {
 				continue
 			}
 
@@ -294,7 +296,7 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 				// If our plan included an empty array then assume the API dropped it when
 				// responding, and allocate an empty array. Otherwise if the plan was null, patch
 				// over the API response to pretend like it is null also.
-				planBinding := plan.Entries[*entry.ExternalId].AttributeValues[attributeID]
+				planBinding := plan.Entries[externalID].AttributeValues[attributeID]
 				if planBinding.ArrayValue.IsNull() {
 					value.ArrayValue = types.ListNull(types.StringType)
 				} else if len(planBinding.ArrayValue.Elements()) == 0 {
@@ -329,7 +331,7 @@ func (r *IncidentCatalogEntriesResource) buildModel(catalogType client.CatalogTy
 			aliases = append(aliases, types.StringValue(alias))
 		}
 
-		modelEntries[*entry.ExternalId] = CatalogEntryModel{
+		modelEntries[externalID] = CatalogEntryModel{
 			ID:              types.StringValue(entry.Id),
 			Name:            types.StringValue(entry.Name),
 			Aliases:         types.ListValueMust(types.StringType, aliases),
@@ -539,7 +541,8 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 	)
 
 	for _, payload := range data.buildPayloads(ctx) {
-		entry, alreadyExists := entriesByExternalID[*payload.Payload.ExternalId]
+		externalID := *payload.Payload.ExternalId
+		entry, alreadyExists := entriesByExternalID[externalID]
 		if alreadyExists && entry != nil {
 			// If we found the entry in the list of all entries, then we need to diff it and
 			// update as appropriate.
@@ -563,7 +566,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 					}
 				}
 
-				if data.isAttributeManaged(attributeID) && !reflect.DeepEqual(payload.Payload.AttributeValues[attributeID], current) {
+				if data.isAttributeManagedForEntry(attributeID, externalID) && !reflect.DeepEqual(payload.Payload.AttributeValues[attributeID], current) {
 					tflog.Debug(ctx, fmt.Sprintf("catalog entry with id=%s has changed, scheduling for update", entry.Id))
 					isSame = false
 				}
@@ -645,15 +648,31 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 	return catalogType, entries, nil
 }
 
-// isAttributeManaged checks if the given attribute should be managed by this resource.
-func (m *IncidentCatalogEntriesResourceModel) isAttributeManaged(attributeID string) bool {
-	// Check if the attribute is in the managed list (or that list isn't set!)
-	attrSet, known := m.managedAttributesSet()
-	if !known {
+// isAttributeManagedForEntry checks if the given attribute should be managed by this resource.
+// If managed_attributes is configured but unknown, fall back to attributes present in the plan
+// to avoid introducing new keys in state.
+func (m *IncidentCatalogEntriesResourceModel) isAttributeManagedForEntry(attributeID string, externalID string) bool {
+	// If managed_attributes is not configured, all attributes are managed.
+	if m.ManagedAttributes.IsNull() {
 		return true
 	}
 
-	return attrSet[attributeID]
+	attrSet, known := m.managedAttributesSet()
+	if known {
+		return attrSet[attributeID]
+	}
+
+	// managed_attributes is configured but unknown. Fall back to attributes present in the plan.
+	if entry, ok := m.Entries[externalID]; ok {
+		if _, ok := entry.AttributeValues[attributeID]; ok {
+			return true
+		}
+
+		return false
+	}
+
+	// If we can't find the entry, assume managed to avoid dropping values unexpectedly.
+	return true
 }
 
 func (m *IncidentCatalogEntriesResourceModel) managedAttributesSet() (map[string]bool, bool) {
@@ -668,12 +687,8 @@ func (m *IncidentCatalogEntriesResourceModel) managedAttributesSet() (map[string
 	managedAttrSet := map[string]bool{}
 	for _, attrElem := range m.ManagedAttributes.Elements() {
 		// If any element in the list is unknown (e.g. a reference to an attribute
-		// that hasn't been created yet), we give up and assume all attributes are
-		// managed.
-		//
-		// This won't happen at apply-time, so the effect on the user is relatively
-		// small, but it does meant that if you're creating a totally new config we
-		// can't fully validate it on an initial `terraform plan`.
+		// that hasn't been created yet), we give up and mark the set as unknown.
+		// We'll fall back to plan data when deciding which attributes to manage.
 		if attrElem.IsUnknown() {
 			return nil, false
 		}
