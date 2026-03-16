@@ -1,0 +1,1 @@
+terraform import incident_maintenance_window.example 01EXAMPLE_ID
