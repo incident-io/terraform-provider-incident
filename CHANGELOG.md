@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.31.0
+
+- Add support for `repeat_config` on escalation paths
+
 ## v5.30.0
 
 - Add support for `emoji` on alert attributes
