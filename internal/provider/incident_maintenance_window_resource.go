@@ -32,21 +32,21 @@ type IncidentMaintenanceWindowResource struct {
 }
 
 type MaintenanceWindowResourceModel struct {
-	ID                       types.String                              `tfsdk:"id"`
-	Name                     types.String                              `tfsdk:"name"`
-	StartAt                  types.String                              `tfsdk:"start_at"`
-	EndAt                    types.String                              `tfsdk:"end_at"`
-	LeadID                   types.String                              `tfsdk:"lead_id"`
-	AlertConditionGroups     models.IncidentEngineConditionGroups      `tfsdk:"alert_condition_groups"`
-	ShowInSidebar            types.Bool                                `tfsdk:"show_in_sidebar"`
-	ResolveOnEnd             types.Bool                                `tfsdk:"resolve_on_end"`
-	RerouteOnEnd             types.Bool                                `tfsdk:"reroute_on_end"`
-	EscalationTargets        []MaintenanceWindowEscalationTargetModel  `tfsdk:"escalation_targets"`
-	NotifyChannels           []MaintenanceWindowNotifyChannelModel     `tfsdk:"notify_channels"`
-	NotifyStartMinutesBefore types.Int64                               `tfsdk:"notify_start_minutes_before"`
-	NotifyEndMinutesBefore   types.Int64                               `tfsdk:"notify_end_minutes_before"`
-	NotificationMessage      types.String                              `tfsdk:"notification_message"`
-	IncidentID               types.String                              `tfsdk:"incident_id"`
+	ID                       types.String                             `tfsdk:"id"`
+	Name                     types.String                             `tfsdk:"name"`
+	StartAt                  types.String                             `tfsdk:"start_at"`
+	EndAt                    types.String                             `tfsdk:"end_at"`
+	LeadID                   types.String                             `tfsdk:"lead_id"`
+	AlertConditionGroups     models.IncidentEngineConditionGroups     `tfsdk:"alert_condition_groups"`
+	ShowInSidebar            types.Bool                               `tfsdk:"show_in_sidebar"`
+	ResolveOnEnd             types.Bool                               `tfsdk:"resolve_on_end"`
+	RerouteOnEnd             types.Bool                               `tfsdk:"reroute_on_end"`
+	EscalationTargets        []MaintenanceWindowEscalationTargetModel `tfsdk:"escalation_targets"`
+	NotifyChannels           []MaintenanceWindowNotifyChannelModel    `tfsdk:"notify_channels"`
+	NotifyStartMinutesBefore types.Int64                              `tfsdk:"notify_start_minutes_before"`
+	NotifyEndMinutesBefore   types.Int64                              `tfsdk:"notify_end_minutes_before"`
+	NotificationMessage      types.String                             `tfsdk:"notification_message"`
+	IncidentID               types.String                             `tfsdk:"incident_id"`
 }
 
 type MaintenanceWindowEscalationTargetModel struct {
@@ -229,7 +229,7 @@ func (r *IncidentMaintenanceWindowResource) Create(ctx context.Context, req reso
 		NotifyStartMinutesBefore: payload.NotifyStartMinutesBefore,
 		NotifyEndMinutesBefore:   payload.NotifyEndMinutesBefore,
 		NotificationMessage:      payload.NotificationMessage,
-		IncidentId:               payload.IncidentId,
+		IncidentId:               payload.IncidentID,
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create maintenance window, got error: %s", err))
@@ -291,7 +291,7 @@ func (r *IncidentMaintenanceWindowResource) Update(ctx context.Context, req reso
 		NotifyStartMinutesBefore: payload.NotifyStartMinutesBefore,
 		NotifyEndMinutesBefore:   payload.NotifyEndMinutesBefore,
 		NotificationMessage:      payload.NotificationMessage,
-		IncidentId:               payload.IncidentId,
+		IncidentId:               payload.IncidentID,
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update maintenance window, got error: %s", err))
@@ -335,7 +335,7 @@ type maintenanceWindowPayload struct {
 	NotifyStartMinutesBefore *int64
 	NotifyEndMinutesBefore   *int64
 	NotificationMessage      *string
-	IncidentId               *string
+	IncidentID               *string
 }
 
 func (r *IncidentMaintenanceWindowResource) buildPayload(data *MaintenanceWindowResourceModel) (*maintenanceWindowPayload, error) {
@@ -404,7 +404,7 @@ func (r *IncidentMaintenanceWindowResource) buildPayload(data *MaintenanceWindow
 		payload.NotificationMessage = data.NotificationMessage.ValueStringPointer()
 	}
 	if !data.IncidentID.IsNull() {
-		payload.IncidentId = data.IncidentID.ValueStringPointer()
+		payload.IncidentID = data.IncidentID.ValueStringPointer()
 	}
 
 	return payload, nil
