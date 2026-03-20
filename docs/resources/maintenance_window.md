@@ -29,17 +29,23 @@ resource "incident_maintenance_window" "example" {
   resolve_on_end  = true
   reroute_on_end  = false
 
-  alert_condition_groups {
-    conditions {
-      subject   = "alert.title"
-      operation = "contains"
-      param_bindings {
-        value {
-          literal = "database"
+  alert_condition_groups = [
+    {
+      conditions = [
+        {
+          subject   = "alert.title"
+          operation = "contains"
+          param_bindings = [
+            {
+              value = {
+                literal = "database"
+              }
+            }
+          ]
         }
-      }
+      ]
     }
-  }
+  ]
 }
 ```
 

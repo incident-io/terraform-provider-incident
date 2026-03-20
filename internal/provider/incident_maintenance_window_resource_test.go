@@ -144,17 +144,23 @@ resource "incident_maintenance_window" "invalid" {
   end_at   = "2026-04-01T06:00:00Z"
   lead_id  = "01EXAMPLE"
 
-  alert_condition_groups {
-    conditions {
-      subject   = "alert.title"
-      operation = "contains"
-      param_bindings {
-        value {
-          literal = "test"
+  alert_condition_groups = [
+    {
+      conditions = [
+        {
+          subject   = "alert.title"
+          operation = "contains"
+          param_bindings = [
+            {
+              value = {
+                literal = "test"
+              }
+            }
+          ]
         }
-      }
+      ]
     }
-  }
+  ]
 }`,
 				ExpectError: regexp.MustCompile("Invalid Timestamp Format"),
 			},
@@ -178,17 +184,23 @@ resource "incident_maintenance_window" "example" {
   lead_id         = {{ quote .LeadUserID }}
   show_in_sidebar = {{ .ShowInSidebar }}
 
-  alert_condition_groups {
-    conditions {
-      subject   = "alert.title"
-      operation = "contains"
-      param_bindings {
-        value {
-          literal = "test"
+  alert_condition_groups = [
+    {
+      conditions = [
+        {
+          subject   = "alert.title"
+          operation = "contains"
+          param_bindings = [
+            {
+              value = {
+                literal = "test"
+              }
+            }
+          ]
         }
-      }
+      ]
     }
-  }
+  ]
 }
 `))
 
@@ -207,17 +219,23 @@ resource "incident_maintenance_window" "example" {
   notify_start_minutes_before = 15
   notify_end_minutes_before   = 5
 
-  alert_condition_groups {
-    conditions {
-      subject   = "alert.title"
-      operation = "contains"
-      param_bindings {
-        value {
-          literal = "test"
+  alert_condition_groups = [
+    {
+      conditions = [
+        {
+          subject   = "alert.title"
+          operation = "contains"
+          param_bindings = [
+            {
+              value = {
+                literal = "test"
+              }
+            }
+          ]
         }
-      }
+      ]
     }
-  }
+  ]
 }
 `))
 
