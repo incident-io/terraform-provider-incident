@@ -203,5 +203,9 @@ Import is supported using the following syntax:
 The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell
-terraform import incident_maintenance_window.example 01EXAMPLE_ID
+#!/bin/bash
+
+# Import a maintenance window using its ID
+# Replace the ID with a real ID from your incident.io organization
+terraform import incident_maintenance_window.example 01ABC123DEF456GHI789JKL
 ```
