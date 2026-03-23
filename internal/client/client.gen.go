@@ -1376,6 +1376,13 @@ const (
 	ZendeskTicket               IncidentAttachmentsV1ListParamsResourceType = "zendesk_ticket"
 )
 
+// Defines values for MaintenanceWindowsV1ListParamsStatus.
+const (
+	Active   MaintenanceWindowsV1ListParamsStatus = "active"
+	Past     MaintenanceWindowsV1ListParamsStatus = "past"
+	Upcoming MaintenanceWindowsV1ListParamsStatus = "upcoming"
+)
+
 // Defines values for PostmortemDocumentsV1ListParamsSortBy.
 const (
 	PostmortemDocumentsV1ListParamsSortByCreatedAtNewestFirst PostmortemDocumentsV1ListParamsSortBy = "created_at_newest_first"
@@ -5558,6 +5565,207 @@ type IncidentsShowResultV2 struct {
 	Incident IncidentV2 `json:"incident"`
 }
 
+// MaintenanceWindowEscalationTargetPayloadV1 defines model for MaintenanceWindowEscalationTargetPayloadV1.
+type MaintenanceWindowEscalationTargetPayloadV1 struct {
+	EscalationPaths *EngineParamBindingPayloadV2 `json:"escalation_paths,omitempty"`
+	Users           *EngineParamBindingPayloadV2 `json:"users,omitempty"`
+}
+
+// MaintenanceWindowEscalationTargetV1 defines model for MaintenanceWindowEscalationTargetV1.
+type MaintenanceWindowEscalationTargetV1 struct {
+	EscalationPaths *EngineParamBindingV2 `json:"escalation_paths,omitempty"`
+	Users           *EngineParamBindingV2 `json:"users,omitempty"`
+}
+
+// MaintenanceWindowNotifyChannelPayloadV1 A channel to receive notifications about this maintenance window
+type MaintenanceWindowNotifyChannelPayloadV1 struct {
+	// ChannelId The external provider channel ID (e.g. Slack channel ID)
+	ChannelId string `json:"channel_id"`
+
+	// ChannelName Human readable name of the channel
+	ChannelName *string `json:"channel_name,omitempty"`
+
+	// ChannelType The type of channel (e.g. public, private)
+	ChannelType string `json:"channel_type"`
+}
+
+// MaintenanceWindowNotifyChannelV1 A channel that will receive notifications about this maintenance window
+type MaintenanceWindowNotifyChannelV1 struct {
+	// ChannelId The external provider channel ID (e.g. Slack channel ID)
+	ChannelId string `json:"channel_id"`
+
+	// ChannelName Human readable name of the channel
+	ChannelName *string `json:"channel_name,omitempty"`
+
+	// ChannelType The type of channel (e.g. public, private)
+	ChannelType string `json:"channel_type"`
+
+	// IsPrivate Whether the channel is private
+	IsPrivate *bool `json:"is_private,omitempty"`
+}
+
+// MaintenanceWindowV1 defines model for MaintenanceWindowV1.
+type MaintenanceWindowV1 struct {
+	// AlertConditionGroups Condition groups that determine which alerts this maintenance window applies to
+	AlertConditionGroups []ConditionGroupV2 `json:"alert_condition_groups"`
+
+	// ArchivedAt When this maintenance window was archived, if it has been
+	ArchivedAt *time.Time `json:"archived_at,omitempty"`
+
+	// CreatedAt When this maintenance window was created
+	CreatedAt time.Time `json:"created_at"`
+
+	// EndAt When the maintenance window ends
+	EndAt time.Time `json:"end_at"`
+
+	// EscalationTargets If set, alerts matching this window will be escalated to these targets
+	EscalationTargets *[]MaintenanceWindowEscalationTargetV1 `json:"escalation_targets,omitempty"`
+
+	// Id Unique identifier for this maintenance window
+	Id string `json:"id"`
+
+	// IncidentId If set, alerts matching this window will be automatically attached to this incident
+	IncidentId *string `json:"incident_id,omitempty"`
+	Lead       ActorV2 `json:"lead"`
+
+	// Name Human readable name for the maintenance window
+	Name string `json:"name"`
+
+	// NotificationMessage Custom message included in notifications about this maintenance window
+	NotificationMessage *string `json:"notification_message,omitempty"`
+
+	// NotifyChannels Channels to notify about the maintenance window starting and ending
+	NotifyChannels *[]MaintenanceWindowNotifyChannelV1 `json:"notify_channels,omitempty"`
+
+	// NotifyEndMinutesBefore Minutes before the end to send a notification to the configured channels
+	NotifyEndMinutesBefore *int64 `json:"notify_end_minutes_before,omitempty"`
+
+	// NotifyStartMinutesBefore Minutes before the start to send a notification to the configured channels
+	NotifyStartMinutesBefore *int64 `json:"notify_start_minutes_before,omitempty"`
+
+	// RerouteOnEnd Whether to retrigger firing alerts through alert routing when the window ends
+	RerouteOnEnd bool `json:"reroute_on_end"`
+
+	// ResolveOnEnd Whether to automatically resolve all firing alerts that matched this window when it ends
+	ResolveOnEnd bool `json:"resolve_on_end"`
+
+	// ShowInSidebar Whether to show this maintenance window in the dashboard sidebar when active
+	ShowInSidebar bool `json:"show_in_sidebar"`
+
+	// StartAt When the maintenance window starts
+	StartAt time.Time `json:"start_at"`
+
+	// UpdatedAt When this maintenance window was last updated
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// MaintenanceWindowsCreatePayloadV1 defines model for MaintenanceWindowsCreatePayloadV1.
+type MaintenanceWindowsCreatePayloadV1 struct {
+	// AlertConditionGroups Condition groups that determine which alerts this maintenance window applies to
+	AlertConditionGroups []ConditionGroupPayloadV2 `json:"alert_condition_groups"`
+
+	// EndAt When the maintenance window should end
+	EndAt time.Time `json:"end_at"`
+
+	// EscalationTargets If set, alerts matching this window will be escalated to these targets
+	EscalationTargets *[]MaintenanceWindowEscalationTargetPayloadV1 `json:"escalation_targets,omitempty"`
+
+	// IncidentId If set, alerts matching this window will be automatically attached to this incident
+	IncidentId *string                `json:"incident_id,omitempty"`
+	Lead       UserReferencePayloadV2 `json:"lead"`
+
+	// Name Human readable name for the maintenance window
+	Name string `json:"name"`
+
+	// NotificationMessage Custom message included in notifications about this maintenance window
+	NotificationMessage *string `json:"notification_message,omitempty"`
+
+	// NotifyChannels Channels to notify about the maintenance window starting and ending
+	NotifyChannels *[]MaintenanceWindowNotifyChannelPayloadV1 `json:"notify_channels,omitempty"`
+
+	// NotifyEndMinutesBefore Minutes before the end to send a notification to the configured channels
+	NotifyEndMinutesBefore *int64 `json:"notify_end_minutes_before,omitempty"`
+
+	// NotifyStartMinutesBefore Minutes before the start to send a notification to the configured channels
+	NotifyStartMinutesBefore *int64 `json:"notify_start_minutes_before,omitempty"`
+
+	// RerouteOnEnd Whether to retrigger firing alerts through alert routing when the window ends
+	RerouteOnEnd *bool `json:"reroute_on_end,omitempty"`
+
+	// ResolveOnEnd Whether to automatically resolve all firing alerts that matched this window when it ends
+	ResolveOnEnd *bool `json:"resolve_on_end,omitempty"`
+
+	// ShowInSidebar Whether to show this maintenance window in the dashboard sidebar when active
+	ShowInSidebar bool `json:"show_in_sidebar"`
+
+	// StartAt When the maintenance window should start
+	StartAt time.Time `json:"start_at"`
+}
+
+// MaintenanceWindowsCreateResultV1 defines model for MaintenanceWindowsCreateResultV1.
+type MaintenanceWindowsCreateResultV1 struct {
+	MaintenanceWindow MaintenanceWindowV1 `json:"maintenance_window"`
+}
+
+// MaintenanceWindowsListResultV1 defines model for MaintenanceWindowsListResultV1.
+type MaintenanceWindowsListResultV1 struct {
+	MaintenanceWindows []MaintenanceWindowV1  `json:"maintenance_windows"`
+	PaginationMeta     PaginationMetaResultV1 `json:"pagination_meta"`
+}
+
+// MaintenanceWindowsShowResultV1 defines model for MaintenanceWindowsShowResultV1.
+type MaintenanceWindowsShowResultV1 struct {
+	MaintenanceWindow MaintenanceWindowV1 `json:"maintenance_window"`
+}
+
+// MaintenanceWindowsUpdatePayloadV1 defines model for MaintenanceWindowsUpdatePayloadV1.
+type MaintenanceWindowsUpdatePayloadV1 struct {
+	// AlertConditionGroups Condition groups that determine which alerts this maintenance window applies to
+	AlertConditionGroups []ConditionGroupPayloadV2 `json:"alert_condition_groups"`
+
+	// EndAt When the maintenance window should end
+	EndAt time.Time `json:"end_at"`
+
+	// EscalationTargets If set, alerts matching this window will be escalated to these targets
+	EscalationTargets *[]MaintenanceWindowEscalationTargetPayloadV1 `json:"escalation_targets,omitempty"`
+
+	// IncidentId If set, alerts matching this window will be automatically attached to this incident
+	IncidentId *string                `json:"incident_id,omitempty"`
+	Lead       UserReferencePayloadV2 `json:"lead"`
+
+	// Name Human readable name for the maintenance window
+	Name string `json:"name"`
+
+	// NotificationMessage Custom message included in notifications about this maintenance window
+	NotificationMessage *string `json:"notification_message,omitempty"`
+
+	// NotifyChannels Channels to notify about the maintenance window starting and ending
+	NotifyChannels *[]MaintenanceWindowNotifyChannelPayloadV1 `json:"notify_channels,omitempty"`
+
+	// NotifyEndMinutesBefore Minutes before the end to send a notification to the configured channels
+	NotifyEndMinutesBefore *int64 `json:"notify_end_minutes_before,omitempty"`
+
+	// NotifyStartMinutesBefore Minutes before the start to send a notification to the configured channels
+	NotifyStartMinutesBefore *int64 `json:"notify_start_minutes_before,omitempty"`
+
+	// RerouteOnEnd Whether to retrigger firing alerts through alert routing when the window ends
+	RerouteOnEnd *bool `json:"reroute_on_end,omitempty"`
+
+	// ResolveOnEnd Whether to automatically resolve all firing alerts that matched this window when it ends
+	ResolveOnEnd *bool `json:"resolve_on_end,omitempty"`
+
+	// ShowInSidebar Whether to show this maintenance window in the dashboard sidebar when active
+	ShowInSidebar bool `json:"show_in_sidebar"`
+
+	// StartAt When the maintenance window should start
+	StartAt time.Time `json:"start_at"`
+}
+
+// MaintenanceWindowsUpdateResultV1 defines model for MaintenanceWindowsUpdateResultV1.
+type MaintenanceWindowsUpdateResultV1 struct {
+	MaintenanceWindow MaintenanceWindowV1 `json:"maintenance_window"`
+}
+
 // ManagedResourceV2 defines model for ManagedResourceV2.
 type ManagedResourceV2 struct {
 	// Annotations Annotations that track metadata about this resource
@@ -5731,7 +5939,7 @@ type PostmortemDocumentsListResultV1 struct {
 
 // PostmortemDocumentsShowContentResultV1 defines model for PostmortemDocumentsShowContentResultV1.
 type PostmortemDocumentsShowContentResultV1 struct {
-	// Markdown The full content of the post-mortem document rendered as markdown
+	// Markdown The full content of the post-mortem document, rendered as markdown. Includes all sections, resolved mentions, timeline, follow-ups, and custom fields.
 	Markdown string `json:"markdown"`
 }
 
@@ -7164,6 +7372,21 @@ type IncidentsV1ListParams struct {
 	Status *[]string `form:"status,omitempty" json:"status,omitempty"`
 }
 
+// MaintenanceWindowsV1ListParams defines parameters for MaintenanceWindowsV1List.
+type MaintenanceWindowsV1ListParams struct {
+	// PageSize Number of maintenance windows to return per page
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After The ID of the last maintenance window on the previous page
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// Status Filter by window status: active (start_at <= now < end_at), upcoming (now < start_at), or past (end_at <= now)
+	Status *MaintenanceWindowsV1ListParamsStatus `form:"status,omitempty" json:"status,omitempty"`
+}
+
+// MaintenanceWindowsV1ListParamsStatus defines parameters for MaintenanceWindowsV1List.
+type MaintenanceWindowsV1ListParamsStatus string
+
 // PostmortemDocumentsV1ListParams defines parameters for PostmortemDocumentsV1List.
 type PostmortemDocumentsV1ListParams struct {
 	// PageSize Integer number of records to return
@@ -7228,6 +7451,9 @@ type AlertsV2ListParams struct {
 
 	// CreatedAt Filter on alert created at timestamp. Accepted operators are 'gte', 'lte' and 'date_range'.
 	CreatedAt *map[string][]string `form:"created_at,omitempty" json:"created_at,omitempty"`
+
+	// IncludeMaintenanceWindow Filter on whether to include maintenance window alerts. The accepted operator is 'is'.
+	IncludeMaintenanceWindow *map[string][]string `form:"include_maintenance_window,omitempty" json:"include_maintenance_window,omitempty"`
 }
 
 // CatalogV2ListEntriesParams defines parameters for CatalogV2ListEntries.
@@ -7543,6 +7769,12 @@ type IncidentsV1CreateJSONRequestBody = IncidentsCreatePayloadV1
 
 // IPAllowlistsV1UpdateIPAllowlistJSONRequestBody defines body for IPAllowlistsV1UpdateIPAllowlist for application/json ContentType.
 type IPAllowlistsV1UpdateIPAllowlistJSONRequestBody = IPAllowlistsUpdateIPAllowlistPayloadV1
+
+// MaintenanceWindowsV1CreateJSONRequestBody defines body for MaintenanceWindowsV1Create for application/json ContentType.
+type MaintenanceWindowsV1CreateJSONRequestBody = MaintenanceWindowsCreatePayloadV1
+
+// MaintenanceWindowsV1UpdateJSONRequestBody defines body for MaintenanceWindowsV1Update for application/json ContentType.
+type MaintenanceWindowsV1UpdateJSONRequestBody = MaintenanceWindowsUpdatePayloadV1
 
 // PostmortemDocumentsV1UpdateStatusJSONRequestBody defines body for PostmortemDocumentsV1UpdateStatus for application/json ContentType.
 type PostmortemDocumentsV1UpdateStatusJSONRequestBody = PostmortemDocumentsUpdateStatusPayloadV1
@@ -7876,6 +8108,25 @@ type ClientInterface interface {
 	IPAllowlistsV1UpdateIPAllowlistWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	IPAllowlistsV1UpdateIPAllowlist(ctx context.Context, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// MaintenanceWindowsV1List request
+	MaintenanceWindowsV1List(ctx context.Context, params *MaintenanceWindowsV1ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// MaintenanceWindowsV1CreateWithBody request with any body
+	MaintenanceWindowsV1CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	MaintenanceWindowsV1Create(ctx context.Context, body MaintenanceWindowsV1CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// MaintenanceWindowsV1Delete request
+	MaintenanceWindowsV1Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// MaintenanceWindowsV1Show request
+	MaintenanceWindowsV1Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// MaintenanceWindowsV1UpdateWithBody request with any body
+	MaintenanceWindowsV1UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	MaintenanceWindowsV1Update(ctx context.Context, id string, body MaintenanceWindowsV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// UtilitiesV1OpenAPI request
 	UtilitiesV1OpenAPI(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -8879,6 +9130,90 @@ func (c *Client) IPAllowlistsV1UpdateIPAllowlistWithBody(ctx context.Context, co
 
 func (c *Client) IPAllowlistsV1UpdateIPAllowlist(ctx context.Context, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewIPAllowlistsV1UpdateIPAllowlistRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) MaintenanceWindowsV1List(ctx context.Context, params *MaintenanceWindowsV1ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewMaintenanceWindowsV1ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) MaintenanceWindowsV1CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewMaintenanceWindowsV1CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) MaintenanceWindowsV1Create(ctx context.Context, body MaintenanceWindowsV1CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewMaintenanceWindowsV1CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) MaintenanceWindowsV1Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewMaintenanceWindowsV1DeleteRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) MaintenanceWindowsV1Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewMaintenanceWindowsV1ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) MaintenanceWindowsV1UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewMaintenanceWindowsV1UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) MaintenanceWindowsV1Update(ctx context.Context, id string, body MaintenanceWindowsV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewMaintenanceWindowsV1UpdateRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -12264,6 +12599,242 @@ func NewIPAllowlistsV1UpdateIPAllowlistRequestWithBody(server string, contentTyp
 	return req, nil
 }
 
+// NewMaintenanceWindowsV1ListRequest generates requests for MaintenanceWindowsV1List
+func NewMaintenanceWindowsV1ListRequest(server string, params *MaintenanceWindowsV1ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/maintenance_windows")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Status != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "status", runtime.ParamLocationQuery, *params.Status); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewMaintenanceWindowsV1CreateRequest calls the generic MaintenanceWindowsV1Create builder with application/json body
+func NewMaintenanceWindowsV1CreateRequest(server string, body MaintenanceWindowsV1CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewMaintenanceWindowsV1CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewMaintenanceWindowsV1CreateRequestWithBody generates requests for MaintenanceWindowsV1Create with any type of body
+func NewMaintenanceWindowsV1CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/maintenance_windows")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewMaintenanceWindowsV1DeleteRequest generates requests for MaintenanceWindowsV1Delete
+func NewMaintenanceWindowsV1DeleteRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/maintenance_windows/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewMaintenanceWindowsV1ShowRequest generates requests for MaintenanceWindowsV1Show
+func NewMaintenanceWindowsV1ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/maintenance_windows/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewMaintenanceWindowsV1UpdateRequest calls the generic MaintenanceWindowsV1Update builder with application/json body
+func NewMaintenanceWindowsV1UpdateRequest(server string, id string, body MaintenanceWindowsV1UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewMaintenanceWindowsV1UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewMaintenanceWindowsV1UpdateRequestWithBody generates requests for MaintenanceWindowsV1Update with any type of body
+func NewMaintenanceWindowsV1UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/maintenance_windows/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewUtilitiesV1OpenAPIRequest generates requests for UtilitiesV1OpenAPI
 func NewUtilitiesV1OpenAPIRequest(server string) (*http.Request, error) {
 	var err error
@@ -13602,6 +14173,22 @@ func NewAlertsV2ListRequest(server string, params *AlertsV2ListParams) (*http.Re
 		if params.CreatedAt != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "created_at", runtime.ParamLocationQuery, *params.CreatedAt); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.IncludeMaintenanceWindow != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "include_maintenance_window", runtime.ParamLocationQuery, *params.IncludeMaintenanceWindow); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err
@@ -17933,6 +18520,25 @@ type ClientWithResponsesInterface interface {
 
 	IPAllowlistsV1UpdateIPAllowlistWithResponse(ctx context.Context, body IPAllowlistsV1UpdateIPAllowlistJSONRequestBody, reqEditors ...RequestEditorFn) (*IPAllowlistsV1UpdateIPAllowlistResponse, error)
 
+	// MaintenanceWindowsV1ListWithResponse request
+	MaintenanceWindowsV1ListWithResponse(ctx context.Context, params *MaintenanceWindowsV1ListParams, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1ListResponse, error)
+
+	// MaintenanceWindowsV1CreateWithBodyWithResponse request with any body
+	MaintenanceWindowsV1CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1CreateResponse, error)
+
+	MaintenanceWindowsV1CreateWithResponse(ctx context.Context, body MaintenanceWindowsV1CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1CreateResponse, error)
+
+	// MaintenanceWindowsV1DeleteWithResponse request
+	MaintenanceWindowsV1DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1DeleteResponse, error)
+
+	// MaintenanceWindowsV1ShowWithResponse request
+	MaintenanceWindowsV1ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1ShowResponse, error)
+
+	// MaintenanceWindowsV1UpdateWithBodyWithResponse request with any body
+	MaintenanceWindowsV1UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1UpdateResponse, error)
+
+	MaintenanceWindowsV1UpdateWithResponse(ctx context.Context, id string, body MaintenanceWindowsV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1UpdateResponse, error)
+
 	// UtilitiesV1OpenAPIWithResponse request
 	UtilitiesV1OpenAPIWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilitiesV1OpenAPIResponse, error)
 
@@ -19137,6 +19743,115 @@ func (r IPAllowlistsV1UpdateIPAllowlistResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r IPAllowlistsV1UpdateIPAllowlistResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type MaintenanceWindowsV1ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *MaintenanceWindowsListResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r MaintenanceWindowsV1ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r MaintenanceWindowsV1ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type MaintenanceWindowsV1CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *MaintenanceWindowsCreateResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r MaintenanceWindowsV1CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r MaintenanceWindowsV1CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type MaintenanceWindowsV1DeleteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r MaintenanceWindowsV1DeleteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r MaintenanceWindowsV1DeleteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type MaintenanceWindowsV1ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *MaintenanceWindowsShowResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r MaintenanceWindowsV1ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r MaintenanceWindowsV1ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type MaintenanceWindowsV1UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *MaintenanceWindowsUpdateResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r MaintenanceWindowsV1UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r MaintenanceWindowsV1UpdateResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -22043,6 +22758,67 @@ func (c *ClientWithResponses) IPAllowlistsV1UpdateIPAllowlistWithResponse(ctx co
 	return ParseIPAllowlistsV1UpdateIPAllowlistResponse(rsp)
 }
 
+// MaintenanceWindowsV1ListWithResponse request returning *MaintenanceWindowsV1ListResponse
+func (c *ClientWithResponses) MaintenanceWindowsV1ListWithResponse(ctx context.Context, params *MaintenanceWindowsV1ListParams, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1ListResponse, error) {
+	rsp, err := c.MaintenanceWindowsV1List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseMaintenanceWindowsV1ListResponse(rsp)
+}
+
+// MaintenanceWindowsV1CreateWithBodyWithResponse request with arbitrary body returning *MaintenanceWindowsV1CreateResponse
+func (c *ClientWithResponses) MaintenanceWindowsV1CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1CreateResponse, error) {
+	rsp, err := c.MaintenanceWindowsV1CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseMaintenanceWindowsV1CreateResponse(rsp)
+}
+
+func (c *ClientWithResponses) MaintenanceWindowsV1CreateWithResponse(ctx context.Context, body MaintenanceWindowsV1CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1CreateResponse, error) {
+	rsp, err := c.MaintenanceWindowsV1Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseMaintenanceWindowsV1CreateResponse(rsp)
+}
+
+// MaintenanceWindowsV1DeleteWithResponse request returning *MaintenanceWindowsV1DeleteResponse
+func (c *ClientWithResponses) MaintenanceWindowsV1DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1DeleteResponse, error) {
+	rsp, err := c.MaintenanceWindowsV1Delete(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseMaintenanceWindowsV1DeleteResponse(rsp)
+}
+
+// MaintenanceWindowsV1ShowWithResponse request returning *MaintenanceWindowsV1ShowResponse
+func (c *ClientWithResponses) MaintenanceWindowsV1ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1ShowResponse, error) {
+	rsp, err := c.MaintenanceWindowsV1Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseMaintenanceWindowsV1ShowResponse(rsp)
+}
+
+// MaintenanceWindowsV1UpdateWithBodyWithResponse request with arbitrary body returning *MaintenanceWindowsV1UpdateResponse
+func (c *ClientWithResponses) MaintenanceWindowsV1UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1UpdateResponse, error) {
+	rsp, err := c.MaintenanceWindowsV1UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseMaintenanceWindowsV1UpdateResponse(rsp)
+}
+
+func (c *ClientWithResponses) MaintenanceWindowsV1UpdateWithResponse(ctx context.Context, id string, body MaintenanceWindowsV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1UpdateResponse, error) {
+	rsp, err := c.MaintenanceWindowsV1Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseMaintenanceWindowsV1UpdateResponse(rsp)
+}
+
 // UtilitiesV1OpenAPIWithResponse request returning *UtilitiesV1OpenAPIResponse
 func (c *ClientWithResponses) UtilitiesV1OpenAPIWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilitiesV1OpenAPIResponse, error) {
 	rsp, err := c.UtilitiesV1OpenAPI(ctx, reqEditors...)
@@ -24262,6 +25038,126 @@ func ParseIPAllowlistsV1UpdateIPAllowlistResponse(rsp *http.Response) (*IPAllowl
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest IPAllowlistsUpdateIPAllowlistResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseMaintenanceWindowsV1ListResponse parses an HTTP response from a MaintenanceWindowsV1ListWithResponse call
+func ParseMaintenanceWindowsV1ListResponse(rsp *http.Response) (*MaintenanceWindowsV1ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &MaintenanceWindowsV1ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest MaintenanceWindowsListResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseMaintenanceWindowsV1CreateResponse parses an HTTP response from a MaintenanceWindowsV1CreateWithResponse call
+func ParseMaintenanceWindowsV1CreateResponse(rsp *http.Response) (*MaintenanceWindowsV1CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &MaintenanceWindowsV1CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest MaintenanceWindowsCreateResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseMaintenanceWindowsV1DeleteResponse parses an HTTP response from a MaintenanceWindowsV1DeleteWithResponse call
+func ParseMaintenanceWindowsV1DeleteResponse(rsp *http.Response) (*MaintenanceWindowsV1DeleteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &MaintenanceWindowsV1DeleteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseMaintenanceWindowsV1ShowResponse parses an HTTP response from a MaintenanceWindowsV1ShowWithResponse call
+func ParseMaintenanceWindowsV1ShowResponse(rsp *http.Response) (*MaintenanceWindowsV1ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &MaintenanceWindowsV1ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest MaintenanceWindowsShowResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseMaintenanceWindowsV1UpdateResponse parses an HTTP response from a MaintenanceWindowsV1UpdateWithResponse call
+func ParseMaintenanceWindowsV1UpdateResponse(rsp *http.Response) (*MaintenanceWindowsV1UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &MaintenanceWindowsV1UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest MaintenanceWindowsUpdateResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
