@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.32.0
+
+- Add `incident_maintenance_window` resources to create maintenance windows
+
 ## v5.31.0
 
 - Add support for `repeat_config` on escalation paths
