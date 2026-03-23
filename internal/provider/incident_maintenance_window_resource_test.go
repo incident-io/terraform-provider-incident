@@ -2,6 +2,7 @@ package provider
 
 import (
 	"bytes"
+	"context"
 	"os"
 	"regexp"
 	"testing"
@@ -11,14 +12,34 @@ import (
 	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
+	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
 func testAccMaintenanceWindowLeadUserID() string {
 	if id := os.Getenv("TF_ACC_LEAD_USER_ID"); id != "" {
 		return id
 	}
-	// Default to a known user ID in the integration test workspace.
-	return "01JPDX7TN2Y3FS8DG3N1G8G0ZX"
+
+	apiKey := os.Getenv("INCIDENT_API_KEY")
+	endpoint := os.Getenv("INCIDENT_ENDPOINT")
+	if endpoint == "" {
+		endpoint = "https://api.incident.io"
+	}
+
+	c, err := client.New(context.Background(), apiKey, endpoint, "test")
+	if err != nil {
+		panic("error creating client to fetch lead user ID: " + err.Error())
+	}
+
+	result, err := c.UsersV2ListWithResponse(context.Background(), &client.UsersV2ListParams{})
+	if err != nil {
+		panic("error listing users: " + err.Error())
+	}
+	if result.JSON200 == nil || len(result.JSON200.Users) == 0 {
+		panic("no users found in test workspace")
+	}
+
+	return result.JSON200.Users[0].Id
 }
 
 func TestAccIncidentMaintenanceWindowResource(t *testing.T) {
