@@ -38,7 +38,7 @@ type IncidentAlertSourcesDataSourceItemModel struct {
 	Name           types.String                        `tfsdk:"name"`
 	SourceType     types.String                        `tfsdk:"source_type"`
 	SecretToken    types.String                        `tfsdk:"secret_token"`
-	AlertEventsUrl types.String                        `tfsdk:"alert_events_url"`
+	AlertEventsURL types.String                        `tfsdk:"alert_events_url"`
 	Template       *models.AlertTemplateModel          `tfsdk:"template"`
 	JiraOptions    *models.AlertSourceJiraOptionsModel `tfsdk:"jira_options"`
 	EmailAddress   types.String                        `tfsdk:"email_address"`
@@ -119,7 +119,7 @@ func (d *IncidentAlertSourcesDataSource) buildItemModel(source client.AlertSourc
 		Name:           types.StringValue(source.Name),
 		SourceType:     types.StringValue(string(source.SourceType)),
 		SecretToken:    types.StringPointerValue(source.SecretToken),
-		AlertEventsUrl: types.StringPointerValue(source.AlertEventsUrl),
+		AlertEventsURL: types.StringPointerValue(source.AlertEventsUrl),
 		Template: &models.AlertTemplateModel{
 			Title:          models.IncidentEngineParamBindingValue{}.FromAPI(source.Template.Title),
 			Description:    models.IncidentEngineParamBindingValue{}.FromAPI(source.Template.Description),
