@@ -32,6 +32,7 @@ Use this data source to retrieve information about an existing escalation path b
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -45,6 +46,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--delay"></a>
+### Nested Schema for `path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else"></a>
 ### Nested Schema for `path.if_else`
@@ -97,6 +108,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -110,6 +122,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else`
@@ -162,6 +184,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -175,6 +198,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else`
@@ -227,6 +260,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -240,6 +274,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else`
@@ -292,6 +336,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -304,6 +349,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.level`
@@ -375,6 +430,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -387,6 +443,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.level`
@@ -524,6 +590,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -537,6 +604,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else`
@@ -589,6 +666,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -601,6 +679,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.level`
@@ -672,6 +760,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -684,6 +773,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.level`
@@ -887,6 +986,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -900,6 +1000,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else`
@@ -952,6 +1062,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -965,6 +1076,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else`
@@ -1017,6 +1138,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1029,6 +1151,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.level`
@@ -1100,6 +1232,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1112,6 +1245,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.level`
@@ -1249,6 +1392,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1262,6 +1406,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else`
@@ -1314,6 +1468,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1326,6 +1481,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.level`
@@ -1397,6 +1562,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1409,6 +1575,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.level`
@@ -1678,6 +1854,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1691,6 +1868,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else`
@@ -1743,6 +1930,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1756,6 +1944,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else`
@@ -1808,6 +2006,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1821,6 +2020,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else`
@@ -1873,6 +2082,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1885,6 +2095,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.level`
@@ -1956,6 +2176,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1968,6 +2189,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.level`
@@ -2105,6 +2336,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2118,6 +2350,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else`
@@ -2170,6 +2412,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2182,6 +2425,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.level`
@@ -2253,6 +2506,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2265,6 +2519,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.level`
@@ -2468,6 +2732,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2481,6 +2746,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else`
@@ -2533,6 +2808,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2546,6 +2822,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else`
@@ -2598,6 +2884,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2610,6 +2897,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.level`
@@ -2681,6 +2978,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2693,6 +2991,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.level`
@@ -2830,6 +3138,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2843,6 +3152,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else`
@@ -2895,6 +3214,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2907,6 +3227,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.level`
@@ -2978,6 +3308,7 @@ Read-Only:
 
 Read-Only:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2990,6 +3321,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
+
+Read-Only:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.level`

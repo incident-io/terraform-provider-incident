@@ -288,6 +288,24 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 					},
 				},
 			},
+			"delay": schema.SingleNestedAttribute{
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "delay"),
+				Attributes: map[string]schema.Attribute{
+					"time_to_ack_seconds": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeDelayV2", "time_to_ack_seconds"),
+					},
+					"time_to_ack_interval_condition": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeDelayV2", "time_to_ack_interval_condition"),
+					},
+					"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeDelayV2", "time_to_ack_weekday_interval_config_id"),
+					},
+				},
+			},
 		},
 	}
 
