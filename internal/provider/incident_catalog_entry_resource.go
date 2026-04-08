@@ -266,7 +266,7 @@ func (r *IncidentCatalogEntryResource) Read(ctx context.Context, req resource.Re
 		return
 	}
 
-	result, err := r.client.CatalogV3ShowEntryWithResponse(ctx, data.ID.ValueString())
+	result, err := r.client.CatalogV3ShowEntryWithResponse(ctx, data.ID.ValueString(), nil)
 	if err != nil {
 		// Check if error message contains any indication of a 404 not found
 		httpErr := client.HTTPError{}

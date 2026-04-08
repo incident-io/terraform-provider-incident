@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add `alert_events_url` to alert source resource and data source
+
 ## v5.32.0
 
 - Add `incident_maintenance_window` resources to create maintenance windows

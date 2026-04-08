@@ -138,7 +138,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 
 ### Optional
 
-- `auto_resolve_incident_alerts` (Boolean) Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true.
+- `auto_resolve_incident_alerts` (Boolean) Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true. Only use in conjunction with auto_resolve_timeout_minutes.
 - `auto_resolve_timeout_minutes` (Number) When set, alerts from this source will automatically resolve after this many minutes.
 - `email_address` (String) Email address this alert source receives alerts to
 - `http_custom_options` (Attributes) (see [below for nested schema](#nestedatt--http_custom_options))
@@ -147,6 +147,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 
 ### Read-Only
 
+- `alert_events_url` (String) URL that can be used to send alert events to this source. This is only set for sources that accept webhook/HTTP events; email sources use the email_address field, and integration-based sources (like Jira) receive events through their native integrations.
 - `id` (String) The ID of this alert source
 - `secret_token` (String) Secret token used to authenticate this source, if applicable. If applicable, this is the token that must be included in either the query string or the 'Authorization' header when sending events to this alert source.
 

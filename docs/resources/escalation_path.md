@@ -148,6 +148,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -218,6 +219,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -288,6 +290,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -358,6 +361,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -428,6 +432,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -528,6 +533,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -709,6 +715,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -779,6 +786,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -879,6 +887,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -1141,6 +1150,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -1211,6 +1221,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -1281,6 +1292,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -1381,6 +1393,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -1562,6 +1575,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -1632,6 +1646,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -1732,6 +1747,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -2075,6 +2091,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -2145,6 +2162,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -2215,6 +2233,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -2285,6 +2304,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -2385,6 +2405,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -2566,6 +2587,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -2636,6 +2658,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -2736,6 +2759,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -2998,6 +3022,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -3068,6 +3093,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -3138,6 +3164,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -3238,6 +3265,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -3419,6 +3447,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -3489,6 +3518,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
@@ -3589,6 +3619,7 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
