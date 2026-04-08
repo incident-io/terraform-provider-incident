@@ -47,6 +47,7 @@ type IncidentEscalationPathResourceModel struct {
 type IncidentEscalationPathNode struct {
 	ID            types.String                             `tfsdk:"id"`
 	Type          types.String                             `tfsdk:"type"`
+	Delay         *IncidentEscalationPathNodeDelay         `tfsdk:"delay"`
 	IfElse        *IncidentEscalationPathNodeIfElse        `tfsdk:"if_else"`
 	Level         *IncidentEscalationPathNodeLevel         `tfsdk:"level"`
 	Repeat        *IncidentEscalationPathNodeRepeat        `tfsdk:"repeat"`
@@ -74,6 +75,12 @@ type IncidentEscalationPathNodeNotifyChannel struct {
 	TimeToAckIntervalCondition       types.String                   `tfsdk:"time_to_ack_interval_condition"`
 	TimeToAckSeconds                 types.Int64                    `tfsdk:"time_to_ack_seconds"`
 	TimeToAckWeekdayIntervalConfigID types.String                   `tfsdk:"time_to_ack_weekday_interval_config_id"`
+}
+
+type IncidentEscalationPathNodeDelay struct {
+	TimeToAckIntervalCondition       types.String `tfsdk:"time_to_ack_interval_condition"`
+	TimeToAckSeconds                 types.Int64  `tfsdk:"time_to_ack_seconds"`
+	TimeToAckWeekdayIntervalConfigID types.String `tfsdk:"time_to_ack_weekday_interval_config_id"`
 }
 
 type IncidentEscalationPathNodeRepeat struct {
@@ -300,6 +307,26 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 					"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
 						MarkdownDescription: apischema.Docstring(
 							"EscalationPathNodeNotifyChannelV2", "time_to_ack_weekday_interval_config_id"),
+						Optional: true,
+					},
+				},
+			},
+			"delay": schema.SingleNestedAttribute{
+				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "delay"),
+				Optional:            true,
+				Attributes: map[string]schema.Attribute{
+					"time_to_ack_seconds": schema.Int64Attribute{
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeDelayV2", "time_to_ack_seconds"),
+						Optional:            true,
+					},
+					"time_to_ack_interval_condition": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring(
+							"EscalationPathNodeDelayV2", "time_to_ack_interval_condition"),
+						Optional: true,
+					},
+					"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring(
+							"EscalationPathNodeDelayV2", "time_to_ack_weekday_interval_config_id"),
 						Optional: true,
 					},
 				},
