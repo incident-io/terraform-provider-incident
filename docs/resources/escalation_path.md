@@ -148,9 +148,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -158,6 +160,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--repeat))
+
+<a id="nestedatt--path--delay"></a>
+### Nested Schema for `path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else"></a>
 ### Nested Schema for `path.if_else`
@@ -218,9 +230,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -228,6 +242,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else`
@@ -288,9 +312,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -298,6 +324,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else`
@@ -358,9 +394,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -368,6 +406,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else`
@@ -428,15 +476,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.level`
@@ -528,15 +588,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.level`
@@ -709,9 +781,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -719,6 +793,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else`
@@ -779,15 +863,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.level`
@@ -879,15 +975,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.level`
@@ -1141,9 +1249,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1151,6 +1261,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else`
@@ -1211,9 +1331,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1221,6 +1343,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else`
@@ -1281,15 +1413,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.level`
@@ -1381,15 +1525,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.level`
@@ -1562,9 +1718,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -1572,6 +1730,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else`
@@ -1632,15 +1800,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.level`
@@ -1732,15 +1912,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.level`
@@ -2075,9 +2267,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2085,6 +2279,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else`
@@ -2145,9 +2349,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2155,6 +2361,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else`
@@ -2215,9 +2431,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2225,6 +2443,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else`
@@ -2285,15 +2513,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.level`
@@ -2385,15 +2625,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.level`
@@ -2566,9 +2818,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -2576,6 +2830,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else`
@@ -2636,15 +2900,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.level`
@@ -2736,15 +3012,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.level`
@@ -2998,9 +3286,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -3008,6 +3298,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else`
@@ -3068,9 +3368,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -3078,6 +3380,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else`
@@ -3138,15 +3450,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.level`
@@ -3238,15 +3562,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.level`
@@ -3419,9 +3755,11 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
@@ -3429,6 +3767,16 @@ This allows you to reference the node in other nodes, such as when configuring a
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else`
@@ -3489,15 +3837,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.level`
@@ -3589,15 +3949,27 @@ Required:
 * notify_channel: Send the escalation to a Slack channel, where it can be acked by anyone in the channel.
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
+* delay: Pause the escalation for a configured duration before advancing to the next node.
 
 Optional:
 
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--delay))
 - `id` (String) An ID for this node, unique within the escalation path.
 
 This allows you to reference the node in other nodes, such as when configuring a 'repeat' node.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level))
 - `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--notify_channel))
 - `repeat` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--repeat))
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
+
+Optional:
+
+- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.level`

@@ -305,7 +305,7 @@ func TestAccIncidentCatalogEntryResourceManagedAttributesDestroy(t *testing.T) {
 		}
 
 		// Fetch the entry directly from the API
-		entry, err := testClient.CatalogV3ShowEntryWithResponse(context.Background(), entryID)
+		entry, err := testClient.CatalogV3ShowEntryWithResponse(context.Background(), entryID, nil)
 		if err != nil {
 			return fmt.Errorf("error fetching catalog entry: %w", err)
 		}

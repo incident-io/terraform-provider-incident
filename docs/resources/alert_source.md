@@ -138,7 +138,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 
 ### Optional
 
-- `auto_resolve_incident_alerts` (Boolean) Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true.
+- `auto_resolve_incident_alerts` (Boolean) Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true. Only use in conjunction with auto_resolve_timeout_minutes.
 - `auto_resolve_timeout_minutes` (Number) When set, alerts from this source will automatically resolve after this many minutes.
 - `email_address` (String) Email address this alert source receives alerts to
 - `http_custom_options` (Attributes) (see [below for nested schema](#nestedatt--http_custom_options))
