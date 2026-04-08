@@ -209,6 +209,13 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"alert_events_url": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV2", "alert_events_url"),
+				PlanModifiers: []planmodifier.String{
+					useStateForUnknownIncludingNull{},
+				},
+			},
 			"template": schema.SingleNestedAttribute{
 				Required:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV2", "template"),

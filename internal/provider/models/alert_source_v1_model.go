@@ -13,6 +13,7 @@ type AlertSourceResourceModel struct {
 	Name                      types.String                       `tfsdk:"name"`
 	SourceType                types.String                       `tfsdk:"source_type"`
 	SecretToken               types.String                       `tfsdk:"secret_token"`
+	AlertEventsURL            types.String                       `tfsdk:"alert_events_url"`
 	Template                  *AlertTemplateModel                `tfsdk:"template"`
 	JiraOptions               *AlertSourceJiraOptionsModel       `tfsdk:"jira_options"`
 	EmailAddress              types.String                       `tfsdk:"email_address"`
@@ -44,10 +45,11 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 	}
 
 	return AlertSourceResourceModel{
-		ID:          types.StringValue(source.Id),
-		Name:        types.StringValue(source.Name),
-		SourceType:  types.StringValue(string(source.SourceType)),
-		SecretToken: types.StringPointerValue(source.SecretToken),
+		ID:             types.StringValue(source.Id),
+		Name:           types.StringValue(source.Name),
+		SourceType:     types.StringValue(string(source.SourceType)),
+		SecretToken:    types.StringPointerValue(source.SecretToken),
+		AlertEventsURL: types.StringPointerValue(source.AlertEventsUrl),
 		Template: &AlertTemplateModel{
 			Title:          IncidentEngineParamBindingValue{}.FromAPI(source.Template.Title),
 			Description:    IncidentEngineParamBindingValue{}.FromAPI(source.Template.Description),

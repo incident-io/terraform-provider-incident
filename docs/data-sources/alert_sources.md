@@ -113,6 +113,7 @@ output "alert_source_lookup" {
 
 Read-Only:
 
+- `alert_events_url` (String) URL that can be used to send alert events to this source. This is only set for sources that accept webhook/HTTP events; email sources use the email_address field, and integration-based sources (like Jira) receive events through their native integrations.
 - `email_address` (String) Email address this alert source receives alerts to
 - `id` (String) The ID of this alert source
 - `jira_options` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--jira_options))

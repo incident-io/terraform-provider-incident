@@ -34,13 +34,14 @@ type IncidentAlertSourcesDataSourceModel struct {
 }
 
 type IncidentAlertSourcesDataSourceItemModel struct {
-	ID           types.String                        `tfsdk:"id"`
-	Name         types.String                        `tfsdk:"name"`
-	SourceType   types.String                        `tfsdk:"source_type"`
-	SecretToken  types.String                        `tfsdk:"secret_token"`
-	Template     *models.AlertTemplateModel          `tfsdk:"template"`
-	JiraOptions  *models.AlertSourceJiraOptionsModel `tfsdk:"jira_options"`
-	EmailAddress types.String                        `tfsdk:"email_address"`
+	ID             types.String                        `tfsdk:"id"`
+	Name           types.String                        `tfsdk:"name"`
+	SourceType     types.String                        `tfsdk:"source_type"`
+	SecretToken    types.String                        `tfsdk:"secret_token"`
+	AlertEventsURL types.String                        `tfsdk:"alert_events_url"`
+	Template       *models.AlertTemplateModel          `tfsdk:"template"`
+	JiraOptions    *models.AlertSourceJiraOptionsModel `tfsdk:"jira_options"`
+	EmailAddress   types.String                        `tfsdk:"email_address"`
 }
 
 func (d *IncidentAlertSourcesDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
@@ -114,10 +115,11 @@ func (d *IncidentAlertSourcesDataSource) buildItemModel(source client.AlertSourc
 	}
 
 	return &IncidentAlertSourcesDataSourceItemModel{
-		ID:          types.StringValue(source.Id),
-		Name:        types.StringValue(source.Name),
-		SourceType:  types.StringValue(string(source.SourceType)),
-		SecretToken: types.StringPointerValue(source.SecretToken),
+		ID:             types.StringValue(source.Id),
+		Name:           types.StringValue(source.Name),
+		SourceType:     types.StringValue(string(source.SourceType)),
+		SecretToken:    types.StringPointerValue(source.SecretToken),
+		AlertEventsURL: types.StringPointerValue(source.AlertEventsUrl),
 		Template: &models.AlertTemplateModel{
 			Title:          models.IncidentEngineParamBindingValue{}.FromAPI(source.Template.Title),
 			Description:    models.IncidentEngineParamBindingValue{}.FromAPI(source.Template.Description),
@@ -160,6 +162,10 @@ func (d *IncidentAlertSourcesDataSource) Schema(ctx context.Context, req datasou
 							Computed:            true,
 							MarkdownDescription: apischema.Docstring("AlertSourceV2", "secret_token"),
 							Sensitive:           true,
+						},
+						"alert_events_url": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: apischema.Docstring("AlertSourceV2", "alert_events_url"),
 						},
 						"template": schema.SingleNestedAttribute{
 							Computed:            true,
