@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.34.0
+
 - Add support for `delay` nodes on escalation paths
 
 ## v5.33.0
