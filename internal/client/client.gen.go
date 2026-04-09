@@ -804,10 +804,10 @@ const (
 	EscalationEventV2UrgencyLow  EscalationEventV2Urgency = "low"
 )
 
-// Defines values for EscalationPathNodeDelayV2TimeToAckIntervalCondition.
+// Defines values for EscalationPathNodeDelayV2DelayIntervalCondition.
 const (
-	EscalationPathNodeDelayV2TimeToAckIntervalConditionActive   EscalationPathNodeDelayV2TimeToAckIntervalCondition = "active"
-	EscalationPathNodeDelayV2TimeToAckIntervalConditionInactive EscalationPathNodeDelayV2TimeToAckIntervalCondition = "inactive"
+	EscalationPathNodeDelayV2DelayIntervalConditionActive   EscalationPathNodeDelayV2DelayIntervalCondition = "active"
+	EscalationPathNodeDelayV2DelayIntervalConditionInactive EscalationPathNodeDelayV2DelayIntervalCondition = "inactive"
 )
 
 // Defines values for EscalationPathNodeLevelV2AckMode.
@@ -1224,11 +1224,38 @@ const (
 
 // Defines values for OnCallNotificationMethodPublicV2MethodType.
 const (
-	App            OnCallNotificationMethodPublicV2MethodType = "app"
-	Email          OnCallNotificationMethodPublicV2MethodType = "email"
-	MicrosoftTeams OnCallNotificationMethodPublicV2MethodType = "microsoft_teams"
-	Phone          OnCallNotificationMethodPublicV2MethodType = "phone"
-	Slack          OnCallNotificationMethodPublicV2MethodType = "slack"
+	OnCallNotificationMethodPublicV2MethodTypeApp            OnCallNotificationMethodPublicV2MethodType = "app"
+	OnCallNotificationMethodPublicV2MethodTypeEmail          OnCallNotificationMethodPublicV2MethodType = "email"
+	OnCallNotificationMethodPublicV2MethodTypeMicrosoftTeams OnCallNotificationMethodPublicV2MethodType = "microsoft_teams"
+	OnCallNotificationMethodPublicV2MethodTypePhone          OnCallNotificationMethodPublicV2MethodType = "phone"
+	OnCallNotificationMethodPublicV2MethodTypeSlack          OnCallNotificationMethodPublicV2MethodType = "slack"
+)
+
+// Defines values for OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticality.
+const (
+	OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticalityActive   OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticality = "active"
+	OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticalityCritical OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticality = "critical"
+)
+
+// Defines values for OnCallNotificationRuleMethodTargetPublicV2Type.
+const (
+	OnCallNotificationRuleMethodTargetPublicV2TypeAll      OnCallNotificationRuleMethodTargetPublicV2Type = "all"
+	OnCallNotificationRuleMethodTargetPublicV2TypeSpecific OnCallNotificationRuleMethodTargetPublicV2Type = "specific"
+)
+
+// Defines values for OnCallNotificationRulePublicV2MethodType.
+const (
+	OnCallNotificationRulePublicV2MethodTypeApp            OnCallNotificationRulePublicV2MethodType = "app"
+	OnCallNotificationRulePublicV2MethodTypeEmail          OnCallNotificationRulePublicV2MethodType = "email"
+	OnCallNotificationRulePublicV2MethodTypeMicrosoftTeams OnCallNotificationRulePublicV2MethodType = "microsoft_teams"
+	OnCallNotificationRulePublicV2MethodTypePhone          OnCallNotificationRulePublicV2MethodType = "phone"
+	OnCallNotificationRulePublicV2MethodTypeSlack          OnCallNotificationRulePublicV2MethodType = "slack"
+)
+
+// Defines values for OnCallNotificationRulePublicV2RuleType.
+const (
+	HighUrgency OnCallNotificationRulePublicV2RuleType = "high_urgency"
+	LowUrgency  OnCallNotificationRulePublicV2RuleType = "low_urgency"
 )
 
 // Defines values for PostmortemDocumentV1Status.
@@ -1554,9 +1581,9 @@ const (
 
 // Defines values for MaintenanceWindowsV1ListParamsStatus.
 const (
-	Active   MaintenanceWindowsV1ListParamsStatus = "active"
-	Past     MaintenanceWindowsV1ListParamsStatus = "past"
-	Upcoming MaintenanceWindowsV1ListParamsStatus = "upcoming"
+	MaintenanceWindowsV1ListParamsStatusActive   MaintenanceWindowsV1ListParamsStatus = "active"
+	MaintenanceWindowsV1ListParamsStatusPast     MaintenanceWindowsV1ListParamsStatus = "past"
+	MaintenanceWindowsV1ListParamsStatusUpcoming MaintenanceWindowsV1ListParamsStatus = "upcoming"
 )
 
 // Defines values for PostmortemDocumentsV1ListParamsSortBy.
@@ -1591,8 +1618,8 @@ const (
 
 // Defines values for IncidentsV2ListParamsFilterMode.
 const (
-	All IncidentsV2ListParamsFilterMode = "all"
-	Any IncidentsV2ListParamsFilterMode = "any"
+	IncidentsV2ListParamsFilterModeAll IncidentsV2ListParamsFilterMode = "all"
+	IncidentsV2ListParamsFilterModeAny IncidentsV2ListParamsFilterMode = "any"
 )
 
 // APIKeyActorV1 defines model for APIKeyActorV1.
@@ -2478,6 +2505,9 @@ type AlertSourceJiraOptionsV2 struct {
 
 // AlertSourceV2 defines model for AlertSourceV2.
 type AlertSourceV2 struct {
+	// AlertEventsUrl URL that can be used to send alert events to this source. This is only set for sources that accept webhook/HTTP events; email sources use the email_address field, and integration-based sources (like Jira) receive events through their native integrations.
+	AlertEventsUrl *string `json:"alert_events_url,omitempty"`
+
 	// AutoResolveIncidentAlerts Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true. Only use in conjunction with auto_resolve_timeout_minutes.
 	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
 
@@ -4267,18 +4297,18 @@ type EscalationEventV2Urgency string
 
 // EscalationPathNodeDelayV2 defines model for EscalationPathNodeDelayV2.
 type EscalationPathNodeDelayV2 struct {
-	// TimeToAckIntervalCondition If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-	TimeToAckIntervalCondition *EscalationPathNodeDelayV2TimeToAckIntervalCondition `json:"time_to_ack_interval_condition,omitempty"`
+	// DelayIntervalCondition If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+	DelayIntervalCondition *EscalationPathNodeDelayV2DelayIntervalCondition `json:"delay_interval_condition,omitempty"`
 
-	// TimeToAckSeconds How long to delay before advancing to the next node in the path, in seconds
-	TimeToAckSeconds *int64 `json:"time_to_ack_seconds,omitempty"`
+	// DelaySeconds How long to delay before advancing to the next node in the path, in seconds
+	DelaySeconds *int64 `json:"delay_seconds,omitempty"`
 
-	// TimeToAckWeekdayIntervalConfigId If the delay is relative to a time window, this identifies which window it is relative to
-	TimeToAckWeekdayIntervalConfigId *string `json:"time_to_ack_weekday_interval_config_id,omitempty"`
+	// DelayWeekdayIntervalConfigId If the delay is relative to a time window, this identifies which window it is relative to
+	DelayWeekdayIntervalConfigId *string `json:"delay_weekday_interval_config_id,omitempty"`
 }
 
-// EscalationPathNodeDelayV2TimeToAckIntervalCondition If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-type EscalationPathNodeDelayV2TimeToAckIntervalCondition string
+// EscalationPathNodeDelayV2DelayIntervalCondition If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+type EscalationPathNodeDelayV2DelayIntervalCondition string
 
 // EscalationPathNodeIfElsePayloadV2 defines model for EscalationPathNodeIfElsePayloadV2.
 type EscalationPathNodeIfElsePayloadV2 struct {
@@ -6235,6 +6265,60 @@ type OnCallNotificationMethodPublicV2 struct {
 // OnCallNotificationMethodPublicV2MethodType The type of notification method. Phone methods do not differentiate between voice call and SMS.
 type OnCallNotificationMethodPublicV2MethodType string
 
+// OnCallNotificationRuleAppDetailsPublicV2 defines model for OnCallNotificationRuleAppDetailsPublicV2.
+type OnCallNotificationRuleAppDetailsPublicV2 struct {
+	// PushNotificationCriticality Controls the interruption level of push notifications. 'critical' bypasses Do Not Disturb, 'active' respects it.
+	PushNotificationCriticality OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticality `json:"push_notification_criticality"`
+}
+
+// OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticality Controls the interruption level of push notifications. 'critical' bypasses Do Not Disturb, 'active' respects it.
+type OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticality string
+
+// OnCallNotificationRuleMethodTargetAllPublicV2 defines model for OnCallNotificationRuleMethodTargetAllPublicV2.
+type OnCallNotificationRuleMethodTargetAllPublicV2 = map[string]interface{}
+
+// OnCallNotificationRuleMethodTargetPublicV2 defines model for OnCallNotificationRuleMethodTargetPublicV2.
+type OnCallNotificationRuleMethodTargetPublicV2 struct {
+	All      *OnCallNotificationRuleMethodTargetAllPublicV2      `json:"all,omitempty"`
+	Specific *OnCallNotificationRuleMethodTargetSpecificPublicV2 `json:"specific,omitempty"`
+
+	// Type Whether this targets a specific method or all methods of a given type.
+	Type OnCallNotificationRuleMethodTargetPublicV2Type `json:"type"`
+}
+
+// OnCallNotificationRuleMethodTargetPublicV2Type Whether this targets a specific method or all methods of a given type.
+type OnCallNotificationRuleMethodTargetPublicV2Type string
+
+// OnCallNotificationRuleMethodTargetSpecificPublicV2 defines model for OnCallNotificationRuleMethodTargetSpecificPublicV2.
+type OnCallNotificationRuleMethodTargetSpecificPublicV2 struct {
+	// Id The ID of the notification method. References a method from the notification methods list.
+	Id string `json:"id"`
+}
+
+// OnCallNotificationRulePublicV2 defines model for OnCallNotificationRulePublicV2.
+type OnCallNotificationRulePublicV2 struct {
+	App *OnCallNotificationRuleAppDetailsPublicV2 `json:"app,omitempty"`
+
+	// DelaySeconds Delay in seconds before this rule activates. 0 means immediate.
+	DelaySeconds *int64 `json:"delay_seconds,omitempty"`
+
+	// Id Unique identifier for this notification rule
+	Id           string                                     `json:"id"`
+	MethodTarget OnCallNotificationRuleMethodTargetPublicV2 `json:"method_target"`
+
+	// MethodType The type of notification method. Phone methods do not differentiate between voice call and SMS.
+	MethodType OnCallNotificationRulePublicV2MethodType `json:"method_type"`
+
+	// RuleType The urgency level this rule applies to
+	RuleType OnCallNotificationRulePublicV2RuleType `json:"rule_type"`
+}
+
+// OnCallNotificationRulePublicV2MethodType The type of notification method. Phone methods do not differentiate between voice call and SMS.
+type OnCallNotificationRulePublicV2MethodType string
+
+// OnCallNotificationRulePublicV2RuleType The urgency level this rule applies to
+type OnCallNotificationRulePublicV2RuleType string
+
 // PaginationMetaResultV1 defines model for PaginationMetaResultV1.
 type PaginationMetaResultV1 struct {
 	// After If provided, pass this as the 'after' param to load the next page
@@ -6765,7 +6849,7 @@ type ScheduleV2 struct {
 	Config      *ScheduleConfigV2 `json:"config,omitempty"`
 	CreatedAt   time.Time         `json:"created_at"`
 
-	// CurrentShifts Shifts that are on-going for this schedule, if a native schedule
+	// CurrentShifts Shifts that are ongoing for this schedule
 	CurrentShifts        *[]ScheduleEntryV2              `json:"current_shifts,omitempty"`
 	HolidaysPublicConfig *ScheduleHolidaysPublicConfigV2 `json:"holidays_public_config,omitempty"`
 
@@ -6774,6 +6858,9 @@ type ScheduleV2 struct {
 
 	// Name Human readable name synced from external provider
 	Name string `json:"name"`
+
+	// NextShifts The shifts after the next changeover. Note that on the list schedules endpoint, this will always be empty if the page size requested is greater than 25.
+	NextShifts *[]ScheduleEntryV2 `json:"next_shifts,omitempty"`
 
 	// TeamIds IDs of teams that own this schedule
 	TeamIds []string `json:"team_ids"`
@@ -7609,6 +7696,11 @@ type UsersListNotificationMethodsResultV2 struct {
 	NotificationMethods []OnCallNotificationMethodPublicV2 `json:"notification_methods"`
 }
 
+// UsersListNotificationRulesResultV2 defines model for UsersListNotificationRulesResultV2.
+type UsersListNotificationRulesResultV2 struct {
+	NotificationRules []OnCallNotificationRulePublicV2 `json:"notification_rules"`
+}
+
 // UsersListResultV2 defines model for UsersListResultV2.
 type UsersListResultV2 struct {
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
@@ -8260,7 +8352,7 @@ type SchedulesV2ListScheduleEntriesParams struct {
 
 // SchedulesV2ListParams defines parameters for SchedulesV2List.
 type SchedulesV2ListParams struct {
-	// PageSize Integer number of records to return
+	// PageSize Note that next_shifts will only be returned when the page size is 25 or lower.
 	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// After A schedule's ID. This endpoint will return a list of schedules after this ID in relation to the API response order.
@@ -9193,6 +9285,9 @@ type ClientInterface interface {
 
 	// UsersV2ListNotificationMethods request
 	UsersV2ListNotificationMethods(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UsersV2ListNotificationRules request
+	UsersV2ListNotificationRules(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// WorkflowsV2ListWorkflows request
 	WorkflowsV2ListWorkflows(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -11685,6 +11780,18 @@ func (c *Client) UsersV2Show(ctx context.Context, id string, reqEditors ...Reque
 
 func (c *Client) UsersV2ListNotificationMethods(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUsersV2ListNotificationMethodsRequest(c.Server, userId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UsersV2ListNotificationRules(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUsersV2ListNotificationRulesRequest(c.Server, userId)
 	if err != nil {
 		return nil, err
 	}
@@ -19057,6 +19164,40 @@ func NewUsersV2ListNotificationMethodsRequest(server string, userId string) (*ht
 	return req, nil
 }
 
+// NewUsersV2ListNotificationRulesRequest generates requests for UsersV2ListNotificationRules
+func NewUsersV2ListNotificationRulesRequest(server string, userId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "user_id", runtime.ParamLocationPath, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/users/%s/notification_rules", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewWorkflowsV2ListWorkflowsRequest generates requests for WorkflowsV2ListWorkflows
 func NewWorkflowsV2ListWorkflowsRequest(server string) (*http.Request, error) {
 	var err error
@@ -20516,6 +20657,9 @@ type ClientWithResponsesInterface interface {
 
 	// UsersV2ListNotificationMethodsWithResponse request
 	UsersV2ListNotificationMethodsWithResponse(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*UsersV2ListNotificationMethodsResponse, error)
+
+	// UsersV2ListNotificationRulesWithResponse request
+	UsersV2ListNotificationRulesWithResponse(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*UsersV2ListNotificationRulesResponse, error)
 
 	// WorkflowsV2ListWorkflowsWithResponse request
 	WorkflowsV2ListWorkflowsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowsResponse, error)
@@ -23831,6 +23975,28 @@ func (r UsersV2ListNotificationMethodsResponse) StatusCode() int {
 	return 0
 }
 
+type UsersV2ListNotificationRulesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *UsersListNotificationRulesResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r UsersV2ListNotificationRulesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UsersV2ListNotificationRulesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type WorkflowsV2ListWorkflowsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -26029,6 +26195,15 @@ func (c *ClientWithResponses) UsersV2ListNotificationMethodsWithResponse(ctx con
 		return nil, err
 	}
 	return ParseUsersV2ListNotificationMethodsResponse(rsp)
+}
+
+// UsersV2ListNotificationRulesWithResponse request returning *UsersV2ListNotificationRulesResponse
+func (c *ClientWithResponses) UsersV2ListNotificationRulesWithResponse(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*UsersV2ListNotificationRulesResponse, error) {
+	rsp, err := c.UsersV2ListNotificationRules(ctx, userId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUsersV2ListNotificationRulesResponse(rsp)
 }
 
 // WorkflowsV2ListWorkflowsWithResponse request returning *WorkflowsV2ListWorkflowsResponse
@@ -29923,6 +30098,32 @@ func ParseUsersV2ListNotificationMethodsResponse(rsp *http.Response) (*UsersV2Li
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest UsersListNotificationMethodsResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUsersV2ListNotificationRulesResponse parses an HTTP response from a UsersV2ListNotificationRulesWithResponse call
+func ParseUsersV2ListNotificationRulesResponse(rsp *http.Response) (*UsersV2ListNotificationRulesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UsersV2ListNotificationRulesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest UsersListNotificationRulesResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

@@ -147,6 +147,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 
 ### Read-Only
 
+- `alert_events_url` (String) URL that can be used to send alert events to this source. This is only set for sources that accept webhook/HTTP events; email sources use the email_address field, and integration-based sources (like Jira) receive events through their native integrations.
 - `id` (String) The ID of this alert source
 - `secret_token` (String) Secret token used to authenticate this source, if applicable. If applicable, this is the token that must be included in either the query string or the 'Authorization' header when sending events to this alert source.
 
