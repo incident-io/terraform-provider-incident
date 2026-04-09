@@ -65,6 +65,12 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "path.0.if_else.else_path.1.level.time_to_ack_seconds", "300"),
 					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.2.type", "delay"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.2.delay.delay_interval_condition", "active"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.2.delay.delay_weekday_interval_config_id", "UK"),
+					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "working_hours.0.id", "UK"),
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "working_hours.0.name", "UK"),
@@ -241,6 +247,13 @@ resource "incident_escalation_path" "example" {
                 urgency  = "low"
               }]
               time_to_ack_seconds = 300
+            }
+          },
+          {
+            type = "delay"
+            delay = {
+              delay_interval_condition         = "active"
+              delay_weekday_interval_config_id = "UK"
             }
           }
         ]
