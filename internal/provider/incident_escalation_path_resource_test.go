@@ -71,6 +71,12 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "path.0.if_else.else_path.2.delay.delay_weekday_interval_config_id", "UK"),
 					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.3.type", "repeat"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.3.repeat.repeat_times", "3"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.3.repeat.to_node", "start"),
+					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "working_hours.0.id", "UK"),
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "working_hours.0.name", "UK"),
@@ -254,6 +260,13 @@ resource "incident_escalation_path" "example" {
             delay = {
               delay_interval_condition         = "active"
               delay_weekday_interval_config_id = "UK"
+            }
+          },
+          {
+            type = "repeat"
+            repeat = {
+              repeat_times = 3
+              to_node      = "start"
             }
           }
         ]

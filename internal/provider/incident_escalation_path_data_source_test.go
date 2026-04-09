@@ -197,6 +197,13 @@ resource "incident_escalation_path" "example" {
               delay_interval_condition         = "active"
               delay_weekday_interval_config_id = "UK"
             }
+          },
+          {
+            type = "repeat"
+            repeat = {
+              repeat_times = 3
+              to_node      = "start"
+            }
           }
         ]
       }
