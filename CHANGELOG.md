@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add support for `delay` nodes on escalation paths
+
 ## v5.33.0
 
 - Add `alert_events_url` to alert source resource and data source

@@ -47,6 +47,7 @@ type IncidentEscalationPathResourceModel struct {
 type IncidentEscalationPathNode struct {
 	ID            types.String                             `tfsdk:"id"`
 	Type          types.String                             `tfsdk:"type"`
+	Delay         *IncidentEscalationPathNodeDelay         `tfsdk:"delay"`
 	IfElse        *IncidentEscalationPathNodeIfElse        `tfsdk:"if_else"`
 	Level         *IncidentEscalationPathNodeLevel         `tfsdk:"level"`
 	Repeat        *IncidentEscalationPathNodeRepeat        `tfsdk:"repeat"`
@@ -74,6 +75,12 @@ type IncidentEscalationPathNodeNotifyChannel struct {
 	TimeToAckIntervalCondition       types.String                   `tfsdk:"time_to_ack_interval_condition"`
 	TimeToAckSeconds                 types.Int64                    `tfsdk:"time_to_ack_seconds"`
 	TimeToAckWeekdayIntervalConfigID types.String                   `tfsdk:"time_to_ack_weekday_interval_config_id"`
+}
+
+type IncidentEscalationPathNodeDelay struct {
+	DelayIntervalCondition       types.String `tfsdk:"delay_interval_condition"`
+	DelaySeconds                 types.Int64  `tfsdk:"delay_seconds"`
+	DelayWeekdayIntervalConfigID types.String `tfsdk:"delay_weekday_interval_config_id"`
 }
 
 type IncidentEscalationPathNodeRepeat struct {
@@ -300,6 +307,26 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 					"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
 						MarkdownDescription: apischema.Docstring(
 							"EscalationPathNodeNotifyChannelV2", "time_to_ack_weekday_interval_config_id"),
+						Optional: true,
+					},
+				},
+			},
+			"delay": schema.SingleNestedAttribute{
+				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "delay"),
+				Optional:            true,
+				Attributes: map[string]schema.Attribute{
+					"delay_seconds": schema.Int64Attribute{
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeDelayV2", "delay_seconds"),
+						Optional:            true,
+					},
+					"delay_interval_condition": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring(
+							"EscalationPathNodeDelayV2", "delay_interval_condition"),
+						Optional: true,
+					},
+					"delay_weekday_interval_config_id": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring(
+							"EscalationPathNodeDelayV2", "delay_weekday_interval_config_id"),
 						Optional: true,
 					},
 				},
@@ -644,6 +671,18 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 				elem.NotifyChannel.TimeToAckWeekdayIntervalConfigID = types.StringValue(*value)
 			}
 		}
+		if node.Delay != nil {
+			elem.Delay = &IncidentEscalationPathNodeDelay{}
+			if value := node.Delay.DelaySeconds; value != nil {
+				elem.Delay.DelaySeconds = types.Int64Value(*value)
+			}
+			if value := node.Delay.DelayIntervalCondition; value != nil {
+				elem.Delay.DelayIntervalCondition = types.StringValue(string(*value))
+			}
+			if value := node.Delay.DelayWeekdayIntervalConfigId; value != nil && *value != "" {
+				elem.Delay.DelayWeekdayIntervalConfigID = types.StringValue(*value)
+			}
+		}
 		if node.Repeat != nil {
 			elem.Repeat = &IncidentEscalationPathNodeRepeat{
 				RepeatTimes: types.Int64Value(node.Repeat.RepeatTimes),
@@ -742,6 +781,18 @@ func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalation
 					TimeToAckSeconds.ValueInt64Pointer(),
 				TimeToAckWeekdayIntervalConfigId: node.NotifyChannel.
 					TimeToAckWeekdayIntervalConfigID.ValueStringPointer(),
+			}
+		}
+		if !reflect.ValueOf(node.Delay).IsZero() {
+			var intervalCondition *client.EscalationPathNodeDelayV2DelayIntervalCondition
+			if value := node.Delay.DelayIntervalCondition.ValueStringPointer(); value != nil {
+				intervalCondition = lo.ToPtr(client.EscalationPathNodeDelayV2DelayIntervalCondition(*value))
+			}
+
+			elem.Delay = &client.EscalationPathNodeDelayV2{
+				DelayIntervalCondition:       intervalCondition,
+				DelaySeconds:                 node.Delay.DelaySeconds.ValueInt64Pointer(),
+				DelayWeekdayIntervalConfigId: node.Delay.DelayWeekdayIntervalConfigID.ValueStringPointer(),
 			}
 		}
 		if !reflect.ValueOf(node.Repeat).IsZero() {

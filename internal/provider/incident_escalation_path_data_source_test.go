@@ -52,6 +52,20 @@ func TestAccIncidentEscalationPathDataSource(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"data.incident_escalation_path.by_id", "path.0.if_else.conditions.0.operation", "is_active"),
 
+					// Verify simple delay node is returned via data source
+					resource.TestCheckResourceAttr(
+						"data.incident_escalation_path.by_id", "path.0.if_else.then_path.1.type", "delay"),
+					resource.TestCheckResourceAttr(
+						"data.incident_escalation_path.by_id", "path.0.if_else.then_path.1.delay.delay_seconds", "120"),
+
+					// Verify working hours delay node is returned via data source
+					resource.TestCheckResourceAttr(
+						"data.incident_escalation_path.by_id", "path.0.if_else.else_path.2.type", "delay"),
+					resource.TestCheckResourceAttr(
+						"data.incident_escalation_path.by_id", "path.0.if_else.else_path.2.delay.delay_interval_condition", "active"),
+					resource.TestCheckResourceAttr(
+						"data.incident_escalation_path.by_id", "path.0.if_else.else_path.2.delay.delay_weekday_interval_config_id", "UK"),
+
 					// Verify working hours are returned
 					resource.TestCheckResourceAttr(
 						"data.incident_escalation_path.by_id", "working_hours.0.id", "UK"),
@@ -141,6 +155,12 @@ resource "incident_escalation_path" "example" {
             }
           },
           {
+            type = "delay"
+            delay = {
+              delay_seconds = 120
+            }
+          },
+          {
             type = "repeat"
             repeat = {
               repeat_times = 3
@@ -169,6 +189,20 @@ resource "incident_escalation_path" "example" {
                 urgency = "low"
               }]
               time_to_ack_seconds = 300
+            }
+          },
+          {
+            type = "delay"
+            delay = {
+              delay_interval_condition         = "active"
+              delay_weekday_interval_config_id = "UK"
+            }
+          },
+          {
+            type = "repeat"
+            repeat = {
+              repeat_times = 3
+              to_node      = "start"
             }
           }
         ]

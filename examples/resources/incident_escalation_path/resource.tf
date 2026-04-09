@@ -56,6 +56,12 @@ resource "incident_escalation_path" "urgent_support" {
             }
           },
           {
+            type = "delay"
+            delay = {
+              delay_seconds = 120
+            }
+          },
+          {
             type = "repeat"
             repeat = {
               repeat_times = 3

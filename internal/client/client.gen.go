@@ -804,10 +804,10 @@ const (
 	EscalationEventV2UrgencyLow  EscalationEventV2Urgency = "low"
 )
 
-// Defines values for EscalationPathNodeDelayV2TimeToAckIntervalCondition.
+// Defines values for EscalationPathNodeDelayV2DelayIntervalCondition.
 const (
-	EscalationPathNodeDelayV2TimeToAckIntervalConditionActive   EscalationPathNodeDelayV2TimeToAckIntervalCondition = "active"
-	EscalationPathNodeDelayV2TimeToAckIntervalConditionInactive EscalationPathNodeDelayV2TimeToAckIntervalCondition = "inactive"
+	EscalationPathNodeDelayV2DelayIntervalConditionActive   EscalationPathNodeDelayV2DelayIntervalCondition = "active"
+	EscalationPathNodeDelayV2DelayIntervalConditionInactive EscalationPathNodeDelayV2DelayIntervalCondition = "inactive"
 )
 
 // Defines values for EscalationPathNodeLevelV2AckMode.
@@ -4297,18 +4297,18 @@ type EscalationEventV2Urgency string
 
 // EscalationPathNodeDelayV2 defines model for EscalationPathNodeDelayV2.
 type EscalationPathNodeDelayV2 struct {
-	// TimeToAckIntervalCondition If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-	TimeToAckIntervalCondition *EscalationPathNodeDelayV2TimeToAckIntervalCondition `json:"time_to_ack_interval_condition,omitempty"`
+	// DelayIntervalCondition If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+	DelayIntervalCondition *EscalationPathNodeDelayV2DelayIntervalCondition `json:"delay_interval_condition,omitempty"`
 
-	// TimeToAckSeconds How long to delay before advancing to the next node in the path, in seconds
-	TimeToAckSeconds *int64 `json:"time_to_ack_seconds,omitempty"`
+	// DelaySeconds How long to delay before advancing to the next node in the path, in seconds
+	DelaySeconds *int64 `json:"delay_seconds,omitempty"`
 
-	// TimeToAckWeekdayIntervalConfigId If the delay is relative to a time window, this identifies which window it is relative to
-	TimeToAckWeekdayIntervalConfigId *string `json:"time_to_ack_weekday_interval_config_id,omitempty"`
+	// DelayWeekdayIntervalConfigId If the delay is relative to a time window, this identifies which window it is relative to
+	DelayWeekdayIntervalConfigId *string `json:"delay_weekday_interval_config_id,omitempty"`
 }
 
-// EscalationPathNodeDelayV2TimeToAckIntervalCondition If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-type EscalationPathNodeDelayV2TimeToAckIntervalCondition string
+// EscalationPathNodeDelayV2DelayIntervalCondition If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+type EscalationPathNodeDelayV2DelayIntervalCondition string
 
 // EscalationPathNodeIfElsePayloadV2 defines model for EscalationPathNodeIfElsePayloadV2.
 type EscalationPathNodeIfElsePayloadV2 struct {

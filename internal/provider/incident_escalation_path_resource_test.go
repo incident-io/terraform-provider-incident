@@ -39,11 +39,15 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "path.0.if_else.then_path.0.level.time_to_ack_seconds", "300"),
 					resource.TestCheckResourceAttr(
-						"incident_escalation_path.example", "path.0.if_else.then_path.1.type", "repeat"),
+						"incident_escalation_path.example", "path.0.if_else.then_path.1.type", "delay"),
 					resource.TestCheckResourceAttr(
-						"incident_escalation_path.example", "path.0.if_else.then_path.1.repeat.repeat_times", "3"),
+						"incident_escalation_path.example", "path.0.if_else.then_path.1.delay.delay_seconds", "120"),
 					resource.TestCheckResourceAttr(
-						"incident_escalation_path.example", "path.0.if_else.then_path.1.repeat.to_node", "start"),
+						"incident_escalation_path.example", "path.0.if_else.then_path.2.type", "repeat"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.then_path.2.repeat.repeat_times", "3"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.then_path.2.repeat.to_node", "start"),
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "path.0.if_else.else_path.0.type", "notify_channel"),
 					resource.TestCheckResourceAttr(
@@ -60,6 +64,18 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 						"incident_escalation_path.example", "path.0.if_else.else_path.1.level.targets.0.urgency", "low"),
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "path.0.if_else.else_path.1.level.time_to_ack_seconds", "300"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.2.type", "delay"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.2.delay.delay_interval_condition", "active"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.2.delay.delay_weekday_interval_config_id", "UK"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.3.type", "repeat"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.3.repeat.repeat_times", "3"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.else_path.3.repeat.to_node", "start"),
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "working_hours.0.id", "UK"),
 					resource.TestCheckResourceAttr(
@@ -203,6 +219,12 @@ resource "incident_escalation_path" "example" {
             }
           },
           {
+            type = "delay"
+            delay = {
+              delay_seconds = 120
+            }
+          },
+          {
             type = "repeat"
             repeat = {
               repeat_times = 3
@@ -231,6 +253,20 @@ resource "incident_escalation_path" "example" {
                 urgency  = "low"
               }]
               time_to_ack_seconds = 300
+            }
+          },
+          {
+            type = "delay"
+            delay = {
+              delay_interval_condition         = "active"
+              delay_weekday_interval_config_id = "UK"
+            }
+          },
+          {
+            type = "repeat"
+            repeat = {
+              repeat_times = 3
+              to_node      = "start"
             }
           }
         ]
