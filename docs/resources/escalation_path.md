@@ -74,6 +74,12 @@ resource "incident_escalation_path" "urgent_support" {
             }
           },
           {
+            type = "delay"
+            delay = {
+              delay_seconds = 120
+            }
+          },
+          {
             type = "repeat"
             repeat = {
               repeat_times = 3
@@ -166,9 +172,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else"></a>
@@ -248,9 +254,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else"></a>
@@ -330,9 +336,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else"></a>
@@ -412,9 +418,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else"></a>
@@ -493,9 +499,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level"></a>
@@ -605,9 +611,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level"></a>
@@ -799,9 +805,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else"></a>
@@ -880,9 +886,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level"></a>
@@ -992,9 +998,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level"></a>
@@ -1267,9 +1273,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else"></a>
@@ -1349,9 +1355,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else"></a>
@@ -1430,9 +1436,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level"></a>
@@ -1542,9 +1548,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level"></a>
@@ -1736,9 +1742,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else"></a>
@@ -1817,9 +1823,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level"></a>
@@ -1929,9 +1935,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level"></a>
@@ -2285,9 +2291,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else"></a>
@@ -2367,9 +2373,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else"></a>
@@ -2449,9 +2455,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else"></a>
@@ -2530,9 +2536,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level"></a>
@@ -2642,9 +2648,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level"></a>
@@ -2836,9 +2842,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else"></a>
@@ -2917,9 +2923,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level"></a>
@@ -3029,9 +3035,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level"></a>
@@ -3304,9 +3310,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else"></a>
@@ -3386,9 +3392,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else"></a>
@@ -3467,9 +3473,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level"></a>
@@ -3579,9 +3585,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level"></a>
@@ -3773,9 +3779,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else"></a>
@@ -3854,9 +3860,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level"></a>
@@ -3966,9 +3972,9 @@ This allows you to reference the node in other nodes, such as when configuring a
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
-- `time_to_ack_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
-- `time_to_ack_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level"></a>

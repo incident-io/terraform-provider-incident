@@ -39,11 +39,15 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "path.0.if_else.then_path.0.level.time_to_ack_seconds", "300"),
 					resource.TestCheckResourceAttr(
-						"incident_escalation_path.example", "path.0.if_else.then_path.1.type", "repeat"),
+						"incident_escalation_path.example", "path.0.if_else.then_path.1.type", "delay"),
 					resource.TestCheckResourceAttr(
-						"incident_escalation_path.example", "path.0.if_else.then_path.1.repeat.repeat_times", "3"),
+						"incident_escalation_path.example", "path.0.if_else.then_path.1.delay.delay_seconds", "120"),
 					resource.TestCheckResourceAttr(
-						"incident_escalation_path.example", "path.0.if_else.then_path.1.repeat.to_node", "start"),
+						"incident_escalation_path.example", "path.0.if_else.then_path.2.type", "repeat"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.then_path.2.repeat.repeat_times", "3"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.example", "path.0.if_else.then_path.2.repeat.to_node", "start"),
 					resource.TestCheckResourceAttr(
 						"incident_escalation_path.example", "path.0.if_else.else_path.0.type", "notify_channel"),
 					resource.TestCheckResourceAttr(
@@ -200,6 +204,12 @@ resource "incident_escalation_path" "example" {
                 urgency  = "high"
               }]
               time_to_ack_seconds = 300
+            }
+          },
+          {
+            type = "delay"
+            delay = {
+              delay_seconds = 120
             }
           },
           {
