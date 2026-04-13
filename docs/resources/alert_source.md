@@ -141,6 +141,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 - `auto_resolve_incident_alerts` (Boolean) Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true. Only use in conjunction with auto_resolve_timeout_minutes.
 - `auto_resolve_timeout_minutes` (Number) When set, alerts from this source will automatically resolve after this many minutes.
 - `email_address` (String) Email address this alert source receives alerts to
+- `heartbeat_options` (Attributes) (see [below for nested schema](#nestedatt--heartbeat_options))
 - `http_custom_options` (Attributes) (see [below for nested schema](#nestedatt--http_custom_options))
 - `jira_options` (Attributes) (see [below for nested schema](#nestedatt--jira_options))
 - `owning_team_ids` (Set of String) IDs of teams that own this alert source
@@ -490,6 +491,23 @@ Optional:
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
+
+
+<a id="nestedatt--heartbeat_options"></a>
+### Nested Schema for `heartbeat_options`
+
+Required:
+
+- `interval_seconds` (Number) How often a ping is expected, in seconds.
+
+Optional:
+
+- `failure_threshold` (Number) Number of consecutive missed pings before an alert fires.
+- `grace_period_seconds` (Number) How long after a missed ping before the heartbeat is considered late, in seconds. If zero, it transitions directly to failing.
+
+Read-Only:
+
+- `ping_url` (String) The URL to POST to in order to send a heartbeat ping.
 
 
 <a id="nestedatt--http_custom_options"></a>

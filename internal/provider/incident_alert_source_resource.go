@@ -62,6 +62,21 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 		return
 	}
 
+	req.Config.GetAttribute(ctx, path.Root("heartbeat_options"), &data.HeartbeatOptions)
+	if data.HeartbeatOptions != nil && data.SourceType.ValueString() != "heartbeat" {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"heartbeat_options can only be set when source_type is heartbeat",
+			"These options only apply to the 'heartbeat' source type"))
+		return
+	}
+
+	if data.HeartbeatOptions == nil && data.SourceType.ValueString() == "heartbeat" {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"heartbeat_options must be set when source_type is heartbeat",
+			"These options are required for the 'heartbeat' source type, to specify the expected ping interval."))
+		return
+	}
+
 	// Validate visible_to_teams only set when is_private is true
 	if data.Template != nil && data.Template.VisibleToTeams != nil {
 		if data.Template.IsPrivate.IsNull() || !data.Template.IsPrivate.ValueBool() {
@@ -293,6 +308,33 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 					},
 				},
 			},
+			"heartbeat_options": schema.SingleNestedAttribute{
+				MarkdownDescription: apischema.Docstring("AlertSourceV2", "heartbeat_options"),
+				Optional:            true,
+				Attributes: map[string]schema.Attribute{
+					"interval_seconds": schema.Int64Attribute{
+						Required:            true,
+						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsPayloadV2", "interval_seconds"),
+					},
+					"failure_threshold": schema.Int64Attribute{
+						Optional:            true,
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsPayloadV2", "failure_threshold"),
+					},
+					"grace_period_seconds": schema.Int64Attribute{
+						Optional:            true,
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsPayloadV2", "grace_period_seconds"),
+					},
+					"ping_url": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsV2", "ping_url"),
+						PlanModifiers: []planmodifier.String{
+							useStateForUnknownIncludingNull{},
+						},
+					},
+				},
+			},
 			"email_address": schema.StringAttribute{
 				Computed:            true,
 				Optional:            true,
@@ -374,16 +416,27 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 			owningTeamIDs = &teamIDs
 		}
 
-		return r.client.AlertSourcesV2CreateWithResponse(ctx, client.AlertSourcesCreatePayloadV2{
-			Name:                      data.Name.ValueString(),
-			SourceType:                client.AlertSourcesCreatePayloadV2SourceType(data.SourceType.ValueString()),
-			Template:                  data.Template.ToPayload(),
-			JiraOptions:               data.JiraOptions.ToPayload(),
-			HttpCustomOptions:         data.HTTPCustomOptions.ToPayload(),
-			AutoResolveTimeoutMinutes: data.AutoResolveTimeoutMinutes.ValueInt64Pointer(),
-			AutoResolveIncidentAlerts: data.AutoResolveIncidentAlerts.ValueBoolPointer(),
-			OwningTeamIds:             owningTeamIDs,
-		})
+		payload := client.AlertSourcesCreatePayloadV2{
+			Name:              data.Name.ValueString(),
+			SourceType:        client.AlertSourcesCreatePayloadV2SourceType(data.SourceType.ValueString()),
+			Template:          data.Template.ToPayload(),
+			JiraOptions:       data.JiraOptions.ToPayload(),
+			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
+			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
+			OwningTeamIds:     owningTeamIDs,
+		}
+
+		// Only send auto-resolve fields when explicitly configured, as some
+		// source types (e.g. heartbeat) do not support them and the API will
+		// reject the request if they are present.
+		if !data.AutoResolveTimeoutMinutes.IsNull() && !data.AutoResolveTimeoutMinutes.IsUnknown() {
+			payload.AutoResolveTimeoutMinutes = data.AutoResolveTimeoutMinutes.ValueInt64Pointer()
+		}
+		if !data.AutoResolveIncidentAlerts.IsNull() && !data.AutoResolveIncidentAlerts.IsUnknown() {
+			payload.AutoResolveIncidentAlerts = data.AutoResolveIncidentAlerts.ValueBoolPointer()
+		}
+
+		return r.client.AlertSourcesV2CreateWithResponse(ctx, payload)
 	})
 
 	if err != nil {
@@ -444,15 +497,23 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 			owningTeamIDs = &teamIDs
 		}
 
-		return r.client.AlertSourcesV2UpdateWithResponse(ctx, data.ID.ValueString(), client.AlertSourcesUpdatePayloadV2{
-			Name:                      data.Name.ValueString(),
-			Template:                  data.Template.ToPayload(),
-			JiraOptions:               data.JiraOptions.ToPayload(),
-			HttpCustomOptions:         data.HTTPCustomOptions.ToPayload(),
-			AutoResolveTimeoutMinutes: data.AutoResolveTimeoutMinutes.ValueInt64Pointer(),
-			AutoResolveIncidentAlerts: data.AutoResolveIncidentAlerts.ValueBoolPointer(),
-			OwningTeamIds:             owningTeamIDs,
-		})
+		payload := client.AlertSourcesUpdatePayloadV2{
+			Name:              data.Name.ValueString(),
+			Template:          data.Template.ToPayload(),
+			JiraOptions:       data.JiraOptions.ToPayload(),
+			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
+			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
+			OwningTeamIds:     owningTeamIDs,
+		}
+
+		if !data.AutoResolveTimeoutMinutes.IsNull() && !data.AutoResolveTimeoutMinutes.IsUnknown() {
+			payload.AutoResolveTimeoutMinutes = data.AutoResolveTimeoutMinutes.ValueInt64Pointer()
+		}
+		if !data.AutoResolveIncidentAlerts.IsNull() && !data.AutoResolveIncidentAlerts.IsUnknown() {
+			payload.AutoResolveIncidentAlerts = data.AutoResolveIncidentAlerts.ValueBoolPointer()
+		}
+
+		return r.client.AlertSourcesV2UpdateWithResponse(ctx, data.ID.ValueString(), payload)
 	})
 
 	if err != nil {
