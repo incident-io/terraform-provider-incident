@@ -485,11 +485,10 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 
 	tflog.Trace(ctx, fmt.Sprintf("created an alert source with id=%s", result.JSON200.AlertSource.Id))
 
-	planTemplate := data.Template
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
-	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil && planTemplate != nil {
-		data.Template.Title = planTemplate.Title
-		data.Template.Description = planTemplate.Description
+	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
+		data.Template.Title = models.IncidentEngineParamBindingValue{}
+		data.Template.Description = models.IncidentEngineParamBindingValue{}
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -515,11 +514,10 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
-	stateTemplate := data.Template
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
-	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil && stateTemplate != nil {
-		data.Template.Title = stateTemplate.Title
-		data.Template.Description = stateTemplate.Description
+	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
+		data.Template.Title = models.IncidentEngineParamBindingValue{}
+		data.Template.Description = models.IncidentEngineParamBindingValue{}
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -571,11 +569,10 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 
 	claimResource(ctx, r.client, result.JSON200.AlertSource.Id, resp.Diagnostics, client.AlertSource, r.terraformVersion)
 
-	planTemplate := data.Template
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
-	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil && planTemplate != nil {
-		data.Template.Title = planTemplate.Title
-		data.Template.Description = planTemplate.Description
+	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
+		data.Template.Title = models.IncidentEngineParamBindingValue{}
+		data.Template.Description = models.IncidentEngineParamBindingValue{}
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
