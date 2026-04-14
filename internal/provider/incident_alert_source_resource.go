@@ -78,6 +78,20 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 		return
 	}
 
+	if data.Template != nil && data.SourceType.ValueString() == "heartbeat" {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"template cannot be set when source_type is heartbeat",
+			"Heartbeat alert sources manage their own template automatically."))
+		return
+	}
+
+	if data.Template == nil && !data.SourceType.IsUnknown() && data.SourceType.ValueString() != "heartbeat" {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"template must be set for this source_type",
+			"template is required for all alert source types except heartbeat."))
+		return
+	}
+
 	// Validate visible_to_teams only set when is_private is true
 	if data.Template != nil && data.Template.VisibleToTeams != nil {
 		if data.Template.IsPrivate.IsNull() || !data.Template.IsPrivate.ValueBool() {
@@ -233,7 +247,8 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 				},
 			},
 			"template": schema.SingleNestedAttribute{
-				Required:            true,
+				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV2", "template"),
 				Attributes: map[string]schema.Attribute{
 					"expressions": models.ExpressionsAttribute(),
