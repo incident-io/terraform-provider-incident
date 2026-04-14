@@ -16,6 +16,7 @@ type AlertSourceResourceModel struct {
 	AlertEventsURL            types.String                       `tfsdk:"alert_events_url"`
 	Template                  *AlertTemplateModel                `tfsdk:"template"`
 	JiraOptions               *AlertSourceJiraOptionsModel       `tfsdk:"jira_options"`
+	HeartbeatOptions          *AlertSourceHeartbeatOptionsModel  `tfsdk:"heartbeat_options"`
 	EmailAddress              types.String                       `tfsdk:"email_address"`
 	HTTPCustomOptions         *AlertSourceHTTPCustomOptionsModel `tfsdk:"http_custom_options"`
 	OwningTeamIDs             types.Set                          `tfsdk:"owning_team_ids"`
@@ -59,6 +60,7 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 			VisibleToTeams: visibleToTeams,
 		},
 		JiraOptions:               AlertSourceJiraOptionsModel{}.FromAPI(source.JiraOptions),
+		HeartbeatOptions:          AlertSourceHeartbeatOptionsModel{}.FromAPI(source.HeartbeatOptions),
 		EmailAddress:              types.StringPointerValue(emailAddress),
 		HTTPCustomOptions:         AlertSourceHTTPCustomOptionsModel{}.FromAPI(source.HttpCustomOptions),
 		OwningTeamIDs:             owningTeamIDs,
@@ -217,6 +219,38 @@ func (opts *AlertSourceJiraOptionsModel) ToPayload() *client.AlertSourceJiraOpti
 
 	return &client.AlertSourceJiraOptionsV2{
 		ProjectIds: projectIDs,
+	}
+}
+
+type AlertSourceHeartbeatOptionsModel struct {
+	IntervalSeconds    types.Int64  `tfsdk:"interval_seconds"`
+	FailureThreshold   types.Int64  `tfsdk:"failure_threshold"`
+	GracePeriodSeconds types.Int64  `tfsdk:"grace_period_seconds"`
+	PingURL            types.String `tfsdk:"ping_url"`
+}
+
+func (AlertSourceHeartbeatOptionsModel) FromAPI(opts *client.AlertSourceHeartbeatOptionsV2) *AlertSourceHeartbeatOptionsModel {
+	if opts == nil {
+		return nil
+	}
+
+	return &AlertSourceHeartbeatOptionsModel{
+		IntervalSeconds:    types.Int64Value(opts.IntervalSeconds),
+		FailureThreshold:   types.Int64Value(opts.FailureThreshold),
+		GracePeriodSeconds: types.Int64Value(opts.GracePeriodSeconds),
+		PingURL:            types.StringValue(opts.PingUrl),
+	}
+}
+
+func (opts *AlertSourceHeartbeatOptionsModel) ToPayload() *client.AlertSourceHeartbeatOptionsPayloadV2 {
+	if opts == nil {
+		return nil
+	}
+
+	return &client.AlertSourceHeartbeatOptionsPayloadV2{
+		IntervalSeconds:    opts.IntervalSeconds.ValueInt64(),
+		FailureThreshold:   opts.FailureThreshold.ValueInt64Pointer(),
+		GracePeriodSeconds: opts.GracePeriodSeconds.ValueInt64Pointer(),
 	}
 }
 

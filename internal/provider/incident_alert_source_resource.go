@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -60,6 +61,56 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 			"jira_options must be set when source_type is jira",
 			"These options are required for the 'jira' source type, to specify which projects to watch for new issues."))
 		return
+	}
+
+	req.Config.GetAttribute(ctx, path.Root("heartbeat_options"), &data.HeartbeatOptions)
+	if data.HeartbeatOptions != nil && data.SourceType.ValueString() != "heartbeat" {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"heartbeat_options can only be set when source_type is heartbeat",
+			"These options only apply to the 'heartbeat' source type"))
+		return
+	}
+
+	if data.HeartbeatOptions == nil && data.SourceType.ValueString() == "heartbeat" {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"heartbeat_options must be set when source_type is heartbeat",
+			"These options are required for the 'heartbeat' source type, to specify the expected ping interval."))
+		return
+	}
+
+	// Validate that heartbeat sources don't set template title or description,
+	// as the API normalizes these fields and the provider ignores the returned values.
+	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
+		title := data.Template.Title
+		if !title.Literal.IsNull() && !title.Literal.IsUnknown() {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				path.Root("template").AtName("title").AtName("literal"),
+				"template.title cannot be set for heartbeat alert sources",
+				"Heartbeat alert sources manage their own template title automatically."))
+			return
+		}
+		if !title.Reference.IsNull() && !title.Reference.IsUnknown() {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				path.Root("template").AtName("title").AtName("reference"),
+				"template.title cannot be set for heartbeat alert sources",
+				"Heartbeat alert sources manage their own template title automatically."))
+			return
+		}
+		desc := data.Template.Description
+		if !desc.Literal.IsNull() && !desc.Literal.IsUnknown() {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				path.Root("template").AtName("description").AtName("literal"),
+				"template.description cannot be set for heartbeat alert sources",
+				"Heartbeat alert sources manage their own template description automatically."))
+			return
+		}
+		if !desc.Reference.IsNull() && !desc.Reference.IsUnknown() {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				path.Root("template").AtName("description").AtName("reference"),
+				"template.description cannot be set for heartbeat alert sources",
+				"Heartbeat alert sources manage their own template description automatically."))
+			return
+		}
 	}
 
 	// Validate visible_to_teams only set when is_private is true
@@ -293,6 +344,35 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 					},
 				},
 			},
+			"heartbeat_options": schema.SingleNestedAttribute{
+				MarkdownDescription: apischema.Docstring("AlertSourceV2", "heartbeat_options"),
+				Optional:            true,
+				Attributes: map[string]schema.Attribute{
+					"interval_seconds": schema.Int64Attribute{
+						Required:            true,
+						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsPayloadV2", "interval_seconds"),
+					},
+					"failure_threshold": schema.Int64Attribute{
+						Optional:            true,
+						Computed:            true,
+						Default:             int64default.StaticInt64(1),
+						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsPayloadV2", "failure_threshold"),
+					},
+					"grace_period_seconds": schema.Int64Attribute{
+						Optional:            true,
+						Computed:            true,
+						Default:             int64default.StaticInt64(0),
+						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsPayloadV2", "grace_period_seconds"),
+					},
+					"ping_url": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsV2", "ping_url"),
+						PlanModifiers: []planmodifier.String{
+							useStateForUnknownIncludingNull{},
+						},
+					},
+				},
+			},
 			"email_address": schema.StringAttribute{
 				Computed:            true,
 				Optional:            true,
@@ -374,16 +454,27 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 			owningTeamIDs = &teamIDs
 		}
 
-		return r.client.AlertSourcesV2CreateWithResponse(ctx, client.AlertSourcesCreatePayloadV2{
-			Name:                      data.Name.ValueString(),
-			SourceType:                client.AlertSourcesCreatePayloadV2SourceType(data.SourceType.ValueString()),
-			Template:                  data.Template.ToPayload(),
-			JiraOptions:               data.JiraOptions.ToPayload(),
-			HttpCustomOptions:         data.HTTPCustomOptions.ToPayload(),
-			AutoResolveTimeoutMinutes: data.AutoResolveTimeoutMinutes.ValueInt64Pointer(),
-			AutoResolveIncidentAlerts: data.AutoResolveIncidentAlerts.ValueBoolPointer(),
-			OwningTeamIds:             owningTeamIDs,
-		})
+		payload := client.AlertSourcesCreatePayloadV2{
+			Name:              data.Name.ValueString(),
+			SourceType:        client.AlertSourcesCreatePayloadV2SourceType(data.SourceType.ValueString()),
+			Template:          data.Template.ToPayload(),
+			JiraOptions:       data.JiraOptions.ToPayload(),
+			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
+			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
+			OwningTeamIds:     owningTeamIDs,
+		}
+
+		// Only send auto-resolve fields when explicitly configured, as some
+		// source types (e.g. heartbeat) do not support them and the API will
+		// reject the request if they are present.
+		if !data.AutoResolveTimeoutMinutes.IsNull() && !data.AutoResolveTimeoutMinutes.IsUnknown() {
+			payload.AutoResolveTimeoutMinutes = data.AutoResolveTimeoutMinutes.ValueInt64Pointer()
+		}
+		if !data.AutoResolveIncidentAlerts.IsNull() && !data.AutoResolveIncidentAlerts.IsUnknown() {
+			payload.AutoResolveIncidentAlerts = data.AutoResolveIncidentAlerts.ValueBoolPointer()
+		}
+
+		return r.client.AlertSourcesV2CreateWithResponse(ctx, payload)
 	})
 
 	if err != nil {
@@ -396,6 +487,10 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 	tflog.Trace(ctx, fmt.Sprintf("created an alert source with id=%s", result.JSON200.AlertSource.Id))
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
+	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
+		data.Template.Title = models.IncidentEngineParamBindingValue{}
+		data.Template.Description = models.IncidentEngineParamBindingValue{}
+	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -421,6 +516,11 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 	}
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
+	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
+		data.Template.Title = models.IncidentEngineParamBindingValue{}
+		data.Template.Description = models.IncidentEngineParamBindingValue{}
+	}
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -444,15 +544,23 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 			owningTeamIDs = &teamIDs
 		}
 
-		return r.client.AlertSourcesV2UpdateWithResponse(ctx, data.ID.ValueString(), client.AlertSourcesUpdatePayloadV2{
-			Name:                      data.Name.ValueString(),
-			Template:                  data.Template.ToPayload(),
-			JiraOptions:               data.JiraOptions.ToPayload(),
-			HttpCustomOptions:         data.HTTPCustomOptions.ToPayload(),
-			AutoResolveTimeoutMinutes: data.AutoResolveTimeoutMinutes.ValueInt64Pointer(),
-			AutoResolveIncidentAlerts: data.AutoResolveIncidentAlerts.ValueBoolPointer(),
-			OwningTeamIds:             owningTeamIDs,
-		})
+		payload := client.AlertSourcesUpdatePayloadV2{
+			Name:              data.Name.ValueString(),
+			Template:          data.Template.ToPayload(),
+			JiraOptions:       data.JiraOptions.ToPayload(),
+			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
+			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
+			OwningTeamIds:     owningTeamIDs,
+		}
+
+		if !data.AutoResolveTimeoutMinutes.IsNull() && !data.AutoResolveTimeoutMinutes.IsUnknown() {
+			payload.AutoResolveTimeoutMinutes = data.AutoResolveTimeoutMinutes.ValueInt64Pointer()
+		}
+		if !data.AutoResolveIncidentAlerts.IsNull() && !data.AutoResolveIncidentAlerts.IsUnknown() {
+			payload.AutoResolveIncidentAlerts = data.AutoResolveIncidentAlerts.ValueBoolPointer()
+		}
+
+		return r.client.AlertSourcesV2UpdateWithResponse(ctx, data.ID.ValueString(), payload)
 	})
 
 	if err != nil {
@@ -463,6 +571,11 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 	claimResource(ctx, r.client, result.JSON200.AlertSource.Id, resp.Diagnostics, client.AlertSource, r.terraformVersion)
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
+	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
+		data.Template.Title = models.IncidentEngineParamBindingValue{}
+		data.Template.Description = models.IncidentEngineParamBindingValue{}
+	}
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 

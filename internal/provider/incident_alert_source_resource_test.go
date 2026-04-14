@@ -184,6 +184,59 @@ resource "incident_alert_source" "test" {
 	})
 }
 
+// TestAccAlertSourceResource_Heartbeat checks that heartbeat_options work.
+func TestAccAlertSourceResource_Heartbeat(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceResourceConfigWithHeartbeat("heartbeat-source", 60),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "heartbeat-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "heartbeat"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "heartbeat_options.interval_seconds", "60"),
+					resource.TestCheckResourceAttrSet("incident_alert_source.test", "heartbeat_options.failure_threshold"),
+					resource.TestCheckResourceAttrSet("incident_alert_source.test", "heartbeat_options.grace_period_seconds"),
+					resource.TestCheckResourceAttrSet("incident_alert_source.test", "heartbeat_options.ping_url"),
+				),
+			},
+			// ImportState testing
+			{
+				ResourceName:      "incident_alert_source.test",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+func testAccAlertSourceResourceConfigWithHeartbeat(name string, intervalSeconds int) string {
+	return testRunTemplate("incident_alert_source_heartbeat", `
+resource "incident_alert_source" "test" {
+  name        = {{ quote .Name }}
+  source_type = "heartbeat"
+
+  template = {
+    expressions = [],
+    title       = {},
+    description = {},
+    attributes  = []
+  }
+
+  heartbeat_options = {
+    interval_seconds = {{ .IntervalSeconds }}
+  }
+}
+`, struct {
+		Name            string
+		IntervalSeconds int
+	}{
+		Name:            name,
+		IntervalSeconds: intervalSeconds,
+	})
+}
+
 // TestAccAlertSourceResource_Jira checks that the jira_options work.
 //
 // NOTE: this only runs if TF_ACC_JIRA is in your environment, since it requires
@@ -247,6 +300,35 @@ resource "incident_alert_source" "test" {
 				}),
 				PlanOnly:    true,
 				ExpectError: regexp.MustCompile("jira_options can only be set when source_type is jira"),
+			},
+			{
+				// Test heartbeat_options with wrong source_type
+				Config: testRunTemplate("incident_alert_source_invalid_heartbeat", `
+resource "incident_alert_source" "test" {
+  name = "Not Heartbeat, but with heartbeat options"
+  source_type = "datadog"
+
+  template = {
+    expressions = [],
+    title = {
+      literal = {{ quote .Title }}
+    },
+    description = {
+      literal = {{ quote .Description }}
+    },
+    attributes = []
+  }
+
+  heartbeat_options = {
+    interval_seconds = 60
+  }
+}
+`, struct{ Title, Description string }{
+					Title:       testAlertSourceTitle,
+					Description: testAlertSourceDescription,
+				}),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile("heartbeat_options can only be set when source_type is heartbeat"),
 			},
 			{
 				// Test missing required template fields
