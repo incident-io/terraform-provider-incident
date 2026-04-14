@@ -78,14 +78,7 @@ type AlertTemplateModel struct {
 	VisibleToTeams *IncidentEngineParamBinding     `tfsdk:"visible_to_teams"`
 }
 
-func (template *AlertTemplateModel) ToPayload() client.AlertTemplatePayloadV2 {
-	if template == nil {
-		return client.AlertTemplatePayloadV2{
-			Expressions: []client.ExpressionPayloadV2{},
-			Attributes:  []client.AlertTemplateAttributePayloadV2{},
-		}
-	}
-
+func (template AlertTemplateModel) ToPayload() client.AlertTemplatePayloadV2 {
 	var visibleToTeams *client.EngineParamBindingPayloadV2
 	if template.VisibleToTeams != nil {
 		visibleToTeams = lo.ToPtr(template.VisibleToTeams.ToPayload())

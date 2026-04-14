@@ -78,20 +78,6 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 		return
 	}
 
-	if data.Template != nil && data.SourceType.ValueString() == "heartbeat" {
-		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
-			"template cannot be set when source_type is heartbeat",
-			"Heartbeat alert sources manage their own template automatically."))
-		return
-	}
-
-	if data.Template == nil && !data.SourceType.IsUnknown() && data.SourceType.ValueString() != "heartbeat" {
-		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
-			"template must be set for this source_type",
-			"template is required for all alert source types except heartbeat."))
-		return
-	}
-
 	// Validate visible_to_teams only set when is_private is true
 	if data.Template != nil && data.Template.VisibleToTeams != nil {
 		if data.Template.IsPrivate.IsNull() || !data.Template.IsPrivate.ValueBool() {
@@ -247,8 +233,7 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 				},
 			},
 			"template": schema.SingleNestedAttribute{
-				Optional:            true,
-				Computed:            true,
+				Required:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV2", "template"),
 				Attributes: map[string]schema.Attribute{
 					"expressions": models.ExpressionsAttribute(),
@@ -465,7 +450,12 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 
 	tflog.Trace(ctx, fmt.Sprintf("created an alert source with id=%s", result.JSON200.AlertSource.Id))
 
+	planTemplate := data.Template
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
+	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil && planTemplate != nil {
+		data.Template.Title = planTemplate.Title
+		data.Template.Description = planTemplate.Description
+	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -490,7 +480,13 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
+	stateTemplate := data.Template
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
+	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil && stateTemplate != nil {
+		data.Template.Title = stateTemplate.Title
+		data.Template.Description = stateTemplate.Description
+	}
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -540,7 +536,13 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 
 	claimResource(ctx, r.client, result.JSON200.AlertSource.Id, resp.Diagnostics, client.AlertSource, r.terraformVersion)
 
+	planTemplate := data.Template
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
+	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil && planTemplate != nil {
+		data.Template.Title = planTemplate.Title
+		data.Template.Description = planTemplate.Description
+	}
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
