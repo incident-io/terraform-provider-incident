@@ -219,13 +219,9 @@ resource "incident_alert_source" "test" {
 
   template = {
     expressions = [],
-    title = {
-      literal = {{ quote .Title }}
-    },
-    description = {
-      literal = {{ quote .Description }}
-    },
-    attributes = []
+    title       = {},
+    description = {},
+    attributes  = []
   }
 
   heartbeat_options = {
@@ -234,13 +230,9 @@ resource "incident_alert_source" "test" {
 }
 `, struct {
 		Name            string
-		Title           string
-		Description     string
 		IntervalSeconds int
 	}{
 		Name:            name,
-		Title:           testAlertSourceTitle,
-		Description:     testAlertSourceDescription,
 		IntervalSeconds: intervalSeconds,
 	})
 }

@@ -78,6 +78,41 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 		return
 	}
 
+	// Validate that heartbeat sources don't set template title or description,
+	// as the API normalizes these fields and the provider ignores the returned values.
+	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
+		title := data.Template.Title
+		if !title.Literal.IsNull() && !title.Literal.IsUnknown() {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				path.Root("template").AtName("title").AtName("literal"),
+				"template.title cannot be set for heartbeat alert sources",
+				"Heartbeat alert sources manage their own template title automatically."))
+			return
+		}
+		if !title.Reference.IsNull() && !title.Reference.IsUnknown() {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				path.Root("template").AtName("title").AtName("reference"),
+				"template.title cannot be set for heartbeat alert sources",
+				"Heartbeat alert sources manage their own template title automatically."))
+			return
+		}
+		desc := data.Template.Description
+		if !desc.Literal.IsNull() && !desc.Literal.IsUnknown() {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				path.Root("template").AtName("description").AtName("literal"),
+				"template.description cannot be set for heartbeat alert sources",
+				"Heartbeat alert sources manage their own template description automatically."))
+			return
+		}
+		if !desc.Reference.IsNull() && !desc.Reference.IsUnknown() {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				path.Root("template").AtName("description").AtName("reference"),
+				"template.description cannot be set for heartbeat alert sources",
+				"Heartbeat alert sources manage their own template description automatically."))
+			return
+		}
+	}
+
 	// Validate visible_to_teams only set when is_private is true
 	if data.Template != nil && data.Template.VisibleToTeams != nil {
 		if data.Template.IsPrivate.IsNull() || !data.Template.IsPrivate.ValueBool() {
