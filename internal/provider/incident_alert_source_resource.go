@@ -361,6 +361,7 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 					"grace_period_seconds": schema.Int64Attribute{
 						Optional:            true,
 						Computed:            true,
+						Default:             int64default.StaticInt64(0),
 						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsPayloadV2", "grace_period_seconds"),
 					},
 					"ping_url": schema.StringAttribute{
