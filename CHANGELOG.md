@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.35.0
+
+- Add heartbeat monitoring options to alert source resource (`interval`, `grace_period_seconds`, `failure_threshold`)
+
 ## v5.34.0
 
 - Add support for `delay` nodes on escalation paths
