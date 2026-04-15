@@ -61,3 +61,35 @@ func Docstring(definitionName, propertyName string) string {
 
 	return p.Value.Description
 }
+
+func DocstringWithEnum(definitionName, propertyName string) string {
+	p := Property(definitionName, propertyName)
+	if p.Value == nil {
+		panic(fmt.Sprintf("property %s has no value: %s", propertyName, spew.Sdump(p)))
+	}
+
+	if len(p.Value.Enum) == 0 {
+		return p.Value.Description
+	}
+
+	values := make([]string, len(p.Value.Enum))
+	for i, v := range p.Value.Enum {
+		values[i] = fmt.Sprintf("`%s`", v.(string))
+	}
+
+	return fmt.Sprintf("%s Possible values: %s.", p.Value.Description, strings.Join(values, ", "))
+}
+
+func EnumValues(definitionName, propertyName string) []string {
+	p := Property(definitionName, propertyName)
+	if p.Value == nil {
+		panic(fmt.Sprintf("property %s has no value: %s", propertyName, spew.Sdump(p)))
+	}
+
+	values := make([]string, len(p.Value.Enum))
+	for i, v := range p.Value.Enum {
+		values[i] = v.(string)
+	}
+
+	return values
+}
