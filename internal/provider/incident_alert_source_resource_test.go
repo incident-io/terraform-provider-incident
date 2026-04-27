@@ -10,6 +10,7 @@ import (
 
 	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 )
 
 func TestAccAlertSourceResource(t *testing.T) {
@@ -763,5 +764,136 @@ resource "incident_alert_source" "test" {
 		Title:        testAlertSourceTitle,
 		Description:  testAlertSourceDescription,
 		TeamTypeName: teamTypeName(),
+	})
+}
+
+// TestAccAlertSourceResource_MergeStrategyStable reproduces issue #342: when a
+// new element was added to template.attributes, the provider would produce a
+// spurious diff on existing bindings whose state and config never specified
+// merge_strategy, blocking edits with HTTP 422.
+//
+// The schema declares merge_strategy with a static "first_wins" default, so
+// adding a new element should not re-hash existing ones into a delete+add.
+func TestAccAlertSourceResource_MergeStrategyStable(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create with two attributes: one literal-only binding (no
+			// explicit merge_strategy) and one reference binding.
+			{
+				Config: testAccAlertSourceResourceConfigMergeStrategyStable(false),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "template.attributes.#", "2"),
+				),
+			},
+			// A refresh-and-plan should be a no-op.
+			{
+				RefreshState: true,
+				PlanOnly:     true,
+				RefreshPlanChecks: resource.RefreshPlanChecks{
+					PostRefresh: []plancheck.PlanCheck{
+						plancheck.ExpectEmptyPlan(),
+					},
+				},
+			},
+			// Add a third attribute. The existing literal-only binding must
+			// not be re-hashed and re-added with a phantom merge_strategy
+			// diff that would 422 the API.
+			{
+				Config: testAccAlertSourceResourceConfigMergeStrategyStable(true),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PreApply: []plancheck.PlanCheck{
+						plancheck.ExpectResourceAction("incident_alert_source.test", plancheck.ResourceActionUpdate),
+					},
+				},
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "template.attributes.#", "3"),
+				),
+			},
+			// One more no-op plan to confirm settled state.
+			{
+				Config:   testAccAlertSourceResourceConfigMergeStrategyStable(true),
+				PlanOnly: true,
+			},
+		},
+	})
+}
+
+func testAccAlertSourceResourceConfigMergeStrategyStable(withExtra bool) string {
+	return testRunTemplate("incident_alert_source_merge_strategy_stable", `
+resource "incident_alert_attribute" "literal_attr" {
+  name  = "literal-attr-tf"
+  type  = "String"
+  array = false
+}
+
+resource "incident_alert_attribute" "ref_attr" {
+  name  = "ref-attr-tf"
+  type  = "String"
+  array = false
+}
+
+{{ if .WithExtra }}
+resource "incident_alert_attribute" "extra_attr" {
+  name  = "extra-attr-tf"
+  type  = "String"
+  array = false
+}
+{{ end }}
+
+resource "incident_alert_source" "test" {
+  name        = "merge-strategy-stable-source"
+  source_type = "http"
+
+  template = {
+    title = {
+      literal = {{ quote .Title }}
+    }
+    description = {
+      literal = {{ quote .Description }}
+    }
+
+    expressions = []
+
+    attributes = [
+      {
+        alert_attribute_id = incident_alert_attribute.literal_attr.id
+        binding = {
+          value = {
+            literal = "literal-value"
+          }
+        }
+      },
+      {
+        alert_attribute_id = incident_alert_attribute.ref_attr.id
+        binding = {
+          value = {
+            reference = "title"
+          }
+          merge_strategy = "first_wins"
+        }
+      },
+      {{ if .WithExtra }}
+      {
+        alert_attribute_id = incident_alert_attribute.extra_attr.id
+        binding = {
+          value = {
+            reference = "title"
+          }
+          merge_strategy = "first_wins"
+        }
+      },
+      {{ end }}
+    ]
+  }
+}
+`, struct {
+		Title, Description string
+		WithExtra          bool
+	}{
+		Title:       testAlertSourceTitle,
+		Description: testAlertSourceDescription,
+		WithExtra:   withExtra,
 	})
 }

@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -310,10 +311,8 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 										"merge_strategy": schema.StringAttribute{
 											Optional:            true,
 											Computed:            true,
+											Default:             stringdefault.StaticString("first_wins"),
 											MarkdownDescription: EnumValuesDescription("AlertTemplateAttributeBindingPayloadV2", "merge_strategy"),
-											PlanModifiers: []planmodifier.String{
-												stringplanmodifier.UseStateForUnknown(),
-											},
 										},
 									},
 								},
