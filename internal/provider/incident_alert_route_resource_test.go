@@ -1498,7 +1498,7 @@ resource "incident_alert_route" "test" {
     condition_groups           = []
     defer_time_seconds         = 0
     grouping_keys              = []
-    grouping_window_seconds    = 0
+    grouping_window_seconds    = 1800 # Required to be non-zero when auto_relate_grouped_alerts is true
     enabled                    = true
   }
 
