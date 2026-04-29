@@ -267,6 +267,60 @@ func TestAccAlertSourceResource_Jira(t *testing.T) {
 	})
 }
 
+// TestAccAlertSourceResource_HTTPCustom checks that http_custom_options work.
+func TestAccAlertSourceResource_HTTPCustom(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceResourceConfigWithHTTPCustom("http-custom-source"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "http-custom-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "http_custom"),
+					resource.TestCheckResourceAttrSet("incident_alert_source.test", "http_custom_options.transform_expression"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "http_custom_options.deduplication_key_path", "$.alert_id"),
+					resource.TestCheckResourceAttrSet("incident_alert_source.test", "alert_events_url"),
+				),
+			},
+			// ImportState testing
+			{
+				ResourceName:      "incident_alert_source.test",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			// Update name
+			{
+				Config: testAccAlertSourceResourceConfigWithHTTPCustom("http-custom-source-updated"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "http-custom-source-updated"),
+				),
+			},
+		},
+	})
+}
+
+func testAccAlertSourceResourceConfigWithHTTPCustom(name string) string {
+	return testRunTemplate("incident_alert_source_http_custom", `
+resource "incident_alert_source" "test" {
+  name        = {{ quote .Name }}
+  source_type = "http_custom"
+
+  http_custom_options = {
+    transform_expression   = "({ title: payload.alert_name, description: payload.message, status: payload.status === 'resolved' ? 'resolved' : 'firing' })"
+    deduplication_key_path = "$.alert_id"
+  }
+
+  template = {
+    expressions = []
+    title       = { reference = "payload.alert_name" }
+    description = { reference = "payload.message" }
+    attributes  = []
+  }
+}
+`, struct{ Name string }{Name: name})
+}
+
 // TestAccAlertSourceResource_ValidationErrors checks that we return helpful
 // validation errors when possible.
 func TestAccAlertSourceResource_ValidationErrors(t *testing.T) {
@@ -274,6 +328,24 @@ func TestAccAlertSourceResource_ValidationErrors(t *testing.T) {
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
+			{
+				// Test invalid source_type value
+				Config: `
+resource "incident_alert_source" "test" {
+  name        = "test-source"
+  source_type = "not-a-real-source"
+
+  template = {
+    expressions = []
+    title       = { literal = "test" }
+    description = { literal = "test" }
+    attributes  = []
+  }
+}
+`,
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile(`"not-a-real-source" is not a valid value`),
+			},
 			{
 				// Test
 				Config: testRunTemplate("incident_alert_source_invalid", `

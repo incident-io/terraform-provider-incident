@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -52,4 +53,36 @@ func (v RFC3339TimestampValidator) Description(ctx context.Context) string {
 
 func (v RFC3339TimestampValidator) MarkdownDescription(ctx context.Context) string {
 	return "Value must be a valid RFC3339 timestamp (YYYY-MM-DDThh:mm:ssZ)"
+}
+
+// StringOneOfValidator validates that a string value is one of the allowed values.
+type StringOneOfValidator struct {
+	AllowedValues []string
+}
+
+func (v StringOneOfValidator) ValidateString(ctx context.Context, req validator.StringRequest, resp *validator.StringResponse) {
+	if req.ConfigValue.IsNull() || req.ConfigValue.IsUnknown() {
+		return
+	}
+
+	value := req.ConfigValue.ValueString()
+	for _, allowed := range v.AllowedValues {
+		if value == allowed {
+			return
+		}
+	}
+
+	resp.Diagnostics.AddAttributeError(
+		req.Path,
+		"Invalid value",
+		fmt.Sprintf("%q is not a valid value. Must be one of: %s", value, strings.Join(v.AllowedValues, ", ")),
+	)
+}
+
+func (v StringOneOfValidator) Description(ctx context.Context) string {
+	return fmt.Sprintf("Value must be one of: %s", strings.Join(v.AllowedValues, ", "))
+}
+
+func (v StringOneOfValidator) MarkdownDescription(ctx context.Context) string {
+	return fmt.Sprintf("Value must be one of: `%s`", strings.Join(v.AllowedValues, "`, `"))
 }
