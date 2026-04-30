@@ -65,7 +65,8 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 		HTTPCustomOptions:         AlertSourceHTTPCustomOptionsModel{}.FromAPI(source.HttpCustomOptions),
 		OwningTeamIDs:             owningTeamIDs,
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
-		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),
+		// The API omits this field when it equals the default (true), so treat nil as true.
+		AutoResolveIncidentAlerts: types.BoolValue(lo.FromPtrOr(source.AutoResolveIncidentAlerts, true)),
 	}
 }
 
