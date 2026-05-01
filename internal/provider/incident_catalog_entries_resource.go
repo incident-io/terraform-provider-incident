@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"reflect"
 
@@ -17,7 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/pkg/errors"
+	pkgerrors "github.com/pkg/errors"
 	"github.com/samber/lo"
 	"golang.org/x/sync/errgroup"
 
@@ -206,6 +207,12 @@ func (r *IncidentCatalogEntriesResource) Read(ctx context.Context, req resource.
 
 	catalogType, entries, err := r.getEntries(ctx, data.ID.ValueString())
 	if err != nil {
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Catalog type with ID %s not found: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list entries, got error: %s", err))
 		return
 	}
@@ -446,7 +453,7 @@ func (r *IncidentCatalogEntriesResource) getEntries(ctx context.Context, catalog
 			After:         after,
 		})
 		if err != nil {
-			return nil, nil, errors.Wrap(err, "listing entries")
+			return nil, nil, pkgerrors.Wrap(err, "listing entries")
 		}
 
 		entries = append(entries, result.JSON200.CatalogEntries...)
@@ -475,7 +482,7 @@ func (r *IncidentCatalogEntriesResource) getEntries(ctx context.Context, catalog
 func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *IncidentCatalogEntriesResourceModel) (*client.CatalogTypeV3, []client.CatalogEntryV3, error) {
 	_, entries, err := r.getEntries(ctx, data.ID.ValueString())
 	if err != nil {
-		return nil, nil, errors.Wrap(err, "listing entries")
+		return nil, nil, pkgerrors.Wrap(err, "listing entries")
 	}
 
 	{
@@ -506,7 +513,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 			g.Go(func() error {
 				_, err := r.client.CatalogV3DestroyEntryWithResponse(ctx, entry.Id)
 				if err != nil {
-					return errors.Wrap(err, "unable to destroy catalog entry, got error")
+					return pkgerrors.Wrap(err, "unable to destroy catalog entry, got error")
 				}
 
 				tflog.Debug(ctx, fmt.Sprintf("destroyed catalog entry with id=%s", entry.Id))
@@ -516,7 +523,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 		}
 
 		if err := g.Wait(); err != nil {
-			return nil, nil, errors.Wrap(err, "destroying catalog entries")
+			return nil, nil, pkgerrors.Wrap(err, "destroying catalog entries")
 		}
 	}
 
@@ -601,7 +608,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 				UpdateAttributes: data.buildUpdateAttributes(ctx),
 			})
 			if err != nil {
-				return nil, nil, errors.Wrap(err, fmt.Sprintf("unable to bulk update catalog entries (batch %d of %d)", i+1, len(batches)))
+				return nil, nil, pkgerrors.Wrap(err, fmt.Sprintf("unable to bulk update catalog entries (batch %d of %d)", i+1, len(batches)))
 			}
 
 			tflog.Debug(ctx, fmt.Sprintf("bulk updated %d catalog entries (batch %d of %d)", len(batch), i+1, len(batches)))
@@ -624,7 +631,7 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 					AttributeValues: payload.Payload.AttributeValues,
 				})
 				if err != nil {
-					return errors.Wrap(err, fmt.Sprintf("unable to create catalog entry with external_id=%s, got error", *payload.Payload.ExternalId))
+					return pkgerrors.Wrap(err, fmt.Sprintf("unable to create catalog entry with external_id=%s, got error", *payload.Payload.ExternalId))
 				}
 
 				tflog.Debug(ctx, fmt.Sprintf("created a catalog entry resource with id=%s", result.JSON201.CatalogEntry.Id))
@@ -633,13 +640,13 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 		}
 
 		if err := g.Wait(); err != nil {
-			return nil, nil, errors.Wrap(err, "creating catalog entries")
+			return nil, nil, pkgerrors.Wrap(err, "creating catalog entries")
 		}
 	}
 
 	catalogType, entries, err := r.getEntries(ctx, data.ID.ValueString())
 	if err != nil {
-		return nil, nil, errors.Wrap(err, "listing entries")
+		return nil, nil, pkgerrors.Wrap(err, "listing entries")
 	}
 
 	return catalogType, entries, nil
