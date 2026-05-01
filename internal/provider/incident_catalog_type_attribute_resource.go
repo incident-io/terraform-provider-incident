@@ -156,8 +156,13 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 				Required:    true,
 			},
 			"type": schema.StringAttribute{
-				Description: `The type of this attribute.`,
-				Required:    true,
+				MarkdownDescription: "The type of this attribute. Valid types include:\n\n" +
+					"- `Bool` - A boolean value (true/false)\n" +
+					"- `Number` - A numeric value\n" +
+					"- `String` - A single-line text string\n" +
+					"- `Text` - Rich text with formatting\n" +
+					"- `Custom[\"TypeName\"]` - A reference to another catalog type (use `incident_catalog_type.other.type_name`)",
+				Required: true,
 			},
 			"array": schema.BoolAttribute{
 				Description: `Whether this attribute is an array or scalar.`,

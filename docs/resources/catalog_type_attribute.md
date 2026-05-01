@@ -94,7 +94,13 @@ resource "incident_catalog_type_attribute" "service_tier_services" {
 
 - `catalog_type_id` (String) ID of this catalog type
 - `name` (String) The name of this attribute.
-- `type` (String) The type of this attribute.
+- `type` (String) The type of this attribute. Valid types include:
+
+- `Bool` - A boolean value (true/false)
+- `Number` - A numeric value
+- `String` - A single-line text string
+- `Text` - Rich text with formatting
+- `Custom["TypeName"]` - A reference to another catalog type (use `incident_catalog_type.other.type_name`)
 
 ### Optional
 
