@@ -486,7 +486,18 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 
 	tflog.Trace(ctx, fmt.Sprintf("created an alert source with id=%s", result.JSON200.AlertSource.Id))
 
+	// Save the planned value before overwriting with API response.
+	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
+
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
+
+	// When auto_resolve_timeout_minutes isn't set, the API ignores
+	// auto_resolve_incident_alerts and won't return it. Preserve the
+	// planned value so Terraform doesn't see an inconsistent result.
+	if data.AutoResolveTimeoutMinutes.IsNull() && data.AutoResolveIncidentAlerts.IsNull() && !planAutoResolveIncidentAlerts.IsUnknown() {
+		data.AutoResolveIncidentAlerts = planAutoResolveIncidentAlerts
+	}
+
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
 		data.Template.Title = models.IncidentEngineParamBindingValue{}
 		data.Template.Description = models.IncidentEngineParamBindingValue{}
@@ -515,7 +526,18 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
+	// Save the prior state value before overwriting with API response.
+	stateAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
+
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
+
+	// When auto_resolve_timeout_minutes isn't set, the API ignores
+	// auto_resolve_incident_alerts and won't return it. Preserve the
+	// prior state value so Terraform doesn't see a perpetual diff.
+	if data.AutoResolveTimeoutMinutes.IsNull() && data.AutoResolveIncidentAlerts.IsNull() && !stateAutoResolveIncidentAlerts.IsUnknown() {
+		data.AutoResolveIncidentAlerts = stateAutoResolveIncidentAlerts
+	}
+
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
 		data.Template.Title = models.IncidentEngineParamBindingValue{}
 		data.Template.Description = models.IncidentEngineParamBindingValue{}
@@ -570,7 +592,18 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 
 	claimResource(ctx, r.client, result.JSON200.AlertSource.Id, resp.Diagnostics, client.AlertSource, r.terraformVersion)
 
+	// Save the planned value before overwriting with API response.
+	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
+
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
+
+	// When auto_resolve_timeout_minutes isn't set, the API ignores
+	// auto_resolve_incident_alerts and won't return it. Preserve the
+	// planned value so Terraform doesn't see an inconsistent result.
+	if data.AutoResolveTimeoutMinutes.IsNull() && data.AutoResolveIncidentAlerts.IsNull() && !planAutoResolveIncidentAlerts.IsUnknown() {
+		data.AutoResolveIncidentAlerts = planAutoResolveIncidentAlerts
+	}
+
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
 		data.Template.Title = models.IncidentEngineParamBindingValue{}
 		data.Template.Description = models.IncidentEngineParamBindingValue{}
