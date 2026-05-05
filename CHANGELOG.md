@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.35.1
+
+- Fix inconsistent state warning for `auto_resolve_incident_alerts`
+
 ## v5.35.0
 
 - Add heartbeat monitoring options to alert source resource (`interval`, `grace_period_seconds`, `failure_threshold`)
