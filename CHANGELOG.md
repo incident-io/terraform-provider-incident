@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.35.2
+
+- Support escalation path nesting up to a depth of 4
+
 ## v5.35.1
 
 - Fix inconsistent state warning for `auto_resolve_incident_alerts`
