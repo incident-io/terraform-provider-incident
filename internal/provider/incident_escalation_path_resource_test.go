@@ -388,7 +388,7 @@ resource "incident_schedule" "primary_on_call" {
   team_ids = []
 }
 
-# Create a path with deeply nested if_else nodes (4 levels deep)
+# Create a path with deeply nested if_else nodes (5 levels deep)
 resource "incident_escalation_path" "example" {
   name = "Deeply Nested Path Test"
 
@@ -439,14 +439,29 @@ resource "incident_escalation_path" "example" {
                           ]
                           then_path = [
                             {
-                              type = "level"
-                              level = {
-                                targets = [{
-                                  type    = "schedule"
-                                  id      = incident_schedule.primary_on_call.id
-                                  urgency  = "high"
-                                }]
-                                time_to_ack_seconds = 300
+                              type = "if_else"
+                              if_else = {
+                                conditions = [
+                                  {
+                                    operation = "is_active",
+                                    param_bindings = []
+                                    subject = "escalation.working_hours[\"UK\"]"
+                                  }
+                                ]
+                                then_path = [
+                                  {
+                                    type = "level"
+                                    level = {
+                                      targets = [{
+                                        type    = "schedule"
+                                        id      = incident_schedule.primary_on_call.id
+                                        urgency  = "high"
+                                      }]
+                                      time_to_ack_seconds = 300
+                                    }
+                                  }
+                                ],
+                                else_path = []
                               }
                             }
                           ],
