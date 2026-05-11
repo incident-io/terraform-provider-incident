@@ -18,6 +18,7 @@ type AlertSourceResourceModel struct {
 	JiraOptions               *AlertSourceJiraOptionsModel       `tfsdk:"jira_options"`
 	HeartbeatOptions          *AlertSourceHeartbeatOptionsModel  `tfsdk:"heartbeat_options"`
 	EmailAddress              types.String                       `tfsdk:"email_address"`
+	EmailOptions              *AlertSourceEmailOptionsModel      `tfsdk:"email_options"`
 	HTTPCustomOptions         *AlertSourceHTTPCustomOptionsModel `tfsdk:"http_custom_options"`
 	OwningTeamIDs             types.Set                          `tfsdk:"owning_team_ids"`
 	AutoResolveTimeoutMinutes types.Int64                        `tfsdk:"auto_resolve_timeout_minutes"`
@@ -62,6 +63,7 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 		JiraOptions:               AlertSourceJiraOptionsModel{}.FromAPI(source.JiraOptions),
 		HeartbeatOptions:          AlertSourceHeartbeatOptionsModel{}.FromAPI(source.HeartbeatOptions),
 		EmailAddress:              types.StringPointerValue(emailAddress),
+		EmailOptions:              AlertSourceEmailOptionsModel{}.FromAPI(source.EmailOptions),
 		HTTPCustomOptions:         AlertSourceHTTPCustomOptionsModel{}.FromAPI(source.HttpCustomOptions),
 		OwningTeamIDs:             owningTeamIDs,
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
@@ -278,5 +280,51 @@ func (opts *AlertSourceHTTPCustomOptionsModel) ToPayload() *client.AlertSourceHT
 	return &client.AlertSourceHTTPCustomOptionsV2{
 		TransformExpression:  opts.TransformExpression.ValueString(),
 		DeduplicationKeyPath: opts.DeduplicationKeyPath.ValueString(),
+	}
+}
+
+type AlertSourceEmailOptionsModel struct {
+	TransformExpression types.String   `tfsdk:"transform_expression"`
+	Redactions          []types.String `tfsdk:"redactions"`
+}
+
+func (AlertSourceEmailOptionsModel) FromAPI(opts *client.AlertSourceEmailOptionsV2) *AlertSourceEmailOptionsModel {
+	if opts == nil {
+		return nil
+	}
+
+	// The API always returns EmailOptions for email sources (it includes
+	// email_address). Only populate the model when there is actual
+	// configuration data (redactions or transform_expression), so we
+	// return nil when the user hasn't set email_options and avoid a
+	// "Provider produced inconsistent result" error.
+	if len(opts.Redactions) == 0 && opts.TransformExpression == nil {
+		return nil
+	}
+
+	redactions := []types.String{}
+	for _, r := range opts.Redactions {
+		redactions = append(redactions, types.StringValue(string(r)))
+	}
+
+	return &AlertSourceEmailOptionsModel{
+		TransformExpression: types.StringPointerValue(opts.TransformExpression),
+		Redactions:          redactions,
+	}
+}
+
+func (opts *AlertSourceEmailOptionsModel) ToPayload() *client.AlertSourceEmailOptionsPayloadV2 {
+	if opts == nil {
+		return nil
+	}
+
+	redactions := []client.AlertSourceEmailOptionsPayloadV2Redactions{}
+	for _, r := range opts.Redactions {
+		redactions = append(redactions, client.AlertSourceEmailOptionsPayloadV2Redactions(r.ValueString()))
+	}
+
+	return &client.AlertSourceEmailOptionsPayloadV2{
+		TransformExpression: opts.TransformExpression.ValueStringPointer(),
+		Redactions:          redactions,
 	}
 }

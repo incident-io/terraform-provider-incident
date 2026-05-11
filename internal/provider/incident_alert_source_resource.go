@@ -78,6 +78,14 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 		return
 	}
 
+	req.Config.GetAttribute(ctx, path.Root("email_options"), &data.EmailOptions)
+	if data.EmailOptions != nil && data.SourceType.ValueString() != "email" {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"email_options can only be set when source_type is email",
+			"These options only apply to the 'email' source type"))
+		return
+	}
+
 	// Validate that heartbeat sources don't set template title or description,
 	// as the API normalizes these fields and the provider ignores the returned values.
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
@@ -381,6 +389,21 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 					useStateForUnknownIncludingNull{},
 				},
 			},
+			"email_options": schema.SingleNestedAttribute{
+				MarkdownDescription: apischema.Docstring("AlertSourceV2", "email_options"),
+				Optional:            true,
+				Attributes: map[string]schema.Attribute{
+					"transform_expression": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsPayloadV2", "transform_expression"),
+					},
+					"redactions": schema.ListAttribute{
+						Required:            true,
+						ElementType:         types.StringType,
+						MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsPayloadV2", "redactions"),
+					},
+				},
+			},
 			"http_custom_options": schema.SingleNestedAttribute{
 				Optional:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV2", "http_custom_options"),
@@ -460,6 +483,7 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 			Template:          data.Template.ToPayload(),
 			JiraOptions:       data.JiraOptions.ToPayload(),
 			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
+			EmailOptions:      data.EmailOptions.ToPayload(),
 			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
 			OwningTeamIds:     owningTeamIDs,
 		}
@@ -571,6 +595,7 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 			Template:          data.Template.ToPayload(),
 			JiraOptions:       data.JiraOptions.ToPayload(),
 			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
+			EmailOptions:      data.EmailOptions.ToPayload(),
 			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
 			OwningTeamIds:     owningTeamIDs,
 		}
