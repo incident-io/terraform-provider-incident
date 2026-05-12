@@ -183,6 +183,20 @@ const (
 	AlertSlimV2StatusResolved AlertSlimV2Status = "resolved"
 )
 
+// Defines values for AlertSourceEmailOptionsPayloadV2Redactions.
+const (
+	AlertSourceEmailOptionsPayloadV2RedactionsCreditCardNumbers       AlertSourceEmailOptionsPayloadV2Redactions = "credit_card_numbers"
+	AlertSourceEmailOptionsPayloadV2RedactionsPhoneNumbers            AlertSourceEmailOptionsPayloadV2Redactions = "phone_numbers"
+	AlertSourceEmailOptionsPayloadV2RedactionsUsSocialSecurityNumbers AlertSourceEmailOptionsPayloadV2Redactions = "us_social_security_numbers"
+)
+
+// Defines values for AlertSourceEmailOptionsV2Redactions.
+const (
+	AlertSourceEmailOptionsV2RedactionsCreditCardNumbers       AlertSourceEmailOptionsV2Redactions = "credit_card_numbers"
+	AlertSourceEmailOptionsV2RedactionsPhoneNumbers            AlertSourceEmailOptionsV2Redactions = "phone_numbers"
+	AlertSourceEmailOptionsV2RedactionsUsSocialSecurityNumbers AlertSourceEmailOptionsV2Redactions = "us_social_security_numbers"
+)
+
 // Defines values for AlertSourceV2SourceType.
 const (
 	AlertSourceV2SourceTypeAlertmanager      AlertSourceV2SourceType = "alertmanager"
@@ -1263,6 +1277,12 @@ const (
 	PostmortemDocumentV1StatusCompleted  PostmortemDocumentV1Status = "completed"
 	PostmortemDocumentV1StatusInProgress PostmortemDocumentV1Status = "in_progress"
 	PostmortemDocumentV1StatusInReview   PostmortemDocumentV1Status = "in_review"
+)
+
+// Defines values for PostmortemDocumentV1Type.
+const (
+	External PostmortemDocumentV1Type = "external"
+	InApp    PostmortemDocumentV1Type = "in_app"
 )
 
 // Defines values for PostmortemDocumentsUpdateStatusPayloadV1Status.
@@ -2455,11 +2475,32 @@ type AlertSlimV2 struct {
 // AlertSlimV2Status Statuses of an alert
 type AlertSlimV2Status string
 
+// AlertSourceEmailOptionsPayloadV2 defines model for AlertSourceEmailOptionsPayloadV2.
+type AlertSourceEmailOptionsPayloadV2 struct {
+	// Redactions Which PII types to automatically redact from incoming email content before storage
+	Redactions []AlertSourceEmailOptionsPayloadV2Redactions `json:"redactions"`
+
+	// TransformExpression JavaScript expression to transform email fields into structured alert fields
+	TransformExpression *string `json:"transform_expression,omitempty"`
+}
+
+// AlertSourceEmailOptionsPayloadV2Redactions Which PII type to automatically redact from incoming email content before storage
+type AlertSourceEmailOptionsPayloadV2Redactions string
+
 // AlertSourceEmailOptionsV2 defines model for AlertSourceEmailOptionsV2.
 type AlertSourceEmailOptionsV2 struct {
 	// EmailAddress Email address this alert source receives alerts to
 	EmailAddress string `json:"email_address"`
+
+	// Redactions Which PII types to automatically redact from incoming email content before storage
+	Redactions []AlertSourceEmailOptionsV2Redactions `json:"redactions"`
+
+	// TransformExpression JavaScript expression to transform email fields into structured alert fields
+	TransformExpression *string `json:"transform_expression,omitempty"`
 }
+
+// AlertSourceEmailOptionsV2Redactions Which PII type to automatically redact from incoming email content before storage
+type AlertSourceEmailOptionsV2Redactions string
 
 // AlertSourceHTTPCustomOptionsV2 defines model for AlertSourceHTTPCustomOptionsV2.
 type AlertSourceHTTPCustomOptionsV2 struct {
@@ -2545,6 +2586,7 @@ type AlertSourcesCreatePayloadV2 struct {
 
 	// AutoResolveTimeoutMinutes When set, alerts from this source will automatically resolve after this many minutes.
 	AutoResolveTimeoutMinutes *int64                                `json:"auto_resolve_timeout_minutes,omitempty"`
+	EmailOptions              *AlertSourceEmailOptionsPayloadV2     `json:"email_options,omitempty"`
 	HeartbeatOptions          *AlertSourceHeartbeatOptionsPayloadV2 `json:"heartbeat_options,omitempty"`
 	HttpCustomOptions         *AlertSourceHTTPCustomOptionsV2       `json:"http_custom_options,omitempty"`
 	JiraOptions               *AlertSourceJiraOptionsV2             `json:"jira_options,omitempty"`
@@ -2588,6 +2630,7 @@ type AlertSourcesUpdatePayloadV2 struct {
 
 	// Disabled For heartbeat sources, set to true to disable monitoring
 	Disabled          *bool                                 `json:"disabled,omitempty"`
+	EmailOptions      *AlertSourceEmailOptionsPayloadV2     `json:"email_options,omitempty"`
 	HeartbeatOptions  *AlertSourceHeartbeatOptionsPayloadV2 `json:"heartbeat_options,omitempty"`
 	HttpCustomOptions *AlertSourceHTTPCustomOptionsV2       `json:"http_custom_options,omitempty"`
 	JiraOptions       *AlertSourceJiraOptionsV2             `json:"jira_options,omitempty"`
@@ -3726,7 +3769,7 @@ type CustomFieldOptionV1 struct {
 	// SortKey Sort key used to order the custom field options correctly
 	SortKey int64 `json:"sort_key"`
 
-	// Value Human readable name for the custom field option
+	// Value Human readable name for the custom field option. Values must not start or end with whitespace, or contain tabs or newlines.
 	Value string `json:"value"`
 }
 
@@ -3741,7 +3784,7 @@ type CustomFieldOptionV2 struct {
 	// SortKey Sort key used to order the custom field options correctly
 	SortKey int64 `json:"sort_key"`
 
-	// Value Human readable name for the custom field option
+	// Value Human readable name for the custom field option. Values must not start or end with whitespace, or contain tabs or newlines.
 	Value string `json:"value"`
 }
 
@@ -3753,7 +3796,7 @@ type CustomFieldOptionsCreatePayloadV1 struct {
 	// SortKey Sort key used to order the custom field options correctly
 	SortKey *int64 `json:"sort_key,omitempty"`
 
-	// Value Human readable name for the custom field option
+	// Value Human readable name for the custom field option. Values must not start or end with whitespace, or contain tabs or newlines.
 	Value string `json:"value"`
 }
 
@@ -3778,7 +3821,7 @@ type CustomFieldOptionsUpdatePayloadV1 struct {
 	// SortKey Sort key used to order the custom field options correctly
 	SortKey int64 `json:"sort_key"`
 
-	// Value Human readable name for the custom field option
+	// Value Human readable name for the custom field option. Values must not start or end with whitespace, or contain tabs or newlines.
 	Value string `json:"value"`
 }
 
@@ -5967,6 +6010,20 @@ type IncidentsEditResultV2 struct {
 	Incident IncidentV2 `json:"incident"`
 }
 
+// IncidentsImportPostmortemDocumentPayloadV2 defines model for IncidentsImportPostmortemDocumentPayloadV2.
+type IncidentsImportPostmortemDocumentPayloadV2 struct {
+	// Content The document content as GitHub-Flavored Markdown
+	Content string `json:"content"`
+
+	// Title Title of the postmortem document
+	Title string `json:"title"`
+}
+
+// IncidentsImportPostmortemDocumentResultV2 defines model for IncidentsImportPostmortemDocumentResultV2.
+type IncidentsImportPostmortemDocumentResultV2 struct {
+	PostmortemDocument PostmortemDocumentV1 `json:"postmortem_document"`
+}
+
 // IncidentsListResultV1 defines model for IncidentsListResultV1.
 type IncidentsListResultV1 struct {
 	Incidents      []IncidentV1                     `json:"incidents"`
@@ -6403,6 +6460,12 @@ type PartialEntryPayloadV3 struct {
 	Rank *int32 `json:"rank,omitempty"`
 }
 
+// PoliciesHasOpenForUserResultV2 defines model for PoliciesHasOpenForUserResultV2.
+type PoliciesHasOpenForUserResultV2 struct {
+	// HasOpenViolations Whether the user has an open violation for the policy.
+	HasOpenViolations bool `json:"has_open_violations"`
+}
+
 // PostmortemDocumentV1 defines model for PostmortemDocumentV1.
 type PostmortemDocumentV1 struct {
 	// CreatedAt Timestamp for when the document was created
@@ -6429,12 +6492,18 @@ type PostmortemDocumentV1 struct {
 	// Title The display title of the post-mortem document
 	Title string `json:"title"`
 
+	// Type Whether this is a native incident.io post-mortem or one hosted in an external provider
+	Type PostmortemDocumentV1Type `json:"type"`
+
 	// UpdatedAt Timestamp for when the document was last updated
 	UpdatedAt string `json:"updated_at"`
 }
 
 // PostmortemDocumentV1Status The current status of this post-mortem document
 type PostmortemDocumentV1Status string
+
+// PostmortemDocumentV1Type Whether this is a native incident.io post-mortem or one hosted in an external provider
+type PostmortemDocumentV1Type string
 
 // PostmortemDocumentsListResultV1 defines model for PostmortemDocumentsListResultV1.
 type PostmortemDocumentsListResultV1 struct {
@@ -6628,74 +6697,83 @@ type ScheduleOverrideV2 struct {
 
 // ScheduleReplicaCreatePayloadV2 defines model for ScheduleReplicaCreatePayloadV2.
 type ScheduleReplicaCreatePayloadV2 struct {
-	// ReplicaFallbackUserId The user that will be used in the replica system whenever NOBODY is scheduled
+	// MirrorWindowDays How many days ahead to mirror this schedule into the external provider. Defaults to 14 if not set; maximum 90.
+	MirrorWindowDays *int64 `json:"mirror_window_days,omitempty"`
+
+	// ReplicaFallbackUserId The ID of a user in the external provider that will be assigned whenever nobody is on-call in the incident.io schedule. External providers typically require someone to always be on-call, so this user fills gaps where incident.io has no one scheduled.
 	ReplicaFallbackUserId string `json:"replica_fallback_user_id"`
 
-	// ReplicaProvider The external provider where this schedule is replicated to (e.g. PagerDuty, Opsgenie, or Jira Service Management)
+	// ReplicaProvider The external provider where this schedule is replicated to
 	ReplicaProvider ScheduleReplicaCreatePayloadV2ReplicaProvider `json:"replica_provider"`
 
-	// ReplicaProviderId ID of replica schedule in external system
+	// ReplicaProviderId The ID of the schedule in the external provider that this replica syncs to. For PagerDuty this is the schedule ID (e.g. PO8107X), for Opsgenie the schedule ID, and for Jira Service Management the schedule ID.
 	ReplicaProviderId string `json:"replica_provider_id"`
 
-	// Sources The rotation/layer combinations to replicate
+	// Sources The specific rotation and layer combinations from the schedule to replicate. Each source identifies a single layer within a rotation to sync to the external provider.
 	Sources []ScheduleReplicaSourceV2 `json:"sources"`
 }
 
-// ScheduleReplicaCreatePayloadV2ReplicaProvider The external provider where this schedule is replicated to (e.g. PagerDuty, Opsgenie, or Jira Service Management)
+// ScheduleReplicaCreatePayloadV2ReplicaProvider The external provider where this schedule is replicated to
 type ScheduleReplicaCreatePayloadV2ReplicaProvider string
 
 // ScheduleReplicaSourceV2 defines model for ScheduleReplicaSourceV2.
 type ScheduleReplicaSourceV2 struct {
-	// LayerId The layer within the rotation to replicate
+	// LayerId The ID of the layer within the rotation to replicate. Rotations can have multiple layers that stack on top of each other, and you must specify which layer to replicate.
 	LayerId string `json:"layer_id"`
 
-	// RotationId The rotation within the schedule to replicate
+	// RotationId The ID of the rotation within the schedule to replicate. Each schedule can have multiple rotations, and you can choose which ones to include in the replica.
 	RotationId string `json:"rotation_id"`
 }
 
 // ScheduleReplicaUserStatusV2 defines model for ScheduleReplicaUserStatusV2.
 type ScheduleReplicaUserStatusV2 struct {
-	// ExternalUserId External user ID if resolved
+	// ExternalUserId The corresponding user ID in the external provider (e.g. a PagerDuty user ID). If set, the user has been successfully mapped to an external user and will be included in the replica. If null, the user could not be resolved and syncing may produce errors.
 	ExternalUserId *string `json:"external_user_id,omitempty"`
 
-	// UserId The internal user ID
+	// UserId The incident.io user ID for a user who appears in the schedule rotation.
 	UserId string `json:"user_id"`
 }
 
 // ScheduleReplicaV2 defines model for ScheduleReplicaV2.
 type ScheduleReplicaV2 struct {
+	// CreatedAt When this schedule replica was first created
 	CreatedAt time.Time `json:"created_at"`
 
-	// Id Unique internal ID of the schedule replica
+	// Id Unique identifier of the schedule replica
 	Id string `json:"id"`
 
-	// LastSyncError The last error encountered during syncing
+	// LastSyncError The most recent error encountered while syncing this replica to the external provider, if any. Common errors include unmapped users or connectivity issues with the external provider. Null if the last sync was successful.
 	LastSyncError *string `json:"last_sync_error,omitempty"`
 
-	// LastSyncedAt When the replica was last successfully synced
+	// LastSyncedAt When the replica was last successfully synced to the external provider. Null if the replica has never been successfully synced.
 	LastSyncedAt *time.Time `json:"last_synced_at,omitempty"`
 
-	// ReplicaFallbackUserId The user that will be used in the replica system whenever NOBODY is scheduled
+	// MirrorWindowDays How many days ahead to mirror this schedule into the external provider. Defaults to 14 if not set; maximum 90.
+	MirrorWindowDays *int64 `json:"mirror_window_days,omitempty"`
+
+	// ReplicaFallbackUserId The ID of a user in the external provider that will be assigned whenever nobody is on-call in the incident.io schedule. External providers typically require someone to always be on-call, so this user fills gaps where incident.io has no one scheduled.
 	ReplicaFallbackUserId string `json:"replica_fallback_user_id"`
 
-	// ReplicaProvider The external provider where this schedule is replicated to (e.g. PagerDuty, Opsgenie, or Jira Service Management)
+	// ReplicaProvider The external provider where this schedule is replicated to
 	ReplicaProvider ScheduleReplicaV2ReplicaProvider `json:"replica_provider"`
 
-	// ReplicaProviderId ID of replica schedule in external system
+	// ReplicaProviderId The ID of the schedule in the external provider that this replica syncs to. For PagerDuty this is the schedule ID (e.g. PO8107X), for Opsgenie the schedule ID, and for Jira Service Management the schedule ID.
 	ReplicaProviderId string `json:"replica_provider_id"`
 
-	// ScheduleId Source schedule
+	// ScheduleId The ID of the incident.io schedule that this replica is syncing from
 	ScheduleId string `json:"schedule_id"`
 
-	// Sources The rotation/layer combinations being replicated
-	Sources   []ScheduleReplicaSourceV2 `json:"sources"`
-	UpdatedAt time.Time                 `json:"updated_at"`
+	// Sources The specific rotation and layer combinations from the schedule that are being replicated. Each source identifies a single layer within a rotation to sync to the external provider.
+	Sources []ScheduleReplicaSourceV2 `json:"sources"`
 
-	// UserStatuses Status of user mapping for replication
+	// UpdatedAt When this schedule replica was last updated
+	UpdatedAt time.Time `json:"updated_at"`
+
+	// UserStatuses The mapping status of each incident.io user in the schedule to their corresponding user in the external provider. Users must be mapped for the replica to sync their on-call shifts correctly.
 	UserStatuses []ScheduleReplicaUserStatusV2 `json:"user_statuses"`
 }
 
-// ScheduleReplicaV2ReplicaProvider The external provider where this schedule is replicated to (e.g. PagerDuty, Opsgenie, or Jira Service Management)
+// ScheduleReplicaV2ReplicaProvider The external provider where this schedule is replicated to
 type ScheduleReplicaV2ReplicaProvider string
 
 // ScheduleRotationCreatePayloadV2 defines model for ScheduleRotationCreatePayloadV2.
@@ -8263,6 +8341,18 @@ type FollowUpsV2ListParams struct {
 // FollowUpsV2ListParamsIncidentMode defines parameters for FollowUpsV2List.
 type FollowUpsV2ListParamsIncidentMode string
 
+// HeartbeatV2Ping1Params defines parameters for HeartbeatV2Ping1.
+type HeartbeatV2Ping1Params struct {
+	// Token Token provided via the token query parameter
+	Token *string `form:"token,omitempty" json:"token,omitempty"`
+}
+
+// HeartbeatV2PingParams defines parameters for HeartbeatV2Ping.
+type HeartbeatV2PingParams struct {
+	// Token Token provided via the token query parameter
+	Token *string `form:"token,omitempty" json:"token,omitempty"`
+}
+
 // AlertsV2ListIncidentAlertsParams defines parameters for AlertsV2ListIncidentAlerts.
 type AlertsV2ListIncidentAlertsParams struct {
 	// PageSize Number of incident alerts to return per page
@@ -8603,6 +8693,9 @@ type IncidentsV2CreateJSONRequestBody = IncidentsCreatePayloadV2
 
 // IncidentsV2EditJSONRequestBody defines body for IncidentsV2Edit for application/json ContentType.
 type IncidentsV2EditJSONRequestBody = IncidentsEditPayloadV2
+
+// IncidentsV2ImportPostmortemDocumentJSONRequestBody defines body for IncidentsV2ImportPostmortemDocument for application/json ContentType.
+type IncidentsV2ImportPostmortemDocumentJSONRequestBody = IncidentsImportPostmortemDocumentPayloadV2
 
 // ManagedResourcesV2CreateManagedResourceJSONRequestBody defines body for ManagedResourcesV2CreateManagedResource for application/json ContentType.
 type ManagedResourcesV2CreateManagedResourceJSONRequestBody = ManagedResourcesCreateManagedResourcePayloadV2
@@ -9136,6 +9229,12 @@ type ClientInterface interface {
 	// FollowUpsV2Show request
 	FollowUpsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// HeartbeatV2Ping1 request
+	HeartbeatV2Ping1(ctx context.Context, alertSourceConfigId string, params *HeartbeatV2Ping1Params, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// HeartbeatV2Ping request
+	HeartbeatV2Ping(ctx context.Context, alertSourceConfigId string, params *HeartbeatV2PingParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// AlertsV2ListIncidentAlerts request
 	AlertsV2ListIncidentAlerts(ctx context.Context, params *AlertsV2ListIncidentAlertsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -9182,6 +9281,11 @@ type ClientInterface interface {
 	IncidentsV2EditWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	IncidentsV2Edit(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentsV2ImportPostmortemDocumentWithBody request with any body
+	IncidentsV2ImportPostmortemDocumentWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	IncidentsV2ImportPostmortemDocument(ctx context.Context, id string, body IncidentsV2ImportPostmortemDocumentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ManagedResourcesV2CreateManagedResourceWithBody request with any body
 	ManagedResourcesV2CreateManagedResourceWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -9288,6 +9392,9 @@ type ClientInterface interface {
 
 	// UsersV2ListNotificationRules request
 	UsersV2ListNotificationRules(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PoliciesV2HasOpenForUser request
+	PoliciesV2HasOpenForUser(ctx context.Context, userId string, policyId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// WorkflowsV2ListWorkflows request
 	WorkflowsV2ListWorkflows(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -11130,6 +11237,30 @@ func (c *Client) FollowUpsV2Show(ctx context.Context, id string, reqEditors ...R
 	return c.Client.Do(req)
 }
 
+func (c *Client) HeartbeatV2Ping1(ctx context.Context, alertSourceConfigId string, params *HeartbeatV2Ping1Params, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewHeartbeatV2Ping1Request(c.Server, alertSourceConfigId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) HeartbeatV2Ping(ctx context.Context, alertSourceConfigId string, params *HeartbeatV2PingParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewHeartbeatV2PingRequest(c.Server, alertSourceConfigId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) AlertsV2ListIncidentAlerts(ctx context.Context, params *AlertsV2ListIncidentAlertsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewAlertsV2ListIncidentAlertsRequest(c.Server, params)
 	if err != nil {
@@ -11324,6 +11455,30 @@ func (c *Client) IncidentsV2EditWithBody(ctx context.Context, id string, content
 
 func (c *Client) IncidentsV2Edit(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewIncidentsV2EditRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) IncidentsV2ImportPostmortemDocumentWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentsV2ImportPostmortemDocumentRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) IncidentsV2ImportPostmortemDocument(ctx context.Context, id string, body IncidentsV2ImportPostmortemDocumentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentsV2ImportPostmortemDocumentRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -11792,6 +11947,18 @@ func (c *Client) UsersV2ListNotificationMethods(ctx context.Context, userId stri
 
 func (c *Client) UsersV2ListNotificationRules(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUsersV2ListNotificationRulesRequest(c.Server, userId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PoliciesV2HasOpenForUser(ctx context.Context, userId string, policyId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPoliciesV2HasOpenForUserRequest(c.Server, userId, policyId)
 	if err != nil {
 		return nil, err
 	}
@@ -16945,6 +17112,118 @@ func NewFollowUpsV2ShowRequest(server string, id string) (*http.Request, error) 
 	return req, nil
 }
 
+// NewHeartbeatV2Ping1Request generates requests for HeartbeatV2Ping1
+func NewHeartbeatV2Ping1Request(server string, alertSourceConfigId string, params *HeartbeatV2Ping1Params) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "alert_source_config_id", runtime.ParamLocationPath, alertSourceConfigId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/heartbeat/%s/ping", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Token != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "token", runtime.ParamLocationQuery, *params.Token); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewHeartbeatV2PingRequest generates requests for HeartbeatV2Ping
+func NewHeartbeatV2PingRequest(server string, alertSourceConfigId string, params *HeartbeatV2PingParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "alert_source_config_id", runtime.ParamLocationPath, alertSourceConfigId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/heartbeat/%s/ping", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Token != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "token", runtime.ParamLocationQuery, *params.Token); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewAlertsV2ListIncidentAlertsRequest generates requests for AlertsV2ListIncidentAlerts
 func NewAlertsV2ListIncidentAlertsRequest(server string, params *AlertsV2ListIncidentAlertsParams) (*http.Request, error) {
 	var err error
@@ -17705,6 +17984,53 @@ func NewIncidentsV2EditRequestWithBody(server string, id string, contentType str
 	}
 
 	operationPath := fmt.Sprintf("/v2/incidents/%s/actions/edit", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewIncidentsV2ImportPostmortemDocumentRequest calls the generic IncidentsV2ImportPostmortemDocument builder with application/json body
+func NewIncidentsV2ImportPostmortemDocumentRequest(server string, id string, body IncidentsV2ImportPostmortemDocumentJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewIncidentsV2ImportPostmortemDocumentRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewIncidentsV2ImportPostmortemDocumentRequestWithBody generates requests for IncidentsV2ImportPostmortemDocument with any type of body
+func NewIncidentsV2ImportPostmortemDocumentRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/incidents/%s/actions/import_postmortem_document", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -19198,6 +19524,47 @@ func NewUsersV2ListNotificationRulesRequest(server string, userId string) (*http
 	return req, nil
 }
 
+// NewPoliciesV2HasOpenForUserRequest generates requests for PoliciesV2HasOpenForUser
+func NewPoliciesV2HasOpenForUserRequest(server string, userId string, policyId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "user_id", runtime.ParamLocationPath, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "policy_id", runtime.ParamLocationPath, policyId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/users/%s/policies/%s/open", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewWorkflowsV2ListWorkflowsRequest generates requests for WorkflowsV2ListWorkflows
 func NewWorkflowsV2ListWorkflowsRequest(server string) (*http.Request, error) {
 	var err error
@@ -20508,6 +20875,12 @@ type ClientWithResponsesInterface interface {
 	// FollowUpsV2ShowWithResponse request
 	FollowUpsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*FollowUpsV2ShowResponse, error)
 
+	// HeartbeatV2Ping1WithResponse request
+	HeartbeatV2Ping1WithResponse(ctx context.Context, alertSourceConfigId string, params *HeartbeatV2Ping1Params, reqEditors ...RequestEditorFn) (*HeartbeatV2Ping1Response, error)
+
+	// HeartbeatV2PingWithResponse request
+	HeartbeatV2PingWithResponse(ctx context.Context, alertSourceConfigId string, params *HeartbeatV2PingParams, reqEditors ...RequestEditorFn) (*HeartbeatV2PingResponse, error)
+
 	// AlertsV2ListIncidentAlertsWithResponse request
 	AlertsV2ListIncidentAlertsWithResponse(ctx context.Context, params *AlertsV2ListIncidentAlertsParams, reqEditors ...RequestEditorFn) (*AlertsV2ListIncidentAlertsResponse, error)
 
@@ -20554,6 +20927,11 @@ type ClientWithResponsesInterface interface {
 	IncidentsV2EditWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error)
 
 	IncidentsV2EditWithResponse(ctx context.Context, id string, body IncidentsV2EditJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentsV2EditResponse, error)
+
+	// IncidentsV2ImportPostmortemDocumentWithBodyWithResponse request with any body
+	IncidentsV2ImportPostmortemDocumentWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentsV2ImportPostmortemDocumentResponse, error)
+
+	IncidentsV2ImportPostmortemDocumentWithResponse(ctx context.Context, id string, body IncidentsV2ImportPostmortemDocumentJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentsV2ImportPostmortemDocumentResponse, error)
 
 	// ManagedResourcesV2CreateManagedResourceWithBodyWithResponse request with any body
 	ManagedResourcesV2CreateManagedResourceWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ManagedResourcesV2CreateManagedResourceResponse, error)
@@ -20660,6 +21038,9 @@ type ClientWithResponsesInterface interface {
 
 	// UsersV2ListNotificationRulesWithResponse request
 	UsersV2ListNotificationRulesWithResponse(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*UsersV2ListNotificationRulesResponse, error)
+
+	// PoliciesV2HasOpenForUserWithResponse request
+	PoliciesV2HasOpenForUserWithResponse(ctx context.Context, userId string, policyId string, reqEditors ...RequestEditorFn) (*PoliciesV2HasOpenForUserResponse, error)
 
 	// WorkflowsV2ListWorkflowsWithResponse request
 	WorkflowsV2ListWorkflowsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*WorkflowsV2ListWorkflowsResponse, error)
@@ -23098,6 +23479,48 @@ func (r FollowUpsV2ShowResponse) StatusCode() int {
 	return 0
 }
 
+type HeartbeatV2Ping1Response struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r HeartbeatV2Ping1Response) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r HeartbeatV2Ping1Response) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type HeartbeatV2PingResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r HeartbeatV2PingResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r HeartbeatV2PingResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type AlertsV2ListIncidentAlertsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -23377,6 +23800,28 @@ func (r IncidentsV2EditResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r IncidentsV2EditResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type IncidentsV2ImportPostmortemDocumentResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *IncidentsImportPostmortemDocumentResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentsV2ImportPostmortemDocumentResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentsV2ImportPostmortemDocumentResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -23991,6 +24436,28 @@ func (r UsersV2ListNotificationRulesResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r UsersV2ListNotificationRulesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PoliciesV2HasOpenForUserResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PoliciesHasOpenForUserResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r PoliciesV2HasOpenForUserResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PoliciesV2HasOpenForUserResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -25717,6 +26184,24 @@ func (c *ClientWithResponses) FollowUpsV2ShowWithResponse(ctx context.Context, i
 	return ParseFollowUpsV2ShowResponse(rsp)
 }
 
+// HeartbeatV2Ping1WithResponse request returning *HeartbeatV2Ping1Response
+func (c *ClientWithResponses) HeartbeatV2Ping1WithResponse(ctx context.Context, alertSourceConfigId string, params *HeartbeatV2Ping1Params, reqEditors ...RequestEditorFn) (*HeartbeatV2Ping1Response, error) {
+	rsp, err := c.HeartbeatV2Ping1(ctx, alertSourceConfigId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseHeartbeatV2Ping1Response(rsp)
+}
+
+// HeartbeatV2PingWithResponse request returning *HeartbeatV2PingResponse
+func (c *ClientWithResponses) HeartbeatV2PingWithResponse(ctx context.Context, alertSourceConfigId string, params *HeartbeatV2PingParams, reqEditors ...RequestEditorFn) (*HeartbeatV2PingResponse, error) {
+	rsp, err := c.HeartbeatV2Ping(ctx, alertSourceConfigId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseHeartbeatV2PingResponse(rsp)
+}
+
 // AlertsV2ListIncidentAlertsWithResponse request returning *AlertsV2ListIncidentAlertsResponse
 func (c *ClientWithResponses) AlertsV2ListIncidentAlertsWithResponse(ctx context.Context, params *AlertsV2ListIncidentAlertsParams, reqEditors ...RequestEditorFn) (*AlertsV2ListIncidentAlertsResponse, error) {
 	rsp, err := c.AlertsV2ListIncidentAlerts(ctx, params, reqEditors...)
@@ -25864,6 +26349,23 @@ func (c *ClientWithResponses) IncidentsV2EditWithResponse(ctx context.Context, i
 		return nil, err
 	}
 	return ParseIncidentsV2EditResponse(rsp)
+}
+
+// IncidentsV2ImportPostmortemDocumentWithBodyWithResponse request with arbitrary body returning *IncidentsV2ImportPostmortemDocumentResponse
+func (c *ClientWithResponses) IncidentsV2ImportPostmortemDocumentWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentsV2ImportPostmortemDocumentResponse, error) {
+	rsp, err := c.IncidentsV2ImportPostmortemDocumentWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentsV2ImportPostmortemDocumentResponse(rsp)
+}
+
+func (c *ClientWithResponses) IncidentsV2ImportPostmortemDocumentWithResponse(ctx context.Context, id string, body IncidentsV2ImportPostmortemDocumentJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentsV2ImportPostmortemDocumentResponse, error) {
+	rsp, err := c.IncidentsV2ImportPostmortemDocument(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentsV2ImportPostmortemDocumentResponse(rsp)
 }
 
 // ManagedResourcesV2CreateManagedResourceWithBodyWithResponse request with arbitrary body returning *ManagedResourcesV2CreateManagedResourceResponse
@@ -26204,6 +26706,15 @@ func (c *ClientWithResponses) UsersV2ListNotificationRulesWithResponse(ctx conte
 		return nil, err
 	}
 	return ParseUsersV2ListNotificationRulesResponse(rsp)
+}
+
+// PoliciesV2HasOpenForUserWithResponse request returning *PoliciesV2HasOpenForUserResponse
+func (c *ClientWithResponses) PoliciesV2HasOpenForUserWithResponse(ctx context.Context, userId string, policyId string, reqEditors ...RequestEditorFn) (*PoliciesV2HasOpenForUserResponse, error) {
+	rsp, err := c.PoliciesV2HasOpenForUser(ctx, userId, policyId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePoliciesV2HasOpenForUserResponse(rsp)
 }
 
 // WorkflowsV2ListWorkflowsWithResponse request returning *WorkflowsV2ListWorkflowsResponse
@@ -29098,6 +29609,38 @@ func ParseFollowUpsV2ShowResponse(rsp *http.Response) (*FollowUpsV2ShowResponse,
 	return response, nil
 }
 
+// ParseHeartbeatV2Ping1Response parses an HTTP response from a HeartbeatV2Ping1WithResponse call
+func ParseHeartbeatV2Ping1Response(rsp *http.Response) (*HeartbeatV2Ping1Response, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &HeartbeatV2Ping1Response{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseHeartbeatV2PingResponse parses an HTTP response from a HeartbeatV2PingWithResponse call
+func ParseHeartbeatV2PingResponse(rsp *http.Response) (*HeartbeatV2PingResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &HeartbeatV2PingResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
 // ParseAlertsV2ListIncidentAlertsResponse parses an HTTP response from a AlertsV2ListIncidentAlertsWithResponse call
 func ParseAlertsV2ListIncidentAlertsResponse(rsp *http.Response) (*AlertsV2ListIncidentAlertsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -29420,6 +29963,32 @@ func ParseIncidentsV2EditResponse(rsp *http.Response) (*IncidentsV2EditResponse,
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIncidentsV2ImportPostmortemDocumentResponse parses an HTTP response from a IncidentsV2ImportPostmortemDocumentWithResponse call
+func ParseIncidentsV2ImportPostmortemDocumentResponse(rsp *http.Response) (*IncidentsV2ImportPostmortemDocumentResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentsV2ImportPostmortemDocumentResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest IncidentsImportPostmortemDocumentResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
 
 	}
 
@@ -30124,6 +30693,32 @@ func ParseUsersV2ListNotificationRulesResponse(rsp *http.Response) (*UsersV2List
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest UsersListNotificationRulesResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePoliciesV2HasOpenForUserResponse parses an HTTP response from a PoliciesV2HasOpenForUserWithResponse call
+func ParsePoliciesV2HasOpenForUserResponse(rsp *http.Response) (*PoliciesV2HasOpenForUserResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PoliciesV2HasOpenForUserResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PoliciesHasOpenForUserResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

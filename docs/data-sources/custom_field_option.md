@@ -18,7 +18,7 @@ This data source provides information about a custom field option.
 ### Required
 
 - `custom_field_id` (String) ID of the custom field this option belongs to
-- `value` (String) Human readable name for the custom field option
+- `value` (String) Human readable name for the custom field option. Values must not start or end with whitespace, or contain tabs or newlines.
 
 ### Optional
 

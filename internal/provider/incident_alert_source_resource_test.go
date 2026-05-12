@@ -333,6 +333,35 @@ resource "incident_alert_source" "test" {
 				ExpectError: regexp.MustCompile("heartbeat_options can only be set when source_type is heartbeat"),
 			},
 			{
+				// Test email_options with wrong source_type
+				Config: testRunTemplate("incident_alert_source_invalid_email", `
+resource "incident_alert_source" "test" {
+  name = "Not Email, but with email options"
+  source_type = "datadog"
+
+  template = {
+    expressions = [],
+    title = {
+      literal = {{ quote .Title }}
+    },
+    description = {
+      literal = {{ quote .Description }}
+    },
+    attributes = []
+  }
+
+  email_options = {
+    redactions = ["credit_card_numbers"]
+  }
+}
+`, struct{ Title, Description string }{
+					Title:       testAlertSourceTitle,
+					Description: testAlertSourceDescription,
+				}),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile("email_options can only be set when source_type is email"),
+			},
+			{
 				// Test missing required template fields
 				Config: testRunTemplate("incident_alert_source_invalid", `
 resource "incident_alert_source" "test" {
@@ -1068,6 +1097,65 @@ resource "incident_alert_source" "test" {
 		Title:        testAlertSourceTitle,
 		Description:  testAlertSourceDescription,
 		TeamTypeName: teamTypeName(),
+	})
+}
+
+// TestAccAlertSourceResource_Email checks that email_options work.
+func TestAccAlertSourceResource_Email(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceResourceConfigWithEmail("email-source"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "email-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "email"),
+					resource.TestCheckResourceAttrSet("incident_alert_source.test", "email_address"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "email_options.redactions.#", "2"),
+					resource.TestCheckTypeSetElemAttr("incident_alert_source.test", "email_options.redactions.*", "credit_card_numbers"),
+					resource.TestCheckTypeSetElemAttr("incident_alert_source.test", "email_options.redactions.*", "phone_numbers"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "email_options.transform_expression", "payload.subject"),
+				),
+			},
+			// ImportState testing
+			{
+				ResourceName:      "incident_alert_source.test",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+func testAccAlertSourceResourceConfigWithEmail(name string) string {
+	return testRunTemplate("incident_alert_source_email", `
+resource "incident_alert_source" "test" {
+  name        = {{ quote .Name }}
+  source_type = "email"
+
+  template = {
+    expressions = [],
+    title = {
+      literal = {{ quote .Title }}
+    },
+    description = {
+      literal = {{ quote .Description }}
+    },
+    attributes = []
+  }
+
+  email_options = {
+    redactions           = ["credit_card_numbers", "phone_numbers"]
+    transform_expression = "payload.subject"
+  }
+}
+`, struct {
+		Name, Title, Description string
+	}{
+		Name:        name,
+		Title:       testAlertSourceTitle,
+		Description: testAlertSourceDescription,
 	})
 }
 
