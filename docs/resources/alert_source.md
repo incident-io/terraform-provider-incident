@@ -141,6 +141,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 - `auto_resolve_incident_alerts` (Boolean) Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true. Only use in conjunction with auto_resolve_timeout_minutes.
 - `auto_resolve_timeout_minutes` (Number) When set, alerts from this source will automatically resolve after this many minutes.
 - `email_address` (String) Email address this alert source receives alerts to
+- `email_options` (Attributes) (see [below for nested schema](#nestedatt--email_options))
 - `heartbeat_options` (Attributes) (see [below for nested schema](#nestedatt--heartbeat_options))
 - `http_custom_options` (Attributes) (see [below for nested schema](#nestedatt--http_custom_options))
 - `jira_options` (Attributes) (see [below for nested schema](#nestedatt--jira_options))
@@ -491,6 +492,18 @@ Optional:
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
+
+
+<a id="nestedatt--email_options"></a>
+### Nested Schema for `email_options`
+
+Required:
+
+- `redactions` (Set of String) Which PII types to automatically redact from incoming email content before storage
+
+Optional:
+
+- `transform_expression` (String) JavaScript expression to transform email fields into structured alert fields
 
 
 <a id="nestedatt--heartbeat_options"></a>

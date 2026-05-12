@@ -397,7 +397,7 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 						Optional:            true,
 						MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsPayloadV2", "transform_expression"),
 					},
-					"redactions": schema.ListAttribute{
+					"redactions": schema.SetAttribute{
 						Required:            true,
 						ElementType:         types.StringType,
 						MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsPayloadV2", "redactions"),
@@ -510,8 +510,9 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 
 	tflog.Trace(ctx, fmt.Sprintf("created an alert source with id=%s", result.JSON200.AlertSource.Id))
 
-	// Save the planned value before overwriting with API response.
+	// Save the planned values before overwriting with API response.
 	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
+	planEmailOptions := data.EmailOptions
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
 
@@ -520,6 +521,14 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 	// planned value so Terraform doesn't see an inconsistent result.
 	if data.AutoResolveTimeoutMinutes.IsNull() && data.AutoResolveIncidentAlerts.IsNull() && !planAutoResolveIncidentAlerts.IsUnknown() {
 		data.AutoResolveIncidentAlerts = planAutoResolveIncidentAlerts
+	}
+
+	// When the user explicitly configures email_options (e.g. with an empty
+	// redactions set) but the API response has no meaningful email option
+	// data, FromAPI returns nil. Restore the planned value so Terraform
+	// doesn't see an inconsistent result.
+	if planEmailOptions != nil && data.EmailOptions == nil {
+		data.EmailOptions = planEmailOptions
 	}
 
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
@@ -550,8 +559,9 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
-	// Save the prior state value before overwriting with API response.
+	// Save the prior state values before overwriting with API response.
 	stateAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
+	stateEmailOptions := data.EmailOptions
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
 
@@ -560,6 +570,12 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 	// prior state value so Terraform doesn't see a perpetual diff.
 	if data.AutoResolveTimeoutMinutes.IsNull() && data.AutoResolveIncidentAlerts.IsNull() && !stateAutoResolveIncidentAlerts.IsUnknown() {
 		data.AutoResolveIncidentAlerts = stateAutoResolveIncidentAlerts
+	}
+
+	// Preserve the prior state's email_options when FromAPI returns nil but
+	// state had it (e.g. user configured email_options with empty redactions).
+	if stateEmailOptions != nil && data.EmailOptions == nil {
+		data.EmailOptions = stateEmailOptions
 	}
 
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
@@ -617,8 +633,9 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 
 	claimResource(ctx, r.client, result.JSON200.AlertSource.Id, resp.Diagnostics, client.AlertSource, r.terraformVersion)
 
-	// Save the planned value before overwriting with API response.
+	// Save the planned values before overwriting with API response.
 	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
+	planEmailOptions := data.EmailOptions
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
 
@@ -627,6 +644,14 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 	// planned value so Terraform doesn't see an inconsistent result.
 	if data.AutoResolveTimeoutMinutes.IsNull() && data.AutoResolveIncidentAlerts.IsNull() && !planAutoResolveIncidentAlerts.IsUnknown() {
 		data.AutoResolveIncidentAlerts = planAutoResolveIncidentAlerts
+	}
+
+	// When the user explicitly configures email_options (e.g. with an empty
+	// redactions set) but the API response has no meaningful email option
+	// data, FromAPI returns nil. Restore the planned value so Terraform
+	// doesn't see an inconsistent result.
+	if planEmailOptions != nil && data.EmailOptions == nil {
+		data.EmailOptions = planEmailOptions
 	}
 
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {

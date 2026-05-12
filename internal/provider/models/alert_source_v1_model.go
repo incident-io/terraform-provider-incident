@@ -284,8 +284,8 @@ func (opts *AlertSourceHTTPCustomOptionsModel) ToPayload() *client.AlertSourceHT
 }
 
 type AlertSourceEmailOptionsModel struct {
-	TransformExpression types.String   `tfsdk:"transform_expression"`
-	Redactions          []types.String `tfsdk:"redactions"`
+	TransformExpression types.String `tfsdk:"transform_expression"`
+	Redactions          types.Set    `tfsdk:"redactions"`
 }
 
 func (AlertSourceEmailOptionsModel) FromAPI(opts *client.AlertSourceEmailOptionsV2) *AlertSourceEmailOptionsModel {
@@ -297,15 +297,18 @@ func (AlertSourceEmailOptionsModel) FromAPI(opts *client.AlertSourceEmailOptions
 	// email_address). Only populate the model when there is actual
 	// configuration data (redactions or transform_expression), so we
 	// return nil when the user hasn't set email_options and avoid a
-	// "Provider produced inconsistent result" error.
+	// "Provider produced inconsistent result" error. The Create/Read/Update
+	// methods handle the edge case where the user explicitly configures
+	// email_options with an empty redactions list.
 	if len(opts.Redactions) == 0 && opts.TransformExpression == nil {
 		return nil
 	}
 
-	redactions := []types.String{}
+	redactionValues := []attr.Value{}
 	for _, r := range opts.Redactions {
-		redactions = append(redactions, types.StringValue(string(r)))
+		redactionValues = append(redactionValues, types.StringValue(string(r)))
 	}
+	redactions, _ := types.SetValue(types.StringType, redactionValues)
 
 	return &AlertSourceEmailOptionsModel{
 		TransformExpression: types.StringPointerValue(opts.TransformExpression),
@@ -319,8 +322,10 @@ func (opts *AlertSourceEmailOptionsModel) ToPayload() *client.AlertSourceEmailOp
 	}
 
 	redactions := []client.AlertSourceEmailOptionsPayloadV2Redactions{}
-	for _, r := range opts.Redactions {
-		redactions = append(redactions, client.AlertSourceEmailOptionsPayloadV2Redactions(r.ValueString()))
+	for _, elem := range opts.Redactions.Elements() {
+		if str, ok := elem.(types.String); ok {
+			redactions = append(redactions, client.AlertSourceEmailOptionsPayloadV2Redactions(str.ValueString()))
+		}
 	}
 
 	return &client.AlertSourceEmailOptionsPayloadV2{
