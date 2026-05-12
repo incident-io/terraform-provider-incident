@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v5.36.0
+
+- Add support for transform expressions on email alert source
+
 ## v5.35.2
 
 - Support escalation path nesting up to a depth of 4
