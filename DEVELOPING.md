@@ -80,6 +80,7 @@ For example, a Slack channel ID or a Team catalog type. Set these up using these
 ```
 export TF_ACC_CHANNEL_ID=C07U7JMC29J
 export TF_TEAM_TYPE_NAME=Team
+export TF_ACC_SLACK_USER_GROUP_ID=S07AB12CD34
 ```
 
 ## Running the provider locally

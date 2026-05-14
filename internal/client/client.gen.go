@@ -862,10 +862,13 @@ const (
 
 // Defines values for EscalationPathTargetV2ScheduleMode.
 const (
-	AllUsers        EscalationPathTargetV2ScheduleMode = "all_users"
-	AllUsersForRota EscalationPathTargetV2ScheduleMode = "all_users_for_rota"
-	CurrentlyOnCall EscalationPathTargetV2ScheduleMode = "currently_on_call"
-	Empty           EscalationPathTargetV2ScheduleMode = ""
+	EscalationPathTargetV2ScheduleModeAllUsers               EscalationPathTargetV2ScheduleMode = "all_users"
+	EscalationPathTargetV2ScheduleModeAllUsersForRota        EscalationPathTargetV2ScheduleMode = "all_users_for_rota"
+	EscalationPathTargetV2ScheduleModeCurrentlyOnCall        EscalationPathTargetV2ScheduleMode = "currently_on_call"
+	EscalationPathTargetV2ScheduleModeCurrentlyOnCallForRota EscalationPathTargetV2ScheduleMode = "currently_on_call_for_rota"
+	EscalationPathTargetV2ScheduleModeEmpty                  EscalationPathTargetV2ScheduleMode = ""
+	EscalationPathTargetV2ScheduleModeNextOnCall             EscalationPathTargetV2ScheduleMode = "next_on_call"
+	EscalationPathTargetV2ScheduleModeNextOnCallForRota      EscalationPathTargetV2ScheduleMode = "next_on_call_for_rota"
 )
 
 // Defines values for EscalationPathTargetV2Type.
@@ -1355,6 +1358,18 @@ const (
 	ScheduleRotationWorkingIntervalV2WeekdayWednesday ScheduleRotationWorkingIntervalV2Weekday = "wednesday"
 )
 
+// Defines values for ScheduleSyncRuleCreatePayloadV2SyncType.
+const (
+	ScheduleSyncRuleCreatePayloadV2SyncTypeAllUsers ScheduleSyncRuleCreatePayloadV2SyncType = "all_users"
+	ScheduleSyncRuleCreatePayloadV2SyncTypeOnCall   ScheduleSyncRuleCreatePayloadV2SyncType = "on_call"
+)
+
+// Defines values for ScheduleSyncRuleV2SyncType.
+const (
+	AllUsers ScheduleSyncRuleV2SyncType = "all_users"
+	OnCall   ScheduleSyncRuleV2SyncType = "on_call"
+)
+
 // Defines values for StatusPageIncidentAffectedComponentV2ComponentStatus.
 const (
 	StatusPageIncidentAffectedComponentV2ComponentStatusDegradedPerformance StatusPageIncidentAffectedComponentV2ComponentStatus = "degraded_performance"
@@ -1475,6 +1490,22 @@ const (
 	Responder     UserWithRolesV2Role = "responder"
 	Unset         UserWithRolesV2Role = "unset"
 	Viewer        UserWithRolesV2Role = "viewer"
+)
+
+// Defines values for UsersShowPagingProviderResultV2PreferredEscalationProvider.
+const (
+	UsersShowPagingProviderResultV2PreferredEscalationProviderNative       UsersShowPagingProviderResultV2PreferredEscalationProvider = "native"
+	UsersShowPagingProviderResultV2PreferredEscalationProviderOpsgenie     UsersShowPagingProviderResultV2PreferredEscalationProvider = "opsgenie"
+	UsersShowPagingProviderResultV2PreferredEscalationProviderPagerduty    UsersShowPagingProviderResultV2PreferredEscalationProvider = "pagerduty"
+	UsersShowPagingProviderResultV2PreferredEscalationProviderSplunkOnCall UsersShowPagingProviderResultV2PreferredEscalationProvider = "splunk_on_call"
+)
+
+// Defines values for UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider.
+const (
+	UsersUpdatePagingProviderPayloadV2PreferredEscalationProviderNative       UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider = "native"
+	UsersUpdatePagingProviderPayloadV2PreferredEscalationProviderOpsgenie     UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider = "opsgenie"
+	UsersUpdatePagingProviderPayloadV2PreferredEscalationProviderPagerduty    UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider = "pagerduty"
+	UsersUpdatePagingProviderPayloadV2PreferredEscalationProviderSplunkOnCall UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider = "splunk_on_call"
 )
 
 // Defines values for WeekdayIntervalV2Weekday.
@@ -6903,6 +6934,87 @@ type ScheduleRotationWorkingIntervalV2 struct {
 // ScheduleRotationWorkingIntervalV2Weekday Weekdays for use with a schedule
 type ScheduleRotationWorkingIntervalV2Weekday string
 
+// ScheduleSyncRuleCreatePayloadV2 defines model for ScheduleSyncRuleCreatePayloadV2.
+type ScheduleSyncRuleCreatePayloadV2 struct {
+	// ScheduleSyncTargetId The sync target to link to
+	ScheduleSyncTargetId string `json:"schedule_sync_target_id"`
+
+	// SyncType Which schedule members sync to the user group
+	SyncType ScheduleSyncRuleCreatePayloadV2SyncType `json:"sync_type"`
+}
+
+// ScheduleSyncRuleCreatePayloadV2SyncType Which schedule members sync to the user group
+type ScheduleSyncRuleCreatePayloadV2SyncType string
+
+// ScheduleSyncRuleV2 defines model for ScheduleSyncRuleV2.
+type ScheduleSyncRuleV2 struct {
+	CreatedAt time.Time `json:"created_at"`
+
+	// Id Unique identifier of the sync rule
+	Id string `json:"id"`
+
+	// ScheduleId The schedule this rule belongs to
+	ScheduleId         string                       `json:"schedule_id"`
+	ScheduleSyncTarget ScheduleSyncTargetResourceV2 `json:"schedule_sync_target"`
+
+	// ScheduleSyncTargetId The sync target ID this rule links to
+	ScheduleSyncTargetId string `json:"schedule_sync_target_id"`
+
+	// SyncType Which schedule members sync to the user group
+	SyncType  ScheduleSyncRuleV2SyncType `json:"sync_type"`
+	UpdatedAt time.Time                  `json:"updated_at"`
+}
+
+// ScheduleSyncRuleV2SyncType Which schedule members sync to the user group
+type ScheduleSyncRuleV2SyncType string
+
+// ScheduleSyncTargetCreatePayloadV2 defines model for ScheduleSyncTargetCreatePayloadV2.
+type ScheduleSyncTargetCreatePayloadV2 struct {
+	// AddBotToGroup Whether the incident.io bot should be added to the group
+	AddBotToGroup bool `json:"add_bot_to_group"`
+
+	// SlackUserGroupId Slack ID for the user group to sync to
+	SlackUserGroupId string `json:"slack_user_group_id"`
+}
+
+// ScheduleSyncTargetResourceV2 defines model for ScheduleSyncTargetResourceV2.
+type ScheduleSyncTargetResourceV2 struct {
+	// AddBotToGroup Whether the incident.io bot should be added to the group
+	AddBotToGroup bool      `json:"add_bot_to_group"`
+	CreatedAt     time.Time `json:"created_at"`
+
+	// Id Unique identifier of the sync target
+	Id string `json:"id"`
+
+	// SlackTeamId Slack team ID for the user group
+	SlackTeamId string `json:"slack_team_id"`
+
+	// SlackUserGroupId Slack ID for the user group synced to
+	SlackUserGroupId string    `json:"slack_user_group_id"`
+	UpdatedAt        time.Time `json:"updated_at"`
+}
+
+// ScheduleSyncTargetsCreatePayloadV2 defines model for ScheduleSyncTargetsCreatePayloadV2.
+type ScheduleSyncTargetsCreatePayloadV2 struct {
+	ScheduleSyncTarget ScheduleSyncTargetCreatePayloadV2 `json:"schedule_sync_target"`
+}
+
+// ScheduleSyncTargetsCreateResultV2 defines model for ScheduleSyncTargetsCreateResultV2.
+type ScheduleSyncTargetsCreateResultV2 struct {
+	ScheduleSyncTarget ScheduleSyncTargetResourceV2 `json:"schedule_sync_target"`
+}
+
+// ScheduleSyncTargetsListResultV2 defines model for ScheduleSyncTargetsListResultV2.
+type ScheduleSyncTargetsListResultV2 struct {
+	PaginationMeta      *PaginationMetaResultV2        `json:"pagination_meta,omitempty"`
+	ScheduleSyncTargets []ScheduleSyncTargetResourceV2 `json:"schedule_sync_targets"`
+}
+
+// ScheduleSyncTargetsShowResultV2 defines model for ScheduleSyncTargetsShowResultV2.
+type ScheduleSyncTargetsShowResultV2 struct {
+	ScheduleSyncTarget ScheduleSyncTargetResourceV2 `json:"schedule_sync_target"`
+}
+
 // ScheduleUpdatePayloadV2 defines model for ScheduleUpdatePayloadV2.
 type ScheduleUpdatePayloadV2 struct {
 	// Annotations Annotations that can track metadata about the schedule
@@ -6992,6 +7104,16 @@ type SchedulesCreateScheduleReplicaResultV2 struct {
 	ScheduleReplica ScheduleReplicaV2 `json:"schedule_replica"`
 }
 
+// SchedulesCreateScheduleSyncRulePayloadV2 defines model for SchedulesCreateScheduleSyncRulePayloadV2.
+type SchedulesCreateScheduleSyncRulePayloadV2 struct {
+	ScheduleSyncRule ScheduleSyncRuleCreatePayloadV2 `json:"schedule_sync_rule"`
+}
+
+// SchedulesCreateScheduleSyncRuleResultV2 defines model for SchedulesCreateScheduleSyncRuleResultV2.
+type SchedulesCreateScheduleSyncRuleResultV2 struct {
+	ScheduleSyncRule ScheduleSyncRuleV2 `json:"schedule_sync_rule"`
+}
+
 // SchedulesListResultV2 defines model for SchedulesListResultV2.
 type SchedulesListResultV2 struct {
 	PaginationMeta *PaginationMetaResultWithTotalV2 `json:"pagination_meta,omitempty"`
@@ -7009,6 +7131,12 @@ type SchedulesListScheduleReplicasResultV2 struct {
 	ScheduleReplicas []ScheduleReplicaV2 `json:"schedule_replicas"`
 }
 
+// SchedulesListScheduleSyncRulesResultV2 defines model for SchedulesListScheduleSyncRulesResultV2.
+type SchedulesListScheduleSyncRulesResultV2 struct {
+	PaginationMeta    *PaginationMetaResultV2 `json:"pagination_meta,omitempty"`
+	ScheduleSyncRules []ScheduleSyncRuleV2    `json:"schedule_sync_rules"`
+}
+
 // SchedulesShowResultV2 defines model for SchedulesShowResultV2.
 type SchedulesShowResultV2 struct {
 	Schedule ScheduleV2 `json:"schedule"`
@@ -7017,6 +7145,11 @@ type SchedulesShowResultV2 struct {
 // SchedulesShowScheduleReplicaResultV2 defines model for SchedulesShowScheduleReplicaResultV2.
 type SchedulesShowScheduleReplicaResultV2 struct {
 	ScheduleReplica ScheduleReplicaV2 `json:"schedule_replica"`
+}
+
+// SchedulesShowScheduleSyncRuleResultV2 defines model for SchedulesShowScheduleSyncRuleResultV2.
+type SchedulesShowScheduleSyncRuleResultV2 struct {
+	ScheduleSyncRule ScheduleSyncRuleV2 `json:"schedule_sync_rule"`
 }
 
 // SchedulesUpdatePayloadV2 defines model for SchedulesUpdatePayloadV2.
@@ -7785,10 +7918,28 @@ type UsersListResultV2 struct {
 	Users          []UserWithRolesV2      `json:"users"`
 }
 
+// UsersShowPagingProviderResultV2 defines model for UsersShowPagingProviderResultV2.
+type UsersShowPagingProviderResultV2 struct {
+	// PreferredEscalationProvider The user's effective escalation provider.
+	PreferredEscalationProvider *UsersShowPagingProviderResultV2PreferredEscalationProvider `json:"preferred_escalation_provider,omitempty"`
+}
+
+// UsersShowPagingProviderResultV2PreferredEscalationProvider The user's effective escalation provider.
+type UsersShowPagingProviderResultV2PreferredEscalationProvider string
+
 // UsersShowResultV2 defines model for UsersShowResultV2.
 type UsersShowResultV2 struct {
 	User UserWithRolesV2 `json:"user"`
 }
+
+// UsersUpdatePagingProviderPayloadV2 defines model for UsersUpdatePagingProviderPayloadV2.
+type UsersUpdatePagingProviderPayloadV2 struct {
+	// PreferredEscalationProvider The preferred escalation provider for the user.
+	PreferredEscalationProvider UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider `json:"preferred_escalation_provider"`
+}
+
+// UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider The preferred escalation provider for the user.
+type UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider string
 
 // UtilitiesIdentityResultV1 defines model for UtilitiesIdentityResultV1.
 type UtilitiesIdentityResultV1 struct {
@@ -8440,12 +8591,30 @@ type SchedulesV2ListScheduleEntriesParams struct {
 	EntryWindowEnd *time.Time `form:"entry_window_end,omitempty" json:"entry_window_end,omitempty"`
 }
 
+// ScheduleSyncTargetsV2ListParams defines parameters for ScheduleSyncTargetsV2List.
+type ScheduleSyncTargetsV2ListParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A sync target's ID. This endpoint will return a list of sync targets after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
 // SchedulesV2ListParams defines parameters for SchedulesV2List.
 type SchedulesV2ListParams struct {
 	// PageSize Note that next_shifts will only be returned when the page size is 25 or lower.
 	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// After A schedule's ID. This endpoint will return a list of schedules after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
+// SchedulesV2ListScheduleSyncRulesParams defines parameters for SchedulesV2ListScheduleSyncRules.
+type SchedulesV2ListScheduleSyncRulesParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A sync rule's ID. This endpoint will return a list of sync rules after this ID in relation to the API response order.
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
@@ -8703,6 +8872,9 @@ type ManagedResourcesV2CreateManagedResourceJSONRequestBody = ManagedResourcesCr
 // SchedulesV2CreateOverrideJSONRequestBody defines body for SchedulesV2CreateOverride for application/json ContentType.
 type SchedulesV2CreateOverrideJSONRequestBody = SchedulesCreateOverridePayloadV2
 
+// ScheduleSyncTargetsV2CreateJSONRequestBody defines body for ScheduleSyncTargetsV2Create for application/json ContentType.
+type ScheduleSyncTargetsV2CreateJSONRequestBody = ScheduleSyncTargetsCreatePayloadV2
+
 // SchedulesV2CreateJSONRequestBody defines body for SchedulesV2Create for application/json ContentType.
 type SchedulesV2CreateJSONRequestBody = SchedulesCreatePayloadV2
 
@@ -8711,6 +8883,9 @@ type SchedulesV2UpdateJSONRequestBody = SchedulesUpdatePayloadV2
 
 // SchedulesV2CreateScheduleReplicaJSONRequestBody defines body for SchedulesV2CreateScheduleReplica for application/json ContentType.
 type SchedulesV2CreateScheduleReplicaJSONRequestBody = SchedulesCreateScheduleReplicaPayloadV2
+
+// SchedulesV2CreateScheduleSyncRuleJSONRequestBody defines body for SchedulesV2CreateScheduleSyncRule for application/json ContentType.
+type SchedulesV2CreateScheduleSyncRuleJSONRequestBody = SchedulesCreateScheduleSyncRulePayloadV2
 
 // StatusPagesV2CreateStatusPageIncidentUpdateJSONRequestBody defines body for StatusPagesV2CreateStatusPageIncidentUpdate for application/json ContentType.
 type StatusPagesV2CreateStatusPageIncidentUpdateJSONRequestBody = StatusPagesCreateStatusPageIncidentUpdatePayloadV2
@@ -8729,6 +8904,9 @@ type StatusPagesV2CreateStatusPageMaintenanceJSONRequestBody = StatusPagesCreate
 
 // TelemetryV2UpdateDataSourceJSONRequestBody defines body for TelemetryV2UpdateDataSource for application/json ContentType.
 type TelemetryV2UpdateDataSourceJSONRequestBody = TelemetryUpdateDataSourcePayloadV2
+
+// UsersV2UpdatePagingProviderJSONRequestBody defines body for UsersV2UpdatePagingProvider for application/json ContentType.
+type UsersV2UpdatePagingProviderJSONRequestBody = UsersUpdatePagingProviderPayloadV2
 
 // WorkflowsV2CreateWorkflowJSONRequestBody defines body for WorkflowsV2CreateWorkflow for application/json ContentType.
 type WorkflowsV2CreateWorkflowJSONRequestBody = WorkflowsCreateWorkflowPayloadV2
@@ -9300,6 +9478,20 @@ type ClientInterface interface {
 
 	SchedulesV2CreateOverride(ctx context.Context, body SchedulesV2CreateOverrideJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ScheduleSyncTargetsV2List request
+	ScheduleSyncTargetsV2List(ctx context.Context, params *ScheduleSyncTargetsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ScheduleSyncTargetsV2CreateWithBody request with any body
+	ScheduleSyncTargetsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	ScheduleSyncTargetsV2Create(ctx context.Context, body ScheduleSyncTargetsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ScheduleSyncTargetsV2Destroy request
+	ScheduleSyncTargetsV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ScheduleSyncTargetsV2Show request
+	ScheduleSyncTargetsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// SchedulesV2List request
 	SchedulesV2List(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -9332,6 +9524,20 @@ type ClientInterface interface {
 
 	// SchedulesV2ShowScheduleReplica request
 	SchedulesV2ShowScheduleReplica(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2ListScheduleSyncRules request
+	SchedulesV2ListScheduleSyncRules(ctx context.Context, scheduleId string, params *SchedulesV2ListScheduleSyncRulesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2CreateScheduleSyncRuleWithBody request with any body
+	SchedulesV2CreateScheduleSyncRuleWithBody(ctx context.Context, scheduleId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SchedulesV2CreateScheduleSyncRule(ctx context.Context, scheduleId string, body SchedulesV2CreateScheduleSyncRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2DestroyScheduleSyncRule request
+	SchedulesV2DestroyScheduleSyncRule(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2ShowScheduleSyncRule request
+	SchedulesV2ShowScheduleSyncRule(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// StatusPagesV2CreateStatusPageIncidentUpdateWithBody request with any body
 	StatusPagesV2CreateStatusPageIncidentUpdateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -9392,6 +9598,14 @@ type ClientInterface interface {
 
 	// UsersV2ListNotificationRules request
 	UsersV2ListNotificationRules(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UsersV2ShowPagingProvider request
+	UsersV2ShowPagingProvider(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UsersV2UpdatePagingProviderWithBody request with any body
+	UsersV2UpdatePagingProviderWithBody(ctx context.Context, userId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UsersV2UpdatePagingProvider(ctx context.Context, userId string, body UsersV2UpdatePagingProviderJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// PoliciesV2HasOpenForUser request
 	PoliciesV2HasOpenForUser(ctx context.Context, userId string, policyId string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -11549,6 +11763,66 @@ func (c *Client) SchedulesV2CreateOverride(ctx context.Context, body SchedulesV2
 	return c.Client.Do(req)
 }
 
+func (c *Client) ScheduleSyncTargetsV2List(ctx context.Context, params *ScheduleSyncTargetsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewScheduleSyncTargetsV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ScheduleSyncTargetsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewScheduleSyncTargetsV2CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ScheduleSyncTargetsV2Create(ctx context.Context, body ScheduleSyncTargetsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewScheduleSyncTargetsV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ScheduleSyncTargetsV2Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewScheduleSyncTargetsV2DestroyRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ScheduleSyncTargetsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewScheduleSyncTargetsV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) SchedulesV2List(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSchedulesV2ListRequest(c.Server, params)
 	if err != nil {
@@ -11683,6 +11957,66 @@ func (c *Client) SchedulesV2DestroyScheduleReplica(ctx context.Context, schedule
 
 func (c *Client) SchedulesV2ShowScheduleReplica(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSchedulesV2ShowScheduleReplicaRequest(c.Server, scheduleId, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2ListScheduleSyncRules(ctx context.Context, scheduleId string, params *SchedulesV2ListScheduleSyncRulesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2ListScheduleSyncRulesRequest(c.Server, scheduleId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2CreateScheduleSyncRuleWithBody(ctx context.Context, scheduleId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2CreateScheduleSyncRuleRequestWithBody(c.Server, scheduleId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2CreateScheduleSyncRule(ctx context.Context, scheduleId string, body SchedulesV2CreateScheduleSyncRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2CreateScheduleSyncRuleRequest(c.Server, scheduleId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2DestroyScheduleSyncRule(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2DestroyScheduleSyncRuleRequest(c.Server, scheduleId, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2ShowScheduleSyncRule(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2ShowScheduleSyncRuleRequest(c.Server, scheduleId, id)
 	if err != nil {
 		return nil, err
 	}
@@ -11947,6 +12281,42 @@ func (c *Client) UsersV2ListNotificationMethods(ctx context.Context, userId stri
 
 func (c *Client) UsersV2ListNotificationRules(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUsersV2ListNotificationRulesRequest(c.Server, userId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UsersV2ShowPagingProvider(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUsersV2ShowPagingProviderRequest(c.Server, userId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UsersV2UpdatePagingProviderWithBody(ctx context.Context, userId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUsersV2UpdatePagingProviderRequestWithBody(c.Server, userId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UsersV2UpdatePagingProvider(ctx context.Context, userId string, body UsersV2UpdatePagingProviderJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUsersV2UpdatePagingProviderRequest(c.Server, userId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -18207,6 +18577,179 @@ func NewSchedulesV2CreateOverrideRequestWithBody(server string, contentType stri
 	return req, nil
 }
 
+// NewScheduleSyncTargetsV2ListRequest generates requests for ScheduleSyncTargetsV2List
+func NewScheduleSyncTargetsV2ListRequest(server string, params *ScheduleSyncTargetsV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedule_sync_targets")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewScheduleSyncTargetsV2CreateRequest calls the generic ScheduleSyncTargetsV2Create builder with application/json body
+func NewScheduleSyncTargetsV2CreateRequest(server string, body ScheduleSyncTargetsV2CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewScheduleSyncTargetsV2CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewScheduleSyncTargetsV2CreateRequestWithBody generates requests for ScheduleSyncTargetsV2Create with any type of body
+func NewScheduleSyncTargetsV2CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedule_sync_targets")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewScheduleSyncTargetsV2DestroyRequest generates requests for ScheduleSyncTargetsV2Destroy
+func NewScheduleSyncTargetsV2DestroyRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedule_sync_targets/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewScheduleSyncTargetsV2ShowRequest generates requests for ScheduleSyncTargetsV2Show
+func NewScheduleSyncTargetsV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedule_sync_targets/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewSchedulesV2ListRequest generates requests for SchedulesV2List
 func NewSchedulesV2ListRequest(server string, params *SchedulesV2ListParams) (*http.Request, error) {
 	var err error
@@ -18573,6 +19116,207 @@ func NewSchedulesV2ShowScheduleReplicaRequest(server string, scheduleId string, 
 	}
 
 	operationPath := fmt.Sprintf("/v2/schedules/%s/replicas/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV2ListScheduleSyncRulesRequest generates requests for SchedulesV2ListScheduleSyncRules
+func NewSchedulesV2ListScheduleSyncRulesRequest(server string, scheduleId string, params *SchedulesV2ListScheduleSyncRulesParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "schedule_id", runtime.ParamLocationPath, scheduleId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules/%s/sync_rules", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV2CreateScheduleSyncRuleRequest calls the generic SchedulesV2CreateScheduleSyncRule builder with application/json body
+func NewSchedulesV2CreateScheduleSyncRuleRequest(server string, scheduleId string, body SchedulesV2CreateScheduleSyncRuleJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSchedulesV2CreateScheduleSyncRuleRequestWithBody(server, scheduleId, "application/json", bodyReader)
+}
+
+// NewSchedulesV2CreateScheduleSyncRuleRequestWithBody generates requests for SchedulesV2CreateScheduleSyncRule with any type of body
+func NewSchedulesV2CreateScheduleSyncRuleRequestWithBody(server string, scheduleId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "schedule_id", runtime.ParamLocationPath, scheduleId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules/%s/sync_rules", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewSchedulesV2DestroyScheduleSyncRuleRequest generates requests for SchedulesV2DestroyScheduleSyncRule
+func NewSchedulesV2DestroyScheduleSyncRuleRequest(server string, scheduleId string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "schedule_id", runtime.ParamLocationPath, scheduleId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules/%s/sync_rules/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV2ShowScheduleSyncRuleRequest generates requests for SchedulesV2ShowScheduleSyncRule
+func NewSchedulesV2ShowScheduleSyncRuleRequest(server string, scheduleId string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "schedule_id", runtime.ParamLocationPath, scheduleId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules/%s/sync_rules/%s", pathParam0, pathParam1)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -19520,6 +20264,87 @@ func NewUsersV2ListNotificationRulesRequest(server string, userId string) (*http
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewUsersV2ShowPagingProviderRequest generates requests for UsersV2ShowPagingProvider
+func NewUsersV2ShowPagingProviderRequest(server string, userId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "user_id", runtime.ParamLocationPath, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/users/%s/paging_provider", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUsersV2UpdatePagingProviderRequest calls the generic UsersV2UpdatePagingProvider builder with application/json body
+func NewUsersV2UpdatePagingProviderRequest(server string, userId string, body UsersV2UpdatePagingProviderJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUsersV2UpdatePagingProviderRequestWithBody(server, userId, "application/json", bodyReader)
+}
+
+// NewUsersV2UpdatePagingProviderRequestWithBody generates requests for UsersV2UpdatePagingProvider with any type of body
+func NewUsersV2UpdatePagingProviderRequestWithBody(server string, userId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "user_id", runtime.ParamLocationPath, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/users/%s/paging_provider", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -20946,6 +21771,20 @@ type ClientWithResponsesInterface interface {
 
 	SchedulesV2CreateOverrideWithResponse(ctx context.Context, body SchedulesV2CreateOverrideJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2CreateOverrideResponse, error)
 
+	// ScheduleSyncTargetsV2ListWithResponse request
+	ScheduleSyncTargetsV2ListWithResponse(ctx context.Context, params *ScheduleSyncTargetsV2ListParams, reqEditors ...RequestEditorFn) (*ScheduleSyncTargetsV2ListResponse, error)
+
+	// ScheduleSyncTargetsV2CreateWithBodyWithResponse request with any body
+	ScheduleSyncTargetsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ScheduleSyncTargetsV2CreateResponse, error)
+
+	ScheduleSyncTargetsV2CreateWithResponse(ctx context.Context, body ScheduleSyncTargetsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*ScheduleSyncTargetsV2CreateResponse, error)
+
+	// ScheduleSyncTargetsV2DestroyWithResponse request
+	ScheduleSyncTargetsV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*ScheduleSyncTargetsV2DestroyResponse, error)
+
+	// ScheduleSyncTargetsV2ShowWithResponse request
+	ScheduleSyncTargetsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*ScheduleSyncTargetsV2ShowResponse, error)
+
 	// SchedulesV2ListWithResponse request
 	SchedulesV2ListWithResponse(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListResponse, error)
 
@@ -20978,6 +21817,20 @@ type ClientWithResponsesInterface interface {
 
 	// SchedulesV2ShowScheduleReplicaWithResponse request
 	SchedulesV2ShowScheduleReplicaWithResponse(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*SchedulesV2ShowScheduleReplicaResponse, error)
+
+	// SchedulesV2ListScheduleSyncRulesWithResponse request
+	SchedulesV2ListScheduleSyncRulesWithResponse(ctx context.Context, scheduleId string, params *SchedulesV2ListScheduleSyncRulesParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListScheduleSyncRulesResponse, error)
+
+	// SchedulesV2CreateScheduleSyncRuleWithBodyWithResponse request with any body
+	SchedulesV2CreateScheduleSyncRuleWithBodyWithResponse(ctx context.Context, scheduleId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2CreateScheduleSyncRuleResponse, error)
+
+	SchedulesV2CreateScheduleSyncRuleWithResponse(ctx context.Context, scheduleId string, body SchedulesV2CreateScheduleSyncRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2CreateScheduleSyncRuleResponse, error)
+
+	// SchedulesV2DestroyScheduleSyncRuleWithResponse request
+	SchedulesV2DestroyScheduleSyncRuleWithResponse(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*SchedulesV2DestroyScheduleSyncRuleResponse, error)
+
+	// SchedulesV2ShowScheduleSyncRuleWithResponse request
+	SchedulesV2ShowScheduleSyncRuleWithResponse(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*SchedulesV2ShowScheduleSyncRuleResponse, error)
 
 	// StatusPagesV2CreateStatusPageIncidentUpdateWithBodyWithResponse request with any body
 	StatusPagesV2CreateStatusPageIncidentUpdateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2CreateStatusPageIncidentUpdateResponse, error)
@@ -21038,6 +21891,14 @@ type ClientWithResponsesInterface interface {
 
 	// UsersV2ListNotificationRulesWithResponse request
 	UsersV2ListNotificationRulesWithResponse(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*UsersV2ListNotificationRulesResponse, error)
+
+	// UsersV2ShowPagingProviderWithResponse request
+	UsersV2ShowPagingProviderWithResponse(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*UsersV2ShowPagingProviderResponse, error)
+
+	// UsersV2UpdatePagingProviderWithBodyWithResponse request with any body
+	UsersV2UpdatePagingProviderWithBodyWithResponse(ctx context.Context, userId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UsersV2UpdatePagingProviderResponse, error)
+
+	UsersV2UpdatePagingProviderWithResponse(ctx context.Context, userId string, body UsersV2UpdatePagingProviderJSONRequestBody, reqEditors ...RequestEditorFn) (*UsersV2UpdatePagingProviderResponse, error)
 
 	// PoliciesV2HasOpenForUserWithResponse request
 	PoliciesV2HasOpenForUserWithResponse(ctx context.Context, userId string, policyId string, reqEditors ...RequestEditorFn) (*PoliciesV2HasOpenForUserResponse, error)
@@ -23894,6 +24755,93 @@ func (r SchedulesV2CreateOverrideResponse) StatusCode() int {
 	return 0
 }
 
+type ScheduleSyncTargetsV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ScheduleSyncTargetsListResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r ScheduleSyncTargetsV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ScheduleSyncTargetsV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ScheduleSyncTargetsV2CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *ScheduleSyncTargetsCreateResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r ScheduleSyncTargetsV2CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ScheduleSyncTargetsV2CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ScheduleSyncTargetsV2DestroyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r ScheduleSyncTargetsV2DestroyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ScheduleSyncTargetsV2DestroyResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ScheduleSyncTargetsV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ScheduleSyncTargetsShowResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r ScheduleSyncTargetsV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ScheduleSyncTargetsV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type SchedulesV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -24084,6 +25032,93 @@ func (r SchedulesV2ShowScheduleReplicaResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r SchedulesV2ShowScheduleReplicaResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2ListScheduleSyncRulesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SchedulesListScheduleSyncRulesResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2ListScheduleSyncRulesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2ListScheduleSyncRulesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2CreateScheduleSyncRuleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *SchedulesCreateScheduleSyncRuleResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2CreateScheduleSyncRuleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2CreateScheduleSyncRuleResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2DestroyScheduleSyncRuleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2DestroyScheduleSyncRuleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2DestroyScheduleSyncRuleResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV2ShowScheduleSyncRuleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SchedulesShowScheduleSyncRuleResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2ShowScheduleSyncRuleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2ShowScheduleSyncRuleResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -24436,6 +25471,49 @@ func (r UsersV2ListNotificationRulesResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r UsersV2ListNotificationRulesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UsersV2ShowPagingProviderResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *UsersShowPagingProviderResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r UsersV2ShowPagingProviderResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UsersV2ShowPagingProviderResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UsersV2UpdatePagingProviderResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r UsersV2UpdatePagingProviderResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UsersV2UpdatePagingProviderResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -26411,6 +27489,50 @@ func (c *ClientWithResponses) SchedulesV2CreateOverrideWithResponse(ctx context.
 	return ParseSchedulesV2CreateOverrideResponse(rsp)
 }
 
+// ScheduleSyncTargetsV2ListWithResponse request returning *ScheduleSyncTargetsV2ListResponse
+func (c *ClientWithResponses) ScheduleSyncTargetsV2ListWithResponse(ctx context.Context, params *ScheduleSyncTargetsV2ListParams, reqEditors ...RequestEditorFn) (*ScheduleSyncTargetsV2ListResponse, error) {
+	rsp, err := c.ScheduleSyncTargetsV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseScheduleSyncTargetsV2ListResponse(rsp)
+}
+
+// ScheduleSyncTargetsV2CreateWithBodyWithResponse request with arbitrary body returning *ScheduleSyncTargetsV2CreateResponse
+func (c *ClientWithResponses) ScheduleSyncTargetsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ScheduleSyncTargetsV2CreateResponse, error) {
+	rsp, err := c.ScheduleSyncTargetsV2CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseScheduleSyncTargetsV2CreateResponse(rsp)
+}
+
+func (c *ClientWithResponses) ScheduleSyncTargetsV2CreateWithResponse(ctx context.Context, body ScheduleSyncTargetsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*ScheduleSyncTargetsV2CreateResponse, error) {
+	rsp, err := c.ScheduleSyncTargetsV2Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseScheduleSyncTargetsV2CreateResponse(rsp)
+}
+
+// ScheduleSyncTargetsV2DestroyWithResponse request returning *ScheduleSyncTargetsV2DestroyResponse
+func (c *ClientWithResponses) ScheduleSyncTargetsV2DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*ScheduleSyncTargetsV2DestroyResponse, error) {
+	rsp, err := c.ScheduleSyncTargetsV2Destroy(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseScheduleSyncTargetsV2DestroyResponse(rsp)
+}
+
+// ScheduleSyncTargetsV2ShowWithResponse request returning *ScheduleSyncTargetsV2ShowResponse
+func (c *ClientWithResponses) ScheduleSyncTargetsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*ScheduleSyncTargetsV2ShowResponse, error) {
+	rsp, err := c.ScheduleSyncTargetsV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseScheduleSyncTargetsV2ShowResponse(rsp)
+}
+
 // SchedulesV2ListWithResponse request returning *SchedulesV2ListResponse
 func (c *ClientWithResponses) SchedulesV2ListWithResponse(ctx context.Context, params *SchedulesV2ListParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListResponse, error) {
 	rsp, err := c.SchedulesV2List(ctx, params, reqEditors...)
@@ -26514,6 +27636,50 @@ func (c *ClientWithResponses) SchedulesV2ShowScheduleReplicaWithResponse(ctx con
 		return nil, err
 	}
 	return ParseSchedulesV2ShowScheduleReplicaResponse(rsp)
+}
+
+// SchedulesV2ListScheduleSyncRulesWithResponse request returning *SchedulesV2ListScheduleSyncRulesResponse
+func (c *ClientWithResponses) SchedulesV2ListScheduleSyncRulesWithResponse(ctx context.Context, scheduleId string, params *SchedulesV2ListScheduleSyncRulesParams, reqEditors ...RequestEditorFn) (*SchedulesV2ListScheduleSyncRulesResponse, error) {
+	rsp, err := c.SchedulesV2ListScheduleSyncRules(ctx, scheduleId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2ListScheduleSyncRulesResponse(rsp)
+}
+
+// SchedulesV2CreateScheduleSyncRuleWithBodyWithResponse request with arbitrary body returning *SchedulesV2CreateScheduleSyncRuleResponse
+func (c *ClientWithResponses) SchedulesV2CreateScheduleSyncRuleWithBodyWithResponse(ctx context.Context, scheduleId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2CreateScheduleSyncRuleResponse, error) {
+	rsp, err := c.SchedulesV2CreateScheduleSyncRuleWithBody(ctx, scheduleId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2CreateScheduleSyncRuleResponse(rsp)
+}
+
+func (c *ClientWithResponses) SchedulesV2CreateScheduleSyncRuleWithResponse(ctx context.Context, scheduleId string, body SchedulesV2CreateScheduleSyncRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2CreateScheduleSyncRuleResponse, error) {
+	rsp, err := c.SchedulesV2CreateScheduleSyncRule(ctx, scheduleId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2CreateScheduleSyncRuleResponse(rsp)
+}
+
+// SchedulesV2DestroyScheduleSyncRuleWithResponse request returning *SchedulesV2DestroyScheduleSyncRuleResponse
+func (c *ClientWithResponses) SchedulesV2DestroyScheduleSyncRuleWithResponse(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*SchedulesV2DestroyScheduleSyncRuleResponse, error) {
+	rsp, err := c.SchedulesV2DestroyScheduleSyncRule(ctx, scheduleId, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2DestroyScheduleSyncRuleResponse(rsp)
+}
+
+// SchedulesV2ShowScheduleSyncRuleWithResponse request returning *SchedulesV2ShowScheduleSyncRuleResponse
+func (c *ClientWithResponses) SchedulesV2ShowScheduleSyncRuleWithResponse(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*SchedulesV2ShowScheduleSyncRuleResponse, error) {
+	rsp, err := c.SchedulesV2ShowScheduleSyncRule(ctx, scheduleId, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2ShowScheduleSyncRuleResponse(rsp)
 }
 
 // StatusPagesV2CreateStatusPageIncidentUpdateWithBodyWithResponse request with arbitrary body returning *StatusPagesV2CreateStatusPageIncidentUpdateResponse
@@ -26706,6 +27872,32 @@ func (c *ClientWithResponses) UsersV2ListNotificationRulesWithResponse(ctx conte
 		return nil, err
 	}
 	return ParseUsersV2ListNotificationRulesResponse(rsp)
+}
+
+// UsersV2ShowPagingProviderWithResponse request returning *UsersV2ShowPagingProviderResponse
+func (c *ClientWithResponses) UsersV2ShowPagingProviderWithResponse(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*UsersV2ShowPagingProviderResponse, error) {
+	rsp, err := c.UsersV2ShowPagingProvider(ctx, userId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUsersV2ShowPagingProviderResponse(rsp)
+}
+
+// UsersV2UpdatePagingProviderWithBodyWithResponse request with arbitrary body returning *UsersV2UpdatePagingProviderResponse
+func (c *ClientWithResponses) UsersV2UpdatePagingProviderWithBodyWithResponse(ctx context.Context, userId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UsersV2UpdatePagingProviderResponse, error) {
+	rsp, err := c.UsersV2UpdatePagingProviderWithBody(ctx, userId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUsersV2UpdatePagingProviderResponse(rsp)
+}
+
+func (c *ClientWithResponses) UsersV2UpdatePagingProviderWithResponse(ctx context.Context, userId string, body UsersV2UpdatePagingProviderJSONRequestBody, reqEditors ...RequestEditorFn) (*UsersV2UpdatePagingProviderResponse, error) {
+	rsp, err := c.UsersV2UpdatePagingProvider(ctx, userId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUsersV2UpdatePagingProviderResponse(rsp)
 }
 
 // PoliciesV2HasOpenForUserWithResponse request returning *PoliciesV2HasOpenForUserResponse
@@ -30073,6 +31265,100 @@ func ParseSchedulesV2CreateOverrideResponse(rsp *http.Response) (*SchedulesV2Cre
 	return response, nil
 }
 
+// ParseScheduleSyncTargetsV2ListResponse parses an HTTP response from a ScheduleSyncTargetsV2ListWithResponse call
+func ParseScheduleSyncTargetsV2ListResponse(rsp *http.Response) (*ScheduleSyncTargetsV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ScheduleSyncTargetsV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ScheduleSyncTargetsListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseScheduleSyncTargetsV2CreateResponse parses an HTTP response from a ScheduleSyncTargetsV2CreateWithResponse call
+func ParseScheduleSyncTargetsV2CreateResponse(rsp *http.Response) (*ScheduleSyncTargetsV2CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ScheduleSyncTargetsV2CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest ScheduleSyncTargetsCreateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseScheduleSyncTargetsV2DestroyResponse parses an HTTP response from a ScheduleSyncTargetsV2DestroyWithResponse call
+func ParseScheduleSyncTargetsV2DestroyResponse(rsp *http.Response) (*ScheduleSyncTargetsV2DestroyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ScheduleSyncTargetsV2DestroyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseScheduleSyncTargetsV2ShowResponse parses an HTTP response from a ScheduleSyncTargetsV2ShowWithResponse call
+func ParseScheduleSyncTargetsV2ShowResponse(rsp *http.Response) (*ScheduleSyncTargetsV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ScheduleSyncTargetsV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ScheduleSyncTargetsShowResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseSchedulesV2ListResponse parses an HTTP response from a SchedulesV2ListWithResponse call
 func ParseSchedulesV2ListResponse(rsp *http.Response) (*SchedulesV2ListResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -30277,6 +31563,100 @@ func ParseSchedulesV2ShowScheduleReplicaResponse(rsp *http.Response) (*Schedules
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest SchedulesShowScheduleReplicaResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2ListScheduleSyncRulesResponse parses an HTTP response from a SchedulesV2ListScheduleSyncRulesWithResponse call
+func ParseSchedulesV2ListScheduleSyncRulesResponse(rsp *http.Response) (*SchedulesV2ListScheduleSyncRulesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2ListScheduleSyncRulesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SchedulesListScheduleSyncRulesResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2CreateScheduleSyncRuleResponse parses an HTTP response from a SchedulesV2CreateScheduleSyncRuleWithResponse call
+func ParseSchedulesV2CreateScheduleSyncRuleResponse(rsp *http.Response) (*SchedulesV2CreateScheduleSyncRuleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2CreateScheduleSyncRuleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest SchedulesCreateScheduleSyncRuleResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2DestroyScheduleSyncRuleResponse parses an HTTP response from a SchedulesV2DestroyScheduleSyncRuleWithResponse call
+func ParseSchedulesV2DestroyScheduleSyncRuleResponse(rsp *http.Response) (*SchedulesV2DestroyScheduleSyncRuleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2DestroyScheduleSyncRuleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2ShowScheduleSyncRuleResponse parses an HTTP response from a SchedulesV2ShowScheduleSyncRuleWithResponse call
+func ParseSchedulesV2ShowScheduleSyncRuleResponse(rsp *http.Response) (*SchedulesV2ShowScheduleSyncRuleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2ShowScheduleSyncRuleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SchedulesShowScheduleSyncRuleResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -30698,6 +32078,48 @@ func ParseUsersV2ListNotificationRulesResponse(rsp *http.Response) (*UsersV2List
 		}
 		response.JSON200 = &dest
 
+	}
+
+	return response, nil
+}
+
+// ParseUsersV2ShowPagingProviderResponse parses an HTTP response from a UsersV2ShowPagingProviderWithResponse call
+func ParseUsersV2ShowPagingProviderResponse(rsp *http.Response) (*UsersV2ShowPagingProviderResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UsersV2ShowPagingProviderResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest UsersShowPagingProviderResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUsersV2UpdatePagingProviderResponse parses an HTTP response from a UsersV2UpdatePagingProviderWithResponse call
+func ParseUsersV2UpdatePagingProviderResponse(rsp *http.Response) (*UsersV2UpdatePagingProviderResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UsersV2UpdatePagingProviderResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
 	}
 
 	return response, nil

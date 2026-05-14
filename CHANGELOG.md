@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add `incident_schedule_sync_target` resource and data source for managing Slack user group sync targets. Note: the API has no update endpoint, so changing any writable attribute (`slack_user_group_id`, `add_bot_to_group`) forces a destroy-and-recreate; the destroy step fails if any sync rules reference the target.
+
 ## v5.36.0
 
 - Add support for transform expressions on email alert source
