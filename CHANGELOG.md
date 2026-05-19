@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.37.0
+
 - Support new escalation path schedule modes (`currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`) and the associated `selected_rota_id` target field
 
 ## v5.36.0
