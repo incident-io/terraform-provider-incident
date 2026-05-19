@@ -198,6 +198,10 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 									Computed:            true,
 									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "schedule_mode"),
 								},
+								"selected_rota_id": schema.StringAttribute{
+									Computed:            true,
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "selected_rota_id"),
+								},
 							},
 						},
 					},
@@ -270,6 +274,10 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 								"schedule_mode": schema.StringAttribute{
 									Computed:            true,
 									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "schedule_mode"),
+								},
+								"selected_rota_id": schema.StringAttribute{
+									Computed:            true,
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "selected_rota_id"),
 								},
 							},
 						},

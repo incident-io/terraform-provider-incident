@@ -2,6 +2,7 @@ package provider
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"regexp"
 	"testing"
@@ -500,4 +501,167 @@ resource "incident_escalation_path" "example" {
   team_ids = []
 }
 `
+}
+
+func TestAccIncidentEscalationPathSelectedRotaID(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentEscalationPathResourceConfigWithSelectedRotaID(
+					StableSuffix("EP rota-mode"),
+				),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.rota_modes", "path.0.level.targets.0.schedule_mode", "currently_on_call_for_rota"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.rota_modes", "path.0.level.targets.0.selected_rota_id", "primary"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.rota_modes", "path.0.level.targets.1.schedule_mode", "next_on_call"),
+					resource.TestCheckNoResourceAttr(
+						"incident_escalation_path.rota_modes", "path.0.level.targets.1.selected_rota_id"),
+				),
+			},
+			{
+				ResourceName:      "incident_escalation_path.rota_modes",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+func testAccIncidentEscalationPathResourceConfigWithSelectedRotaID(name string) string {
+	return fmt.Sprintf(`
+data "incident_catalog_type" "team" {
+  name = %q
+}
+
+resource "incident_catalog_entry" "terraform_rota_modes" {
+  catalog_type_id    = data.incident_catalog_type.team.id
+  external_id        = "tf-acceptance-test-rota-modes"
+  name               = "Terraform test team rota modes"
+  attribute_values   = []
+  managed_attributes = []
+}
+
+resource "incident_schedule" "rota_modes" {
+  name     = %q
+  timezone = "Europe/London"
+  rotations = [{
+    id   = "primary"
+    name = "Primary"
+    versions = [{
+      handover_start_at = "2024-05-01T12:00:00Z"
+      users             = []
+      layers = [{
+        id   = "primary"
+        name = "Primary"
+      }]
+      handovers = [{
+        interval_type = "daily"
+        interval      = 1
+      }]
+    }]
+  }]
+  team_ids = [incident_catalog_entry.terraform_rota_modes.id]
+}
+
+resource "incident_escalation_path" "rota_modes" {
+  name = %q
+
+  path = [
+    {
+      type = "level"
+      level = {
+        targets = [
+          {
+            type             = "schedule"
+            id               = incident_schedule.rota_modes.id
+            urgency          = "high"
+            schedule_mode    = "currently_on_call_for_rota"
+            selected_rota_id = "primary"
+          },
+          {
+            type          = "schedule"
+            id            = incident_schedule.rota_modes.id
+            urgency       = "high"
+            schedule_mode = "next_on_call"
+          },
+        ]
+        time_to_ack_seconds = 300
+      }
+    }
+  ]
+
+  team_ids = [incident_catalog_entry.terraform_rota_modes.id]
+}
+`, teamTypeName(), name, name)
+}
+
+func TestAccIncidentEscalationPathSelectedRotaIDValidation(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// schedule_mode requires selected_rota_id but it is missing
+			{
+				Config:      testAccIncidentEscalationPathResourceConfigMissingSelectedRotaID(),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile(`Missing selected_rota_id`),
+			},
+			// schedule_mode does not allow selected_rota_id but it is set
+			{
+				Config:      testAccIncidentEscalationPathResourceConfigUnexpectedSelectedRotaID(),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile(`Unexpected selected_rota_id`),
+			},
+		},
+	})
+}
+
+func testAccIncidentEscalationPathResourceConfigMissingSelectedRotaID() string {
+	return `
+resource "incident_escalation_path" "invalid_missing_rota" {
+  name = "invalid-missing-rota"
+
+  path = [
+    {
+      type = "level"
+      level = {
+        targets = [{
+          type          = "schedule"
+          id            = "01HKZWAAAAAAAAAAAAAAAAAAA1"
+          urgency       = "high"
+          schedule_mode = "currently_on_call_for_rota"
+        }]
+        time_to_ack_seconds = 300
+      }
+    }
+  ]
+}`
+}
+
+func testAccIncidentEscalationPathResourceConfigUnexpectedSelectedRotaID() string {
+	return `
+resource "incident_escalation_path" "invalid_unexpected_rota" {
+  name = "invalid-unexpected-rota"
+
+  path = [
+    {
+      type = "level"
+      level = {
+        targets = [{
+          type             = "schedule"
+          id               = "01HKZWAAAAAAAAAAAAAAAAAAA1"
+          urgency          = "high"
+          schedule_mode    = "currently_on_call"
+          selected_rota_id = "primary"
+        }]
+        time_to_ack_seconds = 300
+      }
+    }
+  ]
+}`
 }

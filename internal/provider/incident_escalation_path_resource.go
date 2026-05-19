@@ -7,6 +7,7 @@ import (
 	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -26,8 +27,9 @@ import (
 )
 
 var (
-	_ resource.Resource                = &IncidentEscalationPathResource{}
-	_ resource.ResourceWithImportState = &IncidentEscalationPathResource{}
+	_ resource.Resource                   = &IncidentEscalationPathResource{}
+	_ resource.ResourceWithImportState    = &IncidentEscalationPathResource{}
+	_ resource.ResourceWithValidateConfig = &IncidentEscalationPathResource{}
 )
 
 type IncidentEscalationPathResource struct {
@@ -94,10 +96,11 @@ type IncidentEscalationRoundRobinConfig struct {
 }
 
 type IncidentEscalationPathTarget struct {
-	ID           types.String `tfsdk:"id"`
-	Type         types.String `tfsdk:"type"`
-	Urgency      types.String `tfsdk:"urgency"`
-	ScheduleMode types.String `tfsdk:"schedule_mode"`
+	ID             types.String `tfsdk:"id"`
+	Type           types.String `tfsdk:"type"`
+	Urgency        types.String `tfsdk:"urgency"`
+	ScheduleMode   types.String `tfsdk:"schedule_mode"`
+	SelectedRotaID types.String `tfsdk:"selected_rota_id"`
 }
 
 type IncidentEscalationPathRepeatConfig struct {
@@ -213,6 +216,10 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 									Optional:            true,
 									Computed:            true,
 								},
+								"selected_rota_id": schema.StringAttribute{
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "selected_rota_id"),
+									Optional:            true,
+								},
 							},
 						},
 					},
@@ -291,6 +298,10 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "schedule_mode"),
 									Optional:            true,
 									Computed:            true,
+								},
+								"selected_rota_id": schema.StringAttribute{
+									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "selected_rota_id"),
+									Optional:            true,
 								},
 							},
 						},
@@ -375,6 +386,69 @@ func (r *IncidentEscalationPathResource) Configure(ctx context.Context, req reso
 
 	r.client = client.Client
 	r.terraformVersion = client.TerraformVersion
+}
+
+func (r *IncidentEscalationPathResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var data *IncidentEscalationPathResourceModel
+	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() || data == nil {
+		return
+	}
+
+	validateEscalationPathTargets(data.Path, &resp.Diagnostics)
+}
+
+// rotaRequiredScheduleModes is the set of schedule_mode values that require a
+// selected_rota_id. Other modes must leave selected_rota_id unset.
+var rotaRequiredScheduleModes = map[string]bool{
+	string(client.EscalationPathTargetV2ScheduleModeAllUsersForRota):        true,
+	string(client.EscalationPathTargetV2ScheduleModeCurrentlyOnCallForRota): true,
+	string(client.EscalationPathTargetV2ScheduleModeNextOnCallForRota):      true,
+}
+
+func validateEscalationPathTargets(nodes []IncidentEscalationPathNode, diags *diag.Diagnostics) {
+	for _, node := range nodes {
+		if node.Level != nil {
+			for _, target := range node.Level.Targets {
+				validateEscalationPathTarget(target, diags)
+			}
+		}
+		if node.NotifyChannel != nil {
+			for _, target := range node.NotifyChannel.Targets {
+				validateEscalationPathTarget(target, diags)
+			}
+		}
+		if node.IfElse != nil {
+			validateEscalationPathTargets(node.IfElse.ThenPath, diags)
+			validateEscalationPathTargets(node.IfElse.ElsePath, diags)
+		}
+	}
+}
+
+func validateEscalationPathTarget(target IncidentEscalationPathTarget, diags *diag.Diagnostics) {
+	if target.ScheduleMode.IsUnknown() || target.SelectedRotaID.IsUnknown() {
+		return
+	}
+
+	mode := target.ScheduleMode.ValueString()
+	rotaID := target.SelectedRotaID.ValueString()
+
+	if rotaRequiredScheduleModes[mode] {
+		if rotaID == "" {
+			diags.Append(diag.NewErrorDiagnostic(
+				"Missing selected_rota_id",
+				fmt.Sprintf("Escalation path target with schedule_mode %q requires selected_rota_id to be set.", mode),
+			))
+		}
+		return
+	}
+
+	if rotaID != "" {
+		diags.Append(diag.NewErrorDiagnostic(
+			"Unexpected selected_rota_id",
+			fmt.Sprintf("Escalation path target with schedule_mode %q must not set selected_rota_id; it is only valid for all_users_for_rota, currently_on_call_for_rota, and next_on_call_for_rota.", mode),
+		))
+	}
 }
 
 func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -613,11 +687,17 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 							scheduleMode = types.StringValue(string(*target.ScheduleMode))
 						}
 
+						selectedRotaID := types.StringNull()
+						if target.SelectedRotaId != nil && *target.SelectedRotaId != "" {
+							selectedRotaID = types.StringValue(*target.SelectedRotaId)
+						}
+
 						return IncidentEscalationPathTarget{
-							ID:           types.StringValue(target.Id),
-							Type:         types.StringValue(string(target.Type)),
-							Urgency:      types.StringValue(string(target.Urgency)),
-							ScheduleMode: scheduleMode,
+							ID:             types.StringValue(target.Id),
+							Type:           types.StringValue(string(target.Type)),
+							Urgency:        types.StringValue(string(target.Urgency)),
+							ScheduleMode:   scheduleMode,
+							SelectedRotaID: selectedRotaID,
 						}
 					}),
 			}
@@ -653,11 +733,17 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 							scheduleMode = types.StringValue(string(*target.ScheduleMode))
 						}
 
+						selectedRotaID := types.StringNull()
+						if target.SelectedRotaId != nil && *target.SelectedRotaId != "" {
+							selectedRotaID = types.StringValue(*target.SelectedRotaId)
+						}
+
 						return IncidentEscalationPathTarget{
-							ID:           types.StringValue(target.Id),
-							Type:         types.StringValue(string(target.Type)),
-							Urgency:      types.StringValue(string(target.Urgency)),
-							ScheduleMode: scheduleMode,
+							ID:             types.StringValue(target.Id),
+							Type:           types.StringValue(string(target.Type)),
+							Urgency:        types.StringValue(string(target.Urgency)),
+							ScheduleMode:   scheduleMode,
+							SelectedRotaID: selectedRotaID,
 						}
 					}),
 			}
@@ -733,6 +819,10 @@ func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalation
 						targetPayload.ScheduleMode = lo.ToPtr(client.EscalationPathTargetV2ScheduleMode(target.ScheduleMode.ValueString()))
 					}
 
+					if target.SelectedRotaID.ValueString() != "" {
+						targetPayload.SelectedRotaId = lo.ToPtr(target.SelectedRotaID.ValueString())
+					}
+
 					return targetPayload
 				}),
 				TimeToAckIntervalCondition: intervalCondition,
@@ -772,6 +862,10 @@ func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalation
 
 					if target.ScheduleMode.ValueString() != "" {
 						targetPayload.ScheduleMode = lo.ToPtr(client.EscalationPathTargetV2ScheduleMode(target.ScheduleMode.ValueString()))
+					}
+
+					if target.SelectedRotaID.ValueString() != "" {
+						targetPayload.SelectedRotaId = lo.ToPtr(target.SelectedRotaID.ValueString())
 					}
 
 					return targetPayload
