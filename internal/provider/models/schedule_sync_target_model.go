@@ -8,11 +8,11 @@ import (
 
 // ScheduleSyncTargetResourceModel is the Terraform model for schedule sync targets.
 type ScheduleSyncTargetResourceModel struct {
-	ID                  types.String                   `tfsdk:"id"`
-	AddBotToGroup       types.Bool                     `tfsdk:"add_bot_to_group"`
-	SlackUserGroupID    types.String                   `tfsdk:"slack_user_group_id"`
-	SlackTeamID         types.String                   `tfsdk:"slack_team_id"`
-	NewSlackUserGroup   *NewSlackUserGroupModel        `tfsdk:"new_slack_user_group"`
+	ID                types.String            `tfsdk:"id"`
+	AddBotToGroup     types.Bool              `tfsdk:"add_bot_to_group"`
+	SlackUserGroupID  types.String            `tfsdk:"slack_user_group_id"`
+	SlackTeamID       types.String            `tfsdk:"slack_team_id"`
+	NewSlackUserGroup *NewSlackUserGroupModel `tfsdk:"new_slack_user_group"`
 }
 
 // NewSlackUserGroupModel represents the configuration for creating a new Slack user group.

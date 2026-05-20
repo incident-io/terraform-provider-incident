@@ -35,7 +35,7 @@ func TestAccIncidentScheduleSyncRuleResource(t *testing.T) {
 				ResourceName:      "incident_schedule_sync_rule.test",
 				ImportState:       true,
 				ImportStateVerify: true,
-				ImportStateIdFunc: importScheduleSyncRuleStateIdFunc("incident_schedule_sync_rule.test"),
+				ImportStateIdFunc: importScheduleSyncRuleStateIDFunc("incident_schedule_sync_rule.test"),
 			},
 		},
 	})
@@ -88,8 +88,8 @@ resource "incident_schedule_sync_rule" "test" {
 	})
 }
 
-// importScheduleSyncRuleStateIdFunc returns a function that generates the composite import ID
-func importScheduleSyncRuleStateIdFunc(resourceName string) resource.ImportStateIdFunc {
+// importScheduleSyncRuleStateIDFunc returns a function that generates the composite import ID.
+func importScheduleSyncRuleStateIDFunc(resourceName string) resource.ImportStateIdFunc {
 	return func(s *terraform.State) (string, error) {
 		rs, ok := s.RootModule().Resources[resourceName]
 		if !ok {
