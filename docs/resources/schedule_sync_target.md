@@ -17,7 +17,7 @@ Manage schedule sync targets (Slack user groups that schedules can sync to).
 resource "incident_schedule_sync_target" "platform_oncall" {
   add_bot_to_group = true
 
-  new_slack_user_group {
+  new_slack_user_group = {
     name        = "Platform On-Call"
     handle      = "platform-oncall"
     description = "Current on-call engineers for the Platform team"
@@ -40,7 +40,7 @@ resource "incident_schedule_sync_target" "existing_group" {
 
 ### Optional
 
-- `new_slack_user_group` (Block, Optional) Configuration for creating a new Slack user group. Mutually exclusive with `slack_user_group_id`. When provided, `name`, `handle`, and `description` are required. (see [below for nested schema](#nestedblock--new_slack_user_group))
+- `new_slack_user_group` (Attributes) Configuration for creating a new Slack user group. Mutually exclusive with `slack_user_group_id`. (see [below for nested schema](#nestedatt--new_slack_user_group))
 - `slack_user_group_id` (String) Slack ID for the user group synced to
 
 ### Read-Only
@@ -48,12 +48,15 @@ resource "incident_schedule_sync_target" "existing_group" {
 - `id` (String) Unique identifier of the sync target
 - `slack_team_id` (String) Slack team ID for the user group
 
-<a id="nestedblock--new_slack_user_group"></a>
+<a id="nestedatt--new_slack_user_group"></a>
 ### Nested Schema for `new_slack_user_group`
+
+Required:
+
+- `description` (String) Description of the user group
+- `handle` (String) Handle of the user group
+- `name` (String) Name of the user group
 
 Optional:
 
-- `description` (String) Description of the user group Required when using this block.
-- `handle` (String) Handle of the user group Required when using this block.
-- `name` (String) Name of the user group Required when using this block.
 - `slack_team_id` (String) Slack workspace ID where the user group should be created. Required for Enterprise Grid organizations with multiple workspaces.

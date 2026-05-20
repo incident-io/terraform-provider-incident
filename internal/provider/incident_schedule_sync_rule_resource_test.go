@@ -104,7 +104,7 @@ resource "incident_schedule" "test" {
 resource "incident_schedule_sync_target" "test" {
   add_bot_to_group = true
 
-  new_slack_user_group {
+  new_slack_user_group = {
     name        = "Test Sync Rule Target"
     handle      = "test-sync-rule-target"
     description = "Target for testing schedule sync rules"

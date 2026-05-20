@@ -45,9 +45,7 @@ func (m ScheduleSyncTargetResourceModel) ToPayload() client.ScheduleSyncTargetCr
 		payload.SlackUserGroupId = m.SlackUserGroupID.ValueStringPointer()
 	}
 
-	// Check if NewSlackUserGroup is actually configured (not just an empty block).
-	// With SingleNestedBlock, Terraform may create an empty struct, so we check if Name is set.
-	if m.NewSlackUserGroup != nil && !m.NewSlackUserGroup.Name.IsNull() && !m.NewSlackUserGroup.Name.IsUnknown() {
+	if m.NewSlackUserGroup != nil {
 		payload.NewSlackUserGroup = &client.NewSlackUserGroupPayloadV2{
 			Name:        m.NewSlackUserGroup.Name.ValueString(),
 			Handle:      m.NewSlackUserGroup.Handle.ValueString(),

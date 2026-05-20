@@ -2,7 +2,7 @@
 resource "incident_schedule_sync_target" "platform_oncall" {
   add_bot_to_group = true
 
-  new_slack_user_group {
+  new_slack_user_group = {
     name        = "Platform On-Call"
     handle      = "platform-oncall"
     description = "Current on-call engineers for the Platform team"

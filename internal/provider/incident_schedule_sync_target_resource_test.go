@@ -54,7 +54,7 @@ func testAccScheduleSyncTargetResourceConfigNewWithBot(name, handle, description
 resource "incident_schedule_sync_target" "test" {
   add_bot_to_group = {{ .AddBotToGroup }}
 
-  new_slack_user_group {
+  new_slack_user_group = {
     name        = {{ quote .Name }}
     handle      = {{ quote .Handle }}
     description = {{ quote .Description }}
