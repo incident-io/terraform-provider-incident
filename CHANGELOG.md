@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.38.0
+
 - Add `incident_schedule_sync_target` and `incident_schedule_sync_rule` resources for syncing schedules to Slack user groups
 
 ## v5.37.0
