@@ -447,10 +447,9 @@ func buildUsersArray(users []types.String) []client.UserReferencePayloadV2 {
 // buildHandoversArray converts a list of handovers to a list of handover references.
 func buildHandoversArray(handovers []models.HandoverV2) []client.ScheduleRotationHandoverV2 {
 	clientHandovers := lo.Map(handovers, func(handover models.HandoverV2, _ int) client.ScheduleRotationHandoverV2 {
-		intervalType := client.ScheduleRotationHandoverV2IntervalType(handover.IntervalType.ValueString())
 		return client.ScheduleRotationHandoverV2{
-			Interval:     handover.Interval.ValueInt64Pointer(),
-			IntervalType: &intervalType,
+			Interval:     handover.Interval.ValueInt64(),
+			IntervalType: client.ScheduleRotationHandoverV2IntervalType(handover.IntervalType.ValueString()),
 		}
 	})
 	return clientHandovers
@@ -553,10 +552,9 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2, plan *
 					})
 
 					handovers := lo.Map(rotation.Handovers, func(handover client.ScheduleRotationHandoverV2, _ int) models.HandoverV2 {
-						intervalTypeString := string(*handover.IntervalType)
 						return models.HandoverV2{
-							Interval:     types.Int64Value(lo.FromPtr(handover.Interval)),
-							IntervalType: types.StringValue(intervalTypeString),
+							Interval:     types.Int64Value(handover.Interval),
+							IntervalType: types.StringValue(string(handover.IntervalType)),
 						}
 					})
 

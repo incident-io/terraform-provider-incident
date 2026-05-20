@@ -26,7 +26,8 @@ var (
 )
 
 type IncidentScheduleSyncTargetResource struct {
-	client *client.ClientWithResponses
+	client           *client.ClientWithResponses
+	terraformVersion string
 }
 
 func NewIncidentScheduleSyncTargetResource() resource.Resource {
@@ -150,6 +151,7 @@ func (r *IncidentScheduleSyncTargetResource) Configure(ctx context.Context, req 
 	}
 
 	r.client = client.Client
+	r.terraformVersion = client.TerraformVersion
 }
 
 func (r *IncidentScheduleSyncTargetResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -159,8 +161,12 @@ func (r *IncidentScheduleSyncTargetResource) Create(ctx context.Context, req res
 		return
 	}
 
+	payload := data.ToPayload()
+	payload.Annotations = &map[string]string{
+		"incident.io/terraform/version": r.terraformVersion,
+	}
 	result, err := r.client.ScheduleSyncTargetsV2CreateWithResponse(ctx, client.ScheduleSyncTargetsCreatePayloadV2{
-		ScheduleSyncTarget: data.ToPayload(),
+		ScheduleSyncTarget: payload,
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create schedule sync target, got error: %s", err))
@@ -245,5 +251,6 @@ func (r *IncidentScheduleSyncTargetResource) Delete(ctx context.Context, req res
 }
 
 func (r *IncidentScheduleSyncTargetResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	claimResource(ctx, r.client, req.ID, resp.Diagnostics, client.ScheduleSyncTarget, r.terraformVersion)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

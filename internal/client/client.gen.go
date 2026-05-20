@@ -1216,20 +1216,24 @@ const (
 
 // Defines values for ManagedResourceV2ResourceType.
 const (
-	ManagedResourceV2ResourceTypeAlertRoute     ManagedResourceV2ResourceType = "alert_route"
-	ManagedResourceV2ResourceTypeAlertSource    ManagedResourceV2ResourceType = "alert_source"
-	ManagedResourceV2ResourceTypeEscalationPath ManagedResourceV2ResourceType = "escalation_path"
-	ManagedResourceV2ResourceTypeSchedule       ManagedResourceV2ResourceType = "schedule"
-	ManagedResourceV2ResourceTypeWorkflow       ManagedResourceV2ResourceType = "workflow"
+	ManagedResourceV2ResourceTypeAlertRoute         ManagedResourceV2ResourceType = "alert_route"
+	ManagedResourceV2ResourceTypeAlertSource        ManagedResourceV2ResourceType = "alert_source"
+	ManagedResourceV2ResourceTypeEscalationPath     ManagedResourceV2ResourceType = "escalation_path"
+	ManagedResourceV2ResourceTypeSchedule           ManagedResourceV2ResourceType = "schedule"
+	ManagedResourceV2ResourceTypeScheduleSyncRule   ManagedResourceV2ResourceType = "schedule_sync_rule"
+	ManagedResourceV2ResourceTypeScheduleSyncTarget ManagedResourceV2ResourceType = "schedule_sync_target"
+	ManagedResourceV2ResourceTypeWorkflow           ManagedResourceV2ResourceType = "workflow"
 )
 
 // Defines values for ManagedResourcesCreateManagedResourcePayloadV2ResourceType.
 const (
-	AlertRoute     ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_route"
-	AlertSource    ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_source"
-	EscalationPath ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path"
-	Schedule       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule"
-	Workflow       ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "workflow"
+	AlertRoute         ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_route"
+	AlertSource        ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_source"
+	EscalationPath     ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path"
+	Schedule           ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule"
+	ScheduleSyncRule   ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_rule"
+	ScheduleSyncTarget ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_target"
+	Workflow           ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "workflow"
 )
 
 // Defines values for ManagementMetaV2ManagedBy.
@@ -2806,6 +2810,11 @@ type AlertsListIncidentAlertsResultV2 struct {
 type AlertsListResultV2 struct {
 	Alerts         []AlertV2              `json:"alerts"`
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
+}
+
+// AlertsResolveResultV2 defines model for AlertsResolveResultV2.
+type AlertsResolveResultV2 struct {
+	Alert AlertV2 `json:"alert"`
 }
 
 // AlertsShowResultV2 defines model for AlertsShowResultV2.
@@ -6899,10 +6908,10 @@ type ScheduleRotationCreatePayloadV2SchedulingMode string
 
 // ScheduleRotationHandoverV2 defines model for ScheduleRotationHandoverV2.
 type ScheduleRotationHandoverV2 struct {
-	Interval *int64 `json:"interval,omitempty"`
+	Interval int64 `json:"interval"`
 
 	// IntervalType How often a handover occurs
-	IntervalType *ScheduleRotationHandoverV2IntervalType `json:"interval_type,omitempty"`
+	IntervalType ScheduleRotationHandoverV2IntervalType `json:"interval_type"`
 }
 
 // ScheduleRotationHandoverV2IntervalType How often a handover occurs
@@ -7001,6 +7010,9 @@ type ScheduleRotationWorkingIntervalV2Weekday string
 
 // ScheduleSyncRuleCreatePayloadV2 defines model for ScheduleSyncRuleCreatePayloadV2.
 type ScheduleSyncRuleCreatePayloadV2 struct {
+	// Annotations Annotations that track metadata about this resource
+	Annotations *map[string]string `json:"annotations,omitempty"`
+
 	// ScheduleSyncTargetId The sync target to link to
 	ScheduleSyncTargetId string `json:"schedule_sync_target_id"`
 
@@ -7016,7 +7028,8 @@ type ScheduleSyncRuleV2 struct {
 	CreatedAt time.Time `json:"created_at"`
 
 	// Id Unique identifier of the sync rule
-	Id string `json:"id"`
+	Id             string            `json:"id"`
+	ManagementMeta *ManagementMetaV2 `json:"management_meta,omitempty"`
 
 	// ScheduleId The schedule this rule belongs to
 	ScheduleId         string                       `json:"schedule_id"`
@@ -7036,7 +7049,10 @@ type ScheduleSyncRuleV2SyncType string
 // ScheduleSyncTargetCreatePayloadV2 defines model for ScheduleSyncTargetCreatePayloadV2.
 type ScheduleSyncTargetCreatePayloadV2 struct {
 	// AddBotToGroup Whether the incident.io bot should be added to the group
-	AddBotToGroup     bool                        `json:"add_bot_to_group"`
+	AddBotToGroup bool `json:"add_bot_to_group"`
+
+	// Annotations Annotations that track metadata about this resource
+	Annotations       *map[string]string          `json:"annotations,omitempty"`
 	NewSlackUserGroup *NewSlackUserGroupPayloadV2 `json:"new_slack_user_group,omitempty"`
 
 	// SlackUserGroupId Slack ID of an existing user group to sync to. Mutually exclusive with new_slack_user_group; exactly one must be set.
@@ -7054,6 +7070,7 @@ type ScheduleSyncTargetResourceV2 struct {
 
 	// LinkedSchedules Schedules with an active sync rule pointing at this target
 	LinkedSchedules []LinkedScheduleV2 `json:"linked_schedules"`
+	ManagementMeta  *ManagementMetaV2  `json:"management_meta,omitempty"`
 
 	// SlackTeamId Slack team ID for the user group
 	SlackTeamId string `json:"slack_team_id"`
@@ -7088,6 +7105,9 @@ type ScheduleSyncTargetsShowResultV2 struct {
 type ScheduleSyncTargetsUpdatePayloadV2 struct {
 	// AddBotToGroup Whether the incident.io bot should be added to the group
 	AddBotToGroup bool `json:"add_bot_to_group"`
+
+	// Annotations Annotations that track metadata about this resource
+	Annotations *map[string]string `json:"annotations,omitempty"`
 }
 
 // ScheduleSyncTargetsUpdateResultV2 defines model for ScheduleSyncTargetsUpdateResultV2.
@@ -9406,6 +9426,9 @@ type ClientInterface interface {
 	// AlertsV2Show request
 	AlertsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// AlertsV2Resolve request
+	AlertsV2Resolve(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// CatalogV2ListEntries request
 	CatalogV2ListEntries(ctx context.Context, params *CatalogV2ListEntriesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -11079,6 +11102,18 @@ func (c *Client) AlertsV2List(ctx context.Context, params *AlertsV2ListParams, r
 
 func (c *Client) AlertsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewAlertsV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertsV2Resolve(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertsV2ResolveRequest(c.Server, id)
 	if err != nil {
 		return nil, err
 	}
@@ -16264,6 +16299,40 @@ func NewAlertsV2ShowRequest(server string, id string) (*http.Request, error) {
 	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertsV2ResolveRequest generates requests for AlertsV2Resolve
+func NewAlertsV2ResolveRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alerts/%s/actions/resolve", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -21858,6 +21927,9 @@ type ClientWithResponsesInterface interface {
 	// AlertsV2ShowWithResponse request
 	AlertsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertsV2ShowResponse, error)
 
+	// AlertsV2ResolveWithResponse request
+	AlertsV2ResolveWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertsV2ResolveResponse, error)
+
 	// CatalogV2ListEntriesWithResponse request
 	CatalogV2ListEntriesWithResponse(ctx context.Context, params *CatalogV2ListEntriesParams, reqEditors ...RequestEditorFn) (*CatalogV2ListEntriesResponse, error)
 
@@ -23977,6 +24049,28 @@ func (r AlertsV2ShowResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r AlertsV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AlertsV2ResolveResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AlertsResolveResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertsV2ResolveResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertsV2ResolveResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -27234,6 +27328,15 @@ func (c *ClientWithResponses) AlertsV2ShowWithResponse(ctx context.Context, id s
 	return ParseAlertsV2ShowResponse(rsp)
 }
 
+// AlertsV2ResolveWithResponse request returning *AlertsV2ResolveResponse
+func (c *ClientWithResponses) AlertsV2ResolveWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertsV2ResolveResponse, error) {
+	rsp, err := c.AlertsV2Resolve(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertsV2ResolveResponse(rsp)
+}
+
 // CatalogV2ListEntriesWithResponse request returning *CatalogV2ListEntriesResponse
 func (c *ClientWithResponses) CatalogV2ListEntriesWithResponse(ctx context.Context, params *CatalogV2ListEntriesParams, reqEditors ...RequestEditorFn) (*CatalogV2ListEntriesResponse, error) {
 	rsp, err := c.CatalogV2ListEntries(ctx, params, reqEditors...)
@@ -30432,6 +30535,32 @@ func ParseAlertsV2ShowResponse(rsp *http.Response) (*AlertsV2ShowResponse, error
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest AlertsShowResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertsV2ResolveResponse parses an HTTP response from a AlertsV2ResolveWithResponse call
+func ParseAlertsV2ResolveResponse(rsp *http.Response) (*AlertsV2ResolveResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertsV2ResolveResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertsResolveResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
