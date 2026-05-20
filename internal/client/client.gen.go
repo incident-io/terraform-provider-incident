@@ -7272,6 +7272,9 @@ type SchedulesUpdateResultV2 struct {
 
 // SchedulesUpdateScheduleSyncRulePayloadV2 defines model for SchedulesUpdateScheduleSyncRulePayloadV2.
 type SchedulesUpdateScheduleSyncRulePayloadV2 struct {
+	// Annotations Annotations that track metadata about this resource
+	Annotations *map[string]string `json:"annotations,omitempty"`
+
 	// SyncType Which schedule members sync to the user group
 	SyncType SchedulesUpdateScheduleSyncRulePayloadV2SyncType `json:"sync_type"`
 }

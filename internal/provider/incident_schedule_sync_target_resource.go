@@ -221,6 +221,9 @@ func (r *IncidentScheduleSyncTargetResource) Update(ctx context.Context, req res
 
 	result, err := r.client.ScheduleSyncTargetsV2UpdateWithResponse(ctx, data.ID.ValueString(), client.ScheduleSyncTargetsUpdatePayloadV2{
 		AddBotToGroup: data.AddBotToGroup.ValueBool(),
+		Annotations: &map[string]string{
+			"incident.io/terraform/version": r.terraformVersion,
+		},
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update schedule sync target, got error: %s", err))

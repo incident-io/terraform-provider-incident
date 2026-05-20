@@ -149,6 +149,9 @@ func (r *IncidentScheduleSyncRuleResource) Update(ctx context.Context, req resou
 
 	result, err := r.client.SchedulesV2UpdateScheduleSyncRuleWithResponse(ctx, data.ScheduleID.ValueString(), data.ID.ValueString(), client.SchedulesUpdateScheduleSyncRulePayloadV2{
 		SyncType: client.SchedulesUpdateScheduleSyncRulePayloadV2SyncType(data.SyncType.ValueString()),
+		Annotations: &map[string]string{
+			"incident.io/terraform/version": r.terraformVersion,
+		},
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update schedule sync rule, got error: %s", err))
