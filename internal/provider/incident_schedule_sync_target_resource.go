@@ -113,8 +113,6 @@ func (r *IncidentScheduleSyncTargetResource) ValidateConfig(ctx context.Context,
 		return
 	}
 
-	// Only check IsNull, not IsUnknown. Unknown values (e.g., references to other resources)
-	// are valid - the actual value will be resolved during apply.
 	hasExisting := !data.SlackUserGroupID.IsNull()
 	hasNew := data.NewSlackUserGroup != nil
 
