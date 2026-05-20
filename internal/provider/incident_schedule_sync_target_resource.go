@@ -71,24 +71,24 @@ func (r *IncidentScheduleSyncTargetResource) Schema(ctx context.Context, req res
 		},
 		Blocks: map[string]schema.Block{
 			"new_slack_user_group": schema.SingleNestedBlock{
-				MarkdownDescription: "Configuration for creating a new Slack user group. Mutually exclusive with `slack_user_group_id`.",
+				MarkdownDescription: "Configuration for creating a new Slack user group. Mutually exclusive with `slack_user_group_id`. When provided, `name`, `handle`, and `description` are required.",
 				Attributes: map[string]schema.Attribute{
 					"name": schema.StringAttribute{
-						Required:            true,
+						Optional:            true,
 						MarkdownDescription: apischema.Docstring("NewSlackUserGroupPayloadV2", "name"),
 						PlanModifiers: []planmodifier.String{
 							stringplanmodifier.RequiresReplace(),
 						},
 					},
 					"handle": schema.StringAttribute{
-						Required:            true,
+						Optional:            true,
 						MarkdownDescription: apischema.Docstring("NewSlackUserGroupPayloadV2", "handle"),
 						PlanModifiers: []planmodifier.String{
 							stringplanmodifier.RequiresReplace(),
 						},
 					},
 					"description": schema.StringAttribute{
-						Required:            true,
+						Optional:            true,
 						MarkdownDescription: apischema.Docstring("NewSlackUserGroupPayloadV2", "description"),
 						PlanModifiers: []planmodifier.String{
 							stringplanmodifier.RequiresReplace(),
@@ -115,7 +115,13 @@ func (r *IncidentScheduleSyncTargetResource) ValidateConfig(ctx context.Context,
 	}
 
 	hasExisting := !data.SlackUserGroupID.IsNull() && !data.SlackUserGroupID.IsUnknown()
-	hasNew := data.NewSlackUserGroup != nil
+
+	// Check if new_slack_user_group block is actually populated (not just an empty block).
+	// With SingleNestedBlock, Terraform creates an empty instance even when not provided,
+	// so we check if any of the required fields are set.
+	hasNew := data.NewSlackUserGroup != nil && ((!data.NewSlackUserGroup.Name.IsNull() && !data.NewSlackUserGroup.Name.IsUnknown()) ||
+		(!data.NewSlackUserGroup.Handle.IsNull() && !data.NewSlackUserGroup.Handle.IsUnknown()) ||
+		(!data.NewSlackUserGroup.Description.IsNull() && !data.NewSlackUserGroup.Description.IsUnknown()))
 
 	if hasExisting && hasNew {
 		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
@@ -133,6 +139,28 @@ func (r *IncidentScheduleSyncTargetResource) ValidateConfig(ctx context.Context,
 				"Use slack_user_group_id to sync to an existing Slack user group, or "+
 				"new_slack_user_group to create a new one."))
 		return
+	}
+
+	// If new_slack_user_group is provided, validate that all required fields are present.
+	if hasNew {
+		if data.NewSlackUserGroup.Name.IsNull() || data.NewSlackUserGroup.Name.IsUnknown() {
+			resp.Diagnostics.AddAttributeError(
+				path.Root("new_slack_user_group").AtName("name"),
+				"Missing required attribute",
+				"The name attribute is required when using new_slack_user_group.")
+		}
+		if data.NewSlackUserGroup.Handle.IsNull() || data.NewSlackUserGroup.Handle.IsUnknown() {
+			resp.Diagnostics.AddAttributeError(
+				path.Root("new_slack_user_group").AtName("handle"),
+				"Missing required attribute",
+				"The handle attribute is required when using new_slack_user_group.")
+		}
+		if data.NewSlackUserGroup.Description.IsNull() || data.NewSlackUserGroup.Description.IsUnknown() {
+			resp.Diagnostics.AddAttributeError(
+				path.Root("new_slack_user_group").AtName("description"),
+				"Missing required attribute",
+				"The description attribute is required when using new_slack_user_group.")
+		}
 	}
 }
 

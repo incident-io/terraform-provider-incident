@@ -40,7 +40,7 @@ resource "incident_schedule_sync_target" "existing_group" {
 
 ### Optional
 
-- `new_slack_user_group` (Block, Optional) Configuration for creating a new Slack user group. Mutually exclusive with `slack_user_group_id`. (see [below for nested schema](#nestedblock--new_slack_user_group))
+- `new_slack_user_group` (Block, Optional) Configuration for creating a new Slack user group. Mutually exclusive with `slack_user_group_id`. When provided, `name`, `handle`, and `description` are required. (see [below for nested schema](#nestedblock--new_slack_user_group))
 - `slack_user_group_id` (String) Slack ID for the user group synced to
 
 ### Read-Only
@@ -51,12 +51,9 @@ resource "incident_schedule_sync_target" "existing_group" {
 <a id="nestedblock--new_slack_user_group"></a>
 ### Nested Schema for `new_slack_user_group`
 
-Required:
+Optional:
 
 - `description` (String) Description of the user group
 - `handle` (String) Handle of the user group
 - `name` (String) Name of the user group
-
-Optional:
-
 - `slack_team_id` (String) Slack workspace ID where the user group should be created. Required for Enterprise Grid organizations with multiple workspaces.
