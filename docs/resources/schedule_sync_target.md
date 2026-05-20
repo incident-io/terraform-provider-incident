@@ -53,7 +53,7 @@ resource "incident_schedule_sync_target" "existing_group" {
 
 Optional:
 
-- `description` (String) Description of the user group
-- `handle` (String) Handle of the user group
-- `name` (String) Name of the user group
+- `description` (String) Description of the user group Required when using this block.
+- `handle` (String) Handle of the user group Required when using this block.
+- `name` (String) Name of the user group Required when using this block.
 - `slack_team_id` (String) Slack workspace ID where the user group should be created. Required for Enterprise Grid organizations with multiple workspaces.

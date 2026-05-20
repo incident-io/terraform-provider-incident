@@ -75,21 +75,21 @@ func (r *IncidentScheduleSyncTargetResource) Schema(ctx context.Context, req res
 				Attributes: map[string]schema.Attribute{
 					"name": schema.StringAttribute{
 						Optional:            true,
-						MarkdownDescription: apischema.Docstring("NewSlackUserGroupPayloadV2", "name"),
+						MarkdownDescription: apischema.Docstring("NewSlackUserGroupPayloadV2", "name") + " Required when using this block.",
 						PlanModifiers: []planmodifier.String{
 							stringplanmodifier.RequiresReplace(),
 						},
 					},
 					"handle": schema.StringAttribute{
 						Optional:            true,
-						MarkdownDescription: apischema.Docstring("NewSlackUserGroupPayloadV2", "handle"),
+						MarkdownDescription: apischema.Docstring("NewSlackUserGroupPayloadV2", "handle") + " Required when using this block.",
 						PlanModifiers: []planmodifier.String{
 							stringplanmodifier.RequiresReplace(),
 						},
 					},
 					"description": schema.StringAttribute{
 						Optional:            true,
-						MarkdownDescription: apischema.Docstring("NewSlackUserGroupPayloadV2", "description"),
+						MarkdownDescription: apischema.Docstring("NewSlackUserGroupPayloadV2", "description") + " Required when using this block.",
 						PlanModifiers: []planmodifier.String{
 							stringplanmodifier.RequiresReplace(),
 						},
