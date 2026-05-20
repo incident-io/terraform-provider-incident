@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"os"
 	"regexp"
 	"testing"
 
@@ -8,7 +9,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
+// TestAccIncidentScheduleSyncRuleResource tests creating and updating schedule sync rules.
+//
+// NOTE: This test requires Slack usergroups:write scope, which is not available in CI.
+// Set TF_ACC_SLACK_USER_GROUPS=1 to run this test locally with a workspace that has the scope.
 func TestAccIncidentScheduleSyncRuleResource(t *testing.T) {
+	if os.Getenv("TF_ACC_SLACK_USER_GROUPS") == "" {
+		t.Skip("TF_ACC_SLACK_USER_GROUPS is not set: skipping test that requires Slack usergroups:write scope")
+	}
+
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -41,7 +50,15 @@ func TestAccIncidentScheduleSyncRuleResource(t *testing.T) {
 	})
 }
 
+// TestAccIncidentScheduleSyncRuleResource_InvalidImportID tests that invalid import IDs are rejected.
+//
+// NOTE: This test requires Slack usergroups:write scope, which is not available in CI.
+// Set TF_ACC_SLACK_USER_GROUPS=1 to run this test locally with a workspace that has the scope.
 func TestAccIncidentScheduleSyncRuleResource_InvalidImportID(t *testing.T) {
+	if os.Getenv("TF_ACC_SLACK_USER_GROUPS") == "" {
+		t.Skip("TF_ACC_SLACK_USER_GROUPS is not set: skipping test that requires Slack usergroups:write scope")
+	}
+
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -64,6 +81,24 @@ func testAccScheduleSyncRuleResourceConfig(syncType string) string {
 resource "incident_schedule" "test" {
   name     = "Test Schedule for Sync Rule"
   timezone = "Europe/London"
+
+  rotations = [{
+    id   = "primary"
+    name = "Primary"
+
+    versions = [{
+      handover_start_at = "2024-05-01T12:00:00Z"
+      users             = []
+      layers = [{
+        id   = "primary"
+        name = "Primary"
+      }]
+      handovers = [{
+        interval_type = "daily"
+        interval      = 1
+      }]
+    }]
+  }]
 }
 
 resource "incident_schedule_sync_target" "test" {
