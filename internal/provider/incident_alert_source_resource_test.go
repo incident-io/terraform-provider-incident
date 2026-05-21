@@ -1159,6 +1159,69 @@ resource "incident_alert_source" "test" {
 	})
 }
 
+// Regression test: creating an http source with http_custom_options used to
+// fail with "Provider produced inconsistent result after apply" because the
+// API never echoes http_custom_options back (it's write-only), so FromAPI
+// returned nil against the planned value. The provider now restores the
+// planned/prior value in Create/Read/Update.
+func TestAccAlertSourceResource_HTTPCustomOptions(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceResourceConfigWithHTTP("http-source"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "http-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "http"),
+					resource.TestCheckResourceAttrSet("incident_alert_source.test", "alert_events_url"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "http_custom_options.deduplication_key_path", "$.alert_id"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "http_custom_options.transform_expression", "payload"),
+				),
+			},
+			// ImportState testing. http_custom_options is write-only (the API
+			// never returns it), so it cannot be verified on a fresh import.
+			{
+				ResourceName:            "incident_alert_source.test",
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{"http_custom_options"},
+			},
+		},
+	})
+}
+
+func testAccAlertSourceResourceConfigWithHTTP(name string) string {
+	return testRunTemplate("incident_alert_source_http", `
+resource "incident_alert_source" "test" {
+  name        = {{ quote .Name }}
+  source_type = "http"
+
+  template = {
+    expressions = [],
+    title = {
+      literal = {{ quote .Title }}
+    },
+    description = {
+      literal = {{ quote .Description }}
+    },
+    attributes = []
+  }
+
+  http_custom_options = {
+    transform_expression   = "payload"
+    deduplication_key_path = "$.alert_id"
+  }
+}
+`, struct {
+		Name, Title, Description string
+	}{
+		Name:        name,
+		Title:       testAlertSourceTitle,
+		Description: testAlertSourceDescription,
+	})
+}
+
 func testAccAlertSourceResourceConfigWithDifferentOwningTeamIDs(name string) string {
 	return testRunTemplate("incident_alert_source_with_different_owning_teams", `
 # Look up the Team catalog type

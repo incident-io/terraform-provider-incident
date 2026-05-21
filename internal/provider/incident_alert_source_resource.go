@@ -513,6 +513,7 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 	// Save the planned values before overwriting with API response.
 	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
 	planEmailOptions := data.EmailOptions
+	planHTTPCustomOptions := data.HTTPCustomOptions
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
 
@@ -529,6 +530,13 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 	// doesn't see an inconsistent result.
 	if planEmailOptions != nil && data.EmailOptions == nil {
 		data.EmailOptions = planEmailOptions
+	}
+
+	// http_custom_options is write-only: the API never echoes it back, so
+	// FromAPI returns nil. Restore the planned value so Terraform doesn't see
+	// an inconsistent result for http sources.
+	if planHTTPCustomOptions != nil && data.HTTPCustomOptions == nil {
+		data.HTTPCustomOptions = planHTTPCustomOptions
 	}
 
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
@@ -562,6 +570,7 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 	// Save the prior state values before overwriting with API response.
 	stateAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
 	stateEmailOptions := data.EmailOptions
+	stateHTTPCustomOptions := data.HTTPCustomOptions
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
 
@@ -576,6 +585,13 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 	// state had it (e.g. user configured email_options with empty redactions).
 	if stateEmailOptions != nil && data.EmailOptions == nil {
 		data.EmailOptions = stateEmailOptions
+	}
+
+	// http_custom_options is write-only: the API never echoes it back, so
+	// FromAPI returns nil. Preserve the prior state value to avoid a perpetual
+	// diff for http sources.
+	if stateHTTPCustomOptions != nil && data.HTTPCustomOptions == nil {
+		data.HTTPCustomOptions = stateHTTPCustomOptions
 	}
 
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
@@ -636,6 +652,7 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 	// Save the planned values before overwriting with API response.
 	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
 	planEmailOptions := data.EmailOptions
+	planHTTPCustomOptions := data.HTTPCustomOptions
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
 
@@ -652,6 +669,13 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 	// doesn't see an inconsistent result.
 	if planEmailOptions != nil && data.EmailOptions == nil {
 		data.EmailOptions = planEmailOptions
+	}
+
+	// http_custom_options is write-only: the API never echoes it back, so
+	// FromAPI returns nil. Restore the planned value so Terraform doesn't see
+	// an inconsistent result for http sources.
+	if planHTTPCustomOptions != nil && data.HTTPCustomOptions == nil {
+		data.HTTPCustomOptions = planHTTPCustomOptions
 	}
 
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {

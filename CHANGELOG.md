@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Fix "Provider produced inconsistent result after apply" when creating or updating an `incident_alert_source` with `http_custom_options` (the API does not echo back the write-only `http_custom_options`, so the planned/prior value is now preserved)
+
 ## v5.38.0
 
 - Add `incident_schedule_sync_target` and `incident_schedule_sync_rule` resources for syncing schedules to Slack user groups
