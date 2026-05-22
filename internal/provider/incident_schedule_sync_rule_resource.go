@@ -193,7 +193,7 @@ func (r *IncidentScheduleSyncRuleResource) ImportState(ctx context.Context, req 
 
 	tflog.Info(ctx, fmt.Sprintf("Importing schedule sync rule with schedule_id=%s and rule_id=%s", scheduleID, ruleID))
 
-	claimResource(ctx, r.client, ruleID, resp.Diagnostics, client.ScheduleSyncRule, r.terraformVersion)
+	claimResource(ctx, r.client, ruleID, &resp.Diagnostics, client.ScheduleSyncRule, r.terraformVersion)
 
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), ruleID)...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("schedule_id"), scheduleID)...)

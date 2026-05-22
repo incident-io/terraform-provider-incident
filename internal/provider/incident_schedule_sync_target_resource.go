@@ -254,6 +254,6 @@ func (r *IncidentScheduleSyncTargetResource) Delete(ctx context.Context, req res
 }
 
 func (r *IncidentScheduleSyncTargetResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	claimResource(ctx, r.client, req.ID, resp.Diagnostics, client.ScheduleSyncTarget, r.terraformVersion)
+	claimResource(ctx, r.client, req.ID, &resp.Diagnostics, client.ScheduleSyncTarget, r.terraformVersion)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
