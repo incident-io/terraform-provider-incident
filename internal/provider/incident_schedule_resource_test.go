@@ -34,8 +34,8 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 								Name:            "Rota",
 								Handovers: []client.ScheduleRotationHandoverV2{
 									{
-										IntervalType: lo.ToPtr(client.ScheduleRotationHandoverV2IntervalType("weekly")),
-										Interval:     lo.ToPtr(int64(1)),
+										IntervalType: client.ScheduleRotationHandoverV2IntervalType("weekly"),
+										Interval:     1,
 									},
 								},
 								Layers: []client.ScheduleLayerV2{
@@ -52,8 +52,8 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 								Name:            "Rota",
 								Handovers: []client.ScheduleRotationHandoverV2{
 									{
-										IntervalType: lo.ToPtr(client.ScheduleRotationHandoverV2IntervalType("weekly")),
-										Interval:     lo.ToPtr(int64(1)),
+										IntervalType: client.ScheduleRotationHandoverV2IntervalType("weekly"),
+										Interval:     1,
 									},
 								},
 								Layers: []client.ScheduleLayerV2{
@@ -167,8 +167,8 @@ func TestAccIncidentScheduleResourceRotationUpdates(t *testing.T) {
 								HandoverStartAt: handoverStartAt,
 								Handovers: []client.ScheduleRotationHandoverV2{
 									{
-										Interval:     lo.ToPtr(int64(1)),
-										IntervalType: lo.ToPtr(client.Weekly),
+										Interval:     1,
+										IntervalType: client.Weekly,
 									},
 								},
 								Layers: []client.ScheduleLayerV2{
@@ -203,8 +203,8 @@ func TestAccIncidentScheduleResourceRotationUpdates(t *testing.T) {
 								HandoverStartAt: handoverStartAt,
 								Handovers: []client.ScheduleRotationHandoverV2{
 									{
-										Interval:     lo.ToPtr(int64(1)),
-										IntervalType: lo.ToPtr(client.Daily),
+										Interval:     1,
+										IntervalType: client.Daily,
 									},
 								},
 								Layers: []client.ScheduleLayerV2{
@@ -220,8 +220,8 @@ func TestAccIncidentScheduleResourceRotationUpdates(t *testing.T) {
 								HandoverStartAt: handoverStartAt,
 								Handovers: []client.ScheduleRotationHandoverV2{
 									{
-										Interval:     lo.ToPtr(int64(1)),
-										IntervalType: lo.ToPtr(client.Daily),
+										Interval:     1,
+										IntervalType: client.Daily,
 									},
 								},
 								EffectiveFrom: &effectiveFrom,
@@ -441,8 +441,8 @@ func incidentScheduleDefault(name string) client.ScheduleV2 {
 					HandoverStartAt: handoverStartAt1,
 					Handovers: []client.ScheduleRotationHandoverV2{
 						{
-							IntervalType: lo.ToPtr(client.ScheduleRotationHandoverV2IntervalType("weekly")),
-							Interval:     lo.ToPtr(int64(1)),
+							IntervalType: client.ScheduleRotationHandoverV2IntervalType("weekly"),
+							Interval:     1,
 						},
 					},
 					Layers: []client.ScheduleLayerV2{
@@ -535,8 +535,8 @@ func generateHandoversArray(handovers []client.ScheduleRotationHandoverV2) strin
 	result += "[\n"
 	for _, handover := range handovers {
 		result += "  {\n"
-		result += "    interval_type = " + quote(string(*handover.IntervalType)) + "\n"
-		result += "    interval      = " + quote(strconv.FormatInt(*handover.Interval, 10)) + "\n"
+		result += "    interval_type = " + quote(string(handover.IntervalType)) + "\n"
+		result += "    interval      = " + quote(strconv.FormatInt(handover.Interval, 10)) + "\n"
 		result += "  },\n"
 	}
 	result += "]\n"

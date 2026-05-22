@@ -25,7 +25,8 @@ var (
 )
 
 type IncidentScheduleSyncRuleResource struct {
-	client *client.ClientWithResponses
+	client           *client.ClientWithResponses
+	terraformVersion string
 }
 
 func NewIncidentScheduleSyncRuleResource() resource.Resource {
@@ -84,6 +85,7 @@ func (r *IncidentScheduleSyncRuleResource) Configure(ctx context.Context, req re
 	}
 
 	r.client = client.Client
+	r.terraformVersion = client.TerraformVersion
 }
 
 func (r *IncidentScheduleSyncRuleResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -97,6 +99,9 @@ func (r *IncidentScheduleSyncRuleResource) Create(ctx context.Context, req resou
 		ScheduleSyncRule: client.ScheduleSyncRuleCreatePayloadV2{
 			ScheduleSyncTargetId: data.ScheduleSyncTargetID.ValueString(),
 			SyncType:             client.ScheduleSyncRuleCreatePayloadV2SyncType(data.SyncType.ValueString()),
+			Annotations: &map[string]string{
+				"incident.io/terraform/version": r.terraformVersion,
+			},
 		},
 	})
 	if err != nil {
@@ -144,6 +149,9 @@ func (r *IncidentScheduleSyncRuleResource) Update(ctx context.Context, req resou
 
 	result, err := r.client.SchedulesV2UpdateScheduleSyncRuleWithResponse(ctx, data.ScheduleID.ValueString(), data.ID.ValueString(), client.SchedulesUpdateScheduleSyncRulePayloadV2{
 		SyncType: client.SchedulesUpdateScheduleSyncRulePayloadV2SyncType(data.SyncType.ValueString()),
+		Annotations: &map[string]string{
+			"incident.io/terraform/version": r.terraformVersion,
+		},
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update schedule sync rule, got error: %s", err))
@@ -184,6 +192,8 @@ func (r *IncidentScheduleSyncRuleResource) ImportState(ctx context.Context, req 
 	ruleID := idParts[1]
 
 	tflog.Info(ctx, fmt.Sprintf("Importing schedule sync rule with schedule_id=%s and rule_id=%s", scheduleID, ruleID))
+
+	claimResource(ctx, r.client, ruleID, &resp.Diagnostics, client.ScheduleSyncRule, r.terraformVersion)
 
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), ruleID)...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("schedule_id"), scheduleID)...)
