@@ -12,7 +12,7 @@ func claimResource(
 	ctx context.Context,
 	apiClient *client.ClientWithResponses,
 	resourceID string,
-	diagnostics diag.Diagnostics,
+	diagnostics *diag.Diagnostics,
 	resourceType client.ManagedResourcesCreateManagedResourcePayloadV2ResourceType,
 	terraformVersion string,
 ) {
