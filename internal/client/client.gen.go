@@ -20,6 +20,7 @@ import (
 
 // Defines values for APIKeyRoleV1Name.
 const (
+	APIKeyRoleV1NameActOnBehalfOfUsers        APIKeyRoleV1Name = "act_on_behalf_of_users"
 	APIKeyRoleV1NameApiKeysManage             APIKeyRoleV1Name = "api_keys_manage"
 	APIKeyRoleV1NameCatalogEditor             APIKeyRoleV1Name = "catalog_editor"
 	APIKeyRoleV1NameCatalogViewer             APIKeyRoleV1Name = "catalog_viewer"
@@ -57,6 +58,7 @@ const (
 
 // Defines values for APIKeysCreatePayloadV1RoleNames.
 const (
+	APIKeysCreatePayloadV1RoleNamesActOnBehalfOfUsers        APIKeysCreatePayloadV1RoleNames = "act_on_behalf_of_users"
 	APIKeysCreatePayloadV1RoleNamesApiKeysManage             APIKeysCreatePayloadV1RoleNames = "api_keys_manage"
 	APIKeysCreatePayloadV1RoleNamesCatalogEditor             APIKeysCreatePayloadV1RoleNames = "catalog_editor"
 	APIKeysCreatePayloadV1RoleNamesCatalogViewer             APIKeysCreatePayloadV1RoleNames = "catalog_viewer"
@@ -94,6 +96,7 @@ const (
 
 // Defines values for APIKeysUpdatePayloadV1RoleNames.
 const (
+	APIKeysUpdatePayloadV1RoleNamesActOnBehalfOfUsers        APIKeysUpdatePayloadV1RoleNames = "act_on_behalf_of_users"
 	APIKeysUpdatePayloadV1RoleNamesApiKeysManage             APIKeysUpdatePayloadV1RoleNames = "api_keys_manage"
 	APIKeysUpdatePayloadV1RoleNamesCatalogEditor             APIKeysUpdatePayloadV1RoleNames = "catalog_editor"
 	APIKeysUpdatePayloadV1RoleNamesCatalogViewer             APIKeysUpdatePayloadV1RoleNames = "catalog_viewer"
@@ -1004,6 +1007,7 @@ const (
 
 // Defines values for IdentityV1Roles.
 const (
+	IdentityV1RolesActOnBehalfOfUsers        IdentityV1Roles = "act_on_behalf_of_users"
 	IdentityV1RolesApiKeysManage             IdentityV1Roles = "api_keys_manage"
 	IdentityV1RolesCatalogEditor             IdentityV1Roles = "catalog_editor"
 	IdentityV1RolesCatalogViewer             IdentityV1Roles = "catalog_viewer"
@@ -7028,8 +7032,7 @@ type ScheduleSyncRuleV2 struct {
 	CreatedAt time.Time `json:"created_at"`
 
 	// Id Unique identifier of the sync rule
-	Id             string            `json:"id"`
-	ManagementMeta *ManagementMetaV2 `json:"management_meta,omitempty"`
+	Id string `json:"id"`
 
 	// ScheduleId The schedule this rule belongs to
 	ScheduleId         string                       `json:"schedule_id"`
@@ -7070,7 +7073,6 @@ type ScheduleSyncTargetResourceV2 struct {
 
 	// LinkedSchedules Schedules with an active sync rule pointing at this target
 	LinkedSchedules []LinkedScheduleV2 `json:"linked_schedules"`
-	ManagementMeta  *ManagementMetaV2  `json:"management_meta,omitempty"`
 
 	// SlackTeamId Slack team ID for the user group
 	SlackTeamId string `json:"slack_team_id"`
