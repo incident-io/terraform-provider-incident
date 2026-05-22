@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.38.1
+
 - Mark `incident_schedule_sync_target` and `incident_schedule_sync_rule` resources as managed by Terraform
 
 ## v5.38.0
