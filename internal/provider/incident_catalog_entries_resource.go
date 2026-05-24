@@ -130,7 +130,8 @@ changes to one entry to an update to that same entry when the upstream changes.
 							Default:             int64default.StaticInt64(0),
 						},
 						"attribute_values": schema.MapNestedAttribute{
-							Required: true,
+							MarkdownDescription: `Map of attribute ID to attribute values. (Keys are the system-generated IDs.)`,
+							Required:            true,
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"value": schema.StringAttribute{
