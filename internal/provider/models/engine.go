@@ -15,7 +15,7 @@ import (
 // value object.
 func ParamBindingValueAttrTypes() map[string]attr.Type {
 	return map[string]attr.Type{
-		"literal":   types.StringType,
+		"literal":   jsontypes.NormalizedJSONOrStringType{},
 		"reference": types.StringType,
 	}
 }

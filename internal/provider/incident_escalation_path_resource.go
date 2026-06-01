@@ -213,7 +213,7 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 					"\n-->**Note** Although the `if_else` block is recursive, currently a maximum of 5 levels are supported. "+
 						"Attempting to configure more than 5 levels of nesting will result in a validation error.\n"),
 				Required:     true,
-				NestedObject: r.getPathSchema(5),
+				NestedObject: r.getPathSchema(pathSchemaDepth),
 			},
 			"working_hours": schema.ListNestedAttribute{
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "working_hours"),
@@ -860,7 +860,7 @@ func (r *IncidentEscalationPathResource) buildModel(ctx context.Context, ep clie
 // targetsFromAPI builds a types.List of escalation path target objects from API
 // targets.
 func targetsFromAPI(ctx context.Context, targets []client.EscalationPathTargetV2, diags *diag.Diagnostics) types.List {
-	models := lo.Map(targets, func(target client.EscalationPathTargetV2, _ int) IncidentEscalationPathTarget {
+	targetModels := lo.Map(targets, func(target client.EscalationPathTargetV2, _ int) IncidentEscalationPathTarget {
 		scheduleMode := types.StringNull()
 		if target.ScheduleMode != nil {
 			scheduleMode = types.StringValue(string(*target.ScheduleMode))
@@ -880,7 +880,7 @@ func targetsFromAPI(ctx context.Context, targets []client.EscalationPathTargetV2
 		}
 	})
 
-	list, d := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: targetAttrTypes()}, models)
+	list, d := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: targetAttrTypes()}, targetModels)
 	diags.Append(d...)
 	return list
 }

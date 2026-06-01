@@ -96,7 +96,7 @@ func (d *IncidentEscalationPathDataSource) Schema(ctx context.Context, req datas
 			"path": schema.ListNestedAttribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "path"),
-				NestedObject:        d.getPathSchema(5),
+				NestedObject:        d.getPathSchema(pathSchemaDepth),
 			},
 			"working_hours": schema.ListNestedAttribute{
 				Computed:            true,
