@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Fix `incident_escalation_path` crashing at plan time with a "cannot handle unknown values" error when `path` or `working_hours` contain values that are unknown until apply (e.g. `path = local.path_templates[var.path_template]`)
+
 ## v5.38.1
 
 - Mark `incident_schedule_sync_target` and `incident_schedule_sync_rule` resources as managed by Terraform

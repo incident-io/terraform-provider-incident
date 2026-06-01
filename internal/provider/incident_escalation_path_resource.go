@@ -389,13 +389,26 @@ func (r *IncidentEscalationPathResource) Configure(ctx context.Context, req reso
 }
 
 func (r *IncidentEscalationPathResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
-	var data *IncidentEscalationPathResourceModel
-	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() || data == nil {
+	// We deliberately avoid decoding the whole config into our model here.
+	//
+	// IncidentEscalationPathResourceModel uses plain Go slices (e.g.
+	// []IncidentEscalationPathNode, []models.IncidentWeekdayIntervalConfig)
+	// which cannot represent unknown values. Calling req.Config.Get with a
+	// config that contains any unknown list or element - for example a `path`
+	// derived from a variable-indexed local, or a value that's "known after
+	// apply" - fails with a "cannot handle unknown values" conversion error.
+	//
+	// Instead we pull just the `path` attribute as a types.List and walk it
+	// element-by-element, descending only into values that are known. This
+	// keeps validation working for fully-known configs while tolerating
+	// unknowns anywhere in the tree.
+	var pathVal types.List
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("path"), &pathVal)...)
+	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	validateEscalationPathTargets(data.Path, &resp.Diagnostics)
+	validateEscalationPathNodeList(pathVal, &resp.Diagnostics)
 }
 
 // rotaRequiredScheduleModes is the set of schedule_mode values that require a
@@ -406,32 +419,81 @@ var rotaRequiredScheduleModes = map[string]bool{
 	string(client.EscalationPathTargetV2ScheduleModeNextOnCallForRota):      true,
 }
 
-func validateEscalationPathTargets(nodes []IncidentEscalationPathNode, diags *diag.Diagnostics) {
-	for _, node := range nodes {
-		if node.Level != nil {
-			for _, target := range node.Level.Targets {
-				validateEscalationPathTarget(target, diags)
-			}
+// validateEscalationPathNodeList walks a list of escalation path nodes,
+// validating the targets on any `level` and `notify_channel` nodes and
+// recursing into the `then_path`/`else_path` of `if_else` nodes.
+//
+// It operates directly on the framework attr.Value types rather than decoding
+// into our Go model, so that unknown values (lists, elements or leaves) can be
+// skipped instead of causing a conversion error.
+func validateEscalationPathNodeList(nodes types.List, diags *diag.Diagnostics) {
+	if nodes.IsNull() || nodes.IsUnknown() {
+		return
+	}
+
+	for _, elem := range nodes.Elements() {
+		node, ok := elem.(types.Object)
+		if !ok || node.IsNull() || node.IsUnknown() {
+			continue
 		}
-		if node.NotifyChannel != nil {
-			for _, target := range node.NotifyChannel.Targets {
-				validateEscalationPathTarget(target, diags)
-			}
+
+		attrs := node.Attributes()
+
+		if level, ok := attrs["level"].(types.Object); ok {
+			validateEscalationPathTargetsAttr(level, diags)
 		}
-		if node.IfElse != nil {
-			validateEscalationPathTargets(node.IfElse.ThenPath, diags)
-			validateEscalationPathTargets(node.IfElse.ElsePath, diags)
+		if notifyChannel, ok := attrs["notify_channel"].(types.Object); ok {
+			validateEscalationPathTargetsAttr(notifyChannel, diags)
+		}
+		if ifElse, ok := attrs["if_else"].(types.Object); ok && !ifElse.IsNull() && !ifElse.IsUnknown() {
+			ifElseAttrs := ifElse.Attributes()
+			if thenPath, ok := ifElseAttrs["then_path"].(types.List); ok {
+				validateEscalationPathNodeList(thenPath, diags)
+			}
+			if elsePath, ok := ifElseAttrs["else_path"].(types.List); ok {
+				validateEscalationPathNodeList(elsePath, diags)
+			}
 		}
 	}
 }
 
-func validateEscalationPathTarget(target IncidentEscalationPathTarget, diags *diag.Diagnostics) {
-	if target.ScheduleMode.IsUnknown() || target.SelectedRotaID.IsUnknown() {
+// validateEscalationPathTargetsAttr validates the `targets` list on a `level`
+// or `notify_channel` node object, skipping anything unknown.
+func validateEscalationPathTargetsAttr(node types.Object, diags *diag.Diagnostics) {
+	if node.IsNull() || node.IsUnknown() {
 		return
 	}
 
-	mode := target.ScheduleMode.ValueString()
-	rotaID := target.SelectedRotaID.ValueString()
+	targets, ok := node.Attributes()["targets"].(types.List)
+	if !ok || targets.IsNull() || targets.IsUnknown() {
+		return
+	}
+
+	for _, elem := range targets.Elements() {
+		target, ok := elem.(types.Object)
+		if !ok || target.IsNull() || target.IsUnknown() {
+			continue
+		}
+
+		validateEscalationPathTarget(target, diags)
+	}
+}
+
+func validateEscalationPathTarget(target types.Object, diags *diag.Diagnostics) {
+	attrs := target.Attributes()
+
+	scheduleMode, _ := attrs["schedule_mode"].(types.String)
+	selectedRotaID, _ := attrs["selected_rota_id"].(types.String)
+
+	// If either field is unknown we can't reliably validate the combination,
+	// so skip - this target will be validated at apply time when values are
+	// known.
+	if scheduleMode.IsUnknown() || selectedRotaID.IsUnknown() {
+		return
+	}
+
+	mode := scheduleMode.ValueString()
+	rotaID := selectedRotaID.ValueString()
 
 	if rotaRequiredScheduleModes[mode] {
 		if rotaID == "" {

@@ -665,3 +665,158 @@ resource "incident_escalation_path" "invalid_unexpected_rota" {
   ]
 }`
 }
+
+// TestAccIncidentEscalationPathUnknownValues is a regression test for
+// ONC-11917: ValidateConfig previously decoded the whole config into our model
+// (which uses plain Go slices for `path` and `working_hours`), which crashed
+// with a "cannot handle unknown values" conversion error whenever any part of
+// `path` or `working_hours` was unknown at plan time.
+//
+// Both steps below introduce unknown values into the config in the two ways
+// customers hit this:
+//  1. `path` derived from a local map indexed by a variable.
+//  2. `working_hours` referencing an attribute that is known only after apply.
+//
+// They should plan and apply cleanly rather than erroring during validation.
+func TestAccIncidentEscalationPathUnknownValues(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// 1. path = local.path_templates[var.path_template] - the whole
+			//    `path` list is unknown at plan time.
+			{
+				Config: testAccIncidentEscalationPathResourceConfigUnknownPath(
+					StableSuffix("EP unknown path"),
+				),
+				Check: resource.TestCheckResourceAttr(
+					"incident_escalation_path.unknown_path", "name", StableSuffix("EP unknown path")),
+			},
+			// 2. working_hours referencing a known-after-apply attribute, so a
+			//    nested leaf inside the working_hours list is unknown at plan
+			//    time.
+			{
+				Config: testAccIncidentEscalationPathResourceConfigUnknownWorkingHours(
+					StableSuffix("EP unknown working hours"),
+				),
+				Check: resource.TestCheckResourceAttr(
+					"incident_escalation_path.unknown_working_hours", "name", StableSuffix("EP unknown working hours")),
+			},
+		},
+	})
+}
+
+func testAccIncidentEscalationPathResourceConfigUnknownPath(name string) string {
+	return fmt.Sprintf(`
+resource "incident_schedule" "unknown_path" {
+  name     = %q
+  timezone = "Europe/London"
+  rotations = [{
+    id   = "primary"
+    name = "Primary"
+    versions = [{
+      handover_start_at = "2024-05-01T12:00:00Z"
+      users             = []
+      layers = [{
+        id   = "primary"
+        name = "Primary"
+      }]
+      handovers = [{
+        interval_type = "daily"
+        interval      = 1
+      }]
+    }]
+  }]
+}
+
+variable "path_template" {
+  type    = string
+  default = "default"
+}
+
+# The schedule id is "known after apply", so every node in these template
+# lists - and therefore the selected template itself - is unknown at plan time.
+locals {
+  path_templates = {
+    default = [
+      {
+        type = "level"
+        level = {
+          targets = [{
+            type    = "schedule"
+            id      = incident_schedule.unknown_path.id
+            urgency = "high"
+          }]
+          time_to_ack_seconds = 300
+        }
+      }
+    ]
+  }
+}
+
+resource "incident_escalation_path" "unknown_path" {
+  name = %q
+  path = local.path_templates[var.path_template]
+}
+`, name, name)
+}
+
+func testAccIncidentEscalationPathResourceConfigUnknownWorkingHours(name string) string {
+	return fmt.Sprintf(`
+resource "incident_schedule" "unknown_working_hours" {
+  name     = %q
+  timezone = "Europe/London"
+  rotations = [{
+    id   = "primary"
+    name = "Primary"
+    versions = [{
+      handover_start_at = "2024-05-01T12:00:00Z"
+      users             = []
+      layers = [{
+        id   = "primary"
+        name = "Primary"
+      }]
+      handovers = [{
+        interval_type = "daily"
+        interval      = 1
+      }]
+    }]
+  }]
+}
+
+resource "incident_escalation_path" "unknown_working_hours" {
+  name = %q
+
+  path = [
+    {
+      type = "level"
+      level = {
+        targets = [{
+          type    = "schedule"
+          id      = incident_schedule.unknown_working_hours.id
+          urgency = "high"
+        }]
+        time_to_ack_seconds = 300
+      }
+    }
+  ]
+
+  working_hours = [
+    {
+      # The id references a known-after-apply attribute, so a nested leaf of
+      # the working_hours list is unknown at plan time.
+      id       = incident_schedule.unknown_working_hours.id
+      name     = "UK"
+      timezone = "Europe/London"
+      weekday_intervals = [
+        {
+          weekday    = "monday"
+          start_time = "09:00"
+          end_time   = "17:00"
+        }
+      ]
+    }
+  ]
+}
+`, name, name)
+}
