@@ -132,7 +132,7 @@ resource "incident_escalation_path" "urgent_support" {
 - `name` (String) The name of this escalation path, for the user's reference.
 - `path` (Attributes List) The nodes that form the levels and branches of this escalation path.
 
--->**Note** Although the `if_else` block is recursive, currently a maximum of 4 levels are supported. Attempting to configure more than 4 levels of nesting will result in a schema error. (see [below for nested schema](#nestedatt--path))
+-->**Note** Although the `if_else` block is recursive, currently a maximum of 5 levels are supported. Attempting to configure more than 5 levels of nesting will result in a validation error. (see [below for nested schema](#nestedatt--path))
 
 ### Optional
 
