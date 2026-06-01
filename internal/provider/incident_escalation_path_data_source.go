@@ -464,7 +464,7 @@ func (d *IncidentEscalationPathDataSource) Read(ctx context.Context, req datasou
 
 	// Reuse the resource's buildModel function for consistency
 	resource := &IncidentEscalationPathResource{}
-	modelResp := resource.buildModel(*escalationPath)
+	modelResp := resource.buildModel(ctx, *escalationPath, &resp.Diagnostics)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
 }

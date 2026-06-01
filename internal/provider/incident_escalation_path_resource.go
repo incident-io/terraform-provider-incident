@@ -38,12 +38,12 @@ type IncidentEscalationPathResource struct {
 }
 
 type IncidentEscalationPathResourceModel struct {
-	ID           types.String                           `tfsdk:"id"`
-	Name         types.String                           `tfsdk:"name"`
-	Path         []IncidentEscalationPathNode           `tfsdk:"path"`
-	WorkingHours []models.IncidentWeekdayIntervalConfig `tfsdk:"working_hours"`
-	RepeatConfig types.Object                           `tfsdk:"repeat_config"`
-	TeamIDs      types.Set                              `tfsdk:"team_ids"`
+	ID           types.String `tfsdk:"id"`
+	Name         types.String `tfsdk:"name"`
+	Path         types.List   `tfsdk:"path"`
+	WorkingHours types.List   `tfsdk:"working_hours"`
+	RepeatConfig types.Object `tfsdk:"repeat_config"`
+	TeamIDs      types.Set    `tfsdk:"team_ids"`
 }
 
 type IncidentEscalationPathNode struct {
@@ -58,12 +58,12 @@ type IncidentEscalationPathNode struct {
 
 type IncidentEscalationPathNodeIfElse struct {
 	Conditions models.IncidentEngineConditions `tfsdk:"conditions"`
-	ElsePath   []IncidentEscalationPathNode    `tfsdk:"else_path"`
-	ThenPath   []IncidentEscalationPathNode    `tfsdk:"then_path"`
+	ElsePath   types.List                      `tfsdk:"else_path"`
+	ThenPath   types.List                      `tfsdk:"then_path"`
 }
 
 type IncidentEscalationPathNodeLevel struct {
-	Targets                          []IncidentEscalationPathTarget      `tfsdk:"targets"`
+	Targets                          types.List                          `tfsdk:"targets"`
 	RoundRobinConfig                 *IncidentEscalationRoundRobinConfig `tfsdk:"round_robin_config"`
 	TimeToAckIntervalCondition       types.String                        `tfsdk:"time_to_ack_interval_condition"`
 	TimeToAckSeconds                 types.Int64                         `tfsdk:"time_to_ack_seconds"`
@@ -73,10 +73,10 @@ type IncidentEscalationPathNodeLevel struct {
 }
 
 type IncidentEscalationPathNodeNotifyChannel struct {
-	Targets                          []IncidentEscalationPathTarget `tfsdk:"targets"`
-	TimeToAckIntervalCondition       types.String                   `tfsdk:"time_to_ack_interval_condition"`
-	TimeToAckSeconds                 types.Int64                    `tfsdk:"time_to_ack_seconds"`
-	TimeToAckWeekdayIntervalConfigID types.String                   `tfsdk:"time_to_ack_weekday_interval_config_id"`
+	Targets                          types.List   `tfsdk:"targets"`
+	TimeToAckIntervalCondition       types.String `tfsdk:"time_to_ack_interval_condition"`
+	TimeToAckSeconds                 types.Int64  `tfsdk:"time_to_ack_seconds"`
+	TimeToAckWeekdayIntervalConfigID types.String `tfsdk:"time_to_ack_weekday_interval_config_id"`
 }
 
 type IncidentEscalationPathNodeDelay struct {
@@ -107,6 +107,82 @@ type IncidentEscalationPathRepeatConfig struct {
 	RepeatAfterSeconds    types.Int64 `tfsdk:"repeat_after_seconds"`
 	DelayRepeatOnActivity types.Bool  `tfsdk:"delay_repeat_on_activity"`
 }
+
+// targetAttrTypes returns the attribute types for an escalation path target
+// object.
+func targetAttrTypes() map[string]attr.Type {
+	return map[string]attr.Type{
+		"id":               types.StringType,
+		"type":             types.StringType,
+		"urgency":          types.StringType,
+		"schedule_mode":    types.StringType,
+		"selected_rota_id": types.StringType,
+	}
+}
+
+// targetListType returns the list type of escalation path targets.
+func targetListType() types.ListType {
+	return types.ListType{ElemType: types.ObjectType{AttrTypes: targetAttrTypes()}}
+}
+
+// nodeAttrTypes returns the attribute types for an escalation path node object
+// at the given recursion depth. It MUST mirror getPathSchema exactly: the
+// if_else attribute (which recurses into then_path/else_path) is only present
+// when depth > 0, matching the schema.
+func nodeAttrTypes(depth int) map[string]attr.Type {
+	attrs := map[string]attr.Type{
+		"id":   types.StringType,
+		"type": types.StringType,
+		"level": types.ObjectType{AttrTypes: map[string]attr.Type{
+			"targets": targetListType(),
+			"round_robin_config": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"enabled":              types.BoolType,
+				"rotate_after_seconds": types.Int64Type,
+			}},
+			"time_to_ack_seconds":                    types.Int64Type,
+			"time_to_ack_interval_condition":         types.StringType,
+			"time_to_ack_weekday_interval_config_id": types.StringType,
+			"ack_mode":                               types.StringType,
+		}},
+		"repeat": types.ObjectType{AttrTypes: map[string]attr.Type{
+			"repeat_times": types.Int64Type,
+			"to_node":      types.StringType,
+		}},
+		"notify_channel": types.ObjectType{AttrTypes: map[string]attr.Type{
+			"targets":                                targetListType(),
+			"time_to_ack_seconds":                    types.Int64Type,
+			"time_to_ack_interval_condition":         types.StringType,
+			"time_to_ack_weekday_interval_config_id": types.StringType,
+		}},
+		"delay": types.ObjectType{AttrTypes: map[string]attr.Type{
+			"delay_seconds":                    types.Int64Type,
+			"delay_interval_condition":         types.StringType,
+			"delay_weekday_interval_config_id": types.StringType,
+		}},
+	}
+
+	if depth > 0 {
+		attrs["if_else"] = types.ObjectType{AttrTypes: map[string]attr.Type{
+			"conditions": types.ListType{
+				ElemType: types.ObjectType{AttrTypes: models.ConditionAttrTypes()},
+			},
+			"else_path": nodeListType(depth - 1),
+			"then_path": nodeListType(depth - 1),
+		}}
+	}
+
+	return attrs
+}
+
+// nodeListType returns the list type of escalation path nodes at the given depth.
+func nodeListType(depth int) types.ListType {
+	return types.ListType{ElemType: types.ObjectType{AttrTypes: nodeAttrTypes(depth)}}
+}
+
+// pathSchemaDepth is the maximum if_else nesting depth supported by the schema.
+// The schema is built with this depth (zero-indexed), supporting 4 levels of
+// nesting.
+const pathSchemaDepth = 5
 
 func NewIncidentEscalationPathResource() resource.Resource {
 	return &IncidentEscalationPathResource{}
@@ -395,7 +471,28 @@ func (r *IncidentEscalationPathResource) ValidateConfig(ctx context.Context, req
 		return
 	}
 
-	validateEscalationPathTargets(data.Path, &resp.Diagnostics)
+	validateEscalationPathTargets(ctx, data.Path, &resp.Diagnostics)
+}
+
+// decodeNodes decodes a types.List of escalation path node objects into the
+// Go model structs. It returns nil if the list is null or unknown.
+func decodeNodes(ctx context.Context, list types.List, diags *diag.Diagnostics) []IncidentEscalationPathNode {
+	if list.IsNull() || list.IsUnknown() {
+		return nil
+	}
+	var nodes []IncidentEscalationPathNode
+	diags.Append(list.ElementsAs(ctx, &nodes, false)...)
+	return nodes
+}
+
+// decodeTargets decodes a types.List of target objects into the Go model structs.
+func decodeTargets(ctx context.Context, list types.List, diags *diag.Diagnostics) []IncidentEscalationPathTarget {
+	if list.IsNull() || list.IsUnknown() {
+		return nil
+	}
+	var targets []IncidentEscalationPathTarget
+	diags.Append(list.ElementsAs(ctx, &targets, false)...)
+	return targets
 }
 
 // rotaRequiredScheduleModes is the set of schedule_mode values that require a
@@ -406,21 +503,22 @@ var rotaRequiredScheduleModes = map[string]bool{
 	string(client.EscalationPathTargetV2ScheduleModeNextOnCallForRota):      true,
 }
 
-func validateEscalationPathTargets(nodes []IncidentEscalationPathNode, diags *diag.Diagnostics) {
+func validateEscalationPathTargets(ctx context.Context, nodeList types.List, diags *diag.Diagnostics) {
+	nodes := decodeNodes(ctx, nodeList, diags)
 	for _, node := range nodes {
 		if node.Level != nil {
-			for _, target := range node.Level.Targets {
+			for _, target := range decodeTargets(ctx, node.Level.Targets, diags) {
 				validateEscalationPathTarget(target, diags)
 			}
 		}
 		if node.NotifyChannel != nil {
-			for _, target := range node.NotifyChannel.Targets {
+			for _, target := range decodeTargets(ctx, node.NotifyChannel.Targets, diags) {
 				validateEscalationPathTarget(target, diags)
 			}
 		}
 		if node.IfElse != nil {
-			validateEscalationPathTargets(node.IfElse.ThenPath, diags)
-			validateEscalationPathTargets(node.IfElse.ElsePath, diags)
+			validateEscalationPathTargets(ctx, node.IfElse.ThenPath, diags)
+			validateEscalationPathTargets(ctx, node.IfElse.ElsePath, diags)
 		}
 	}
 }
@@ -459,10 +557,17 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 	}
 
 	var workingHours *[]client.WeekdayIntervalConfigV2
-	if len(data.WorkingHours) > 0 {
-		workingHours = &[]client.WeekdayIntervalConfigV2{}
-		for _, wh := range data.WorkingHours {
-			*workingHours = append(*workingHours, wh.ToClientV2())
+	if !data.WorkingHours.IsNull() && !data.WorkingHours.IsUnknown() {
+		var whModels []models.IncidentWeekdayIntervalConfig
+		resp.Diagnostics.Append(data.WorkingHours.ElementsAs(ctx, &whModels, false)...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		if len(whModels) > 0 {
+			workingHours = &[]client.WeekdayIntervalConfigV2{}
+			for _, wh := range whModels {
+				*workingHours = append(*workingHours, wh.ToClientV2(ctx))
+			}
 		}
 	}
 
@@ -492,7 +597,7 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 
 	result, err := r.client.EscalationsV2CreatePathWithResponse(ctx, client.EscalationsV2CreatePathJSONRequestBody{
 		Name:         data.Name.ValueString(),
-		Path:         r.toPathPayload(data.Path),
+		Path:         r.toPathPayload(ctx, data.Path, &resp.Diagnostics),
 		WorkingHours: workingHours,
 		TeamIds:      teamIDs,
 		RepeatConfig: repeatConfig,
@@ -505,7 +610,7 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 	claimResource(ctx, r.client, result.JSON201.EscalationPath.Id, &resp.Diagnostics, client.EscalationPath, r.terraformVersion)
 
 	tflog.Trace(ctx, fmt.Sprintf("created an escalation path resource with id=%s", result.JSON201.EscalationPath.Id))
-	data = r.buildModel(result.JSON201.EscalationPath)
+	data = r.buildModel(ctx, result.JSON201.EscalationPath, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -529,7 +634,7 @@ func (r *IncidentEscalationPathResource) Read(ctx context.Context, req resource.
 		return
 	}
 
-	data = r.buildModel(result.JSON200.EscalationPath)
+	data = r.buildModel(ctx, result.JSON200.EscalationPath, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -541,10 +646,17 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 	}
 
 	var workingHours *[]client.WeekdayIntervalConfigV2
-	if len(data.WorkingHours) > 0 {
-		workingHours = &[]client.WeekdayIntervalConfigV2{}
-		for _, wh := range data.WorkingHours {
-			*workingHours = append(*workingHours, wh.ToClientV2())
+	if !data.WorkingHours.IsNull() && !data.WorkingHours.IsUnknown() {
+		var whModels []models.IncidentWeekdayIntervalConfig
+		resp.Diagnostics.Append(data.WorkingHours.ElementsAs(ctx, &whModels, false)...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		if len(whModels) > 0 {
+			workingHours = &[]client.WeekdayIntervalConfigV2{}
+			for _, wh := range whModels {
+				*workingHours = append(*workingHours, wh.ToClientV2(ctx))
+			}
 		}
 	}
 
@@ -574,7 +686,7 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 
 	result, err := r.client.EscalationsV2UpdatePathWithResponse(ctx, data.ID.ValueString(), client.EscalationsV2UpdatePathJSONRequestBody{
 		Name:         data.Name.ValueString(),
-		Path:         r.toPathPayload(data.Path),
+		Path:         r.toPathPayload(ctx, data.Path, &resp.Diagnostics),
 		WorkingHours: workingHours,
 		TeamIds:      teamIDs,
 		RepeatConfig: repeatConfig,
@@ -586,7 +698,7 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 
 	claimResource(ctx, r.client, result.JSON200.EscalationPath.Id, &resp.Diagnostics, client.EscalationPath, r.terraformVersion)
 
-	data = r.buildModel(result.JSON200.EscalationPath)
+	data = r.buildModel(ctx, result.JSON200.EscalationPath, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -609,12 +721,16 @@ func (r *IncidentEscalationPathResource) ImportState(ctx context.Context, req re
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *IncidentEscalationPathResource) buildModel(ep client.EscalationPathV2) *IncidentEscalationPathResourceModel {
-	var workingHours []models.IncidentWeekdayIntervalConfig
+func (r *IncidentEscalationPathResource) buildModel(ctx context.Context, ep client.EscalationPathV2, diags *diag.Diagnostics) *IncidentEscalationPathResourceModel {
+	workingHoursType := types.ObjectType{AttrTypes: models.WeekdayIntervalConfigAttrTypes()}
+	workingHours := types.ListNull(workingHoursType)
 	if ep.WorkingHours != nil {
-		workingHours = lo.Map(*ep.WorkingHours, func(wh client.WeekdayIntervalConfigV2, _ int) models.IncidentWeekdayIntervalConfig {
-			return models.IncidentWeekdayIntervalConfig{}.FromClientV2(wh)
+		whModels := lo.Map(*ep.WorkingHours, func(wh client.WeekdayIntervalConfigV2, _ int) models.IncidentWeekdayIntervalConfig {
+			return models.IncidentWeekdayIntervalConfig{}.FromClientV2(ctx, wh)
 		})
+		list, d := types.ListValueFrom(ctx, workingHoursType, whModels)
+		diags.Append(d...)
+		workingHours = list
 	}
 
 	var teamIDsSet types.Set
@@ -649,14 +765,44 @@ func (r *IncidentEscalationPathResource) buildModel(ep client.EscalationPathV2) 
 	return &IncidentEscalationPathResourceModel{
 		ID:           types.StringValue(ep.Id),
 		Name:         types.StringValue(ep.Name),
-		Path:         r.toPathModel(ep.Path),
+		Path:         r.toPathModel(ctx, ep.Path, pathSchemaDepth, diags),
 		WorkingHours: workingHours,
 		RepeatConfig: repeatConfigObj,
 		TeamIDs:      teamIDsSet,
 	}
 }
 
-func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPathNodeV2) []IncidentEscalationPathNode {
+// targetsFromAPI builds a types.List of escalation path target objects from API
+// targets.
+func targetsFromAPI(ctx context.Context, targets []client.EscalationPathTargetV2, diags *diag.Diagnostics) types.List {
+	models := lo.Map(targets, func(target client.EscalationPathTargetV2, _ int) IncidentEscalationPathTarget {
+		scheduleMode := types.StringNull()
+		if target.ScheduleMode != nil {
+			scheduleMode = types.StringValue(string(*target.ScheduleMode))
+		}
+
+		selectedRotaID := types.StringNull()
+		if target.SelectedRotaId != nil && *target.SelectedRotaId != "" {
+			selectedRotaID = types.StringValue(*target.SelectedRotaId)
+		}
+
+		return IncidentEscalationPathTarget{
+			ID:             types.StringValue(target.Id),
+			Type:           types.StringValue(string(target.Type)),
+			Urgency:        types.StringValue(string(target.Urgency)),
+			ScheduleMode:   scheduleMode,
+			SelectedRotaID: selectedRotaID,
+		}
+	})
+
+	list, d := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: targetAttrTypes()}, models)
+	diags.Append(d...)
+	return list
+}
+
+func (r *IncidentEscalationPathResource) toPathModel(ctx context.Context, nodes []client.EscalationPathNodeV2, depth int, diags *diag.Diagnostics) types.List {
+	elemType := types.ObjectType{AttrTypes: nodeAttrTypes(depth)}
+
 	out := []IncidentEscalationPathNode{}
 	for _, node := range nodes {
 		elem := IncidentEscalationPathNode{
@@ -674,32 +820,13 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 						}),
 					}
 				}),
-				ThenPath: r.toPathModel(node.IfElse.ThenPath),
-				ElsePath: r.toPathModel(node.IfElse.ElsePath),
+				ThenPath: r.toPathModel(ctx, node.IfElse.ThenPath, depth-1, diags),
+				ElsePath: r.toPathModel(ctx, node.IfElse.ElsePath, depth-1, diags),
 			}
 		}
 		if node.Level != nil {
 			elem.Level = &IncidentEscalationPathNodeLevel{
-				Targets: lo.Map(node.Level.Targets,
-					func(target client.EscalationPathTargetV2, _ int) IncidentEscalationPathTarget {
-						scheduleMode := types.StringNull()
-						if target.ScheduleMode != nil {
-							scheduleMode = types.StringValue(string(*target.ScheduleMode))
-						}
-
-						selectedRotaID := types.StringNull()
-						if target.SelectedRotaId != nil && *target.SelectedRotaId != "" {
-							selectedRotaID = types.StringValue(*target.SelectedRotaId)
-						}
-
-						return IncidentEscalationPathTarget{
-							ID:             types.StringValue(target.Id),
-							Type:           types.StringValue(string(target.Type)),
-							Urgency:        types.StringValue(string(target.Urgency)),
-							ScheduleMode:   scheduleMode,
-							SelectedRotaID: selectedRotaID,
-						}
-					}),
+				Targets: targetsFromAPI(ctx, node.Level.Targets, diags),
 			}
 			if value := node.Level.RoundRobinConfig; value != nil {
 				var rotateAfterSeconds basetypes.Int64Value
@@ -726,26 +853,7 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 		}
 		if node.NotifyChannel != nil {
 			elem.NotifyChannel = &IncidentEscalationPathNodeNotifyChannel{
-				Targets: lo.Map(node.NotifyChannel.Targets,
-					func(target client.EscalationPathTargetV2, _ int) IncidentEscalationPathTarget {
-						scheduleMode := types.StringNull()
-						if target.ScheduleMode != nil {
-							scheduleMode = types.StringValue(string(*target.ScheduleMode))
-						}
-
-						selectedRotaID := types.StringNull()
-						if target.SelectedRotaId != nil && *target.SelectedRotaId != "" {
-							selectedRotaID = types.StringValue(*target.SelectedRotaId)
-						}
-
-						return IncidentEscalationPathTarget{
-							ID:             types.StringValue(target.Id),
-							Type:           types.StringValue(string(target.Type)),
-							Urgency:        types.StringValue(string(target.Urgency)),
-							ScheduleMode:   scheduleMode,
-							SelectedRotaID: selectedRotaID,
-						}
-					}),
+				Targets: targetsFromAPI(ctx, node.NotifyChannel.Targets, diags),
 			}
 			if value := node.NotifyChannel.TimeToAckSeconds; value != nil {
 				elem.NotifyChannel.TimeToAckSeconds = types.Int64Value(*value)
@@ -779,10 +887,35 @@ func (r *IncidentEscalationPathResource) toPathModel(nodes []client.EscalationPa
 		out = append(out, elem)
 	}
 
-	return out
+	list, d := types.ListValueFrom(ctx, elemType, out)
+	diags.Append(d...)
+	return list
 }
 
-func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalationPathNode) []client.EscalationPathNodePayloadV2 {
+// targetsToPayload converts a types.List of target objects to client payloads.
+func targetsToPayload(ctx context.Context, list types.List, diags *diag.Diagnostics) []client.EscalationPathTargetV2 {
+	targets := decodeTargets(ctx, list, diags)
+	return lo.Map(targets, func(target IncidentEscalationPathTarget, _ int) client.EscalationPathTargetV2 {
+		targetPayload := client.EscalationPathTargetV2{
+			Id:      target.ID.ValueString(),
+			Type:    client.EscalationPathTargetV2Type(target.Type.ValueString()),
+			Urgency: client.EscalationPathTargetV2Urgency(target.Urgency.ValueString()),
+		}
+
+		if target.ScheduleMode.ValueString() != "" {
+			targetPayload.ScheduleMode = lo.ToPtr(client.EscalationPathTargetV2ScheduleMode(target.ScheduleMode.ValueString()))
+		}
+
+		if target.SelectedRotaID.ValueString() != "" {
+			targetPayload.SelectedRotaId = lo.ToPtr(target.SelectedRotaID.ValueString())
+		}
+
+		return targetPayload
+	})
+}
+
+func (r *IncidentEscalationPathResource) toPathPayload(ctx context.Context, pathList types.List, diags *diag.Diagnostics) []client.EscalationPathNodePayloadV2 {
+	path := decodeNodes(ctx, pathList, diags)
 	out := []client.EscalationPathNodePayloadV2{}
 	for _, node := range path {
 		nodeID := node.ID.ValueString()
@@ -797,8 +930,8 @@ func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalation
 		if !reflect.ValueOf(node.IfElse).IsZero() {
 			elem.IfElse = &client.EscalationPathNodeIfElsePayloadV2{
 				Conditions: lo.ToPtr(node.IfElse.Conditions.ToPayload()),
-				ThenPath:   r.toPathPayload(node.IfElse.ThenPath),
-				ElsePath:   r.toPathPayload(node.IfElse.ElsePath),
+				ThenPath:   r.toPathPayload(ctx, node.IfElse.ThenPath, diags),
+				ElsePath:   r.toPathPayload(ctx, node.IfElse.ElsePath, diags),
 			}
 		}
 		if !reflect.ValueOf(node.Level).IsZero() {
@@ -808,23 +941,7 @@ func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalation
 			}
 
 			elem.Level = &client.EscalationPathNodeLevelV2{
-				Targets: lo.Map(node.Level.Targets, func(target IncidentEscalationPathTarget, _ int) client.EscalationPathTargetV2 {
-					targetPayload := client.EscalationPathTargetV2{
-						Id:      target.ID.ValueString(),
-						Type:    client.EscalationPathTargetV2Type(target.Type.ValueString()),
-						Urgency: client.EscalationPathTargetV2Urgency(target.Urgency.ValueString()),
-					}
-
-					if target.ScheduleMode.ValueString() != "" {
-						targetPayload.ScheduleMode = lo.ToPtr(client.EscalationPathTargetV2ScheduleMode(target.ScheduleMode.ValueString()))
-					}
-
-					if target.SelectedRotaID.ValueString() != "" {
-						targetPayload.SelectedRotaId = lo.ToPtr(target.SelectedRotaID.ValueString())
-					}
-
-					return targetPayload
-				}),
+				Targets:                    targetsToPayload(ctx, node.Level.Targets, diags),
 				TimeToAckIntervalCondition: intervalCondition,
 				TimeToAckSeconds: node.Level.
 					TimeToAckSeconds.ValueInt64Pointer(),
@@ -853,23 +970,7 @@ func (r *IncidentEscalationPathResource) toPathPayload(path []IncidentEscalation
 			}
 
 			elem.NotifyChannel = &client.EscalationPathNodeNotifyChannelV2{
-				Targets: lo.Map(node.NotifyChannel.Targets, func(target IncidentEscalationPathTarget, _ int) client.EscalationPathTargetV2 {
-					targetPayload := client.EscalationPathTargetV2{
-						Id:      target.ID.ValueString(),
-						Type:    client.EscalationPathTargetV2Type(target.Type.ValueString()),
-						Urgency: client.EscalationPathTargetV2Urgency(target.Urgency.ValueString()),
-					}
-
-					if target.ScheduleMode.ValueString() != "" {
-						targetPayload.ScheduleMode = lo.ToPtr(client.EscalationPathTargetV2ScheduleMode(target.ScheduleMode.ValueString()))
-					}
-
-					if target.SelectedRotaID.ValueString() != "" {
-						targetPayload.SelectedRotaId = lo.ToPtr(target.SelectedRotaID.ValueString())
-					}
-
-					return targetPayload
-				}),
+				Targets:                    targetsToPayload(ctx, node.NotifyChannel.Targets, diags),
 				TimeToAckIntervalCondition: intervalCondition,
 				TimeToAckSeconds: node.NotifyChannel.
 					TimeToAckSeconds.ValueInt64Pointer(),
