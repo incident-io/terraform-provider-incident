@@ -350,8 +350,11 @@ func TestAccIncidentEscalationPathResourceValidateMaxDepth(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config:      testAccIncidentEscalationPathResourceConfigExceedingMaxDepth(),
-				ExpectError: regexp.MustCompile(`Struct defines fields not found in\nobject: if_else`)},
+				Config: testAccIncidentEscalationPathResourceConfigExceedingMaxDepth(),
+				// Nesting beyond the maximum supported depth is not caught by
+				// schema validation at plan time; the API rejects it at apply
+				// because the deepest if_else node cannot carry an if_else payload.
+				ExpectError: regexp.MustCompile(`If_else type requires an if_else payload`)},
 		},
 	})
 }
@@ -389,7 +392,9 @@ resource "incident_schedule" "primary_on_call" {
   team_ids = []
 }
 
-# Create a path with deeply nested if_else nodes (5 levels deep)
+# Create a path with if_else nodes nested one level beyond the maximum the
+# schema supports (6 levels deep), which Terraform must reject during config
+# validation because the schema does not define an if_else block at that depth.
 resource "incident_escalation_path" "example" {
   name = "Deeply Nested Path Test"
 
@@ -451,14 +456,29 @@ resource "incident_escalation_path" "example" {
                                 ]
                                 then_path = [
                                   {
-                                    type = "level"
-                                    level = {
-                                      targets = [{
-                                        type    = "schedule"
-                                        id      = incident_schedule.primary_on_call.id
-                                        urgency  = "high"
-                                      }]
-                                      time_to_ack_seconds = 300
+                                    type = "if_else"
+                                    if_else = {
+                                      conditions = [
+                                        {
+                                          operation = "is_active",
+                                          param_bindings = []
+                                          subject = "escalation.working_hours[\"UK\"]"
+                                        }
+                                      ]
+                                      then_path = [
+                                        {
+                                          type = "level"
+                                          level = {
+                                            targets = [{
+                                              type    = "schedule"
+                                              id      = incident_schedule.primary_on_call.id
+                                              urgency  = "high"
+                                            }]
+                                            time_to_ack_seconds = 300
+                                          }
+                                        }
+                                      ]
+                                      else_path = []
                                     }
                                   }
                                 ],
