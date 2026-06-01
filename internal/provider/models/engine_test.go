@@ -1,43 +1,41 @@
 package models
 
 import (
+	"context"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
 )
 
-func TestIncidentEngineParamBindingValue_JSONOrdering(t *testing.T) {
+// TestIncidentEngineParamBindingValue_FromAPIVerbatim asserts that FromAPI
+// stores the API's literal byte-for-byte. We deliberately do NOT re-encode or
+// re-order the literal: jsontypes.NormalizedJSONOrString's semantic equality
+// absorbs any key-ordering or HTML-escaping differences against the user's
+// configured value, so there's no reason to mangle the bytes here.
+func TestIncidentEngineParamBindingValue_FromAPIVerbatim(t *testing.T) {
 	tests := []struct {
-		name               string
-		apiJSON            string
-		expectedNormalized string
-		description        string
+		name    string
+		apiJSON string
 	}{
 		{
-			name:               "keys_should_be_sorted_lexicographically",
-			apiJSON:            `{"type":"doc","content":[{"type":"paragraph","content":[{"type":"varSpec","attrs":{"name":"description","label":"Payload → Description","missing":false}}]}]}`,
-			expectedNormalized: `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`,
-			description:        "JSON keys should be sorted lexicographically for consistency",
+			name:    "unsorted_keys_left_as_is",
+			apiJSON: `{"type":"doc","content":[{"type":"paragraph","content":[{"type":"varSpec","attrs":{"name":"description","label":"Payload → Description","missing":false}}]}]}`,
 		},
 		{
-			name:               "already_sorted_should_remain_unchanged",
-			apiJSON:            `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`,
-			expectedNormalized: `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`,
-			description:        "JSON with lexicographically sorted keys should remain unchanged",
+			name:    "html_chars_left_as_is",
+			apiJSON: `{"label":"Alert > Title & <foo>"}`,
 		},
 		{
-			name:               "nested_objects_keys_sorted_lexicographically",
-			apiJSON:            `{"type":"doc","content":[{"type":"paragraph","content":[{"attrs":{"name":"description","missing":false,"label":"Payload → Description"},"type":"varSpec"}]}]}`,
-			expectedNormalized: `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`,
-			description:        "All nested object keys should be sorted lexicographically",
+			name:    "plain_string",
+			apiJSON: `"plain string"`,
 		},
 		{
-			name:               "plain_string",
-			apiJSON:            `"plain string"`,
-			expectedNormalized: `"plain string"`,
-			description:        "Plain string should remain unchanged",
+			name:    "non_json_reference",
+			apiJSON: `alert.title`,
 		},
 	}
 
@@ -49,15 +47,33 @@ func TestIncidentEngineParamBindingValue_JSONOrdering(t *testing.T) {
 
 			result := IncidentEngineParamBindingValue{}.FromAPI(apiResponse)
 
-			currentResult := result.Literal.ValueString()
-
-			// Verify that JSON normalization is working
-			assert.Equal(t, tt.expectedNormalized, currentResult,
-				"JSON should be normalized with lexicographically sorted keys")
-
-			// Verify the JSON content is semantically equivalent
-			assert.JSONEq(t, tt.apiJSON, tt.expectedNormalized,
-				"API JSON and expected normalized JSON should be semantically equivalent")
+			assert.Equal(t, tt.apiJSON, result.Literal.ValueString(),
+				"FromAPI should store the literal verbatim")
 		})
 	}
+}
+
+// TestIncidentEngineParamBindingValue_SemanticEquality reproduces the Fanvue
+// scenario at the model layer: a literal supplied with raw HTML characters
+// (e.g. from CDKTF JSON.stringify) must be considered semantically equal to the
+// HTML-escaped form Terraform would otherwise compare against, preventing the
+// "Provider produced inconsistent result after apply" error.
+func TestIncidentEngineParamBindingValue_SemanticEquality(t *testing.T) {
+	ctx := context.Background()
+
+	// What the user configured (raw '>', not HTML-escaped) and what the
+	// provider might receive back with keys in a different order.
+	planned := jsontypes.NewNormalizedJSONOrStringValue(`{"label":"Alert -> Title","name":"alert.title"}`)
+	applied := jsontypes.NewNormalizedJSONOrStringValue(`{"name":"alert.title","label":"Alert -> Title"}`)
+
+	equal, diags := planned.StringSemanticEquals(ctx, applied)
+	require.False(t, diags.HasError())
+	assert.True(t, equal, "key-reordered literal should be semantically equal")
+
+	// HTML-escaped vs raw should also compare equal.
+	escaped := jsontypes.NewNormalizedJSONOrStringValue(`{"label":"Alert \u003e Title"}`)
+	raw := jsontypes.NewNormalizedJSONOrStringValue(`{"label":"Alert > Title"}`)
+	equal, diags = escaped.StringSemanticEquals(ctx, raw)
+	require.False(t, diags.HasError())
+	assert.True(t, equal, "HTML-escaped and raw literals should be semantically equal")
 }

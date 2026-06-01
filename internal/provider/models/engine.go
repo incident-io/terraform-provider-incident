@@ -1,16 +1,13 @@
 package models
 
 import (
-	"bytes"
-	"encoding/json"
-	"strings"
-
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
 )
 
 // Types
@@ -79,7 +76,7 @@ func (IncidentEngineParamBinding) FromAPI(pb client.EngineParamBindingV2) Incide
 	if pb.ArrayValue != nil {
 		for _, v := range *pb.ArrayValue {
 			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
-				Literal:   types.StringPointerValue(v.Literal),
+				Literal:   jsontypes.NewNormalizedJSONOrStringPointerValue(v.Literal),
 				Reference: types.StringPointerValue(v.Reference),
 			})
 		}
@@ -97,56 +94,21 @@ func (IncidentEngineParamBinding) FromAPI(pb client.EngineParamBindingV2) Incide
 }
 
 type IncidentEngineParamBindingValue struct {
-	Literal   types.String `tfsdk:"literal"`
-	Reference types.String `tfsdk:"reference"`
+	Literal   jsontypes.NormalizedJSONOrString `tfsdk:"literal"`
+	Reference types.String                     `tfsdk:"reference"`
 }
 
 func (IncidentEngineParamBindingValue) FromAPI(pbv client.EngineParamBindingValueV2) IncidentEngineParamBindingValue {
-	literal := pbv.Literal
-	if literal != nil {
-		// If we have a literal engine value (that is JSON), we'll attempt to normalise it to
-		// provide consistent key ordering.
-		//
-		// Most places where we initialise engine values should already sort keys alphabetically,
-		// but there are the odd places where this is not the case.
-		normalisedJSON, err := normaliseJSON(*literal)
-		if err == nil {
-			// Given not every engine value is JSON, we'll lean on the presence (or lack of) an error here
-			// rather than looking for characters that indicate JSON.
-			literal = &normalisedJSON
-		}
-	}
-
+	// The Literal field is a jsontypes.NormalizedJSONOrString. Its semantic
+	// equality is what prevents diffs and inconsistent-result errors: when the
+	// planned and applied values are equivalent JSON (ignoring key order and
+	// HTML escaping), Terraform keeps the user's own value and never compares
+	// bytes. So we deliberately store the API value verbatim here and let
+	// semantic equality absorb any byte differences, rather than re-encoding it.
 	return IncidentEngineParamBindingValue{
-		Literal:   types.StringPointerValue(literal),
+		Literal:   jsontypes.NewNormalizedJSONOrStringPointerValue(pbv.Literal),
 		Reference: types.StringPointerValue(pbv.Reference),
 	}
-}
-
-// normaliseJSON normalises JSON strings to ensure consistent key ordering.
-func normaliseJSON(jsonString string) (string, error) {
-	if jsonString == "" {
-		return "", nil
-	}
-
-	var data any
-	err := json.Unmarshal([]byte(jsonString), &data)
-	if err != nil {
-		return "", err
-	}
-
-	// Use encoder with HTML escaping disabled to preserve special characters like >
-	var buf bytes.Buffer
-	encoder := json.NewEncoder(&buf)
-	err = encoder.Encode(data)
-	if err != nil {
-		return "", err
-	}
-
-	// Remove the trailing newline that Encode adds
-	normalisedJSON := strings.TrimSuffix(buf.String(), "\n")
-
-	return normalisedJSON, nil
 }
 
 type IncidentEngineExpressions []IncidentEngineExpression
@@ -281,6 +243,7 @@ type IncidentEngineExpressionParseOpts struct {
 func ParamBindingValueAttributes() map[string]schema.Attribute {
 	return map[string]schema.Attribute{
 		"literal": schema.StringAttribute{
+			CustomType:          jsontypes.NormalizedJSONOrStringType{},
 			MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "literal"),
 			Optional:            true,
 		},

@@ -6,6 +6,7 @@ import (
 	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
 )
 
 type AlertSourceResourceModel struct {
@@ -108,7 +109,7 @@ func (AlertTemplateAttributeBinding) FromAPI(pb client.AlertTemplateAttributeBin
 	if pb.ArrayValue != nil {
 		for _, v := range *pb.ArrayValue {
 			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
-				Literal:   types.StringPointerValue(v.Literal),
+				Literal:   jsontypes.NewNormalizedJSONOrStringPointerValue(v.Literal),
 				Reference: types.StringPointerValue(v.Reference),
 			})
 		}

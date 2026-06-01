@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Fix `Provider produced inconsistent result after apply` and perpetual diffs on engine param-binding `literal` fields when JSON containing HTML characters (`>`, `<`, `&`) is supplied by an encoder that does not HTML-escape (e.g. CDKTF `JSON.stringify`, `file()`, heredocs). The `literal` field now uses a semantic-equality string type that treats byte-different-but-equivalent JSON as equal.
+
 ## v5.38.1
 
 - Mark `incident_schedule_sync_target` and `incident_schedule_sync_rule` resources as managed by Terraform

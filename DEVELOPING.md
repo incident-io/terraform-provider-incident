@@ -199,3 +199,38 @@ for ID attributes like on `incident_schedule_resource`:
 
 When planning, we'll have an ID in state for each schedule, and this plan modifier will copy the ID
 from the state in to the planned value, avoiding the "Known after apply" warning.
+
+## Custom types
+
+### `jsontypes.NormalizedJSONOrString` for JSON-ish string fields
+
+Some string fields hold JSON (or arbitrary literals that may be JSON), most notably the engine
+param-binding `literal` field (`ParamBindingValueAttributes()` in `internal/provider/models/engine.go`).
+The same logical JSON can be encoded in many byte-different ways: different key order, different
+whitespace, and crucially different HTML escaping. HCL's `jsonencode` HTML-escapes `>` to `>`,
+but CDKTF's `JSON.stringify`, `file()` and heredocs do not. When the planned bytes and the bytes the
+API returns differ even though they mean the same thing, Terraform produces
+`Provider produced inconsistent result after apply` or a perpetual diff.
+
+Use the `jsontypes.NormalizedJSONOrString` custom type (in `internal/provider/jsontypes`) for these fields.
+It implements `StringSemanticEquals`: when both values parse as JSON it compares their canonical form
+(key-sorted, escaping-insensitive); otherwise it falls back to exact string equality, so plain
+references and non-JSON strings still behave normally.
+
+To apply it you must keep the schema, model and object-attribute types in sync, or you will get a
+runtime panic:
+
+- Schema: `CustomType: jsontypes.NormalizedJSONOrStringType{}` on the `schema.StringAttribute`.
+- Model: declare the struct field as `jsontypes.NormalizedJSONOrString` and build values with
+  `jsontypes.NewNormalizedJSONOrStringValue` / `NewNormalizedJSONOrStringPointerValue`.
+- Object types: every `"<field>": types.StringType` entry in an `ObjectType`/`ObjectValue` for that
+  field must become `"<field>": jsontypes.NormalizedJSONOrStringType{}`.
+
+`FromAPI` stores the API's literal verbatim — it does not re-encode or re-order it. Semantic equality
+is what reconciles byte differences against the user's configured value, so there's no reason to
+normalise the value written to state.
+
+> Do NOT try to "fix" escaping mismatches by re-encoding the literal in `FromAPI` (e.g. toggling
+> `SetEscapeHTML`). Normalising only one side just moves the breakage between the `jsonencode` and
+> raw-string user populations (this was round-tripped in ONC-7057 / ONC-7504). Semantic equality is
+> the correct fix.
