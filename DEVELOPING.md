@@ -208,9 +208,8 @@ Some string fields hold JSON (or arbitrary literals that may be JSON), most nota
 param-binding `literal` field (`ParamBindingValueAttributes()` in `internal/provider/models/engine.go`).
 The same logical JSON can be encoded in many byte-different ways: different key order, different
 whitespace, and crucially different HTML escaping. HCL's `jsonencode` HTML-escapes `>` to `>`,
-but CDKTF's `JSON.stringify`, `file()` and heredocs do not. Because the inbound (plan → API) path
-sends the literal verbatim while the outbound (API → state) path re-encodes it, the planned and
-applied byte strings can differ even though they mean the same thing, which produces
+but CDKTF's `JSON.stringify`, `file()` and heredocs do not. When the planned bytes and the bytes the
+API returns differ even though they mean the same thing, Terraform produces
 `Provider produced inconsistent result after apply` or a perpetual diff.
 
 Use the `jsontypes.NormalizedJSONOrString` custom type (in `internal/provider/jsontypes`) for these fields.
@@ -227,10 +226,11 @@ runtime panic:
 - Object types: every `"<field>": types.StringType` entry in an `ObjectType`/`ObjectValue` for that
   field must become `"<field>": jsontypes.NormalizedJSONOrStringType{}`.
 
-The state-stored form (via `jsontypes.NormaliseJSON`) keeps HTML escaping ON so it stays byte-stable
-for the dominant `jsonencode` population and for `ImportStateVerify`. The escaping-insensitive
-comparison is done separately, only for semantic equality.
+`FromAPI` stores the API's literal verbatim — it does not re-encode or re-order it. Semantic equality
+is what reconciles byte differences against the user's configured value, so there's no reason to
+normalise the value written to state.
 
-> Do NOT try to fix escaping mismatches by toggling `SetEscapeHTML`. Escaping is normalised on only
-> one side, so any fixed choice just moves the breakage between the `jsonencode` and raw-string user
-> populations (this was round-tripped in ONC-7057 / ONC-7504). Semantic equality is the correct fix.
+> Do NOT try to "fix" escaping mismatches by re-encoding the literal in `FromAPI` (e.g. toggling
+> `SetEscapeHTML`). Normalising only one side just moves the breakage between the `jsonencode` and
+> raw-string user populations (this was round-tripped in ONC-7057 / ONC-7504). Semantic equality is
+> the correct fix.

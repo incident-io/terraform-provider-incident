@@ -11,54 +11,31 @@ import (
 	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
 )
 
-func TestIncidentEngineParamBindingValue_JSONOrdering(t *testing.T) {
+// TestIncidentEngineParamBindingValue_FromAPIVerbatim asserts that FromAPI
+// stores the API's literal byte-for-byte. We deliberately do NOT re-encode or
+// re-order the literal: jsontypes.NormalizedJSONOrString's semantic equality
+// absorbs any key-ordering or HTML-escaping differences against the user's
+// configured value, so there's no reason to mangle the bytes here.
+func TestIncidentEngineParamBindingValue_FromAPIVerbatim(t *testing.T) {
 	tests := []struct {
-		name               string
-		apiJSON            string
-		expectedNormalized string
-		notJSON            bool
-		description        string
+		name    string
+		apiJSON string
 	}{
 		{
-			name:               "keys_should_be_sorted_lexicographically",
-			apiJSON:            `{"type":"doc","content":[{"type":"paragraph","content":[{"type":"varSpec","attrs":{"name":"description","label":"Payload → Description","missing":false}}]}]}`,
-			expectedNormalized: `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`,
-			description:        "JSON keys should be sorted lexicographically for consistency",
+			name:    "unsorted_keys_left_as_is",
+			apiJSON: `{"type":"doc","content":[{"type":"paragraph","content":[{"type":"varSpec","attrs":{"name":"description","label":"Payload → Description","missing":false}}]}]}`,
 		},
 		{
-			name:               "already_sorted_should_remain_unchanged",
-			apiJSON:            `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`,
-			expectedNormalized: `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`,
-			description:        "JSON with lexicographically sorted keys should remain unchanged",
-		},
-		{
-			name:               "nested_objects_keys_sorted_lexicographically",
-			apiJSON:            `{"type":"doc","content":[{"type":"paragraph","content":[{"attrs":{"name":"description","missing":false,"label":"Payload → Description"},"type":"varSpec"}]}]}`,
-			expectedNormalized: `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`,
-			description:        "All nested object keys should be sorted lexicographically",
-		},
-		{
-			name:               "plain_string",
-			apiJSON:            `"plain string"`,
-			expectedNormalized: `"plain string"`,
-			description:        "Plain string should remain unchanged",
-		},
-		{
-			name:    "html_chars_escaped_in_state",
+			name:    "html_chars_left_as_is",
 			apiJSON: `{"label":"Alert > Title & <foo>"}`,
-			// State normalisation keeps HTML escaping ON (matching jsonencode),
-			// so the value written to state escapes '>', '&' and '<'. Semantic
-			// equality (jsontypes.NormalizedJSONOrString) means this still does not
-			// produce a diff against a raw-'>' configured value.
-			expectedNormalized: `{"label":"Alert \u003e Title \u0026 \u003cfoo\u003e"}`,
-			description:        "State normalisation HTML-escapes to stay byte-stable for jsonencode users",
 		},
 		{
-			name:               "non_json_reference_unchanged",
-			apiJSON:            `alert.title`,
-			expectedNormalized: `alert.title`,
-			notJSON:            true,
-			description:        "Non-JSON literals (references) should be left untouched",
+			name:    "plain_string",
+			apiJSON: `"plain string"`,
+		},
+		{
+			name:    "non_json_reference",
+			apiJSON: `alert.title`,
 		},
 	}
 
@@ -70,17 +47,8 @@ func TestIncidentEngineParamBindingValue_JSONOrdering(t *testing.T) {
 
 			result := IncidentEngineParamBindingValue{}.FromAPI(apiResponse)
 
-			currentResult := result.Literal.ValueString()
-
-			// Verify that JSON normalization is working
-			assert.Equal(t, tt.expectedNormalized, currentResult,
-				"JSON should be normalized with lexicographically sorted keys")
-
-			// Verify the JSON content is semantically equivalent
-			if !tt.notJSON {
-				assert.JSONEq(t, tt.apiJSON, tt.expectedNormalized,
-					"API JSON and expected normalized JSON should be semantically equivalent")
-			}
+			assert.Equal(t, tt.apiJSON, result.Literal.ValueString(),
+				"FromAPI should store the literal verbatim")
 		})
 	}
 }
@@ -94,7 +62,7 @@ func TestIncidentEngineParamBindingValue_SemanticEquality(t *testing.T) {
 	ctx := context.Background()
 
 	// What the user configured (raw '>', not HTML-escaped) and what the
-	// provider would store after re-encoding (escaping disabled, keys sorted).
+	// provider might receive back with keys in a different order.
 	planned := jsontypes.NewNormalizedJSONOrStringValue(`{"label":"Alert -> Title","name":"alert.title"}`)
 	applied := jsontypes.NewNormalizedJSONOrStringValue(`{"name":"alert.title","label":"Alert -> Title"}`)
 

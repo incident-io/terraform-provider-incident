@@ -99,28 +99,14 @@ type IncidentEngineParamBindingValue struct {
 }
 
 func (IncidentEngineParamBindingValue) FromAPI(pbv client.EngineParamBindingValueV2) IncidentEngineParamBindingValue {
-	literal := pbv.Literal
-	if literal != nil {
-		// The Literal field is a jsontypes.NormalizedJSONOrString, whose semantic
-		// equality is what actually prevents diffs and inconsistent-result errors:
-		// when the planned and applied values are equivalent JSON (ignoring key
-		// order and HTML escaping), Terraform keeps the user's own value and never
-		// compares bytes. So normalising here is NOT what fixes the round-trip bug.
-		//
-		// We still normalise to give a tidy, key-sorted canonical form in the cases
-		// where this FromAPI value is what actually lands in state — chiefly
-		// `terraform import`, where there's no prior config value for semantic
-		// equality to defer to. We lean on NormaliseJSON returning an error (rather
-		// than sniffing for JSON-ish characters) to decide whether the value is JSON
-		// at all, since literals aren't always JSON.
-		normalisedJSON, err := jsontypes.NormaliseJSON(*literal)
-		if err == nil {
-			literal = &normalisedJSON
-		}
-	}
-
+	// The Literal field is a jsontypes.NormalizedJSONOrString. Its semantic
+	// equality is what prevents diffs and inconsistent-result errors: when the
+	// planned and applied values are equivalent JSON (ignoring key order and
+	// HTML escaping), Terraform keeps the user's own value and never compares
+	// bytes. So we deliberately store the API value verbatim here and let
+	// semantic equality absorb any byte differences, rather than re-encoding it.
 	return IncidentEngineParamBindingValue{
-		Literal:   jsontypes.NewNormalizedJSONOrStringPointerValue(literal),
+		Literal:   jsontypes.NewNormalizedJSONOrStringPointerValue(pbv.Literal),
 		Reference: types.StringPointerValue(pbv.Reference),
 	}
 }
