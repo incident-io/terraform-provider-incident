@@ -566,7 +566,7 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 		if len(whModels) > 0 {
 			workingHours = &[]client.WeekdayIntervalConfigV2{}
 			for _, wh := range whModels {
-				*workingHours = append(*workingHours, wh.ToClientV2(ctx))
+				*workingHours = append(*workingHours, wh.ToClientV2(ctx, &resp.Diagnostics))
 			}
 		}
 	}
@@ -595,9 +595,14 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 		}
 	}
 
+	pathPayload := r.toPathPayload(ctx, data.Path, &resp.Diagnostics)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	result, err := r.client.EscalationsV2CreatePathWithResponse(ctx, client.EscalationsV2CreatePathJSONRequestBody{
 		Name:         data.Name.ValueString(),
-		Path:         r.toPathPayload(ctx, data.Path, &resp.Diagnostics),
+		Path:         pathPayload,
 		WorkingHours: workingHours,
 		TeamIds:      teamIDs,
 		RepeatConfig: repeatConfig,
@@ -655,7 +660,7 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 		if len(whModels) > 0 {
 			workingHours = &[]client.WeekdayIntervalConfigV2{}
 			for _, wh := range whModels {
-				*workingHours = append(*workingHours, wh.ToClientV2(ctx))
+				*workingHours = append(*workingHours, wh.ToClientV2(ctx, &resp.Diagnostics))
 			}
 		}
 	}
@@ -684,9 +689,14 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 		}
 	}
 
+	pathPayload := r.toPathPayload(ctx, data.Path, &resp.Diagnostics)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	result, err := r.client.EscalationsV2UpdatePathWithResponse(ctx, data.ID.ValueString(), client.EscalationsV2UpdatePathJSONRequestBody{
 		Name:         data.Name.ValueString(),
-		Path:         r.toPathPayload(ctx, data.Path, &resp.Diagnostics),
+		Path:         pathPayload,
 		WorkingHours: workingHours,
 		TeamIds:      teamIDs,
 		RepeatConfig: repeatConfig,
@@ -726,7 +736,7 @@ func (r *IncidentEscalationPathResource) buildModel(ctx context.Context, ep clie
 	workingHours := types.ListNull(workingHoursType)
 	if ep.WorkingHours != nil {
 		whModels := lo.Map(*ep.WorkingHours, func(wh client.WeekdayIntervalConfigV2, _ int) models.IncidentWeekdayIntervalConfig {
-			return models.IncidentWeekdayIntervalConfig{}.FromClientV2(ctx, wh)
+			return models.IncidentWeekdayIntervalConfig{}.FromClientV2(ctx, wh, diags)
 		})
 		list, d := types.ListValueFrom(ctx, workingHoursType, whModels)
 		diags.Append(d...)

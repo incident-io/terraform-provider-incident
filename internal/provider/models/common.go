@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
@@ -67,17 +68,18 @@ func (IncidentWeekdayIntervalConfig) Attributes() map[string]schema.Attribute {
 	}
 }
 
-func (IncidentWeekdayIntervalConfig) FromClientV2(ctx context.Context, config client.WeekdayIntervalConfigV2) IncidentWeekdayIntervalConfig {
+func (IncidentWeekdayIntervalConfig) FromClientV2(ctx context.Context, config client.WeekdayIntervalConfigV2, diags *diag.Diagnostics) IncidentWeekdayIntervalConfig {
 	intervals := make([]IncidentWeekdayInterval, len(config.WeekdayIntervals))
 	for i, interval := range config.WeekdayIntervals {
 		intervals[i] = IncidentWeekdayInterval{}.FromClientV2(interval)
 	}
 
-	intervalList, _ := types.ListValueFrom(
+	intervalList, d := types.ListValueFrom(
 		ctx,
 		types.ObjectType{AttrTypes: WeekdayIntervalAttrTypes()},
 		intervals,
 	)
+	diags.Append(d...)
 
 	return IncidentWeekdayIntervalConfig{
 		ID:               types.StringValue(config.Id),
@@ -87,10 +89,10 @@ func (IncidentWeekdayIntervalConfig) FromClientV2(ctx context.Context, config cl
 	}
 }
 
-func (c IncidentWeekdayIntervalConfig) ToClientV2(ctx context.Context) client.WeekdayIntervalConfigV2 {
+func (c IncidentWeekdayIntervalConfig) ToClientV2(ctx context.Context, diags *diag.Diagnostics) client.WeekdayIntervalConfigV2 {
 	var modelIntervals []IncidentWeekdayInterval
 	if !c.WeekdayIntervals.IsNull() && !c.WeekdayIntervals.IsUnknown() {
-		_ = c.WeekdayIntervals.ElementsAs(ctx, &modelIntervals, false)
+		diags.Append(c.WeekdayIntervals.ElementsAs(ctx, &modelIntervals, false)...)
 	}
 
 	intervals := make([]client.WeekdayIntervalV2, len(modelIntervals))
