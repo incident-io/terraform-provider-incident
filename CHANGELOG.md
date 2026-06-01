@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Fix `Provider produced inconsistent result after apply` and perpetual diffs on engine param-binding `literal` fields when JSON containing HTML characters (`>`, `<`, `&`) is supplied by an encoder that does not HTML-escape (e.g. CDKTF `JSON.stringify`, `file()`, heredocs). The `literal` field now uses a semantic-equality string type that treats byte-different-but-equivalent JSON as equal.
+- Fix plan-time crash on `incident_escalation_path` when `path`, `targets`, or `working_hours` derive from unknown values (e.g. a `local` indexed by a variable, or another resource's computed attribute)
 
 ## v5.38.1
 
