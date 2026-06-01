@@ -1,16 +1,13 @@
 package models
 
 import (
-	"bytes"
-	"encoding/json"
-	"strings"
-
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
 )
 
 // Types
@@ -79,7 +76,7 @@ func (IncidentEngineParamBinding) FromAPI(pb client.EngineParamBindingV2) Incide
 	if pb.ArrayValue != nil {
 		for _, v := range *pb.ArrayValue {
 			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
-				Literal:   types.StringPointerValue(v.Literal),
+				Literal:   jsontypes.NewNormalizedStringPointerValue(v.Literal),
 				Reference: types.StringPointerValue(v.Reference),
 			})
 		}
@@ -97,8 +94,8 @@ func (IncidentEngineParamBinding) FromAPI(pb client.EngineParamBindingV2) Incide
 }
 
 type IncidentEngineParamBindingValue struct {
-	Literal   types.String `tfsdk:"literal"`
-	Reference types.String `tfsdk:"reference"`
+	Literal   jsontypes.NormalizedString `tfsdk:"literal"`
+	Reference types.String               `tfsdk:"reference"`
 }
 
 func (IncidentEngineParamBindingValue) FromAPI(pbv client.EngineParamBindingValueV2) IncidentEngineParamBindingValue {
@@ -109,7 +106,12 @@ func (IncidentEngineParamBindingValue) FromAPI(pbv client.EngineParamBindingValu
 		//
 		// Most places where we initialise engine values should already sort keys alphabetically,
 		// but there are the odd places where this is not the case.
-		normalisedJSON, err := normaliseJSON(*literal)
+		//
+		// The literal field uses jsontypes.NormalizedString, which compares values
+		// using semantic JSON equality, so byte differences such as key ordering or
+		// HTML escaping ('>' vs '>') don't produce diffs or inconsistent-result
+		// errors regardless of how the user's JSON was encoded.
+		normalisedJSON, err := jsontypes.NormaliseJSON(*literal)
 		if err == nil {
 			// Given not every engine value is JSON, we'll lean on the presence (or lack of) an error here
 			// rather than looking for characters that indicate JSON.
@@ -118,35 +120,9 @@ func (IncidentEngineParamBindingValue) FromAPI(pbv client.EngineParamBindingValu
 	}
 
 	return IncidentEngineParamBindingValue{
-		Literal:   types.StringPointerValue(literal),
+		Literal:   jsontypes.NewNormalizedStringPointerValue(literal),
 		Reference: types.StringPointerValue(pbv.Reference),
 	}
-}
-
-// normaliseJSON normalises JSON strings to ensure consistent key ordering.
-func normaliseJSON(jsonString string) (string, error) {
-	if jsonString == "" {
-		return "", nil
-	}
-
-	var data any
-	err := json.Unmarshal([]byte(jsonString), &data)
-	if err != nil {
-		return "", err
-	}
-
-	// Use encoder with HTML escaping disabled to preserve special characters like >
-	var buf bytes.Buffer
-	encoder := json.NewEncoder(&buf)
-	err = encoder.Encode(data)
-	if err != nil {
-		return "", err
-	}
-
-	// Remove the trailing newline that Encode adds
-	normalisedJSON := strings.TrimSuffix(buf.String(), "\n")
-
-	return normalisedJSON, nil
 }
 
 type IncidentEngineExpressions []IncidentEngineExpression
@@ -281,6 +257,7 @@ type IncidentEngineExpressionParseOpts struct {
 func ParamBindingValueAttributes() map[string]schema.Attribute {
 	return map[string]schema.Attribute{
 		"literal": schema.StringAttribute{
+			CustomType:          jsontypes.NormalizedStringType{},
 			MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "literal"),
 			Optional:            true,
 		},

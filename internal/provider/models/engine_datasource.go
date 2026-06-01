@@ -4,6 +4,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
 )
 
 // Data source attribute helpers (computed versions)
@@ -11,6 +12,7 @@ import (
 func ParamBindingValueDataSourceAttributes() map[string]schema.Attribute {
 	return map[string]schema.Attribute{
 		"literal": schema.StringAttribute{
+			CustomType:          jsontypes.NormalizedStringType{},
 			MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "literal"),
 			Computed:            true,
 		},

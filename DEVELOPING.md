@@ -199,3 +199,38 @@ for ID attributes like on `incident_schedule_resource`:
 
 When planning, we'll have an ID in state for each schedule, and this plan modifier will copy the ID
 from the state in to the planned value, avoiding the "Known after apply" warning.
+
+## Custom types
+
+### `jsontypes.NormalizedString` for JSON-ish string fields
+
+Some string fields hold JSON (or arbitrary literals that may be JSON), most notably the engine
+param-binding `literal` field (`ParamBindingValueAttributes()` in `internal/provider/models/engine.go`).
+The same logical JSON can be encoded in many byte-different ways: different key order, different
+whitespace, and crucially different HTML escaping. HCL's `jsonencode` HTML-escapes `>` to `>`,
+but CDKTF's `JSON.stringify`, `file()` and heredocs do not. Because the inbound (plan → API) path
+sends the literal verbatim while the outbound (API → state) path re-encodes it, the planned and
+applied byte strings can differ even though they mean the same thing, which produces
+`Provider produced inconsistent result after apply` or a perpetual diff.
+
+Use the `jsontypes.NormalizedString` custom type (in `internal/provider/jsontypes`) for these fields.
+It implements `StringSemanticEquals`: when both values parse as JSON it compares their canonical form
+(key-sorted, escaping-insensitive); otherwise it falls back to exact string equality, so plain
+references and non-JSON strings still behave normally.
+
+To apply it you must keep the schema, model and object-attribute types in sync, or you will get a
+runtime panic:
+
+- Schema: `CustomType: jsontypes.NormalizedStringType{}` on the `schema.StringAttribute`.
+- Model: declare the struct field as `jsontypes.NormalizedString` and build values with
+  `jsontypes.NewNormalizedStringValue` / `NewNormalizedStringPointerValue`.
+- Object types: every `"<field>": types.StringType` entry in an `ObjectType`/`ObjectValue` for that
+  field must become `"<field>": jsontypes.NormalizedStringType{}`.
+
+The state-stored form (via `jsontypes.NormaliseJSON`) keeps HTML escaping ON so it stays byte-stable
+for the dominant `jsonencode` population and for `ImportStateVerify`. The escaping-insensitive
+comparison is done separately, only for semantic equality.
+
+> Do NOT try to fix escaping mismatches by toggling `SetEscapeHTML`. Escaping is normalised on only
+> one side, so any fixed choice just moves the breakage between the `jsonencode` and raw-string user
+> populations (this was round-tripped in ONC-7057 / ONC-7504). Semantic equality is the correct fix.

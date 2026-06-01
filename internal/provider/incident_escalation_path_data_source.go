@@ -11,6 +11,7 @@ import (
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
 )
 
 var (
@@ -343,6 +344,7 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 											NestedObject: schema.NestedAttributeObject{
 												Attributes: map[string]schema.Attribute{
 													"literal": schema.StringAttribute{
+														CustomType:          jsontypes.NormalizedStringType{},
 														Computed:            true,
 														MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "literal"),
 													},
@@ -358,6 +360,7 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 											MarkdownDescription: "The literal or reference parameter value",
 											Attributes: map[string]schema.Attribute{
 												"literal": schema.StringAttribute{
+													CustomType:          jsontypes.NormalizedStringType{},
 													Computed:            true,
 													MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "literal"),
 												},
