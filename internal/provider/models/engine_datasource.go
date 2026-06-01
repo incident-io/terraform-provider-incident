@@ -12,7 +12,7 @@ import (
 func ParamBindingValueDataSourceAttributes() map[string]schema.Attribute {
 	return map[string]schema.Attribute{
 		"literal": schema.StringAttribute{
-			CustomType:          jsontypes.NormalizedStringType{},
+			CustomType:          jsontypes.NormalizedJSONOrStringType{},
 			MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "literal"),
 			Computed:            true,
 		},

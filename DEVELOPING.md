@@ -202,7 +202,7 @@ from the state in to the planned value, avoiding the "Known after apply" warning
 
 ## Custom types
 
-### `jsontypes.NormalizedString` for JSON-ish string fields
+### `jsontypes.NormalizedJSONOrString` for JSON-ish string fields
 
 Some string fields hold JSON (or arbitrary literals that may be JSON), most notably the engine
 param-binding `literal` field (`ParamBindingValueAttributes()` in `internal/provider/models/engine.go`).
@@ -213,7 +213,7 @@ sends the literal verbatim while the outbound (API → state) path re-encodes it
 applied byte strings can differ even though they mean the same thing, which produces
 `Provider produced inconsistent result after apply` or a perpetual diff.
 
-Use the `jsontypes.NormalizedString` custom type (in `internal/provider/jsontypes`) for these fields.
+Use the `jsontypes.NormalizedJSONOrString` custom type (in `internal/provider/jsontypes`) for these fields.
 It implements `StringSemanticEquals`: when both values parse as JSON it compares their canonical form
 (key-sorted, escaping-insensitive); otherwise it falls back to exact string equality, so plain
 references and non-JSON strings still behave normally.
@@ -221,11 +221,11 @@ references and non-JSON strings still behave normally.
 To apply it you must keep the schema, model and object-attribute types in sync, or you will get a
 runtime panic:
 
-- Schema: `CustomType: jsontypes.NormalizedStringType{}` on the `schema.StringAttribute`.
-- Model: declare the struct field as `jsontypes.NormalizedString` and build values with
-  `jsontypes.NewNormalizedStringValue` / `NewNormalizedStringPointerValue`.
+- Schema: `CustomType: jsontypes.NormalizedJSONOrStringType{}` on the `schema.StringAttribute`.
+- Model: declare the struct field as `jsontypes.NormalizedJSONOrString` and build values with
+  `jsontypes.NewNormalizedJSONOrStringValue` / `NewNormalizedJSONOrStringPointerValue`.
 - Object types: every `"<field>": types.StringType` entry in an `ObjectType`/`ObjectValue` for that
-  field must become `"<field>": jsontypes.NormalizedStringType{}`.
+  field must become `"<field>": jsontypes.NormalizedJSONOrStringType{}`.
 
 The state-stored form (via `jsontypes.NormaliseJSON`) keeps HTML escaping ON so it stays byte-stable
 for the dominant `jsonencode` population and for `ImportStateVerify`. The escaping-insensitive

@@ -109,7 +109,7 @@ func (AlertTemplateAttributeBinding) FromAPI(pb client.AlertTemplateAttributeBin
 	if pb.ArrayValue != nil {
 		for _, v := range *pb.ArrayValue {
 			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
-				Literal:   jsontypes.NewNormalizedStringPointerValue(v.Literal),
+				Literal:   jsontypes.NewNormalizedJSONOrStringPointerValue(v.Literal),
 				Reference: types.StringPointerValue(v.Reference),
 			})
 		}

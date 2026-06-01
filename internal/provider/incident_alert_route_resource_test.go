@@ -1908,7 +1908,7 @@ resource "incident_alert_route" "test" {
 // template literal containing raw HTML characters ('>') supplied WITHOUT
 // HTML-escaping (as CDKTF JSON.stringify, file() or a heredoc would produce)
 // must apply cleanly and show an empty plan on refresh. Before the
-// jsontypes.NormalizedString semantic-equality fix this raised "Provider
+// jsontypes.NormalizedJSONOrString semantic-equality fix this raised "Provider
 // produced inconsistent result after apply", because the provider re-encoded
 // the literal and HTML-escaped '>' to '&gt;' on the way back into state while
 // the planned value kept the raw '>'.

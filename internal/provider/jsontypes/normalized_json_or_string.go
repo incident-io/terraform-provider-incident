@@ -29,30 +29,30 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 )
 
-// NormalizedString is a custom string type that compares two values using
+// NormalizedJSONOrString is a custom string type that compares two values using
 // semantic JSON equality when both sides are valid JSON, and falls back to
 // exact string equality otherwise. This makes it safe to apply to fields that
 // usually hold JSON but may also hold a plain reference or string (e.g. the
 // engine param-binding "literal").
-type NormalizedString struct {
+type NormalizedJSONOrString struct {
 	basetypes.StringValue
 }
 
 // Compile-time interface assertions.
 var (
-	_ basetypes.StringValuable                   = NormalizedString{}
-	_ basetypes.StringValuableWithSemanticEquals = NormalizedString{}
+	_ basetypes.StringValuable                   = NormalizedJSONOrString{}
+	_ basetypes.StringValuableWithSemanticEquals = NormalizedJSONOrString{}
 )
 
-// Type returns the NormalizedStringType.
-func (v NormalizedString) Type(_ context.Context) attr.Type {
-	return NormalizedStringType{}
+// Type returns the NormalizedJSONOrStringType.
+func (v NormalizedJSONOrString) Type(_ context.Context) attr.Type {
+	return NormalizedJSONOrStringType{}
 }
 
-// Equal returns true if the given value is a NormalizedString with an equal
+// Equal returns true if the given value is a NormalizedJSONOrString with an equal
 // underlying StringValue.
-func (v NormalizedString) Equal(o attr.Value) bool {
-	other, ok := o.(NormalizedString)
+func (v NormalizedJSONOrString) Equal(o attr.Value) bool {
+	other, ok := o.(NormalizedJSONOrString)
 	if !ok {
 		return false
 	}
@@ -64,10 +64,10 @@ func (v NormalizedString) Equal(o attr.Value) bool {
 // the current value. If both sides parse as JSON they are compared by their
 // canonical form (key-sorted and escaping-insensitive); otherwise it falls back
 // to exact string equality.
-func (v NormalizedString) StringSemanticEquals(ctx context.Context, newValuable basetypes.StringValuable) (bool, diag.Diagnostics) {
+func (v NormalizedJSONOrString) StringSemanticEquals(ctx context.Context, newValuable basetypes.StringValuable) (bool, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	newValue, ok := newValuable.(NormalizedString)
+	newValue, ok := newValuable.(NormalizedJSONOrString)
 	if !ok {
 		diags.AddError(
 			"Semantic Equality Check Error",
@@ -83,50 +83,50 @@ func (v NormalizedString) StringSemanticEquals(ctx context.Context, newValuable 
 	return JSONStringsEqual(v.ValueString(), newValue.ValueString()), diags
 }
 
-// NewNormalizedStringNull creates a NormalizedString with a null value.
-func NewNormalizedStringNull() NormalizedString {
-	return NormalizedString{StringValue: basetypes.NewStringNull()}
+// NewNormalizedJSONOrStringNull creates a NormalizedJSONOrString with a null value.
+func NewNormalizedJSONOrStringNull() NormalizedJSONOrString {
+	return NormalizedJSONOrString{StringValue: basetypes.NewStringNull()}
 }
 
-// NewNormalizedStringUnknown creates a NormalizedString with an unknown value.
-func NewNormalizedStringUnknown() NormalizedString {
-	return NormalizedString{StringValue: basetypes.NewStringUnknown()}
+// NewNormalizedJSONOrStringUnknown creates a NormalizedJSONOrString with an unknown value.
+func NewNormalizedJSONOrStringUnknown() NormalizedJSONOrString {
+	return NormalizedJSONOrString{StringValue: basetypes.NewStringUnknown()}
 }
 
-// NewNormalizedStringValue creates a NormalizedString with a known value.
-func NewNormalizedStringValue(value string) NormalizedString {
-	return NormalizedString{StringValue: basetypes.NewStringValue(value)}
+// NewNormalizedJSONOrStringValue creates a NormalizedJSONOrString with a known value.
+func NewNormalizedJSONOrStringValue(value string) NormalizedJSONOrString {
+	return NormalizedJSONOrString{StringValue: basetypes.NewStringValue(value)}
 }
 
-// NewNormalizedStringPointerValue creates a NormalizedString with a null value
+// NewNormalizedJSONOrStringPointerValue creates a NormalizedJSONOrString with a null value
 // if nil, or a known value.
-func NewNormalizedStringPointerValue(value *string) NormalizedString {
-	return NormalizedString{StringValue: basetypes.NewStringPointerValue(value)}
+func NewNormalizedJSONOrStringPointerValue(value *string) NormalizedJSONOrString {
+	return NormalizedJSONOrString{StringValue: basetypes.NewStringPointerValue(value)}
 }
 
-// NormalizedStringType is the attr.Type for NormalizedString.
-type NormalizedStringType struct {
+// NormalizedJSONOrStringType is the attr.Type for NormalizedJSONOrString.
+type NormalizedJSONOrStringType struct {
 	basetypes.StringType
 }
 
 // Compile-time interface assertions.
 var (
-	_ basetypes.StringTypable = NormalizedStringType{}
+	_ basetypes.StringTypable = NormalizedJSONOrStringType{}
 )
 
 // String returns a human-readable name for the type.
-func (t NormalizedStringType) String() string {
-	return "jsontypes.NormalizedStringType"
+func (t NormalizedJSONOrStringType) String() string {
+	return "jsontypes.NormalizedJSONOrStringType"
 }
 
-// ValueType returns an example NormalizedString value.
-func (t NormalizedStringType) ValueType(_ context.Context) attr.Value {
-	return NormalizedString{}
+// ValueType returns an example NormalizedJSONOrString value.
+func (t NormalizedJSONOrStringType) ValueType(_ context.Context) attr.Value {
+	return NormalizedJSONOrString{}
 }
 
-// Equal returns true if the given type is a NormalizedStringType.
-func (t NormalizedStringType) Equal(o attr.Type) bool {
-	other, ok := o.(NormalizedStringType)
+// Equal returns true if the given type is a NormalizedJSONOrStringType.
+func (t NormalizedJSONOrStringType) Equal(o attr.Type) bool {
+	other, ok := o.(NormalizedJSONOrStringType)
 	if !ok {
 		return false
 	}
@@ -134,13 +134,13 @@ func (t NormalizedStringType) Equal(o attr.Type) bool {
 	return t.StringType.Equal(other.StringType)
 }
 
-// ValueFromString converts a StringValue into a NormalizedString.
-func (t NormalizedStringType) ValueFromString(_ context.Context, in basetypes.StringValue) (basetypes.StringValuable, diag.Diagnostics) {
-	return NormalizedString{StringValue: in}, nil
+// ValueFromString converts a StringValue into a NormalizedJSONOrString.
+func (t NormalizedJSONOrStringType) ValueFromString(_ context.Context, in basetypes.StringValue) (basetypes.StringValuable, diag.Diagnostics) {
+	return NormalizedJSONOrString{StringValue: in}, nil
 }
 
-// ValueFromTerraform converts a tftypes.Value into a NormalizedString.
-func (t NormalizedStringType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
+// ValueFromTerraform converts a tftypes.Value into a NormalizedJSONOrString.
+func (t NormalizedJSONOrStringType) ValueFromTerraform(ctx context.Context, in tftypes.Value) (attr.Value, error) {
 	attrValue, err := t.StringType.ValueFromTerraform(ctx, in)
 	if err != nil {
 		return nil, err
