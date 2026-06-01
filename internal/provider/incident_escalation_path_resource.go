@@ -180,8 +180,8 @@ func nodeListType(depth int) types.ListType {
 }
 
 // pathSchemaDepth is the maximum if_else nesting depth supported by the schema.
-// The schema is built with this depth (zero-indexed), supporting 4 levels of
-// nesting.
+// The schema is built with this depth (zero-indexed), supporting 5 levels of
+// if_else nesting.
 const pathSchemaDepth = 5
 
 func NewIncidentEscalationPathResource() resource.Resource {
@@ -210,8 +210,8 @@ func (r *IncidentEscalationPathResource) Schema(ctx context.Context, req resourc
 			"path": schema.ListNestedAttribute{
 				MarkdownDescription: fmt.Sprintf("%s\n%s",
 					apischema.Docstring("EscalationPathV2", "path"),
-					"\n-->**Note** Although the `if_else` block is recursive, currently a maximum of 4 levels are supported. "+
-						"Attempting to configure more than 4 levels of nesting will result in a schema error.\n"),
+					"\n-->**Note** Although the `if_else` block is recursive, currently a maximum of 5 levels are supported. "+
+						"Attempting to configure more than 5 levels of nesting will result in a validation error.\n"),
 				Required:     true,
 				NestedObject: r.getPathSchema(5),
 			},
@@ -421,7 +421,7 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 		},
 	}
 
-	// Only include if_else attribute if we haven't reached the maximum nesting depth (4 levels)
+	// Only include if_else attribute if we haven't reached the maximum nesting depth (5 levels)
 	if depth > 0 {
 		result.Attributes["if_else"] = schema.SingleNestedAttribute{
 			MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "if_else"),
@@ -471,7 +471,7 @@ func (r *IncidentEscalationPathResource) ValidateConfig(ctx context.Context, req
 		return
 	}
 
-	validateEscalationPathTargets(ctx, data.Path, &resp.Diagnostics)
+	validateEscalationPathNodes(ctx, data.Path, pathSchemaDepth, &resp.Diagnostics)
 }
 
 // decodeNodes decodes a types.List of escalation path node objects into the
@@ -562,9 +562,25 @@ var rotaRequiredScheduleModes = map[string]bool{
 	string(client.EscalationPathTargetV2ScheduleModeNextOnCallForRota):      true,
 }
 
-func validateEscalationPathTargets(ctx context.Context, nodeList types.List, diags *diag.Diagnostics) {
+// validateEscalationPathNodes walks the path validating targets, and enforces
+// the maximum if_else nesting depth. depth is the remaining schema depth at this
+// level (pathSchemaDepth at the top, decremented into each if_else branch).
+//
+// The schema only declares if_else down to pathSchemaDepth levels, so a node
+// nested deeper has no if_else attribute to decode into and reaches us with
+// type "if_else" but no if_else block. We reject that at plan time with a clear
+// message rather than letting it through to fail at apply with an opaque API
+// error about a missing if_else payload.
+func validateEscalationPathNodes(ctx context.Context, nodeList types.List, depth int, diags *diag.Diagnostics) {
 	nodes := decodeNodes(ctx, nodeList, diags)
 	for _, node := range nodes {
+		if depth <= 0 && node.Type.ValueString() == string(client.EscalationPathNodeV2TypeIfElse) {
+			diags.Append(diag.NewErrorDiagnostic(
+				"Escalation path nested too deeply",
+				fmt.Sprintf("if_else nodes can be nested at most %d levels deep. Reduce the nesting in your escalation path.", pathSchemaDepth),
+			))
+			continue
+		}
 		if node.Level != nil {
 			for _, target := range decodeTargets(ctx, node.Level.Targets, diags) {
 				validateEscalationPathTarget(target, diags)
@@ -576,8 +592,8 @@ func validateEscalationPathTargets(ctx context.Context, nodeList types.List, dia
 			}
 		}
 		if node.IfElse != nil {
-			validateEscalationPathTargets(ctx, node.IfElse.ThenPath, diags)
-			validateEscalationPathTargets(ctx, node.IfElse.ElsePath, diags)
+			validateEscalationPathNodes(ctx, node.IfElse.ThenPath, depth-1, diags)
+			validateEscalationPathNodes(ctx, node.IfElse.ElsePath, depth-1, diags)
 		}
 	}
 }

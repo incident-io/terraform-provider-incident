@@ -344,160 +344,113 @@ func teamTypeName() string {
 	return "Team"
 }
 
-func TestAccIncidentEscalationPathResourceValidateMaxDepth(t *testing.T) {
+func TestAccIncidentEscalationPathMaxDepth(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
+			// A path nested to the maximum supported depth (5 if_else levels)
+			// applies cleanly.
 			{
-				Config: testAccIncidentEscalationPathResourceConfigExceedingMaxDepth(),
-				// Nesting beyond the maximum supported depth is not caught by
-				// schema validation at plan time; the API rejects it at apply
-				// because the deepest if_else node cannot carry an if_else payload.
-				ExpectError: regexp.MustCompile(`If_else type requires an if_else payload`)},
+				Config: testAccIncidentEscalationPathNestedConfig(5),
+				Check: resource.TestCheckResourceAttr(
+					"incident_escalation_path.example", "name", "Deeply Nested Path Test"),
+			},
 		},
 	})
 }
 
-func testAccIncidentEscalationPathResourceConfigExceedingMaxDepth() string {
-	return `
-# This is the primary schedule that receives pages in working hours.
+func TestAccIncidentEscalationPathExceedsMaxDepth(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Nesting one level beyond the maximum (6 if_else levels) is rejected
+			// at plan time with a clear validation error, rather than slipping
+			// through to fail at apply with an opaque API error.
+			{
+				Config:      testAccIncidentEscalationPathNestedConfig(6),
+				ExpectError: regexp.MustCompile(`if_else nodes can be nested at most 5 levels deep`),
+			},
+		},
+	})
+}
+
+// testAccIncidentEscalationPathNestedConfig builds an escalation path whose path
+// is a single chain of ifElseLevels nested if_else nodes terminating in a level
+// node. Used to exercise the maximum supported nesting depth and one level
+// beyond it.
+func testAccIncidentEscalationPathNestedConfig(ifElseLevels int) string {
+	node := `
+                {
+                  type = "level"
+                  level = {
+                    targets = [{
+                      type    = "schedule"
+                      id      = incident_schedule.primary_on_call.id
+                      urgency = "high"
+                    }]
+                    time_to_ack_seconds = 300
+                  }
+                }`
+
+	// Wrap the leaf in (ifElseLevels-1) if_else nodes; the outermost path node
+	// below is the final if_else, giving ifElseLevels in total.
+	for i := 0; i < ifElseLevels-1; i++ {
+		node = fmt.Sprintf(`
+                {
+                  type = "if_else"
+                  if_else = {
+                    conditions = [
+                      {
+                        operation      = "is_active"
+                        param_bindings = []
+                        subject        = "escalation.working_hours[\"UK\"]"
+                      }
+                    ]
+                    then_path = [%s
+                    ]
+                    else_path = []
+                  }
+                }`, node)
+	}
+
+	return fmt.Sprintf(`
 resource "incident_schedule" "primary_on_call" {
-  name = "Deep Nesting Test Schedule"
+  name     = "Deep Nesting Test Schedule"
   timezone = "Europe/London"
   rotations = [{
     id   = "primary"
     name = "Primary"
-
     versions = [
       {
         handover_start_at = "2024-05-01T12:00:00Z"
-        users = []
-        layers = [
-          {
-            id   = "primary"
-            name = "Primary"
-          }
-        ]
-        handovers = [
-          {
-            interval_type = "daily"
-            interval      = 1
-          }
-        ]
+        users             = []
+        layers            = [{ id = "primary", name = "Primary" }]
+        handovers         = [{ interval_type = "daily", interval = 1 }]
       },
     ]
   }]
-
   team_ids = []
 }
 
-# Create a path with if_else nodes nested one level beyond the maximum the
-# schema supports (6 levels deep), which Terraform must reject during config
-# validation because the schema does not define an if_else block at that depth.
 resource "incident_escalation_path" "example" {
   name = "Deeply Nested Path Test"
 
   path = [
     {
-      id = "start"
+      id   = "start"
       type = "if_else"
       if_else = {
         conditions = [
           {
-            operation = "is_active",
+            operation      = "is_active"
             param_bindings = []
-            subject = "escalation.working_hours[\"UK\"]"
+            subject        = "escalation.working_hours[\"UK\"]"
           }
         ]
-        then_path = [
-          {
-            type = "if_else"
-            if_else = {
-              conditions = [
-                {
-                  operation = "is_active",
-                  param_bindings = []
-				  subject = "escalation.working_hours[\"UK\"]"
-                }
-              ]
-              then_path = [
-                {
-                  type = "if_else"
-                  if_else = {
-                    conditions = [
-						{
-						  operation = "is_active",
-						  param_bindings = []
-						  subject = "escalation.working_hours[\"UK\"]"
-						}
-                    ]
-                    then_path = [
-                      {
-                        type = "if_else"
-                        if_else = {
-                          conditions = [
-							{
-							  operation = "is_active",
-							  param_bindings = []
-							  subject = "escalation.working_hours[\"UK\"]"
-							}
-                          ]
-                          then_path = [
-                            {
-                              type = "if_else"
-                              if_else = {
-                                conditions = [
-                                  {
-                                    operation = "is_active",
-                                    param_bindings = []
-                                    subject = "escalation.working_hours[\"UK\"]"
-                                  }
-                                ]
-                                then_path = [
-                                  {
-                                    type = "if_else"
-                                    if_else = {
-                                      conditions = [
-                                        {
-                                          operation = "is_active",
-                                          param_bindings = []
-                                          subject = "escalation.working_hours[\"UK\"]"
-                                        }
-                                      ]
-                                      then_path = [
-                                        {
-                                          type = "level"
-                                          level = {
-                                            targets = [{
-                                              type    = "schedule"
-                                              id      = incident_schedule.primary_on_call.id
-                                              urgency  = "high"
-                                            }]
-                                            time_to_ack_seconds = 300
-                                          }
-                                        }
-                                      ]
-                                      else_path = []
-                                    }
-                                  }
-                                ],
-                                else_path = []
-                              }
-                            }
-                          ],
-                          else_path = []
-                        }
-                      }
-                    ],
-                    else_path = []
-                  }
-                }
-              ],
-              else_path = []
-            }
-          }
-        ],
+        then_path = [%s
+        ]
         else_path = []
       }
     }
@@ -505,8 +458,8 @@ resource "incident_escalation_path" "example" {
 
   working_hours = [
     {
-      id = "UK"
-      name = "UK"
+      id       = "UK"
+      name     = "UK"
       timezone = "Europe/London"
       weekday_intervals = [
         {
@@ -520,7 +473,7 @@ resource "incident_escalation_path" "example" {
 
   team_ids = []
 }
-`
+`, node)
 }
 
 func TestAccIncidentEscalationPathSelectedRotaID(t *testing.T) {
