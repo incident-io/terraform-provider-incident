@@ -56,14 +56,17 @@ func TestEscalationPathRoundTrip(t *testing.T) {
 		}
 	}
 
-	// Build 4 levels of nesting (the maximum the schema supports), so the
-	// innermost level node sits at recursion depth 1, and its parent if_else
-	// produces then/else lists whose element type is nodeAttrTypes(0) (no
-	// if_else attribute).
+	// Build 5 levels of if_else nesting (the maximum the schema supports), so
+	// the innermost level nodes sit at recursion depth 0 — the level whose
+	// element type (nodeAttrTypes(0)) has no if_else attribute. This is the
+	// case that whole-struct reflection (ListValueFrom) cannot handle, since
+	// the node struct always carries an if_else field.
 	deeplyNested := ifElse("d1",
 		ifElse("d2",
 			ifElse("d3",
-				ifElse("d4", level("deepest-then"), level("deepest-else")),
+				ifElse("d4",
+					ifElse("d5", level("deepest-then"), level("deepest-else")),
+					level("d4-else")),
 				level("d3-else")),
 			level("d2-else")),
 		level("d1-else"))
@@ -114,15 +117,22 @@ func TestEscalationPathRoundTrip(t *testing.T) {
 		t.Fatalf("expected 3 payload nodes, got %d", len(payload))
 	}
 
-	// Walk to the deepest then-path level to confirm full-depth round-trip.
+	// Walk down the then-path chain of the deeply nested node to confirm the
+	// full-depth round-trip terminates in a level node. The deepest level sits
+	// at recursion depth 0, where the if_else attribute is absent.
 	deep := payload[2].IfElse
-	for i := 0; i < 3 && deep != nil; i++ {
-		if len(deep.ThenPath) != 1 {
-			t.Fatalf("expected single then-path node at depth %d", i)
-		}
-		deep = deep.ThenPath[0].IfElse
+	if deep == nil {
+		t.Fatalf("expected deeply nested node to have if_else payload")
 	}
-	if deep == nil || deep.ThenPath[0].Level == nil {
+	depthWalked := 0
+	for deep.ThenPath[0].IfElse != nil {
+		deep = deep.ThenPath[0].IfElse
+		depthWalked++
+	}
+	if depthWalked != 4 {
+		t.Fatalf("expected to walk 4 nested if_else levels, walked %d", depthWalked)
+	}
+	if deep.ThenPath[0].Level == nil {
 		t.Fatalf("expected deepest then-path to terminate in a level node")
 	}
 

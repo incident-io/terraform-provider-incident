@@ -476,13 +476,72 @@ func (r *IncidentEscalationPathResource) ValidateConfig(ctx context.Context, req
 
 // decodeNodes decodes a types.List of escalation path node objects into the
 // Go model structs. It returns nil if the list is null or unknown.
+//
+// It decodes each element attribute by attribute rather than reflecting the
+// whole struct: at the maximum nesting depth the object type omits if_else
+// (mirroring the finite schema), but the IncidentEscalationPathNode struct
+// always carries an if_else field, so ElementsAs would fail with a struct/object
+// mismatch. Reading attributes explicitly lets us decode if_else only when the
+// object actually carries it.
 func decodeNodes(ctx context.Context, list types.List, diags *diag.Diagnostics) []IncidentEscalationPathNode {
 	if list.IsNull() || list.IsUnknown() {
 		return nil
 	}
-	var nodes []IncidentEscalationPathNode
-	diags.Append(list.ElementsAs(ctx, &nodes, false)...)
+	nodes := make([]IncidentEscalationPathNode, 0, len(list.Elements()))
+	for _, elem := range list.Elements() {
+		obj, ok := elem.(types.Object)
+		if !ok || obj.IsNull() || obj.IsUnknown() {
+			continue
+		}
+		nodes = append(nodes, objectToNode(ctx, obj, diags))
+	}
 	return nodes
+}
+
+// objectToNode decodes a single escalation path node object into the Go model
+// struct. The if_else attribute is only decoded when present and non-null, so
+// it stays safe at the maximum nesting depth where if_else is absent.
+func objectToNode(ctx context.Context, obj types.Object, diags *diag.Diagnostics) IncidentEscalationPathNode {
+	attrs := obj.Attributes()
+	node := IncidentEscalationPathNode{}
+	if v, ok := attrs["id"].(types.String); ok {
+		node.ID = v
+	}
+	if v, ok := attrs["type"].(types.String); ok {
+		node.Type = v
+	}
+
+	decodeObject := func(key string, target any) bool {
+		o, ok := attrs[key].(types.Object)
+		if !ok || o.IsNull() || o.IsUnknown() {
+			return false
+		}
+		diags.Append(o.As(ctx, target, basetypes.ObjectAsOptions{})...)
+		return true
+	}
+
+	var level IncidentEscalationPathNodeLevel
+	if decodeObject("level", &level) {
+		node.Level = &level
+	}
+	var notifyChannel IncidentEscalationPathNodeNotifyChannel
+	if decodeObject("notify_channel", &notifyChannel) {
+		node.NotifyChannel = &notifyChannel
+	}
+	var delay IncidentEscalationPathNodeDelay
+	if decodeObject("delay", &delay) {
+		node.Delay = &delay
+	}
+	var repeat IncidentEscalationPathNodeRepeat
+	if decodeObject("repeat", &repeat) {
+		node.Repeat = &repeat
+	}
+	var ifElse IncidentEscalationPathNodeIfElse
+	if decodeObject("if_else", &ifElse) {
+		node.IfElse = &ifElse
+	}
+
+	return node
 }
 
 // decodeTargets decodes a types.List of target objects into the Go model structs.
@@ -897,9 +956,57 @@ func (r *IncidentEscalationPathResource) toPathModel(ctx context.Context, nodes 
 		out = append(out, elem)
 	}
 
-	list, d := types.ListValueFrom(ctx, elemType, out)
+	// Build the object values explicitly rather than reflecting the whole
+	// struct via ListValueFrom. The IncidentEscalationPathNode struct always
+	// carries an if_else field, but nodeAttrTypes omits if_else at depth 0
+	// (matching the finite schema), so whole-struct reflection would fail at
+	// the maximum nesting depth with a struct/object mismatch.
+	objs := make([]attr.Value, 0, len(out))
+	for _, node := range out {
+		objs = append(objs, nodeToObject(ctx, node, depth, diags))
+	}
+
+	list, d := types.ListValue(elemType, objs)
 	diags.Append(d...)
 	return list
+}
+
+// nodeToObject converts a single escalation path node to a types.Object using
+// the attribute types for the given recursion depth. It only sets the if_else
+// attribute when depth > 0, mirroring nodeAttrTypes/getPathSchema, so it stays
+// safe at the maximum nesting depth where if_else is not part of the schema.
+func nodeToObject(ctx context.Context, node IncidentEscalationPathNode, depth int, diags *diag.Diagnostics) types.Object {
+	attrTypes := nodeAttrTypes(depth)
+	values := map[string]attr.Value{
+		"id":   node.ID,
+		"type": node.Type,
+	}
+
+	setObject := func(key string, isNil bool, from any) {
+		objType, ok := attrTypes[key].(types.ObjectType)
+		if !ok {
+			return
+		}
+		if isNil {
+			values[key] = types.ObjectNull(objType.AttrTypes)
+			return
+		}
+		obj, d := types.ObjectValueFrom(ctx, objType.AttrTypes, from)
+		diags.Append(d...)
+		values[key] = obj
+	}
+
+	setObject("level", node.Level == nil, node.Level)
+	setObject("notify_channel", node.NotifyChannel == nil, node.NotifyChannel)
+	setObject("delay", node.Delay == nil, node.Delay)
+	setObject("repeat", node.Repeat == nil, node.Repeat)
+	if depth > 0 {
+		setObject("if_else", node.IfElse == nil, node.IfElse)
+	}
+
+	obj, d := types.ObjectValue(attrTypes, values)
+	diags.Append(d...)
+	return obj
 }
 
 // targetsToPayload converts a types.List of target objects to client payloads.
