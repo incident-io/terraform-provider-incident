@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
@@ -9,6 +10,36 @@ import (
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
 )
+
+// ParamBindingValueAttrTypes returns the attribute types for a param binding
+// value object.
+func ParamBindingValueAttrTypes() map[string]attr.Type {
+	return map[string]attr.Type{
+		"literal":   jsontypes.NormalizedJSONOrStringType{},
+		"reference": types.StringType,
+	}
+}
+
+// ParamBindingAttrTypes returns the attribute types for a param binding object.
+func ParamBindingAttrTypes() map[string]attr.Type {
+	return map[string]attr.Type{
+		"array_value": types.ListType{
+			ElemType: types.ObjectType{AttrTypes: ParamBindingValueAttrTypes()},
+		},
+		"value": types.ObjectType{AttrTypes: ParamBindingValueAttrTypes()},
+	}
+}
+
+// ConditionAttrTypes returns the attribute types for a single condition object.
+func ConditionAttrTypes() map[string]attr.Type {
+	return map[string]attr.Type{
+		"operation": types.StringType,
+		"param_bindings": types.ListType{
+			ElemType: types.ObjectType{AttrTypes: ParamBindingAttrTypes()},
+		},
+		"subject": types.StringType,
+	}
+}
 
 // Types
 

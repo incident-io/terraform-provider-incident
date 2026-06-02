@@ -344,140 +344,113 @@ func teamTypeName() string {
 	return "Team"
 }
 
-func TestAccIncidentEscalationPathResourceValidateMaxDepth(t *testing.T) {
+func TestAccIncidentEscalationPathMaxDepth(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
+			// A path nested to the maximum supported depth (5 if_else levels)
+			// applies cleanly.
 			{
-				Config:      testAccIncidentEscalationPathResourceConfigExceedingMaxDepth(),
-				ExpectError: regexp.MustCompile(`Struct defines fields not found in\nobject: if_else`)},
+				Config: testAccIncidentEscalationPathNestedConfig(5),
+				Check: resource.TestCheckResourceAttr(
+					"incident_escalation_path.example", "name", "Deeply Nested Path Test"),
+			},
 		},
 	})
 }
 
-func testAccIncidentEscalationPathResourceConfigExceedingMaxDepth() string {
-	return `
-# This is the primary schedule that receives pages in working hours.
+func TestAccIncidentEscalationPathExceedsMaxDepth(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Nesting one level beyond the maximum (6 if_else levels) is rejected
+			// at plan time with a clear validation error, rather than slipping
+			// through to fail at apply with an opaque API error.
+			{
+				Config:      testAccIncidentEscalationPathNestedConfig(6),
+				ExpectError: regexp.MustCompile(`if_else nodes can be nested at most 5 levels deep`),
+			},
+		},
+	})
+}
+
+// testAccIncidentEscalationPathNestedConfig builds an escalation path whose path
+// is a single chain of ifElseLevels nested if_else nodes terminating in a level
+// node. Used to exercise the maximum supported nesting depth and one level
+// beyond it.
+func testAccIncidentEscalationPathNestedConfig(ifElseLevels int) string {
+	node := `
+                {
+                  type = "level"
+                  level = {
+                    targets = [{
+                      type    = "schedule"
+                      id      = incident_schedule.primary_on_call.id
+                      urgency = "high"
+                    }]
+                    time_to_ack_seconds = 300
+                  }
+                }`
+
+	// Wrap the leaf in (ifElseLevels-1) if_else nodes; the outermost path node
+	// below is the final if_else, giving ifElseLevels in total.
+	for i := 0; i < ifElseLevels-1; i++ {
+		node = fmt.Sprintf(`
+                {
+                  type = "if_else"
+                  if_else = {
+                    conditions = [
+                      {
+                        operation      = "is_active"
+                        param_bindings = []
+                        subject        = "escalation.working_hours[\"UK\"]"
+                      }
+                    ]
+                    then_path = [%s
+                    ]
+                    else_path = []
+                  }
+                }`, node)
+	}
+
+	return fmt.Sprintf(`
 resource "incident_schedule" "primary_on_call" {
-  name = "Deep Nesting Test Schedule"
+  name     = "Deep Nesting Test Schedule"
   timezone = "Europe/London"
   rotations = [{
     id   = "primary"
     name = "Primary"
-
     versions = [
       {
         handover_start_at = "2024-05-01T12:00:00Z"
-        users = []
-        layers = [
-          {
-            id   = "primary"
-            name = "Primary"
-          }
-        ]
-        handovers = [
-          {
-            interval_type = "daily"
-            interval      = 1
-          }
-        ]
+        users             = []
+        layers            = [{ id = "primary", name = "Primary" }]
+        handovers         = [{ interval_type = "daily", interval = 1 }]
       },
     ]
   }]
-
   team_ids = []
 }
 
-# Create a path with deeply nested if_else nodes (5 levels deep)
 resource "incident_escalation_path" "example" {
   name = "Deeply Nested Path Test"
 
   path = [
     {
-      id = "start"
+      id   = "start"
       type = "if_else"
       if_else = {
         conditions = [
           {
-            operation = "is_active",
+            operation      = "is_active"
             param_bindings = []
-            subject = "escalation.working_hours[\"UK\"]"
+            subject        = "escalation.working_hours[\"UK\"]"
           }
         ]
-        then_path = [
-          {
-            type = "if_else"
-            if_else = {
-              conditions = [
-                {
-                  operation = "is_active",
-                  param_bindings = []
-				  subject = "escalation.working_hours[\"UK\"]"
-                }
-              ]
-              then_path = [
-                {
-                  type = "if_else"
-                  if_else = {
-                    conditions = [
-						{
-						  operation = "is_active",
-						  param_bindings = []
-						  subject = "escalation.working_hours[\"UK\"]"
-						}
-                    ]
-                    then_path = [
-                      {
-                        type = "if_else"
-                        if_else = {
-                          conditions = [
-							{
-							  operation = "is_active",
-							  param_bindings = []
-							  subject = "escalation.working_hours[\"UK\"]"
-							}
-                          ]
-                          then_path = [
-                            {
-                              type = "if_else"
-                              if_else = {
-                                conditions = [
-                                  {
-                                    operation = "is_active",
-                                    param_bindings = []
-                                    subject = "escalation.working_hours[\"UK\"]"
-                                  }
-                                ]
-                                then_path = [
-                                  {
-                                    type = "level"
-                                    level = {
-                                      targets = [{
-                                        type    = "schedule"
-                                        id      = incident_schedule.primary_on_call.id
-                                        urgency  = "high"
-                                      }]
-                                      time_to_ack_seconds = 300
-                                    }
-                                  }
-                                ],
-                                else_path = []
-                              }
-                            }
-                          ],
-                          else_path = []
-                        }
-                      }
-                    ],
-                    else_path = []
-                  }
-                }
-              ],
-              else_path = []
-            }
-          }
-        ],
+        then_path = [%s
+        ]
         else_path = []
       }
     }
@@ -485,8 +458,8 @@ resource "incident_escalation_path" "example" {
 
   working_hours = [
     {
-      id = "UK"
-      name = "UK"
+      id       = "UK"
+      name     = "UK"
       timezone = "Europe/London"
       weekday_intervals = [
         {
@@ -500,7 +473,7 @@ resource "incident_escalation_path" "example" {
 
   team_ids = []
 }
-`
+`, node)
 }
 
 func TestAccIncidentEscalationPathSelectedRotaID(t *testing.T) {
@@ -664,4 +637,156 @@ resource "incident_escalation_path" "invalid_unexpected_rota" {
     }
   ]
 }`
+}
+
+// TestAccIncidentEscalationPathUnknownValues is a regression test for ONC-11917.
+//
+// It reproduces the two configurations that previously crashed at plan time
+// with "Received unknown value, however the target type cannot handle unknown
+// values ... Target Type: []provider.IncidentEscalationPathNode". The crash
+// happened because the resource model stored path/targets/working_hours as
+// plain Go slices, which cannot represent the unknown values that Terraform
+// produces during planning when those values derive from computed attributes
+// or are constructed via HCL expressions (locals, indexing, etc.).
+//
+// Both steps below force the whole `path` (and a nested target id /
+// working_hours config id) to be unknown at plan time:
+//   - the path is read from a `local` indexed by a variable, mirroring the
+//     customer's `local.path_templates[var.path_template]`, and
+//   - a target id references the computed id of an incident_schedule resource,
+//     so it is "known after apply".
+//
+// With the types.List-based model these plan cleanly and converge.
+func TestAccIncidentEscalationPathUnknownValues(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create and read: the whole path is built from a local indexed by a
+			// variable, and the target id is a computed schedule id (known after
+			// apply). Both made the old slice-based model crash at plan time.
+			{
+				Config: testAccIncidentEscalationPathResourceConfigUnknownValues(
+					StableSuffix("EP unknown values"),
+				),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.unknown_values", "name", StableSuffix("EP unknown values")),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.unknown_values", "path.0.type", "level"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.unknown_values", "path.0.level.targets.0.type", "schedule"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.unknown_values", "path.0.level.targets.0.urgency", "high"),
+					// The target id resolves to the computed schedule id.
+					resource.TestCheckResourceAttrPair(
+						"incident_escalation_path.unknown_values", "path.0.level.targets.0.id",
+						"incident_schedule.unknown_values", "id"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.unknown_values", "working_hours.0.id", "UK"),
+				),
+			},
+			// Import/refresh: confirm existing state reads back cleanly. A
+			// ListNestedAttribute already serialises as a list-of-objects in
+			// state, identical to the old []struct encoding, so no schema-version
+			// bump or state upgrader is required.
+			{
+				ResourceName:      "incident_escalation_path.unknown_values",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+// testAccIncidentEscalationPathResourceConfigUnknownValues builds a config
+// where the escalation path is assembled from a local indexed by a variable,
+// and where a target id and a working_hours config id reference values that are
+// only known after apply.
+func testAccIncidentEscalationPathResourceConfigUnknownValues(name string) string {
+	return fmt.Sprintf(`
+data "incident_catalog_type" "team" {
+  name = %q
+}
+
+resource "incident_catalog_entry" "terraform_unknown_values" {
+  catalog_type_id    = data.incident_catalog_type.team.id
+  external_id        = "tf-acceptance-test-unknown-values"
+  name               = "Terraform test team unknown values"
+  attribute_values   = []
+  managed_attributes = []
+}
+
+resource "incident_schedule" "unknown_values" {
+  name     = %q
+  timezone = "Europe/London"
+  rotations = [{
+    id   = "primary"
+    name = "Primary"
+    versions = [{
+      handover_start_at = "2024-05-01T12:00:00Z"
+      users             = []
+      layers = [{
+        id   = "primary"
+        name = "Primary"
+      }]
+      handovers = [{
+        interval_type = "daily"
+        interval      = 1
+      }]
+    }]
+  }]
+  team_ids = [incident_catalog_entry.terraform_unknown_values.id]
+}
+
+# Mirrors the customer's local.path_templates[var.path_template]: the path is
+# selected from a map keyed by a variable, so the resource only learns the
+# concrete path during apply. The nested target id and the working_hours config
+# id reference the computed schedule id, making them "known after apply".
+variable "path_template" {
+  type    = string
+  default = "default"
+}
+
+locals {
+  path_templates = {
+    default = [
+      {
+        type = "level"
+        level = {
+          targets = [{
+            type    = "schedule"
+            id      = incident_schedule.unknown_values.id
+            urgency = "high"
+          }]
+          time_to_ack_seconds = 300
+        }
+      },
+    ]
+  }
+}
+
+resource "incident_escalation_path" "unknown_values" {
+  name = %q
+
+  path = local.path_templates[var.path_template]
+
+  working_hours = [
+    {
+      id       = "UK"
+      name     = "UK"
+      timezone = "Europe/London"
+      weekday_intervals = [
+        {
+          weekday    = "monday"
+          start_time = "09:00"
+          end_time   = "17:00"
+        }
+      ]
+    }
+  ]
+
+  team_ids = [incident_catalog_entry.terraform_unknown_values.id]
+}
+`, teamTypeName(), name, name)
 }

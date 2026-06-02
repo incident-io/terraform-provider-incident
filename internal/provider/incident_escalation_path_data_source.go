@@ -96,7 +96,7 @@ func (d *IncidentEscalationPathDataSource) Schema(ctx context.Context, req datas
 			"path": schema.ListNestedAttribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "path"),
-				NestedObject:        d.getPathSchema(5),
+				NestedObject:        d.getPathSchema(pathSchemaDepth),
 			},
 			"working_hours": schema.ListNestedAttribute{
 				Computed:            true,
@@ -464,7 +464,7 @@ func (d *IncidentEscalationPathDataSource) Read(ctx context.Context, req datasou
 
 	// Reuse the resource's buildModel function for consistency
 	resource := &IncidentEscalationPathResource{}
-	modelResp := resource.buildModel(*escalationPath)
+	modelResp := resource.buildModel(ctx, *escalationPath, &resp.Diagnostics)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
 }
