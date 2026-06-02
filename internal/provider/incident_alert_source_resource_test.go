@@ -362,6 +362,61 @@ resource "incident_alert_source" "test" {
 				ExpectError: regexp.MustCompile("email_options can only be set when source_type is email"),
 			},
 			{
+				// Test http_custom_options with wrong source_type
+				Config: testRunTemplate("incident_alert_source_invalid_http_custom", `
+resource "incident_alert_source" "test" {
+  name = "Not http_custom, but with http_custom options"
+  source_type = "datadog"
+
+  template = {
+    expressions = [],
+    title = {
+      literal = {{ quote .Title }}
+    },
+    description = {
+      literal = {{ quote .Description }}
+    },
+    attributes = []
+  }
+
+  http_custom_options = {
+    transform_expression   = "return { title: $.title }"
+    deduplication_key_path = "$.alert_id"
+  }
+}
+`, struct{ Title, Description string }{
+					Title:       testAlertSourceTitle,
+					Description: testAlertSourceDescription,
+				}),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile("http_custom_options can only be set when source_type is http_custom"),
+			},
+			{
+				// Test http_custom source_type without the required http_custom_options
+				Config: testRunTemplate("incident_alert_source_missing_http_custom", `
+resource "incident_alert_source" "test" {
+  name = "http_custom without options"
+  source_type = "http_custom"
+
+  template = {
+    expressions = [],
+    title = {
+      literal = {{ quote .Title }}
+    },
+    description = {
+      literal = {{ quote .Description }}
+    },
+    attributes = []
+  }
+}
+`, struct{ Title, Description string }{
+					Title:       testAlertSourceTitle,
+					Description: testAlertSourceDescription,
+				}),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile("http_custom_options must be set when source_type is http_custom"),
+			},
+			{
 				// Test missing required template fields
 				Config: testRunTemplate("incident_alert_source_invalid", `
 resource "incident_alert_source" "test" {
@@ -1148,6 +1203,133 @@ resource "incident_alert_source" "test" {
   email_options = {
     redactions           = ["credit_card_numbers", "phone_numbers"]
     transform_expression = "payload.subject"
+  }
+}
+`, struct {
+		Name, Title, Description string
+	}{
+		Name:        name,
+		Title:       testAlertSourceTitle,
+		Description: testAlertSourceDescription,
+	})
+}
+
+// Regression test: an http_custom alert source with http_custom_options must
+// round-trip cleanly through create, apply and re-read with no "Provider
+// produced inconsistent result after apply" error and no perpetual diff. The
+// public API returns http_custom_options on read for the http_custom source
+// type, so the planned value matches the post-apply state without any
+// provider-side workaround.
+//
+// (http_custom_options only apply to the http_custom source type. The API
+// rejects them on other source types, including the legacy "http" source —
+// see incident-io/terraform-provider-incident#352.)
+func TestAccAlertSourceResource_HTTPCustomOptions(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceResourceConfigWithHTTPCustom("http-custom-source"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "http-custom-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "http_custom"),
+					resource.TestCheckResourceAttrSet("incident_alert_source.test", "alert_events_url"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "http_custom_options.deduplication_key_path", "$.alert_id"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "http_custom_options.transform_expression", "return { title: $.title }"),
+				),
+			},
+			// ImportState testing. The API returns http_custom_options on read
+			// for http_custom sources, so they round-trip on import too.
+			{
+				ResourceName:      "incident_alert_source.test",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+// Regression test: http_custom_options whose values are computed at plan time
+// (e.g. derived from another resource) must not trip up ValidateConfig. The
+// source_type↔http_custom_options validation only runs once both are known, so
+// the plan should not raise a spurious validation error and the apply should
+// succeed. Guards against the validation choking on unknown values.
+func TestAccAlertSourceResource_HTTPCustomOptionsComputed(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceResourceConfigHTTPCustomComputed("http-custom-computed"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "http_custom"),
+					resource.TestCheckResourceAttrSet("incident_alert_source.test", "http_custom_options.deduplication_key_path"),
+				),
+			},
+		},
+	})
+}
+
+// The deduplication_key_path interpolates a computed attribute id, so the value
+// inside http_custom_options is unknown at plan time.
+func testAccAlertSourceResourceConfigHTTPCustomComputed(name string) string {
+	return testRunTemplate("incident_alert_source_http_custom_computed", `
+resource "incident_alert_attribute" "dedup" {
+  name  = "dedup-tf-attr"
+  type  = "String"
+  array = false
+}
+
+resource "incident_alert_source" "test" {
+  name        = {{ quote .Name }}
+  source_type = "http_custom"
+
+  template = {
+    expressions = [],
+    title = {
+      literal = {{ quote .Title }}
+    },
+    description = {
+      literal = {{ quote .Description }}
+    },
+    attributes = []
+  }
+
+  http_custom_options = {
+    transform_expression   = "return { title: $.title }"
+    deduplication_key_path = "$.${incident_alert_attribute.dedup.id}"
+  }
+}
+`, struct {
+		Name, Title, Description string
+	}{
+		Name:        name,
+		Title:       testAlertSourceTitle,
+		Description: testAlertSourceDescription,
+	})
+}
+
+func testAccAlertSourceResourceConfigWithHTTPCustom(name string) string {
+	return testRunTemplate("incident_alert_source_http_custom", `
+resource "incident_alert_source" "test" {
+  name        = {{ quote .Name }}
+  source_type = "http_custom"
+
+  template = {
+    expressions = [],
+    title = {
+      literal = {{ quote .Title }}
+    },
+    description = {
+      literal = {{ quote .Description }}
+    },
+    attributes = []
+  }
+
+  http_custom_options = {
+    transform_expression   = "return { title: $.title }"
+    deduplication_key_path = "$.alert_id"
   }
 }
 `, struct {

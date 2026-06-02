@@ -86,6 +86,31 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 		return
 	}
 
+	// Read http_custom_options as an Object rather than the model pointer so we
+	// can tell "unknown" (computed at plan time) apart from "null" (not set).
+	// We only validate it against source_type once both are known: if either is
+	// computed from another resource, Terraform re-runs validation at apply.
+	var httpCustomOptions types.Object
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("http_custom_options"), &httpCustomOptions)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	if !data.SourceType.IsUnknown() && !httpCustomOptions.IsUnknown() {
+		httpCustomOptionsSet := !httpCustomOptions.IsNull()
+		if httpCustomOptionsSet && data.SourceType.ValueString() != "http_custom" {
+			resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+				"http_custom_options can only be set when source_type is http_custom",
+				"These options only apply to the 'http_custom' source type. The 'http' source type does not support a transform expression or deduplication key path."))
+			return
+		}
+		if !httpCustomOptionsSet && data.SourceType.ValueString() == "http_custom" {
+			resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+				"http_custom_options must be set when source_type is http_custom",
+				"These options are required for the 'http_custom' source type, to specify the transform expression and deduplication key path."))
+			return
+		}
+	}
+
 	// Validate that heartbeat sources don't set template title or description,
 	// as the API normalizes these fields and the provider ignores the returned values.
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {

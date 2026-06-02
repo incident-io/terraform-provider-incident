@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Validate at plan time that `http_custom_options` is only set when `source_type = "http_custom"` (and is required for it). Previously these options were accepted but silently dropped by the API for other source types — including the legacy `http` source — which surfaced as a `Provider produced inconsistent result after apply` error.
+
 ## v5.39.0
 
 - Fix `Provider produced inconsistent result after apply` and perpetual diffs on engine param-binding `literal` fields when JSON containing HTML characters (`>`, `<`, `&`) is supplied by an encoder that does not HTML-escape (e.g. CDKTF `JSON.stringify`, `file()`, heredocs). The `literal` field now uses a semantic-equality string type that treats byte-different-but-equivalent JSON as equal.
