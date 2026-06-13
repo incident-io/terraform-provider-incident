@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	_ "embed"
@@ -11,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -98,10 +98,11 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 
 	c, err := client.New(ctx, apiKey, endpoint, p.version)
 	if err != nil {
-		tflog.Error(ctx, "Failed to create client", map[string]any{
-			"error": err.Error(),
-		})
-		panic(err)
+		resp.Diagnostics.AddError(
+			"Unable to Create incident.io API Client",
+			fmt.Sprintf("An error occurred when creating the incident.io API client: %s", err),
+		)
+		return
 	}
 
 	resp.DataSourceData = &IncidentProviderData{
