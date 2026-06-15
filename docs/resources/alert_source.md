@@ -160,7 +160,7 @@ Required:
 
 - `attributes` (Attributes Set) Attributes to set on alerts coming from this source, with a binding describing how to set them. (see [below for nested schema](#nestedatt--template--attributes))
 - `description` (Attributes) (see [below for nested schema](#nestedatt--template--description))
-- `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--template--expressions))
+- `expressions` (Attributes List) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--template--expressions))
 - `title` (Attributes) (see [below for nested schema](#nestedatt--template--title))
 
 Optional:

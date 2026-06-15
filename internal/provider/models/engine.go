@@ -361,8 +361,8 @@ func ReturnsAttribute() schema.SingleNestedAttribute {
 	}
 }
 
-func ExpressionsAttribute() schema.SetNestedAttribute {
-	return schema.SetNestedAttribute{
+func ExpressionsAttribute() schema.ListNestedAttribute {
+	return schema.ListNestedAttribute{
 		MarkdownDescription: "The expressions to be prepared for use by steps and conditions",
 		Required:            true,
 		NestedObject: schema.NestedAttributeObject{
