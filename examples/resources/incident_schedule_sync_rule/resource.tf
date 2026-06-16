@@ -23,3 +23,13 @@ resource "incident_schedule_sync_rule" "platform_all_users" {
   schedule_sync_target_id = incident_schedule_sync_target.platform_team.id
   sync_type               = "all_users"
 }
+
+# Scope a rule to a single rotation. Without rotation_id a rule covers every
+# rotation on the schedule; set it to sync only one. To feed a group from
+# several rotations, create one rule per rotation pointing at the same target.
+resource "incident_schedule_sync_rule" "platform_eu_oncall" {
+  schedule_id             = incident_schedule.platform.id
+  schedule_sync_target_id = incident_schedule_sync_target.platform_eu_oncall.id
+  sync_type               = "on_call"
+  rotation_id             = "eu"
+}
