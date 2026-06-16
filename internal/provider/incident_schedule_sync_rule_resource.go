@@ -66,6 +66,15 @@ func (r *IncidentScheduleSyncRuleResource) Schema(ctx context.Context, req resou
 				Required:            true,
 				MarkdownDescription: apischema.Docstring("ScheduleSyncRuleV2", "sync_type") + "\n\nValid values: `all_users`, `on_call`.",
 			},
+			"rotation_id": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("ScheduleSyncRuleV2", "rotation_id"),
+				// The rotation a rule is scoped to is part of its identity and
+				// can't be changed via update, so a change forces a replace.
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
+			},
 		},
 	}
 }
@@ -99,6 +108,7 @@ func (r *IncidentScheduleSyncRuleResource) Create(ctx context.Context, req resou
 		ScheduleSyncRule: client.ScheduleSyncRuleCreatePayloadV2{
 			ScheduleSyncTargetId: data.ScheduleSyncTargetID.ValueString(),
 			SyncType:             client.ScheduleSyncRuleCreatePayloadV2SyncType(data.SyncType.ValueString()),
+			RotationId:           data.RotationID.ValueStringPointer(),
 			Annotations: &map[string]string{
 				"incident.io/terraform/version": r.terraformVersion,
 			},

@@ -205,6 +205,7 @@ const (
 	AlertSourceV2SourceTypeAlertmanager      AlertSourceV2SourceType = "alertmanager"
 	AlertSourceV2SourceTypeAppOptics         AlertSourceV2SourceType = "app_optics"
 	AlertSourceV2SourceTypeAzureMonitor      AlertSourceV2SourceType = "azure_monitor"
+	AlertSourceV2SourceTypeBigPanda          AlertSourceV2SourceType = "big_panda"
 	AlertSourceV2SourceTypeBugsnag           AlertSourceV2SourceType = "bugsnag"
 	AlertSourceV2SourceTypeCheckly           AlertSourceV2SourceType = "checkly"
 	AlertSourceV2SourceTypeChronosphere      AlertSourceV2SourceType = "chronosphere"
@@ -254,6 +255,7 @@ const (
 	AlertSourcesCreatePayloadV2SourceTypeAlertmanager      AlertSourcesCreatePayloadV2SourceType = "alertmanager"
 	AlertSourcesCreatePayloadV2SourceTypeAppOptics         AlertSourcesCreatePayloadV2SourceType = "app_optics"
 	AlertSourcesCreatePayloadV2SourceTypeAzureMonitor      AlertSourcesCreatePayloadV2SourceType = "azure_monitor"
+	AlertSourcesCreatePayloadV2SourceTypeBigPanda          AlertSourcesCreatePayloadV2SourceType = "big_panda"
 	AlertSourcesCreatePayloadV2SourceTypeBugsnag           AlertSourcesCreatePayloadV2SourceType = "bugsnag"
 	AlertSourcesCreatePayloadV2SourceTypeCheckly           AlertSourcesCreatePayloadV2SourceType = "checkly"
 	AlertSourcesCreatePayloadV2SourceTypeChronosphere      AlertSourcesCreatePayloadV2SourceType = "chronosphere"
@@ -1249,11 +1251,12 @@ const (
 
 // Defines values for OnCallNotificationMethodPublicV2MethodType.
 const (
-	OnCallNotificationMethodPublicV2MethodTypeApp            OnCallNotificationMethodPublicV2MethodType = "app"
-	OnCallNotificationMethodPublicV2MethodTypeEmail          OnCallNotificationMethodPublicV2MethodType = "email"
-	OnCallNotificationMethodPublicV2MethodTypeMicrosoftTeams OnCallNotificationMethodPublicV2MethodType = "microsoft_teams"
-	OnCallNotificationMethodPublicV2MethodTypePhone          OnCallNotificationMethodPublicV2MethodType = "phone"
-	OnCallNotificationMethodPublicV2MethodTypeSlack          OnCallNotificationMethodPublicV2MethodType = "slack"
+	OnCallNotificationMethodPublicV2MethodTypeApp             OnCallNotificationMethodPublicV2MethodType = "app"
+	OnCallNotificationMethodPublicV2MethodTypeEmail           OnCallNotificationMethodPublicV2MethodType = "email"
+	OnCallNotificationMethodPublicV2MethodTypeMicrosoftTeams  OnCallNotificationMethodPublicV2MethodType = "microsoft_teams"
+	OnCallNotificationMethodPublicV2MethodTypePhone           OnCallNotificationMethodPublicV2MethodType = "phone"
+	OnCallNotificationMethodPublicV2MethodTypeSlack           OnCallNotificationMethodPublicV2MethodType = "slack"
+	OnCallNotificationMethodPublicV2MethodTypeWhatsappMessage OnCallNotificationMethodPublicV2MethodType = "whatsapp_message"
 )
 
 // Defines values for OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticality.
@@ -1268,13 +1271,20 @@ const (
 	OnCallNotificationRuleMethodTargetPublicV2TypeSpecific OnCallNotificationRuleMethodTargetPublicV2Type = "specific"
 )
 
+// Defines values for OnCallNotificationRulePhoneDetailsPublicV2Channel.
+const (
+	Sms   OnCallNotificationRulePhoneDetailsPublicV2Channel = "sms"
+	Voice OnCallNotificationRulePhoneDetailsPublicV2Channel = "voice"
+)
+
 // Defines values for OnCallNotificationRulePublicV2MethodType.
 const (
-	OnCallNotificationRulePublicV2MethodTypeApp            OnCallNotificationRulePublicV2MethodType = "app"
-	OnCallNotificationRulePublicV2MethodTypeEmail          OnCallNotificationRulePublicV2MethodType = "email"
-	OnCallNotificationRulePublicV2MethodTypeMicrosoftTeams OnCallNotificationRulePublicV2MethodType = "microsoft_teams"
-	OnCallNotificationRulePublicV2MethodTypePhone          OnCallNotificationRulePublicV2MethodType = "phone"
-	OnCallNotificationRulePublicV2MethodTypeSlack          OnCallNotificationRulePublicV2MethodType = "slack"
+	OnCallNotificationRulePublicV2MethodTypeApp             OnCallNotificationRulePublicV2MethodType = "app"
+	OnCallNotificationRulePublicV2MethodTypeEmail           OnCallNotificationRulePublicV2MethodType = "email"
+	OnCallNotificationRulePublicV2MethodTypeMicrosoftTeams  OnCallNotificationRulePublicV2MethodType = "microsoft_teams"
+	OnCallNotificationRulePublicV2MethodTypePhone           OnCallNotificationRulePublicV2MethodType = "phone"
+	OnCallNotificationRulePublicV2MethodTypeSlack           OnCallNotificationRulePublicV2MethodType = "slack"
+	OnCallNotificationRulePublicV2MethodTypeWhatsappMessage OnCallNotificationRulePublicV2MethodType = "whatsapp_message"
 )
 
 // Defines values for OnCallNotificationRulePublicV2RuleType.
@@ -2096,6 +2106,64 @@ type AlertEventsCreateHTTPResultV2 struct {
 
 	// Status Status of the event
 	Status string `json:"status"`
+}
+
+// AlertNoteV1 defines model for AlertNoteV1.
+type AlertNoteV1 struct {
+	// Content Markdown body of the note
+	Content string `json:"content"`
+
+	// CreatedAt When this note was first created
+	CreatedAt time.Time `json:"created_at"`
+	Creator   ActorV1   `json:"creator"`
+
+	// Id Unique identifier for the alert note
+	Id string `json:"id"`
+
+	// Images Images attached to the current version of the note, with signed URLs valid for 10 minutes
+	Images []ImageV1 `json:"images"`
+
+	// LastEditedAt When this note was last edited, only set if it has been edited at least once since creation
+	LastEditedAt *time.Time `json:"last_edited_at,omitempty"`
+
+	// UpdatedAt When this note was last updated
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// AlertNotesCreatePayloadV1 defines model for AlertNotesCreatePayloadV1.
+type AlertNotesCreatePayloadV1 struct {
+	// AlertId ID of the alert to add the note to
+	AlertId string `json:"alert_id"`
+
+	// Content Markdown body of the note
+	Content string `json:"content"`
+}
+
+// AlertNotesCreateResultV1 defines model for AlertNotesCreateResultV1.
+type AlertNotesCreateResultV1 struct {
+	AlertNote AlertNoteV1 `json:"alert_note"`
+}
+
+// AlertNotesListResultV1 defines model for AlertNotesListResultV1.
+type AlertNotesListResultV1 struct {
+	AlertNotes     []AlertNoteV1          `json:"alert_notes"`
+	PaginationMeta PaginationMetaResultV1 `json:"pagination_meta"`
+}
+
+// AlertNotesShowResultV1 defines model for AlertNotesShowResultV1.
+type AlertNotesShowResultV1 struct {
+	AlertNote AlertNoteV1 `json:"alert_note"`
+}
+
+// AlertNotesUpdatePayloadV1 defines model for AlertNotesUpdatePayloadV1.
+type AlertNotesUpdatePayloadV1 struct {
+	// Content Markdown body of the note
+	Content string `json:"content"`
+}
+
+// AlertNotesUpdateResultV1 defines model for AlertNotesUpdateResultV1.
+type AlertNotesUpdateResultV1 struct {
+	AlertNote AlertNoteV1 `json:"alert_note"`
 }
 
 // AlertRouteAlertSourcePayloadV2 defines model for AlertRouteAlertSourcePayloadV2.
@@ -3808,6 +3876,15 @@ type CustomFieldFilterByOptionsV2 struct {
 	CustomFieldId string `json:"custom_field_id"`
 }
 
+// CustomFieldFixedFilterOptionsV2 defines model for CustomFieldFixedFilterOptionsV2.
+type CustomFieldFixedFilterOptionsV2 struct {
+	// CatalogAttributeId This must be an attribute of the catalog type of this custom field. It must be an attribute that points to another catalog type (so not a plain string, number, or boolean attribute).
+	CatalogAttributeId string `json:"catalog_attribute_id"`
+
+	// Values The catalog entry IDs (of the type the attribute points at) that the attribute must reference. The options for this custom field are restricted to entries matching one of these values.
+	Values []string `json:"values"`
+}
+
 // CustomFieldOptionV1 defines model for CustomFieldOptionV1.
 type CustomFieldOptionV1 struct {
 	// CustomFieldId ID of the custom field this option belongs to
@@ -3988,8 +4065,9 @@ type CustomFieldV2 struct {
 	Description string `json:"description"`
 
 	// FieldType Type of custom field
-	FieldType CustomFieldV2FieldType        `json:"field_type"`
-	FilterBy  *CustomFieldFilterByOptionsV2 `json:"filter_by,omitempty"`
+	FieldType   CustomFieldV2FieldType           `json:"field_type"`
+	FilterBy    *CustomFieldFilterByOptionsV2    `json:"filter_by,omitempty"`
+	FixedFilter *CustomFieldFixedFilterOptionsV2 `json:"fixed_filter,omitempty"`
 
 	// GroupByCatalogAttributeId For catalog fields, the ID of the attribute used to group catalog entries (if applicable)
 	GroupByCatalogAttributeId *string `json:"group_by_catalog_attribute_id,omitempty"`
@@ -4136,8 +4214,9 @@ type CustomFieldsCreatePayloadV2 struct {
 	Description string `json:"description"`
 
 	// FieldType Type of custom field
-	FieldType CustomFieldsCreatePayloadV2FieldType `json:"field_type"`
-	FilterBy  *CustomFieldFilterByOptionsV2        `json:"filter_by,omitempty"`
+	FieldType   CustomFieldsCreatePayloadV2FieldType `json:"field_type"`
+	FilterBy    *CustomFieldFilterByOptionsV2        `json:"filter_by,omitempty"`
+	FixedFilter *CustomFieldFixedFilterOptionsV2     `json:"fixed_filter,omitempty"`
 
 	// GroupByCatalogAttributeId For catalog fields, the ID of the attribute used to group catalog entries (if applicable)
 	GroupByCatalogAttributeId *string `json:"group_by_catalog_attribute_id,omitempty"`
@@ -4218,8 +4297,9 @@ type CustomFieldsUpdatePayloadV1RequiredV2 string
 // CustomFieldsUpdatePayloadV2 defines model for CustomFieldsUpdatePayloadV2.
 type CustomFieldsUpdatePayloadV2 struct {
 	// Description Description of the custom field
-	Description string                        `json:"description"`
-	FilterBy    *CustomFieldFilterByOptionsV2 `json:"filter_by,omitempty"`
+	Description string                           `json:"description"`
+	FilterBy    *CustomFieldFilterByOptionsV2    `json:"filter_by,omitempty"`
+	FixedFilter *CustomFieldFixedFilterOptionsV2 `json:"fixed_filter,omitempty"`
 
 	// GroupByCatalogAttributeId For catalog fields, the ID of the attribute used to group catalog entries (if applicable)
 	GroupByCatalogAttributeId *string `json:"group_by_catalog_attribute_id,omitempty"`
@@ -4694,6 +4774,9 @@ type EscalationsCreatePayloadV2 struct {
 	// IdempotencyKey Unique key to prevent duplicate escalations. If this key has already been used, the existing escalation will be returned.
 	IdempotencyKey string `json:"idempotency_key"`
 
+	// IncidentId ID of an incident to associate with this escalation. The linked incident will appear in the escalation's related_incidents field.
+	IncidentId *string `json:"incident_id,omitempty"`
+
 	// Title The title of the escalation. This message will be included in all notifications about this escalation.
 	Title string `json:"title"`
 
@@ -5022,7 +5105,8 @@ type FollowUpPriorityV2 struct {
 
 // FollowUpV2 defines model for FollowUpV2.
 type FollowUpV2 struct {
-	Assignee *UserV2 `json:"assignee,omitempty"`
+	Assignee     *UserV2     `json:"assignee,omitempty"`
+	AssigneeTeam *TeamSlimV2 `json:"assignee_team,omitempty"`
 
 	// CompletedAt When the follow-up was completed
 	CompletedAt *time.Time `json:"completed_at,omitempty"`
@@ -5153,6 +5237,15 @@ type IdentityV1Roles string
 // IdentityV1TeamRoles API key team roles
 type IdentityV1TeamRoles string
 
+// ImageV1 defines model for ImageV1.
+type ImageV1 struct {
+	// Id Unique identifier for the image
+	Id string `json:"id"`
+
+	// Url Pre-signed URL to fetch the image, valid for 10 minutes
+	Url string `json:"url"`
+}
+
 // IncidentAlertV2 defines model for IncidentAlertV2.
 type IncidentAlertV2 struct {
 	Alert AlertSlimV2 `json:"alert"`
@@ -5183,10 +5276,13 @@ type IncidentAttachmentsCreatePayloadV1 struct {
 	IncidentId string `json:"incident_id"`
 	Resource   struct {
 		// ExternalId ID of the resource in the external system
-		ExternalId string `json:"external_id"`
+		ExternalId *string `json:"external_id,omitempty"`
 
 		// ResourceType E.g. PagerDuty: the external system that holds the resource
 		ResourceType IncidentAttachmentsCreatePayloadV1ResourceResourceType `json:"resource_type"`
+
+		// Url URL of the external resource to attach for the given resource type.
+		Url *string `json:"url,omitempty"`
 	} `json:"resource"`
 }
 
@@ -6384,6 +6480,15 @@ type NewSlackUserGroupPayloadV2 struct {
 	SlackTeamId *string `json:"slack_team_id,omitempty"`
 }
 
+// OnCallNotificationMethodPhoneDetailsPublicV2 defines model for OnCallNotificationMethodPhoneDetailsPublicV2.
+type OnCallNotificationMethodPhoneDetailsPublicV2 struct {
+	// SupportsSms Whether this phone number can receive SMS notifications.
+	SupportsSms bool `json:"supports_sms"`
+
+	// SupportsVoice Whether this phone number can receive voice call notifications.
+	SupportsVoice bool `json:"supports_voice"`
+}
+
 // OnCallNotificationMethodPublicV2 defines model for OnCallNotificationMethodPublicV2.
 type OnCallNotificationMethodPublicV2 struct {
 	// Address The address of this method (e.g. redacted phone number, email address, device name, Slack user name)
@@ -6395,11 +6500,12 @@ type OnCallNotificationMethodPublicV2 struct {
 	// IsUsable Whether this method is ready to receive notifications. For phone, this means verified. For app devices, this means push notifications can be sent. For email, Slack, and Microsoft Teams this is always true.
 	IsUsable bool `json:"is_usable"`
 
-	// MethodType The type of notification method. Phone methods do not differentiate between voice call and SMS.
-	MethodType OnCallNotificationMethodPublicV2MethodType `json:"method_type"`
+	// MethodType The high-level type of notification method. Phone rules include phone details that distinguish SMS from voice calls.
+	MethodType   OnCallNotificationMethodPublicV2MethodType    `json:"method_type"`
+	PhoneDetails *OnCallNotificationMethodPhoneDetailsPublicV2 `json:"phone_details,omitempty"`
 }
 
-// OnCallNotificationMethodPublicV2MethodType The type of notification method. Phone methods do not differentiate between voice call and SMS.
+// OnCallNotificationMethodPublicV2MethodType The high-level type of notification method. Phone rules include phone details that distinguish SMS from voice calls.
 type OnCallNotificationMethodPublicV2MethodType string
 
 // OnCallNotificationRuleAppDetailsPublicV2 defines model for OnCallNotificationRuleAppDetailsPublicV2.
@@ -6432,6 +6538,15 @@ type OnCallNotificationRuleMethodTargetSpecificPublicV2 struct {
 	Id string `json:"id"`
 }
 
+// OnCallNotificationRulePhoneDetailsPublicV2 defines model for OnCallNotificationRulePhoneDetailsPublicV2.
+type OnCallNotificationRulePhoneDetailsPublicV2 struct {
+	// Channel Which channel of a phone notification method this rule uses.
+	Channel OnCallNotificationRulePhoneDetailsPublicV2Channel `json:"channel"`
+}
+
+// OnCallNotificationRulePhoneDetailsPublicV2Channel Which channel of a phone notification method this rule uses.
+type OnCallNotificationRulePhoneDetailsPublicV2Channel string
+
 // OnCallNotificationRulePublicV2 defines model for OnCallNotificationRulePublicV2.
 type OnCallNotificationRulePublicV2 struct {
 	App *OnCallNotificationRuleAppDetailsPublicV2 `json:"app,omitempty"`
@@ -6443,14 +6558,15 @@ type OnCallNotificationRulePublicV2 struct {
 	Id           string                                     `json:"id"`
 	MethodTarget OnCallNotificationRuleMethodTargetPublicV2 `json:"method_target"`
 
-	// MethodType The type of notification method. Phone methods do not differentiate between voice call and SMS.
-	MethodType OnCallNotificationRulePublicV2MethodType `json:"method_type"`
+	// MethodType The high-level type of notification method. Phone rules include phone details that distinguish SMS from voice calls.
+	MethodType OnCallNotificationRulePublicV2MethodType    `json:"method_type"`
+	Phone      *OnCallNotificationRulePhoneDetailsPublicV2 `json:"phone,omitempty"`
 
 	// RuleType The urgency level this rule applies to
 	RuleType OnCallNotificationRulePublicV2RuleType `json:"rule_type"`
 }
 
-// OnCallNotificationRulePublicV2MethodType The type of notification method. Phone methods do not differentiate between voice call and SMS.
+// OnCallNotificationRulePublicV2MethodType The high-level type of notification method. Phone rules include phone details that distinguish SMS from voice calls.
 type OnCallNotificationRulePublicV2MethodType string
 
 // OnCallNotificationRulePublicV2RuleType The urgency level this rule applies to
@@ -6887,9 +7003,14 @@ type ScheduleReplicaV2ReplicaProvider string
 
 // ScheduleRotationCreatePayloadV2 defines model for ScheduleRotationCreatePayloadV2.
 type ScheduleRotationCreatePayloadV2 struct {
-	EffectiveFrom   *time.Time                    `json:"effective_from,omitempty"`
-	HandoverStartAt *time.Time                    `json:"handover_start_at,omitempty"`
-	Handovers       *[]ScheduleRotationHandoverV2 `json:"handovers,omitempty"`
+	// EffectiveFrom When this version of the rotation takes effect. A rotation can appear multiple times in `rotations` with the same `id` to schedule changes ahead of time: each version applies from its `effective_from` until the next version's. Leave it unset on a rotation's first or only version.
+	EffectiveFrom *time.Time `json:"effective_from,omitempty"`
+
+	// HandoverStartAt Determines when shifts change hands and who takes them: the first user in `users` comes on shift at this time, handing over to the next user after each `handovers` interval, cycling through the list — for example, weekly handovers from a Monday 09:00 give week-long shifts that change hands on Mondays at 09:00.
+	HandoverStartAt *time.Time `json:"handover_start_at,omitempty"`
+
+	// Handovers The cadence shifts hand over on. With more than one entry, the intervals apply in turn — for example, one day then three days produces alternating one-day and three-day shifts.
+	Handovers *[]ScheduleRotationHandoverV2 `json:"handovers,omitempty"`
 
 	// Id Unique identifier of the rotation
 	Id     *string                         `json:"id,omitempty"`
@@ -6900,7 +7021,9 @@ type ScheduleRotationCreatePayloadV2 struct {
 
 	// SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
 	SchedulingMode *ScheduleRotationCreatePayloadV2SchedulingMode `json:"scheduling_mode,omitempty"`
-	Users          *[]UserReferencePayloadV2                      `json:"users,omitempty"`
+
+	// Users The people in the rotation, in the order they take shifts.
+	Users *[]UserReferencePayloadV2 `json:"users,omitempty"`
 
 	// WorkingInterval DEPRECATED: Use working_intervals instead.
 	WorkingInterval  *[]ScheduleRotationWorkingIntervalCreatePayloadV2 `json:"working_interval,omitempty"`
@@ -6923,9 +7046,14 @@ type ScheduleRotationHandoverV2IntervalType string
 
 // ScheduleRotationUpdatePayloadV2 defines model for ScheduleRotationUpdatePayloadV2.
 type ScheduleRotationUpdatePayloadV2 struct {
-	EffectiveFrom   *time.Time                    `json:"effective_from,omitempty"`
-	HandoverStartAt *time.Time                    `json:"handover_start_at,omitempty"`
-	Handovers       *[]ScheduleRotationHandoverV2 `json:"handovers,omitempty"`
+	// EffectiveFrom When this version of the rotation takes effect. A rotation can appear multiple times in `rotations` with the same `id` to schedule changes ahead of time: each version applies from its `effective_from` until the next version's. Leave it unset on a rotation's first or only version.
+	EffectiveFrom *time.Time `json:"effective_from,omitempty"`
+
+	// HandoverStartAt Determines when shifts change hands and who takes them: the first user in `users` comes on shift at this time, handing over to the next user after each `handovers` interval, cycling through the list — for example, weekly handovers from a Monday 09:00 give week-long shifts that change hands on Mondays at 09:00.
+	HandoverStartAt *time.Time `json:"handover_start_at,omitempty"`
+
+	// Handovers The cadence shifts hand over on. With more than one entry, the intervals apply in turn — for example, one day then three days produces alternating one-day and three-day shifts.
+	Handovers *[]ScheduleRotationHandoverV2 `json:"handovers,omitempty"`
 
 	// Id Unique identifier of the rotation
 	Id     *string                         `json:"id,omitempty"`
@@ -6936,7 +7064,9 @@ type ScheduleRotationUpdatePayloadV2 struct {
 
 	// SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
 	SchedulingMode *ScheduleRotationUpdatePayloadV2SchedulingMode `json:"scheduling_mode,omitempty"`
-	Users          *[]UserReferencePayloadV2                      `json:"users,omitempty"`
+
+	// Users The people in the rotation, in the order they take shifts.
+	Users *[]UserReferencePayloadV2 `json:"users,omitempty"`
 
 	// WorkingInterval DEPRECATED: Use working_intervals instead.
 	WorkingInterval  *[]ScheduleRotationWorkingIntervalV2 `json:"working_interval,omitempty"`
@@ -6948,13 +7078,13 @@ type ScheduleRotationUpdatePayloadV2SchedulingMode string
 
 // ScheduleRotationV2 defines model for ScheduleRotationV2.
 type ScheduleRotationV2 struct {
-	// EffectiveFrom When this rotation config will be effective from
+	// EffectiveFrom When this version of the rotation takes effect. A rotation can appear multiple times in `rotations` with the same `id`, scheduling changes ahead of time: each version applies from its `effective_from` until the next version's. A rotation's first version has no `effective_from`.
 	EffectiveFrom *time.Time `json:"effective_from,omitempty"`
 
-	// HandoverStartAt Defines the next moment we'll trigger a handover
+	// HandoverStartAt Determines when shifts change hands and who takes them: the first user in `users` comes on shift at this time, handing over to the next user after each `handovers` interval, cycling through the list — for example, weekly handovers from a Monday 09:00 give week-long shifts that change hands on Mondays at 09:00.
 	HandoverStartAt time.Time `json:"handover_start_at"`
 
-	// Handovers Defines the handover intervals for this rota, in order they should apply
+	// Handovers The cadence shifts hand over on. With more than one entry, the intervals apply in turn — for example, one day then three days produces alternating one-day and three-day shifts.
 	Handovers []ScheduleRotationHandoverV2 `json:"handovers"`
 
 	// Id Unique internal ID of the rotation
@@ -6969,7 +7099,7 @@ type ScheduleRotationV2 struct {
 	// SchedulingMode Scheduling algorithm to use for this rotation. 'fair' balances workload by considering handover duration, while 'sequential' uses simple round-robin rotation through users. Only applies when you have asymmetric handovers (e.g., 2 days then 5 days).
 	SchedulingMode *ScheduleRotationV2SchedulingMode `json:"scheduling_mode,omitempty"`
 
-	// Users Users who are available to be scheduled on this rota
+	// Users The people in the rotation, in the order they take shifts.
 	Users []UserV2 `json:"users"`
 
 	// WorkingInterval DEPRECATED: Use working_intervals instead.
@@ -7017,6 +7147,9 @@ type ScheduleSyncRuleCreatePayloadV2 struct {
 	// Annotations Annotations that track metadata about this resource
 	Annotations *map[string]string `json:"annotations,omitempty"`
 
+	// RotationId If set, scopes the rule to a single rotation on the schedule. When unset, all rotations are synced.
+	RotationId *string `json:"rotation_id,omitempty"`
+
 	// ScheduleSyncTargetId The sync target to link to
 	ScheduleSyncTargetId string `json:"schedule_sync_target_id"`
 
@@ -7033,6 +7166,9 @@ type ScheduleSyncRuleV2 struct {
 
 	// Id Unique identifier of the sync rule
 	Id string `json:"id"`
+
+	// RotationId If set, only members of this rotation sync to the user group. When unset, all rotations on the schedule are synced.
+	RotationId *string `json:"rotation_id,omitempty"`
 
 	// ScheduleId The schedule this rule belongs to
 	ScheduleId         string                       `json:"schedule_id"`
@@ -7245,6 +7381,28 @@ type SchedulesListScheduleReplicasResultV2 struct {
 type SchedulesListScheduleSyncRulesResultV2 struct {
 	PaginationMeta    *PaginationMetaResultV2 `json:"pagination_meta,omitempty"`
 	ScheduleSyncRules []ScheduleSyncRuleV2    `json:"schedule_sync_rules"`
+}
+
+// SchedulesPreviewScheduleEntriesPayloadV2 defines model for SchedulesPreviewScheduleEntriesPayloadV2.
+type SchedulesPreviewScheduleEntriesPayloadV2 struct {
+	// EntryWindowEnd The end of the window to preview entries for. Defaults to four weeks after entry_window_start.
+	EntryWindowEnd *time.Time `json:"entry_window_end,omitempty"`
+
+	// EntryWindowStart The start of the window to preview entries for. Defaults to now.
+	EntryWindowStart *time.Time              `json:"entry_window_start,omitempty"`
+	Schedule         ScheduleUpdatePayloadV2 `json:"schedule"`
+}
+
+// SchedulesPreviewScheduleEntriesResultV2 defines model for SchedulesPreviewScheduleEntriesResultV2.
+type SchedulesPreviewScheduleEntriesResultV2 struct {
+	// ScheduleEntries The schedule entries for a window of time, grouped by where they come from.
+	//
+	// `scheduled` are the entries produced by the schedule's rotation rules before
+	// any overrides are taken into account. `overrides` are the one-off changes that
+	// apply within the window. `final` is the effective schedule after overrides
+	// have been merged in — this is normally the list to use when working out who
+	// is on-call.
+	ScheduleEntries ScheduleEntriesListPayloadV2 `json:"schedule_entries"`
 }
 
 // SchedulesShowResultV2 defines model for SchedulesShowResultV2.
@@ -7820,6 +7978,15 @@ type StepConfigV2 struct {
 	ParamBindings []EngineParamBindingV2 `json:"param_bindings"`
 }
 
+// TeamSlimV2 defines model for TeamSlimV2.
+type TeamSlimV2 struct {
+	// Id Unique ID of the team
+	Id string `json:"id"`
+
+	// Name Name of the team
+	Name string `json:"name"`
+}
+
 // TeamV3 defines model for TeamV3.
 type TeamV3 struct {
 	CatalogEntry CatalogEntrySlimV3V3 `json:"catalog_entry"`
@@ -7867,18 +8034,27 @@ type TelemetryDataSourceV2 struct {
 
 	// UpdatedAt When this data source was last updated
 	UpdatedAt time.Time `json:"updated_at"`
+
+	// Version Upstream tool version captured at probe time (e.g. "8.5.27" for Grafana, "2.9.4" for Loki). Empty for SaaS providers and until the first successful probe.
+	Version *string `json:"version,omitempty"`
 }
 
 // TelemetryDatadogUpdateConfigV2 Datadog-specific credential updates
 type TelemetryDatadogUpdateConfigV2 struct {
 	// ApiKey New Datadog API key
 	ApiKey *string `json:"api_key,omitempty"`
+
+	// AppKey New Datadog Application key
+	AppKey *string `json:"app_key,omitempty"`
 }
 
-// TelemetryGrafanaUpdateConfigV2 Grafana-specific credential updates
+// TelemetryGrafanaUpdateConfigV2 Grafana-specific credential and endpoint updates
 type TelemetryGrafanaUpdateConfigV2 struct {
 	// ApiKey New Grafana service account token
 	ApiKey *string `json:"api_key,omitempty"`
+
+	// ApiUrl Grafana API URL (without protocol)
+	ApiUrl *string `json:"api_url,omitempty"`
 }
 
 // TelemetryUpdateDataSourcePayloadV2 defines model for TelemetryUpdateDataSourcePayloadV2.
@@ -7886,7 +8062,7 @@ type TelemetryUpdateDataSourcePayloadV2 struct {
 	// DatadogConfig Datadog-specific credential updates
 	DatadogConfig *TelemetryDatadogUpdateConfigV2 `json:"datadog_config,omitempty"`
 
-	// GrafanaConfig Grafana-specific credential updates
+	// GrafanaConfig Grafana-specific credential and endpoint updates
 	GrafanaConfig *TelemetryGrafanaUpdateConfigV2 `json:"grafana_config,omitempty"`
 
 	// Name Updated display name
@@ -8397,6 +8573,18 @@ type ActionsV1ListParams struct {
 // ActionsV1ListParamsIncidentMode defines parameters for ActionsV1List.
 type ActionsV1ListParamsIncidentMode string
 
+// AlertNotesV1ListParams defines parameters for AlertNotesV1List.
+type AlertNotesV1ListParams struct {
+	// AlertId ID of the alert to list notes for
+	AlertId string `form:"alert_id" json:"alert_id"`
+
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An record's ID. This endpoint will return a list of records after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
 // APIKeysV1ListParams defines parameters for APIKeysV1List.
 type APIKeysV1ListParams struct {
 	// PageSize Integer number of records to return
@@ -8506,6 +8694,9 @@ type ActionsV2ListParamsIncidentMode string
 type AlertEventsV2CreateHTTPParams struct {
 	// Token Token used to authenticate the request, generated when configuring the alert source. Will be consumed via a URL query string parameter
 	Token *string `form:"token,omitempty" json:"token,omitempty"`
+
+	// Authorization Whatever is provided in the Authorization header. We support either Basic or Bearer authorization with the secret provided on the alert source.
+	Authorization *string `json:"authorization,omitempty"`
 }
 
 // AlertRoutesV2ListParams defines parameters for AlertRoutesV2List.
@@ -8614,6 +8805,9 @@ type FollowUpsV2ListParams struct {
 
 	// IncidentMode Filter to follow-ups from incidents of the given mode. If not set, only follow-ups from `standard` and `retrospective` incidents are returned
 	IncidentMode *FollowUpsV2ListParamsIncidentMode `form:"incident_mode,omitempty" json:"incident_mode,omitempty"`
+
+	// AssigneeTeamId Filter follow-ups that are assigned to the given team
+	AssigneeTeamId *string `form:"assignee_team_id,omitempty" json:"assignee_team_id,omitempty"`
 }
 
 // FollowUpsV2ListParamsIncidentMode defines parameters for FollowUpsV2List.
@@ -8623,12 +8817,18 @@ type FollowUpsV2ListParamsIncidentMode string
 type HeartbeatV2Ping1Params struct {
 	// Token Token provided via the token query parameter
 	Token *string `form:"token,omitempty" json:"token,omitempty"`
+
+	// Authorization Bearer token provided via the Authorization header
+	Authorization *string `json:"authorization,omitempty"`
 }
 
 // HeartbeatV2PingParams defines parameters for HeartbeatV2Ping.
 type HeartbeatV2PingParams struct {
 	// Token Token provided via the token query parameter
 	Token *string `form:"token,omitempty" json:"token,omitempty"`
+
+	// Authorization Bearer token provided via the Authorization header
+	Authorization *string `json:"authorization,omitempty"`
 }
 
 // AlertsV2ListIncidentAlertsParams defines parameters for AlertsV2ListIncidentAlerts.
@@ -8861,6 +9061,12 @@ type TeamsV3ListParams struct {
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
+// AlertNotesV1CreateJSONRequestBody defines body for AlertNotesV1Create for application/json ContentType.
+type AlertNotesV1CreateJSONRequestBody = AlertNotesCreatePayloadV1
+
+// AlertNotesV1UpdateJSONRequestBody defines body for AlertNotesV1Update for application/json ContentType.
+type AlertNotesV1UpdateJSONRequestBody = AlertNotesUpdatePayloadV1
+
 // APIKeysV1CreateJSONRequestBody defines body for APIKeysV1Create for application/json ContentType.
 type APIKeysV1CreateJSONRequestBody = APIKeysCreatePayloadV1
 
@@ -9011,6 +9217,9 @@ type SchedulesV2CreateJSONRequestBody = SchedulesCreatePayloadV2
 // SchedulesV2UpdateJSONRequestBody defines body for SchedulesV2Update for application/json ContentType.
 type SchedulesV2UpdateJSONRequestBody = SchedulesUpdatePayloadV2
 
+// SchedulesV2PreviewScheduleEntriesJSONRequestBody defines body for SchedulesV2PreviewScheduleEntries for application/json ContentType.
+type SchedulesV2PreviewScheduleEntriesJSONRequestBody = SchedulesPreviewScheduleEntriesPayloadV2
+
 // SchedulesV2CreateScheduleReplicaJSONRequestBody defines body for SchedulesV2CreateScheduleReplica for application/json ContentType.
 type SchedulesV2CreateScheduleReplicaJSONRequestBody = SchedulesCreateScheduleReplicaPayloadV2
 
@@ -9143,6 +9352,25 @@ type ClientInterface interface {
 
 	// ActionsV1Show request
 	ActionsV1Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertNotesV1List request
+	AlertNotesV1List(ctx context.Context, params *AlertNotesV1ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertNotesV1CreateWithBody request with any body
+	AlertNotesV1CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	AlertNotesV1Create(ctx context.Context, body AlertNotesV1CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertNotesV1Delete request
+	AlertNotesV1Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertNotesV1Show request
+	AlertNotesV1Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertNotesV1UpdateWithBody request with any body
+	AlertNotesV1UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	AlertNotesV1Update(ctx context.Context, id string, body AlertNotesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// APIKeysV1List request
 	APIKeysV1List(ctx context.Context, params *APIKeysV1ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -9652,6 +9880,11 @@ type ClientInterface interface {
 
 	SchedulesV2Update(ctx context.Context, id string, body SchedulesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// SchedulesV2PreviewScheduleEntriesWithBody request with any body
+	SchedulesV2PreviewScheduleEntriesWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SchedulesV2PreviewScheduleEntries(ctx context.Context, id string, body SchedulesV2PreviewScheduleEntriesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// SchedulesV2ListScheduleReplicas request
 	SchedulesV2ListScheduleReplicas(ctx context.Context, scheduleId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -9847,6 +10080,90 @@ func (c *Client) ActionsV1List(ctx context.Context, params *ActionsV1ListParams,
 
 func (c *Client) ActionsV1Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewActionsV1ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertNotesV1List(ctx context.Context, params *AlertNotesV1ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertNotesV1ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertNotesV1CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertNotesV1CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertNotesV1Create(ctx context.Context, body AlertNotesV1CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertNotesV1CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertNotesV1Delete(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertNotesV1DeleteRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertNotesV1Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertNotesV1ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertNotesV1UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertNotesV1UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AlertNotesV1Update(ctx context.Context, id string, body AlertNotesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertNotesV1UpdateRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -12089,6 +12406,30 @@ func (c *Client) SchedulesV2Update(ctx context.Context, id string, body Schedule
 	return c.Client.Do(req)
 }
 
+func (c *Client) SchedulesV2PreviewScheduleEntriesWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2PreviewScheduleEntriesRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV2PreviewScheduleEntries(ctx context.Context, id string, body SchedulesV2PreviewScheduleEntriesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2PreviewScheduleEntriesRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) SchedulesV2ListScheduleReplicas(ctx context.Context, scheduleId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSchedulesV2ListScheduleReplicasRequest(c.Server, scheduleId)
 	if err != nil {
@@ -12992,6 +13333,238 @@ func NewActionsV1ShowRequest(server string, id string) (*http.Request, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewAlertNotesV1ListRequest generates requests for AlertNotesV1List
+func NewAlertNotesV1ListRequest(server string, params *AlertNotesV1ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/alert_notes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "alert_id", runtime.ParamLocationQuery, params.AlertId); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertNotesV1CreateRequest calls the generic AlertNotesV1Create builder with application/json body
+func NewAlertNotesV1CreateRequest(server string, body AlertNotesV1CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertNotesV1CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewAlertNotesV1CreateRequestWithBody generates requests for AlertNotesV1Create with any type of body
+func NewAlertNotesV1CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/alert_notes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAlertNotesV1DeleteRequest generates requests for AlertNotesV1Delete
+func NewAlertNotesV1DeleteRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/alert_notes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertNotesV1ShowRequest generates requests for AlertNotesV1Show
+func NewAlertNotesV1ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/alert_notes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertNotesV1UpdateRequest calls the generic AlertNotesV1Update builder with application/json body
+func NewAlertNotesV1UpdateRequest(server string, id string, body AlertNotesV1UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertNotesV1UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewAlertNotesV1UpdateRequestWithBody generates requests for AlertNotesV1Update with any type of body
+func NewAlertNotesV1UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/alert_notes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -15735,6 +16308,21 @@ func NewAlertEventsV2CreateHTTPRequestWithBody(server string, alertSourceConfigI
 
 	req.Header.Add("Content-Type", contentType)
 
+	if params != nil {
+
+		if params.Authorization != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithLocation("simple", false, "authorization", runtime.ParamLocationHeader, *params.Authorization)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("authorization", headerParam0)
+		}
+
+	}
+
 	return req, nil
 }
 
@@ -17677,6 +18265,22 @@ func NewFollowUpsV2ListRequest(server string, params *FollowUpsV2ListParams) (*h
 
 		}
 
+		if params.AssigneeTeamId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "assignee_team_id", runtime.ParamLocationQuery, *params.AssigneeTeamId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
 		queryURL.RawQuery = queryValues.Encode()
 	}
 
@@ -17775,6 +18379,21 @@ func NewHeartbeatV2Ping1Request(server string, alertSourceConfigId string, param
 		return nil, err
 	}
 
+	if params != nil {
+
+		if params.Authorization != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithLocation("simple", false, "authorization", runtime.ParamLocationHeader, *params.Authorization)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("authorization", headerParam0)
+		}
+
+	}
+
 	return req, nil
 }
 
@@ -17829,6 +18448,21 @@ func NewHeartbeatV2PingRequest(server string, alertSourceConfigId string, params
 	req, err := http.NewRequest("POST", queryURL.String(), nil)
 	if err != nil {
 		return nil, err
+	}
+
+	if params != nil {
+
+		if params.Authorization != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithLocation("simple", false, "authorization", runtime.ParamLocationHeader, *params.Authorization)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("authorization", headerParam0)
+		}
+
 	}
 
 	return req, nil
@@ -19248,6 +19882,53 @@ func NewSchedulesV2UpdateRequestWithBody(server string, id string, contentType s
 	}
 
 	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewSchedulesV2PreviewScheduleEntriesRequest calls the generic SchedulesV2PreviewScheduleEntries builder with application/json body
+func NewSchedulesV2PreviewScheduleEntriesRequest(server string, id string, body SchedulesV2PreviewScheduleEntriesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSchedulesV2PreviewScheduleEntriesRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewSchedulesV2PreviewScheduleEntriesRequestWithBody generates requests for SchedulesV2PreviewScheduleEntries with any type of body
+func NewSchedulesV2PreviewScheduleEntriesRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedules/%s/actions/preview_entries", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -21645,6 +22326,25 @@ type ClientWithResponsesInterface interface {
 	// ActionsV1ShowWithResponse request
 	ActionsV1ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*ActionsV1ShowResponse, error)
 
+	// AlertNotesV1ListWithResponse request
+	AlertNotesV1ListWithResponse(ctx context.Context, params *AlertNotesV1ListParams, reqEditors ...RequestEditorFn) (*AlertNotesV1ListResponse, error)
+
+	// AlertNotesV1CreateWithBodyWithResponse request with any body
+	AlertNotesV1CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertNotesV1CreateResponse, error)
+
+	AlertNotesV1CreateWithResponse(ctx context.Context, body AlertNotesV1CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertNotesV1CreateResponse, error)
+
+	// AlertNotesV1DeleteWithResponse request
+	AlertNotesV1DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertNotesV1DeleteResponse, error)
+
+	// AlertNotesV1ShowWithResponse request
+	AlertNotesV1ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertNotesV1ShowResponse, error)
+
+	// AlertNotesV1UpdateWithBodyWithResponse request with any body
+	AlertNotesV1UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertNotesV1UpdateResponse, error)
+
+	AlertNotesV1UpdateWithResponse(ctx context.Context, id string, body AlertNotesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertNotesV1UpdateResponse, error)
+
 	// APIKeysV1ListWithResponse request
 	APIKeysV1ListWithResponse(ctx context.Context, params *APIKeysV1ListParams, reqEditors ...RequestEditorFn) (*APIKeysV1ListResponse, error)
 
@@ -22153,6 +22853,11 @@ type ClientWithResponsesInterface interface {
 
 	SchedulesV2UpdateWithResponse(ctx context.Context, id string, body SchedulesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateResponse, error)
 
+	// SchedulesV2PreviewScheduleEntriesWithBodyWithResponse request with any body
+	SchedulesV2PreviewScheduleEntriesWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2PreviewScheduleEntriesResponse, error)
+
+	SchedulesV2PreviewScheduleEntriesWithResponse(ctx context.Context, id string, body SchedulesV2PreviewScheduleEntriesJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2PreviewScheduleEntriesResponse, error)
+
 	// SchedulesV2ListScheduleReplicasWithResponse request
 	SchedulesV2ListScheduleReplicasWithResponse(ctx context.Context, scheduleId string, reqEditors ...RequestEditorFn) (*SchedulesV2ListScheduleReplicasResponse, error)
 
@@ -22372,6 +23077,115 @@ func (r ActionsV1ShowResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r ActionsV1ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AlertNotesV1ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AlertNotesListResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertNotesV1ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertNotesV1ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AlertNotesV1CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *AlertNotesCreateResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertNotesV1CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertNotesV1CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AlertNotesV1DeleteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertNotesV1DeleteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertNotesV1DeleteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AlertNotesV1ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AlertNotesShowResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertNotesV1ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertNotesV1ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AlertNotesV1UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AlertNotesUpdateResultV1
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertNotesV1UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertNotesV1UpdateResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -25349,6 +26163,28 @@ func (r SchedulesV2UpdateResponse) StatusCode() int {
 	return 0
 }
 
+type SchedulesV2PreviewScheduleEntriesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SchedulesPreviewScheduleEntriesResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2PreviewScheduleEntriesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2PreviewScheduleEntriesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type SchedulesV2ListScheduleReplicasResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -26414,6 +27250,67 @@ func (c *ClientWithResponses) ActionsV1ShowWithResponse(ctx context.Context, id 
 		return nil, err
 	}
 	return ParseActionsV1ShowResponse(rsp)
+}
+
+// AlertNotesV1ListWithResponse request returning *AlertNotesV1ListResponse
+func (c *ClientWithResponses) AlertNotesV1ListWithResponse(ctx context.Context, params *AlertNotesV1ListParams, reqEditors ...RequestEditorFn) (*AlertNotesV1ListResponse, error) {
+	rsp, err := c.AlertNotesV1List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertNotesV1ListResponse(rsp)
+}
+
+// AlertNotesV1CreateWithBodyWithResponse request with arbitrary body returning *AlertNotesV1CreateResponse
+func (c *ClientWithResponses) AlertNotesV1CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertNotesV1CreateResponse, error) {
+	rsp, err := c.AlertNotesV1CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertNotesV1CreateResponse(rsp)
+}
+
+func (c *ClientWithResponses) AlertNotesV1CreateWithResponse(ctx context.Context, body AlertNotesV1CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertNotesV1CreateResponse, error) {
+	rsp, err := c.AlertNotesV1Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertNotesV1CreateResponse(rsp)
+}
+
+// AlertNotesV1DeleteWithResponse request returning *AlertNotesV1DeleteResponse
+func (c *ClientWithResponses) AlertNotesV1DeleteWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertNotesV1DeleteResponse, error) {
+	rsp, err := c.AlertNotesV1Delete(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertNotesV1DeleteResponse(rsp)
+}
+
+// AlertNotesV1ShowWithResponse request returning *AlertNotesV1ShowResponse
+func (c *ClientWithResponses) AlertNotesV1ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertNotesV1ShowResponse, error) {
+	rsp, err := c.AlertNotesV1Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertNotesV1ShowResponse(rsp)
+}
+
+// AlertNotesV1UpdateWithBodyWithResponse request with arbitrary body returning *AlertNotesV1UpdateResponse
+func (c *ClientWithResponses) AlertNotesV1UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertNotesV1UpdateResponse, error) {
+	rsp, err := c.AlertNotesV1UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertNotesV1UpdateResponse(rsp)
+}
+
+func (c *ClientWithResponses) AlertNotesV1UpdateWithResponse(ctx context.Context, id string, body AlertNotesV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertNotesV1UpdateResponse, error) {
+	rsp, err := c.AlertNotesV1Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertNotesV1UpdateResponse(rsp)
 }
 
 // APIKeysV1ListWithResponse request returning *APIKeysV1ListResponse
@@ -28040,6 +28937,23 @@ func (c *ClientWithResponses) SchedulesV2UpdateWithResponse(ctx context.Context,
 	return ParseSchedulesV2UpdateResponse(rsp)
 }
 
+// SchedulesV2PreviewScheduleEntriesWithBodyWithResponse request with arbitrary body returning *SchedulesV2PreviewScheduleEntriesResponse
+func (c *ClientWithResponses) SchedulesV2PreviewScheduleEntriesWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2PreviewScheduleEntriesResponse, error) {
+	rsp, err := c.SchedulesV2PreviewScheduleEntriesWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2PreviewScheduleEntriesResponse(rsp)
+}
+
+func (c *ClientWithResponses) SchedulesV2PreviewScheduleEntriesWithResponse(ctx context.Context, id string, body SchedulesV2PreviewScheduleEntriesJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2PreviewScheduleEntriesResponse, error) {
+	rsp, err := c.SchedulesV2PreviewScheduleEntries(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2PreviewScheduleEntriesResponse(rsp)
+}
+
 // SchedulesV2ListScheduleReplicasWithResponse request returning *SchedulesV2ListScheduleReplicasResponse
 func (c *ClientWithResponses) SchedulesV2ListScheduleReplicasWithResponse(ctx context.Context, scheduleId string, reqEditors ...RequestEditorFn) (*SchedulesV2ListScheduleReplicasResponse, error) {
 	rsp, err := c.SchedulesV2ListScheduleReplicas(ctx, scheduleId, reqEditors...)
@@ -28658,6 +29572,126 @@ func ParseActionsV1ShowResponse(rsp *http.Response) (*ActionsV1ShowResponse, err
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ActionsShowResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertNotesV1ListResponse parses an HTTP response from a AlertNotesV1ListWithResponse call
+func ParseAlertNotesV1ListResponse(rsp *http.Response) (*AlertNotesV1ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertNotesV1ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertNotesListResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertNotesV1CreateResponse parses an HTTP response from a AlertNotesV1CreateWithResponse call
+func ParseAlertNotesV1CreateResponse(rsp *http.Response) (*AlertNotesV1CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertNotesV1CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest AlertNotesCreateResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertNotesV1DeleteResponse parses an HTTP response from a AlertNotesV1DeleteWithResponse call
+func ParseAlertNotesV1DeleteResponse(rsp *http.Response) (*AlertNotesV1DeleteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertNotesV1DeleteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseAlertNotesV1ShowResponse parses an HTTP response from a AlertNotesV1ShowWithResponse call
+func ParseAlertNotesV1ShowResponse(rsp *http.Response) (*AlertNotesV1ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertNotesV1ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertNotesShowResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertNotesV1UpdateResponse parses an HTTP response from a AlertNotesV1UpdateWithResponse call
+func ParseAlertNotesV1UpdateResponse(rsp *http.Response) (*AlertNotesV1UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertNotesV1UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertNotesUpdateResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -31984,6 +33018,32 @@ func ParseSchedulesV2UpdateResponse(rsp *http.Response) (*SchedulesV2UpdateRespo
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest SchedulesUpdateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2PreviewScheduleEntriesResponse parses an HTTP response from a SchedulesV2PreviewScheduleEntriesWithResponse call
+func ParseSchedulesV2PreviewScheduleEntriesResponse(rsp *http.Response) (*SchedulesV2PreviewScheduleEntriesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2PreviewScheduleEntriesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SchedulesPreviewScheduleEntriesResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

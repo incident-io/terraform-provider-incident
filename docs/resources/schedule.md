@@ -150,14 +150,14 @@ Required:
 
 Required:
 
-- `handover_start_at` (String) Defines the next moment we'll trigger a handover
-- `handovers` (Attributes List) Defines the handover intervals for this rota, in order they should apply (see [below for nested schema](#nestedatt--rotations--versions--handovers))
+- `handover_start_at` (String) Determines when shifts change hands and who takes them: the first user in `users` comes on shift at this time, handing over to the next user after each `handovers` interval, cycling through the list — for example, weekly handovers from a Monday 09:00 give week-long shifts that change hands on Mondays at 09:00.
+- `handovers` (Attributes List) The cadence shifts hand over on. With more than one entry, the intervals apply in turn — for example, one day then three days produces alternating one-day and three-day shifts. (see [below for nested schema](#nestedatt--rotations--versions--handovers))
 - `layers` (Attributes List) Controls how many people are on-call concurrently (see [below for nested schema](#nestedatt--rotations--versions--layers))
 - `users` (List of String) The incident.io ID of a user
 
 Optional:
 
-- `effective_from` (String) When this rotation config will be effective from
+- `effective_from` (String) When this version of the rotation takes effect. A rotation can appear multiple times in `rotations` with the same `id`, scheduling changes ahead of time: each version applies from its `effective_from` until the next version's. A rotation's first version has no `effective_from`.
 - `working_intervals` (Attributes List) Optional restrictions that define when to schedule people for this rota (see [below for nested schema](#nestedatt--rotations--versions--working_intervals))
 
 <a id="nestedatt--rotations--versions--handovers"></a>

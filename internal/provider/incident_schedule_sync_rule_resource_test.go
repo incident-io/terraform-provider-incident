@@ -76,6 +76,40 @@ func TestAccIncidentScheduleSyncRuleResource_InvalidImportID(t *testing.T) {
 	})
 }
 
+// TestAccIncidentScheduleSyncRuleResource_Rotation tests creating a sync rule
+// scoped to a single rotation.
+//
+// NOTE: This test requires Slack usergroups:write scope, which is not available
+// in CI. Set TF_ACC_SLACK_USER_GROUPS=1 to run this test locally with a
+// workspace that has the scope.
+func TestAccIncidentScheduleSyncRuleResource_Rotation(t *testing.T) {
+	if os.Getenv("TF_ACC_SLACK_USER_GROUPS") == "" {
+		t.Skip("TF_ACC_SLACK_USER_GROUPS is not set: skipping test that requires Slack usergroups:write scope")
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create scoped to the "primary" rotation.
+			{
+				Config: testAccScheduleSyncRuleResourceConfigWithRotation("primary"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_schedule_sync_rule.test", "rotation_id", "primary"),
+					resource.TestCheckResourceAttr("incident_schedule_sync_rule.test", "sync_type", "on_call"),
+				),
+			},
+			// Import round-trips the rotation scope.
+			{
+				ResourceName:      "incident_schedule_sync_rule.test",
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateIdFunc: importScheduleSyncRuleStateIDFunc("incident_schedule_sync_rule.test"),
+			},
+		},
+	})
+}
+
 func testAccScheduleSyncRuleResourceConfig(syncType string) string {
 	return testRunTemplate("incident_schedule_sync_rule", `
 resource "incident_schedule" "test" {
@@ -120,6 +154,54 @@ resource "incident_schedule_sync_rule" "test" {
 		SyncType string
 	}{
 		SyncType: syncType,
+	})
+}
+
+func testAccScheduleSyncRuleResourceConfigWithRotation(rotationID string) string {
+	return testRunTemplate("incident_schedule_sync_rule", `
+resource "incident_schedule" "test" {
+  name     = "Test Schedule for Sync Rule"
+  timezone = "Europe/London"
+
+  rotations = [{
+    id   = "primary"
+    name = "Primary"
+
+    versions = [{
+      handover_start_at = "2024-05-01T12:00:00Z"
+      users             = []
+      layers = [{
+        id   = "primary"
+        name = "Primary"
+      }]
+      handovers = [{
+        interval_type = "daily"
+        interval      = 1
+      }]
+    }]
+  }]
+}
+
+resource "incident_schedule_sync_target" "test" {
+  add_bot_to_group = true
+
+  new_slack_user_group = {
+    name        = "Test Sync Rule Rotation Target"
+    handle      = "test-sync-rule-rotation-target"
+    description = "Target for testing rotation-scoped schedule sync rules"
+  }
+}
+
+resource "incident_schedule_sync_rule" "test" {
+  schedule_id             = incident_schedule.test.id
+  schedule_sync_target_id = incident_schedule_sync_target.test.id
+  sync_type               = "on_call"
+  rotation_id             = {{ quote .RotationID }}
+}
+`, struct {
+		RotationID string
+	}{
+		RotationID: rotationID,
 	})
 }
 
