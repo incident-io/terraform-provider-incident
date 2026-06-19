@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.40.0
+
 - Add an optional `rotation_id` to `incident_schedule_sync_rule`, scoping a sync rule to a single rotation on the schedule. Omit it to sync all rotations (the previous behaviour); to feed a Slack user group from several rotations, create one rule per rotation pointing at the same target.
 - Validate at plan time that `http_custom_options` is only set when `source_type = "http_custom"` (and is required for it). Previously these options were accepted but silently dropped by the API for other source types — including the legacy `http` source — which surfaced as a `Provider produced inconsistent result after apply` error.
 
