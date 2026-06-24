@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add the `incident_alert_route_v3` resource, supporting the v3 alert routes API. The existing `incident_alert_route` resource (v2 API) is unchanged, so this is an additive, non-breaking change. v3 moves grouping into a dedicated, required `grouping_config` (with `enabled`, `group_keys`, `window_seconds`, and a new `window_type` of `rolling`/`fixed`); collapses `channel_config` and the top-level `message_template` into a required `message_config` with `destinations`; nests the incident template under `incident_config.template`; adds an optional `when_alert_joins_group` to `escalation_config`; and drops the incident template's `workspace` binding. To migrate, switch the resource type and restructure your configuration accordingly.
+
 ## v5.40.0
 
 - Add an optional `rotation_id` to `incident_schedule_sync_rule`, scoping a sync rule to a single rotation on the schedule. Omit it to sync all rotations (the previous behaviour); to feed a Slack user group from several rotations, create one rule per rotation pointing at the same target.
