@@ -525,8 +525,11 @@ func TestAccAlertSourceResource_ExpressionOrderingStable(t *testing.T) {
 }
 
 // testAccAlertSourceResourceConfigManyExpressions defines an alert source with
-// several parse expressions plus a branches expression carrying an else_branch,
-// so the API has multiple expressions it may reorder.
+// several parse expressions, so the API has multiple expressions it may
+// reorder. Ordering reconciliation is independent of else_branch/branches, so
+// we use the simple parse shape that the API accepts on apply (mirroring the
+// Issue342 test); the else_branch validate path is covered separately by the
+// PlanOnly TestAccAlertSourceResource_MixedElseBranchExpressions.
 func testAccAlertSourceResourceConfigManyExpressions() string {
 	return fmt.Sprintf(`
 resource "incident_alert_source" "ordering" {
@@ -570,25 +573,9 @@ resource "incident_alert_source" "ordering" {
       {
         label          = "Delta"
         reference      = "delta"
-        root_reference = "."
-        else_branch = {
-          result = { value = { literal = "fallback" } }
-        }
+        root_reference = "payload"
         operations = [
-          {
-            operation_type = "branches"
-            branches = {
-              returns = { type = "String", array = false }
-              branches = [
-                {
-                  condition_groups = [
-                    { conditions = [{ subject = "payload.title", operation = "is_set", param_bindings = [] }] }
-                  ]
-                  result = { value = { literal = "set" } }
-                }
-              ]
-            }
-          }
+          { operation_type = "parse", parse = { source = "$.delta", returns = { type = "String", array = false } } }
         ]
       },
     ]
