@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Fix `terraform validate` failing with `element types must all match for conversion to set` when the `expressions` attribute (on `incident_alert_source`, `incident_alert_route` and `incident_workflow`) contains a mix of expressions with and without an `else_branch`. This is the shape the dashboard's "Export to Terraform" feature produces. `expressions` is now a list rather than a set, which tolerates the heterogeneous elements without needing placeholder `else_branch` workarounds or `ignore_changes`.
+
 ## v5.40.0
 
 - Add an optional `rotation_id` to `incident_schedule_sync_rule`, scoping a sync rule to a single rotation on the schedule. Omit it to sync all rotations (the previous behaviour); to feed a Slack user group from several rotations, create one rule per rotation pointing at the same target.

@@ -361,8 +361,16 @@ func ReturnsAttribute() schema.SingleNestedAttribute {
 	}
 }
 
-func ExpressionsAttribute() schema.SetNestedAttribute {
-	return schema.SetNestedAttribute{
+// ExpressionsAttribute is deliberately a ListNestedAttribute rather than a
+// SetNestedAttribute. The element object has an optional `else_branch`, and on
+// the Terraform versions this provider targets (1.2.x) a config with a mix of
+// expressions — some with `else_branch`, some without — fails at validate time
+// with "element types must all match for conversion to set", because the
+// tuple→set conversion does not honour optional attributes. This is the exact
+// shape the dashboard's "Export to Terraform" feature emits. Lists are decoded
+// element-by-element and so tolerate the heterogeneous objects (RESP-17992).
+func ExpressionsAttribute() schema.ListNestedAttribute {
+	return schema.ListNestedAttribute{
 		MarkdownDescription: "The expressions to be prepared for use by steps and conditions",
 		Required:            true,
 		NestedObject: schema.NestedAttributeObject{

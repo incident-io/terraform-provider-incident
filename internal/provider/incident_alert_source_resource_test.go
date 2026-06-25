@@ -455,6 +455,128 @@ resource "incident_alert_source" "test" {
 	})
 }
 
+// TestAccAlertSourceResource_MixedElseBranchExpressions is a regression test
+// for RESP-17992.
+//
+// The shared `expressions` attribute (on incident_alert_source,
+// incident_alert_route and incident_workflow) used to be a SetNestedAttribute
+// whose element object has an optional `else_branch`. When a config contained a
+// mix of expressions — some with `else_branch` and some without — Terraform
+// failed at validate time, before any API call, with:
+//
+//	Inappropriate value for attribute "template": element types must all match
+//	for conversion to set.
+//
+// This is exactly the shape the dashboard's "Export to Terraform" feature
+// produces (parse expressions have no `else_branch`; a branches expression has
+// one). On Terraform 1.2.x (the version this provider targets) the tuple→set
+// conversion does not honour the optional attribute, so the heterogeneous
+// elements are rejected. Modelling `expressions` as a ListNestedAttribute
+// avoids the lossy set conversion and lets the mixed config validate.
+//
+// This step is PlanOnly: the failure happens during config validation, so it
+// reproduces without any API credentials or network access (a create plan does
+// not call the API). It does still require TF_ACC=1 to drive Terraform.
+func TestAccAlertSourceResource_MixedElseBranchExpressions(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config:             testAccAlertSourceResourceConfigMixedElseBranch(),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+		},
+	})
+}
+
+// testAccAlertSourceResourceConfigMixedElseBranch mirrors the dashboard's
+// "Export to Terraform" output: a parse expression with no else_branch
+// alongside a branches expression that carries one.
+func testAccAlertSourceResourceConfigMixedElseBranch() string {
+	return fmt.Sprintf(`
+resource "incident_alert_source" "mixed_else_branch" {
+  name        = "mixed-else-branch-test"
+  source_type = "http"
+
+  template = {
+    title = {
+      literal = %[1]q
+    }
+    description = {
+      literal = %[2]q
+    }
+    attributes = []
+
+    expressions = [
+      # Parse expression — NO else_branch.
+      {
+        label          = "Environment"
+        reference      = "environment"
+        root_reference = "payload"
+        operations = [
+          {
+            operation_type = "parse"
+            parse = {
+              source = "$.environment"
+              returns = {
+                type  = "String"
+                array = false
+              }
+            }
+          }
+        ]
+      },
+      # Branches expression — HAS else_branch.
+      {
+        label          = "Priority"
+        reference      = "priority"
+        root_reference = "."
+        else_branch = {
+          result = {
+            value = {
+              literal = "default-priority"
+            }
+          }
+        }
+        operations = [
+          {
+            operation_type = "branches"
+            branches = {
+              returns = {
+                type  = "String"
+                array = false
+              }
+              branches = [
+                {
+                  condition_groups = [
+                    {
+                      conditions = [
+                        {
+                          subject   = "payload.title"
+                          operation = "is_set"
+                          param_bindings = []
+                        }
+                      ]
+                    }
+                  ]
+                  result = {
+                    value = {
+                      literal = "high-priority"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+    ]
+  }
+}
+`, testAlertSourceTitle, testAlertSourceDescription)
+}
+
 func testAccAlertSourceResourceConfigInvalidBranches() string {
 	return fmt.Sprintf(`
 resource "incident_alert_source" "invalid_branches" {
