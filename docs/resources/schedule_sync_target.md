@@ -36,17 +36,17 @@ resource "incident_schedule_sync_target" "existing_group" {
 
 ### Required
 
-- `add_bot_to_group` (Boolean) Whether the incident.io bot should be added to the group
+- `add_bot_to_group` (Boolean) Whether the incident.io bot should be added to the group as a member. This is needed for some Slack configurations to let us manage the group's membership.
 
 ### Optional
 
 - `new_slack_user_group` (Attributes) Configuration for creating a new Slack user group. Mutually exclusive with `slack_user_group_id`. (see [below for nested schema](#nestedatt--new_slack_user_group))
-- `slack_user_group_id` (String) Slack ID for the user group synced to
+- `slack_user_group_id` (String) Slack ID of the user group whose membership is kept in sync. This is the Slack-assigned group ID (starting with 'S'), not the @-handle.
 
 ### Read-Only
 
 - `id` (String) Unique identifier of the sync target
-- `slack_team_id` (String) Slack team ID for the user group
+- `slack_team_id` (String) Slack team (workspace) ID the user group lives in. On Enterprise Grid this identifies which workspace within the org the group belongs to.
 
 <a id="nestedatt--new_slack_user_group"></a>
 ### Nested Schema for `new_slack_user_group`
