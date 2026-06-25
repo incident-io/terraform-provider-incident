@@ -3,6 +3,7 @@ package provider
 import (
 	"bytes"
 	"fmt"
+	"regexp"
 	"testing"
 	"text/template"
 
@@ -136,6 +137,39 @@ func testAccIncidentCatalogTypeAttributeResourceConfig(attribute client.CatalogT
 	}
 
 	return buf.String()
+}
+
+func TestAccIncidentCatalogTypeAttributeResource_InvalidType(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Attempt to create with invalid type
+			{
+				Config: testAccIncidentCatalogTypeAttributeResourceConfig(client.CatalogTypeAttributeV2{
+					Name: "Invalid",
+					Type: "DateTime",
+				}),
+				ExpectError: regexp.MustCompile("Invalid Catalog Type Attribute Type"),
+			},
+			// Another invalid type - lowercase
+			{
+				Config: testAccIncidentCatalogTypeAttributeResourceConfig(client.CatalogTypeAttributeV2{
+					Name: "Invalid",
+					Type: "string",
+				}),
+				ExpectError: regexp.MustCompile("Invalid Catalog Type Attribute Type"),
+			},
+			// Invalid Custom format
+			{
+				Config: testAccIncidentCatalogTypeAttributeResourceConfig(client.CatalogTypeAttributeV2{
+					Name: "Invalid",
+					Type: "Custom[Service]",
+				}),
+				ExpectError: regexp.MustCompile("Invalid Catalog Type Attribute Type"),
+			},
+		},
+	})
 }
 
 func TestAttributeToPayload_PreservesModes(t *testing.T) {
