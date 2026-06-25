@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Fix panic when importing or refreshing an `incident_escalation_path` if the API returns an unexpected successful response (e.g. a 2xx without the expected JSON body). The provider now returns a diagnostic with the response status instead of crashing on a nil pointer dereference.
+
 ## v5.40.0
 
 - Add an optional `rotation_id` to `incident_schedule_sync_rule`, scoping a sync rule to a single rotation on the schedule. Omit it to sync all rotations (the previous behaviour); to feed a Slack user group from several rotations, create one rule per rotation pointing at the same target.

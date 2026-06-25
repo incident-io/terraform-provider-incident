@@ -687,6 +687,14 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 		return
 	}
 
+	if result.JSON201 == nil {
+		resp.Diagnostics.AddError(
+			"Client Error",
+			fmt.Sprintf("Unable to create escalation path: unexpected response from API (status %s)", result.Status()),
+		)
+		return
+	}
+
 	claimResource(ctx, r.client, result.JSON201.EscalationPath.Id, &resp.Diagnostics, client.EscalationPath, r.terraformVersion)
 
 	tflog.Trace(ctx, fmt.Sprintf("created an escalation path resource with id=%s", result.JSON201.EscalationPath.Id))
@@ -711,6 +719,14 @@ func (r *IncidentEscalationPathResource) Read(ctx context.Context, req resource.
 			return
 		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path, got error: %s", err))
+		return
+	}
+
+	if result.JSON200 == nil {
+		resp.Diagnostics.AddError(
+			"Client Error",
+			fmt.Sprintf("Unable to read escalation path: unexpected response from API (status %s)", result.Status()),
+		)
 		return
 	}
 
@@ -778,6 +794,14 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update escalation path, got error: %s", err))
+		return
+	}
+
+	if result.JSON200 == nil {
+		resp.Diagnostics.AddError(
+			"Client Error",
+			fmt.Sprintf("Unable to update escalation path: unexpected response from API (status %s)", result.Status()),
+		)
 		return
 	}
 
