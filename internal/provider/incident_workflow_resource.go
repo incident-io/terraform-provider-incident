@@ -225,7 +225,12 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created a workflow resource with id=%s", result.JSON201.Workflow.Id))
+
+	// The API doesn't preserve expression order; realign to the planned order
+	// so the (list-typed) expressions match what Terraform planned.
+	planExpressions := data.Expressions
 	data = r.buildModel(ctx, result.JSON201.Workflow)
+	data.Expressions = data.Expressions.ReorderToMatch(planExpressions)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -290,7 +295,11 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
+	// The API doesn't preserve expression order; realign to the planned order
+	// so the (list-typed) expressions match what Terraform planned.
+	planExpressions := data.Expressions
 	data = r.buildModel(ctx, result.JSON200.Workflow)
+	data.Expressions = data.Expressions.ReorderToMatch(planExpressions)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -316,7 +325,11 @@ func (r *IncidentWorkflowResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
+	// The API doesn't preserve expression order; realign to the prior state
+	// order so the (list-typed) expressions don't show a perpetual diff.
+	stateExpressions := data.Expressions
 	data = r.buildModel(ctx, result.JSON200.Workflow)
+	data.Expressions = data.Expressions.ReorderToMatch(stateExpressions)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 

@@ -538,6 +538,7 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 	// Save the planned values before overwriting with API response.
 	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
 	planEmailOptions := data.EmailOptions
+	planExpressions := planExpressionsOf(data.Template)
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
 
@@ -556,12 +557,36 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 		data.EmailOptions = planEmailOptions
 	}
 
+	// The API doesn't preserve expression order; realign to the planned order
+	// so the (list-typed) expressions match what Terraform planned.
+	reorderTemplateExpressions(data.Template, planExpressions)
+
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
 		data.Template.Title = models.IncidentEngineParamBindingValue{}
 		data.Template.Description = models.IncidentEngineParamBindingValue{}
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// planExpressionsOf returns the expressions from a template model, tolerating a
+// nil template.
+func planExpressionsOf(template *models.AlertTemplateModel) models.IncidentEngineExpressions {
+	if template == nil {
+		return nil
+	}
+	return template.Expressions
+}
+
+// reorderTemplateExpressions realigns the template's expressions to follow the
+// order of `desired`, keyed by reference. The API does not preserve expression
+// order, so without this the list-typed expressions would drift from the
+// planned/prior order.
+func reorderTemplateExpressions(template *models.AlertTemplateModel, desired models.IncidentEngineExpressions) {
+	if template == nil {
+		return
+	}
+	template.Expressions = template.Expressions.ReorderToMatch(desired)
 }
 
 func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -587,6 +612,7 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 	// Save the prior state values before overwriting with API response.
 	stateAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
 	stateEmailOptions := data.EmailOptions
+	stateExpressions := planExpressionsOf(data.Template)
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
 
@@ -602,6 +628,10 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 	if stateEmailOptions != nil && data.EmailOptions == nil {
 		data.EmailOptions = stateEmailOptions
 	}
+
+	// The API doesn't preserve expression order; realign to the prior state
+	// order so the (list-typed) expressions don't show a perpetual diff.
+	reorderTemplateExpressions(data.Template, stateExpressions)
 
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
 		data.Template.Title = models.IncidentEngineParamBindingValue{}
@@ -661,6 +691,7 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 	// Save the planned values before overwriting with API response.
 	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
 	planEmailOptions := data.EmailOptions
+	planExpressions := planExpressionsOf(data.Template)
 
 	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
 
@@ -678,6 +709,10 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 	if planEmailOptions != nil && data.EmailOptions == nil {
 		data.EmailOptions = planEmailOptions
 	}
+
+	// The API doesn't preserve expression order; realign to the planned order
+	// so the (list-typed) expressions match what Terraform planned.
+	reorderTemplateExpressions(data.Template, planExpressions)
 
 	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
 		data.Template.Title = models.IncidentEngineParamBindingValue{}

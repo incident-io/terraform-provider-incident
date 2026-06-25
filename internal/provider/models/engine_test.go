@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -76,4 +77,60 @@ func TestIncidentEngineParamBindingValue_SemanticEquality(t *testing.T) {
 	equal, diags = escaped.StringSemanticEquals(ctx, raw)
 	require.False(t, diags.HasError())
 	assert.True(t, equal, "HTML-escaped and raw literals should be semantically equal")
+}
+
+// TestIncidentEngineExpressions_ReorderToMatch covers the realignment that
+// keeps the list-typed `expressions` attribute stable even though the API does
+// not preserve the order of expressions in its responses. Without it, switching
+// `expressions` from a set to a list (needed so a mix of expressions with and
+// without an optional else_branch passes `terraform validate` — RESP-17992)
+// would resurface the ordering drift that caused the v5.21.1 revert.
+func TestIncidentEngineExpressions_ReorderToMatch(t *testing.T) {
+	expr := func(reference string) IncidentEngineExpression {
+		return IncidentEngineExpression{
+			Reference: types.StringValue(reference),
+			Label:     types.StringValue(reference),
+		}
+	}
+
+	references := func(exprs IncidentEngineExpressions) []string {
+		out := make([]string, 0, len(exprs))
+		for _, e := range exprs {
+			out = append(out, e.Reference.ValueString())
+		}
+		return out
+	}
+
+	t.Run("reorders API response to match desired order", func(t *testing.T) {
+		// Desired (planned/prior) order.
+		desired := IncidentEngineExpressions{expr("a"), expr("b"), expr("c")}
+		// API returns the same expressions in a different order.
+		api := IncidentEngineExpressions{expr("c"), expr("a"), expr("b")}
+
+		got := api.ReorderToMatch(desired)
+		assert.Equal(t, []string{"a", "b", "c"}, references(got))
+	})
+
+	t.Run("appends expressions missing from desired in API order", func(t *testing.T) {
+		desired := IncidentEngineExpressions{expr("a")}
+		api := IncidentEngineExpressions{expr("b"), expr("a"), expr("c")}
+
+		got := api.ReorderToMatch(desired)
+		// "a" first (matched), then the unmatched ones in their API order.
+		assert.Equal(t, []string{"a", "b", "c"}, references(got))
+	})
+
+	t.Run("empty desired returns API order unchanged", func(t *testing.T) {
+		api := IncidentEngineExpressions{expr("b"), expr("a")}
+
+		got := api.ReorderToMatch(IncidentEngineExpressions{})
+		assert.Equal(t, []string{"b", "a"}, references(got))
+	})
+
+	t.Run("empty API returns empty", func(t *testing.T) {
+		desired := IncidentEngineExpressions{expr("a"), expr("b")}
+
+		got := IncidentEngineExpressions{}.ReorderToMatch(desired)
+		assert.Empty(t, got)
+	})
 }

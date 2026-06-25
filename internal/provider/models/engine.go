@@ -165,6 +165,51 @@ func (IncidentEngineExpressions) FromAPI(expressions []client.ExpressionV2) Inci
 	return out
 }
 
+// ReorderToMatch returns the receiver's expressions reordered so their order
+// follows `desired`, matched by the unique `reference` field. Any expressions
+// present in the receiver but absent from `desired` are appended in their
+// original order.
+//
+// The incident.io API does not preserve the order of expressions in its
+// responses (this is why a previous list-based representation was reverted to a
+// set in v5.21.1). Now that `expressions` is modelled as a list again — a set
+// cannot represent a mix of expressions with and without the optional
+// else_branch on the Terraform versions we target (RESP-17992) — the element
+// order is significant to Terraform. Without realigning the response to the
+// planned/prior order, the API's reordered result triggers "Provider produced
+// inconsistent result after apply" and perpetual plan diffs. Reordering by the
+// stable reference key keeps the list consistent regardless of API ordering.
+func (exprs IncidentEngineExpressions) ReorderToMatch(desired IncidentEngineExpressions) IncidentEngineExpressions {
+	if len(desired) == 0 || len(exprs) == 0 {
+		return exprs
+	}
+
+	used := make([]bool, len(exprs))
+	out := make(IncidentEngineExpressions, 0, len(exprs))
+
+	for _, d := range desired {
+		key := d.Reference.ValueString()
+		for i := range exprs {
+			if used[i] {
+				continue
+			}
+			if exprs[i].Reference.ValueString() == key {
+				out = append(out, exprs[i])
+				used[i] = true
+				break
+			}
+		}
+	}
+
+	for i := range exprs {
+		if !used[i] {
+			out = append(out, exprs[i])
+		}
+	}
+
+	return out
+}
+
 type IncidentEngineExpression struct {
 	ElseBranch    *IncidentEngineElseBranch          `tfsdk:"else_branch"`
 	Label         types.String                       `tfsdk:"label"`
