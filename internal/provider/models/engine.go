@@ -179,31 +179,31 @@ func (IncidentEngineExpressions) FromAPI(expressions []client.ExpressionV2) Inci
 // planned/prior order, the API's reordered result triggers "Provider produced
 // inconsistent result after apply" and perpetual plan diffs. Reordering by the
 // stable reference key keeps the list consistent regardless of API ordering.
-func (exprs IncidentEngineExpressions) ReorderToMatch(desired IncidentEngineExpressions) IncidentEngineExpressions {
-	if len(desired) == 0 || len(exprs) == 0 {
-		return exprs
+func (expressions IncidentEngineExpressions) ReorderToMatch(desired IncidentEngineExpressions) IncidentEngineExpressions {
+	if len(desired) == 0 || len(expressions) == 0 {
+		return expressions
 	}
 
-	used := make([]bool, len(exprs))
-	out := make(IncidentEngineExpressions, 0, len(exprs))
+	used := make([]bool, len(expressions))
+	out := make(IncidentEngineExpressions, 0, len(expressions))
 
 	for _, d := range desired {
 		key := d.Reference.ValueString()
-		for i := range exprs {
+		for i := range expressions {
 			if used[i] {
 				continue
 			}
-			if exprs[i].Reference.ValueString() == key {
-				out = append(out, exprs[i])
+			if expressions[i].Reference.ValueString() == key {
+				out = append(out, expressions[i])
 				used[i] = true
 				break
 			}
 		}
 	}
 
-	for i := range exprs {
+	for i := range expressions {
 		if !used[i] {
-			out = append(out, exprs[i])
+			out = append(out, expressions[i])
 		}
 	}
 
