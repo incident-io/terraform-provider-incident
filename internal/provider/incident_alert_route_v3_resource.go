@@ -106,8 +106,16 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 						},
 					},
 					"when_alert_joins_group": schema.SingleNestedAttribute{
+						// Optional + Computed: when grouping is enabled the API always
+						// returns a default when_alert_joins_group (e.g. on_each_new_alert)
+						// even if the user didn't configure one, so we let the provider
+						// accept that computed value rather than erroring on it.
 						Optional:            true,
+						Computed:            true,
 						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV3", "when_alert_joins_group"),
+						PlanModifiers: []planmodifier.Object{
+							objectplanmodifier.UseStateForUnknown(),
+						},
 						Attributes: map[string]schema.Attribute{
 							"mode": schema.StringAttribute{
 								Required:            true,

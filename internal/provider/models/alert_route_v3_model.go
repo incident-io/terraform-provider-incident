@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
@@ -36,14 +37,60 @@ type AlertRouteV3ResourceModel struct {
 }
 
 type AlertRouteV3EscalationConfigModel struct {
-	AutoCancelEscalations types.Bool                          `tfsdk:"auto_cancel_escalations"`
-	EscalationTargets     []AlertRouteEscalationTargetModel   `tfsdk:"escalation_targets"`
-	WhenAlertJoinsGroup   *AlertRouteWhenAlertJoinsGroupModel `tfsdk:"when_alert_joins_group"`
+	AutoCancelEscalations types.Bool                        `tfsdk:"auto_cancel_escalations"`
+	EscalationTargets     []AlertRouteEscalationTargetModel `tfsdk:"escalation_targets"`
+	// when_alert_joins_group is Optional + Computed (the API defaults it when
+	// grouping is enabled), so it is modelled as types.Object to hold unknown.
+	WhenAlertJoinsGroup types.Object `tfsdk:"when_alert_joins_group"`
 }
 
 type AlertRouteWhenAlertJoinsGroupModel struct {
 	Mode               types.String `tfsdk:"mode"`
 	GracePeriodSeconds types.Int64  `tfsdk:"grace_period_seconds"`
+}
+
+func whenAlertJoinsGroupAttrTypes() map[string]attr.Type {
+	return map[string]attr.Type{
+		"mode":                 types.StringType,
+		"grace_period_seconds": types.Int64Type,
+	}
+}
+
+// whenAlertJoinsGroupFromAPI converts the API's optional when_alert_joins_group
+// to a types.Object (null when absent). Modelled as an object, rather than a
+// nested struct, so the Computed attribute can carry an unknown value.
+func whenAlertJoinsGroupFromAPI(in *client.AlertRouteAlertJoinsGroupV3) types.Object {
+	if in == nil {
+		return types.ObjectNull(whenAlertJoinsGroupAttrTypes())
+	}
+
+	gracePeriodSeconds := types.Int64Null()
+	if in.GracePeriodSeconds != nil {
+		gracePeriodSeconds = types.Int64Value(int64(*in.GracePeriodSeconds))
+	}
+
+	obj, _ := types.ObjectValue(whenAlertJoinsGroupAttrTypes(), map[string]attr.Value{
+		"mode":                 types.StringValue(string(in.Mode)),
+		"grace_period_seconds": gracePeriodSeconds,
+	})
+	return obj
+}
+
+func whenAlertJoinsGroupToPayload(ctx context.Context, obj types.Object) *client.AlertRouteAlertJoinsGroupPayloadV3 {
+	if obj.IsNull() || obj.IsUnknown() {
+		return nil
+	}
+
+	var m AlertRouteWhenAlertJoinsGroupModel
+	obj.As(ctx, &m, basetypes.ObjectAsOptions{})
+
+	payload := &client.AlertRouteAlertJoinsGroupPayloadV3{
+		Mode: client.AlertRouteAlertJoinsGroupPayloadV3Mode(m.Mode.ValueString()),
+	}
+	if !m.GracePeriodSeconds.IsNull() && !m.GracePeriodSeconds.IsUnknown() {
+		payload.GracePeriodSeconds = lo32(m.GracePeriodSeconds.ValueInt64())
+	}
+	return payload
 }
 
 type AlertRouteV3GroupingConfigModel struct {
@@ -205,16 +252,7 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 		result.EscalationConfig.EscalationTargets = append(result.EscalationConfig.EscalationTargets, model)
 	}
 
-	if apiModel.EscalationConfig.WhenAlertJoinsGroup != nil {
-		whenAlertJoinsGroup := &AlertRouteWhenAlertJoinsGroupModel{
-			Mode:               types.StringValue(string(apiModel.EscalationConfig.WhenAlertJoinsGroup.Mode)),
-			GracePeriodSeconds: types.Int64Null(),
-		}
-		if apiModel.EscalationConfig.WhenAlertJoinsGroup.GracePeriodSeconds != nil {
-			whenAlertJoinsGroup.GracePeriodSeconds = types.Int64Value(int64(*apiModel.EscalationConfig.WhenAlertJoinsGroup.GracePeriodSeconds))
-		}
-		result.EscalationConfig.WhenAlertJoinsGroup = whenAlertJoinsGroup
-	}
+	result.EscalationConfig.WhenAlertJoinsGroup = whenAlertJoinsGroupFromAPI(apiModel.EscalationConfig.WhenAlertJoinsGroup)
 
 	// Grouping config. The detail fields (group_keys, window_seconds,
 	// window_type) are optional in the API and only returned when grouping is
@@ -345,9 +383,7 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 }
 
 func incidentTemplateFromAPIV3(apiTemplate *client.AlertRouteIncidentTemplateV3, plan *AlertRouteV3IncidentTemplateModel) *AlertRouteV3IncidentTemplateModel {
-	template := &AlertRouteV3IncidentTemplateModel{
-		CustomFields: []AlertRouteCustomFieldModel{},
-	}
+	template := &AlertRouteV3IncidentTemplateModel{}
 
 	emptyListType := types.ObjectType{
 		AttrTypes: ParamBindingValueAttrTypes(),
@@ -445,6 +481,15 @@ func incidentTemplateFromAPIV3(apiTemplate *client.AlertRouteIncidentTemplateV3,
 		}
 	}
 
+	// Mirror the planned shape of the optional `custom_fields` set: the API
+	// returns none both when the attribute is omitted (null) and when it's an
+	// explicit empty list ([]). Only normalise to a non-nil empty slice when the
+	// plan carried a non-nil (explicit, possibly empty) slice; otherwise leave it
+	// nil so an omitted optional stays null and doesn't produce drift.
+	if len(template.CustomFields) == 0 && plan != nil && plan.CustomFields != nil {
+		template.CustomFields = []AlertRouteCustomFieldModel{}
+	}
+
 	return template
 }
 
@@ -521,15 +566,7 @@ func (m AlertRouteV3ResourceModel) ToCreatePayload() client.AlertRoutesCreatePay
 			payload.EscalationConfig.EscalationTargets = append(payload.EscalationConfig.EscalationTargets, escalationTarget)
 		}
 
-		if m.EscalationConfig.WhenAlertJoinsGroup != nil {
-			whenAlertJoinsGroup := &client.AlertRouteAlertJoinsGroupPayloadV3{
-				Mode: client.AlertRouteAlertJoinsGroupPayloadV3Mode(m.EscalationConfig.WhenAlertJoinsGroup.Mode.ValueString()),
-			}
-			if !m.EscalationConfig.WhenAlertJoinsGroup.GracePeriodSeconds.IsNull() {
-				whenAlertJoinsGroup.GracePeriodSeconds = lo32(m.EscalationConfig.WhenAlertJoinsGroup.GracePeriodSeconds.ValueInt64())
-			}
-			payload.EscalationConfig.WhenAlertJoinsGroup = whenAlertJoinsGroup
-		}
+		payload.EscalationConfig.WhenAlertJoinsGroup = whenAlertJoinsGroupToPayload(context.Background(), m.EscalationConfig.WhenAlertJoinsGroup)
 	}
 
 	if m.GroupingConfig != nil && m.GroupingConfig.Default != nil {
