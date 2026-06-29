@@ -725,6 +725,9 @@ Required:
 Required:
 
 - `enabled` (Boolean) Whether grouping is enabled
+
+Optional:
+
 - `group_keys` (Attributes Set) Which attributes should this alert route use to group alerts? Only set when grouping is enabled. (see [below for nested schema](#nestedatt--grouping_config--default--group_keys))
 - `window_seconds` (Number) How long the grouping window is, in seconds. Must be between 60 (1 minute) and 172800 (48 hours). Only set when grouping is enabled.
 - `window_type` (String) Controls how the grouping window behaves. 'rolling' keeps the window open for window_seconds after the most recent alert, so the group stays open as long as alerts keep arriving. 'fixed' opens the window when the first alert arrives and always closes window_seconds later, regardless of any subsequent alerts. Only set when grouping is enabled.. Possible values are: `rolling`, `fixed`.
@@ -744,12 +747,12 @@ Required:
 
 Required:
 
-- `auto_decline_enabled` (Boolean) Should triage incidents be declined when alerts are resolved? Only set when incident creation is enabled.
 - `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--incident_config--condition_groups))
 - `enabled` (Boolean) Whether incident creation is enabled for this alert route
 
 Optional:
 
+- `auto_decline_enabled` (Boolean) Should triage incidents be declined when alerts are resolved? Only set when incident creation is enabled.
 - `template` (Attributes) (see [below for nested schema](#nestedatt--incident_config--template))
 
 <a id="nestedatt--incident_config--condition_groups"></a>

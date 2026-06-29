@@ -134,7 +134,9 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "enabled"),
 							},
 							"group_keys": schema.SetNestedAttribute{
-								Required:            true,
+								// Optional: only valid when grouping is enabled. Enforced
+								// conditionally in ValidateConfig.
+								Optional:            true,
 								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "group_keys"),
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
@@ -146,11 +148,15 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 								},
 							},
 							"window_seconds": schema.Int64Attribute{
-								Required:            true,
+								// Optional: required when grouping is enabled, must be
+								// unset otherwise. Enforced in ValidateConfig.
+								Optional:            true,
 								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "window_seconds"),
 							},
 							"window_type": schema.StringAttribute{
-								Required:            true,
+								// Optional: required when grouping is enabled, must be
+								// unset otherwise. Enforced in ValidateConfig.
+								Optional:            true,
 								MarkdownDescription: EnumValuesDescription("GroupingSettingsV3", "window_type"),
 							},
 						},
@@ -212,7 +218,9 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 				MarkdownDescription: apischema.Docstring("AlertRouteV3", "incident_config"),
 				Attributes: map[string]schema.Attribute{
 					"auto_decline_enabled": schema.BoolAttribute{
-						Required:            true,
+						// Optional: required when incident creation is enabled, must be
+						// unset otherwise. Enforced in ValidateConfig.
+						Optional:            true,
 						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV3", "auto_decline_enabled"),
 					},
 					"enabled": schema.BoolAttribute{
@@ -321,6 +329,44 @@ func (r *IncidentAlertRouteV3Resource) Configure(ctx context.Context, req resour
 }
 
 func (r *IncidentAlertRouteV3Resource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	// window_seconds and window_type are optional in the schema (the API omits
+	// them when grouping is disabled), but are required when grouping is enabled.
+	var groupingEnabled types.Bool
+	if d := req.Config.GetAttribute(ctx, path.Root("grouping_config").AtName("default").AtName("enabled"), &groupingEnabled); !d.HasError() &&
+		!groupingEnabled.IsNull() && !groupingEnabled.IsUnknown() && groupingEnabled.ValueBool() {
+		var windowSeconds types.Int64
+		if d := req.Config.GetAttribute(ctx, path.Root("grouping_config").AtName("default").AtName("window_seconds"), &windowSeconds); !d.HasError() && windowSeconds.IsNull() {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				path.Root("grouping_config").AtName("default").AtName("window_seconds"),
+				"Missing required attribute",
+				"`window_seconds` is required when `grouping_config.default.enabled` is true.",
+			))
+		}
+		var windowType types.String
+		if d := req.Config.GetAttribute(ctx, path.Root("grouping_config").AtName("default").AtName("window_type"), &windowType); !d.HasError() && windowType.IsNull() {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				path.Root("grouping_config").AtName("default").AtName("window_type"),
+				"Missing required attribute",
+				"`window_type` is required when `grouping_config.default.enabled` is true.",
+			))
+		}
+	}
+
+	// auto_decline_enabled is optional in the schema (the API omits it when
+	// incident creation is disabled), but is required when it's enabled.
+	var incidentEnabled types.Bool
+	if d := req.Config.GetAttribute(ctx, path.Root("incident_config").AtName("enabled"), &incidentEnabled); !d.HasError() &&
+		!incidentEnabled.IsNull() && !incidentEnabled.IsUnknown() && incidentEnabled.ValueBool() {
+		var autoDecline types.Bool
+		if d := req.Config.GetAttribute(ctx, path.Root("incident_config").AtName("auto_decline_enabled"), &autoDecline); !d.HasError() && autoDecline.IsNull() {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				path.Root("incident_config").AtName("auto_decline_enabled"),
+				"Missing required attribute",
+				"`auto_decline_enabled` is required when `incident_config.enabled` is true.",
+			))
+		}
+	}
+
 	var expressions []models.IncidentEngineExpression
 
 	diags := req.Config.GetAttribute(ctx, path.Root("expressions"), &expressions)

@@ -232,3 +232,49 @@ func TestAlertRouteV3MessageConfigDestinationsNullVsEmpty(t *testing.T) {
 		t.Errorf("destinations should be nil when plan is nil, got %+v", resultNil.MessageConfig.Destinations)
 	}
 }
+
+// TestAlertRouteV3ImportLeavesConditionalFieldsNull simulates an import/read of a
+// route with grouping and incident creation disabled: the API omits the
+// conditional detail fields and there is no prior plan/state. Those fields are
+// optional in the schema, so FromAPI must leave them null rather than writing a
+// zero value, which would break ImportStateVerify and cause plan churn.
+func TestAlertRouteV3ImportLeavesConditionalFieldsNull(t *testing.T) {
+	api := client.AlertRouteV3{
+		Id:              "01ABC",
+		Name:            "route",
+		ConditionGroups: []client.ConditionGroupV3{},
+		Expressions:     []client.ExpressionV3{},
+		GroupingConfig: client.AlertGroupingConfigV3{
+			Default: client.GroupingSettingsV3{Enabled: false},
+		},
+		MessageConfig: client.AlertMessageConfigV3{
+			Destinations: []client.AlertMessageDestinationV3{},
+		},
+		EscalationConfig: client.AlertRouteEscalationConfigV3{
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+		},
+		IncidentConfig: client.AlertRouteIncidentConfigV3{Enabled: false},
+	}
+
+	// FromAPI passes a nil plan, exactly as the import path does.
+	model := AlertRouteV3ResourceModel{}.FromAPI(api)
+
+	if model.GroupingConfig == nil || model.GroupingConfig.Default == nil {
+		t.Fatal("grouping_config.default is nil")
+	}
+	if !model.GroupingConfig.Default.WindowSeconds.IsNull() {
+		t.Errorf("window_seconds: expected null, got %v", model.GroupingConfig.Default.WindowSeconds)
+	}
+	if !model.GroupingConfig.Default.WindowType.IsNull() {
+		t.Errorf("window_type: expected null, got %v", model.GroupingConfig.Default.WindowType)
+	}
+	if model.GroupingConfig.Default.GroupKeys != nil {
+		t.Errorf("group_keys: expected nil, got %+v", model.GroupingConfig.Default.GroupKeys)
+	}
+	if model.IncidentConfig == nil {
+		t.Fatal("incident_config is nil")
+	}
+	if !model.IncidentConfig.AutoDeclineEnabled.IsNull() {
+		t.Errorf("auto_decline_enabled: expected null, got %v", model.IncidentConfig.AutoDeclineEnabled)
+	}
+}

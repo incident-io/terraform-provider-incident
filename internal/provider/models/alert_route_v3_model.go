@@ -227,7 +227,6 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 	}
 	groupingDefault := &AlertRouteV3GroupingSettingsModel{
 		Enabled:       types.BoolValue(apiModel.GroupingConfig.Default.Enabled),
-		GroupKeys:     []AlertRouteGroupingKey{},
 		WindowSeconds: types.Int64Null(),
 		WindowType:    types.StringNull(),
 	}
@@ -243,13 +242,18 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 	case planGrouping != nil:
 		groupingDefault.WindowType = planGrouping.WindowType
 	}
-	if apiModel.GroupingConfig.Default.GroupKeys != nil {
+	// Leave GroupKeys nil (null) by default. Populate it (to a possibly-empty
+	// slice) only when the API returns it, or fall back to the plan; this keeps
+	// an omitted optional null on import rather than drifting to an empty set.
+	switch {
+	case apiModel.GroupingConfig.Default.GroupKeys != nil:
+		groupingDefault.GroupKeys = []AlertRouteGroupingKey{}
 		for _, gk := range *apiModel.GroupingConfig.Default.GroupKeys {
 			groupingDefault.GroupKeys = append(groupingDefault.GroupKeys, AlertRouteGroupingKey{
 				Reference: types.StringValue(gk.Reference),
 			})
 		}
-	} else if planGrouping != nil {
+	case planGrouping != nil:
 		groupingDefault.GroupKeys = planGrouping.GroupKeys
 	}
 	result.GroupingConfig = &AlertRouteV3GroupingConfigModel{Default: groupingDefault}
@@ -309,8 +313,11 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 	if apiModel.IncidentConfig.ConditionGroups != nil {
 		incidentConditionGroups = *apiModel.IncidentConfig.ConditionGroups
 	}
+	// Leave AutoDeclineEnabled null by default so an omitted optional stays null
+	// on import (incident creation disabled); populate from the API when present,
+	// else fall back to the plan.
 	result.IncidentConfig = &AlertRouteV3IncidentConfigModel{
-		AutoDeclineEnabled: types.BoolValue(false),
+		AutoDeclineEnabled: types.BoolNull(),
 		ConditionGroups:    conditionGroupsFromV3(incidentConditionGroups),
 		Enabled:            types.BoolValue(apiModel.IncidentConfig.Enabled),
 	}
