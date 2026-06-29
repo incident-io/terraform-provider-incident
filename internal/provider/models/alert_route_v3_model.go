@@ -619,15 +619,15 @@ func (m AlertRouteV3ResourceModel) ToCreatePayload() client.AlertRoutesCreatePay
 		payload.IncidentConfig = client.AlertRouteIncidentConfigPayloadV3{
 			Enabled: m.IncidentConfig.Enabled.ValueBool(),
 		}
-		// auto_decline_enabled and condition_groups are required when incident
-		// creation is enabled, and must be unset otherwise.
+		// auto_decline_enabled, condition_groups and template only apply when
+		// incident creation is enabled; the API drops them otherwise, so we omit
+		// them rather than send a value that won't round-trip.
 		if m.IncidentConfig.Enabled.ValueBool() {
 			payload.IncidentConfig.AutoDeclineEnabled = lo.ToPtr(m.IncidentConfig.AutoDeclineEnabled.ValueBool())
 			payload.IncidentConfig.ConditionGroups = lo.ToPtr(conditionGroupsToV3Payload(m.IncidentConfig.ConditionGroups))
-		}
-
-		if m.IncidentConfig.Template != nil {
-			payload.IncidentConfig.Template = m.IncidentConfig.Template.ToPayload()
+			if m.IncidentConfig.Template != nil {
+				payload.IncidentConfig.Template = m.IncidentConfig.Template.ToPayload()
+			}
 		}
 	}
 

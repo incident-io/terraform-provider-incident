@@ -429,6 +429,15 @@ func (r *IncidentAlertRouteV3Resource) ValidateConfig(ctx context.Context, req r
 					"`condition_groups` must be empty when `incident_config.enabled` is false.",
 				))
 			}
+			var template types.Object
+			if d := req.Config.GetAttribute(ctx, incidentBase.AtName("template"), &template); !d.HasError() &&
+				!template.IsNull() && !template.IsUnknown() {
+				resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+					incidentBase.AtName("template"),
+					"Invalid attribute combination",
+					"`template` must not be set when `incident_config.enabled` is false.",
+				))
+			}
 		}
 	}
 
