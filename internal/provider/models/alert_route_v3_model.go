@@ -256,9 +256,10 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 
 	// Grouping config. The detail fields (group_keys, window_seconds,
 	// window_type) are optional in the API and only returned when grouping is
-	// enabled. As they're required attributes in the schema, fall back to the
-	// planned values when the API omits them, to avoid drift on a disabled
-	// route.
+	// enabled. Mirror the API: use the returned value, otherwise leave the field
+	// null. We deliberately do NOT fall back to prior plan/state when grouping is
+	// disabled, so disabling it (including out-of-band) clears these rather than
+	// leaving stale values that conflict with ValidateConfig.
 	var planGrouping *AlertRouteV3GroupingSettingsModel
 	if plan != nil && plan.GroupingConfig != nil {
 		planGrouping = plan.GroupingConfig.Default
@@ -268,21 +269,12 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 		WindowSeconds: types.Int64Null(),
 		WindowType:    types.StringNull(),
 	}
-	switch {
-	case apiModel.GroupingConfig.Default.WindowSeconds != nil:
+	if apiModel.GroupingConfig.Default.WindowSeconds != nil {
 		groupingDefault.WindowSeconds = types.Int64Value(int64(*apiModel.GroupingConfig.Default.WindowSeconds))
-	case planGrouping != nil:
-		groupingDefault.WindowSeconds = planGrouping.WindowSeconds
 	}
-	switch {
-	case apiModel.GroupingConfig.Default.WindowType != nil:
+	if apiModel.GroupingConfig.Default.WindowType != nil {
 		groupingDefault.WindowType = types.StringValue(string(*apiModel.GroupingConfig.Default.WindowType))
-	case planGrouping != nil:
-		groupingDefault.WindowType = planGrouping.WindowType
 	}
-	// Leave GroupKeys nil (null) by default. Populate it (to a possibly-empty
-	// slice) only when the API returns it, or fall back to the plan; this keeps
-	// an omitted optional null on import rather than drifting to an empty set.
 	switch {
 	case apiModel.GroupingConfig.Default.GroupKeys != nil:
 		groupingDefault.GroupKeys = []AlertRouteGroupingKey{}
@@ -291,7 +283,10 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 				Reference: types.StringValue(gk.Reference),
 			})
 		}
-	case planGrouping != nil:
+	case apiModel.GroupingConfig.Default.Enabled && planGrouping != nil:
+		// The API omits an empty group_keys (omitempty) even when grouping is
+		// enabled, so mirror the planned null-vs-empty shape to avoid a diff.
+		// When grouping is disabled we leave it null (no stale values).
 		groupingDefault.GroupKeys = planGrouping.GroupKeys
 	}
 	result.GroupingConfig = &AlertRouteV3GroupingConfigModel{Default: groupingDefault}
@@ -341,29 +336,21 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 	}
 
 	// Incident config. auto_decline_enabled and condition_groups are optional in
-	// the API and only populated when incident creation is enabled, so fall back
-	// to the planned auto_decline_enabled when the API omits it (disabled route).
-	var planIncident *AlertRouteV3IncidentConfigModel
-	if plan != nil {
-		planIncident = plan.IncidentConfig
-	}
+	// the API and only populated when incident creation is enabled. Mirror the
+	// API: use the returned value, otherwise leave it null. As with grouping, we
+	// don't fall back to prior plan/state, so disabling incident creation clears
+	// auto_decline_enabled rather than retaining a stale value.
 	var incidentConditionGroups []client.ConditionGroupV3
 	if apiModel.IncidentConfig.ConditionGroups != nil {
 		incidentConditionGroups = *apiModel.IncidentConfig.ConditionGroups
 	}
-	// Leave AutoDeclineEnabled null by default so an omitted optional stays null
-	// on import (incident creation disabled); populate from the API when present,
-	// else fall back to the plan.
 	result.IncidentConfig = &AlertRouteV3IncidentConfigModel{
 		AutoDeclineEnabled: types.BoolNull(),
 		ConditionGroups:    conditionGroupsFromV3(incidentConditionGroups),
 		Enabled:            types.BoolValue(apiModel.IncidentConfig.Enabled),
 	}
-	switch {
-	case apiModel.IncidentConfig.AutoDeclineEnabled != nil:
+	if apiModel.IncidentConfig.AutoDeclineEnabled != nil {
 		result.IncidentConfig.AutoDeclineEnabled = types.BoolValue(*apiModel.IncidentConfig.AutoDeclineEnabled)
-	case planIncident != nil:
-		result.IncidentConfig.AutoDeclineEnabled = planIncident.AutoDeclineEnabled
 	}
 
 	var planTemplate *AlertRouteV3IncidentTemplateModel
@@ -371,12 +358,13 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 		planTemplate = plan.IncidentConfig.Template
 	}
 
+	// The API only returns a template when incident creation is enabled. Mirror
+	// it: populate the template from the response when present, otherwise leave
+	// it null. We don't fall back to the prior plan/state, so disabling incident
+	// creation (including out-of-band) clears the template rather than leaving a
+	// stale one in state.
 	if apiModel.IncidentConfig.Template != nil {
 		result.IncidentConfig.Template = incidentTemplateFromAPIV3(apiModel.IncidentConfig.Template, planTemplate)
-	} else if planTemplate != nil {
-		// Preserve the user's planned template if the API didn't return one, to
-		// avoid drift.
-		result.IncidentConfig.Template = planTemplate
 	}
 
 	return result
