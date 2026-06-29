@@ -87,7 +87,12 @@ func whenAlertJoinsGroupToPayload(ctx context.Context, obj types.Object) *client
 	payload := &client.AlertRouteWhenAlertJoinsGroupPayloadV3{
 		Mode: client.AlertRouteWhenAlertJoinsGroupPayloadV3Mode(m.Mode.ValueString()),
 	}
-	if !m.GracePeriodSeconds.IsNull() && !m.GracePeriodSeconds.IsUnknown() {
+	// The grace period only applies when re-escalating on each new alert; the API
+	// rejects it for on_priority_increase. ValidateConfig surfaces a misconfigured
+	// HCL value at plan time, but guard here too so a value that slips through
+	// (e.g. unknown at validation) is never sent to the API.
+	if m.Mode.ValueString() == string(client.AlertRouteWhenAlertJoinsGroupPayloadV3ModeOnEachNewAlert) &&
+		!m.GracePeriodSeconds.IsNull() && !m.GracePeriodSeconds.IsUnknown() {
 		payload.GracePeriodSeconds = lo32(m.GracePeriodSeconds.ValueInt64())
 	}
 	return payload

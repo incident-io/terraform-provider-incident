@@ -64,7 +64,7 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 			AutoCancelEscalations: true,
 			EscalationTargets:     []client.AlertRouteEscalationTargetV3{},
 			WhenAlertJoinsGroup: &client.AlertRouteWhenAlertJoinsGroupV3{
-				Mode:               client.AlertRouteWhenAlertJoinsGroupV3ModeOnPriorityIncrease,
+				Mode:               client.AlertRouteWhenAlertJoinsGroupV3ModeOnEachNewAlert,
 				GracePeriodSeconds: lo.ToPtr(int32(60)),
 			},
 		},
@@ -136,7 +136,7 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 	}
 	var joinsGroup AlertRouteWhenAlertJoinsGroupModel
 	model.EscalationConfig.WhenAlertJoinsGroup.As(context.Background(), &joinsGroup, basetypes.ObjectAsOptions{})
-	if got := joinsGroup.Mode.ValueString(); got != "on_priority_increase" {
+	if got := joinsGroup.Mode.ValueString(); got != "on_each_new_alert" {
 		t.Errorf("mode: got %q", got)
 	}
 	if got := joinsGroup.GracePeriodSeconds.ValueInt64(); got != 60 {
