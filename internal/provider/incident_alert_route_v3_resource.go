@@ -337,41 +337,98 @@ func (r *IncidentAlertRouteV3Resource) Configure(ctx context.Context, req resour
 }
 
 func (r *IncidentAlertRouteV3Resource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
-	// window_seconds and window_type are optional in the schema (the API omits
-	// them when grouping is disabled), but are required when grouping is enabled.
+	// The grouping detail fields (window_seconds, window_type, group_keys) are
+	// optional in the schema because the API only accepts them when grouping is
+	// enabled. Enforce that relationship here: required when enabled, and unset
+	// when disabled (otherwise the value would be silently dropped on apply,
+	// leaving state out of sync with the remote configuration).
+	groupingBase := path.Root("grouping_config").AtName("default")
 	var groupingEnabled types.Bool
-	if d := req.Config.GetAttribute(ctx, path.Root("grouping_config").AtName("default").AtName("enabled"), &groupingEnabled); !d.HasError() &&
-		!groupingEnabled.IsNull() && !groupingEnabled.IsUnknown() && groupingEnabled.ValueBool() {
+	if d := req.Config.GetAttribute(ctx, groupingBase.AtName("enabled"), &groupingEnabled); !d.HasError() &&
+		!groupingEnabled.IsNull() && !groupingEnabled.IsUnknown() {
 		var windowSeconds types.Int64
-		if d := req.Config.GetAttribute(ctx, path.Root("grouping_config").AtName("default").AtName("window_seconds"), &windowSeconds); !d.HasError() && windowSeconds.IsNull() {
-			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
-				path.Root("grouping_config").AtName("default").AtName("window_seconds"),
-				"Missing required attribute",
-				"`window_seconds` is required when `grouping_config.default.enabled` is true.",
-			))
-		}
+		req.Config.GetAttribute(ctx, groupingBase.AtName("window_seconds"), &windowSeconds)
 		var windowType types.String
-		if d := req.Config.GetAttribute(ctx, path.Root("grouping_config").AtName("default").AtName("window_type"), &windowType); !d.HasError() && windowType.IsNull() {
-			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
-				path.Root("grouping_config").AtName("default").AtName("window_type"),
-				"Missing required attribute",
-				"`window_type` is required when `grouping_config.default.enabled` is true.",
-			))
+		req.Config.GetAttribute(ctx, groupingBase.AtName("window_type"), &windowType)
+		var groupKeys types.Set
+		req.Config.GetAttribute(ctx, groupingBase.AtName("group_keys"), &groupKeys)
+
+		if groupingEnabled.ValueBool() {
+			if windowSeconds.IsNull() {
+				resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+					groupingBase.AtName("window_seconds"),
+					"Missing required attribute",
+					"`window_seconds` is required when `grouping_config.default.enabled` is true.",
+				))
+			}
+			if windowType.IsNull() {
+				resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+					groupingBase.AtName("window_type"),
+					"Missing required attribute",
+					"`window_type` is required when `grouping_config.default.enabled` is true.",
+				))
+			}
+		} else {
+			if !windowSeconds.IsNull() && !windowSeconds.IsUnknown() {
+				resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+					groupingBase.AtName("window_seconds"),
+					"Invalid attribute combination",
+					"`window_seconds` must not be set when `grouping_config.default.enabled` is false.",
+				))
+			}
+			if !windowType.IsNull() && !windowType.IsUnknown() {
+				resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+					groupingBase.AtName("window_type"),
+					"Invalid attribute combination",
+					"`window_type` must not be set when `grouping_config.default.enabled` is false.",
+				))
+			}
+			if !groupKeys.IsNull() && !groupKeys.IsUnknown() && len(groupKeys.Elements()) > 0 {
+				resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+					groupingBase.AtName("group_keys"),
+					"Invalid attribute combination",
+					"`group_keys` must not be set when `grouping_config.default.enabled` is false.",
+				))
+			}
 		}
 	}
 
-	// auto_decline_enabled is optional in the schema (the API omits it when
-	// incident creation is disabled), but is required when it's enabled.
+	// auto_decline_enabled and condition_groups only apply when incident creation
+	// is enabled: auto_decline_enabled is required when enabled and must be unset
+	// otherwise, and condition_groups must be empty when disabled (the API drops
+	// them, which would otherwise leave a recurring diff against state).
+	incidentBase := path.Root("incident_config")
 	var incidentEnabled types.Bool
-	if d := req.Config.GetAttribute(ctx, path.Root("incident_config").AtName("enabled"), &incidentEnabled); !d.HasError() &&
-		!incidentEnabled.IsNull() && !incidentEnabled.IsUnknown() && incidentEnabled.ValueBool() {
+	if d := req.Config.GetAttribute(ctx, incidentBase.AtName("enabled"), &incidentEnabled); !d.HasError() &&
+		!incidentEnabled.IsNull() && !incidentEnabled.IsUnknown() {
 		var autoDecline types.Bool
-		if d := req.Config.GetAttribute(ctx, path.Root("incident_config").AtName("auto_decline_enabled"), &autoDecline); !d.HasError() && autoDecline.IsNull() {
-			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
-				path.Root("incident_config").AtName("auto_decline_enabled"),
-				"Missing required attribute",
-				"`auto_decline_enabled` is required when `incident_config.enabled` is true.",
-			))
+		req.Config.GetAttribute(ctx, incidentBase.AtName("auto_decline_enabled"), &autoDecline)
+
+		if incidentEnabled.ValueBool() {
+			if autoDecline.IsNull() {
+				resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+					incidentBase.AtName("auto_decline_enabled"),
+					"Missing required attribute",
+					"`auto_decline_enabled` is required when `incident_config.enabled` is true.",
+				))
+			}
+		} else {
+			if !autoDecline.IsNull() && !autoDecline.IsUnknown() {
+				resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+					incidentBase.AtName("auto_decline_enabled"),
+					"Invalid attribute combination",
+					"`auto_decline_enabled` must not be set when `incident_config.enabled` is false.",
+				))
+			}
+			var conditionGroups types.List
+			if d := req.Config.GetAttribute(ctx, incidentBase.AtName("condition_groups"), &conditionGroups); !d.HasError() &&
+				!conditionGroups.IsNull() && !conditionGroups.IsUnknown() && len(conditionGroups.Elements()) > 0 {
+				resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+					incidentBase.AtName("condition_groups"),
+					"Invalid attribute combination",
+					"`condition_groups` must be empty when `incident_config.enabled` is false.",
+				))
+			}
 		}
 	}
 
