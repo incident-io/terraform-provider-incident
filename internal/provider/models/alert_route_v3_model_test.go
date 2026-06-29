@@ -42,7 +42,7 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 		GroupingConfig: client.AlertGroupingConfigV3{
 			Default: client.GroupingSettingsV3{
 				Enabled:       true,
-				GroupKeys:     &[]client.GroupingKeyV3{{Reference: "alert.title"}},
+				GroupingKeys:  &[]client.GroupingKeyV3{{Reference: "alert.title"}},
 				WindowSeconds: lo.ToPtr(int32(1800)),
 				WindowType:    lo.ToPtr(client.Fixed),
 			},
@@ -63,8 +63,8 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 		EscalationConfig: client.AlertRouteEscalationConfigV3{
 			AutoCancelEscalations: true,
 			EscalationTargets:     []client.AlertRouteEscalationTargetV3{},
-			WhenAlertJoinsGroup: &client.AlertRouteAlertJoinsGroupV3{
-				Mode:               client.AlertRouteAlertJoinsGroupV3ModeOnPriorityIncrease,
+			WhenAlertJoinsGroup: &client.AlertRouteWhenAlertJoinsGroupV3{
+				Mode:               client.AlertRouteWhenAlertJoinsGroupV3ModeOnPriorityIncrease,
 				GracePeriodSeconds: lo.ToPtr(int32(60)),
 			},
 		},
@@ -118,8 +118,8 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 	if got := model.GroupingConfig.Default.WindowType.ValueString(); got != "fixed" {
 		t.Errorf("window_type: got %q", got)
 	}
-	if got := len(model.GroupingConfig.Default.GroupKeys); got != 1 {
-		t.Errorf("group_keys: got %d", got)
+	if got := len(model.GroupingConfig.Default.GroupingKeys); got != 1 {
+		t.Errorf("grouping_keys: got %d", got)
 	}
 
 	// Message config.
@@ -272,8 +272,8 @@ func TestAlertRouteV3ImportLeavesConditionalFieldsNull(t *testing.T) {
 	if !model.GroupingConfig.Default.WindowType.IsNull() {
 		t.Errorf("window_type: expected null, got %v", model.GroupingConfig.Default.WindowType)
 	}
-	if model.GroupingConfig.Default.GroupKeys != nil {
-		t.Errorf("group_keys: expected nil, got %+v", model.GroupingConfig.Default.GroupKeys)
+	if model.GroupingConfig.Default.GroupingKeys != nil {
+		t.Errorf("grouping_keys: expected nil, got %+v", model.GroupingConfig.Default.GroupingKeys)
 	}
 	if model.IncidentConfig == nil {
 		t.Fatal("incident_config is nil")

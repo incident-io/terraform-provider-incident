@@ -59,7 +59,7 @@ func whenAlertJoinsGroupAttrTypes() map[string]attr.Type {
 // whenAlertJoinsGroupFromAPI converts the API's optional when_alert_joins_group
 // to a types.Object (null when absent). Modelled as an object, rather than a
 // nested struct, so the Computed attribute can carry an unknown value.
-func whenAlertJoinsGroupFromAPI(in *client.AlertRouteAlertJoinsGroupV3) types.Object {
+func whenAlertJoinsGroupFromAPI(in *client.AlertRouteWhenAlertJoinsGroupV3) types.Object {
 	if in == nil {
 		return types.ObjectNull(whenAlertJoinsGroupAttrTypes())
 	}
@@ -76,7 +76,7 @@ func whenAlertJoinsGroupFromAPI(in *client.AlertRouteAlertJoinsGroupV3) types.Ob
 	return obj
 }
 
-func whenAlertJoinsGroupToPayload(ctx context.Context, obj types.Object) *client.AlertRouteAlertJoinsGroupPayloadV3 {
+func whenAlertJoinsGroupToPayload(ctx context.Context, obj types.Object) *client.AlertRouteWhenAlertJoinsGroupPayloadV3 {
 	if obj.IsNull() || obj.IsUnknown() {
 		return nil
 	}
@@ -84,8 +84,8 @@ func whenAlertJoinsGroupToPayload(ctx context.Context, obj types.Object) *client
 	var m AlertRouteWhenAlertJoinsGroupModel
 	obj.As(ctx, &m, basetypes.ObjectAsOptions{})
 
-	payload := &client.AlertRouteAlertJoinsGroupPayloadV3{
-		Mode: client.AlertRouteAlertJoinsGroupPayloadV3Mode(m.Mode.ValueString()),
+	payload := &client.AlertRouteWhenAlertJoinsGroupPayloadV3{
+		Mode: client.AlertRouteWhenAlertJoinsGroupPayloadV3Mode(m.Mode.ValueString()),
 	}
 	if !m.GracePeriodSeconds.IsNull() && !m.GracePeriodSeconds.IsUnknown() {
 		payload.GracePeriodSeconds = lo32(m.GracePeriodSeconds.ValueInt64())
@@ -99,7 +99,7 @@ type AlertRouteV3GroupingConfigModel struct {
 
 type AlertRouteV3GroupingSettingsModel struct {
 	Enabled       types.Bool              `tfsdk:"enabled"`
-	GroupKeys     []AlertRouteGroupingKey `tfsdk:"group_keys"`
+	GroupingKeys  []AlertRouteGroupingKey `tfsdk:"grouping_keys"`
 	WindowSeconds types.Int64             `tfsdk:"window_seconds"`
 	WindowType    types.String            `tfsdk:"window_type"`
 }
@@ -254,7 +254,7 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 
 	result.EscalationConfig.WhenAlertJoinsGroup = whenAlertJoinsGroupFromAPI(apiModel.EscalationConfig.WhenAlertJoinsGroup)
 
-	// Grouping config. The detail fields (group_keys, window_seconds,
+	// Grouping config. The detail fields (grouping_keys, window_seconds,
 	// window_type) are optional in the API and only returned when grouping is
 	// enabled. Mirror the API: use the returned value, otherwise leave the field
 	// null. We deliberately do NOT fall back to prior plan/state when grouping is
@@ -276,18 +276,18 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 		groupingDefault.WindowType = types.StringValue(string(*apiModel.GroupingConfig.Default.WindowType))
 	}
 	switch {
-	case apiModel.GroupingConfig.Default.GroupKeys != nil:
-		groupingDefault.GroupKeys = []AlertRouteGroupingKey{}
-		for _, gk := range *apiModel.GroupingConfig.Default.GroupKeys {
-			groupingDefault.GroupKeys = append(groupingDefault.GroupKeys, AlertRouteGroupingKey{
+	case apiModel.GroupingConfig.Default.GroupingKeys != nil:
+		groupingDefault.GroupingKeys = []AlertRouteGroupingKey{}
+		for _, gk := range *apiModel.GroupingConfig.Default.GroupingKeys {
+			groupingDefault.GroupingKeys = append(groupingDefault.GroupingKeys, AlertRouteGroupingKey{
 				Reference: types.StringValue(gk.Reference),
 			})
 		}
 	case apiModel.GroupingConfig.Default.Enabled && planGrouping != nil:
-		// The API omits an empty group_keys (omitempty) even when grouping is
+		// The API omits an empty grouping_keys (omitempty) even when grouping is
 		// enabled, so mirror the planned null-vs-empty shape to avoid a diff.
 		// When grouping is disabled we leave it null (no stale values).
-		groupingDefault.GroupKeys = planGrouping.GroupKeys
+		groupingDefault.GroupingKeys = planGrouping.GroupingKeys
 	}
 	result.GroupingConfig = &AlertRouteV3GroupingConfigModel{Default: groupingDefault}
 
@@ -511,7 +511,7 @@ func (m AlertRouteV3ResourceModel) ToCreatePayload() client.AlertRoutesCreatePay
 		},
 		GroupingConfig: client.AlertGroupingConfigV3{
 			Default: client.GroupingSettingsV3{
-				GroupKeys: &[]client.GroupingKeyV3{},
+				GroupingKeys: &[]client.GroupingKeyV3{},
 			},
 		},
 		MessageConfig: client.AlertMessageConfigPayloadV3{
@@ -565,12 +565,12 @@ func (m AlertRouteV3ResourceModel) ToCreatePayload() client.AlertRoutesCreatePay
 		// rejects them otherwise.
 		if m.GroupingConfig.Default.Enabled.ValueBool() {
 			groupKeys := []client.GroupingKeyV3{}
-			for _, gk := range m.GroupingConfig.Default.GroupKeys {
+			for _, gk := range m.GroupingConfig.Default.GroupingKeys {
 				groupKeys = append(groupKeys, client.GroupingKeyV3{
 					Reference: gk.Reference.ValueString(),
 				})
 			}
-			groupingDefault.GroupKeys = &groupKeys
+			groupingDefault.GroupingKeys = &groupKeys
 			if !m.GroupingConfig.Default.WindowSeconds.IsNull() {
 				groupingDefault.WindowSeconds = lo32(m.GroupingConfig.Default.WindowSeconds.ValueInt64())
 			}

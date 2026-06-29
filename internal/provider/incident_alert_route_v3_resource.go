@@ -119,11 +119,11 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 						Attributes: map[string]schema.Attribute{
 							"mode": schema.StringAttribute{
 								Required:            true,
-								MarkdownDescription: EnumValuesDescription("AlertRouteAlertJoinsGroupV3", "mode"),
+								MarkdownDescription: EnumValuesDescription("AlertRouteWhenAlertJoinsGroupV3", "mode"),
 							},
 							"grace_period_seconds": schema.Int64Attribute{
 								Optional:            true,
-								MarkdownDescription: apischema.Docstring("AlertRouteAlertJoinsGroupV3", "grace_period_seconds"),
+								MarkdownDescription: apischema.Docstring("AlertRouteWhenAlertJoinsGroupV3", "grace_period_seconds"),
 							},
 						},
 					},
@@ -141,11 +141,11 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 								Required:            true,
 								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "enabled"),
 							},
-							"group_keys": schema.SetNestedAttribute{
+							"grouping_keys": schema.SetNestedAttribute{
 								// Optional: only valid when grouping is enabled. Enforced
 								// conditionally in ValidateConfig.
 								Optional:            true,
-								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "group_keys"),
+								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "grouping_keys"),
 								NestedObject: schema.NestedAttributeObject{
 									Attributes: map[string]schema.Attribute{
 										"reference": schema.StringAttribute{
@@ -337,7 +337,7 @@ func (r *IncidentAlertRouteV3Resource) Configure(ctx context.Context, req resour
 }
 
 func (r *IncidentAlertRouteV3Resource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
-	// The grouping detail fields (window_seconds, window_type, group_keys) are
+	// The grouping detail fields (window_seconds, window_type, grouping_keys) are
 	// optional in the schema because the API only accepts them when grouping is
 	// enabled. Enforce that relationship here: required when enabled, and unset
 	// when disabled (otherwise the value would be silently dropped on apply,
@@ -350,8 +350,8 @@ func (r *IncidentAlertRouteV3Resource) ValidateConfig(ctx context.Context, req r
 		req.Config.GetAttribute(ctx, groupingBase.AtName("window_seconds"), &windowSeconds)
 		var windowType types.String
 		req.Config.GetAttribute(ctx, groupingBase.AtName("window_type"), &windowType)
-		var groupKeys types.Set
-		req.Config.GetAttribute(ctx, groupingBase.AtName("group_keys"), &groupKeys)
+		var groupingKeys types.Set
+		req.Config.GetAttribute(ctx, groupingBase.AtName("grouping_keys"), &groupingKeys)
 
 		if groupingEnabled.ValueBool() {
 			if windowSeconds.IsNull() {
@@ -383,13 +383,32 @@ func (r *IncidentAlertRouteV3Resource) ValidateConfig(ctx context.Context, req r
 					"`window_type` must not be set when `grouping_config.default.enabled` is false.",
 				))
 			}
-			if !groupKeys.IsNull() && !groupKeys.IsUnknown() && len(groupKeys.Elements()) > 0 {
+			if !groupingKeys.IsNull() && !groupingKeys.IsUnknown() && len(groupingKeys.Elements()) > 0 {
 				resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
-					groupingBase.AtName("group_keys"),
+					groupingBase.AtName("grouping_keys"),
 					"Invalid attribute combination",
-					"`group_keys` must not be set when `grouping_config.default.enabled` is false.",
+					"`grouping_keys` must not be set when `grouping_config.default.enabled` is false.",
 				))
 			}
+		}
+	}
+
+	// grace_period_seconds only applies when re-escalating on each new alert: it
+	// gives the grouping window time to attach more alerts before paging. In
+	// on_priority_increase mode we escalate immediately on a higher priority, so
+	// the API rejects a grace period; surface that at plan time.
+	whenAlertJoinsGroupBase := path.Root("escalation_config").AtName("when_alert_joins_group")
+	var mode types.String
+	if d := req.Config.GetAttribute(ctx, whenAlertJoinsGroupBase.AtName("mode"), &mode); !d.HasError() &&
+		!mode.IsNull() && !mode.IsUnknown() && mode.ValueString() == "on_priority_increase" {
+		var gracePeriodSeconds types.Int64
+		if d := req.Config.GetAttribute(ctx, whenAlertJoinsGroupBase.AtName("grace_period_seconds"), &gracePeriodSeconds); !d.HasError() &&
+			!gracePeriodSeconds.IsNull() && !gracePeriodSeconds.IsUnknown() {
+			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
+				whenAlertJoinsGroupBase.AtName("grace_period_seconds"),
+				"Invalid attribute combination",
+				"`grace_period_seconds` can only be set when `escalation_config.when_alert_joins_group.mode` is `on_each_new_alert`.",
+			))
 		}
 	}
 

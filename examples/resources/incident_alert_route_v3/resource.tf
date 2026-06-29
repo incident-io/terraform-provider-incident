@@ -44,9 +44,9 @@ resource "incident_alert_route_v3" "service_alerts" {
   grouping_config = {
     default = {
       enabled = true
-      // group_keys is an array of { reference = "alert.title" } which specifies
+      // grouping_keys is an array of { reference = "alert.title" } which specifies
       // the keys used to group alerts together
-      group_keys     = []
+      grouping_keys  = []
       window_seconds = 300
       // window_type is one of "rolling" (extends as new alerts attach) or "fixed"
       window_type = "rolling"
@@ -142,7 +142,7 @@ resource "incident_alert_route_v3" "service_alerts" {
     // Optionally control whether (and how) escalations fire again when a
     // subsequent alert joins an existing group.
     when_alert_joins_group = {
-      mode                 = "on_priority_increase"
+      mode                 = "on_each_new_alert"
       grace_period_seconds = 60
     }
   }
