@@ -180,3 +180,55 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 		t.Errorf("payload custom field binding mismatch: %+v", cf.Binding)
 	}
 }
+
+// TestAlertRouteV3MessageConfigDestinationsNullVsEmpty checks that
+// FromAPIWithPlan mirrors the planned null-vs-empty shape of the optional
+// message_config.destinations set. The API returns no destinations both when
+// the attribute is omitted and when it's set to an explicit empty list, so the
+// result must follow the plan to avoid perpetual diffs on refresh.
+func TestAlertRouteV3MessageConfigDestinationsNullVsEmpty(t *testing.T) {
+	// An apiModel that returns no destinations.
+	api := client.AlertRouteV3{
+		Id:              "01ABC",
+		Name:            "route",
+		ConditionGroups: []client.ConditionGroupV3{},
+		Expressions:     []client.ExpressionV3{},
+		GroupingConfig: client.AlertGroupingConfigV3{
+			Default: client.GroupingSettingsV3{},
+		},
+		MessageConfig: client.AlertMessageConfigV3{
+			Destinations: []client.AlertMessageDestinationV3{},
+		},
+		EscalationConfig: client.AlertRouteEscalationConfigV3{
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+		},
+		IncidentConfig: client.AlertRouteIncidentConfigV3{},
+	}
+
+	// Plan with an explicit, non-nil empty destinations slice.
+	planEmpty := &AlertRouteV3ResourceModel{
+		MessageConfig: &AlertRouteV3MessageConfigModel{
+			Destinations: []AlertRouteChannelConfigModel{},
+		},
+	}
+
+	resultEmpty := AlertRouteV3ResourceModel{}.FromAPIWithPlan(api, planEmpty)
+	if resultEmpty.MessageConfig == nil {
+		t.Fatal("message_config is nil")
+	}
+	if resultEmpty.MessageConfig.Destinations == nil {
+		t.Error("destinations should be non-nil empty when plan set explicit empty slice")
+	}
+	if got := len(resultEmpty.MessageConfig.Destinations); got != 0 {
+		t.Errorf("destinations: got %d, want 0", got)
+	}
+
+	// With no plan, the omitted optional should stay null (nil).
+	resultNil := AlertRouteV3ResourceModel{}.FromAPIWithPlan(api, nil)
+	if resultNil.MessageConfig == nil {
+		t.Fatal("message_config is nil")
+	}
+	if resultNil.MessageConfig.Destinations != nil {
+		t.Errorf("destinations should be nil when plan is nil, got %+v", resultNil.MessageConfig.Destinations)
+	}
+}

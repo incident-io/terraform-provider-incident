@@ -287,6 +287,17 @@ func (AlertRouteV3ResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV3, p
 		result.MessageConfig.MessageTemplate = &binding
 	}
 
+	// Mirror the planned shape of the optional `destinations` set. The API
+	// returns no destinations both when the user omitted the attribute (null)
+	// and when they set it to an explicit empty list ([]). To avoid perpetual
+	// diffs on refresh, only normalise to a non-nil empty slice when the plan
+	// carried a non-nil (explicit, possibly empty) destinations slice;
+	// otherwise leave it nil so an omitted optional stays null.
+	if len(result.MessageConfig.Destinations) == 0 &&
+		plan != nil && plan.MessageConfig != nil && plan.MessageConfig.Destinations != nil {
+		result.MessageConfig.Destinations = []AlertRouteChannelConfigModel{}
+	}
+
 	// Incident config. auto_decline_enabled and condition_groups are optional in
 	// the API and only populated when incident creation is enabled, so fall back
 	// to the planned auto_decline_enabled when the API omits it (disabled route).
