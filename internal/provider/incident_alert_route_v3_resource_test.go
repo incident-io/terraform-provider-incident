@@ -24,7 +24,9 @@ func TestAccIncidentAlertRouteV3Resource(t *testing.T) {
 					resource.TestCheckResourceAttr("incident_alert_route_v3.test", "is_private", "false"),
 					// Grouping config lives at the top level in v3.
 					resource.TestCheckResourceAttr("incident_alert_route_v3.test", "grouping_config.default.enabled", "false"),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.test", "grouping_config.default.window_type", "rolling"),
+					// When grouping is disabled the optional window fields are unset.
+					resource.TestCheckNoResourceAttr("incident_alert_route_v3.test", "grouping_config.default.window_type"),
+					resource.TestCheckNoResourceAttr("incident_alert_route_v3.test", "grouping_config.default.window_seconds"),
 				),
 			},
 			// Refresh and ensure there's no perpetual diff.
@@ -204,10 +206,9 @@ resource "incident_alert_route_v3" "test" {
 
   grouping_config = {
     default = {
-      enabled        = false
-      group_keys     = []
-      window_seconds = 0
-      window_type    = "rolling"
+      # Grouping disabled: the window fields are optional and must be omitted
+      # when disabled (they're only valid, and required, when enabled).
+      enabled = false
     }
   }
 
@@ -233,7 +234,9 @@ resource "incident_alert_route_v3" "test" {
 func testAccIncidentAlertRouteV3ResourceConfigComprehensive(name string) string {
 	return fmt.Sprintf(`
 resource "incident_custom_field" "type_field" {
-  name        = "Test Type Field V3 %[1]s"
+  # Keep the name within the API's 50-character limit, even when the route name
+  # suffix is the longer "-updated" variant.
+  name        = "Type %[1]s"
   description = "The type of the incident."
   field_type  = "text"
 }
