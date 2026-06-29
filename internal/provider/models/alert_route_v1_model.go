@@ -675,7 +675,6 @@ func (m AlertRouteResourceModel) ToCreatePayload() client.AlertRoutesCreatePaylo
 		Name:            m.Name.ValueString(),
 		Enabled:         m.Enabled.ValueBool(),
 		IsPrivate:       m.IsPrivate.ValueBool(),
-		Version:         0, // Initial version
 		AlertSources:    []client.AlertRouteAlertSourcePayloadV2{},
 		ChannelConfig:   []client.AlertRouteChannelConfigPayloadV2{},
 		ConditionGroups: []client.ConditionGroupPayloadV2{},
