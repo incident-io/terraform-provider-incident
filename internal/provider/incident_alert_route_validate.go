@@ -55,14 +55,37 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 		}
 		return !v.IsNull() && !v.IsUnknown() && len(v.Elements()) > 0
 	}
-	// setPresent is true when a set attribute is supplied at all (even if empty),
-	// mirroring the original v2 "Required" semantics where `[]` was valid.
-	setPresent := func(p path.Path) bool {
+	// The *Missing helpers report that an attribute is definitively absent: known
+	// to be null (not merely unknown). Required-attribute checks use these so we
+	// don't flag a value that is unknown at plan time (e.g. derived from a
+	// variable or another resource) and may well be present at apply.
+	boolMissing := func(p path.Path) bool {
+		var v types.Bool
+		if d := req.Config.GetAttribute(ctx, p, &v); d.HasError() {
+			return false
+		}
+		return !v.IsUnknown() && v.IsNull()
+	}
+	int64Missing := func(p path.Path) bool {
+		var v types.Int64
+		if d := req.Config.GetAttribute(ctx, p, &v); d.HasError() {
+			return false
+		}
+		return !v.IsUnknown() && v.IsNull()
+	}
+	objectMissing := func(p path.Path) bool {
+		var v types.Object
+		if d := req.Config.GetAttribute(ctx, p, &v); d.HasError() {
+			return false
+		}
+		return !v.IsUnknown() && v.IsNull()
+	}
+	setMissing := func(p path.Path) bool {
 		var v types.Set
 		if d := req.Config.GetAttribute(ctx, p, &v); d.HasError() {
 			return false
 		}
-		return !v.IsNull() && !v.IsUnknown()
+		return !v.IsUnknown() && v.IsNull()
 	}
 	// boolValue returns (value, known). known is false when the attribute is
 	// null or unknown.
@@ -112,12 +135,12 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 		}
 
 		// message_config is required in v3 mode.
-		if !objectSet(path.Root("message_config")) {
+		if objectMissing(path.Root("message_config")) {
 			addErr(path.Root("message_config"), "Missing required attribute",
 				"`message_config` is required when `grouping_config` is set (the v3 schema).")
 		}
 
-		r.validateV3Gating(ctx, req, resp, boolValue, boolSet, setNonEmpty, objectSet, int64Set)
+		r.validateV3Gating(ctx, req, resp, boolValue, boolSet, boolMissing, setNonEmpty, objectSet, int64Set, int64Missing)
 	} else {
 		// v3-only attributes must not be set in v2 mode.
 		if objectSet(path.Root("message_config")) {
@@ -139,23 +162,23 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 
 		// Restore the v2 required fields that the merged schema relaxed to
 		// Optional.
-		if !objectSet(path.Root("incident_template")) {
+		if objectMissing(path.Root("incident_template")) {
 			addErr(path.Root("incident_template"), "Missing required attribute",
 				"`incident_template` is required in the v2 schema (set `grouping_config` to use the v3 `incident_config.template` instead).")
 		}
-		if !boolSet(escalationBase.AtName("auto_cancel_escalations")) {
+		if boolMissing(escalationBase.AtName("auto_cancel_escalations")) {
 			addErr(escalationBase.AtName("auto_cancel_escalations"), "Missing required attribute",
 				"`escalation_config.auto_cancel_escalations` is required in the v2 schema.")
 		}
-		if !setPresent(escalationBase.AtName("escalation_targets")) {
+		if setMissing(escalationBase.AtName("escalation_targets")) {
 			addErr(escalationBase.AtName("escalation_targets"), "Missing required attribute",
 				"`escalation_config.escalation_targets` is required in the v2 schema (it may be an empty list).")
 		}
-		if !int64Set(incidentBase.AtName("grouping_window_seconds")) {
+		if int64Missing(incidentBase.AtName("grouping_window_seconds")) {
 			addErr(incidentBase.AtName("grouping_window_seconds"), "Missing required attribute",
 				"`incident_config.grouping_window_seconds` is required in the v2 schema.")
 		}
-		if !int64Set(incidentBase.AtName("defer_time_seconds")) {
+		if int64Missing(incidentBase.AtName("defer_time_seconds")) {
 			addErr(incidentBase.AtName("defer_time_seconds"), "Missing required attribute",
 				"`incident_config.defer_time_seconds` is required in the v2 schema.")
 		}
@@ -172,9 +195,11 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 	resp *resource.ValidateConfigResponse,
 	boolValue func(path.Path) (bool, bool),
 	boolSet func(path.Path) bool,
+	boolMissing func(path.Path) bool,
 	setNonEmpty func(path.Path) bool,
 	objectSet func(path.Path) bool,
 	int64Set func(path.Path) bool,
+	int64Missing func(path.Path) bool,
 ) {
 	addErr := func(p path.Path, summary, detail string) {
 		resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(p, summary, detail))
@@ -189,12 +214,12 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 	// Escalation: enabled gates auto_cancel_escalations, escalation_targets and
 	// when_alert_joins_group.
 	escalationEnabled, escalationKnown := boolValue(escalationBase.AtName("enabled"))
-	if !boolSet(escalationBase.AtName("enabled")) {
+	if boolMissing(escalationBase.AtName("enabled")) {
 		addErr(escalationBase.AtName("enabled"), "Missing required attribute",
 			"`escalation_config.enabled` is required in the v3 schema.")
 	} else if escalationKnown {
 		if escalationEnabled {
-			if !boolSet(escalationBase.AtName("auto_cancel_escalations")) {
+			if boolMissing(escalationBase.AtName("auto_cancel_escalations")) {
 				addErr(escalationBase.AtName("auto_cancel_escalations"), "Missing required attribute",
 					"`escalation_config.auto_cancel_escalations` is required when `escalation_config.enabled` is true.")
 			}
@@ -256,7 +281,7 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 	groupingEnabled, groupingKnown := boolValue(groupingBase.AtName("enabled"))
 	if groupingKnown {
 		if groupingEnabled {
-			if !int64Set(groupingBase.AtName("window_seconds")) {
+			if int64Missing(groupingBase.AtName("window_seconds")) {
 				addErr(groupingBase.AtName("window_seconds"), "Missing required attribute",
 					"`window_seconds` is required when `grouping_config.default.enabled` is true.")
 			}
@@ -289,7 +314,7 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 	incidentEnabled, incidentKnown := boolValue(incidentBase.AtName("enabled"))
 	if incidentKnown {
 		if incidentEnabled {
-			if !boolSet(incidentBase.AtName("auto_decline_enabled")) {
+			if boolMissing(incidentBase.AtName("auto_decline_enabled")) {
 				addErr(incidentBase.AtName("auto_decline_enabled"), "Missing required attribute",
 					"`incident_config.auto_decline_enabled` is required when `incident_config.enabled` is true.")
 			}

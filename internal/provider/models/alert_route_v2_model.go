@@ -13,6 +13,11 @@ import (
 	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
 )
 
+// AlertRouteResourceModel is the single, shared Terraform model for the
+// incident_alert_route resource, which supports both the v2 and v3 alert routes
+// APIs (see IsV3Mode). This file defines the shared structs and the v2 mapping
+// (FromAPIV2*/ToCreatePayloadV2/ToUpdatePayloadV2); the v3 mapping lives in
+// alert_route_v3_model.go.
 type AlertRouteResourceModel struct {
 	ID        types.String `tfsdk:"id"`
 	Name      types.String `tfsdk:"name"`

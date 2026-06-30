@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 
-	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -650,8 +650,54 @@ func (r *IncidentAlertRouteResource) Delete(ctx context.Context, req resource.De
 }
 
 func (r *IncidentAlertRouteResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	claimResource(ctx, r.client, req.ID, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+	// The same underlying alert route is readable through both the v2 and v3
+	// APIs, so a bare ID can't tell us which schema the configuration uses, and
+	// Read infers the schema from state (which is empty on import). Disambiguate
+	// with an optional prefix: a bare ID (or "v2:<id>") imports a v2 route, and
+	// "v3:<id>" imports a route managed with the v3 schema. We populate the full
+	// state here via the matching API so the subsequent refresh dispatches
+	// correctly.
+	id := req.ID
+	v3 := false
+	switch {
+	case strings.HasPrefix(id, "v3:"):
+		v3 = true
+		id = strings.TrimPrefix(id, "v3:")
+	case strings.HasPrefix(id, "v2:"):
+		id = strings.TrimPrefix(id, "v2:")
+	}
+
+	claimResource(ctx, r.client, id, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	if v3 {
+		result, err := r.client.AlertRoutesV3ShowWithResponse(ctx, id)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route, got error: %s", err))
+			return
+		}
+		if result.JSON200 == nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route %q: not found via the v3 API.", id))
+			return
+		}
+		data := models.AlertRouteResourceModel{}.FromAPIV3(result.JSON200.AlertRoute)
+		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+		return
+	}
+
+	result, err := r.client.AlertRoutesV2ShowWithResponse(ctx, id)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route, got error: %s", err))
+		return
+	}
+	if result.JSON200 == nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route %q: not found via the v2 API.", id))
+		return
+	}
+	data := models.AlertRouteResourceModel{}.FromAPIV2(result.JSON200.AlertRoute)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 // isNotFound reports whether err is a 404 from the API.

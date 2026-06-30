@@ -79,9 +79,10 @@ func TestAccIncidentAlertRouteV3Resource(t *testing.T) {
 			},
 			// ImportState testing
 			{
-				ResourceName:      "incident_alert_route.test",
-				ImportState:       true,
-				ImportStateVerify: true,
+				ResourceName:        "incident_alert_route.test",
+				ImportState:         true,
+				ImportStateVerify:   true,
+				ImportStateIdPrefix: "v3:",
 			},
 			// Update testing
 			{
@@ -143,9 +144,10 @@ func TestAccIncidentAlertRouteV3ResourceComprehensive(t *testing.T) {
 			},
 			// ImportState testing.
 			{
-				ResourceName:      "incident_alert_route.comprehensive",
-				ImportState:       true,
-				ImportStateVerify: true,
+				ResourceName:        "incident_alert_route.comprehensive",
+				ImportState:         true,
+				ImportStateVerify:   true,
+				ImportStateIdPrefix: "v3:",
 			},
 			// Update testing.
 			{

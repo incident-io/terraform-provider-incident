@@ -176,6 +176,66 @@ const arV2IncidentTemplate = `
     summary = {}
   }`
 
+// TestIncidentAlertRouteResource_ValidateConfigUnknownSkipsRequired guards the
+// M1 fix: a "required" attribute whose value is unknown at plan time (here
+// escalation_config.enabled, derived from a not-yet-applied terraform_data
+// resource) must NOT produce a "Missing required attribute" error, because it
+// may well be present at apply.
+func TestIncidentAlertRouteResource_ValidateConfigUnknownSkipsRequired(t *testing.T) {
+	config := `
+resource "terraform_data" "trigger" {}
+
+resource "incident_alert_route" "test" {
+  name       = "validate-unknown"
+  enabled    = true
+  is_private = false
+
+  alert_sources = [
+    {
+      alert_source_id  = "01SRC"
+      condition_groups = []
+    }
+  ]
+  condition_groups = []
+  expressions      = []
+
+  grouping_config = {
+    default = {
+      enabled = false
+    }
+  }
+
+  message_config = {
+    enabled = false
+  }
+
+  escalation_config = {
+    # Unknown at plan time: must not trip the "enabled is required" check.
+    enabled = terraform_data.trigger.output == "x"
+  }
+
+  incident_config = {
+    auto_decline_enabled = true
+    enabled              = true
+    condition_groups     = []
+` + alertRouteV3IncidentTemplateBlock + `
+  }
+}
+`
+
+	resource.Test(t, resource.TestCase{
+		IsUnitTest:               true,
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config:             config,
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+		},
+	})
+}
+
 func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 	cases := []struct {
 		name   string
