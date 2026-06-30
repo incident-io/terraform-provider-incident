@@ -10,7 +10,7 @@ import (
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
-// TestAlertRouteV3RoundTrip exercises the FromAPI -> ToCreatePayload path,
+// TestAlertRouteV3RoundTrip exercises the FromAPIV3 -> ToCreatePayloadV3 path,
 // including the JSON-bridged v3<->v2 engine type conversion, to confirm the
 // restructured v3 fields (grouping_config, message_config,
 // when_alert_joins_group, incident_config.template) survive a round trip.
@@ -48,7 +48,8 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 			},
 		},
 		MessageConfig: client.AlertMessageConfigV3{
-			Destinations: []client.AlertMessageDestinationV3{
+			Enabled: true,
+			Destinations: &[]client.AlertMessageDestinationV3{
 				{
 					ConditionGroups: []client.ConditionGroupV3{},
 					SlackTargets: &client.AlertRouteChannelTargetV3{
@@ -61,8 +62,9 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 			},
 		},
 		EscalationConfig: client.AlertRouteEscalationConfigV3{
-			AutoCancelEscalations: true,
-			EscalationTargets:     []client.AlertRouteEscalationTargetV3{},
+			Enabled:               true,
+			AutoCancelEscalations: lo.ToPtr(true),
+			EscalationTargets:     &[]client.AlertRouteEscalationTargetV3{},
 			WhenAlertJoinsGroup: &client.AlertRouteWhenAlertJoinsGroupV3{
 				Mode:               client.AlertRouteWhenAlertJoinsGroupV3ModeOnEachNewAlert,
 				GracePeriodSeconds: lo.ToPtr(int32(60)),
@@ -101,7 +103,12 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 		},
 	}
 
-	model := AlertRouteV3ResourceModel{}.FromAPI(api)
+	model := AlertRouteResourceModel{}.FromAPIV3(api)
+
+	// Mode detection: grouping_config is set, so this is a v3-mode model.
+	if !model.IsV3Mode() {
+		t.Error("expected IsV3Mode to be true")
+	}
 
 	// Top-level.
 	if got := model.Name.ValueString(); got != "route" {
@@ -126,8 +133,19 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 	if model.MessageConfig == nil || len(model.MessageConfig.Destinations) != 1 {
 		t.Fatalf("message_config destinations: %+v", model.MessageConfig)
 	}
+	if !model.MessageConfig.Enabled.ValueBool() {
+		t.Error("message enabled should be true")
+	}
 	if model.MessageConfig.Destinations[0].SlackTargets == nil {
 		t.Fatal("slack_targets is nil")
+	}
+
+	// Escalation config.
+	if !model.EscalationConfig.Enabled.ValueBool() {
+		t.Error("escalation enabled should be true")
+	}
+	if !model.EscalationConfig.AutoCancelEscalations.ValueBool() {
+		t.Error("auto_cancel_escalations should be true")
 	}
 
 	// when_alert_joins_group (modelled as a types.Object).
@@ -155,17 +173,20 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 	}
 
 	// Now convert back to a payload and check the engine-bridged fields survive.
-	payload := model.ToCreatePayload()
+	payload := model.ToCreatePayloadV3()
 
 	if got := payload.GroupingConfig.Default.WindowType; got == nil || *got != client.Fixed {
 		t.Errorf("payload window_type: got %v", got)
 	}
-	if got := len(payload.MessageConfig.Destinations); got != 1 {
-		t.Fatalf("payload destinations: got %d", got)
+	if payload.MessageConfig.Destinations == nil || len(*payload.MessageConfig.Destinations) != 1 {
+		t.Fatalf("payload destinations: %+v", payload.MessageConfig.Destinations)
 	}
-	slack := payload.MessageConfig.Destinations[0].SlackTargets
+	slack := (*payload.MessageConfig.Destinations)[0].SlackTargets
 	if slack == nil || slack.Binding.Value == nil || lo.FromPtr(slack.Binding.Value.Literal) != "C123" {
 		t.Errorf("payload slack binding literal mismatch: %+v", slack)
+	}
+	if !payload.EscalationConfig.Enabled {
+		t.Error("payload escalation enabled should be true")
 	}
 	if payload.EscalationConfig.WhenAlertJoinsGroup == nil {
 		t.Fatal("payload when_alert_joins_group is nil")
@@ -185,8 +206,51 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 	}
 }
 
+// TestAlertRouteV3DisabledSectionsOmitGatedFields confirms that when the v3
+// enabled flags are false, ToCreatePayloadV3 omits the gated fields entirely so
+// the API does not reject the payload.
+func TestAlertRouteV3DisabledSectionsOmitGatedFields(t *testing.T) {
+	api := client.AlertRouteV3{
+		Id:              "01ABC",
+		Name:            "route",
+		ConditionGroups: []client.ConditionGroupV3{},
+		Expressions:     []client.ExpressionV3{},
+		GroupingConfig: client.AlertGroupingConfigV3{
+			Default: client.GroupingSettingsV3{Enabled: false},
+		},
+		MessageConfig:    client.AlertMessageConfigV3{Enabled: false},
+		EscalationConfig: client.AlertRouteEscalationConfigV3{Enabled: false},
+		IncidentConfig:   client.AlertRouteIncidentConfigV3{Enabled: false},
+	}
+
+	model := AlertRouteResourceModel{}.FromAPIV3(api)
+	payload := model.ToCreatePayloadV3()
+
+	if payload.EscalationConfig.Enabled {
+		t.Error("escalation enabled should be false")
+	}
+	if payload.EscalationConfig.AutoCancelEscalations != nil {
+		t.Errorf("auto_cancel_escalations should be omitted, got %v", payload.EscalationConfig.AutoCancelEscalations)
+	}
+	if payload.EscalationConfig.EscalationTargets != nil {
+		t.Errorf("escalation_targets should be omitted, got %v", payload.EscalationConfig.EscalationTargets)
+	}
+	if payload.EscalationConfig.WhenAlertJoinsGroup != nil {
+		t.Errorf("when_alert_joins_group should be omitted, got %v", payload.EscalationConfig.WhenAlertJoinsGroup)
+	}
+	if payload.MessageConfig.Enabled {
+		t.Error("message enabled should be false")
+	}
+	if payload.MessageConfig.Destinations != nil {
+		t.Errorf("destinations should be omitted, got %v", payload.MessageConfig.Destinations)
+	}
+	if payload.MessageConfig.Template != nil {
+		t.Errorf("template should be omitted, got %v", payload.MessageConfig.Template)
+	}
+}
+
 // TestAlertRouteV3MessageConfigDestinationsNullVsEmpty checks that
-// FromAPIWithPlan mirrors the planned null-vs-empty shape of the optional
+// FromAPIV3WithPlan mirrors the planned null-vs-empty shape of the optional
 // message_config.destinations set. The API returns no destinations both when
 // the attribute is omitted and when it's set to an explicit empty list, so the
 // result must follow the plan to avoid perpetual diffs on refresh.
@@ -201,22 +265,23 @@ func TestAlertRouteV3MessageConfigDestinationsNullVsEmpty(t *testing.T) {
 			Default: client.GroupingSettingsV3{},
 		},
 		MessageConfig: client.AlertMessageConfigV3{
-			Destinations: []client.AlertMessageDestinationV3{},
+			Enabled:      true,
+			Destinations: &[]client.AlertMessageDestinationV3{},
 		},
 		EscalationConfig: client.AlertRouteEscalationConfigV3{
-			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+			EscalationTargets: &[]client.AlertRouteEscalationTargetV3{},
 		},
 		IncidentConfig: client.AlertRouteIncidentConfigV3{},
 	}
 
 	// Plan with an explicit, non-nil empty destinations slice.
-	planEmpty := &AlertRouteV3ResourceModel{
+	planEmpty := &AlertRouteResourceModel{
 		MessageConfig: &AlertRouteV3MessageConfigModel{
 			Destinations: []AlertRouteChannelConfigModel{},
 		},
 	}
 
-	resultEmpty := AlertRouteV3ResourceModel{}.FromAPIWithPlan(api, planEmpty)
+	resultEmpty := AlertRouteResourceModel{}.FromAPIV3WithPlan(api, planEmpty)
 	if resultEmpty.MessageConfig == nil {
 		t.Fatal("message_config is nil")
 	}
@@ -228,7 +293,7 @@ func TestAlertRouteV3MessageConfigDestinationsNullVsEmpty(t *testing.T) {
 	}
 
 	// With no plan, the omitted optional should stay null (nil).
-	resultNil := AlertRouteV3ResourceModel{}.FromAPIWithPlan(api, nil)
+	resultNil := AlertRouteResourceModel{}.FromAPIV3WithPlan(api, nil)
 	if resultNil.MessageConfig == nil {
 		t.Fatal("message_config is nil")
 	}
@@ -240,8 +305,8 @@ func TestAlertRouteV3MessageConfigDestinationsNullVsEmpty(t *testing.T) {
 // TestAlertRouteV3ImportLeavesConditionalFieldsNull simulates an import/read of a
 // route with grouping and incident creation disabled: the API omits the
 // conditional detail fields and there is no prior plan/state. Those fields are
-// optional in the schema, so FromAPI must leave them null rather than writing a
-// zero value, which would break ImportStateVerify and cause plan churn.
+// optional in the schema, so FromAPIV3 must leave them null rather than writing
+// a zero value, which would break ImportStateVerify and cause plan churn.
 func TestAlertRouteV3ImportLeavesConditionalFieldsNull(t *testing.T) {
 	api := client.AlertRouteV3{
 		Id:              "01ABC",
@@ -252,16 +317,16 @@ func TestAlertRouteV3ImportLeavesConditionalFieldsNull(t *testing.T) {
 			Default: client.GroupingSettingsV3{Enabled: false},
 		},
 		MessageConfig: client.AlertMessageConfigV3{
-			Destinations: []client.AlertMessageDestinationV3{},
+			Destinations: &[]client.AlertMessageDestinationV3{},
 		},
 		EscalationConfig: client.AlertRouteEscalationConfigV3{
-			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+			EscalationTargets: &[]client.AlertRouteEscalationTargetV3{},
 		},
 		IncidentConfig: client.AlertRouteIncidentConfigV3{Enabled: false},
 	}
 
-	// FromAPI passes a nil plan, exactly as the import path does.
-	model := AlertRouteV3ResourceModel{}.FromAPI(api)
+	// FromAPIV3 passes a nil plan, exactly as the import path does.
+	model := AlertRouteResourceModel{}.FromAPIV3(api)
 
 	if model.GroupingConfig == nil || model.GroupingConfig.Default == nil {
 		t.Fatal("grouping_config.default is nil")
@@ -281,6 +346,16 @@ func TestAlertRouteV3ImportLeavesConditionalFieldsNull(t *testing.T) {
 	if !model.IncidentConfig.AutoDeclineEnabled.IsNull() {
 		t.Errorf("auto_decline_enabled: expected null, got %v", model.IncidentConfig.AutoDeclineEnabled)
 	}
+	// v2-only incident fields must stay null in v3 mode.
+	if !model.IncidentConfig.DeferTimeSeconds.IsNull() {
+		t.Errorf("defer_time_seconds: expected null, got %v", model.IncidentConfig.DeferTimeSeconds)
+	}
+	if !model.IncidentConfig.GroupingWindowSeconds.IsNull() {
+		t.Errorf("grouping_window_seconds: expected null, got %v", model.IncidentConfig.GroupingWindowSeconds)
+	}
+	if model.IncidentConfig.GroupingKeys != nil {
+		t.Errorf("incident grouping_keys: expected nil, got %+v", model.IncidentConfig.GroupingKeys)
+	}
 }
 
 // TestAlertRouteV3CustomFieldsNullVsEmpty checks that the optional
@@ -297,10 +372,10 @@ func TestAlertRouteV3CustomFieldsNullVsEmpty(t *testing.T) {
 			Default: client.GroupingSettingsV3{Enabled: false},
 		},
 		MessageConfig: client.AlertMessageConfigV3{
-			Destinations: []client.AlertMessageDestinationV3{},
+			Destinations: &[]client.AlertMessageDestinationV3{},
 		},
 		EscalationConfig: client.AlertRouteEscalationConfigV3{
-			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+			EscalationTargets: &[]client.AlertRouteEscalationTargetV3{},
 		},
 		IncidentConfig: client.AlertRouteIncidentConfigV3{
 			Enabled: true,
@@ -312,7 +387,7 @@ func TestAlertRouteV3CustomFieldsNullVsEmpty(t *testing.T) {
 	}
 
 	// Omitted in config (nil plan): custom_fields stays null.
-	got := AlertRouteV3ResourceModel{}.FromAPI(api)
+	got := AlertRouteResourceModel{}.FromAPIV3(api)
 	if got.IncidentConfig.Template == nil {
 		t.Fatal("template is nil")
 	}
@@ -321,14 +396,14 @@ func TestAlertRouteV3CustomFieldsNullVsEmpty(t *testing.T) {
 	}
 
 	// Explicit empty in plan: custom_fields normalised to a non-nil empty slice.
-	plan := &AlertRouteV3ResourceModel{
-		IncidentConfig: &AlertRouteV3IncidentConfigModel{
+	plan := &AlertRouteResourceModel{
+		IncidentConfig: &AlertRouteIncidentConfigModel{
 			Template: &AlertRouteV3IncidentTemplateModel{
 				CustomFields: []AlertRouteCustomFieldModel{},
 			},
 		},
 	}
-	gotEmpty := AlertRouteV3ResourceModel{}.FromAPIWithPlan(api, plan)
+	gotEmpty := AlertRouteResourceModel{}.FromAPIV3WithPlan(api, plan)
 	if gotEmpty.IncidentConfig.Template == nil {
 		t.Fatal("template is nil")
 	}

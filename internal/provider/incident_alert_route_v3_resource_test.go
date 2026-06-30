@@ -18,15 +18,15 @@ func TestAccIncidentAlertRouteV3Resource(t *testing.T) {
 			{
 				Config: testAccIncidentAlertRouteV3ResourceConfig("test-route-v3"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestMatchResourceAttr("incident_alert_route_v3.test", "id", regexp.MustCompile("^[a-zA-Z0-9]+$")),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.test", "name", "test-route-v3"),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.test", "enabled", "true"),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.test", "is_private", "false"),
+					resource.TestMatchResourceAttr("incident_alert_route.test", "id", regexp.MustCompile("^[a-zA-Z0-9]+$")),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "name", "test-route-v3"),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "enabled", "true"),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "is_private", "false"),
 					// Grouping config lives at the top level in v3.
-					resource.TestCheckResourceAttr("incident_alert_route_v3.test", "grouping_config.default.enabled", "false"),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "grouping_config.default.enabled", "false"),
 					// When grouping is disabled the optional window fields are unset.
-					resource.TestCheckNoResourceAttr("incident_alert_route_v3.test", "grouping_config.default.window_type"),
-					resource.TestCheckNoResourceAttr("incident_alert_route_v3.test", "grouping_config.default.window_seconds"),
+					resource.TestCheckNoResourceAttr("incident_alert_route.test", "grouping_config.default.window_type"),
+					resource.TestCheckNoResourceAttr("incident_alert_route.test", "grouping_config.default.window_seconds"),
 				),
 			},
 			// Refresh and ensure there's no perpetual diff.
@@ -41,7 +41,7 @@ func TestAccIncidentAlertRouteV3Resource(t *testing.T) {
 			},
 			// ImportState testing
 			{
-				ResourceName:      "incident_alert_route_v3.test",
+				ResourceName:      "incident_alert_route.test",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -49,7 +49,7 @@ func TestAccIncidentAlertRouteV3Resource(t *testing.T) {
 			{
 				Config: testAccIncidentAlertRouteV3ResourceConfig("test-route-v3-updated"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_route_v3.test", "name", "test-route-v3-updated"),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "name", "test-route-v3-updated"),
 				),
 			},
 		},
@@ -64,33 +64,33 @@ func TestAccIncidentAlertRouteV3ResourceComprehensive(t *testing.T) {
 			{
 				Config: testAccIncidentAlertRouteV3ResourceConfigComprehensive("comprehensive-test-route-v3"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestMatchResourceAttr("incident_alert_route_v3.comprehensive", "id", regexp.MustCompile("^[a-zA-Z0-9]+$")),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "name", "comprehensive-test-route-v3"),
+					resource.TestMatchResourceAttr("incident_alert_route.comprehensive", "id", regexp.MustCompile("^[a-zA-Z0-9]+$")),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "name", "comprehensive-test-route-v3"),
 
 					// Alert sources.
-					resource.TestCheckResourceAttrSet("incident_alert_route_v3.comprehensive", "alert_sources.0.alert_source_id"),
+					resource.TestCheckResourceAttrSet("incident_alert_route.comprehensive", "alert_sources.0.alert_source_id"),
 
 					// Grouping config.
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "grouping_config.default.enabled", "true"),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "grouping_config.default.window_seconds", "1800"),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "grouping_config.default.window_type", "fixed"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "grouping_config.default.enabled", "true"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "grouping_config.default.window_seconds", "1800"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "grouping_config.default.window_type", "fixed"),
 
 					// Message config (destinations).
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "message_config.destinations.#", "1"),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "message_config.destinations.0.slack_targets.channel_visibility", "public"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "message_config.destinations.#", "1"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "message_config.destinations.0.slack_targets.channel_visibility", "public"),
 
 					// Escalation config with when_alert_joins_group.
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "escalation_config.when_alert_joins_group.mode", "on_each_new_alert"),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "escalation_config.when_alert_joins_group.grace_period_seconds", "60"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "escalation_config.when_alert_joins_group.mode", "on_each_new_alert"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "escalation_config.when_alert_joins_group.grace_period_seconds", "60"),
 
 					// Incident config and nested template.
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "incident_config.auto_decline_enabled", "false"),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "incident_config.enabled", "true"),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "incident_config.template.name.autogenerated", "true"),
-					resource.TestCheckResourceAttrSet("incident_alert_route_v3.comprehensive", "incident_config.template.name.value.literal"),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "incident_config.template.severity.merge_strategy", "first-wins"),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "incident_config.template.custom_fields.0.merge_strategy", "first-wins"),
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "incident_config.template.custom_fields.0.binding.value.literal", "Test incident"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.auto_decline_enabled", "false"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.enabled", "true"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.template.name.autogenerated", "true"),
+					resource.TestCheckResourceAttrSet("incident_alert_route.comprehensive", "incident_config.template.name.value.literal"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.template.severity.merge_strategy", "first-wins"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.template.custom_fields.0.merge_strategy", "first-wins"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_config.template.custom_fields.0.binding.value.literal", "Test incident"),
 				),
 			},
 			// Refresh and ensure there's no perpetual diff on the full config.
@@ -105,7 +105,7 @@ func TestAccIncidentAlertRouteV3ResourceComprehensive(t *testing.T) {
 			},
 			// ImportState testing.
 			{
-				ResourceName:      "incident_alert_route_v3.comprehensive",
+				ResourceName:      "incident_alert_route.comprehensive",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -113,7 +113,7 @@ func TestAccIncidentAlertRouteV3ResourceComprehensive(t *testing.T) {
 			{
 				Config: testAccIncidentAlertRouteV3ResourceConfigComprehensive("comprehensive-test-route-v3-updated"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "name", "comprehensive-test-route-v3-updated"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "name", "comprehensive-test-route-v3-updated"),
 				),
 			},
 		},
@@ -230,7 +230,7 @@ const alertRouteV3IncidentTemplateBlock = `
 
 func testAccIncidentAlertRouteV3ResourceConfig(name string) string {
 	return fmt.Sprintf(`
-resource "incident_alert_route_v3" "test" {
+resource "incident_alert_route" "test" {
   name       = %[1]q
   enabled    = true
   is_private = false
@@ -325,7 +325,7 @@ resource "incident_alert_source" "http_test" {
   }
 }
 
-resource "incident_alert_route_v3" "comprehensive" {
+resource "incident_alert_route" "comprehensive" {
   name       = %[1]q
   enabled    = true
   is_private = false
@@ -463,7 +463,7 @@ resource "incident_alert_route_v3" "comprehensive" {
 
 func testAccIncidentAlertRouteV3ResourceConfigInvalidBranches() string {
 	return fmt.Sprintf(`
-resource "incident_alert_route_v3" "invalid_branches" {
+resource "incident_alert_route" "invalid_branches" {
   name       = "invalid-branches-test-v3"
   enabled    = true
   is_private = false
@@ -541,7 +541,7 @@ resource "incident_alert_route_v3" "invalid_branches" {
 // must reject.
 func testAccIncidentAlertRouteV3ResourceConfigGroupingDisabledWithWindow() string {
 	return fmt.Sprintf(`
-resource "incident_alert_route_v3" "test" {
+resource "incident_alert_route" "test" {
   name       = "grouping-validation"
   enabled    = false
   is_private = false
@@ -581,7 +581,7 @@ resource "incident_alert_route_v3" "test" {
 // must reject.
 func testAccIncidentAlertRouteV3ResourceConfigTemplateWhileIncidentDisabled() string {
 	return fmt.Sprintf(`
-resource "incident_alert_route_v3" "test" {
+resource "incident_alert_route" "test" {
   name       = "template-validation"
   enabled    = false
   is_private = false

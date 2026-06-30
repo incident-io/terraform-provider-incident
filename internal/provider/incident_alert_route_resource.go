@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -27,6 +26,19 @@ var (
 	_ resource.ResourceWithValidateConfig = &IncidentAlertRouteResource{}
 )
 
+// Deprecation messages for the v2-only attributes, each pointing at the v3
+// location. They are emitted whenever the attribute is set, nudging users to
+// migrate to the v3 schema (opted into via the top-level grouping_config).
+const (
+	deprecatedChannelConfig         = "Deprecated: use `message_config.destinations` (set the top-level `grouping_config` block to opt into the v3 schema)."
+	deprecatedMessageTemplate       = "Deprecated: use `message_config.template` (set the top-level `grouping_config` block to opt into the v3 schema)."
+	deprecatedIncidentTemplate      = "Deprecated: use `incident_config.template` (set the top-level `grouping_config` block to opt into the v3 schema)."
+	deprecatedGroupingKeys          = "Deprecated: configure grouping via the top-level `grouping_config` block (`grouping_config.default.grouping_keys`)."
+	deprecatedGroupingWindowSeconds = "Deprecated: configure grouping via the top-level `grouping_config` block (`grouping_config.default.window_seconds`)."
+	deprecatedDeferTimeSeconds      = "Deprecated: the v3 schema (`grouping_config`) does not support a defer time."
+	deprecatedAutoRelateGrouped     = "Deprecated: the v3 schema (`grouping_config`) does not support auto-relating grouped alerts."
+)
+
 type IncidentAlertRouteResource struct {
 	client           *client.ClientWithResponses
 	terraformVersion string
@@ -42,7 +54,16 @@ func (r *IncidentAlertRouteResource) Metadata(ctx context.Context, req resource.
 
 func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Alert Routes V2"), `We'd generally recommend building alert routes in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.`),
+		MarkdownDescription: `Alert routes define how alerts are processed: how they're grouped, which channels they post to, who is escalated, and whether they open incidents.
+
+This resource supports two configuration schemas, switched by whether the top-level ` + "`grouping_config`" + ` block is set:
+
+- **v2 (default):** the original layout, using ` + "`channel_config`" + `, ` + "`message_template`" + `, ` + "`incident_template`" + `, and grouping fields nested under ` + "`incident_config`" + `.
+- **v3:** set ` + "`grouping_config`" + ` to opt in. v3 moves grouping into ` + "`grouping_config`" + `, combines ` + "`channel_config`" + ` and ` + "`message_template`" + ` into ` + "`message_config`" + `, nests the incident template under ` + "`incident_config.template`" + `, and adds explicit ` + "`enabled`" + ` flags to ` + "`escalation_config`" + ` and ` + "`message_config`" + `.
+
+The v2-only fields are deprecated, and each carries a warning pointing at its v3 location. An existing alert route can be migrated in place: add ` + "`grouping_config`" + ` (and the other v3 blocks) and drop the deprecated fields in the same change, and Terraform updates the route rather than replacing it. A route is managed via one schema at a time, chosen by whether ` + "`grouping_config`" + ` is set.
+
+We'd generally recommend building alert routes in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -76,9 +97,11 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 					},
 				},
 			},
+			// --- v2-only: channel_config (deprecated, see message_config) ---
 			"channel_config": schema.SetNestedAttribute{
 				Optional:            true,
-				MarkdownDescription: apischema.Docstring("AlertRouteV2", "channel_config"),
+				DeprecationMessage:  deprecatedChannelConfig,
+				MarkdownDescription: apischema.Docstring("AlertRouteV2", "channel_config") + "\n\n" + deprecatedChannelConfig,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"condition_groups": models.ConditionGroupsAttribute(),
@@ -122,11 +145,15 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 				MarkdownDescription: apischema.Docstring("AlertRouteV2", "escalation_config"),
 				Attributes: map[string]schema.Attribute{
 					"auto_cancel_escalations": schema.BoolAttribute{
-						Required:            true,
+						// Optional: required in v2, and in v3 only when escalations are
+						// enabled. Enforced in ValidateConfig.
+						Optional:            true,
 						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV2", "auto_cancel_escalations"),
 					},
 					"escalation_targets": schema.SetNestedAttribute{
-						Required:            true,
+						// Optional: required in v2, and in v3 only when escalations are
+						// enabled. Enforced in ValidateConfig.
+						Optional:            true,
 						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV2", "escalation_targets"),
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
@@ -143,6 +170,128 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 							},
 						},
 					},
+					// --- v3-only escalation fields ---
+					"enabled": schema.BoolAttribute{
+						// Optional: only used in the v3 schema, where it's required.
+						// Enforced in ValidateConfig.
+						Optional:            true,
+						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV3", "enabled") + " (v3 only)",
+					},
+					"when_alert_joins_group": schema.SingleNestedAttribute{
+						// Optional + Computed: v3 only. When grouping is enabled the API
+						// returns a default when_alert_joins_group even if the user
+						// didn't configure one, so we accept that computed value.
+						Optional:            true,
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV3", "when_alert_joins_group") + " (v3 only)",
+						PlanModifiers: []planmodifier.Object{
+							objectplanmodifier.UseStateForUnknown(),
+						},
+						Attributes: map[string]schema.Attribute{
+							"mode": schema.StringAttribute{
+								Required:            true,
+								MarkdownDescription: EnumValuesDescription("AlertRouteWhenAlertJoinsGroupV3", "mode"),
+							},
+							"grace_period_seconds": schema.Int64Attribute{
+								Optional:            true,
+								MarkdownDescription: apischema.Docstring("AlertRouteWhenAlertJoinsGroupV3", "grace_period_seconds"),
+							},
+						},
+					},
+				},
+			},
+			// --- v3-only: grouping_config (the schema discriminator) ---
+			"grouping_config": schema.SingleNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("AlertRouteV3", "grouping_config") + "\n\nSetting this block opts the alert route into the v3 schema.",
+				Attributes: map[string]schema.Attribute{
+					"default": schema.SingleNestedAttribute{
+						Required:            true,
+						MarkdownDescription: apischema.Docstring("AlertGroupingConfigV3", "default"),
+						Attributes: map[string]schema.Attribute{
+							"enabled": schema.BoolAttribute{
+								Required:            true,
+								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "enabled"),
+							},
+							"grouping_keys": schema.SetNestedAttribute{
+								// Optional: only valid when grouping is enabled. Enforced
+								// conditionally in ValidateConfig.
+								Optional:            true,
+								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "grouping_keys"),
+								NestedObject: schema.NestedAttributeObject{
+									Attributes: map[string]schema.Attribute{
+										"reference": schema.StringAttribute{
+											Required:            true,
+											MarkdownDescription: apischema.Docstring("GroupingKeyV3", "reference"),
+										},
+									},
+								},
+							},
+							"window_seconds": schema.Int64Attribute{
+								Optional:            true,
+								MarkdownDescription: apischema.Docstring("GroupingSettingsV3", "window_seconds"),
+							},
+							"window_type": schema.StringAttribute{
+								Optional:            true,
+								MarkdownDescription: EnumValuesDescription("GroupingSettingsV3", "window_type"),
+							},
+						},
+					},
+				},
+			},
+			// --- v3-only: message_config (see channel_config / message_template) ---
+			"message_config": schema.SingleNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("AlertRouteV3", "message_config") + " (v3 only)",
+				Attributes: map[string]schema.Attribute{
+					"enabled": schema.BoolAttribute{
+						Required:            true,
+						MarkdownDescription: apischema.Docstring("AlertMessageConfigV3", "enabled"),
+					},
+					"destinations": schema.SetNestedAttribute{
+						Optional:            true,
+						MarkdownDescription: apischema.Docstring("AlertMessageConfigV3", "destinations"),
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"condition_groups": models.ConditionGroupsAttribute(),
+								"ms_teams_targets": schema.SingleNestedAttribute{
+									Optional:            true,
+									MarkdownDescription: apischema.Docstring("AlertMessageDestinationV3", "ms_teams_targets"),
+									Attributes: map[string]schema.Attribute{
+										"binding": schema.SingleNestedAttribute{
+											Required:            true,
+											MarkdownDescription: apischema.Docstring("AlertRouteChannelTargetV3", "binding"),
+											Attributes:          models.ParamBindingAttributes(),
+										},
+										"channel_visibility": schema.StringAttribute{
+											Required:            true,
+											MarkdownDescription: apischema.Docstring("AlertRouteChannelTargetV3", "channel_visibility"),
+										},
+									},
+								},
+								"slack_targets": schema.SingleNestedAttribute{
+									Optional:            true,
+									MarkdownDescription: apischema.Docstring("AlertMessageDestinationV3", "slack_targets"),
+									Attributes: map[string]schema.Attribute{
+										"binding": schema.SingleNestedAttribute{
+											Required:            true,
+											MarkdownDescription: apischema.Docstring("AlertRouteChannelTargetV3", "binding"),
+											Attributes:          models.ParamBindingAttributes(),
+										},
+										"channel_visibility": schema.StringAttribute{
+											Required:            true,
+											MarkdownDescription: apischema.Docstring("AlertRouteChannelTargetV3", "channel_visibility"),
+										},
+									},
+								},
+							},
+						},
+					},
+					"template": schema.SingleNestedAttribute{
+						Optional:            true,
+						MarkdownDescription: apischema.Docstring("AlertMessageConfigV3", "template"),
+						Attributes:          models.ParamBindingAttributes(),
+					},
 				},
 			},
 			"incident_config": schema.SingleNestedAttribute{
@@ -150,13 +299,16 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 				MarkdownDescription: apischema.Docstring("AlertRouteV2", "incident_config"),
 				Attributes: map[string]schema.Attribute{
 					"auto_decline_enabled": schema.BoolAttribute{
-						Required:            true,
+						// Optional: required when incident creation is enabled, must be
+						// unset otherwise. Enforced in ValidateConfig.
+						Optional:            true,
 						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "auto_decline_enabled"),
 					},
 					"auto_relate_grouped_alerts": schema.BoolAttribute{
 						Optional:            true,
 						Computed:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "auto_relate_grouped_alerts"),
+						DeprecationMessage:  deprecatedAutoRelateGrouped,
+						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "auto_relate_grouped_alerts") + "\n\n" + deprecatedAutoRelateGrouped,
 						PlanModifiers: []planmodifier.Bool{
 							boolplanmodifier.UseStateForUnknown(),
 						},
@@ -167,8 +319,11 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 					},
 					"condition_groups": models.ConditionGroupsAttribute(),
 					"grouping_keys": schema.SetNestedAttribute{
-						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "grouping_keys"),
+						// Optional: required in v2 mode, forbidden in v3. Enforced in
+						// ValidateConfig.
+						Optional:            true,
+						DeprecationMessage:  deprecatedGroupingKeys,
+						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "grouping_keys") + "\n\n" + deprecatedGroupingKeys,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
 								"reference": schema.StringAttribute{
@@ -179,102 +334,131 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 						},
 					},
 					"grouping_window_seconds": schema.Int64Attribute{
-						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "grouping_window_seconds"),
+						Optional:            true,
+						DeprecationMessage:  deprecatedGroupingWindowSeconds,
+						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "grouping_window_seconds") + "\n\n" + deprecatedGroupingWindowSeconds,
 					},
 					"defer_time_seconds": schema.Int64Attribute{
-						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "defer_time_seconds"),
+						Optional:            true,
+						DeprecationMessage:  deprecatedDeferTimeSeconds,
+						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "defer_time_seconds") + "\n\n" + deprecatedDeferTimeSeconds,
+					},
+					// --- v3-only: incident template moves here ---
+					"template": schema.SingleNestedAttribute{
+						Optional:            true,
+						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV3", "template") + " (v3 only)",
+						Attributes:          incidentTemplateAttributes(false),
 					},
 				},
+			},
+			// --- v2-only: incident_template (deprecated, see incident_config.template) ---
+			"incident_template": schema.SingleNestedAttribute{
+				Optional:            true,
+				DeprecationMessage:  deprecatedIncidentTemplate,
+				MarkdownDescription: apischema.Docstring("AlertRouteV2", "incident_template") + "\n\n" + deprecatedIncidentTemplate,
+				Attributes:          incidentTemplateAttributes(true),
+			},
+			// --- v2-only: message_template (deprecated, see message_config.template) ---
+			"message_template": schema.SingleNestedAttribute{
+				Optional:            true,
+				DeprecationMessage:  deprecatedMessageTemplate,
+				MarkdownDescription: apischema.Docstring("AlertRouteV2", "message_template") + "\n\n" + deprecatedMessageTemplate,
+				Attributes:          models.ParamBindingAttributes(),
 			},
 			"owning_team_ids": schema.SetAttribute{
 				Optional:            true,
 				ElementType:         types.StringType,
 				MarkdownDescription: apischema.Docstring("AlertRouteV2", "owning_team_ids"),
 			},
-			"message_template": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: apischema.Docstring("AlertRouteV2", "message_template"),
-				Attributes:          models.ParamBindingAttributes(),
-			},
-			"incident_template": schema.SingleNestedAttribute{
-				Required:            true,
-				MarkdownDescription: apischema.Docstring("AlertRouteV2", "incident_template"),
+		},
+	}
+}
+
+// incidentTemplateAttributes returns the shared incident-template attribute set.
+// The v2 top-level incident_template carries a workspace binding that the v3
+// incident_config.template does not, so includeWorkspace gates that attribute.
+func incidentTemplateAttributes(includeWorkspace bool) map[string]schema.Attribute {
+	v := "V2"
+	if !includeWorkspace {
+		v = "V3"
+	}
+	attrs := map[string]schema.Attribute{
+		"custom_fields": schema.SetNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplate"+v, "custom_fields"),
+			NestedObject: schema.NestedAttributeObject{
 				Attributes: map[string]schema.Attribute{
-					"custom_fields": schema.SetNestedAttribute{
-						Optional:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplateV2", "custom_fields"),
-						NestedObject: schema.NestedAttributeObject{
-							Attributes: map[string]schema.Attribute{
-								"custom_field_id": schema.StringAttribute{
-									Required:            true,
-									MarkdownDescription: "ID of the custom field",
-								},
-								"binding": schema.SingleNestedAttribute{
-									Required:            true,
-									MarkdownDescription: "Binding for the custom field",
-									Attributes:          models.ParamBindingAttributes(),
-								},
-								"merge_strategy": schema.StringAttribute{
-									Required:            true,
-									MarkdownDescription: EnumValuesDescription("AlertRouteCustomFieldBindingV2", "merge_strategy"),
-								}},
-						},
-					},
-					"incident_mode": schema.SingleNestedAttribute{
-						Optional:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplateV2", "incident_mode"),
-						Attributes:          models.ParamBindingAttributes(),
-					},
-					"incident_type": schema.SingleNestedAttribute{
-						Optional:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplateV2", "incident_type"),
-						Attributes:          models.ParamBindingAttributes(),
-					},
-					"name": schema.SingleNestedAttribute{
+					"custom_field_id": schema.StringAttribute{
 						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplateV2", "name"),
-						Attributes:          models.AutoGeneratedParamBindingAttributes(),
+						MarkdownDescription: "ID of the custom field",
 					},
-					"severity": schema.SingleNestedAttribute{
-						Optional:            true,
-						Computed:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplateV2", "severity"),
-						PlanModifiers: []planmodifier.Object{
-							objectplanmodifier.UseStateForUnknown(),
-						},
-						Attributes: map[string]schema.Attribute{
-							"binding": schema.SingleNestedAttribute{
-								Optional:            true,
-								MarkdownDescription: apischema.Docstring("AlertRouteSeverityBindingV2", "binding"),
-								Attributes:          models.ParamBindingAttributes(),
-							},
-							"merge_strategy": schema.StringAttribute{
-								Required:            true,
-								MarkdownDescription: EnumValuesDescription("AlertRouteSeverityBindingV2", "merge_strategy"),
-							},
-						},
-					},
-					"start_in_triage": schema.SingleNestedAttribute{
-						Optional:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplateV2", "start_in_triage"),
-						Attributes:          models.ParamBindingAttributes(),
-					},
-					"summary": schema.SingleNestedAttribute{
+					"binding": schema.SingleNestedAttribute{
 						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplateV2", "summary"),
-						Attributes:          models.AutoGeneratedParamBindingAttributes(),
-					},
-					"workspace": schema.SingleNestedAttribute{
-						Optional:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplateV2", "workspace"),
+						MarkdownDescription: "Binding for the custom field",
 						Attributes:          models.ParamBindingAttributes(),
+					},
+					"merge_strategy": schema.StringAttribute{
+						Required:            true,
+						MarkdownDescription: EnumValuesDescription("AlertRouteCustomFieldBinding"+v, "merge_strategy"),
 					},
 				},
 			},
 		},
+		"incident_mode": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplate"+v, "incident_mode"),
+			Attributes:          models.ParamBindingAttributes(),
+		},
+		"incident_type": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplate"+v, "incident_type"),
+			Attributes:          models.ParamBindingAttributes(),
+		},
+		"name": schema.SingleNestedAttribute{
+			Required:            true,
+			MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplate"+v, "name"),
+			Attributes:          models.AutoGeneratedParamBindingAttributes(),
+		},
+		"severity": schema.SingleNestedAttribute{
+			Optional:            true,
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplate"+v, "severity"),
+			PlanModifiers: []planmodifier.Object{
+				objectplanmodifier.UseStateForUnknown(),
+			},
+			Attributes: map[string]schema.Attribute{
+				"binding": schema.SingleNestedAttribute{
+					Optional:            true,
+					MarkdownDescription: apischema.Docstring("AlertRouteSeverityBinding"+v, "binding"),
+					Attributes:          models.ParamBindingAttributes(),
+				},
+				"merge_strategy": schema.StringAttribute{
+					Required:            true,
+					MarkdownDescription: EnumValuesDescription("AlertRouteSeverityBinding"+v, "merge_strategy"),
+				},
+			},
+		},
+		"start_in_triage": schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplate"+v, "start_in_triage"),
+			Attributes:          models.ParamBindingAttributes(),
+		},
+		"summary": schema.SingleNestedAttribute{
+			Required:            true,
+			MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplate"+v, "summary"),
+			Attributes:          models.AutoGeneratedParamBindingAttributes(),
+		},
 	}
+
+	if includeWorkspace {
+		attrs["workspace"] = schema.SingleNestedAttribute{
+			Optional:            true,
+			MarkdownDescription: apischema.Docstring("AlertRouteIncidentTemplateV2", "workspace"),
+			Attributes:          models.ParamBindingAttributes(),
+		}
+	}
+
+	return attrs
 }
 
 func (r *IncidentAlertRouteResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -295,77 +479,41 @@ func (r *IncidentAlertRouteResource) Configure(ctx context.Context, req resource
 	r.terraformVersion = client.TerraformVersion
 }
 
-func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
-	var expressions []models.IncidentEngineExpression
-
-	diags := req.Config.GetAttribute(ctx, path.Root("expressions"), &expressions)
-	if diags.HasError() {
-		// If expressions is unknown (e.g., depends on another resource), skip validation.
-		return
-	}
-
-	// Validate that branches operations have valid root references:
-	// Branches operations require root_reference to be "." (the whole scope), with conditions
-	// referencing absolute paths like "alert.attributes.xxx".
-	for i, expr := range expressions {
-		hasBranches := false
-		for _, op := range expr.Operations {
-			if op.Branches != nil {
-				hasBranches = true
-				break
-			}
-		}
-
-		if !hasBranches {
-			continue
-		}
-
-		// If it has branches, root_reference must be "." or empty.
-		rootRef := expr.RootReference.ValueString()
-		if rootRef != "" && rootRef != "." {
-			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
-				path.Root("expressions").AtListIndex(i).AtName("root_reference"),
-				"Invalid root_reference for branches operation",
-				fmt.Sprintf(
-					"Expression %q uses a branches (if/else) operation, which requires "+
-						"root_reference to be \".\" (the whole scope). Got %q instead.\n\n"+
-						"When using branches operations, set root_reference = \".\" and have "+
-						"conditions reference absolute paths like \"alert.attributes.xxx\".",
-					expr.Label.ValueString(),
-					rootRef,
-				),
-			))
-		}
-	}
-}
-
 func (r *IncidentAlertRouteResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data models.AlertRouteResourceModel
 	var plan models.AlertRouteResourceModel
 
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	payload := data.ToCreatePayload()
+	if data.IsV3Mode() {
+		result, err := r.client.AlertRoutesV3CreateWithResponse(ctx, data.ToCreatePayloadV3())
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create alert route, got error: %s", err))
+			return
+		}
 
-	result, err := r.client.AlertRoutesV2CreateWithResponse(ctx, payload)
+		claimResource(ctx, r.client, result.JSON201.AlertRoute.Id, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
+		tflog.Trace(ctx, fmt.Sprintf("Created an alert route with id=%s", result.JSON201.AlertRoute.Id))
+
+		data = models.AlertRouteResourceModel{}.FromAPIV3WithPlan(result.JSON201.AlertRoute, &plan)
+		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+		return
+	}
+
+	result, err := r.client.AlertRoutesV2CreateWithResponse(ctx, data.ToCreatePayloadV2())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create alert route, got error: %s", err))
 		return
 	}
 
 	claimResource(ctx, r.client, result.JSON201.AlertRoute.Id, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
-
 	tflog.Trace(ctx, fmt.Sprintf("Created an alert route with id=%s", result.JSON201.AlertRoute.Id))
 
-	data = models.AlertRouteResourceModel{}.FromAPIWithPlan(result.JSON201.AlertRoute, &plan)
+	data = models.AlertRouteResourceModel{}.FromAPIV2WithPlan(result.JSON201.AlertRoute, &plan)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -379,11 +527,28 @@ func (r *IncidentAlertRouteResource) Read(ctx context.Context, req resource.Read
 		return
 	}
 
+	// The schema in use is recorded in state (grouping_config is set for v3), so
+	// Read can dispatch to the matching API without the configuration.
+	if data.IsV3Mode() {
+		result, err := r.client.AlertRoutesV3ShowWithResponse(ctx, data.ID.ValueString())
+		if err != nil {
+			if isNotFound(err) {
+				tflog.Warn(ctx, fmt.Sprintf("Alert route with ID %s not found: removing from state.", data.ID.ValueString()))
+				resp.State.RemoveResource(ctx)
+				return
+			}
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert route, got error: %s", err))
+			return
+		}
+
+		data = models.AlertRouteResourceModel{}.FromAPIV3WithPlan(result.JSON200.AlertRoute, &state)
+		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+		return
+	}
+
 	result, err := r.client.AlertRoutesV2ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
-		// Check if error message contains any indication of a 404 not found
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+		if isNotFound(err) {
 			tflog.Warn(ctx, fmt.Sprintf("Alert route with ID %s not found: removing from state.", data.ID.ValueString()))
 			resp.State.RemoveResource(ctx)
 			return
@@ -392,7 +557,7 @@ func (r *IncidentAlertRouteResource) Read(ctx context.Context, req resource.Read
 		return
 	}
 
-	data = models.AlertRouteResourceModel{}.FromAPIWithPlan(result.JSON200.AlertRoute, &state)
+	data = models.AlertRouteResourceModel{}.FromAPIV2WithPlan(result.JSON200.AlertRoute, &state)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -406,11 +571,40 @@ func (r *IncidentAlertRouteResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
-	result, err := r.client.AlertRoutesV2ShowWithResponse(ctx, data.ID.ValueString())
+	// Dispatch on the planned schema. Both APIs address the same underlying
+	// alert route, so a v2 -> v3 migration (adding grouping_config) is an update,
+	// not a replacement.
+	if data.IsV3Mode() {
+		showResult, err := r.client.AlertRoutesV3ShowWithResponse(ctx, data.ID.ValueString())
+		if err != nil {
+			if isNotFound(err) {
+				tflog.Warn(ctx, fmt.Sprintf("Alert route with ID %s not found: removing from state.", data.ID.ValueString()))
+				resp.State.RemoveResource(ctx)
+				return
+			}
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert route before updating, got error: %s", err))
+			return
+		}
+
+		payload := data.ToUpdatePayloadV3()
+		payload.Version = showResult.JSON200.AlertRoute.Version + 1
+
+		updateResult, err := r.client.AlertRoutesV3UpdateWithResponse(ctx, data.ID.ValueString(), payload)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update alert route, got error: %s", err))
+			return
+		}
+
+		claimResource(ctx, r.client, showResult.JSON200.AlertRoute.Id, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
+
+		data = models.AlertRouteResourceModel{}.FromAPIV3WithPlan(updateResult.JSON200.AlertRoute, &plan)
+		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+		return
+	}
+
+	showResult, err := r.client.AlertRoutesV2ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
-		// Check if error message contains any indication of a 404 not found
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+		if isNotFound(err) {
 			tflog.Warn(ctx, fmt.Sprintf("Alert route with ID %s not found: removing from state.", data.ID.ValueString()))
 			resp.State.RemoveResource(ctx)
 			return
@@ -419,11 +613,8 @@ func (r *IncidentAlertRouteResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
-	currentVersion := result.JSON200.AlertRoute.Version
-
-	payload := data.ToUpdatePayload()
-
-	payload.Version = currentVersion + 1
+	payload := data.ToUpdatePayloadV2()
+	payload.Version = showResult.JSON200.AlertRoute.Version + 1
 
 	updateResult, err := r.client.AlertRoutesV2UpdateWithResponse(ctx, data.ID.ValueString(), payload)
 	if err != nil {
@@ -431,9 +622,9 @@ func (r *IncidentAlertRouteResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON200.AlertRoute.Id, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
+	claimResource(ctx, r.client, showResult.JSON200.AlertRoute.Id, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
 
-	data = models.AlertRouteResourceModel{}.FromAPIWithPlan(updateResult.JSON200.AlertRoute, &plan)
+	data = models.AlertRouteResourceModel{}.FromAPIV2WithPlan(updateResult.JSON200.AlertRoute, &plan)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -444,14 +635,27 @@ func (r *IncidentAlertRouteResource) Delete(ctx context.Context, req resource.De
 		return
 	}
 
+	if data.IsV3Mode() {
+		_, err := r.client.AlertRoutesV3DeleteWithResponse(ctx, data.ID.ValueString())
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete alert route, got error: %s", err))
+		}
+		return
+	}
+
 	_, err := r.client.AlertRoutesV2DeleteWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete alert route, got error: %s", err))
-		return
 	}
 }
 
 func (r *IncidentAlertRouteResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	claimResource(ctx, r.client, req.ID, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
+// isNotFound reports whether err is a 404 from the API.
+func isNotFound(err error) bool {
+	httpErr := client.HTTPError{}
+	return errors.As(err, &httpErr) && httpErr.StatusCode == 404
 }

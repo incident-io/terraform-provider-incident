@@ -969,6 +969,7 @@ const (
 // Defines values for ExpressionOperationPayloadV2OperationType.
 const (
 	ExpressionOperationPayloadV2OperationTypeBranches    ExpressionOperationPayloadV2OperationType = "branches"
+	ExpressionOperationPayloadV2OperationTypeCast        ExpressionOperationPayloadV2OperationType = "cast"
 	ExpressionOperationPayloadV2OperationTypeConcatenate ExpressionOperationPayloadV2OperationType = "concatenate"
 	ExpressionOperationPayloadV2OperationTypeCount       ExpressionOperationPayloadV2OperationType = "count"
 	ExpressionOperationPayloadV2OperationTypeFilter      ExpressionOperationPayloadV2OperationType = "filter"
@@ -984,6 +985,7 @@ const (
 // Defines values for ExpressionOperationPayloadV3OperationType.
 const (
 	ExpressionOperationPayloadV3OperationTypeBranches    ExpressionOperationPayloadV3OperationType = "branches"
+	ExpressionOperationPayloadV3OperationTypeCast        ExpressionOperationPayloadV3OperationType = "cast"
 	ExpressionOperationPayloadV3OperationTypeConcatenate ExpressionOperationPayloadV3OperationType = "concatenate"
 	ExpressionOperationPayloadV3OperationTypeCount       ExpressionOperationPayloadV3OperationType = "count"
 	ExpressionOperationPayloadV3OperationTypeFilter      ExpressionOperationPayloadV3OperationType = "filter"
@@ -999,6 +1001,7 @@ const (
 // Defines values for ExpressionOperationV2OperationType.
 const (
 	ExpressionOperationV2OperationTypeBranches    ExpressionOperationV2OperationType = "branches"
+	ExpressionOperationV2OperationTypeCast        ExpressionOperationV2OperationType = "cast"
 	ExpressionOperationV2OperationTypeConcatenate ExpressionOperationV2OperationType = "concatenate"
 	ExpressionOperationV2OperationTypeCount       ExpressionOperationV2OperationType = "count"
 	ExpressionOperationV2OperationTypeFilter      ExpressionOperationV2OperationType = "filter"
@@ -1014,6 +1017,7 @@ const (
 // Defines values for ExpressionOperationV3OperationType.
 const (
 	Branches    ExpressionOperationV3OperationType = "branches"
+	Cast        ExpressionOperationV3OperationType = "cast"
 	Concatenate ExpressionOperationV3OperationType = "concatenate"
 	Count       ExpressionOperationV3OperationType = "count"
 	Filter      ExpressionOperationV3OperationType = "filter"
@@ -2291,16 +2295,22 @@ type AlertGroupingConfigV3 struct {
 
 // AlertMessageConfigPayloadV3 defines model for AlertMessageConfigPayloadV3.
 type AlertMessageConfigPayloadV3 struct {
-	// Destinations The destinations (Slack/Teams channels) alert messages are sent to
-	Destinations    []AlertMessageDestinationPayloadV3 `json:"destinations"`
-	MessageTemplate *EngineParamBindingPayloadV3       `json:"message_template,omitempty"`
+	// Destinations The destinations (Slack/Teams channels) alert messages are sent to. Required when alert messages are enabled, and must be empty otherwise.
+	Destinations *[]AlertMessageDestinationPayloadV3 `json:"destinations,omitempty"`
+
+	// Enabled Whether alert messages are sent for this alert route
+	Enabled  bool                         `json:"enabled"`
+	Template *EngineParamBindingPayloadV3 `json:"template,omitempty"`
 }
 
 // AlertMessageConfigV3 defines model for AlertMessageConfigV3.
 type AlertMessageConfigV3 struct {
-	// Destinations The destinations (Slack/Teams channels) alert messages are sent to
-	Destinations    []AlertMessageDestinationV3 `json:"destinations"`
-	MessageTemplate *EngineParamBindingV3       `json:"message_template,omitempty"`
+	// Destinations The destinations (Slack/Teams channels) alert messages are sent to. Only set when alert messages are enabled.
+	Destinations *[]AlertMessageDestinationV3 `json:"destinations,omitempty"`
+
+	// Enabled Whether alert messages are sent for this alert route
+	Enabled  bool                  `json:"enabled"`
+	Template *EngineParamBindingV3 `json:"template,omitempty"`
 }
 
 // AlertMessageDestinationPayloadV3 defines model for AlertMessageDestinationPayloadV3.
@@ -2559,11 +2569,14 @@ type AlertRouteEscalationConfigPayloadV2 struct {
 
 // AlertRouteEscalationConfigPayloadV3 defines model for AlertRouteEscalationConfigPayloadV3.
 type AlertRouteEscalationConfigPayloadV3 struct {
-	// AutoCancelEscalations Should we auto cancel escalations when all alerts are resolved?
-	AutoCancelEscalations bool `json:"auto_cancel_escalations"`
+	// AutoCancelEscalations Should we auto cancel escalations when all alerts are resolved? Required when escalations are enabled, and must be unset otherwise.
+	AutoCancelEscalations *bool `json:"auto_cancel_escalations,omitempty"`
 
-	// EscalationTargets Targets for escalation
-	EscalationTargets   []AlertRouteEscalationTargetPayloadV3   `json:"escalation_targets"`
+	// Enabled Whether escalations are enabled for this alert route
+	Enabled bool `json:"enabled"`
+
+	// EscalationTargets Targets for escalation. Required when escalations are enabled, and must be empty otherwise.
+	EscalationTargets   *[]AlertRouteEscalationTargetPayloadV3  `json:"escalation_targets,omitempty"`
 	WhenAlertJoinsGroup *AlertRouteWhenAlertJoinsGroupPayloadV3 `json:"when_alert_joins_group,omitempty"`
 }
 
@@ -2578,11 +2591,14 @@ type AlertRouteEscalationConfigV2 struct {
 
 // AlertRouteEscalationConfigV3 defines model for AlertRouteEscalationConfigV3.
 type AlertRouteEscalationConfigV3 struct {
-	// AutoCancelEscalations Should we auto cancel escalations when all alerts are resolved?
-	AutoCancelEscalations bool `json:"auto_cancel_escalations"`
+	// AutoCancelEscalations Should we auto cancel escalations when all alerts are resolved? Only set when escalations are enabled.
+	AutoCancelEscalations *bool `json:"auto_cancel_escalations,omitempty"`
 
-	// EscalationTargets Targets for escalation
-	EscalationTargets   []AlertRouteEscalationTargetV3   `json:"escalation_targets"`
+	// Enabled Whether escalations are enabled for this alert route
+	Enabled bool `json:"enabled"`
+
+	// EscalationTargets Targets for escalation. Only set when escalations are enabled.
+	EscalationTargets   *[]AlertRouteEscalationTargetV3  `json:"escalation_targets,omitempty"`
 	WhenAlertJoinsGroup *AlertRouteWhenAlertJoinsGroupV3 `json:"when_alert_joins_group,omitempty"`
 }
 
@@ -5538,6 +5554,16 @@ type ExpressionBranchesOptsV3 struct {
 	Returns  ReturnsMetaV3        `json:"returns"`
 }
 
+// ExpressionCastOptsPayloadV2 defines model for ExpressionCastOptsPayloadV2.
+type ExpressionCastOptsPayloadV2 struct {
+	Returns ReturnsMetaV2 `json:"returns"`
+}
+
+// ExpressionCastOptsPayloadV3 defines model for ExpressionCastOptsPayloadV3.
+type ExpressionCastOptsPayloadV3 struct {
+	Returns ReturnsMetaV3 `json:"returns"`
+}
+
 // ExpressionConcatenateOptsPayloadV2 defines model for ExpressionConcatenateOptsPayloadV2.
 type ExpressionConcatenateOptsPayloadV2 struct {
 	// Reference The reference that you want to concatenate with
@@ -5627,6 +5653,7 @@ type ExpressionNavigateOptsV3 struct {
 // ExpressionOperationPayloadV2 defines model for ExpressionOperationPayloadV2.
 type ExpressionOperationPayloadV2 struct {
 	Branches    *ExpressionBranchesOptsPayloadV2    `json:"branches,omitempty"`
+	Cast        *ExpressionCastOptsPayloadV2        `json:"cast,omitempty"`
 	Concatenate *ExpressionConcatenateOptsPayloadV2 `json:"concatenate,omitempty"`
 	Filter      *ExpressionFilterOptsPayloadV2      `json:"filter,omitempty"`
 	Navigate    *ExpressionNavigateOptsPayloadV2    `json:"navigate,omitempty"`
@@ -5642,6 +5669,7 @@ type ExpressionOperationPayloadV2OperationType string
 // ExpressionOperationPayloadV3 defines model for ExpressionOperationPayloadV3.
 type ExpressionOperationPayloadV3 struct {
 	Branches    *ExpressionBranchesOptsPayloadV3    `json:"branches,omitempty"`
+	Cast        *ExpressionCastOptsPayloadV3        `json:"cast,omitempty"`
 	Concatenate *ExpressionConcatenateOptsPayloadV3 `json:"concatenate,omitempty"`
 	Filter      *ExpressionFilterOptsPayloadV3      `json:"filter,omitempty"`
 	Navigate    *ExpressionNavigateOptsPayloadV3    `json:"navigate,omitempty"`
