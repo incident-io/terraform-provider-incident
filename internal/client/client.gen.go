@@ -168,18 +168,6 @@ const (
 	AlertEventsCreateHTTPPayloadV2StatusResolved AlertEventsCreateHTTPPayloadV2Status = "resolved"
 )
 
-// Defines values for AlertRouteAlertJoinsGroupPayloadV3Mode.
-const (
-	AlertRouteAlertJoinsGroupPayloadV3ModeOnEachNewAlert     AlertRouteAlertJoinsGroupPayloadV3Mode = "on_each_new_alert"
-	AlertRouteAlertJoinsGroupPayloadV3ModeOnPriorityIncrease AlertRouteAlertJoinsGroupPayloadV3Mode = "on_priority_increase"
-)
-
-// Defines values for AlertRouteAlertJoinsGroupV3Mode.
-const (
-	AlertRouteAlertJoinsGroupV3ModeOnEachNewAlert     AlertRouteAlertJoinsGroupV3Mode = "on_each_new_alert"
-	AlertRouteAlertJoinsGroupV3ModeOnPriorityIncrease AlertRouteAlertJoinsGroupV3Mode = "on_priority_increase"
-)
-
 // Defines values for AlertRouteChannelTargetPayloadV3ChannelVisibility.
 const (
 	AlertRouteChannelTargetPayloadV3ChannelVisibilityAssistant AlertRouteChannelTargetPayloadV3ChannelVisibility = "assistant"
@@ -239,6 +227,18 @@ const (
 const (
 	AlertRouteSeverityBindingV3MergeStrategyFirstWins AlertRouteSeverityBindingV3MergeStrategy = "first-wins"
 	AlertRouteSeverityBindingV3MergeStrategyMax       AlertRouteSeverityBindingV3MergeStrategy = "max"
+)
+
+// Defines values for AlertRouteWhenAlertJoinsGroupPayloadV3Mode.
+const (
+	AlertRouteWhenAlertJoinsGroupPayloadV3ModeOnEachNewAlert     AlertRouteWhenAlertJoinsGroupPayloadV3Mode = "on_each_new_alert"
+	AlertRouteWhenAlertJoinsGroupPayloadV3ModeOnPriorityIncrease AlertRouteWhenAlertJoinsGroupPayloadV3Mode = "on_priority_increase"
+)
+
+// Defines values for AlertRouteWhenAlertJoinsGroupV3Mode.
+const (
+	AlertRouteWhenAlertJoinsGroupV3ModeOnEachNewAlert     AlertRouteWhenAlertJoinsGroupV3Mode = "on_each_new_alert"
+	AlertRouteWhenAlertJoinsGroupV3ModeOnPriorityIncrease AlertRouteWhenAlertJoinsGroupV3Mode = "on_priority_increase"
 )
 
 // Defines values for AlertSlimV2Status.
@@ -2377,30 +2377,6 @@ type AlertNotesUpdateResultV1 struct {
 	AlertNote AlertNoteV1 `json:"alert_note"`
 }
 
-// AlertRouteAlertJoinsGroupPayloadV3 defines model for AlertRouteAlertJoinsGroupPayloadV3.
-type AlertRouteAlertJoinsGroupPayloadV3 struct {
-	// GracePeriodSeconds How long to wait before escalating once an alert joins the group, in seconds. Must be between 0 and 3600 (1 hour).
-	GracePeriodSeconds *int32 `json:"grace_period_seconds,omitempty"`
-
-	// Mode When a subsequent alert joins an existing group, when should we escalate again?
-	Mode AlertRouteAlertJoinsGroupPayloadV3Mode `json:"mode"`
-}
-
-// AlertRouteAlertJoinsGroupPayloadV3Mode When a subsequent alert joins an existing group, when should we escalate again?
-type AlertRouteAlertJoinsGroupPayloadV3Mode string
-
-// AlertRouteAlertJoinsGroupV3 defines model for AlertRouteAlertJoinsGroupV3.
-type AlertRouteAlertJoinsGroupV3 struct {
-	// GracePeriodSeconds How long to wait before escalating once an alert joins the group
-	GracePeriodSeconds *int32 `json:"grace_period_seconds,omitempty"`
-
-	// Mode When a subsequent alert joins an existing group, when should we escalate again?
-	Mode AlertRouteAlertJoinsGroupV3Mode `json:"mode"`
-}
-
-// AlertRouteAlertJoinsGroupV3Mode When a subsequent alert joins an existing group, when should we escalate again?
-type AlertRouteAlertJoinsGroupV3Mode string
-
 // AlertRouteAlertSourcePayloadV2 defines model for AlertRouteAlertSourcePayloadV2.
 type AlertRouteAlertSourcePayloadV2 struct {
 	// AlertSourceId The alert source ID that will match for the route
@@ -2587,8 +2563,8 @@ type AlertRouteEscalationConfigPayloadV3 struct {
 	AutoCancelEscalations bool `json:"auto_cancel_escalations"`
 
 	// EscalationTargets Targets for escalation
-	EscalationTargets   []AlertRouteEscalationTargetPayloadV3 `json:"escalation_targets"`
-	WhenAlertJoinsGroup *AlertRouteAlertJoinsGroupPayloadV3   `json:"when_alert_joins_group,omitempty"`
+	EscalationTargets   []AlertRouteEscalationTargetPayloadV3   `json:"escalation_targets"`
+	WhenAlertJoinsGroup *AlertRouteWhenAlertJoinsGroupPayloadV3 `json:"when_alert_joins_group,omitempty"`
 }
 
 // AlertRouteEscalationConfigV2 defines model for AlertRouteEscalationConfigV2.
@@ -2606,8 +2582,8 @@ type AlertRouteEscalationConfigV3 struct {
 	AutoCancelEscalations bool `json:"auto_cancel_escalations"`
 
 	// EscalationTargets Targets for escalation
-	EscalationTargets   []AlertRouteEscalationTargetV3 `json:"escalation_targets"`
-	WhenAlertJoinsGroup *AlertRouteAlertJoinsGroupV3   `json:"when_alert_joins_group,omitempty"`
+	EscalationTargets   []AlertRouteEscalationTargetV3   `json:"escalation_targets"`
+	WhenAlertJoinsGroup *AlertRouteWhenAlertJoinsGroupV3 `json:"when_alert_joins_group,omitempty"`
 }
 
 // AlertRouteEscalationTargetPayloadV2 defines model for AlertRouteEscalationTargetPayloadV2.
@@ -2928,6 +2904,30 @@ type AlertRouteV3 struct {
 	// Version The version of this alert route
 	Version int64 `json:"version"`
 }
+
+// AlertRouteWhenAlertJoinsGroupPayloadV3 defines model for AlertRouteWhenAlertJoinsGroupPayloadV3.
+type AlertRouteWhenAlertJoinsGroupPayloadV3 struct {
+	// GracePeriodSeconds How long to wait before escalating once an alert joins the group, in seconds. Only applies when mode is 'on_each_new_alert', and must be unset when mode is 'on_priority_increase'. Must be between 0 and 3600 (1 hour).
+	GracePeriodSeconds *int32 `json:"grace_period_seconds,omitempty"`
+
+	// Mode When a subsequent alert joins an existing group, when should we escalate again?
+	Mode AlertRouteWhenAlertJoinsGroupPayloadV3Mode `json:"mode"`
+}
+
+// AlertRouteWhenAlertJoinsGroupPayloadV3Mode When a subsequent alert joins an existing group, when should we escalate again?
+type AlertRouteWhenAlertJoinsGroupPayloadV3Mode string
+
+// AlertRouteWhenAlertJoinsGroupV3 defines model for AlertRouteWhenAlertJoinsGroupV3.
+type AlertRouteWhenAlertJoinsGroupV3 struct {
+	// GracePeriodSeconds How long to wait before escalating once an alert joins the group, in seconds. Only applies when mode is 'on_each_new_alert'.
+	GracePeriodSeconds *int32 `json:"grace_period_seconds,omitempty"`
+
+	// Mode When a subsequent alert joins an existing group, when should we escalate again?
+	Mode AlertRouteWhenAlertJoinsGroupV3Mode `json:"mode"`
+}
+
+// AlertRouteWhenAlertJoinsGroupV3Mode When a subsequent alert joins an existing group, when should we escalate again?
+type AlertRouteWhenAlertJoinsGroupV3Mode string
 
 // AlertRoutesCreatePayloadV2 defines model for AlertRoutesCreatePayloadV2.
 type AlertRoutesCreatePayloadV2 struct {
@@ -6031,8 +6031,8 @@ type GroupingSettingsV3 struct {
 	// Enabled Whether grouping is enabled
 	Enabled bool `json:"enabled"`
 
-	// GroupKeys Which attributes should this alert route use to group alerts? Only set when grouping is enabled.
-	GroupKeys *[]GroupingKeyV3 `json:"group_keys,omitempty"`
+	// GroupingKeys Which attributes should this alert route use to group alerts? Only set when grouping is enabled.
+	GroupingKeys *[]GroupingKeyV3 `json:"grouping_keys,omitempty"`
 
 	// WindowSeconds How long the grouping window is, in seconds. Must be between 60 (1 minute) and 172800 (48 hours). Only set when grouping is enabled.
 	WindowSeconds *int32 `json:"window_seconds,omitempty"`

@@ -68,9 +68,9 @@ resource "incident_alert_route_v3" "service_alerts" {
   grouping_config = {
     default = {
       enabled = true
-      // group_keys is an array of { reference = "alert.title" } which specifies
+      // grouping_keys is an array of { reference = "alert.title" } which specifies
       // the keys used to group alerts together
-      group_keys     = []
+      grouping_keys  = []
       window_seconds = 300
       // window_type is one of "rolling" (extends as new alerts attach) or "fixed"
       window_type = "rolling"
@@ -166,7 +166,7 @@ resource "incident_alert_route_v3" "service_alerts" {
     // Optionally control whether (and how) escalations fire again when a
     // subsequent alert joins an existing group.
     when_alert_joins_group = {
-      mode                 = "on_priority_increase"
+      mode                 = "on_each_new_alert"
       grace_period_seconds = 60
     }
   }
@@ -465,7 +465,7 @@ Required:
 
 Optional:
 
-- `grace_period_seconds` (Number) How long to wait before escalating once an alert joins the group
+- `grace_period_seconds` (Number) How long to wait before escalating once an alert joins the group, in seconds. Only applies when mode is 'on_each_new_alert'.
 
 
 
@@ -728,12 +728,12 @@ Required:
 
 Optional:
 
-- `group_keys` (Attributes Set) Which attributes should this alert route use to group alerts? Only set when grouping is enabled. (see [below for nested schema](#nestedatt--grouping_config--default--group_keys))
+- `grouping_keys` (Attributes Set) Which attributes should this alert route use to group alerts? Only set when grouping is enabled. (see [below for nested schema](#nestedatt--grouping_config--default--grouping_keys))
 - `window_seconds` (Number) How long the grouping window is, in seconds. Must be between 60 (1 minute) and 172800 (48 hours). Only set when grouping is enabled.
 - `window_type` (String) Controls how the grouping window behaves. 'rolling' keeps the window open for window_seconds after the most recent alert, so the group stays open as long as alerts keep arriving. 'fixed' opens the window when the first alert arrives and always closes window_seconds later, regardless of any subsequent alerts. Only set when grouping is enabled.. Possible values are: `rolling`, `fixed`.
 
-<a id="nestedatt--grouping_config--default--group_keys"></a>
-### Nested Schema for `grouping_config.default.group_keys`
+<a id="nestedatt--grouping_config--default--grouping_keys"></a>
+### Nested Schema for `grouping_config.default.grouping_keys`
 
 Required:
 

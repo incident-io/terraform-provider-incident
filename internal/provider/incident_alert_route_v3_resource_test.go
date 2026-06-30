@@ -80,7 +80,7 @@ func TestAccIncidentAlertRouteV3ResourceComprehensive(t *testing.T) {
 					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "message_config.destinations.0.slack_targets.channel_visibility", "public"),
 
 					// Escalation config with when_alert_joins_group.
-					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "escalation_config.when_alert_joins_group.mode", "on_priority_increase"),
+					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "escalation_config.when_alert_joins_group.mode", "on_each_new_alert"),
 					resource.TestCheckResourceAttr("incident_alert_route_v3.comprehensive", "escalation_config.when_alert_joins_group.grace_period_seconds", "60"),
 
 					// Incident config and nested template.
@@ -354,7 +354,7 @@ resource "incident_alert_route_v3" "comprehensive" {
   grouping_config = {
     default = {
       enabled        = true
-      group_keys     = []
+      grouping_keys  = []
       window_seconds = 1800
       window_type    = "fixed"
     }
@@ -380,7 +380,7 @@ resource "incident_alert_route_v3" "comprehensive" {
     auto_cancel_escalations = true
     escalation_targets      = []
     when_alert_joins_group = {
-      mode                 = "on_priority_increase"
+      mode                 = "on_each_new_alert"
       grace_period_seconds = 60
     }
   }
