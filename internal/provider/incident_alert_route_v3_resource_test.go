@@ -9,6 +9,44 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 )
 
+// TestAccIncidentAlertRouteV2ToV3Migration verifies the headline feature of the
+// merged resource: an existing route configured with the v2 schema can be moved
+// to the v3 schema in place. The second step switches the config from the v2
+// layout (channel_config / incident_template / grouping fields under
+// incident_config) to the v3 layout (grouping_config / message_config /
+// incident_config.template) and asserts the plan is an Update, not a
+// replacement — i.e. the same underlying alert route is reused, even though the
+// provider switches from the v2 to the v3 API to manage it.
+func TestAccIncidentAlertRouteV2ToV3Migration(t *testing.T) {
+	name := StableSuffix("migration-route")
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				// Start on the v2 schema.
+				Config: testAccIncidentAlertRouteResourceConfig(name),
+				Check:  resource.TestCheckResourceAttrSet("incident_alert_route.test", "id"),
+			},
+			{
+				// Switch to the v3 schema in place: expect an update, not a replace.
+				Config: testAccIncidentAlertRouteV3ResourceConfig(name),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PreApply: []plancheck.PlanCheck{
+						plancheck.ExpectResourceAction("incident_alert_route.test", plancheck.ResourceActionUpdate),
+					},
+				},
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_route.test", "grouping_config.default.enabled", "false"),
+					// The deprecated v2-only block is cleared once migrated.
+					resource.TestCheckNoResourceAttr("incident_alert_route.test", "incident_template"),
+				),
+			},
+		},
+	})
+}
+
 func TestAccIncidentAlertRouteV3Resource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -166,7 +204,7 @@ func TestAccIncidentAlertRouteV3ResourceIncidentTemplateValidation(t *testing.T)
 			{
 				Config:      testAccIncidentAlertRouteV3ResourceConfigTemplateWhileIncidentDisabled(),
 				PlanOnly:    true,
-				ExpectError: regexp.MustCompile("`template` must not be set when"),
+				ExpectError: regexp.MustCompile("`incident_config.template` must not be set when"),
 			},
 		},
 	})
@@ -248,12 +286,11 @@ resource "incident_alert_route" "test" {
   }
 
   message_config = {
-    destinations = []
+    enabled = false
   }
 
   escalation_config = {
-    auto_cancel_escalations = true
-    escalation_targets      = []
+    enabled = false
   }
 
   incident_config = {
@@ -361,6 +398,7 @@ resource "incident_alert_route" "comprehensive" {
   }
 
   message_config = {
+    enabled = true
     destinations = [
       {
         condition_groups = []
@@ -377,6 +415,7 @@ resource "incident_alert_route" "comprehensive" {
   }
 
   escalation_config = {
+    enabled                 = true
     auto_cancel_escalations = true
     escalation_targets      = []
     when_alert_joins_group = {
@@ -518,12 +557,11 @@ resource "incident_alert_route" "invalid_branches" {
   }
 
   message_config = {
-    destinations = []
+    enabled = false
   }
 
   escalation_config = {
-    auto_cancel_escalations = true
-    escalation_targets      = []
+    enabled = false
   }
 
   incident_config = {
@@ -558,12 +596,11 @@ resource "incident_alert_route" "test" {
   }
 
   message_config = {
-    destinations = []
+    enabled = false
   }
 
   escalation_config = {
-    auto_cancel_escalations = true
-    escalation_targets      = []
+    enabled = false
   }
 
   incident_config = {
@@ -597,12 +634,11 @@ resource "incident_alert_route" "test" {
   }
 
   message_config = {
-    destinations = []
+    enabled = false
   }
 
   escalation_config = {
-    auto_cancel_escalations = true
-    escalation_targets      = []
+    enabled = false
   }
 
   incident_config = {

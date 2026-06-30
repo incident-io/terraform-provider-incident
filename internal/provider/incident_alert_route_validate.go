@@ -55,6 +55,15 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 		}
 		return !v.IsNull() && !v.IsUnknown() && len(v.Elements()) > 0
 	}
+	// setPresent is true when a set attribute is supplied at all (even if empty),
+	// mirroring the original v2 "Required" semantics where `[]` was valid.
+	setPresent := func(p path.Path) bool {
+		var v types.Set
+		if d := req.Config.GetAttribute(ctx, p, &v); d.HasError() {
+			return false
+		}
+		return !v.IsNull() && !v.IsUnknown()
+	}
 	// boolValue returns (value, known). known is false when the attribute is
 	// null or unknown.
 	boolValue := func(p path.Path) (bool, bool) {
@@ -138,9 +147,9 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 			addErr(escalationBase.AtName("auto_cancel_escalations"), "Missing required attribute",
 				"`escalation_config.auto_cancel_escalations` is required in the v2 schema.")
 		}
-		if !setNonEmpty(escalationBase.AtName("escalation_targets")) {
+		if !setPresent(escalationBase.AtName("escalation_targets")) {
 			addErr(escalationBase.AtName("escalation_targets"), "Missing required attribute",
-				"`escalation_config.escalation_targets` is required in the v2 schema.")
+				"`escalation_config.escalation_targets` is required in the v2 schema (it may be an empty list).")
 		}
 		if !int64Set(incidentBase.AtName("grouping_window_seconds")) {
 			addErr(incidentBase.AtName("grouping_window_seconds"), "Missing required attribute",
@@ -189,10 +198,8 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 				addErr(escalationBase.AtName("auto_cancel_escalations"), "Missing required attribute",
 					"`escalation_config.auto_cancel_escalations` is required when `escalation_config.enabled` is true.")
 			}
-			if !setNonEmpty(escalationBase.AtName("escalation_targets")) {
-				addErr(escalationBase.AtName("escalation_targets"), "Missing required attribute",
-					"`escalation_config.escalation_targets` is required when `escalation_config.enabled` is true.")
-			}
+			// escalation_targets is allowed (and may be empty) when enabled; the API
+			// owns the "no targets" semantics, so we don't force non-empty here.
 		} else {
 			if boolSet(escalationBase.AtName("auto_cancel_escalations")) {
 				addErr(escalationBase.AtName("auto_cancel_escalations"), "Invalid attribute combination",
@@ -229,23 +236,18 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 		}
 	}
 
-	// Message: enabled gates destinations and template.
+	// Message: enabled gates destinations and template. destinations may be empty
+	// when enabled (the API owns that), so we only forbid the gated fields when
+	// disabled.
 	messageEnabled, messageKnown := boolValue(messageBase.AtName("enabled"))
-	if messageKnown {
-		if messageEnabled {
-			if !setNonEmpty(messageBase.AtName("destinations")) {
-				addErr(messageBase.AtName("destinations"), "Missing required attribute",
-					"`message_config.destinations` is required when `message_config.enabled` is true.")
-			}
-		} else {
-			if setNonEmpty(messageBase.AtName("destinations")) {
-				addErr(messageBase.AtName("destinations"), "Invalid attribute combination",
-					"`message_config.destinations` must not be set when `message_config.enabled` is false.")
-			}
-			if objectSet(messageBase.AtName("template")) {
-				addErr(messageBase.AtName("template"), "Invalid attribute combination",
-					"`message_config.template` must not be set when `message_config.enabled` is false.")
-			}
+	if messageKnown && !messageEnabled {
+		if setNonEmpty(messageBase.AtName("destinations")) {
+			addErr(messageBase.AtName("destinations"), "Invalid attribute combination",
+				"`message_config.destinations` must not be set when `message_config.enabled` is false.")
+		}
+		if objectSet(messageBase.AtName("template")) {
+			addErr(messageBase.AtName("template"), "Invalid attribute combination",
+				"`message_config.template` must not be set when `message_config.enabled` is false.")
 		}
 	}
 
