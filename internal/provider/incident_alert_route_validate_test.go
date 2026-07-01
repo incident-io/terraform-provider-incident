@@ -159,12 +159,24 @@ const arV2IncidentTemplate = `
 
 // TestIncidentAlertRouteResource_ValidateConfigUnknownSkipsRequired guards the
 // M1 fix: a "required" attribute whose value is unknown at plan time (here
-// grouping_config.default.window_seconds, derived from a not-yet-applied
-// terraform_data resource) must NOT produce a "Missing required attribute"
-// error, because it may well be present at apply.
+// grouping_config.default.window_seconds, derived from a not-yet-created
+// incident_alert_source's computed id) must NOT produce a "Missing required
+// attribute" error, because it may well be present at apply.
+//
+// The unknown is sourced from an incident_alert_source rather than
+// terraform_data so the test runs on Terraform 1.2 (terraform_data is 1.4+).
 func TestIncidentAlertRouteResource_ValidateConfigUnknownSkipsRequired(t *testing.T) {
 	config := `
-resource "terraform_data" "trigger" {}
+resource "incident_alert_source" "trigger" {
+  name        = "validate-unknown-source"
+  source_type = "http"
+  template = {
+    title       = { literal = "t" }
+    description = { literal = "d" }
+    attributes  = []
+    expressions = []
+  }
+}
 
 resource "incident_alert_route" "test" {
   name       = "validate-unknown"
@@ -184,8 +196,9 @@ resource "incident_alert_route" "test" {
     default = {
       enabled     = true
       window_type = "rolling"
-      # Unknown at plan time: must not trip the "window_seconds is required" check.
-      window_seconds = terraform_data.trigger.output == "x" ? 300 : 600
+      # Unknown at plan time (derived from a not-yet-created resource's computed
+      # id): must not trip the "window_seconds is required" check.
+      window_seconds = length(incident_alert_source.trigger.id) > 0 ? 300 : 600
     }
   }
 
