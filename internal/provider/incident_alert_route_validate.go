@@ -156,6 +156,10 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 			addErr(path.Root("incident_template"), "Missing required attribute",
 				"`incident_template` is required when using the v2 alert route schema (with grouping configuration inside `incident_config`).")
 		}
+		if boolMissing(incidentBase.AtName("auto_decline_enabled")) {
+			addErr(incidentBase.AtName("auto_decline_enabled"), "Missing required attribute",
+				"`incident_config.auto_decline_enabled` is required when using the v2 alert route schema (with grouping configuration inside `incident_config`).")
+		}
 		if int64Missing(incidentBase.AtName("grouping_window_seconds")) {
 			addErr(incidentBase.AtName("grouping_window_seconds"), "Missing required attribute",
 				"`incident_config.grouping_window_seconds` is required when using the v2 alert route schema (with grouping configuration inside `incident_config`).")

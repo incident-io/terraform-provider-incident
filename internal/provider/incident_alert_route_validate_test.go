@@ -290,6 +290,40 @@ func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 			config: arV2Config("", ""),
 			errRe:  "`incident_template` is required when using the v2 alert route schema",
 		},
+		{
+			name: "v2 requires auto_decline_enabled",
+			config: `
+resource "incident_alert_route" "test" {
+  name       = "validate-test"
+  enabled    = true
+  is_private = false
+
+  alert_sources = [
+    {
+      alert_source_id  = "01SRC"
+      condition_groups = []
+    }
+  ]
+  condition_groups = []
+  expressions      = []
+
+  escalation_config = {
+    auto_cancel_escalations = true
+    escalation_targets      = []
+  }
+
+  incident_config = {
+    enabled                 = false
+    condition_groups        = []
+    grouping_keys           = []
+    grouping_window_seconds = 300
+    defer_time_seconds      = 0
+  }
+` + arV2IncidentTemplate + `
+}
+`,
+			errRe: "auto_decline_enabled` is required when using the v2 alert route schema",
+		},
 	}
 
 	for _, tc := range cases {
