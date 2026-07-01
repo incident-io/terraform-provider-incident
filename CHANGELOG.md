@@ -1,5 +1,7 @@
 ## Unreleased
 
+- `incident_alert_route` now supports the v3 alert routes API in place. Set the new top-level `grouping_config` block to opt into the v3 schema: grouping moves into `grouping_config`, `channel_config` and `message_template` combine into `message_config`, and the incident template nests under `incident_config.template`. The v2-only fields (`channel_config`, `message_template`, `incident_template`, and the `incident_config` grouping fields) are deprecated and emit a warning pointing at their v3 location, but continue to work via the v2 API. You can migrate an existing route in place — add the v3 blocks and drop the deprecated fields in the same change — and Terraform updates the route rather than replacing it. No resource-type change is required.
+
 ## v5.40.0
 
 - Add an optional `rotation_id` to `incident_schedule_sync_rule`, scoping a sync rule to a single rotation on the schedule. Omit it to sync all rotations (the previous behaviour); to feed a Slack user group from several rotations, create one rule per rotation pointing at the same target.
