@@ -866,11 +866,6 @@ func (m AlertRouteResourceModel) ToCreatePayloadV2() client.AlertRoutesCreatePay
 				if cf.Binding != nil {
 					binding := cf.Binding.ToPayload()
 
-					// Ensure values are properly normalized before creating payload
-					if binding.Value != nil && binding.Value.Reference == nil {
-						binding.Value.Reference = nil
-					}
-
 					// Create the custom field payload
 					customField := client.AlertRouteCustomFieldBindingPayloadV2{
 						CustomFieldId: cf.CustomFieldID.ValueString(),

@@ -75,6 +75,14 @@ const (
       grace_period_seconds = 60
     }
   }`
+	arEscalationJoinsGroup = `
+  escalation_config = {
+    auto_cancel_escalations = true
+    escalation_targets      = []
+    when_alert_joins_group = {
+      mode = "on_each_new_alert"
+    }
+  }`
 	arChannelConfig = `
   channel_config = [
     {
@@ -262,6 +270,11 @@ func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 			name:   "v3 grace_period only for on_each_new_alert",
 			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationPriorityGrace + arIncidentEnabled()),
 			errRe:  "grace_period_seconds` can only be set when",
+		},
+		{
+			name:   "v3 when_alert_joins_group requires grouping enabled",
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationJoinsGroup + arIncidentEnabled()),
+			errRe:  "when_alert_joins_group` can only be set when",
 		},
 		{
 			name:   "v2 valid minimal",

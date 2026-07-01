@@ -195,9 +195,15 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 	incidentBase := path.Root("incident_config")
 	whenJoinsBase := escalationBase.AtName("when_alert_joins_group")
 
-	// grace_period_seconds only applies when re-escalating on each new alert; the
-	// API rejects it for on_priority_increase.
+	// when_alert_joins_group only applies when grouping is enabled, and its
+	// grace_period_seconds only when re-escalating on each new alert; the API
+	// rejects both otherwise.
 	if objectSet(whenJoinsBase) {
+		if enabled, known := boolValue(groupingBase.AtName("enabled")); known && !enabled {
+			addErr(whenJoinsBase, "Invalid attribute combination",
+				"`escalation_config.when_alert_joins_group` can only be set when `grouping_config.default.enabled` is true.")
+		}
+
 		var mode types.String
 		if d := req.Config.GetAttribute(ctx, whenJoinsBase.AtName("mode"), &mode); !d.HasError() &&
 			!mode.IsNull() && !mode.IsUnknown() && mode.ValueString() == "on_priority_increase" {
