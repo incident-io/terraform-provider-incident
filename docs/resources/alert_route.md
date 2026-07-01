@@ -4,9 +4,7 @@ page_title: "incident_alert_route Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
   Alert routes define how alerts are processed: how they're grouped, which channels they post to, who is escalated, and whether they open incidents.
-  This resource supports two configuration schemas, switched by whether the top-level grouping_config block is set:
-  v2 (default): the original layout, using channel_config, message_template, incident_template, and grouping fields nested under incident_config.v3: set grouping_config to opt in. v3 moves grouping into grouping_config, combines channel_config and message_template into message_config, and nests the incident template under incident_config.template.
-  The v2-only fields are deprecated, and each carries a warning pointing at its v3 location. An existing alert route can be migrated in place: add grouping_config (and the other v3 blocks) and drop the deprecated fields in the same change, and Terraform updates the route rather than replacing it. A route is managed via one schema at a time, chosen by whether grouping_config is set.
+  This resource supports two configuration schemas for alert routes, corresponding to the v2 and v3 alert route APIs. The principal difference is that in v3, alert grouping configuration is split out of incident_config into a top-level grouping_config. In addition, channel_config and message_template are merged together under message_config, and the incident template is nested under incident_config.template.
   We'd generally recommend building alert routes in our web dashboard https://app.incident.io/~/alerts/configuration, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.
 ---
 
@@ -14,12 +12,7 @@ description: |-
 
 Alert routes define how alerts are processed: how they're grouped, which channels they post to, who is escalated, and whether they open incidents.
 
-This resource supports two configuration schemas, switched by whether the top-level `grouping_config` block is set:
-
-- **v2 (default):** the original layout, using `channel_config`, `message_template`, `incident_template`, and grouping fields nested under `incident_config`.
-- **v3:** set `grouping_config` to opt in. v3 moves grouping into `grouping_config`, combines `channel_config` and `message_template` into `message_config`, and nests the incident template under `incident_config.template`.
-
-The v2-only fields are deprecated, and each carries a warning pointing at its v3 location. An existing alert route can be migrated in place: add `grouping_config` (and the other v3 blocks) and drop the deprecated fields in the same change, and Terraform updates the route rather than replacing it. A route is managed via one schema at a time, chosen by whether `grouping_config` is set.
+This resource supports two configuration schemas for alert routes, corresponding to the v2 and v3 alert route APIs. The principal difference is that in v3, alert grouping configuration is split out of `incident_config` into a top-level `grouping_config`. In addition, `channel_config` and `message_template` are merged together under `message_config`, and the incident template is nested under `incident_config.template`.
 
 We'd generally recommend building alert routes in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.
 
