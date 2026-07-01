@@ -461,7 +461,7 @@ func (AlertRouteResourceModel) FromAPIV2WithPlan(apiModel client.AlertRouteV2, p
 		EscalationTargets:     []AlertRouteEscalationTargetModel{},
 		// when_alert_joins_group is v3-only; use a typed null object in v2 mode so
 		// state serialisation knows the attribute type.
-		WhenAlertJoinsGroup: types.ObjectNull(whenAlertJoinsGroupAttrTypes()),
+		WhenAlertJoinsGroup: types.ObjectNull(WhenAlertJoinsGroupAttrTypes()),
 	}
 
 	if apiModel.EscalationConfig.EscalationTargets != nil {

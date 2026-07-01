@@ -9,7 +9,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -176,7 +175,7 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 						Computed:            true,
 						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV3", "when_alert_joins_group") + " (v3 only)",
 						PlanModifiers: []planmodifier.Object{
-							objectplanmodifier.UseStateForUnknown(),
+							whenAlertJoinsGroupPlanModifier{},
 						},
 						Attributes: map[string]schema.Attribute{
 							"mode": schema.StringAttribute{
@@ -297,7 +296,7 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 						DeprecationMessage:  deprecatedAutoRelateGrouped,
 						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV2", "auto_relate_grouped_alerts") + "\n\n" + deprecatedAutoRelateGrouped,
 						PlanModifiers: []planmodifier.Bool{
-							boolplanmodifier.UseStateForUnknown(),
+							autoRelateGroupedAlertsPlanModifier{},
 						},
 					},
 					"enabled": schema.BoolAttribute{

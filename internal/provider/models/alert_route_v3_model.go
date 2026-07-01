@@ -19,9 +19,8 @@ import (
 // into v3 mode (see AlertRouteResourceModel.IsV3Mode). In v3 the API:
 //   - moves grouping out of incident_config into a dedicated grouping_config;
 //   - collapses channel_config and the top-level message_template into
-//     message_config (with an explicit enabled flag);
-//   - gates escalation_config behind an explicit enabled flag, and adds an
-//     optional when_alert_joins_group block;
+//     message_config;
+//   - adds an optional when_alert_joins_group block to escalation_config;
 //   - nests the incident template under incident_config.template; and
 //   - drops the incident template workspace binding.
 //
@@ -34,7 +33,7 @@ type AlertRouteWhenAlertJoinsGroupModel struct {
 	GracePeriodSeconds types.Int64  `tfsdk:"grace_period_seconds"`
 }
 
-func whenAlertJoinsGroupAttrTypes() map[string]attr.Type {
+func WhenAlertJoinsGroupAttrTypes() map[string]attr.Type {
 	return map[string]attr.Type{
 		"mode":                 types.StringType,
 		"grace_period_seconds": types.Int64Type,
@@ -46,7 +45,7 @@ func whenAlertJoinsGroupAttrTypes() map[string]attr.Type {
 // nested struct, so the Computed attribute can carry an unknown value.
 func whenAlertJoinsGroupFromAPI(in *client.AlertRouteWhenAlertJoinsGroupV3) types.Object {
 	if in == nil {
-		return types.ObjectNull(whenAlertJoinsGroupAttrTypes())
+		return types.ObjectNull(WhenAlertJoinsGroupAttrTypes())
 	}
 
 	gracePeriodSeconds := types.Int64Null()
@@ -54,7 +53,7 @@ func whenAlertJoinsGroupFromAPI(in *client.AlertRouteWhenAlertJoinsGroupV3) type
 		gracePeriodSeconds = types.Int64Value(int64(*in.GracePeriodSeconds))
 	}
 
-	obj, _ := types.ObjectValue(whenAlertJoinsGroupAttrTypes(), map[string]attr.Value{
+	obj, _ := types.ObjectValue(WhenAlertJoinsGroupAttrTypes(), map[string]attr.Value{
 		"mode":                 types.StringValue(string(in.Mode)),
 		"grace_period_seconds": gracePeriodSeconds,
 	})
