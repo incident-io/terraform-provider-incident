@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add support for `form_fields` on `incident_workflow`, letting you define the fields shown to a user when they manually trigger a workflow. Each form field has a `name`, `type`, `array` and `required` setting, with optional `description`, `placeholder` and `default_value`.
+
 ## v5.44.0
 
 - Add `owning_team_ids` to catalog type resource and data source
@@ -64,7 +66,6 @@ For other cases, here is a more detailed description of the changes you'll need 
 - Remove every deprecated attribute once its replacement is in place. With `grouping_config` set, the provider rejects `channel_config`, `message_template`, `incident_template`, and `incident_config`'s `grouping_keys` / `grouping_window_seconds` / `defer_time_seconds` / `auto_relate_grouped_alerts`.
 
 As with any Terraform changes, we strongly recommend running `terraform plan` and inspecting the changes it would make before applying your updated configuration.
-
 
 ## v5.40.0
 

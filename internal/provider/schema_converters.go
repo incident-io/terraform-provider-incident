@@ -56,6 +56,7 @@ func (r *IncidentWorkflowResource) buildModel(ctx context.Context, workflow clie
 		ContinueOnStepError:       types.BoolValue(workflow.ContinueOnStepError),
 		RunsOnIncidents:           types.StringValue(string(workflow.RunsOnIncidents)),
 		State:                     types.StringValue(string(workflow.State)),
+		FormFields:                buildFormFields(workflow.FormFields),
 	}
 	if workflow.Folder != nil {
 		model.Folder = types.StringValue(*workflow.Folder)
@@ -102,6 +103,31 @@ func buildRunsOnIncidentModes(modes []client.WorkflowV2RunsOnIncidentModes) type
 	}
 
 	return types.SetValueMust(types.StringType, elements)
+}
+
+func buildFormFields(fields *[]client.WorkflowFormFieldV2) []IncidentWorkflowFormField {
+	if fields == nil {
+		return nil
+	}
+
+	out := []IncidentWorkflowFormField{}
+	for _, f := range *fields {
+		field := IncidentWorkflowFormField{
+			ID:          types.StringValue(f.Id),
+			Name:        types.StringValue(f.Name),
+			Type:        types.StringValue(f.Type),
+			Array:       types.BoolValue(f.Array),
+			Required:    types.BoolValue(f.Required),
+			Description: types.StringPointerValue(f.Description),
+			Placeholder: types.StringPointerValue(f.Placeholder),
+		}
+		if f.DefaultValue != nil {
+			field.DefaultValue = lo.ToPtr(models.IncidentEngineParamBinding{}.FromAPI(*f.DefaultValue))
+		}
+		out = append(out, field)
+	}
+
+	return out
 }
 
 func buildSteps(steps []client.StepConfigV2) []IncidentWorkflowStep {

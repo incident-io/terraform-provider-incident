@@ -9592,49 +9592,51 @@ type WorkflowDelayV2 struct {
 
 // WorkflowFormFieldPayloadV2 defines model for WorkflowFormFieldPayloadV2.
 type WorkflowFormFieldPayloadV2 struct {
-	// Array Whether this field holds a list of values rather than a single value
-	Array *bool `json:"array,omitempty"`
+	// Array Whether this form field accepts multiple values
+	Array        bool                         `json:"array"`
+	DefaultValue *EngineParamBindingPayloadV2 `json:"default_value,omitempty"`
 
-	// Description Optional help text shown beneath the field
+	// Description Longer description displayed below the form field label
 	Description *string `json:"description,omitempty"`
 
-	// Id Stable identifier for this field; omit to create a new field
+	// Id Stable identifier for this form field. Leave unset to have one generated.
 	Id *string `json:"id,omitempty"`
 
-	// Key The key used to reference this field in the workflow scope
-	Key string `json:"key"`
+	// Name Human readable label shown to the user for this form field
+	Name string `json:"name"`
 
-	// Required Whether this field must be filled in when running the workflow
-	Required *bool `json:"required,omitempty"`
+	// Placeholder Placeholder text shown in the form field before a value is entered
+	Placeholder *string `json:"placeholder,omitempty"`
 
-	// Title Human readable title shown in the form
-	Title string `json:"title"`
+	// Required Whether a value must be provided for this form field
+	Required bool `json:"required"`
 
-	// Type The engine resource type of this field
+	// Type The engine type of the value this form field collects
 	Type string `json:"type"`
 }
 
 // WorkflowFormFieldV2 defines model for WorkflowFormFieldV2.
 type WorkflowFormFieldV2 struct {
-	// Array Whether this field holds a list of values rather than a single value
-	Array bool `json:"array"`
+	// Array Whether this form field accepts multiple values
+	Array        bool                  `json:"array"`
+	DefaultValue *EngineParamBindingV2 `json:"default_value,omitempty"`
 
-	// Description Optional help text shown beneath the field
+	// Description Longer description displayed below the form field label
 	Description *string `json:"description,omitempty"`
 
-	// Id Stable identifier for this form field, preserved across versions
+	// Id Unique identifier for this form field
 	Id string `json:"id"`
 
-	// Key The key used to reference this field in the workflow scope
-	Key string `json:"key"`
+	// Name Human readable label shown to the user for this form field
+	Name string `json:"name"`
 
-	// Required Whether this field must be filled in when running the workflow
+	// Placeholder Placeholder text shown in the form field before a value is entered
+	Placeholder *string `json:"placeholder,omitempty"`
+
+	// Required Whether a value must be provided for this form field
 	Required bool `json:"required"`
 
-	// Title Human readable title shown in the form
-	Title string `json:"title"`
-
-	// Type The engine resource type of this field
+	// Type The engine type of the value this form field collects
 	Type string `json:"type"`
 }
 
