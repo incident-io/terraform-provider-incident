@@ -91,7 +91,7 @@ func buildRunsOnIncidentModes(modes []client.WorkflowV2RunsOnIncidentModes) type
 }
 
 func buildFormFields(fields *[]client.WorkflowFormFieldV2) []IncidentWorkflowFormField {
-	if fields == nil {
+	if fields == nil || len(*fields) == 0 {
 		return nil
 	}
 

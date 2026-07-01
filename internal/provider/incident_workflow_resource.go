@@ -188,6 +188,9 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "id"),
 							Optional:            true,
 							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 						},
 						"name": schema.StringAttribute{
 							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "name"),
