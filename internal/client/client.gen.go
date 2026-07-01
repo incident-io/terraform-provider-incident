@@ -9391,6 +9391,56 @@ type WorkflowDelayV2 struct {
 	ForSeconds int64 `json:"for_seconds"`
 }
 
+// WorkflowFormFieldPayloadV2 defines model for WorkflowFormFieldPayloadV2.
+type WorkflowFormFieldPayloadV2 struct {
+	// Array Whether this form field accepts multiple values
+	Array        bool                         `json:"array"`
+	DefaultValue *EngineParamBindingPayloadV2 `json:"default_value,omitempty"`
+
+	// Description Longer description displayed below the form field label
+	Description *string `json:"description,omitempty"`
+
+	// Id Stable identifier for this form field. Leave unset to have one generated.
+	Id *string `json:"id,omitempty"`
+
+	// Name Human readable label shown to the user for this form field
+	Name string `json:"name"`
+
+	// Placeholder Placeholder text shown in the form field before a value is entered
+	Placeholder *string `json:"placeholder,omitempty"`
+
+	// Required Whether a value must be provided for this form field
+	Required bool `json:"required"`
+
+	// Type The engine type of the value this form field collects
+	Type string `json:"type"`
+}
+
+// WorkflowFormFieldV2 defines model for WorkflowFormFieldV2.
+type WorkflowFormFieldV2 struct {
+	// Array Whether this form field accepts multiple values
+	Array        bool                  `json:"array"`
+	DefaultValue *EngineParamBindingV2 `json:"default_value,omitempty"`
+
+	// Description Longer description displayed below the form field label
+	Description *string `json:"description,omitempty"`
+
+	// Id Unique identifier for this form field
+	Id string `json:"id"`
+
+	// Name Human readable label shown to the user for this form field
+	Name string `json:"name"`
+
+	// Placeholder Placeholder text shown in the form field before a value is entered
+	Placeholder *string `json:"placeholder,omitempty"`
+
+	// Required Whether a value must be provided for this form field
+	Required bool `json:"required"`
+
+	// Type The engine type of the value this form field collects
+	Type string `json:"type"`
+}
+
 // WorkflowSlimV2 defines model for WorkflowSlimV2.
 type WorkflowSlimV2 struct {
 	// ConditionGroups Conditions that apply to the workflow trigger
@@ -9468,6 +9518,9 @@ type WorkflowV2 struct {
 	// Folder Folder to display the workflow in
 	Folder *string `json:"folder,omitempty"`
 
+	// FormFields The form fields shown to the user when manually triggering this workflow
+	FormFields *[]WorkflowFormFieldV2 `json:"form_fields,omitempty"`
+
 	// Id Unique identifier for the workflow
 	Id string `json:"id"`
 
@@ -9532,6 +9585,9 @@ type WorkflowsCreateWorkflowPayloadV2 struct {
 
 	// Folder Folder to display the workflow in
 	Folder *string `json:"folder,omitempty"`
+
+	// FormFields The form fields shown to the user when manually triggering this workflow
+	FormFields *[]WorkflowFormFieldPayloadV2 `json:"form_fields,omitempty"`
 
 	// IncludePrivateEscalations Whether to include private escalations
 	IncludePrivateEscalations *bool `json:"include_private_escalations,omitempty"`
@@ -9607,6 +9663,9 @@ type WorkflowsUpdateWorkflowPayloadV2 struct {
 
 	// Folder Folder to display the workflow in
 	Folder *string `json:"folder,omitempty"`
+
+	// FormFields The form fields shown to the user when manually triggering this workflow
+	FormFields *[]WorkflowFormFieldPayloadV2 `json:"form_fields,omitempty"`
 
 	// IncludePrivateEscalations Whether to include private escalations
 	IncludePrivateEscalations *bool `json:"include_private_escalations,omitempty"`
