@@ -30,13 +30,13 @@ var (
 // location. They are emitted whenever the attribute is set, nudging users to
 // migrate to the v3 schema (opted into via the top-level grouping_config).
 const (
-	deprecatedChannelConfig         = "Deprecated: use `message_config.destinations` (set the top-level `grouping_config` block to opt into the v3 schema)."
-	deprecatedMessageTemplate       = "Deprecated: use `message_config.template` (set the top-level `grouping_config` block to opt into the v3 schema)."
-	deprecatedIncidentTemplate      = "Deprecated: use `incident_config.template` (set the top-level `grouping_config` block to opt into the v3 schema)."
-	deprecatedGroupingKeys          = "Deprecated: configure grouping via the top-level `grouping_config` block (`grouping_config.default.grouping_keys`)."
-	deprecatedGroupingWindowSeconds = "Deprecated: configure grouping via the top-level `grouping_config` block (`grouping_config.default.window_seconds`)."
-	deprecatedDeferTimeSeconds      = "Deprecated: the v3 schema (`grouping_config`) does not support a defer time."
-	deprecatedAutoRelateGrouped     = "Deprecated: the v3 schema (`grouping_config`) does not support auto-relating grouped alerts."
+	deprecatedChannelConfig         = "Deprecated: configuring alert channels via `channel_config`. Migrate to the v3 alert route schema and use `message_config.destinations` instead."
+	deprecatedMessageTemplate       = "Deprecated: configuring the message template via `message_template`. Migrate to the v3 alert route schema and use `message_config.template` instead."
+	deprecatedIncidentTemplate      = "Deprecated: configuring the incident template via the top-level `incident_template`. Migrate to the v3 alert route schema and use `incident_config.template` instead."
+	deprecatedGroupingKeys          = "Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead."
+	deprecatedGroupingWindowSeconds = "Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead."
+	deprecatedDeferTimeSeconds      = "Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead."
+	deprecatedAutoRelateGrouped     = "Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead."
 )
 
 type IncidentAlertRouteResource struct {

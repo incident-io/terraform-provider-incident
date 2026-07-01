@@ -281,11 +281,11 @@ resource "incident_alert_route" "service_alerts" {
 
 - `channel_config` (Attributes Set, Deprecated) The channel configuration for this alert route
 
-Deprecated: use `message_config.destinations` (set the top-level `grouping_config` block to opt into the v3 schema). (see [below for nested schema](#nestedatt--channel_config))
+Deprecated: configuring alert channels via `channel_config`. Migrate to the v3 alert route schema and use `message_config.destinations` instead. (see [below for nested schema](#nestedatt--channel_config))
 - `grouping_config` (Attributes) Setting this block opts the alert route into the v3 schema. (see [below for nested schema](#nestedatt--grouping_config))
-- `incident_template` (Attributes, Deprecated) Deprecated: use `incident_config.template` (set the top-level `grouping_config` block to opt into the v3 schema). (see [below for nested schema](#nestedatt--incident_template))
+- `incident_template` (Attributes, Deprecated) Deprecated: configuring the incident template via the top-level `incident_template`. Migrate to the v3 alert route schema and use `incident_config.template` instead. (see [below for nested schema](#nestedatt--incident_template))
 - `message_config` (Attributes) (v3 only) (see [below for nested schema](#nestedatt--message_config))
-- `message_template` (Attributes, Deprecated) Deprecated: use `message_config.template` (set the top-level `grouping_config` block to opt into the v3 schema). (see [below for nested schema](#nestedatt--message_template))
+- `message_template` (Attributes, Deprecated) Deprecated: configuring the message template via `message_template`. Migrate to the v3 alert route schema and use `message_config.template` instead. (see [below for nested schema](#nestedatt--message_template))
 - `owning_team_ids` (Set of String) IDs of teams that own this alert route
 
 ### Read-Only
@@ -735,16 +735,16 @@ Optional:
 - `auto_decline_enabled` (Boolean) Should triage incidents be declined when alerts are resolved?
 - `auto_relate_grouped_alerts` (Boolean, Deprecated) Should grouped alerts automatically be related to active incidents without confirmation?
 
-Deprecated: the v3 schema (`grouping_config`) does not support auto-relating grouped alerts.
+Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead.
 - `defer_time_seconds` (Number, Deprecated) How long should the escalation defer time be?
 
-Deprecated: the v3 schema (`grouping_config`) does not support a defer time.
+Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead.
 - `grouping_keys` (Attributes Set, Deprecated) Which attributes should this alert route use to group alerts?
 
-Deprecated: configure grouping via the top-level `grouping_config` block (`grouping_config.default.grouping_keys`). (see [below for nested schema](#nestedatt--incident_config--grouping_keys))
+Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead. (see [below for nested schema](#nestedatt--incident_config--grouping_keys))
 - `grouping_window_seconds` (Number, Deprecated) How large should the grouping window be?
 
-Deprecated: configure grouping via the top-level `grouping_config` block (`grouping_config.default.window_seconds`).
+Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead.
 - `template` (Attributes) (v3 only) (see [below for nested schema](#nestedatt--incident_config--template))
 
 <a id="nestedatt--incident_config--condition_groups"></a>

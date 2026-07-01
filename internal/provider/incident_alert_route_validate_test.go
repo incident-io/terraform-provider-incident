@@ -233,7 +233,7 @@ func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 		{
 			name:   "v3 forbids channel_config",
 			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentEnabled() + arChannelConfig),
-			errRe:  "channel_config` belongs to the v2 schema",
+			errRe:  "channel_config` cannot be used with the v3 alert route schema",
 		},
 		{
 			name:   "v3 grouping enabled requires window_seconds",
@@ -262,7 +262,7 @@ func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 		{
 			name:   "v2 requires incident_template",
 			config: arV2Config("", ""),
-			errRe:  "`incident_template` is required in the v2 schema",
+			errRe:  "`incident_template` is required when using the v2 alert route schema",
 		},
 	}
 
