@@ -1,10 +1,11 @@
 package provider
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -478,6 +479,10 @@ func (r *IncidentAlertRouteResource) Create(ctx context.Context, req resource.Cr
 	if data.IsV3Mode() {
 		result, err := r.client.AlertRoutesV3CreateWithResponse(ctx, data.ToCreatePayloadV3())
 		if err != nil {
+			if isAPINotYetAvailable(err) {
+				resp.Diagnostics.AddError(alertRouteV3UnavailableError())
+				return
+			}
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create alert route, got error: %s", err))
 			return
 		}
@@ -568,6 +573,10 @@ func (r *IncidentAlertRouteResource) Update(ctx context.Context, req resource.Up
 				resp.State.RemoveResource(ctx)
 				return
 			}
+			if isAPINotYetAvailable(err) {
+				resp.Diagnostics.AddError(alertRouteV3UnavailableError())
+				return
+			}
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert route before updating, got error: %s", err))
 			return
 		}
@@ -577,6 +586,10 @@ func (r *IncidentAlertRouteResource) Update(ctx context.Context, req resource.Up
 
 		updateResult, err := r.client.AlertRoutesV3UpdateWithResponse(ctx, data.ID.ValueString(), payload)
 		if err != nil {
+			if isAPINotYetAvailable(err) {
+				resp.Diagnostics.AddError(alertRouteV3UnavailableError())
+				return
+			}
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update alert route, got error: %s", err))
 			return
 		}
@@ -637,52 +650,44 @@ func (r *IncidentAlertRouteResource) Delete(ctx context.Context, req resource.De
 
 func (r *IncidentAlertRouteResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	// The same underlying alert route is readable through both the v2 and v3
-	// APIs, so a bare ID can't tell us which schema the configuration uses, and
-	// Read infers the schema from state (which is empty on import). Disambiguate
-	// with an optional prefix: a bare ID (or "v2:<id>") imports a v2 route, and
-	// "v3:<id>" imports a route managed with the v3 schema. We populate the full
-	// state here via the matching API so the subsequent refresh dispatches
-	// correctly.
+	// APIs, and Read infers the schema from state (which is empty on import), so
+	// we decide the schema here by probing. Organisations migrated to the new
+	// alert grouping engine are imported with the v3 schema; organisations that
+	// haven't migrated get a 403 `api_not_yet_available` from the v3 API, so we
+	// fall back to the v2 API and import with the v2 schema. We populate the full
+	// state via the matching API so the subsequent refresh dispatches correctly.
 	id := req.ID
-	v3 := false
-	switch {
-	case strings.HasPrefix(id, "v3:"):
-		v3 = true
-		id = strings.TrimPrefix(id, "v3:")
-	case strings.HasPrefix(id, "v2:"):
-		id = strings.TrimPrefix(id, "v2:")
-	}
 
 	claimResource(ctx, r.client, id, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	if v3 {
-		result, err := r.client.AlertRoutesV3ShowWithResponse(ctx, id)
-		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route, got error: %s", err))
-			return
-		}
-		if result.JSON200 == nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route %q: not found via the v3 API.", id))
-			return
-		}
-		data := models.AlertRouteResourceModel{}.FromAPIV3(result.JSON200.AlertRoute)
+	v3Result, err := r.client.AlertRoutesV3ShowWithResponse(ctx, id)
+	switch {
+	case err == nil && v3Result.JSON200 != nil:
+		data := models.AlertRouteResourceModel{}.FromAPIV3(v3Result.JSON200.AlertRoute)
 		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+		return
+	case err != nil && !isAPINotYetAvailable(err):
+		// A genuine error rather than the migration gate: surface it rather than
+		// masking it behind a v2 fallback.
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route via the v3 API, got error: %s", err))
 		return
 	}
 
-	result, err := r.client.AlertRoutesV2ShowWithResponse(ctx, id)
+	// The organisation hasn't migrated to the new alert grouping engine (the v3
+	// API returned `api_not_yet_available`), so import via the v2 API.
+	v2Result, err := r.client.AlertRoutesV2ShowWithResponse(ctx, id)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route via the v2 API, got error: %s", err))
 		return
 	}
-	if result.JSON200 == nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route %q: not found via the v2 API.", id))
+	if v2Result.JSON200 == nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route %q: not found.", id))
 		return
 	}
-	data := models.AlertRouteResourceModel{}.FromAPIV2(result.JSON200.AlertRoute)
+	data := models.AlertRouteResourceModel{}.FromAPIV2(v2Result.JSON200.AlertRoute)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -690,4 +695,47 @@ func (r *IncidentAlertRouteResource) ImportState(ctx context.Context, req resour
 func isNotFound(err error) bool {
 	httpErr := client.HTTPError{}
 	return errors.As(err, &httpErr) && httpErr.StatusCode == 404
+}
+
+// alertRouteAPINotYetAvailableCode is the error code the v3 alert routes API
+// returns (with a 403) for organisations that have not migrated to the new
+// alert grouping engine.
+const alertRouteAPINotYetAvailableCode = "api_not_yet_available"
+
+// isAPINotYetAvailable reports whether err is the v3 alert routes API's
+// organisation-not-migrated gate, so callers can fall back to the v2 API or show
+// a clearer error.
+func isAPINotYetAvailable(err error) bool {
+	httpErr := client.HTTPError{}
+	if !errors.As(err, &httpErr) {
+		return false
+	}
+
+	// incident.io error envelope: {"errors": [{"code": "..."}], ...}. Parse it,
+	// falling back to a raw substring match in case the envelope shape differs.
+	var body struct {
+		Errors []struct {
+			Code string `json:"code"`
+		} `json:"errors"`
+	}
+	if json.Unmarshal(httpErr.Body, &body) == nil {
+		for _, e := range body.Errors {
+			if e.Code == alertRouteAPINotYetAvailableCode {
+				return true
+			}
+		}
+	}
+
+	return bytes.Contains(httpErr.Body, []byte(alertRouteAPINotYetAvailableCode))
+}
+
+// alertRouteV3UnavailableError returns the diagnostic shown when a v3-schema
+// alert route is used against an organisation that has not migrated to the new
+// alert grouping engine.
+func alertRouteV3UnavailableError() (summary, detail string) {
+	return "Organisation not migrated to the new alert grouping engine",
+		"This alert route uses the v3 schema (`grouping_config` is set), but your " +
+			"organisation has not been migrated to the new alert grouping engine yet. " +
+			"Use the v2 schema (remove `grouping_config` and the other v3-only blocks) " +
+			"until your organisation is migrated."
 }
