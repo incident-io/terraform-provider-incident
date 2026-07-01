@@ -288,11 +288,12 @@ resource "incident_alert_route" "test" {
   }
 
   message_config = {
-    enabled = false
+    destinations = []
   }
 
   escalation_config = {
-    enabled = false
+    auto_cancel_escalations = true
+    escalation_targets      = []
   }
 
   incident_config = {
@@ -400,7 +401,6 @@ resource "incident_alert_route" "comprehensive" {
   }
 
   message_config = {
-    enabled = true
     destinations = [
       {
         condition_groups = []
@@ -417,7 +417,6 @@ resource "incident_alert_route" "comprehensive" {
   }
 
   escalation_config = {
-    enabled                 = true
     auto_cancel_escalations = true
     escalation_targets      = []
     when_alert_joins_group = {
@@ -559,11 +558,12 @@ resource "incident_alert_route" "invalid_branches" {
   }
 
   message_config = {
-    enabled = false
+    destinations = []
   }
 
   escalation_config = {
-    enabled = false
+    auto_cancel_escalations = true
+    escalation_targets      = []
   }
 
   incident_config = {
@@ -598,11 +598,12 @@ resource "incident_alert_route" "test" {
   }
 
   message_config = {
-    enabled = false
+    destinations = []
   }
 
   escalation_config = {
-    enabled = false
+    auto_cancel_escalations = true
+    escalation_targets      = []
   }
 
   incident_config = {
@@ -636,11 +637,12 @@ resource "incident_alert_route" "test" {
   }
 
   message_config = {
-    enabled = false
+    destinations = []
   }
 
   escalation_config = {
-    enabled = false
+    auto_cancel_escalations = true
+    escalation_targets      = []
   }
 
   incident_config = {

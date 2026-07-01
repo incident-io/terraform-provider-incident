@@ -2295,22 +2295,16 @@ type AlertGroupingConfigV3 struct {
 
 // AlertMessageConfigPayloadV3 defines model for AlertMessageConfigPayloadV3.
 type AlertMessageConfigPayloadV3 struct {
-	// Destinations The destinations (Slack/Teams channels) alert messages are sent to. Required when alert messages are enabled, and must be empty otherwise.
-	Destinations *[]AlertMessageDestinationPayloadV3 `json:"destinations,omitempty"`
-
-	// Enabled Whether alert messages are sent for this alert route
-	Enabled  bool                         `json:"enabled"`
-	Template *EngineParamBindingPayloadV3 `json:"template,omitempty"`
+	// Destinations The destinations (Slack/Teams channels) alert messages are sent to
+	Destinations []AlertMessageDestinationPayloadV3 `json:"destinations"`
+	Template     *EngineParamBindingPayloadV3       `json:"template,omitempty"`
 }
 
 // AlertMessageConfigV3 defines model for AlertMessageConfigV3.
 type AlertMessageConfigV3 struct {
-	// Destinations The destinations (Slack/Teams channels) alert messages are sent to. Only set when alert messages are enabled.
-	Destinations *[]AlertMessageDestinationV3 `json:"destinations,omitempty"`
-
-	// Enabled Whether alert messages are sent for this alert route
-	Enabled  bool                  `json:"enabled"`
-	Template *EngineParamBindingV3 `json:"template,omitempty"`
+	// Destinations The destinations (Slack/Teams channels) alert messages are sent to
+	Destinations []AlertMessageDestinationV3 `json:"destinations"`
+	Template     *EngineParamBindingV3       `json:"template,omitempty"`
 }
 
 // AlertMessageDestinationPayloadV3 defines model for AlertMessageDestinationPayloadV3.
@@ -2569,14 +2563,11 @@ type AlertRouteEscalationConfigPayloadV2 struct {
 
 // AlertRouteEscalationConfigPayloadV3 defines model for AlertRouteEscalationConfigPayloadV3.
 type AlertRouteEscalationConfigPayloadV3 struct {
-	// AutoCancelEscalations Should we auto cancel escalations when all alerts are resolved? Required when escalations are enabled, and must be unset otherwise.
-	AutoCancelEscalations *bool `json:"auto_cancel_escalations,omitempty"`
+	// AutoCancelEscalations Should we auto cancel escalations when all alerts are resolved?
+	AutoCancelEscalations bool `json:"auto_cancel_escalations"`
 
-	// Enabled Whether escalations are enabled for this alert route
-	Enabled bool `json:"enabled"`
-
-	// EscalationTargets Targets for escalation. Required when escalations are enabled, and must be empty otherwise.
-	EscalationTargets   *[]AlertRouteEscalationTargetPayloadV3  `json:"escalation_targets,omitempty"`
+	// EscalationTargets Targets for escalation
+	EscalationTargets   []AlertRouteEscalationTargetPayloadV3   `json:"escalation_targets"`
 	WhenAlertJoinsGroup *AlertRouteWhenAlertJoinsGroupPayloadV3 `json:"when_alert_joins_group,omitempty"`
 }
 
@@ -2591,14 +2582,11 @@ type AlertRouteEscalationConfigV2 struct {
 
 // AlertRouteEscalationConfigV3 defines model for AlertRouteEscalationConfigV3.
 type AlertRouteEscalationConfigV3 struct {
-	// AutoCancelEscalations Should we auto cancel escalations when all alerts are resolved? Only set when escalations are enabled.
-	AutoCancelEscalations *bool `json:"auto_cancel_escalations,omitempty"`
+	// AutoCancelEscalations Should we auto cancel escalations when all alerts are resolved?
+	AutoCancelEscalations bool `json:"auto_cancel_escalations"`
 
-	// Enabled Whether escalations are enabled for this alert route
-	Enabled bool `json:"enabled"`
-
-	// EscalationTargets Targets for escalation. Only set when escalations are enabled.
-	EscalationTargets   *[]AlertRouteEscalationTargetV3  `json:"escalation_targets,omitempty"`
+	// EscalationTargets Targets for escalation
+	EscalationTargets   []AlertRouteEscalationTargetV3   `json:"escalation_targets"`
 	WhenAlertJoinsGroup *AlertRouteWhenAlertJoinsGroupV3 `json:"when_alert_joins_group,omitempty"`
 }
 
@@ -3709,6 +3697,9 @@ type CatalogEntryReferenceV2 struct {
 
 // CatalogEntrySlimV3V3 defines model for CatalogEntrySlimV3V3.
 type CatalogEntrySlimV3V3 struct {
+	// ExternalId An optional alternative ID for this entry, which is ensured to be unique for the type
+	ExternalId *string `json:"external_id,omitempty"`
+
 	// Id ID of this catalog entry
 	Id string `json:"id"`
 
@@ -6807,6 +6798,9 @@ type IncidentTypeV1 struct {
 
 	// Name The name of this Incident Type
 	Name string `json:"name"`
+
+	// OwningTeamIds IDs of the teams that own this incident type
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
 
 	// PrivateIncidentsOnly Should all incidents created with this Incident Type be private?
 	PrivateIncidentsOnly bool `json:"private_incidents_only"`

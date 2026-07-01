@@ -48,8 +48,7 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 			},
 		},
 		MessageConfig: client.AlertMessageConfigV3{
-			Enabled: true,
-			Destinations: &[]client.AlertMessageDestinationV3{
+			Destinations: []client.AlertMessageDestinationV3{
 				{
 					ConditionGroups: []client.ConditionGroupV3{},
 					SlackTargets: &client.AlertRouteChannelTargetV3{
@@ -62,9 +61,8 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 			},
 		},
 		EscalationConfig: client.AlertRouteEscalationConfigV3{
-			Enabled:               true,
-			AutoCancelEscalations: lo.ToPtr(true),
-			EscalationTargets:     &[]client.AlertRouteEscalationTargetV3{},
+			AutoCancelEscalations: true,
+			EscalationTargets:     []client.AlertRouteEscalationTargetV3{},
 			WhenAlertJoinsGroup: &client.AlertRouteWhenAlertJoinsGroupV3{
 				Mode:               client.AlertRouteWhenAlertJoinsGroupV3ModeOnEachNewAlert,
 				GracePeriodSeconds: lo.ToPtr(int32(60)),
@@ -133,17 +131,11 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 	if model.MessageConfig == nil || len(model.MessageConfig.Destinations) != 1 {
 		t.Fatalf("message_config destinations: %+v", model.MessageConfig)
 	}
-	if !model.MessageConfig.Enabled.ValueBool() {
-		t.Error("message enabled should be true")
-	}
 	if model.MessageConfig.Destinations[0].SlackTargets == nil {
 		t.Fatal("slack_targets is nil")
 	}
 
 	// Escalation config.
-	if !model.EscalationConfig.Enabled.ValueBool() {
-		t.Error("escalation enabled should be true")
-	}
 	if !model.EscalationConfig.AutoCancelEscalations.ValueBool() {
 		t.Error("auto_cancel_escalations should be true")
 	}
@@ -178,15 +170,15 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 	if got := payload.GroupingConfig.Default.WindowType; got == nil || *got != client.Fixed {
 		t.Errorf("payload window_type: got %v", got)
 	}
-	if payload.MessageConfig.Destinations == nil || len(*payload.MessageConfig.Destinations) != 1 {
+	if len(payload.MessageConfig.Destinations) != 1 {
 		t.Fatalf("payload destinations: %+v", payload.MessageConfig.Destinations)
 	}
-	slack := (*payload.MessageConfig.Destinations)[0].SlackTargets
+	slack := payload.MessageConfig.Destinations[0].SlackTargets
 	if slack == nil || slack.Binding.Value == nil || lo.FromPtr(slack.Binding.Value.Literal) != "C123" {
 		t.Errorf("payload slack binding literal mismatch: %+v", slack)
 	}
-	if !payload.EscalationConfig.Enabled {
-		t.Error("payload escalation enabled should be true")
+	if !payload.EscalationConfig.AutoCancelEscalations {
+		t.Error("payload auto_cancel_escalations should be true")
 	}
 	if payload.EscalationConfig.WhenAlertJoinsGroup == nil {
 		t.Fatal("payload when_alert_joins_group is nil")
@@ -206,49 +198,6 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 	}
 }
 
-// TestAlertRouteV3DisabledSectionsOmitGatedFields confirms that when the v3
-// enabled flags are false, ToCreatePayloadV3 omits the gated fields entirely so
-// the API does not reject the payload.
-func TestAlertRouteV3DisabledSectionsOmitGatedFields(t *testing.T) {
-	api := client.AlertRouteV3{
-		Id:              "01ABC",
-		Name:            "route",
-		ConditionGroups: []client.ConditionGroupV3{},
-		Expressions:     []client.ExpressionV3{},
-		GroupingConfig: client.AlertGroupingConfigV3{
-			Default: client.GroupingSettingsV3{Enabled: false},
-		},
-		MessageConfig:    client.AlertMessageConfigV3{Enabled: false},
-		EscalationConfig: client.AlertRouteEscalationConfigV3{Enabled: false},
-		IncidentConfig:   client.AlertRouteIncidentConfigV3{Enabled: false},
-	}
-
-	model := AlertRouteResourceModel{}.FromAPIV3(api)
-	payload := model.ToCreatePayloadV3()
-
-	if payload.EscalationConfig.Enabled {
-		t.Error("escalation enabled should be false")
-	}
-	if payload.EscalationConfig.AutoCancelEscalations != nil {
-		t.Errorf("auto_cancel_escalations should be omitted, got %v", payload.EscalationConfig.AutoCancelEscalations)
-	}
-	if payload.EscalationConfig.EscalationTargets != nil {
-		t.Errorf("escalation_targets should be omitted, got %v", payload.EscalationConfig.EscalationTargets)
-	}
-	if payload.EscalationConfig.WhenAlertJoinsGroup != nil {
-		t.Errorf("when_alert_joins_group should be omitted, got %v", payload.EscalationConfig.WhenAlertJoinsGroup)
-	}
-	if payload.MessageConfig.Enabled {
-		t.Error("message enabled should be false")
-	}
-	if payload.MessageConfig.Destinations != nil {
-		t.Errorf("destinations should be omitted, got %v", payload.MessageConfig.Destinations)
-	}
-	if payload.MessageConfig.Template != nil {
-		t.Errorf("template should be omitted, got %v", payload.MessageConfig.Template)
-	}
-}
-
 // TestAlertRouteV3MessageConfigDestinationsNullVsEmpty checks that
 // FromAPIV3WithPlan mirrors the planned null-vs-empty shape of the optional
 // message_config.destinations set. The API returns no destinations both when
@@ -265,11 +214,10 @@ func TestAlertRouteV3MessageConfigDestinationsNullVsEmpty(t *testing.T) {
 			Default: client.GroupingSettingsV3{},
 		},
 		MessageConfig: client.AlertMessageConfigV3{
-			Enabled:      true,
-			Destinations: &[]client.AlertMessageDestinationV3{},
+			Destinations: []client.AlertMessageDestinationV3{},
 		},
 		EscalationConfig: client.AlertRouteEscalationConfigV3{
-			EscalationTargets: &[]client.AlertRouteEscalationTargetV3{},
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
 		},
 		IncidentConfig: client.AlertRouteIncidentConfigV3{},
 	}
@@ -317,10 +265,10 @@ func TestAlertRouteV3ImportLeavesConditionalFieldsNull(t *testing.T) {
 			Default: client.GroupingSettingsV3{Enabled: false},
 		},
 		MessageConfig: client.AlertMessageConfigV3{
-			Destinations: &[]client.AlertMessageDestinationV3{},
+			Destinations: []client.AlertMessageDestinationV3{},
 		},
 		EscalationConfig: client.AlertRouteEscalationConfigV3{
-			EscalationTargets: &[]client.AlertRouteEscalationTargetV3{},
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
 		},
 		IncidentConfig: client.AlertRouteIncidentConfigV3{Enabled: false},
 	}
@@ -372,10 +320,10 @@ func TestAlertRouteV3CustomFieldsNullVsEmpty(t *testing.T) {
 			Default: client.GroupingSettingsV3{Enabled: false},
 		},
 		MessageConfig: client.AlertMessageConfigV3{
-			Destinations: &[]client.AlertMessageDestinationV3{},
+			Destinations: []client.AlertMessageDestinationV3{},
 		},
 		EscalationConfig: client.AlertRouteEscalationConfigV3{
-			EscalationTargets: &[]client.AlertRouteEscalationTargetV3{},
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
 		},
 		IncidentConfig: client.AlertRouteIncidentConfigV3{
 			Enabled: true,

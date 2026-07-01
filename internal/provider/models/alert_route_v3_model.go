@@ -95,7 +95,6 @@ type AlertRouteV3GroupingSettingsModel struct {
 }
 
 type AlertRouteV3MessageConfigModel struct {
-	Enabled      types.Bool                     `tfsdk:"enabled"`
 	Destinations []AlertRouteChannelConfigModel `tfsdk:"destinations"`
 	// Template is the v3 message template. Note the v3 API renamed this field
 	// from message_template to template (the v2 top-level message_template is a
@@ -217,36 +216,28 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 		result.Expressions = expressionsFromV3(apiModel.Expressions)
 	}
 
-	// Escalation config. enabled gates everything else: auto_cancel_escalations,
-	// escalation_targets and when_alert_joins_group are only returned when
-	// escalations are enabled. Mirror the API and leave them null/empty
-	// otherwise, so disabling escalations (including out-of-band) doesn't leave
-	// stale values behind.
+	// Escalation config. when_alert_joins_group is optional (the API only returns
+	// it when grouping is enabled); auto_cancel_escalations and escalation_targets
+	// are always present.
 	result.EscalationConfig = &AlertRouteEscalationConfigModel{
-		Enabled:               types.BoolValue(apiModel.EscalationConfig.Enabled),
-		AutoCancelEscalations: types.BoolNull(),
+		AutoCancelEscalations: types.BoolValue(apiModel.EscalationConfig.AutoCancelEscalations),
+		EscalationTargets:     []AlertRouteEscalationTargetModel{},
 		WhenAlertJoinsGroup:   whenAlertJoinsGroupFromAPI(apiModel.EscalationConfig.WhenAlertJoinsGroup),
 	}
-	if apiModel.EscalationConfig.AutoCancelEscalations != nil {
-		result.EscalationConfig.AutoCancelEscalations = types.BoolValue(*apiModel.EscalationConfig.AutoCancelEscalations)
-	}
-	if apiModel.EscalationConfig.EscalationTargets != nil {
-		result.EscalationConfig.EscalationTargets = []AlertRouteEscalationTargetModel{}
-		for _, target := range *apiModel.EscalationConfig.EscalationTargets {
-			model := AlertRouteEscalationTargetModel{}
+	for _, target := range apiModel.EscalationConfig.EscalationTargets {
+		model := AlertRouteEscalationTargetModel{}
 
-			if target.Users != nil {
-				binding := paramBindingFromV3(*target.Users)
-				model.Users = &binding
-			}
-
-			if target.EscalationPaths != nil {
-				binding := paramBindingFromV3(*target.EscalationPaths)
-				model.EscalationPaths = &binding
-			}
-
-			result.EscalationConfig.EscalationTargets = append(result.EscalationConfig.EscalationTargets, model)
+		if target.Users != nil {
+			binding := paramBindingFromV3(*target.Users)
+			model.Users = &binding
 		}
+
+		if target.EscalationPaths != nil {
+			binding := paramBindingFromV3(*target.EscalationPaths)
+			model.EscalationPaths = &binding
+		}
+
+		result.EscalationConfig.EscalationTargets = append(result.EscalationConfig.EscalationTargets, model)
 	}
 
 	// Grouping config. The detail fields (grouping_keys, window_seconds,
@@ -286,36 +277,32 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 	}
 	result.GroupingConfig = &AlertRouteV3GroupingConfigModel{Default: groupingDefault}
 
-	// Message config. enabled gates destinations and template. Leave Destinations
-	// nil (rather than an empty slice) when the API returns none, so an omitted
-	// optional `destinations` stays null and doesn't produce drift.
-	result.MessageConfig = &AlertRouteV3MessageConfigModel{
-		Enabled: types.BoolValue(apiModel.MessageConfig.Enabled),
-	}
-	if apiModel.MessageConfig.Destinations != nil {
-		for _, destination := range *apiModel.MessageConfig.Destinations {
-			model := AlertRouteChannelConfigModel{
-				ConditionGroups: conditionGroupsFromV3(destination.ConditionGroups),
-			}
-
-			if destination.SlackTargets != nil {
-				binding := paramBindingFromV3(destination.SlackTargets.Binding)
-				model.SlackTargets = &AlertRouteChannelTargetModel{
-					ChannelVisibility: types.StringValue(destination.SlackTargets.ChannelVisibility),
-					Binding:           &binding,
-				}
-			}
-
-			if destination.MsTeamsTargets != nil {
-				binding := paramBindingFromV3(destination.MsTeamsTargets.Binding)
-				model.MsTeamsTargets = &AlertRouteChannelTargetModel{
-					ChannelVisibility: types.StringValue(destination.MsTeamsTargets.ChannelVisibility),
-					Binding:           &binding,
-				}
-			}
-
-			result.MessageConfig.Destinations = append(result.MessageConfig.Destinations, model)
+	// Message config. Leave Destinations nil (rather than an empty slice) when the
+	// API returns none, so an omitted optional `destinations` stays null and
+	// doesn't produce drift (reconciled against the plan below).
+	result.MessageConfig = &AlertRouteV3MessageConfigModel{}
+	for _, destination := range apiModel.MessageConfig.Destinations {
+		model := AlertRouteChannelConfigModel{
+			ConditionGroups: conditionGroupsFromV3(destination.ConditionGroups),
 		}
+
+		if destination.SlackTargets != nil {
+			binding := paramBindingFromV3(destination.SlackTargets.Binding)
+			model.SlackTargets = &AlertRouteChannelTargetModel{
+				ChannelVisibility: types.StringValue(destination.SlackTargets.ChannelVisibility),
+				Binding:           &binding,
+			}
+		}
+
+		if destination.MsTeamsTargets != nil {
+			binding := paramBindingFromV3(destination.MsTeamsTargets.Binding)
+			model.MsTeamsTargets = &AlertRouteChannelTargetModel{
+				ChannelVisibility: types.StringValue(destination.MsTeamsTargets.ChannelVisibility),
+				Binding:           &binding,
+			}
+		}
+
+		result.MessageConfig.Destinations = append(result.MessageConfig.Destinations, model)
 	}
 
 	if apiModel.MessageConfig.Template != nil {
@@ -506,7 +493,8 @@ func (m AlertRouteResourceModel) ToCreatePayloadV3() client.AlertRoutesCreatePay
 		ConditionGroups: []client.ConditionGroupPayloadV3{},
 		Expressions:     []client.ExpressionPayloadV3{},
 		EscalationConfig: client.AlertRouteEscalationConfigPayloadV3{
-			Enabled: false,
+			AutoCancelEscalations: false,
+			EscalationTargets:     []client.AlertRouteEscalationTargetPayloadV3{},
 		},
 		IncidentConfig: client.AlertRouteIncidentConfigPayloadV3{
 			AutoDeclineEnabled: lo.ToPtr(false),
@@ -518,7 +506,7 @@ func (m AlertRouteResourceModel) ToCreatePayloadV3() client.AlertRoutesCreatePay
 			},
 		},
 		MessageConfig: client.AlertMessageConfigPayloadV3{
-			Enabled: false,
+			Destinations: []client.AlertMessageDestinationPayloadV3{},
 		},
 		OwningTeamIds: owningTeamIDs,
 	}
@@ -538,35 +526,28 @@ func (m AlertRouteResourceModel) ToCreatePayloadV3() client.AlertRoutesCreatePay
 		payload.Expressions = expressionsToV3Payload(m.Expressions)
 	}
 
-	// Escalation config. enabled gates everything: auto_cancel_escalations,
-	// escalation_targets and when_alert_joins_group are only valid when
-	// escalations are enabled, so we omit them otherwise rather than send values
-	// the API would reject.
 	if m.EscalationConfig != nil {
 		payload.EscalationConfig = client.AlertRouteEscalationConfigPayloadV3{
-			Enabled: m.EscalationConfig.Enabled.ValueBool(),
+			AutoCancelEscalations: m.EscalationConfig.AutoCancelEscalations.ValueBool(),
+			EscalationTargets:     []client.AlertRouteEscalationTargetPayloadV3{},
 		}
 
-		if m.EscalationConfig.Enabled.ValueBool() {
-			payload.EscalationConfig.AutoCancelEscalations = lo.ToPtr(m.EscalationConfig.AutoCancelEscalations.ValueBool())
-
-			escalationTargets := []client.AlertRouteEscalationTargetPayloadV3{}
-			for _, target := range m.EscalationConfig.EscalationTargets {
-				escalationTarget := client.AlertRouteEscalationTargetPayloadV3{}
-				if target.Users != nil {
-					userBinding := paramBindingToV3Payload(*target.Users)
-					escalationTarget.Users = &userBinding
-				}
-				if target.EscalationPaths != nil {
-					pathBinding := paramBindingToV3Payload(*target.EscalationPaths)
-					escalationTarget.EscalationPaths = &pathBinding
-				}
-				escalationTargets = append(escalationTargets, escalationTarget)
+		for _, target := range m.EscalationConfig.EscalationTargets {
+			escalationTarget := client.AlertRouteEscalationTargetPayloadV3{}
+			if target.Users != nil {
+				userBinding := paramBindingToV3Payload(*target.Users)
+				escalationTarget.Users = &userBinding
 			}
-			payload.EscalationConfig.EscalationTargets = &escalationTargets
-
-			payload.EscalationConfig.WhenAlertJoinsGroup = whenAlertJoinsGroupToPayload(context.Background(), m.EscalationConfig.WhenAlertJoinsGroup)
+			if target.EscalationPaths != nil {
+				pathBinding := paramBindingToV3Payload(*target.EscalationPaths)
+				escalationTarget.EscalationPaths = &pathBinding
+			}
+			payload.EscalationConfig.EscalationTargets = append(payload.EscalationConfig.EscalationTargets, escalationTarget)
 		}
+
+		// when_alert_joins_group is optional; whenAlertJoinsGroupToPayload returns
+		// nil when unset.
+		payload.EscalationConfig.WhenAlertJoinsGroup = whenAlertJoinsGroupToPayload(context.Background(), m.EscalationConfig.WhenAlertJoinsGroup)
 	}
 
 	if m.GroupingConfig != nil && m.GroupingConfig.Default != nil {
@@ -593,42 +574,37 @@ func (m AlertRouteResourceModel) ToCreatePayloadV3() client.AlertRoutesCreatePay
 		payload.GroupingConfig = client.AlertGroupingConfigV3{Default: groupingDefault}
 	}
 
-	// Message config. enabled gates destinations and template; the API rejects
-	// them when alert messages are disabled, so we omit them.
 	if m.MessageConfig != nil {
-		payload.MessageConfig = client.AlertMessageConfigPayloadV3{
-			Enabled: m.MessageConfig.Enabled.ValueBool(),
+		destinations := []client.AlertMessageDestinationPayloadV3{}
+		for _, destination := range m.MessageConfig.Destinations {
+			payloadDestination := client.AlertMessageDestinationPayloadV3{
+				ConditionGroups: conditionGroupsToV3Payload(destination.ConditionGroups),
+			}
+
+			if destination.SlackTargets != nil && destination.SlackTargets.Binding != nil {
+				payloadDestination.SlackTargets = &client.AlertRouteChannelTargetPayloadV3{
+					ChannelVisibility: client.AlertRouteChannelTargetPayloadV3ChannelVisibility(destination.SlackTargets.ChannelVisibility.ValueString()),
+					Binding:           paramBindingToV3Payload(*destination.SlackTargets.Binding),
+				}
+			}
+
+			if destination.MsTeamsTargets != nil && destination.MsTeamsTargets.Binding != nil {
+				payloadDestination.MsTeamsTargets = &client.AlertRouteChannelTargetPayloadV3{
+					ChannelVisibility: client.AlertRouteChannelTargetPayloadV3ChannelVisibility(destination.MsTeamsTargets.ChannelVisibility.ValueString()),
+					Binding:           paramBindingToV3Payload(*destination.MsTeamsTargets.Binding),
+				}
+			}
+
+			destinations = append(destinations, payloadDestination)
 		}
 
-		if m.MessageConfig.Enabled.ValueBool() {
-			destinations := []client.AlertMessageDestinationPayloadV3{}
-			for _, destination := range m.MessageConfig.Destinations {
-				payloadDestination := client.AlertMessageDestinationPayloadV3{
-					ConditionGroups: conditionGroupsToV3Payload(destination.ConditionGroups),
-				}
+		payload.MessageConfig = client.AlertMessageConfigPayloadV3{
+			Destinations: destinations,
+		}
 
-				if destination.SlackTargets != nil && destination.SlackTargets.Binding != nil {
-					payloadDestination.SlackTargets = &client.AlertRouteChannelTargetPayloadV3{
-						ChannelVisibility: client.AlertRouteChannelTargetPayloadV3ChannelVisibility(destination.SlackTargets.ChannelVisibility.ValueString()),
-						Binding:           paramBindingToV3Payload(*destination.SlackTargets.Binding),
-					}
-				}
-
-				if destination.MsTeamsTargets != nil && destination.MsTeamsTargets.Binding != nil {
-					payloadDestination.MsTeamsTargets = &client.AlertRouteChannelTargetPayloadV3{
-						ChannelVisibility: client.AlertRouteChannelTargetPayloadV3ChannelVisibility(destination.MsTeamsTargets.ChannelVisibility.ValueString()),
-						Binding:           paramBindingToV3Payload(*destination.MsTeamsTargets.Binding),
-					}
-				}
-
-				destinations = append(destinations, payloadDestination)
-			}
-			payload.MessageConfig.Destinations = &destinations
-
-			if m.MessageConfig.Template != nil {
-				templateBinding := paramBindingToV3Payload(*m.MessageConfig.Template)
-				payload.MessageConfig.Template = &templateBinding
-			}
+		if m.MessageConfig.Template != nil {
+			templateBinding := paramBindingToV3Payload(*m.MessageConfig.Template)
+			payload.MessageConfig.Template = &templateBinding
 		}
 	}
 

@@ -80,13 +80,6 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 		}
 		return !v.IsUnknown() && v.IsNull()
 	}
-	setMissing := func(p path.Path) bool {
-		var v types.Set
-		if d := req.Config.GetAttribute(ctx, p, &v); d.HasError() {
-			return false
-		}
-		return !v.IsUnknown() && v.IsNull()
-	}
 	// boolValue returns (value, known). known is false when the attribute is
 	// null or unknown.
 	boolValue := func(p path.Path) (bool, bool) {
@@ -147,10 +140,6 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 			addErr(path.Root("message_config"), "Invalid attribute combination",
 				"`message_config` belongs to the v3 schema; set the top-level `grouping_config` block to use it, or use `channel_config` / `message_template` instead.")
 		}
-		if boolSet(escalationBase.AtName("enabled")) {
-			addErr(escalationBase.AtName("enabled"), "Invalid attribute combination",
-				"`escalation_config.enabled` belongs to the v3 schema; set the top-level `grouping_config` block to use it.")
-		}
 		if objectSet(escalationBase.AtName("when_alert_joins_group")) {
 			addErr(escalationBase.AtName("when_alert_joins_group"), "Invalid attribute combination",
 				"`escalation_config.when_alert_joins_group` belongs to the v3 schema; set the top-level `grouping_config` block to use it.")
@@ -160,19 +149,12 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 				"`incident_config.template` belongs to the v3 schema; use the top-level `incident_template` instead, or set `grouping_config` to opt into v3.")
 		}
 
-		// Restore the v2 required fields that the merged schema relaxed to
-		// Optional.
+		// Restore the v2 required fields that the merged schema relaxed to Optional
+		// so that v3 mode can omit them. (auto_cancel_escalations and
+		// escalation_targets are Required in the schema in both modes.)
 		if objectMissing(path.Root("incident_template")) {
 			addErr(path.Root("incident_template"), "Missing required attribute",
 				"`incident_template` is required in the v2 schema (set `grouping_config` to use the v3 `incident_config.template` instead).")
-		}
-		if boolMissing(escalationBase.AtName("auto_cancel_escalations")) {
-			addErr(escalationBase.AtName("auto_cancel_escalations"), "Missing required attribute",
-				"`escalation_config.auto_cancel_escalations` is required in the v2 schema.")
-		}
-		if setMissing(escalationBase.AtName("escalation_targets")) {
-			addErr(escalationBase.AtName("escalation_targets"), "Missing required attribute",
-				"`escalation_config.escalation_targets` is required in the v2 schema (it may be an empty list).")
 		}
 		if int64Missing(incidentBase.AtName("grouping_window_seconds")) {
 			addErr(incidentBase.AtName("grouping_window_seconds"), "Missing required attribute",
@@ -187,8 +169,11 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 	r.validateExpressions(ctx, req, resp)
 }
 
-// validateV3Gating enforces the v3 enabled-gates-everything contract that the
-// API checks at its boundary, surfacing it at plan time instead.
+// validateV3Gating enforces the conditional relationships within the v3 schema
+// that the API checks at its boundary, surfacing them at plan time instead:
+// grouping detail fields gated on grouping.enabled, incident template/decline
+// gated on incident.enabled, and grace_period_seconds gated on the
+// when_alert_joins_group mode.
 func (r *IncidentAlertRouteResource) validateV3Gating(
 	ctx context.Context,
 	req resource.ValidateConfigRequest,
@@ -207,50 +192,12 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 
 	groupingBase := path.Root("grouping_config").AtName("default")
 	escalationBase := path.Root("escalation_config")
-	messageBase := path.Root("message_config")
 	incidentBase := path.Root("incident_config")
 	whenJoinsBase := escalationBase.AtName("when_alert_joins_group")
 
-	// Escalation: enabled gates auto_cancel_escalations, escalation_targets and
-	// when_alert_joins_group.
-	escalationEnabled, escalationKnown := boolValue(escalationBase.AtName("enabled"))
-	if boolMissing(escalationBase.AtName("enabled")) {
-		addErr(escalationBase.AtName("enabled"), "Missing required attribute",
-			"`escalation_config.enabled` is required in the v3 schema.")
-	} else if escalationKnown {
-		if escalationEnabled {
-			if boolMissing(escalationBase.AtName("auto_cancel_escalations")) {
-				addErr(escalationBase.AtName("auto_cancel_escalations"), "Missing required attribute",
-					"`escalation_config.auto_cancel_escalations` is required when `escalation_config.enabled` is true.")
-			}
-			// escalation_targets is allowed (and may be empty) when enabled; the API
-			// owns the "no targets" semantics, so we don't force non-empty here.
-		} else {
-			if boolSet(escalationBase.AtName("auto_cancel_escalations")) {
-				addErr(escalationBase.AtName("auto_cancel_escalations"), "Invalid attribute combination",
-					"`escalation_config.auto_cancel_escalations` must not be set when `escalation_config.enabled` is false.")
-			}
-			if setNonEmpty(escalationBase.AtName("escalation_targets")) {
-				addErr(escalationBase.AtName("escalation_targets"), "Invalid attribute combination",
-					"`escalation_config.escalation_targets` must not be set when `escalation_config.enabled` is false.")
-			}
-		}
-	}
-
-	// when_alert_joins_group is only valid when both escalations and grouping are
-	// enabled.
+	// grace_period_seconds only applies when re-escalating on each new alert; the
+	// API rejects it for on_priority_increase.
 	if objectSet(whenJoinsBase) {
-		groupingEnabled, groupingKnown := boolValue(groupingBase.AtName("enabled"))
-		if escalationKnown && !escalationEnabled {
-			addErr(whenJoinsBase, "Invalid attribute combination",
-				"`escalation_config.when_alert_joins_group` is only valid when `escalation_config.enabled` is true.")
-		}
-		if groupingKnown && !groupingEnabled {
-			addErr(whenJoinsBase, "Invalid attribute combination",
-				"`escalation_config.when_alert_joins_group` is only valid when `grouping_config.default.enabled` is true.")
-		}
-
-		// grace_period_seconds only applies when re-escalating on each new alert.
 		var mode types.String
 		if d := req.Config.GetAttribute(ctx, whenJoinsBase.AtName("mode"), &mode); !d.HasError() &&
 			!mode.IsNull() && !mode.IsUnknown() && mode.ValueString() == "on_priority_increase" {
@@ -258,21 +205,6 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 				addErr(whenJoinsBase.AtName("grace_period_seconds"), "Invalid attribute combination",
 					"`grace_period_seconds` can only be set when `escalation_config.when_alert_joins_group.mode` is `on_each_new_alert`.")
 			}
-		}
-	}
-
-	// Message: enabled gates destinations and template. destinations may be empty
-	// when enabled (the API owns that), so we only forbid the gated fields when
-	// disabled.
-	messageEnabled, messageKnown := boolValue(messageBase.AtName("enabled"))
-	if messageKnown && !messageEnabled {
-		if setNonEmpty(messageBase.AtName("destinations")) {
-			addErr(messageBase.AtName("destinations"), "Invalid attribute combination",
-				"`message_config.destinations` must not be set when `message_config.enabled` is false.")
-		}
-		if objectSet(messageBase.AtName("template")) {
-			addErr(messageBase.AtName("template"), "Invalid attribute combination",
-				"`message_config.template` must not be set when `message_config.enabled` is false.")
 		}
 	}
 

@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   Alert routes define how alerts are processed: how they're grouped, which channels they post to, who is escalated, and whether they open incidents.
   This resource supports two configuration schemas, switched by whether the top-level grouping_config block is set:
-  v2 (default): the original layout, using channel_config, message_template, incident_template, and grouping fields nested under incident_config.v3: set grouping_config to opt in. v3 moves grouping into grouping_config, combines channel_config and message_template into message_config, nests the incident template under incident_config.template, and adds explicit enabled flags to escalation_config and message_config.
+  v2 (default): the original layout, using channel_config, message_template, incident_template, and grouping fields nested under incident_config.v3: set grouping_config to opt in. v3 moves grouping into grouping_config, combines channel_config and message_template into message_config, and nests the incident template under incident_config.template.
   The v2-only fields are deprecated, and each carries a warning pointing at its v3 location. An existing alert route can be migrated in place: add grouping_config (and the other v3 blocks) and drop the deprecated fields in the same change, and Terraform updates the route rather than replacing it. A route is managed via one schema at a time, chosen by whether grouping_config is set.
   We'd generally recommend building alert routes in our web dashboard https://app.incident.io/~/alerts/configuration, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.
 ---
@@ -17,7 +17,7 @@ Alert routes define how alerts are processed: how they're grouped, which channel
 This resource supports two configuration schemas, switched by whether the top-level `grouping_config` block is set:
 
 - **v2 (default):** the original layout, using `channel_config`, `message_template`, `incident_template`, and grouping fields nested under `incident_config`.
-- **v3:** set `grouping_config` to opt in. v3 moves grouping into `grouping_config`, combines `channel_config` and `message_template` into `message_config`, nests the incident template under `incident_config.template`, and adds explicit `enabled` flags to `escalation_config` and `message_config`.
+- **v3:** set `grouping_config` to opt in. v3 moves grouping into `grouping_config`, combines `channel_config` and `message_template` into `message_config`, and nests the incident template under `incident_config.template`.
 
 The v2-only fields are deprecated, and each carries a warning pointing at its v3 location. An existing alert route can be migrated in place: add `grouping_config` (and the other v3 blocks) and drop the deprecated fields in the same change, and Terraform updates the route rather than replacing it. A route is managed via one schema at a time, chosen by whether `grouping_config` is set.
 
@@ -86,7 +86,6 @@ resource "incident_alert_route" "service_alerts" {
   // be notified when an alert is received, and the (optional) template applied
   // to those alert messages. Set enabled = false to send no alert messages.
   message_config = {
-    enabled = true
     destinations = [
       {
         // Define conditions under which this destination notification should occur
@@ -138,7 +137,6 @@ resource "incident_alert_route" "service_alerts" {
   // auto_cancel_escalations is used to specify whether the escalation should be automatically cancelled
   // when the alert that triggered the escalation is resolved
   escalation_config = {
-    enabled                 = true
     auto_cancel_escalations = true
     escalation_targets = [
       {
@@ -396,11 +394,13 @@ Optional:
 <a id="nestedatt--escalation_config"></a>
 ### Nested Schema for `escalation_config`
 
-Optional:
+Required:
 
 - `auto_cancel_escalations` (Boolean) Should we auto cancel escalations when all alerts are resolved?
-- `enabled` (Boolean) Whether escalations are enabled for this alert route (v3 only)
 - `escalation_targets` (Attributes Set) Targets for escalation (see [below for nested schema](#nestedatt--escalation_config--escalation_targets))
+
+Optional:
+
 - `when_alert_joins_group` (Attributes) (v3 only) (see [below for nested schema](#nestedatt--escalation_config--when_alert_joins_group))
 
 <a id="nestedatt--escalation_config--escalation_targets"></a>
@@ -1452,13 +1452,9 @@ Optional:
 <a id="nestedatt--message_config"></a>
 ### Nested Schema for `message_config`
 
-Required:
-
-- `enabled` (Boolean) Whether alert messages are sent for this alert route
-
 Optional:
 
-- `destinations` (Attributes Set) The destinations (Slack/Teams channels) alert messages are sent to. Only set when alert messages are enabled. (see [below for nested schema](#nestedatt--message_config--destinations))
+- `destinations` (Attributes Set) The destinations (Slack/Teams channels) alert messages are sent to (see [below for nested schema](#nestedatt--message_config--destinations))
 - `template` (Attributes) (see [below for nested schema](#nestedatt--message_config--template))
 
 <a id="nestedatt--message_config--destinations"></a>

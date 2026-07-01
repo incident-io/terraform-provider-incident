@@ -68,9 +68,6 @@ func TestAlertRouteV2RoundTrip(t *testing.T) {
 	}
 
 	// v3-only fields must be null/nil in v2 mode.
-	if !model.EscalationConfig.Enabled.IsNull() {
-		t.Errorf("escalation_config.enabled should be null in v2 mode, got %v", model.EscalationConfig.Enabled)
-	}
 	if !model.EscalationConfig.WhenAlertJoinsGroup.IsNull() {
 		t.Error("escalation_config.when_alert_joins_group should be null in v2 mode")
 	}

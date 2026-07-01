@@ -70,11 +70,9 @@ type AlertRouteEscalationConfigModel struct {
 	AutoCancelEscalations types.Bool                        `tfsdk:"auto_cancel_escalations"`
 	EscalationTargets     []AlertRouteEscalationTargetModel `tfsdk:"escalation_targets"`
 
-	// v3-only fields. In v2 mode these are null; in v3 mode `enabled` gates
-	// auto_cancel_escalations/escalation_targets/when_alert_joins_group.
-	// when_alert_joins_group is Optional + Computed (the API defaults it when
-	// grouping is enabled), so it is modelled as types.Object to hold unknown.
-	Enabled             types.Bool   `tfsdk:"enabled"`
+	// when_alert_joins_group is a v3-only field (null in v2 mode). It is
+	// Optional + Computed (the API defaults it when grouping is enabled), so it
+	// is modelled as types.Object to hold an unknown value.
 	WhenAlertJoinsGroup types.Object `tfsdk:"when_alert_joins_group"`
 }
 
@@ -461,9 +459,8 @@ func (AlertRouteResourceModel) FromAPIV2WithPlan(apiModel client.AlertRouteV2, p
 	result.EscalationConfig = &AlertRouteEscalationConfigModel{
 		AutoCancelEscalations: types.BoolValue(apiModel.EscalationConfig.AutoCancelEscalations),
 		EscalationTargets:     []AlertRouteEscalationTargetModel{},
-		// v3-only fields are unset in v2 mode; use a typed null object so state
-		// serialisation knows the attribute type.
-		Enabled:             types.BoolNull(),
+		// when_alert_joins_group is v3-only; use a typed null object in v2 mode so
+		// state serialisation knows the attribute type.
 		WhenAlertJoinsGroup: types.ObjectNull(whenAlertJoinsGroupAttrTypes()),
 	}
 

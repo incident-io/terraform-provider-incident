@@ -59,7 +59,7 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 This resource supports two configuration schemas, switched by whether the top-level ` + "`grouping_config`" + ` block is set:
 
 - **v2 (default):** the original layout, using ` + "`channel_config`" + `, ` + "`message_template`" + `, ` + "`incident_template`" + `, and grouping fields nested under ` + "`incident_config`" + `.
-- **v3:** set ` + "`grouping_config`" + ` to opt in. v3 moves grouping into ` + "`grouping_config`" + `, combines ` + "`channel_config`" + ` and ` + "`message_template`" + ` into ` + "`message_config`" + `, nests the incident template under ` + "`incident_config.template`" + `, and adds explicit ` + "`enabled`" + ` flags to ` + "`escalation_config`" + ` and ` + "`message_config`" + `.
+- **v3:** set ` + "`grouping_config`" + ` to opt in. v3 moves grouping into ` + "`grouping_config`" + `, combines ` + "`channel_config`" + ` and ` + "`message_template`" + ` into ` + "`message_config`" + `, and nests the incident template under ` + "`incident_config.template`" + `.
 
 The v2-only fields are deprecated, and each carries a warning pointing at its v3 location. An existing alert route can be migrated in place: add ` + "`grouping_config`" + ` (and the other v3 blocks) and drop the deprecated fields in the same change, and Terraform updates the route rather than replacing it. A route is managed via one schema at a time, chosen by whether ` + "`grouping_config`" + ` is set.
 
@@ -145,15 +145,11 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 				MarkdownDescription: apischema.Docstring("AlertRouteV2", "escalation_config"),
 				Attributes: map[string]schema.Attribute{
 					"auto_cancel_escalations": schema.BoolAttribute{
-						// Optional: required in v2, and in v3 only when escalations are
-						// enabled. Enforced in ValidateConfig.
-						Optional:            true,
+						Required:            true,
 						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV2", "auto_cancel_escalations"),
 					},
 					"escalation_targets": schema.SetNestedAttribute{
-						// Optional: required in v2, and in v3 only when escalations are
-						// enabled. Enforced in ValidateConfig.
-						Optional:            true,
+						Required:            true,
 						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV2", "escalation_targets"),
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
@@ -170,13 +166,7 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 							},
 						},
 					},
-					// --- v3-only escalation fields ---
-					"enabled": schema.BoolAttribute{
-						// Optional: only used in the v3 schema, where it's required.
-						// Enforced in ValidateConfig.
-						Optional:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV3", "enabled") + " (v3 only)",
-					},
+					// --- v3-only escalation field ---
 					"when_alert_joins_group": schema.SingleNestedAttribute{
 						// Optional + Computed: v3 only. When grouping is enabled the API
 						// returns a default when_alert_joins_group even if the user
@@ -244,10 +234,6 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 				Optional:            true,
 				MarkdownDescription: apischema.Docstring("AlertRouteV3", "message_config") + " (v3 only)",
 				Attributes: map[string]schema.Attribute{
-					"enabled": schema.BoolAttribute{
-						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertMessageConfigV3", "enabled"),
-					},
 					"destinations": schema.SetNestedAttribute{
 						Optional:            true,
 						MarkdownDescription: apischema.Docstring("AlertMessageConfigV3", "destinations"),

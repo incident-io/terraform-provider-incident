@@ -58,7 +58,6 @@ resource "incident_alert_route" "service_alerts" {
   // be notified when an alert is received, and the (optional) template applied
   // to those alert messages. Set enabled = false to send no alert messages.
   message_config = {
-    enabled = true
     destinations = [
       {
         // Define conditions under which this destination notification should occur
@@ -110,7 +109,6 @@ resource "incident_alert_route" "service_alerts" {
   // auto_cancel_escalations is used to specify whether the escalation should be automatically cancelled
   // when the alert that triggered the escalation is resolved
   escalation_config = {
-    enabled                 = true
     auto_cancel_escalations = true
     escalation_targets = [
       {

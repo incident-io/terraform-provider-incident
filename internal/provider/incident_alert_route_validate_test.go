@@ -18,7 +18,7 @@ func wrapRe(phrase string) *regexp.Regexp {
 
 // These are hermetic unit tests (IsUnitTest: true) for the alert route
 // ValidateConfig logic: they run a plan-only step with literal IDs, so they
-// exercise the mode-gating and enabled-gating rules without a live org.
+// exercise the mode-gating and conditional rules without a live org.
 
 // arValidateConfig assembles a full incident_alert_route config from the
 // variable blocks (everything after the common scaffolding). Using literal IDs
@@ -57,40 +57,21 @@ const (
       grouping_keys = []
     }
   }`
-	arMessageDisabled = `
+	arMessageValid = `
   message_config = {
-    enabled = false
+    destinations = []
   }`
-	arMessageDisabledWithTemplate = `
-  message_config = {
-    enabled = false
-    template = {
-      value = {
-        literal = "01TMPL"
-      }
-    }
-  }`
-	arEscalationDisabled = `
+	arEscalationValid = `
   escalation_config = {
-    enabled = false
-  }`
-	arEscalationDisabledWithCancel = `
-  escalation_config = {
-    enabled                 = false
     auto_cancel_escalations = true
+    escalation_targets      = []
   }`
-	arEscalationEnabledNoCancel = `
+	arEscalationPriorityGrace = `
   escalation_config = {
-    enabled            = true
-    escalation_targets = []
-  }`
-	arEscalationEnabledWithJoins = `
-  escalation_config = {
-    enabled                 = true
     auto_cancel_escalations = true
     escalation_targets      = []
     when_alert_joins_group = {
-      mode                 = "on_each_new_alert"
+      mode                 = "on_priority_increase"
       grace_period_seconds = 60
     }
   }`
@@ -178,9 +159,9 @@ const arV2IncidentTemplate = `
 
 // TestIncidentAlertRouteResource_ValidateConfigUnknownSkipsRequired guards the
 // M1 fix: a "required" attribute whose value is unknown at plan time (here
-// escalation_config.enabled, derived from a not-yet-applied terraform_data
-// resource) must NOT produce a "Missing required attribute" error, because it
-// may well be present at apply.
+// grouping_config.default.window_seconds, derived from a not-yet-applied
+// terraform_data resource) must NOT produce a "Missing required attribute"
+// error, because it may well be present at apply.
 func TestIncidentAlertRouteResource_ValidateConfigUnknownSkipsRequired(t *testing.T) {
 	config := `
 resource "terraform_data" "trigger" {}
@@ -201,17 +182,20 @@ resource "incident_alert_route" "test" {
 
   grouping_config = {
     default = {
-      enabled = false
+      enabled     = true
+      window_type = "rolling"
+      # Unknown at plan time: must not trip the "window_seconds is required" check.
+      window_seconds = terraform_data.trigger.output == "x" ? 300 : 600
     }
   }
 
   message_config = {
-    enabled = false
+    destinations = []
   }
 
   escalation_config = {
-    # Unknown at plan time: must not trip the "enabled is required" check.
-    enabled = terraform_data.trigger.output == "x"
+    auto_cancel_escalations = true
+    escalation_targets      = []
   }
 
   incident_config = {
@@ -244,42 +228,27 @@ func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 	}{
 		{
 			name:   "v3 valid minimal",
-			config: arValidateConfig(arGroupingDisabled + arMessageDisabled + arEscalationDisabled + arIncidentEnabled()),
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentEnabled()),
 		},
 		{
 			name:   "v3 forbids channel_config",
-			config: arValidateConfig(arGroupingDisabled + arMessageDisabled + arEscalationDisabled + arIncidentEnabled() + arChannelConfig),
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentEnabled() + arChannelConfig),
 			errRe:  "channel_config` belongs to the v2 schema",
 		},
 		{
-			name:   "v3 escalation enabled requires auto_cancel_escalations",
-			config: arValidateConfig(arGroupingDisabled + arMessageDisabled + arEscalationEnabledNoCancel + arIncidentEnabled()),
-			errRe:  "auto_cancel_escalations` is required when",
-		},
-		{
-			name:   "v3 escalation disabled forbids auto_cancel_escalations",
-			config: arValidateConfig(arGroupingDisabled + arMessageDisabled + arEscalationDisabledWithCancel + arIncidentEnabled()),
-			errRe:  "must not be set when `escalation_config.enabled` is false",
-		},
-		{
-			name:   "v3 message disabled forbids template",
-			config: arValidateConfig(arGroupingDisabled + arMessageDisabledWithTemplate + arEscalationDisabled + arIncidentEnabled()),
-			errRe:  "must not be set when `message_config.enabled` is false",
-		},
-		{
-			name:   "v3 when_alert_joins_group requires grouping enabled",
-			config: arValidateConfig(arGroupingDisabled + arMessageDisabled + arEscalationEnabledWithJoins + arIncidentEnabled()),
-			errRe:  "only valid when `grouping_config.default.enabled` is true",
-		},
-		{
 			name:   "v3 grouping enabled requires window_seconds",
-			config: arValidateConfig(arGroupingEnabledNoWindow + arMessageDisabled + arEscalationDisabled + arIncidentEnabled()),
+			config: arValidateConfig(arGroupingEnabledNoWindow + arMessageValid + arEscalationValid + arIncidentEnabled()),
 			errRe:  "window_seconds` is required when",
 		},
 		{
 			name:   "v3 incident disabled forbids template",
-			config: arValidateConfig(arGroupingDisabled + arMessageDisabled + arEscalationDisabled + arIncidentDisabledWithTemplate()),
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentDisabledWithTemplate()),
 			errRe:  "`incident_config.template` must not be set when",
+		},
+		{
+			name:   "v3 grace_period only for on_each_new_alert",
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationPriorityGrace + arIncidentEnabled()),
+			errRe:  "grace_period_seconds` can only be set when",
 		},
 		{
 			name:   "v2 valid minimal",
@@ -287,7 +256,7 @@ func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 		},
 		{
 			name:   "v2 forbids message_config",
-			config: arV2Config(arMessageDisabled, arV2IncidentTemplate),
+			config: arV2Config(arMessageValid, arV2IncidentTemplate),
 			errRe:  "message_config` belongs to the v3 schema",
 		},
 		{
