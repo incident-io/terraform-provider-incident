@@ -77,7 +77,7 @@ resource "incident_alert_route" "service_alerts" {
 
   // Used to configure which Slack channels or Microsoft Teams teams should
   // be notified when an alert is received, and the (optional) template applied
-  // to those alert messages. Set enabled = false to send no alert messages.
+  // to those alert messages.
   message_config = {
     destinations = [
       {
@@ -126,7 +126,7 @@ resource "incident_alert_route" "service_alerts" {
   }
 
   // Used to configure which escalation paths and/or users who should be notified when an alert is received
-  // and the conditions under which they should be notified. Set enabled = false to escalate to nobody.
+  // and the conditions under which they should be notified.
   // auto_cancel_escalations is used to specify whether the escalation should be automatically cancelled
   // when the alert that triggered the escalation is resolved
   escalation_config = {
