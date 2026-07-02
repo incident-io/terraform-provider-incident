@@ -425,6 +425,11 @@ func (AlertRouteResourceModel) FromAPIWithPlan(apiModel client.AlertRouteV2, pla
 	result.Expressions = IncidentEngineExpressions{}
 	if len(apiModel.Expressions) > 0 {
 		result.Expressions = IncidentEngineExpressions{}.FromAPI(apiModel.Expressions)
+		// The API doesn't preserve expression order; realign to the
+		// planned/prior order so the (list-typed) expressions stay stable.
+		if plan != nil {
+			result.Expressions = result.Expressions.ReorderToMatch(plan.Expressions)
+		}
 	}
 
 	result.EscalationConfig = &AlertRouteEscalationConfigModel{

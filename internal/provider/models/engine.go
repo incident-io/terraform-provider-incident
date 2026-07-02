@@ -165,6 +165,51 @@ func (IncidentEngineExpressions) FromAPI(expressions []client.ExpressionV2) Inci
 	return out
 }
 
+// ReorderToMatch returns the receiver's expressions reordered so their order
+// follows `desired`, matched by the unique `reference` field. Any expressions
+// present in the receiver but absent from `desired` are appended in their
+// original order.
+//
+// The incident.io API does not preserve the order of expressions in its
+// responses (this is why a previous list-based representation was reverted to a
+// set in v5.21.1). Now that `expressions` is modelled as a list again — a set
+// cannot represent a mix of expressions with and without the optional
+// else_branch on the Terraform versions we target (RESP-17992) — the element
+// order is significant to Terraform. Without realigning the response to the
+// planned/prior order, the API's reordered result triggers "Provider produced
+// inconsistent result after apply" and perpetual plan diffs. Reordering by the
+// stable reference key keeps the list consistent regardless of API ordering.
+func (expressions IncidentEngineExpressions) ReorderToMatch(desired IncidentEngineExpressions) IncidentEngineExpressions {
+	if len(desired) == 0 || len(expressions) == 0 {
+		return expressions
+	}
+
+	used := make([]bool, len(expressions))
+	out := make(IncidentEngineExpressions, 0, len(expressions))
+
+	for _, d := range desired {
+		key := d.Reference.ValueString()
+		for i := range expressions {
+			if used[i] {
+				continue
+			}
+			if expressions[i].Reference.ValueString() == key {
+				out = append(out, expressions[i])
+				used[i] = true
+				break
+			}
+		}
+	}
+
+	for i := range expressions {
+		if !used[i] {
+			out = append(out, expressions[i])
+		}
+	}
+
+	return out
+}
+
 type IncidentEngineExpression struct {
 	ElseBranch    *IncidentEngineElseBranch          `tfsdk:"else_branch"`
 	Label         types.String                       `tfsdk:"label"`
@@ -361,8 +406,16 @@ func ReturnsAttribute() schema.SingleNestedAttribute {
 	}
 }
 
-func ExpressionsAttribute() schema.SetNestedAttribute {
-	return schema.SetNestedAttribute{
+// ExpressionsAttribute is deliberately a ListNestedAttribute rather than a
+// SetNestedAttribute. The element object has an optional `else_branch`, and on
+// the Terraform versions this provider targets (1.2.x) a config with a mix of
+// expressions — some with `else_branch`, some without — fails at validate time
+// with "element types must all match for conversion to set", because the
+// tuple→set conversion does not honour optional attributes. This is the exact
+// shape the dashboard's "Export to Terraform" feature emits. Lists are decoded
+// element-by-element and so tolerate the heterogeneous objects (RESP-17992).
+func ExpressionsAttribute() schema.ListNestedAttribute {
+	return schema.ListNestedAttribute{
 		MarkdownDescription: "The expressions to be prepared for use by steps and conditions",
 		Required:            true,
 		NestedObject: schema.NestedAttributeObject{

@@ -455,6 +455,222 @@ resource "incident_alert_source" "test" {
 	})
 }
 
+// TestAccAlertSourceResource_MixedElseBranchExpressions is a regression test
+// for RESP-17992.
+//
+// The shared `expressions` attribute (on incident_alert_source,
+// incident_alert_route and incident_workflow) used to be a SetNestedAttribute
+// whose element object has an optional `else_branch`. When a config contained a
+// mix of expressions — some with `else_branch` and some without — Terraform
+// failed at validate time, before any API call, with:
+//
+//	Inappropriate value for attribute "template": element types must all match
+//	for conversion to set.
+//
+// This is exactly the shape the dashboard's "Export to Terraform" feature
+// produces (parse expressions have no `else_branch`; a branches expression has
+// one). On Terraform 1.2.x (the version this provider targets) the tuple→set
+// conversion does not honour the optional attribute, so the heterogeneous
+// elements are rejected. Modelling `expressions` as a ListNestedAttribute
+// avoids the lossy set conversion and lets the mixed config validate.
+//
+// This step is PlanOnly: the failure happens during config validation, so it
+// reproduces without any API credentials or network access (a create plan does
+// not call the API). It does still require TF_ACC=1 to drive Terraform.
+func TestAccAlertSourceResource_MixedElseBranchExpressions(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config:             testAccAlertSourceResourceConfigMixedElseBranch(),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+		},
+	})
+}
+
+// TestAccAlertSourceResource_ExpressionOrderingStable guards the ordering
+// concern that previously forced `expressions` back from a list to a set in
+// v5.21.1: the API does not return expressions in a stable order, so a naive
+// list representation produces "Provider produced inconsistent result after
+// apply" on create and perpetual diffs thereafter.
+//
+// The provider now realigns the API's expression response to the
+// planned/prior order (models.IncidentEngineExpressions.ReorderToMatch). This
+// test creates an alert source with several expressions and then re-plans the
+// identical config, asserting an empty plan — which fails if the API's ordering
+// leaks through into state. Unlike the validate-only test above, this exercises
+// the create + read round-trip, so it requires API credentials.
+func TestAccAlertSourceResource_ExpressionOrderingStable(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceResourceConfigManyExpressions(),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.ordering", "template.expressions.#", "4"),
+				),
+			},
+			// Re-applying the identical config must produce no diff. If the
+			// API's expression ordering were leaking into state, this PlanOnly
+			// step would fail with a non-empty plan.
+			{
+				Config:   testAccAlertSourceResourceConfigManyExpressions(),
+				PlanOnly: true,
+			},
+		},
+	})
+}
+
+// testAccAlertSourceResourceConfigManyExpressions defines an alert source with
+// several parse expressions, so the API has multiple expressions it may
+// reorder. Ordering reconciliation is independent of else_branch/branches, so
+// we use the simple parse shape that the API accepts on apply (mirroring the
+// Issue342 test); the else_branch validate path is covered separately by the
+// PlanOnly TestAccAlertSourceResource_MixedElseBranchExpressions.
+func testAccAlertSourceResourceConfigManyExpressions() string {
+	return fmt.Sprintf(`
+resource "incident_alert_source" "ordering" {
+  name        = "expression-ordering-test"
+  source_type = "http"
+
+  template = {
+    title = {
+      literal = %[1]q
+    }
+    description = {
+      literal = %[2]q
+    }
+    attributes = []
+
+    expressions = [
+      {
+        label          = "Alpha"
+        reference      = "alpha"
+        root_reference = "payload"
+        operations = [
+          { operation_type = "parse", parse = { source = "$.alpha", returns = { type = "String", array = false } } }
+        ]
+      },
+      {
+        label          = "Bravo"
+        reference      = "bravo"
+        root_reference = "payload"
+        operations = [
+          { operation_type = "parse", parse = { source = "$.bravo", returns = { type = "String", array = false } } }
+        ]
+      },
+      {
+        label          = "Charlie"
+        reference      = "charlie"
+        root_reference = "payload"
+        operations = [
+          { operation_type = "parse", parse = { source = "$.charlie", returns = { type = "String", array = false } } }
+        ]
+      },
+      {
+        label          = "Delta"
+        reference      = "delta"
+        root_reference = "payload"
+        operations = [
+          { operation_type = "parse", parse = { source = "$.delta", returns = { type = "String", array = false } } }
+        ]
+      },
+    ]
+  }
+}
+`, testAlertSourceTitle, testAlertSourceDescription)
+}
+
+// testAccAlertSourceResourceConfigMixedElseBranch mirrors the dashboard's
+// "Export to Terraform" output: a parse expression with no else_branch
+// alongside a branches expression that carries one.
+func testAccAlertSourceResourceConfigMixedElseBranch() string {
+	return fmt.Sprintf(`
+resource "incident_alert_source" "mixed_else_branch" {
+  name        = "mixed-else-branch-test"
+  source_type = "http"
+
+  template = {
+    title = {
+      literal = %[1]q
+    }
+    description = {
+      literal = %[2]q
+    }
+    attributes = []
+
+    expressions = [
+      # Parse expression — NO else_branch.
+      {
+        label          = "Environment"
+        reference      = "environment"
+        root_reference = "payload"
+        operations = [
+          {
+            operation_type = "parse"
+            parse = {
+              source = "$.environment"
+              returns = {
+                type  = "String"
+                array = false
+              }
+            }
+          }
+        ]
+      },
+      # Branches expression — HAS else_branch.
+      {
+        label          = "Priority"
+        reference      = "priority"
+        root_reference = "."
+        else_branch = {
+          result = {
+            value = {
+              literal = "default-priority"
+            }
+          }
+        }
+        operations = [
+          {
+            operation_type = "branches"
+            branches = {
+              returns = {
+                type  = "String"
+                array = false
+              }
+              branches = [
+                {
+                  condition_groups = [
+                    {
+                      conditions = [
+                        {
+                          subject   = "payload.title"
+                          operation = "is_set"
+                          param_bindings = []
+                        }
+                      ]
+                    }
+                  ]
+                  result = {
+                    value = {
+                      literal = "high-priority"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+    ]
+  }
+}
+`, testAlertSourceTitle, testAlertSourceDescription)
+}
+
 func testAccAlertSourceResourceConfigInvalidBranches() string {
 	return fmt.Sprintf(`
 resource "incident_alert_source" "invalid_branches" {
