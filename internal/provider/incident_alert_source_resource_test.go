@@ -1392,3 +1392,77 @@ resource "incident_alert_source" "test" {
 		TeamTypeName: teamTypeName(),
 	})
 }
+
+// TestAccAlertSourceResource_Issue360_MixedElseBranch is a regression test for
+// #360: expressions that mix present and absent else_branch must plan without
+// "element types must all match for conversion to set".
+func TestAccAlertSourceResource_Issue360_MixedElseBranch(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config:             testAccAlertSourceResourceConfigMixedElseBranch(),
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+		},
+	})
+}
+
+func testAccAlertSourceResourceConfigMixedElseBranch() string {
+	return fmt.Sprintf(`
+resource "incident_alert_source" "mixed_else_branch" {
+  name        = "issue-360-mixed-else-branch"
+  source_type = "http"
+
+  template = {
+    title = {
+      literal = %[1]q
+    }
+    description = {
+      literal = %[2]q
+    }
+    attributes = []
+
+    expressions = [
+      # No else_branch.
+      {
+        label          = "A"
+        reference      = "a"
+        root_reference = "payload"
+        operations = [
+          {
+            operation_type = "parse"
+            parse = {
+              source  = "$.a"
+              returns = { type = "String", array = false }
+            }
+          }
+        ]
+      },
+      # With else_branch — the mix is what broke set conversion.
+      {
+        label          = "B"
+        reference      = "b"
+        root_reference = "payload"
+        else_branch = {
+          result = {
+            value = { literal = "fallback" }
+          }
+        }
+        operations = [
+          {
+            operation_type = "parse"
+            parse = {
+              source  = "$.b"
+              returns = { type = "String", array = false }
+            }
+          }
+        ]
+      },
+    ]
+  }
+}
+`, testAlertSourceTitle, testAlertSourceDescription)
+}
