@@ -39,9 +39,9 @@ resource "incident_alert_route" "service_alerts" {
 
   expressions = []
 
-  // Setting grouping_config opts this alert route into the v3 schema. Grouping
-  // controls how alerts are combined together; in the v3 schema it is configured
-  // here rather than on incident_config.
+  // Setting grouping_config selects the current configuration format for this
+  // alert route. Grouping controls how alerts are combined together; in the
+  // current format it is configured here rather than on incident_config.
   grouping_config = {
     default = {
       enabled = true
@@ -159,7 +159,7 @@ resource "incident_alert_route" "service_alerts" {
     condition_groups     = []
 
     // The incident template configures how created incidents are populated. In
-    // the v3 schema the template is nested under incident_config.
+    // the current configuration format the template is nested under incident_config.
     template = {
       // custom_fields is used to specify the custom fields that should be set on the incident
       // when it is created, the merge_strategy is used to specify how the custom field should be modified

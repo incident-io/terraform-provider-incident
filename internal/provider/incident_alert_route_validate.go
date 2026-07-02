@@ -100,37 +100,37 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 		// v2-only attributes must not be set in v3 mode.
 		if setNonEmpty(path.Root("channel_config")) {
 			addErr(path.Root("channel_config"), "Invalid attribute combination",
-				"`channel_config` cannot be used with the v3 alert route schema (with `grouping_config` at the top level). Use `message_config.destinations` instead.")
+				"`channel_config` can't be used together with `grouping_config`. Use `message_config.destinations` instead.")
 		}
 		if objectSet(path.Root("message_template")) {
 			addErr(path.Root("message_template"), "Invalid attribute combination",
-				"`message_template` cannot be used with the v3 alert route schema (with `grouping_config` at the top level). Use `message_config.template` instead.")
+				"`message_template` can't be used together with `grouping_config`. Use `message_config.template` instead.")
 		}
 		if objectSet(path.Root("incident_template")) {
 			addErr(path.Root("incident_template"), "Invalid attribute combination",
-				"`incident_template` cannot be used with the v3 alert route schema (with `grouping_config` at the top level). Use `incident_config.template` instead.")
+				"`incident_template` can't be used together with `grouping_config`. Use `incident_config.template` instead.")
 		}
 		if setNonEmpty(incidentBase.AtName("grouping_keys")) {
 			addErr(incidentBase.AtName("grouping_keys"), "Invalid attribute combination",
-				"`incident_config.grouping_keys` cannot be used with the v3 alert route schema (with `grouping_config` at the top level). Use `grouping_config.default.grouping_keys` instead.")
+				"`incident_config.grouping_keys` can't be used together with `grouping_config`. Use `grouping_config.default.grouping_keys` instead.")
 		}
 		if int64Set(incidentBase.AtName("grouping_window_seconds")) {
 			addErr(incidentBase.AtName("grouping_window_seconds"), "Invalid attribute combination",
-				"`incident_config.grouping_window_seconds` cannot be used with the v3 alert route schema (with `grouping_config` at the top level). Use `grouping_config.default.window_seconds` instead.")
+				"`incident_config.grouping_window_seconds` can't be used together with `grouping_config`. Use `grouping_config.default.window_seconds` instead.")
 		}
 		if int64Set(incidentBase.AtName("defer_time_seconds")) {
 			addErr(incidentBase.AtName("defer_time_seconds"), "Invalid attribute combination",
-				"`incident_config.defer_time_seconds` cannot be used with the v3 alert route schema (with `grouping_config` at the top level). It has no v3 equivalent.")
+				"`incident_config.defer_time_seconds` can't be used together with `grouping_config`. It has no equivalent in the current configuration format.")
 		}
 		if boolSet(incidentBase.AtName("auto_relate_grouped_alerts")) {
 			addErr(incidentBase.AtName("auto_relate_grouped_alerts"), "Invalid attribute combination",
-				"`incident_config.auto_relate_grouped_alerts` cannot be used with the v3 alert route schema (with `grouping_config` at the top level). It has no v3 equivalent.")
+				"`incident_config.auto_relate_grouped_alerts` can't be used together with `grouping_config`. It has no equivalent in the current configuration format.")
 		}
 
 		// message_config is required in v3 mode.
 		if objectMissing(path.Root("message_config")) {
 			addErr(path.Root("message_config"), "Missing required attribute",
-				"`message_config` is required when using the v3 alert route schema (with `grouping_config` at the top level).")
+				"`message_config` is required when `grouping_config` is set.")
 		}
 
 		r.validateV3Gating(ctx, req, resp, boolValue, boolSet, boolMissing, setNonEmpty, objectSet, int64Set, int64Missing)
@@ -138,15 +138,15 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 		// v3-only attributes must not be set in v2 mode.
 		if objectSet(path.Root("message_config")) {
 			addErr(path.Root("message_config"), "Invalid attribute combination",
-				"`message_config` belongs to the v3 schema. Use `channel_config` / `message_template` instead, or set `grouping_config` at the top level to opt in to v3.")
+				"`message_config` can only be used when `grouping_config` is set. Set `grouping_config`, or use the deprecated `channel_config` / `message_template` instead.")
 		}
 		if objectSet(escalationBase.AtName("when_alert_joins_group")) {
 			addErr(escalationBase.AtName("when_alert_joins_group"), "Invalid attribute combination",
-				"`escalation_config.when_alert_joins_group` belongs to the v3 schema. Set `grouping_config` at the top level to opt in to v3.")
+				"`escalation_config.when_alert_joins_group` can only be used when `grouping_config` is set.")
 		}
 		if objectSet(incidentBase.AtName("template")) {
 			addErr(incidentBase.AtName("template"), "Invalid attribute combination",
-				"`incident_config.template` belongs to the v3 schema. Use the top-level `incident_template` instead, or set `grouping_config` at the top level to opt in to v3.")
+				"`incident_config.template` can only be used when `grouping_config` is set. Set `grouping_config`, or use the deprecated top-level `incident_template` instead.")
 		}
 
 		// Restore the v2 required fields that the merged schema relaxed to Optional
@@ -154,19 +154,19 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 		// escalation_targets are Required in the schema in both modes.)
 		if objectMissing(path.Root("incident_template")) {
 			addErr(path.Root("incident_template"), "Missing required attribute",
-				"`incident_template` is required when using the v2 alert route schema (with grouping configuration inside `incident_config`).")
+				"`incident_template` is required when `grouping_config` is not set.")
 		}
 		if boolMissing(incidentBase.AtName("auto_decline_enabled")) {
 			addErr(incidentBase.AtName("auto_decline_enabled"), "Missing required attribute",
-				"`incident_config.auto_decline_enabled` is required when using the v2 alert route schema (with grouping configuration inside `incident_config`).")
+				"`incident_config.auto_decline_enabled` is required when `grouping_config` is not set.")
 		}
 		if int64Missing(incidentBase.AtName("grouping_window_seconds")) {
 			addErr(incidentBase.AtName("grouping_window_seconds"), "Missing required attribute",
-				"`incident_config.grouping_window_seconds` is required when using the v2 alert route schema (with grouping configuration inside `incident_config`).")
+				"`incident_config.grouping_window_seconds` is required when `grouping_config` is not set.")
 		}
 		if int64Missing(incidentBase.AtName("defer_time_seconds")) {
 			addErr(incidentBase.AtName("defer_time_seconds"), "Missing required attribute",
-				"`incident_config.defer_time_seconds` is required when using the v2 alert route schema (with grouping configuration inside `incident_config`).")
+				"`incident_config.defer_time_seconds` is required when `grouping_config` is not set.")
 		}
 	}
 

@@ -1,11 +1,10 @@
 ## Unreleased
 
-- `incident_alert_route` now supports the v3 alert routes API. When v3's new top-level `grouping_config` block is set, we interpret config via the v3 schema, otherwise we use the v2 schema.
-- The following changes are made between v2 and v3:
-  - Alert grouping settings are moved out of `incident_config` to a top level `grouping_config`
-  - `channel_config` and `message_template` combine into `message_config`
-  - Incident template nests under `incident_config.template
-- Existing routes can be migrated in place — add the v3 blocks and drop the deprecated fields in the same change — and Terraform updates the route rather than replacing it. Have a look at the "Export" button on the config screen in the dashboard to see the v3 Terraform for your alert routes.
+- `incident_alert_route` now supports a new configuration format for alert routes. Set the new top-level `grouping_config` block to opt a route into it:
+  - Alert grouping moves out of `incident_config` into the top-level `grouping_config`.
+  - `channel_config` and `message_template` are replaced by `message_config`.
+  - The incident template moves under `incident_config.template`.
+- The previous attributes (`channel_config`, `message_template`, `incident_template`, and the grouping fields inside `incident_config`) are now deprecated but continue to work. Migrate a route in place by adding the new blocks and removing the deprecated fields in the same change — Terraform updates the route rather than replacing it. The easiest way to get the new configuration is the "Export" button on the alert route config screen in the dashboard.
 
 ## v5.40.0
 

@@ -117,7 +117,7 @@ func autoRelateGroupedAlertsAction(configNull, planV3, planKnown, stateNull bool
 type whenAlertJoinsGroupPlanModifier struct{}
 
 func (whenAlertJoinsGroupPlanModifier) Description(context.Context) string {
-	return "Plans when_alert_joins_group as null when it does not apply (v2 mode, or grouping disabled), otherwise uses prior state when known."
+	return "Plans when_alert_joins_group as null when it does not apply (grouping_config unset, or grouping disabled), otherwise uses prior state when known."
 }
 
 func (m whenAlertJoinsGroupPlanModifier) MarkdownDescription(ctx context.Context) string {
@@ -142,7 +142,7 @@ func (whenAlertJoinsGroupPlanModifier) PlanModifyObject(ctx context.Context, req
 type autoRelateGroupedAlertsPlanModifier struct{}
 
 func (autoRelateGroupedAlertsPlanModifier) Description(context.Context) string {
-	return "Plans auto_relate_grouped_alerts as null in v3 mode, otherwise uses prior state when known."
+	return "Plans auto_relate_grouped_alerts as null when grouping_config is set, otherwise uses prior state when known."
 }
 
 func (m autoRelateGroupedAlertsPlanModifier) MarkdownDescription(ctx context.Context) string {

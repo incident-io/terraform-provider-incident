@@ -26,17 +26,18 @@ var (
 	_ resource.ResourceWithValidateConfig = &IncidentAlertRouteResource{}
 )
 
-// Deprecation messages for the v2-only attributes, each pointing at the v3
-// location. They are emitted whenever the attribute is set, nudging users to
-// migrate to the v3 schema (opted into via the top-level grouping_config).
+// Deprecation messages for the deprecated attributes, each pointing at its
+// current equivalent. They are emitted whenever the attribute is set, nudging
+// users onto the current configuration format (opted into via the top-level
+// grouping_config).
 const (
-	deprecatedChannelConfig         = "Deprecated: configuring alert channels via `channel_config`. Migrate to the v3 alert route schema and use `message_config.destinations` instead."
-	deprecatedMessageTemplate       = "Deprecated: configuring the message template via `message_template`. Migrate to the v3 alert route schema and use `message_config.template` instead."
-	deprecatedIncidentTemplate      = "Deprecated: configuring the incident template via the top-level `incident_template`. Migrate to the v3 alert route schema and use `incident_config.template` instead."
-	deprecatedGroupingKeys          = "Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead."
-	deprecatedGroupingWindowSeconds = "Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead."
-	deprecatedDeferTimeSeconds      = "Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead."
-	deprecatedAutoRelateGrouped     = "Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead."
+	deprecatedChannelConfig         = "Deprecated: use `message_config.destinations` instead."
+	deprecatedMessageTemplate       = "Deprecated: use `message_config.template` instead."
+	deprecatedIncidentTemplate      = "Deprecated: use `incident_config.template` instead."
+	deprecatedGroupingKeys          = "Deprecated: configure alert grouping via the top-level `grouping_config` instead."
+	deprecatedGroupingWindowSeconds = "Deprecated: configure alert grouping via the top-level `grouping_config` instead."
+	deprecatedDeferTimeSeconds      = "Deprecated: configure alert grouping via the top-level `grouping_config` instead."
+	deprecatedAutoRelateGrouped     = "Deprecated: configure alert grouping via the top-level `grouping_config` instead."
 )
 
 type IncidentAlertRouteResource struct {
@@ -56,7 +57,7 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 	resp.Schema = schema.Schema{
 		MarkdownDescription: `Alert routes define how alerts are processed: how they're grouped, which channels they post to, who is escalated, and whether they open incidents.
 
-This resource supports two configuration schemas for alert routes, corresponding to the v2 and v3 alert route APIs. The principal difference is that in v3, alert grouping configuration is split out of ` + "`incident_config`" + ` into a top-level ` + "`grouping_config`" + `. In addition, ` + "`channel_config`" + ` and ` + "`message_template`" + ` are merged together under ` + "`message_config`" + `, and the incident template is nested under ` + "`incident_config.template`" + `.
+An alert route is configured using one of two mutually-exclusive sets of attributes. The current format configures alert grouping via the top-level ` + "`grouping_config`" + ` block, channels and message under ` + "`message_config`" + `, and the incident template under ` + "`incident_config.template`" + `. Setting ` + "`grouping_config`" + ` selects this format. The deprecated format (used when ` + "`grouping_config`" + ` is omitted) instead configures grouping inside ` + "`incident_config`" + ` and uses the ` + "`channel_config`" + `, ` + "`message_template`" + `, and ` + "`incident_template`" + ` blocks; these attributes are deprecated and should be migrated to their current equivalents. You can't mix attributes from the two sets.
 
 We'd generally recommend building alert routes in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.`,
 		Attributes: map[string]schema.Attribute{
@@ -168,7 +169,7 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 						// didn't configure one, so we accept that computed value.
 						Optional:            true,
 						Computed:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV3", "when_alert_joins_group") + " (v3 only)",
+						MarkdownDescription: apischema.Docstring("AlertRouteEscalationConfigV3", "when_alert_joins_group") + " Only used with `grouping_config`.",
 						PlanModifiers: []planmodifier.Object{
 							whenAlertJoinsGroupPlanModifier{},
 						},
@@ -188,7 +189,7 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 			// --- v3-only: grouping_config (the schema discriminator) ---
 			"grouping_config": schema.SingleNestedAttribute{
 				Optional:            true,
-				MarkdownDescription: apischema.Docstring("AlertRouteV3", "grouping_config") + "\n\nSetting this block opts the alert route into the v3 schema.",
+				MarkdownDescription: apischema.Docstring("AlertRouteV3", "grouping_config") + "\n\nSetting this block selects the current configuration format for the alert route.",
 				Attributes: map[string]schema.Attribute{
 					"default": schema.SingleNestedAttribute{
 						Required:            true,
@@ -227,7 +228,7 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 			// --- v3-only: message_config (see channel_config / message_template) ---
 			"message_config": schema.SingleNestedAttribute{
 				Optional:            true,
-				MarkdownDescription: apischema.Docstring("AlertRouteV3", "message_config") + " (v3 only)",
+				MarkdownDescription: apischema.Docstring("AlertRouteV3", "message_config") + " Only used with `grouping_config`.",
 				Attributes: map[string]schema.Attribute{
 					"destinations": schema.SetNestedAttribute{
 						Optional:            true,
@@ -327,7 +328,7 @@ We'd generally recommend building alert routes in our [web dashboard](https://ap
 					// --- v3-only: incident template moves here ---
 					"template": schema.SingleNestedAttribute{
 						Optional:            true,
-						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV3", "template") + " (v3 only)",
+						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV3", "template") + " Only used with `grouping_config`.",
 						Attributes:          incidentTemplateAttributes(false),
 					},
 				},
@@ -666,7 +667,7 @@ func (r *IncidentAlertRouteResource) ImportState(ctx context.Context, req resour
 	case err != nil && !isAPINotYetAvailable(err):
 		// A genuine error rather than the migration gate: surface it rather than
 		// masking it behind a v2 fallback.
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route via the v3 API, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route, got error: %s", err))
 		return
 	}
 
@@ -674,7 +675,7 @@ func (r *IncidentAlertRouteResource) ImportState(ctx context.Context, req resour
 	// API returned `api_not_yet_available`), so import via the v2 API.
 	v2Result, err := r.client.AlertRoutesV2ShowWithResponse(ctx, id)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route via the v2 API, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to import alert route, got error: %s", err))
 		return
 	}
 	if v2Result.JSON200 == nil {
@@ -727,9 +728,8 @@ func isAPINotYetAvailable(err error) bool {
 // alert route is used against an organisation that has not migrated to the new
 // alert grouping engine.
 func alertRouteV3UnavailableError() (summary, detail string) {
-	return "Organisation not migrated to the new alert grouping engine",
-		"This alert route uses the v3 schema (`grouping_config` is set), but your " +
-			"organisation has not been migrated to the new alert grouping engine yet. " +
-			"Use the v2 schema (remove `grouping_config` and the other v3-only blocks) " +
-			"until your organisation is migrated."
+	return "Alert route configuration format not available",
+		"This alert route uses `grouping_config`, but that configuration format " +
+			"isn't available for your organisation yet. Remove `grouping_config` (and " +
+			"the other blocks that depend on it) and use the deprecated attributes instead."
 }

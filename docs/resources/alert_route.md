@@ -4,7 +4,7 @@ page_title: "incident_alert_route Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
   Alert routes define how alerts are processed: how they're grouped, which channels they post to, who is escalated, and whether they open incidents.
-  This resource supports two configuration schemas for alert routes, corresponding to the v2 and v3 alert route APIs. The principal difference is that in v3, alert grouping configuration is split out of incident_config into a top-level grouping_config. In addition, channel_config and message_template are merged together under message_config, and the incident template is nested under incident_config.template.
+  An alert route is configured using one of two mutually-exclusive sets of attributes. The current format configures alert grouping via the top-level grouping_config block, channels and message under message_config, and the incident template under incident_config.template. Setting grouping_config selects this format. The deprecated format (used when grouping_config is omitted) instead configures grouping inside incident_config and uses the channel_config, message_template, and incident_template blocks; these attributes are deprecated and should be migrated to their current equivalents. You can't mix attributes from the two sets.
   We'd generally recommend building alert routes in our web dashboard https://app.incident.io/~/alerts/configuration, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.
 ---
 
@@ -12,7 +12,7 @@ description: |-
 
 Alert routes define how alerts are processed: how they're grouped, which channels they post to, who is escalated, and whether they open incidents.
 
-This resource supports two configuration schemas for alert routes, corresponding to the v2 and v3 alert route APIs. The principal difference is that in v3, alert grouping configuration is split out of `incident_config` into a top-level `grouping_config`. In addition, `channel_config` and `message_template` are merged together under `message_config`, and the incident template is nested under `incident_config.template`.
+An alert route is configured using one of two mutually-exclusive sets of attributes. The current format configures alert grouping via the top-level `grouping_config` block, channels and message under `message_config`, and the incident template under `incident_config.template`. Setting `grouping_config` selects this format. The deprecated format (used when `grouping_config` is omitted) instead configures grouping inside `incident_config` and uses the `channel_config`, `message_template`, and `incident_template` blocks; these attributes are deprecated and should be migrated to their current equivalents. You can't mix attributes from the two sets.
 
 We'd generally recommend building alert routes in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.
 
@@ -60,9 +60,9 @@ resource "incident_alert_route" "service_alerts" {
 
   expressions = []
 
-  // Setting grouping_config opts this alert route into the v3 schema. Grouping
-  // controls how alerts are combined together; in the v3 schema it is configured
-  // here rather than on incident_config.
+  // Setting grouping_config selects the current configuration format for this
+  // alert route. Grouping controls how alerts are combined together; in the
+  // current format it is configured here rather than on incident_config.
   grouping_config = {
     default = {
       enabled = true
@@ -180,7 +180,7 @@ resource "incident_alert_route" "service_alerts" {
     condition_groups     = []
 
     // The incident template configures how created incidents are populated. In
-    // the v3 schema the template is nested under incident_config.
+    // the current configuration format the template is nested under incident_config.
     template = {
       // custom_fields is used to specify the custom fields that should be set on the incident
       // when it is created, the merge_strategy is used to specify how the custom field should be modified
@@ -274,11 +274,11 @@ resource "incident_alert_route" "service_alerts" {
 
 - `channel_config` (Attributes Set, Deprecated) The channel configuration for this alert route
 
-Deprecated: configuring alert channels via `channel_config`. Migrate to the v3 alert route schema and use `message_config.destinations` instead. (see [below for nested schema](#nestedatt--channel_config))
-- `grouping_config` (Attributes) Setting this block opts the alert route into the v3 schema. (see [below for nested schema](#nestedatt--grouping_config))
-- `incident_template` (Attributes, Deprecated) Deprecated: configuring the incident template via the top-level `incident_template`. Migrate to the v3 alert route schema and use `incident_config.template` instead. (see [below for nested schema](#nestedatt--incident_template))
-- `message_config` (Attributes) (v3 only) (see [below for nested schema](#nestedatt--message_config))
-- `message_template` (Attributes, Deprecated) Deprecated: configuring the message template via `message_template`. Migrate to the v3 alert route schema and use `message_config.template` instead. (see [below for nested schema](#nestedatt--message_template))
+Deprecated: use `message_config.destinations` instead. (see [below for nested schema](#nestedatt--channel_config))
+- `grouping_config` (Attributes) Setting this block selects the current configuration format for the alert route. (see [below for nested schema](#nestedatt--grouping_config))
+- `incident_template` (Attributes, Deprecated) Deprecated: use `incident_config.template` instead. (see [below for nested schema](#nestedatt--incident_template))
+- `message_config` (Attributes) Only used with `grouping_config`. (see [below for nested schema](#nestedatt--message_config))
+- `message_template` (Attributes, Deprecated) Deprecated: use `message_config.template` instead. (see [below for nested schema](#nestedatt--message_template))
 - `owning_team_ids` (Set of String) IDs of teams that own this alert route
 
 ### Read-Only
@@ -394,7 +394,7 @@ Required:
 
 Optional:
 
-- `when_alert_joins_group` (Attributes) (v3 only) (see [below for nested schema](#nestedatt--escalation_config--when_alert_joins_group))
+- `when_alert_joins_group` (Attributes) Only used with `grouping_config`. (see [below for nested schema](#nestedatt--escalation_config--when_alert_joins_group))
 
 <a id="nestedatt--escalation_config--escalation_targets"></a>
 ### Nested Schema for `escalation_config.escalation_targets`
@@ -728,17 +728,17 @@ Optional:
 - `auto_decline_enabled` (Boolean) Should triage incidents be declined when alerts are resolved?
 - `auto_relate_grouped_alerts` (Boolean, Deprecated) Should grouped alerts automatically be related to active incidents without confirmation?
 
-Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead.
+Deprecated: configure alert grouping via the top-level `grouping_config` instead.
 - `defer_time_seconds` (Number, Deprecated) How long should the escalation defer time be?
 
-Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead.
+Deprecated: configure alert grouping via the top-level `grouping_config` instead.
 - `grouping_keys` (Attributes Set, Deprecated) Which attributes should this alert route use to group alerts?
 
-Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead. (see [below for nested schema](#nestedatt--incident_config--grouping_keys))
+Deprecated: configure alert grouping via the top-level `grouping_config` instead. (see [below for nested schema](#nestedatt--incident_config--grouping_keys))
 - `grouping_window_seconds` (Number, Deprecated) How large should the grouping window be?
 
-Deprecated: configuring alert grouping inside `incident_config`. Migrate to the v3 alert route schema and use the top-level `grouping_config` instead.
-- `template` (Attributes) (v3 only) (see [below for nested schema](#nestedatt--incident_config--template))
+Deprecated: configure alert grouping via the top-level `grouping_config` instead.
+- `template` (Attributes) Only used with `grouping_config`. (see [below for nested schema](#nestedatt--incident_config--template))
 
 <a id="nestedatt--incident_config--condition_groups"></a>
 ### Nested Schema for `incident_config.condition_groups`
@@ -1645,9 +1645,9 @@ The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/c
 # Import an alert route using its ID. Replace the ID with a real ID from your
 # incident.io organization.
 #
-# The provider automatically detects which schema to import: organisations
-# migrated to the new alert grouping engine are imported using the v3 schema
-# (grouping_config), and organisations that haven't migrated yet are imported
-# using the v2 schema.
+# The provider automatically detects which configuration format to import:
+# alert routes where the current format is available import using it
+# (grouping_config), and routes where it isn't available yet import using the
+# deprecated format.
 terraform import incident_alert_route.example 01ABC123DEF456GHI789JKL
 ```
