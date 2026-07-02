@@ -168,18 +168,6 @@ const (
 	AlertEventsCreateHTTPPayloadV2StatusResolved AlertEventsCreateHTTPPayloadV2Status = "resolved"
 )
 
-// Defines values for AlertRouteAlertJoinsGroupPayloadV3Mode.
-const (
-	AlertRouteAlertJoinsGroupPayloadV3ModeOnEachNewAlert     AlertRouteAlertJoinsGroupPayloadV3Mode = "on_each_new_alert"
-	AlertRouteAlertJoinsGroupPayloadV3ModeOnPriorityIncrease AlertRouteAlertJoinsGroupPayloadV3Mode = "on_priority_increase"
-)
-
-// Defines values for AlertRouteAlertJoinsGroupV3Mode.
-const (
-	AlertRouteAlertJoinsGroupV3ModeOnEachNewAlert     AlertRouteAlertJoinsGroupV3Mode = "on_each_new_alert"
-	AlertRouteAlertJoinsGroupV3ModeOnPriorityIncrease AlertRouteAlertJoinsGroupV3Mode = "on_priority_increase"
-)
-
 // Defines values for AlertRouteChannelTargetPayloadV3ChannelVisibility.
 const (
 	AlertRouteChannelTargetPayloadV3ChannelVisibilityAssistant AlertRouteChannelTargetPayloadV3ChannelVisibility = "assistant"
@@ -239,6 +227,18 @@ const (
 const (
 	AlertRouteSeverityBindingV3MergeStrategyFirstWins AlertRouteSeverityBindingV3MergeStrategy = "first-wins"
 	AlertRouteSeverityBindingV3MergeStrategyMax       AlertRouteSeverityBindingV3MergeStrategy = "max"
+)
+
+// Defines values for AlertRouteWhenAlertJoinsGroupPayloadV3Mode.
+const (
+	AlertRouteWhenAlertJoinsGroupPayloadV3ModeOnEachNewAlert     AlertRouteWhenAlertJoinsGroupPayloadV3Mode = "on_each_new_alert"
+	AlertRouteWhenAlertJoinsGroupPayloadV3ModeOnPriorityIncrease AlertRouteWhenAlertJoinsGroupPayloadV3Mode = "on_priority_increase"
+)
+
+// Defines values for AlertRouteWhenAlertJoinsGroupV3Mode.
+const (
+	AlertRouteWhenAlertJoinsGroupV3ModeOnEachNewAlert     AlertRouteWhenAlertJoinsGroupV3Mode = "on_each_new_alert"
+	AlertRouteWhenAlertJoinsGroupV3ModeOnPriorityIncrease AlertRouteWhenAlertJoinsGroupV3Mode = "on_priority_increase"
 )
 
 // Defines values for AlertSlimV2Status.
@@ -969,6 +969,7 @@ const (
 // Defines values for ExpressionOperationPayloadV2OperationType.
 const (
 	ExpressionOperationPayloadV2OperationTypeBranches    ExpressionOperationPayloadV2OperationType = "branches"
+	ExpressionOperationPayloadV2OperationTypeCast        ExpressionOperationPayloadV2OperationType = "cast"
 	ExpressionOperationPayloadV2OperationTypeConcatenate ExpressionOperationPayloadV2OperationType = "concatenate"
 	ExpressionOperationPayloadV2OperationTypeCount       ExpressionOperationPayloadV2OperationType = "count"
 	ExpressionOperationPayloadV2OperationTypeFilter      ExpressionOperationPayloadV2OperationType = "filter"
@@ -984,6 +985,7 @@ const (
 // Defines values for ExpressionOperationPayloadV3OperationType.
 const (
 	ExpressionOperationPayloadV3OperationTypeBranches    ExpressionOperationPayloadV3OperationType = "branches"
+	ExpressionOperationPayloadV3OperationTypeCast        ExpressionOperationPayloadV3OperationType = "cast"
 	ExpressionOperationPayloadV3OperationTypeConcatenate ExpressionOperationPayloadV3OperationType = "concatenate"
 	ExpressionOperationPayloadV3OperationTypeCount       ExpressionOperationPayloadV3OperationType = "count"
 	ExpressionOperationPayloadV3OperationTypeFilter      ExpressionOperationPayloadV3OperationType = "filter"
@@ -999,6 +1001,7 @@ const (
 // Defines values for ExpressionOperationV2OperationType.
 const (
 	ExpressionOperationV2OperationTypeBranches    ExpressionOperationV2OperationType = "branches"
+	ExpressionOperationV2OperationTypeCast        ExpressionOperationV2OperationType = "cast"
 	ExpressionOperationV2OperationTypeConcatenate ExpressionOperationV2OperationType = "concatenate"
 	ExpressionOperationV2OperationTypeCount       ExpressionOperationV2OperationType = "count"
 	ExpressionOperationV2OperationTypeFilter      ExpressionOperationV2OperationType = "filter"
@@ -1014,6 +1017,7 @@ const (
 // Defines values for ExpressionOperationV3OperationType.
 const (
 	Branches    ExpressionOperationV3OperationType = "branches"
+	Cast        ExpressionOperationV3OperationType = "cast"
 	Concatenate ExpressionOperationV3OperationType = "concatenate"
 	Count       ExpressionOperationV3OperationType = "count"
 	Filter      ExpressionOperationV3OperationType = "filter"
@@ -2292,15 +2296,15 @@ type AlertGroupingConfigV3 struct {
 // AlertMessageConfigPayloadV3 defines model for AlertMessageConfigPayloadV3.
 type AlertMessageConfigPayloadV3 struct {
 	// Destinations The destinations (Slack/Teams channels) alert messages are sent to
-	Destinations    []AlertMessageDestinationPayloadV3 `json:"destinations"`
-	MessageTemplate *EngineParamBindingPayloadV3       `json:"message_template,omitempty"`
+	Destinations []AlertMessageDestinationPayloadV3 `json:"destinations"`
+	Template     *EngineParamBindingPayloadV3       `json:"template,omitempty"`
 }
 
 // AlertMessageConfigV3 defines model for AlertMessageConfigV3.
 type AlertMessageConfigV3 struct {
 	// Destinations The destinations (Slack/Teams channels) alert messages are sent to
-	Destinations    []AlertMessageDestinationV3 `json:"destinations"`
-	MessageTemplate *EngineParamBindingV3       `json:"message_template,omitempty"`
+	Destinations []AlertMessageDestinationV3 `json:"destinations"`
+	Template     *EngineParamBindingV3       `json:"template,omitempty"`
 }
 
 // AlertMessageDestinationPayloadV3 defines model for AlertMessageDestinationPayloadV3.
@@ -2376,30 +2380,6 @@ type AlertNotesUpdatePayloadV1 struct {
 type AlertNotesUpdateResultV1 struct {
 	AlertNote AlertNoteV1 `json:"alert_note"`
 }
-
-// AlertRouteAlertJoinsGroupPayloadV3 defines model for AlertRouteAlertJoinsGroupPayloadV3.
-type AlertRouteAlertJoinsGroupPayloadV3 struct {
-	// GracePeriodSeconds How long to wait before escalating once an alert joins the group, in seconds. Must be between 0 and 3600 (1 hour).
-	GracePeriodSeconds *int32 `json:"grace_period_seconds,omitempty"`
-
-	// Mode When a subsequent alert joins an existing group, when should we escalate again?
-	Mode AlertRouteAlertJoinsGroupPayloadV3Mode `json:"mode"`
-}
-
-// AlertRouteAlertJoinsGroupPayloadV3Mode When a subsequent alert joins an existing group, when should we escalate again?
-type AlertRouteAlertJoinsGroupPayloadV3Mode string
-
-// AlertRouteAlertJoinsGroupV3 defines model for AlertRouteAlertJoinsGroupV3.
-type AlertRouteAlertJoinsGroupV3 struct {
-	// GracePeriodSeconds How long to wait before escalating once an alert joins the group
-	GracePeriodSeconds *int32 `json:"grace_period_seconds,omitempty"`
-
-	// Mode When a subsequent alert joins an existing group, when should we escalate again?
-	Mode AlertRouteAlertJoinsGroupV3Mode `json:"mode"`
-}
-
-// AlertRouteAlertJoinsGroupV3Mode When a subsequent alert joins an existing group, when should we escalate again?
-type AlertRouteAlertJoinsGroupV3Mode string
 
 // AlertRouteAlertSourcePayloadV2 defines model for AlertRouteAlertSourcePayloadV2.
 type AlertRouteAlertSourcePayloadV2 struct {
@@ -2587,8 +2567,8 @@ type AlertRouteEscalationConfigPayloadV3 struct {
 	AutoCancelEscalations bool `json:"auto_cancel_escalations"`
 
 	// EscalationTargets Targets for escalation
-	EscalationTargets   []AlertRouteEscalationTargetPayloadV3 `json:"escalation_targets"`
-	WhenAlertJoinsGroup *AlertRouteAlertJoinsGroupPayloadV3   `json:"when_alert_joins_group,omitempty"`
+	EscalationTargets   []AlertRouteEscalationTargetPayloadV3   `json:"escalation_targets"`
+	WhenAlertJoinsGroup *AlertRouteWhenAlertJoinsGroupPayloadV3 `json:"when_alert_joins_group,omitempty"`
 }
 
 // AlertRouteEscalationConfigV2 defines model for AlertRouteEscalationConfigV2.
@@ -2606,8 +2586,8 @@ type AlertRouteEscalationConfigV3 struct {
 	AutoCancelEscalations bool `json:"auto_cancel_escalations"`
 
 	// EscalationTargets Targets for escalation
-	EscalationTargets   []AlertRouteEscalationTargetV3 `json:"escalation_targets"`
-	WhenAlertJoinsGroup *AlertRouteAlertJoinsGroupV3   `json:"when_alert_joins_group,omitempty"`
+	EscalationTargets   []AlertRouteEscalationTargetV3   `json:"escalation_targets"`
+	WhenAlertJoinsGroup *AlertRouteWhenAlertJoinsGroupV3 `json:"when_alert_joins_group,omitempty"`
 }
 
 // AlertRouteEscalationTargetPayloadV2 defines model for AlertRouteEscalationTargetPayloadV2.
@@ -2928,6 +2908,30 @@ type AlertRouteV3 struct {
 	// Version The version of this alert route
 	Version int64 `json:"version"`
 }
+
+// AlertRouteWhenAlertJoinsGroupPayloadV3 defines model for AlertRouteWhenAlertJoinsGroupPayloadV3.
+type AlertRouteWhenAlertJoinsGroupPayloadV3 struct {
+	// GracePeriodSeconds How long to wait before escalating once an alert joins the group, in seconds. Only applies when mode is 'on_each_new_alert', and must be unset when mode is 'on_priority_increase'. Must be between 0 and 3600 (1 hour).
+	GracePeriodSeconds *int32 `json:"grace_period_seconds,omitempty"`
+
+	// Mode When a subsequent alert joins an existing group, when should we escalate again?
+	Mode AlertRouteWhenAlertJoinsGroupPayloadV3Mode `json:"mode"`
+}
+
+// AlertRouteWhenAlertJoinsGroupPayloadV3Mode When a subsequent alert joins an existing group, when should we escalate again?
+type AlertRouteWhenAlertJoinsGroupPayloadV3Mode string
+
+// AlertRouteWhenAlertJoinsGroupV3 defines model for AlertRouteWhenAlertJoinsGroupV3.
+type AlertRouteWhenAlertJoinsGroupV3 struct {
+	// GracePeriodSeconds How long to wait before escalating once an alert joins the group, in seconds. Only applies when mode is 'on_each_new_alert'.
+	GracePeriodSeconds *int32 `json:"grace_period_seconds,omitempty"`
+
+	// Mode When a subsequent alert joins an existing group, when should we escalate again?
+	Mode AlertRouteWhenAlertJoinsGroupV3Mode `json:"mode"`
+}
+
+// AlertRouteWhenAlertJoinsGroupV3Mode When a subsequent alert joins an existing group, when should we escalate again?
+type AlertRouteWhenAlertJoinsGroupV3Mode string
 
 // AlertRoutesCreatePayloadV2 defines model for AlertRoutesCreatePayloadV2.
 type AlertRoutesCreatePayloadV2 struct {
@@ -3693,6 +3697,9 @@ type CatalogEntryReferenceV2 struct {
 
 // CatalogEntrySlimV3V3 defines model for CatalogEntrySlimV3V3.
 type CatalogEntrySlimV3V3 struct {
+	// ExternalId An optional alternative ID for this entry, which is ensured to be unique for the type
+	ExternalId *string `json:"external_id,omitempty"`
+
 	// Id ID of this catalog entry
 	Id string `json:"id"`
 
@@ -5538,6 +5545,16 @@ type ExpressionBranchesOptsV3 struct {
 	Returns  ReturnsMetaV3        `json:"returns"`
 }
 
+// ExpressionCastOptsPayloadV2 defines model for ExpressionCastOptsPayloadV2.
+type ExpressionCastOptsPayloadV2 struct {
+	Returns ReturnsMetaV2 `json:"returns"`
+}
+
+// ExpressionCastOptsPayloadV3 defines model for ExpressionCastOptsPayloadV3.
+type ExpressionCastOptsPayloadV3 struct {
+	Returns ReturnsMetaV3 `json:"returns"`
+}
+
 // ExpressionConcatenateOptsPayloadV2 defines model for ExpressionConcatenateOptsPayloadV2.
 type ExpressionConcatenateOptsPayloadV2 struct {
 	// Reference The reference that you want to concatenate with
@@ -5627,6 +5644,7 @@ type ExpressionNavigateOptsV3 struct {
 // ExpressionOperationPayloadV2 defines model for ExpressionOperationPayloadV2.
 type ExpressionOperationPayloadV2 struct {
 	Branches    *ExpressionBranchesOptsPayloadV2    `json:"branches,omitempty"`
+	Cast        *ExpressionCastOptsPayloadV2        `json:"cast,omitempty"`
 	Concatenate *ExpressionConcatenateOptsPayloadV2 `json:"concatenate,omitempty"`
 	Filter      *ExpressionFilterOptsPayloadV2      `json:"filter,omitempty"`
 	Navigate    *ExpressionNavigateOptsPayloadV2    `json:"navigate,omitempty"`
@@ -5642,6 +5660,7 @@ type ExpressionOperationPayloadV2OperationType string
 // ExpressionOperationPayloadV3 defines model for ExpressionOperationPayloadV3.
 type ExpressionOperationPayloadV3 struct {
 	Branches    *ExpressionBranchesOptsPayloadV3    `json:"branches,omitempty"`
+	Cast        *ExpressionCastOptsPayloadV3        `json:"cast,omitempty"`
 	Concatenate *ExpressionConcatenateOptsPayloadV3 `json:"concatenate,omitempty"`
 	Filter      *ExpressionFilterOptsPayloadV3      `json:"filter,omitempty"`
 	Navigate    *ExpressionNavigateOptsPayloadV3    `json:"navigate,omitempty"`
@@ -6031,8 +6050,8 @@ type GroupingSettingsV3 struct {
 	// Enabled Whether grouping is enabled
 	Enabled bool `json:"enabled"`
 
-	// GroupKeys Which attributes should this alert route use to group alerts? Only set when grouping is enabled.
-	GroupKeys *[]GroupingKeyV3 `json:"group_keys,omitempty"`
+	// GroupingKeys Which attributes should this alert route use to group alerts? Only set when grouping is enabled.
+	GroupingKeys *[]GroupingKeyV3 `json:"grouping_keys,omitempty"`
 
 	// WindowSeconds How long the grouping window is, in seconds. Must be between 60 (1 minute) and 172800 (48 hours). Only set when grouping is enabled.
 	WindowSeconds *int32 `json:"window_seconds,omitempty"`
@@ -6779,6 +6798,9 @@ type IncidentTypeV1 struct {
 
 	// Name The name of this Incident Type
 	Name string `json:"name"`
+
+	// OwningTeamIds IDs of the teams that own this incident type
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
 
 	// PrivateIncidentsOnly Should all incidents created with this Incident Type be private?
 	PrivateIncidentsOnly bool `json:"private_incidents_only"`
