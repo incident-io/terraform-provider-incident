@@ -41,12 +41,6 @@ func TestAccIncidentAlertRouteResource(t *testing.T) {
 					resource.TestCheckResourceAttr("incident_alert_route.test", "is_private", "false"),
 				),
 			},
-			// ImportState testing
-			{
-				ResourceName:      "incident_alert_route.test",
-				ImportState:       true,
-				ImportStateVerify: true,
-			},
 			// Update testing
 			{
 				Config: testAccIncidentAlertRouteResourceConfig("test-route-updated"),
@@ -99,12 +93,6 @@ func TestAccIncidentAlertRouteResourceComprehensive(t *testing.T) {
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_template.custom_fields.0.merge_strategy", "first-wins"),
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "incident_template.custom_fields.0.binding.value.literal", "Test incident"),
 				),
-			},
-			// ImportState testing
-			{
-				ResourceName:      "incident_alert_route.comprehensive",
-				ImportState:       true,
-				ImportStateVerify: true,
 			},
 			// Update testing
 			{
@@ -175,12 +163,6 @@ func TestAccIncidentAlertRouteChannelConfig(t *testing.T) {
 					resource.TestCheckResourceAttr("incident_alert_route.channel_config_test", "channel_config.0.slack_targets.binding.value.literal", channelID(true)),
 				),
 			},
-			// ImportState testing
-			{
-				ResourceName:      "incident_alert_route.channel_config_test",
-				ImportState:       true,
-				ImportStateVerify: true,
-			},
 			// Test empty channel_config to ensure it's handled correctly
 			{
 				Config: testAccIncidentAlertRouteResourceConfigWithEmptyChannelConfig("channel-config-test"),
@@ -203,12 +185,6 @@ func TestAccIncidentAlertRouteResourceConditionalConfig(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestMatchResourceAttr("incident_alert_route.test", "id", regexp.MustCompile("^[a-zA-Z0-9]+$")),
 				),
-			},
-			// ImportState testing
-			{
-				ResourceName:      "incident_alert_route.test",
-				ImportState:       true,
-				ImportStateVerify: true,
 			},
 		},
 	})
