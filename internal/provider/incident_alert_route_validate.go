@@ -48,12 +48,18 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 		}
 		return !v.IsNull() && !v.IsUnknown()
 	}
-	setNonEmpty := func(p path.Path) bool {
+	// setPresent reports that a set attribute is configured: non-null and known,
+	// regardless of how many elements it holds. Mutual-exclusion checks use this
+	// (rather than a non-empty check) so an explicit empty set — e.g.
+	// `channel_config = []` — still counts as using the attribute. Otherwise
+	// validation would pass, apply would ignore it, and the config/state
+	// mismatch would produce a perpetual diff.
+	setPresent := func(p path.Path) bool {
 		var v types.Set
 		if d := req.Config.GetAttribute(ctx, p, &v); d.HasError() {
 			return false
 		}
-		return !v.IsNull() && !v.IsUnknown() && len(v.Elements()) > 0
+		return !v.IsNull() && !v.IsUnknown()
 	}
 	// The *Missing helpers report that an attribute is definitively absent: known
 	// to be null (not merely unknown). Required-attribute checks use these so we
@@ -98,7 +104,7 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 
 	if isV3 {
 		// v2-only attributes must not be set in v3 mode.
-		if setNonEmpty(path.Root("channel_config")) {
+		if setPresent(path.Root("channel_config")) {
 			addErr(path.Root("channel_config"), "Invalid attribute combination",
 				"`channel_config` can't be used together with `grouping_config`. Use `message_config.destinations` instead.")
 		}
@@ -110,7 +116,7 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 			addErr(path.Root("incident_template"), "Invalid attribute combination",
 				"`incident_template` can't be used together with `grouping_config`. Use `incident_config.template` instead.")
 		}
-		if setNonEmpty(incidentBase.AtName("grouping_keys")) {
+		if setPresent(incidentBase.AtName("grouping_keys")) {
 			addErr(incidentBase.AtName("grouping_keys"), "Invalid attribute combination",
 				"`incident_config.grouping_keys` can't be used together with `grouping_config`. Use `grouping_config.default.grouping_keys` instead.")
 		}
@@ -133,7 +139,7 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 				"`message_config` is required when `grouping_config` is set.")
 		}
 
-		r.validateV3Gating(ctx, req, resp, boolValue, boolSet, boolMissing, setNonEmpty, objectSet, int64Set, int64Missing)
+		r.validateV3Gating(ctx, req, resp, boolValue, boolSet, boolMissing, setPresent, objectSet, int64Set, int64Missing)
 	} else {
 		// v3-only attributes must not be set in v2 mode.
 		if objectSet(path.Root("message_config")) {
@@ -185,7 +191,7 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 	boolValue func(path.Path) (bool, bool),
 	boolSet func(path.Path) bool,
 	boolMissing func(path.Path) bool,
-	setNonEmpty func(path.Path) bool,
+	setPresent func(path.Path) bool,
 	objectSet func(path.Path) bool,
 	int64Set func(path.Path) bool,
 	int64Missing func(path.Path) bool,
@@ -244,7 +250,7 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 				addErr(groupingBase.AtName("window_type"), "Invalid attribute combination",
 					"`window_type` must not be set when `grouping_config.default.enabled` is false.")
 			}
-			if setNonEmpty(groupingBase.AtName("grouping_keys")) {
+			if setPresent(groupingBase.AtName("grouping_keys")) {
 				addErr(groupingBase.AtName("grouping_keys"), "Invalid attribute combination",
 					"`grouping_keys` must not be set when `grouping_config.default.enabled` is false.")
 			}
