@@ -99,6 +99,20 @@ const (
       }
     }
   ]`
+	// arChannelConfigEmpty is an explicit empty channel_config. It must still be
+	// rejected in v3 mode: an empty set is not "unset", and letting it through
+	// causes a perpetual diff.
+	arChannelConfigEmpty = `
+  channel_config = []`
+	// arGroupingDisabledWithEmptyKeys disables grouping but sets an empty
+	// grouping_keys, which must not be set when grouping is disabled.
+	arGroupingDisabledWithEmptyKeys = `
+  grouping_config = {
+    default = {
+      enabled       = false
+      grouping_keys = []
+    }
+  }`
 )
 
 // arIncidentEnabled is a valid v3 incident_config with the template nested.
@@ -108,6 +122,20 @@ func arIncidentEnabled() string {
     auto_decline_enabled = true
     enabled              = true
     condition_groups     = []
+` + alertRouteV3IncidentTemplateBlock + `
+  }`
+}
+
+// arIncidentEnabledWithEmptyGroupingKeys is a valid v3 incident_config that
+// additionally sets the deprecated grouping_keys to an explicit empty set,
+// which must not be combined with grouping_config.
+func arIncidentEnabledWithEmptyGroupingKeys() string {
+	return `
+  incident_config = {
+    auto_decline_enabled = true
+    enabled              = true
+    condition_groups     = []
+    grouping_keys        = []
 ` + alertRouteV3IncidentTemplateBlock + `
   }`
 }
@@ -255,6 +283,21 @@ func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 			name:   "v3 forbids channel_config",
 			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentEnabled() + arChannelConfig),
 			errRe:  "channel_config` can't be used together with `grouping_config",
+		},
+		{
+			name:   "v3 forbids empty channel_config",
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentEnabled() + arChannelConfigEmpty),
+			errRe:  "channel_config` can't be used together with `grouping_config",
+		},
+		{
+			name:   "v3 forbids empty incident_config.grouping_keys",
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentEnabledWithEmptyGroupingKeys()),
+			errRe:  "`incident_config.grouping_keys` can't be used together with `grouping_config",
+		},
+		{
+			name:   "v3 grouping disabled forbids empty grouping_keys",
+			config: arValidateConfig(arGroupingDisabledWithEmptyKeys + arMessageValid + arEscalationValid + arIncidentEnabled()),
+			errRe:  "`grouping_keys` must not be set when `grouping_config.default.enabled` is false",
 		},
 		{
 			name:   "v3 grouping enabled requires window_seconds",
