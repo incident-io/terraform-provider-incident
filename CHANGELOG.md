@@ -1,4 +1,4 @@
-## Unreleased
+## v5.41.0
 
 This release adds support for a revised alert route configuration schema. Existing alert routes using the previous schema remain supported, though users are advised to migrate to the new schema, which better corresponds to the configuration options offered in incident.io.
 
