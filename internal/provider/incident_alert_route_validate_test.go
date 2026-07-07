@@ -140,6 +140,34 @@ func arIncidentEnabledWithEmptyGroupingKeys() string {
   }`
 }
 
+// arIncidentEnabledWithDeferTime is a valid v3 incident_config that additionally
+// sets the deprecated defer_time_seconds, which must not be combined with
+// grouping_config (its replacement is when_alert_joins_group.grace_period_seconds).
+func arIncidentEnabledWithDeferTime() string {
+	return `
+  incident_config = {
+    auto_decline_enabled = true
+    enabled              = true
+    condition_groups     = []
+    defer_time_seconds   = 60
+` + alertRouteV3IncidentTemplateBlock + `
+  }`
+}
+
+// arIncidentEnabledWithAutoRelate is a valid v3 incident_config that additionally
+// sets the deprecated auto_relate_grouped_alerts, which must not be combined with
+// grouping_config (its replacement is when_alert_joins_group.mode).
+func arIncidentEnabledWithAutoRelate() string {
+	return `
+  incident_config = {
+    auto_decline_enabled       = true
+    enabled                    = true
+    condition_groups           = []
+    auto_relate_grouped_alerts = true
+` + alertRouteV3IncidentTemplateBlock + `
+  }`
+}
+
 // arIncidentDisabledWithTemplate sets a template while incident creation is off.
 func arIncidentDisabledWithTemplate() string {
 	return `
@@ -293,6 +321,16 @@ func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 			name:   "v3 forbids empty incident_config.grouping_keys",
 			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentEnabledWithEmptyGroupingKeys()),
 			errRe:  "`incident_config.grouping_keys` can't be used together with `grouping_config",
+		},
+		{
+			name:   "v3 forbids defer_time_seconds and points to when_alert_joins_group",
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentEnabledWithDeferTime()),
+			errRe:  "`incident_config.defer_time_seconds` can't be used together with `grouping_config`. Use `escalation_config.when_alert_joins_group.grace_period_seconds` instead",
+		},
+		{
+			name:   "v3 forbids auto_relate_grouped_alerts and points to when_alert_joins_group",
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentEnabledWithAutoRelate()),
+			errRe:  "`incident_config.auto_relate_grouped_alerts` can't be used together with `grouping_config`. Use `escalation_config.when_alert_joins_group.mode` instead",
 		},
 		{
 			name:   "v3 grouping disabled forbids empty grouping_keys",

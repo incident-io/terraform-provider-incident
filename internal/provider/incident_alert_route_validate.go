@@ -106,37 +106,37 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 		// v2-only attributes must not be set in v3 mode.
 		if setPresent(path.Root("channel_config")) {
 			addErr(path.Root("channel_config"), "Invalid attribute combination",
-				"`channel_config` can't be used together with `grouping_config`. Use `message_config.destinations` instead.")
+				"`channel_config` can't be used together with `grouping_config`. Use `message_config.destinations` instead. "+changelogMigrationRef)
 		}
 		if objectSet(path.Root("message_template")) {
 			addErr(path.Root("message_template"), "Invalid attribute combination",
-				"`message_template` can't be used together with `grouping_config`. Use `message_config.template` instead.")
+				"`message_template` can't be used together with `grouping_config`. Use `message_config.template` instead. "+changelogMigrationRef)
 		}
 		if objectSet(path.Root("incident_template")) {
 			addErr(path.Root("incident_template"), "Invalid attribute combination",
-				"`incident_template` can't be used together with `grouping_config`. Use `incident_config.template` instead.")
+				"`incident_template` can't be used together with `grouping_config`. Use `incident_config.template` instead. "+changelogMigrationRef)
 		}
 		if setPresent(incidentBase.AtName("grouping_keys")) {
 			addErr(incidentBase.AtName("grouping_keys"), "Invalid attribute combination",
-				"`incident_config.grouping_keys` can't be used together with `grouping_config`. Use `grouping_config.default.grouping_keys` instead.")
+				"`incident_config.grouping_keys` can't be used together with `grouping_config`. Use `grouping_config.default.grouping_keys` instead. "+changelogMigrationRef)
 		}
 		if int64Set(incidentBase.AtName("grouping_window_seconds")) {
 			addErr(incidentBase.AtName("grouping_window_seconds"), "Invalid attribute combination",
-				"`incident_config.grouping_window_seconds` can't be used together with `grouping_config`. Use `grouping_config.default.window_seconds` instead.")
+				"`incident_config.grouping_window_seconds` can't be used together with `grouping_config`. Use `grouping_config.default.window_seconds` instead. "+changelogMigrationRef)
 		}
 		if int64Set(incidentBase.AtName("defer_time_seconds")) {
 			addErr(incidentBase.AtName("defer_time_seconds"), "Invalid attribute combination",
-				"`incident_config.defer_time_seconds` can't be used together with `grouping_config`. It has no equivalent in the current configuration format.")
+				"`incident_config.defer_time_seconds` can't be used together with `grouping_config`. Use `escalation_config.when_alert_joins_group.grace_period_seconds` instead. "+changelogMigrationRef)
 		}
 		if boolSet(incidentBase.AtName("auto_relate_grouped_alerts")) {
 			addErr(incidentBase.AtName("auto_relate_grouped_alerts"), "Invalid attribute combination",
-				"`incident_config.auto_relate_grouped_alerts` can't be used together with `grouping_config`. It has no equivalent in the current configuration format.")
+				"`incident_config.auto_relate_grouped_alerts` can't be used together with `grouping_config`. Use `escalation_config.when_alert_joins_group.mode` instead. "+changelogMigrationRef)
 		}
 
 		// message_config is required in v3 mode.
 		if objectMissing(path.Root("message_config")) {
 			addErr(path.Root("message_config"), "Missing required attribute",
-				"`message_config` is required when `grouping_config` is set.")
+				"`message_config` is required when `grouping_config` is set. "+changelogMigrationRef)
 		}
 
 		r.validateV3Gating(ctx, req, resp, boolValue, boolSet, boolMissing, setPresent, objectSet, int64Set, int64Missing)
@@ -144,15 +144,15 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 		// v3-only attributes must not be set in v2 mode.
 		if objectSet(path.Root("message_config")) {
 			addErr(path.Root("message_config"), "Invalid attribute combination",
-				"`message_config` can only be used when `grouping_config` is set. Set `grouping_config`, or use the deprecated `channel_config` / `message_template` instead.")
+				"`message_config` can only be used when `grouping_config` is set. Set `grouping_config`, or use the deprecated `channel_config` / `message_template` instead. "+changelogMigrationRef)
 		}
 		if objectSet(escalationBase.AtName("when_alert_joins_group")) {
 			addErr(escalationBase.AtName("when_alert_joins_group"), "Invalid attribute combination",
-				"`escalation_config.when_alert_joins_group` can only be used when `grouping_config` is set.")
+				"`escalation_config.when_alert_joins_group` can only be used when `grouping_config` is set. On the previous schema, use `incident_config.defer_time_seconds` and `incident_config.auto_relate_grouped_alerts` instead. "+changelogMigrationRef)
 		}
 		if objectSet(incidentBase.AtName("template")) {
 			addErr(incidentBase.AtName("template"), "Invalid attribute combination",
-				"`incident_config.template` can only be used when `grouping_config` is set. Set `grouping_config`, or use the deprecated top-level `incident_template` instead.")
+				"`incident_config.template` can only be used when `grouping_config` is set. Set `grouping_config`, or use the deprecated top-level `incident_template` instead. "+changelogMigrationRef)
 		}
 
 		// Restore the v2 required fields that the merged schema relaxed to Optional
@@ -160,19 +160,19 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 		// escalation_targets are Required in the schema in both modes.)
 		if objectMissing(path.Root("incident_template")) {
 			addErr(path.Root("incident_template"), "Missing required attribute",
-				"`incident_template` is required when `grouping_config` is not set.")
+				"`incident_template` is required when `grouping_config` is not set. "+changelogMigrationRef)
 		}
 		if boolMissing(incidentBase.AtName("auto_decline_enabled")) {
 			addErr(incidentBase.AtName("auto_decline_enabled"), "Missing required attribute",
-				"`incident_config.auto_decline_enabled` is required when `grouping_config` is not set.")
+				"`incident_config.auto_decline_enabled` is required when `grouping_config` is not set. "+changelogMigrationRef)
 		}
 		if int64Missing(incidentBase.AtName("grouping_window_seconds")) {
 			addErr(incidentBase.AtName("grouping_window_seconds"), "Missing required attribute",
-				"`incident_config.grouping_window_seconds` is required when `grouping_config` is not set.")
+				"`incident_config.grouping_window_seconds` is required when `grouping_config` is not set. "+changelogMigrationRef)
 		}
 		if int64Missing(incidentBase.AtName("defer_time_seconds")) {
 			addErr(incidentBase.AtName("defer_time_seconds"), "Missing required attribute",
-				"`incident_config.defer_time_seconds` is required when `grouping_config` is not set.")
+				"`incident_config.defer_time_seconds` is required when `grouping_config` is not set. "+changelogMigrationRef)
 		}
 	}
 
