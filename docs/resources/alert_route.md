@@ -3,16 +3,13 @@
 page_title: "incident_alert_route Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  Configure your alert routes in incident.io.
-  Alert routes define how alerts from different sources are processed, grouped, and routed to the right teams and people.
+  Alert routes define how alerts are processed: how they're grouped, which channels they post to, who is escalated, and whether they open incidents.
   We'd generally recommend building alert routes in our web dashboard https://app.incident.io/~/alerts/configuration, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.
 ---
 
 # incident_alert_route (Resource)
 
-Configure your alert routes in incident.io.
-
-Alert routes define how alerts from different sources are processed, grouped, and routed to the right teams and people.
+Alert routes define how alerts are processed: how they're grouped, which channels they post to, who is escalated, and whether they open incidents.
 
 We'd generally recommend building alert routes in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.
 
@@ -60,48 +57,75 @@ resource "incident_alert_route" "service_alerts" {
 
   expressions = []
 
-  // Used to configure which Slack channels or Microsoft Teams teams should
-  // be notified when an alert is received
-  channel_config = [
-    {
-      // Define conditions under which this channel notification should occur
-      condition_groups = [
-        {
-          conditions = [
-            {
-              subject   = "alert.title"
-              operation = "contains"
-              param_bindings = [
-                {
-                  value = {
-                    literal = "critical"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
+  // Setting grouping_config selects the current configuration format for this
+  // alert route. Grouping controls how alerts are combined together; in the
+  // current format it is configured here rather than on incident_config.
+  grouping_config = {
+    default = {
+      enabled = true
+      // grouping_keys is an array of { reference = "alert.title" } which specifies
+      // the keys used to group alerts together
+      grouping_keys  = []
+      window_seconds = 300
+      // window_type is one of "rolling" (extends as new alerts attach) or "fixed"
+      window_type = "rolling"
+    }
+  }
 
-      // Configure Slack channel notifications - set either slack_targets OR ms_teams_targets
-      slack_targets = {
-        // Define channels to notify, either with literal channel IDs or dynamic references
-        binding = {
-          array_value = [
-            {
-              literal = "C01234567" // Slack channel ID
-            }
-          ]
+  // Used to configure which Slack channels or Microsoft Teams teams should
+  // be notified when an alert is received, and the (optional) template applied
+  // to those alert messages.
+  message_config = {
+    destinations = [
+      {
+        // Define conditions under which this destination notification should occur
+        condition_groups = [
+          {
+            conditions = [
+              {
+                subject   = "alert.title"
+                operation = "contains"
+                param_bindings = [
+                  {
+                    value = {
+                      literal = "critical"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+
+        // Configure Slack channel notifications - set either slack_targets OR ms_teams_targets
+        slack_targets = {
+          // Define channels to notify, either with literal channel IDs or dynamic references
+          binding = {
+            array_value = [
+              {
+                literal = "C01234567" // Slack channel ID
+              }
+            ]
+          }
+          channel_visibility = "public"
         }
-        channel_visibility = "public"
+      }
+    ]
+
+    // Optionally customize how alert messages appear in your communications platform.
+    // You can express the template ID using a catalog entry data source, e.g.
+    // data.incident_catalog_entry.my_message_template.id
+    template = {
+      value = {
+        literal = "01KHJTJR4FZJJZQ6G02EBFJAAY"
       }
     }
-  ]
+  }
 
   // Used to configure which escalation paths and/or users who should be notified when an alert is received
-  // and the conditions under which they should be notified
-  // auto_cancel_escalations is used to specify whether or not the escalation should be automatically cancelled
-  // upon receiving a 'resolved' notification for the alert that triggered the escalation
+  // and the conditions under which they should be notified.
+  // auto_cancel_escalations is used to specify whether the escalation should be automatically cancelled
+  // when the alert that triggered the escalation is resolved
   escalation_config = {
     auto_cancel_escalations = true
     escalation_targets = [
@@ -133,105 +157,97 @@ resource "incident_alert_route" "service_alerts" {
         }
       }
     ]
+
+    // Optionally control whether (and how) escalations fire again when a
+    // subsequent alert joins an existing group.
+    when_alert_joins_group = {
+      mode                 = "on_each_new_alert"
+      grace_period_seconds = 60
+    }
   }
 
   // Used to configure the incident creation settings for the alert route
-  // auto-decline_enabled is used to specify whether or triage incidents should be automatically declined
-  // when a resolved notification is received for the alert that triggered the incident
+  // auto_decline_enabled is used to specify whether triage incidents should be automatically declined
+  // when the alert that triggered the incident is resolved
   // enabled is used to specify whether or not incidents should be created
   // condition_groups is used to specify the conditions under which the incident should be created
-  // defer_time_seconds & grouping_keys are used to specify the defer time and grouping keys for alert
-  // grouping
   incident_config = {
     auto_decline_enabled = false
     enabled              = true
     condition_groups     = []
-    defer_time_seconds   = 300
-    // grouping keys is an array of { reference = "alert.title" } which specifies the keys
-    // that should be used to group alerts together when creating incidents
-    grouping_keys = []
-  }
 
-  // Used to configure the incident template for the alert route
-  incident_template = {
-
-    // custom_fields is used to specify the custom fields that should be set on the incident
-    // when it is created, the merge_strategy is used to specify how the custom field should be modified
-    // when a new alert is received for the incident
-    custom_fields = [
-      {
-        custom_field_id = incident_custom_field.type_field.id
-        merge_strategy  = "first-wins"
-        binding = {
-          value = {
-            literal = "Test incident"
+    // The incident template configures how created incidents are populated. In
+    // the current configuration format the template is nested under incident_config.
+    template = {
+      // custom_fields is used to specify the custom fields that should be set on the incident
+      // when it is created, the merge_strategy is used to specify how the custom field should be modified
+      // when a new alert is received for the incident
+      custom_fields = [
+        {
+          custom_field_id = incident_custom_field.type_field.id
+          merge_strategy  = "first-wins"
+          binding = {
+            value = {
+              literal = "Test incident"
+            }
           }
         }
-      }
-    ]
+      ]
 
-    name = {
-      autogenerated = true
-      value = {
-        literal = jsonencode({
-          content = [
-            {
-              content = [
-                {
-                  attrs = {
-                    label   = "Alert → Title"
-                    missing = false
-                    name    = "alert.title"
+      name = {
+        autogenerated = true
+        value = {
+          literal = jsonencode({
+            content = [
+              {
+                content = [
+                  {
+                    attrs = {
+                      label   = "Alert → Title"
+                      missing = false
+                      name    = "alert.title"
+                    }
+                    type = "varSpec"
                   }
-                  type = "varSpec"
-                }
-              ]
-              type = "paragraph"
-            }
-          ]
-          type = "doc"
-        })
+                ]
+                type = "paragraph"
+              }
+            ]
+            type = "doc"
+          })
+        }
       }
-    }
-    summary = {
-      autogenerated = true
-      value = {
-        literal = jsonencode({
-          content = [
-            {
-              content = [
-                {
-                  attrs = {
-                    label   = "Alert → Description"
-                    missing = false
-                    name    = "alert.description"
+      summary = {
+        autogenerated = true
+        value = {
+          literal = jsonencode({
+            content = [
+              {
+                content = [
+                  {
+                    attrs = {
+                      label   = "Alert → Description"
+                      missing = false
+                      name    = "alert.description"
+                    }
+                    type = "varSpec"
                   }
-                  type = "varSpec"
-                }
-              ]
-              type = "paragraph"
-            }
-          ]
-          type = "doc"
-        })
+                ]
+                type = "paragraph"
+              }
+            ]
+            type = "doc"
+          })
+        }
       }
-    }
-    start_in_triage = {
-      value = {
-        literal = "true"
+      start_in_triage = {
+        value = {
+          literal = "true"
+        }
       }
-    }
-    severity = {
-      merge_strategy = "first-wins"
-    }
-  }
-
-  // Used to optionally configure a template which customizes how alert messages appear in your communications platform
-  message_template = {
-    // Define template to apply, either with a literal ID or a dynamic reference
-    // You can choose to express the template ID using a catalog entry data source, e.g. data.incident_catalog_entry.my_message_template.id
-    value = {
-      literal = "01KHJTJR4FZJJZQ6G02EBFJAAY"
+      severity = {
+        merge_strategy = "first-wins"
+      }
     }
   }
 }
@@ -248,14 +264,18 @@ resource "incident_alert_route" "service_alerts" {
 - `escalation_config` (Attributes) (see [below for nested schema](#nestedatt--escalation_config))
 - `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
 - `incident_config` (Attributes) (see [below for nested schema](#nestedatt--incident_config))
-- `incident_template` (Attributes) (see [below for nested schema](#nestedatt--incident_template))
 - `is_private` (Boolean) Whether this alert route is private. Private alert routes will only create private incidents from alerts.
 - `name` (String) The name of this alert route config, for the user's reference
 
 ### Optional
 
-- `channel_config` (Attributes Set) The channel configuration for this alert route (see [below for nested schema](#nestedatt--channel_config))
-- `message_template` (Attributes) (see [below for nested schema](#nestedatt--message_template))
+- `channel_config` (Attributes Set, Deprecated) The channel configuration for this alert route
+
+Deprecated: configure Slack and Microsoft Teams notifications via `message_config.destinations` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md (see [below for nested schema](#nestedatt--channel_config))
+- `grouping_config` (Attributes) (see [below for nested schema](#nestedatt--grouping_config))
+- `incident_template` (Attributes, Deprecated) Deprecated: set the incident template via `incident_config.template` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md (see [below for nested schema](#nestedatt--incident_template))
+- `message_config` (Attributes) Only used with `grouping_config`. (see [below for nested schema](#nestedatt--message_config))
+- `message_template` (Attributes, Deprecated) Deprecated: set the alert message template via `message_config.template` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md (see [below for nested schema](#nestedatt--message_template))
 - `owning_team_ids` (Set of String) IDs of teams that own this alert route
 
 ### Read-Only
@@ -369,6 +389,10 @@ Required:
 - `auto_cancel_escalations` (Boolean) Should we auto cancel escalations when all alerts are resolved?
 - `escalation_targets` (Attributes Set) Targets for escalation (see [below for nested schema](#nestedatt--escalation_config--escalation_targets))
 
+Optional:
+
+- `when_alert_joins_group` (Attributes) (see [below for nested schema](#nestedatt--escalation_config--when_alert_joins_group))
+
 <a id="nestedatt--escalation_config--escalation_targets"></a>
 ### Nested Schema for `escalation_config.escalation_targets`
 
@@ -430,6 +454,18 @@ Optional:
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
+
+
+<a id="nestedatt--escalation_config--when_alert_joins_group"></a>
+### Nested Schema for `escalation_config.when_alert_joins_group`
+
+Required:
+
+- `mode` (String) When a subsequent alert joins an existing group, when should we escalate again?. Possible values are: `on_priority_increase`, `on_each_new_alert`.
+
+Optional:
+
+- `grace_period_seconds` (Number) How long to wait before escalating once an alert joins the group, in seconds. Only applies when mode is 'on_each_new_alert'.
 
 
 
@@ -681,16 +717,25 @@ Optional:
 
 Required:
 
-- `auto_decline_enabled` (Boolean) Should triage incidents be declined when alerts are resolved?
 - `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--incident_config--condition_groups))
-- `defer_time_seconds` (Number) How long should the escalation defer time be?
 - `enabled` (Boolean) Whether incident creation is enabled for this alert route
-- `grouping_keys` (Attributes Set) Which attributes should this alert route use to group alerts? (see [below for nested schema](#nestedatt--incident_config--grouping_keys))
-- `grouping_window_seconds` (Number) How large should the grouping window be?
 
 Optional:
 
-- `auto_relate_grouped_alerts` (Boolean) Should grouped alerts automatically be related to active incidents without confirmation?
+- `auto_decline_enabled` (Boolean) Should triage incidents be declined when alerts are resolved?
+- `auto_relate_grouped_alerts` (Boolean, Deprecated) Should grouped alerts automatically be related to active incidents without confirmation?
+
+Deprecated: use `escalation_config.when_alert_joins_group.mode` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md
+- `defer_time_seconds` (Number, Deprecated) How long should the escalation defer time be?
+
+Deprecated: set the escalation grace period via `escalation_config.when_alert_joins_group.grace_period_seconds`. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md
+- `grouping_keys` (Attributes Set, Deprecated) Which attributes should this alert route use to group alerts?
+
+Deprecated: set grouping keys via `grouping_config.default.grouping_keys` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md (see [below for nested schema](#nestedatt--incident_config--grouping_keys))
+- `grouping_window_seconds` (Number, Deprecated) How large should the grouping window be?
+
+Deprecated: set the grouping window via `grouping_config.default.window_seconds` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md
+- `template` (Attributes) Only used with `grouping_config`. (see [below for nested schema](#nestedatt--incident_config--template))
 
 <a id="nestedatt--incident_config--condition_groups"></a>
 ### Nested Schema for `incident_config.condition_groups`
@@ -743,6 +788,396 @@ Optional:
 Required:
 
 - `reference` (String) The alert attribute ID to use as a grouping key
+
+
+<a id="nestedatt--incident_config--template"></a>
+### Nested Schema for `incident_config.template`
+
+Required:
+
+- `name` (Attributes) (see [below for nested schema](#nestedatt--incident_config--template--name))
+- `summary` (Attributes) (see [below for nested schema](#nestedatt--incident_config--template--summary))
+
+Optional:
+
+- `custom_fields` (Attributes Set) Custom fields configuration (see [below for nested schema](#nestedatt--incident_config--template--custom_fields))
+- `incident_mode` (Attributes) (see [below for nested schema](#nestedatt--incident_config--template--incident_mode))
+- `incident_type` (Attributes) (see [below for nested schema](#nestedatt--incident_config--template--incident_type))
+- `severity` (Attributes) (see [below for nested schema](#nestedatt--incident_config--template--severity))
+- `start_in_triage` (Attributes) (see [below for nested schema](#nestedatt--incident_config--template--start_in_triage))
+
+<a id="nestedatt--incident_config--template--name"></a>
+### Nested Schema for `incident_config.template.name`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_config--template--name--array_value))
+- `autogenerated` (Boolean) Whether this attribute should be autogenerated using AI
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_config--template--name--value))
+
+<a id="nestedatt--incident_config--template--name--array_value"></a>
+### Nested Schema for `incident_config.template.name.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--incident_config--template--name--value"></a>
+### Nested Schema for `incident_config.template.name.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+<a id="nestedatt--incident_config--template--summary"></a>
+### Nested Schema for `incident_config.template.summary`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_config--template--summary--array_value))
+- `autogenerated` (Boolean) Whether this attribute should be autogenerated using AI
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_config--template--summary--value))
+
+<a id="nestedatt--incident_config--template--summary--array_value"></a>
+### Nested Schema for `incident_config.template.summary.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--incident_config--template--summary--value"></a>
+### Nested Schema for `incident_config.template.summary.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+<a id="nestedatt--incident_config--template--custom_fields"></a>
+### Nested Schema for `incident_config.template.custom_fields`
+
+Required:
+
+- `binding` (Attributes) Binding for the custom field (see [below for nested schema](#nestedatt--incident_config--template--custom_fields--binding))
+- `custom_field_id` (String) ID of the custom field
+- `merge_strategy` (String) The strategy to use when multiple alerts match this route. Possible values are: `first-wins`, `last-wins`, `append`.
+
+<a id="nestedatt--incident_config--template--custom_fields--binding"></a>
+### Nested Schema for `incident_config.template.custom_fields.binding`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_config--template--custom_fields--binding--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_config--template--custom_fields--binding--value))
+
+<a id="nestedatt--incident_config--template--custom_fields--binding--array_value"></a>
+### Nested Schema for `incident_config.template.custom_fields.binding.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--incident_config--template--custom_fields--binding--value"></a>
+### Nested Schema for `incident_config.template.custom_fields.binding.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--incident_config--template--incident_mode"></a>
+### Nested Schema for `incident_config.template.incident_mode`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_config--template--incident_mode--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_config--template--incident_mode--value))
+
+<a id="nestedatt--incident_config--template--incident_mode--array_value"></a>
+### Nested Schema for `incident_config.template.incident_mode.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--incident_config--template--incident_mode--value"></a>
+### Nested Schema for `incident_config.template.incident_mode.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+<a id="nestedatt--incident_config--template--incident_type"></a>
+### Nested Schema for `incident_config.template.incident_type`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_config--template--incident_type--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_config--template--incident_type--value))
+
+<a id="nestedatt--incident_config--template--incident_type--array_value"></a>
+### Nested Schema for `incident_config.template.incident_type.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--incident_config--template--incident_type--value"></a>
+### Nested Schema for `incident_config.template.incident_type.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+<a id="nestedatt--incident_config--template--severity"></a>
+### Nested Schema for `incident_config.template.severity`
+
+Required:
+
+- `merge_strategy` (String) Strategy for merging severity when multiple alerts create/update the same incident. Possible values are: `first-wins`, `max`.
+
+Optional:
+
+- `binding` (Attributes) (see [below for nested schema](#nestedatt--incident_config--template--severity--binding))
+
+<a id="nestedatt--incident_config--template--severity--binding"></a>
+### Nested Schema for `incident_config.template.severity.binding`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_config--template--severity--binding--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_config--template--severity--binding--value))
+
+<a id="nestedatt--incident_config--template--severity--binding--array_value"></a>
+### Nested Schema for `incident_config.template.severity.binding.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--incident_config--template--severity--binding--value"></a>
+### Nested Schema for `incident_config.template.severity.binding.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--incident_config--template--start_in_triage"></a>
+### Nested Schema for `incident_config.template.start_in_triage`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_config--template--start_in_triage--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_config--template--start_in_triage--value))
+
+<a id="nestedatt--incident_config--template--start_in_triage--array_value"></a>
+### Nested Schema for `incident_config.template.start_in_triage.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--incident_config--template--start_in_triage--value"></a>
+### Nested Schema for `incident_config.template.start_in_triage.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+
+<a id="nestedatt--channel_config"></a>
+### Nested Schema for `channel_config`
+
+Required:
+
+- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--channel_config--condition_groups))
+
+Optional:
+
+- `ms_teams_targets` (Attributes) (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets))
+- `slack_targets` (Attributes) (see [below for nested schema](#nestedatt--channel_config--slack_targets))
+
+<a id="nestedatt--channel_config--condition_groups"></a>
+### Nested Schema for `channel_config.condition_groups`
+
+Required:
+
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions))
+
+<a id="nestedatt--channel_config--condition_groups--conditions"></a>
+### Nested Schema for `channel_config.condition_groups.conditions`
+
+Required:
+
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
+
+<a id="nestedatt--channel_config--condition_groups--conditions--param_bindings"></a>
+### Nested Schema for `channel_config.condition_groups.conditions.param_bindings`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--param_bindings--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--param_bindings--value))
+
+<a id="nestedatt--channel_config--condition_groups--conditions--param_bindings--array_value"></a>
+### Nested Schema for `channel_config.condition_groups.conditions.param_bindings.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--channel_config--condition_groups--conditions--param_bindings--value"></a>
+### Nested Schema for `channel_config.condition_groups.conditions.param_bindings.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+
+<a id="nestedatt--channel_config--ms_teams_targets"></a>
+### Nested Schema for `channel_config.ms_teams_targets`
+
+Required:
+
+- `binding` (Attributes) (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding))
+- `channel_visibility` (String) The visibility of the channel
+
+<a id="nestedatt--channel_config--ms_teams_targets--binding"></a>
+### Nested Schema for `channel_config.ms_teams_targets.binding`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding--value))
+
+<a id="nestedatt--channel_config--ms_teams_targets--binding--array_value"></a>
+### Nested Schema for `channel_config.ms_teams_targets.binding.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--channel_config--ms_teams_targets--binding--value"></a>
+### Nested Schema for `channel_config.ms_teams_targets.binding.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+<a id="nestedatt--channel_config--slack_targets"></a>
+### Nested Schema for `channel_config.slack_targets`
+
+Required:
+
+- `binding` (Attributes) (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding))
+- `channel_visibility` (String) The visibility of the channel
+
+<a id="nestedatt--channel_config--slack_targets--binding"></a>
+### Nested Schema for `channel_config.slack_targets.binding`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding--value))
+
+<a id="nestedatt--channel_config--slack_targets--binding--array_value"></a>
+### Nested Schema for `channel_config.slack_targets.binding.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--channel_config--slack_targets--binding--value"></a>
+### Nested Schema for `channel_config.slack_targets.binding.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
+
+
+<a id="nestedatt--grouping_config"></a>
+### Nested Schema for `grouping_config`
+
+Required:
+
+- `default` (Attributes) (see [below for nested schema](#nestedatt--grouping_config--default))
+
+<a id="nestedatt--grouping_config--default"></a>
+### Nested Schema for `grouping_config.default`
+
+Required:
+
+- `enabled` (Boolean) Whether grouping is enabled
+
+Optional:
+
+- `grouping_keys` (Attributes Set) Which attributes should this alert route use to group alerts? Only set when grouping is enabled. (see [below for nested schema](#nestedatt--grouping_config--default--grouping_keys))
+- `window_seconds` (Number) How long the grouping window is, in seconds. Must be between 60 (1 minute) and 172800 (48 hours). Only set when grouping is enabled.
+- `window_type` (String) Controls how the grouping window behaves. 'rolling' keeps the window open for window_seconds after the most recent alert, so the group stays open as long as alerts keep arriving. 'fixed' opens the window when the first alert arrives and always closes window_seconds later, regardless of any subsequent alerts. Only set when grouping is enabled.. Possible values are: `rolling`, `fixed`.
+
+<a id="nestedatt--grouping_config--default--grouping_keys"></a>
+### Nested Schema for `grouping_config.default.grouping_keys`
+
+Required:
+
+- `reference` (String) A reference to a property of the alert to group on
+
 
 
 
@@ -1004,53 +1439,52 @@ Optional:
 
 
 
-<a id="nestedatt--channel_config"></a>
-### Nested Schema for `channel_config`
-
-Required:
-
-- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--channel_config--condition_groups))
+<a id="nestedatt--message_config"></a>
+### Nested Schema for `message_config`
 
 Optional:
 
-- `ms_teams_targets` (Attributes) (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets))
-- `slack_targets` (Attributes) (see [below for nested schema](#nestedatt--channel_config--slack_targets))
+- `destinations` (Attributes Set) The destinations (Slack/Teams channels) alert messages are sent to (see [below for nested schema](#nestedatt--message_config--destinations))
+- `template` (Attributes) (see [below for nested schema](#nestedatt--message_config--template))
 
-<a id="nestedatt--channel_config--condition_groups"></a>
-### Nested Schema for `channel_config.condition_groups`
+<a id="nestedatt--message_config--destinations"></a>
+### Nested Schema for `message_config.destinations`
 
 Required:
 
-- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions))
+- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--message_config--destinations--condition_groups))
 
-<a id="nestedatt--channel_config--condition_groups--conditions"></a>
-### Nested Schema for `channel_config.condition_groups.conditions`
+Optional:
+
+- `ms_teams_targets` (Attributes) (see [below for nested schema](#nestedatt--message_config--destinations--ms_teams_targets))
+- `slack_targets` (Attributes) (see [below for nested schema](#nestedatt--message_config--destinations--slack_targets))
+
+<a id="nestedatt--message_config--destinations--condition_groups"></a>
+### Nested Schema for `message_config.destinations.condition_groups`
+
+Required:
+
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--message_config--destinations--condition_groups--conditions))
+
+<a id="nestedatt--message_config--destinations--condition_groups--conditions"></a>
+### Nested Schema for `message_config.destinations.condition_groups.conditions`
 
 Required:
 
 - `operation` (String) The logical operation to be applied
-- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--param_bindings))
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--message_config--destinations--condition_groups--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
-<a id="nestedatt--channel_config--condition_groups--conditions--param_bindings"></a>
-### Nested Schema for `channel_config.condition_groups.conditions.param_bindings`
+<a id="nestedatt--message_config--destinations--condition_groups--conditions--param_bindings"></a>
+### Nested Schema for `message_config.destinations.condition_groups.conditions.param_bindings`
 
 Optional:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--condition_groups--conditions--param_bindings--value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--message_config--destinations--condition_groups--conditions--param_bindings--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--message_config--destinations--condition_groups--conditions--param_bindings--value))
 
-<a id="nestedatt--channel_config--condition_groups--conditions--param_bindings--array_value"></a>
-### Nested Schema for `channel_config.condition_groups.conditions.param_bindings.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--channel_config--condition_groups--conditions--param_bindings--value"></a>
-### Nested Schema for `channel_config.condition_groups.conditions.param_bindings.value`
+<a id="nestedatt--message_config--destinations--condition_groups--conditions--param_bindings--array_value"></a>
+### Nested Schema for `message_config.destinations.condition_groups.conditions.param_bindings.array_value`
 
 Optional:
 
@@ -1058,36 +1492,36 @@ Optional:
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
+<a id="nestedatt--message_config--destinations--condition_groups--conditions--param_bindings--value"></a>
+### Nested Schema for `message_config.destinations.condition_groups.conditions.param_bindings.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 
-<a id="nestedatt--channel_config--ms_teams_targets"></a>
-### Nested Schema for `channel_config.ms_teams_targets`
+
+
+<a id="nestedatt--message_config--destinations--ms_teams_targets"></a>
+### Nested Schema for `message_config.destinations.ms_teams_targets`
 
 Required:
 
-- `binding` (Attributes) (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding))
+- `binding` (Attributes) (see [below for nested schema](#nestedatt--message_config--destinations--ms_teams_targets--binding))
 - `channel_visibility` (String) The visibility of the channel
 
-<a id="nestedatt--channel_config--ms_teams_targets--binding"></a>
-### Nested Schema for `channel_config.ms_teams_targets.binding`
+<a id="nestedatt--message_config--destinations--ms_teams_targets--binding"></a>
+### Nested Schema for `message_config.destinations.ms_teams_targets.binding`
 
 Optional:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--ms_teams_targets--binding--value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--message_config--destinations--ms_teams_targets--binding--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--message_config--destinations--ms_teams_targets--binding--value))
 
-<a id="nestedatt--channel_config--ms_teams_targets--binding--array_value"></a>
-### Nested Schema for `channel_config.ms_teams_targets.binding.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--channel_config--ms_teams_targets--binding--value"></a>
-### Nested Schema for `channel_config.ms_teams_targets.binding.value`
+<a id="nestedatt--message_config--destinations--ms_teams_targets--binding--array_value"></a>
+### Nested Schema for `message_config.destinations.ms_teams_targets.binding.array_value`
 
 Optional:
 
@@ -1095,26 +1529,44 @@ Optional:
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
+<a id="nestedatt--message_config--destinations--ms_teams_targets--binding--value"></a>
+### Nested Schema for `message_config.destinations.ms_teams_targets.binding.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
-<a id="nestedatt--channel_config--slack_targets"></a>
-### Nested Schema for `channel_config.slack_targets`
+
+
+<a id="nestedatt--message_config--destinations--slack_targets"></a>
+### Nested Schema for `message_config.destinations.slack_targets`
 
 Required:
 
-- `binding` (Attributes) (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding))
+- `binding` (Attributes) (see [below for nested schema](#nestedatt--message_config--destinations--slack_targets--binding))
 - `channel_visibility` (String) The visibility of the channel
 
-<a id="nestedatt--channel_config--slack_targets--binding"></a>
-### Nested Schema for `channel_config.slack_targets.binding`
+<a id="nestedatt--message_config--destinations--slack_targets--binding"></a>
+### Nested Schema for `message_config.destinations.slack_targets.binding`
 
 Optional:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--channel_config--slack_targets--binding--value))
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--message_config--destinations--slack_targets--binding--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--message_config--destinations--slack_targets--binding--value))
 
-<a id="nestedatt--channel_config--slack_targets--binding--array_value"></a>
-### Nested Schema for `channel_config.slack_targets.binding.array_value`
+<a id="nestedatt--message_config--destinations--slack_targets--binding--array_value"></a>
+### Nested Schema for `message_config.destinations.slack_targets.binding.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--message_config--destinations--slack_targets--binding--value"></a>
+### Nested Schema for `message_config.destinations.slack_targets.binding.value`
 
 Optional:
 
@@ -1122,14 +1574,33 @@ Optional:
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
-<a id="nestedatt--channel_config--slack_targets--binding--value"></a>
-### Nested Schema for `channel_config.slack_targets.binding.value`
+
+
+
+<a id="nestedatt--message_config--template"></a>
+### Nested Schema for `message_config.template`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--message_config--template--array_value))
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--message_config--template--value))
+
+<a id="nestedatt--message_config--template--array_value"></a>
+### Nested Schema for `message_config.template.array_value`
 
 Optional:
 
 - `literal` (String) If set, this is the literal value of the step parameter
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
+
+<a id="nestedatt--message_config--template--value"></a>
+### Nested Schema for `message_config.template.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 
@@ -1168,7 +1639,12 @@ The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/c
 ```shell
 #!/bin/bash
 
-# Import an alert route using its ID
-# Replace the ID with a real ID from your incident.io organization
+# Import an alert route using its ID. Replace the ID with a real ID from your
+# incident.io organization.
+#
+# The provider automatically detects which configuration format to import:
+# alert routes where the current format is available import using it
+# (grouping_config), and routes where it isn't available yet import using the
+# deprecated format.
 terraform import incident_alert_route.example 01ABC123DEF456GHI789JKL
 ```
