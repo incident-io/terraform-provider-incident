@@ -126,11 +126,11 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 		}
 		if int64Set(incidentBase.AtName("defer_time_seconds")) {
 			addErr(incidentBase.AtName("defer_time_seconds"), "Invalid attribute combination",
-				"`incident_config.defer_time_seconds` can't be used together with `grouping_config`. It has no equivalent in the current configuration format.")
+				"`incident_config.defer_time_seconds` can't be used with `grouping_config` and is deprecated - remove it")
 		}
 		if boolSet(incidentBase.AtName("auto_relate_grouped_alerts")) {
 			addErr(incidentBase.AtName("auto_relate_grouped_alerts"), "Invalid attribute combination",
-				"`incident_config.auto_relate_grouped_alerts` can't be used together with `grouping_config`. It has no equivalent in the current configuration format.")
+				"`incident_config.auto_relate_grouped_alerts` can't be used with `grouping_config` and is deprecated - remove it")
 		}
 
 		// message_config is required in v3 mode.

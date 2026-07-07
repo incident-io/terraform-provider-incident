@@ -1,10 +1,8 @@
 ## Unreleased
 
-- `incident_alert_route` now supports a new configuration format for alert routes. Set the new top-level `grouping_config` block to opt a route into it:
-  - Alert grouping moves out of `incident_config` into the top-level `grouping_config`.
-  - `channel_config` and `message_template` are replaced by `message_config`.
-  - The incident template moves under `incident_config.template`.
-- The previous attributes (`channel_config`, `message_template`, `incident_template`, and the grouping fields inside `incident_config`) are now deprecated but continue to work. Migrate a route in place by adding the new blocks and removing the deprecated fields in the same change — Terraform updates the route rather than replacing it. The easiest way to get the new configuration is the "Export" button on the alert route config screen in the dashboard.
+- `incident_alert_route`: added the top-level `grouping_config` and `message_config` blocks, and moved the incident template under `incident_config.template`. Alert grouping is now configured in `grouping_config` (previously the grouping fields on `incident_config`), and channels and message templates in `message_config` (previously `channel_config` and `message_template`).
+- `incident_alert_route`: **deprecated** `channel_config`, `message_template`, `incident_template`, and the grouping fields on `incident_config` (`grouping_keys`, `grouping_window_seconds`, `defer_time_seconds`, `auto_relate_grouped_alerts`). These attributes still work for now, but **will be removed in the next major version of the provider**. They are mutually exclusive with the new blocks: as soon as you set `grouping_config` on a route, the deprecated attributes no longer take effect, so you can't mix the two.
+- `incident_alert_route`: to migrate an existing route, add `grouping_config` / `message_config` and remove the deprecated fields in the same change — Terraform updates the route in place rather than replacing it. The easiest way to get the new configuration is the "Export" button on the alert route config screen in the dashboard.
 
 ## v5.40.0
 
