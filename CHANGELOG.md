@@ -1,8 +1,47 @@
 ## Unreleased
 
-- `incident_alert_route`: added the top-level `grouping_config` and `message_config` blocks, and moved the incident template under `incident_config.template`. Alert grouping is now configured in `grouping_config` (previously the grouping fields on `incident_config`), and channels and message templates in `message_config` (previously `channel_config` and `message_template`).
-- `incident_alert_route`: **deprecated** `channel_config`, `message_template`, `incident_template`, and the grouping fields on `incident_config` (`grouping_keys`, `grouping_window_seconds`, `defer_time_seconds`, `auto_relate_grouped_alerts`). These attributes still work for now, but **will be removed in the next major version of the provider**. They are mutually exclusive with the new blocks: as soon as you set `grouping_config` on a route, the deprecated attributes no longer take effect, so you can't mix the two.
-- `incident_alert_route`: to migrate an existing route, add `grouping_config` / `message_config` and remove the deprecated fields in the same change — Terraform updates the route in place rather than replacing it. The easiest way to get the new configuration is the "Export" button on the alert route config screen in the dashboard.
+This release adds support for a revised alert route configuration schema. Existing alert routes using the previous schema remain supported, though users are advised to migrate to the new schema, which better corresponds to the configuration options offered in incident.io.
+
+#### Changes
+
+The following changes are made to the `incident_alert_route` resource:
+
+- Alert grouping configuration is moved out from `incident_config` to a new `grouping_config` object at the top level.
+- The incident template is moved from `incident_template` to be nested under `incident_config`.
+- Config for sending messages to Slack or Microsoft Teams is combined under `message_config`, instead of the separate `message_template` and `channel_config`.
+
+Support for the previous configuration schema is retained, but using them will show deprectation warnings advising updating to the latest schema.
+
+#### Migration
+
+In simple cases, the easiest way to migrate will be to open each alert route in incident.io and re-export the Terraform configuration.
+
+For other cases, here is a more detailed description of the changes you'll need to make -- you may wish to feed these into to your coding agent of choice:
+
+- Setting the top-level `grouping_config` block is what selects the new schema — a route is on the new schema if and only if `grouping_config` is present. All of the changes below therefore have to be made together in a single edit; a half-migrated resource won't validate.
+- Add a top-level `grouping_config` block and move the grouping settings out of `incident_config` into it:
+  - `incident_config.grouping_keys` → `grouping_config.default.grouping_keys`.
+  - `incident_config.grouping_window_seconds` → `grouping_config.default.window_seconds`.
+  - Add `grouping_config.default.enabled = true` (new, required).
+  - Add `grouping_config.default.window_type` (new, required when enabled): `"rolling"` extends the window each time a new alert joins the group; `"fixed"` holds the window from the first alert. `"rolling"` matches the previous grouping behaviour — if unsure, re-export the route from incident.io to see which value it uses.
+  - If the route was not grouping before (no grouping fields set), still add `grouping_config` with `default = { enabled = false }`, and leave `grouping_keys`, `window_seconds`, and `window_type` unset — they are rejected when `enabled = false`.
+- Translate `defer_time_seconds` and `auto_relate_grouped_alerts` into `escalation_config.when_alert_joins_group`. Both fields are removed from `incident_config`; the behaviour is now an escalation mode applied when a subsequent alert joins an existing group:
+  - `auto_relate_grouped_alerts = true` → `when_alert_joins_group = { mode = "on_priority_increase" }` (later alerts join the existing incident and only re-escalate when they raise the priority).
+  - `auto_relate_grouped_alerts = false` → `when_alert_joins_group = { mode = "on_each_new_alert" }` (every alert joining the group escalates).
+  - `defer_time_seconds = N` → `when_alert_joins_group.grace_period_seconds = N`. This is only valid with `mode = "on_each_new_alert"` and cannot be combined with `on_priority_increase`. If you previously set a defer time alongside `auto_relate_grouped_alerts = true`, the grace period no longer applies — drop it.
+  - `when_alert_joins_group` is only valid when `grouping_config.default.enabled = true`; omit it otherwise.
+- Replace `channel_config` and the top-level `message_template` with a single `message_config` block:
+  - Each `channel_config` element becomes an element of `message_config.destinations`.
+  - The top-level `message_template` moves to `message_config.template`.
+  - `message_config` is required on the new schema. If the route had neither, add `message_config = { destinations = [] }`.
+- Move the top-level `incident_template` under `incident_config.template`:
+  - Relocate the whole block; all fields keep the same shape.
+  - Remove the `workspace` binding if present — it is not supported on the new schema. Use [incident channel workspaces](https://docs.incident.io/getting-started/slack-enterprise-grid#configuring-incident-channel-workspaces) to configure workspaces instead.
+  - `incident_config.template` is only valid when `incident_config.enabled = true`. If incident creation is disabled, omit the template, leave `condition_groups` empty, and leave `auto_decline_enabled` unset.
+  - Delete the now-empty top-level `incident_template` block.
+- Remove every deprecated attribute once its replacement is in place. With `grouping_config` set, the provider rejects `channel_config`, `message_template`, `incident_template`, and `incident_config`'s `grouping_keys` / `grouping_window_seconds` / `defer_time_seconds` / `auto_relate_grouped_alerts`.
+
+As with any Terraform changes, we strongly recommend running `terraform plan` and inspecting the changes it would make before applying your updated configuration.
 
 ## v5.40.0
 
