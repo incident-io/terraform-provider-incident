@@ -62,9 +62,7 @@ func (r *IncidentAlertRouteResource) Metadata(ctx context.Context, req resource.
 
 func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Alert routes define how alerts are processed: how they're grouped, which channels they post to, who is escalated, and whether they open incidents.
-
-We'd generally recommend building alert routes in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.`,
+		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Alert Routes V3"), `We'd generally recommend building alert routes in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert route and copy the resulting Terraform without persisting it.`),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
