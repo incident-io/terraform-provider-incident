@@ -271,11 +271,11 @@ resource "incident_alert_route" "service_alerts" {
 
 - `channel_config` (Attributes Set, Deprecated) The channel configuration for this alert route
 
-Deprecated: use `message_config.destinations` instead. (see [below for nested schema](#nestedatt--channel_config))
+Deprecated: configure Slack and Microsoft Teams notifications via `message_config.destinations` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md (see [below for nested schema](#nestedatt--channel_config))
 - `grouping_config` (Attributes) (see [below for nested schema](#nestedatt--grouping_config))
-- `incident_template` (Attributes, Deprecated) Deprecated: use `incident_config.template` instead. (see [below for nested schema](#nestedatt--incident_template))
+- `incident_template` (Attributes, Deprecated) Deprecated: set the incident template via `incident_config.template` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md (see [below for nested schema](#nestedatt--incident_template))
 - `message_config` (Attributes) Only used with `grouping_config`. (see [below for nested schema](#nestedatt--message_config))
-- `message_template` (Attributes, Deprecated) Deprecated: use `message_config.template` instead. (see [below for nested schema](#nestedatt--message_template))
+- `message_template` (Attributes, Deprecated) Deprecated: set the alert message template via `message_config.template` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md (see [below for nested schema](#nestedatt--message_template))
 - `owning_team_ids` (Set of String) IDs of teams that own this alert route
 
 ### Read-Only
@@ -725,16 +725,16 @@ Optional:
 - `auto_decline_enabled` (Boolean) Should triage incidents be declined when alerts are resolved?
 - `auto_relate_grouped_alerts` (Boolean, Deprecated) Should grouped alerts automatically be related to active incidents without confirmation?
 
-Deprecated: configure alert grouping via the top-level `grouping_config` instead.
+Deprecated: use `escalation_config.when_alert_joins_group.mode` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md
 - `defer_time_seconds` (Number, Deprecated) How long should the escalation defer time be?
 
-Deprecated: configure alert grouping via the top-level `grouping_config` instead.
+Deprecated: set the escalation grace period via `escalation_config.when_alert_joins_group.grace_period_seconds`. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md
 - `grouping_keys` (Attributes Set, Deprecated) Which attributes should this alert route use to group alerts?
 
-Deprecated: configure alert grouping via the top-level `grouping_config` instead. (see [below for nested schema](#nestedatt--incident_config--grouping_keys))
+Deprecated: set grouping keys via `grouping_config.default.grouping_keys` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md (see [below for nested schema](#nestedatt--incident_config--grouping_keys))
 - `grouping_window_seconds` (Number, Deprecated) How large should the grouping window be?
 
-Deprecated: configure alert grouping via the top-level `grouping_config` instead.
+Deprecated: set the grouping window via `grouping_config.default.window_seconds` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md
 - `template` (Attributes) Only used with `grouping_config`. (see [below for nested schema](#nestedatt--incident_config--template))
 
 <a id="nestedatt--incident_config--condition_groups"></a>

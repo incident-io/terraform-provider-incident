@@ -26,17 +26,25 @@ var (
 	_ resource.ResourceWithValidateConfig = &IncidentAlertRouteResource{}
 )
 
-// Deprecation messages for the deprecated attributes, each pointing at its
-// replacement. They are emitted whenever the attribute is set, nudging users
-// onto the replacement blocks (opted into via the top-level grouping_config).
+// changelogMigrationRef points users at the versioned migration guide. It is
+// appended to every deprecation and migration-related validation message so
+// there is a single, consistent place to find the previous-to-new schema
+// mapping.
+const changelogMigrationRef = "See v5.41.0 in the CHANGELOG for migration guidance: " +
+	"https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md"
+
+// Deprecation messages for the deprecated attributes. Each names the specific
+// replacement on the new schema (opted into via the top-level grouping_config)
+// and ends with the CHANGELOG reference. They are emitted whenever the
+// attribute is set.
 const (
-	deprecatedChannelConfig         = "Deprecated: use `message_config.destinations` instead."
-	deprecatedMessageTemplate       = "Deprecated: use `message_config.template` instead."
-	deprecatedIncidentTemplate      = "Deprecated: use `incident_config.template` instead."
-	deprecatedGroupingKeys          = "Deprecated: configure alert grouping via the top-level `grouping_config` instead."
-	deprecatedGroupingWindowSeconds = "Deprecated: configure alert grouping via the top-level `grouping_config` instead."
-	deprecatedDeferTimeSeconds      = "Deprecated: configure alert grouping via the top-level `grouping_config` instead."
-	deprecatedAutoRelateGrouped     = "Deprecated: configure alert grouping via the top-level `grouping_config` instead."
+	deprecatedChannelConfig         = "Deprecated: configure Slack and Microsoft Teams notifications via `message_config.destinations` instead. " + changelogMigrationRef
+	deprecatedMessageTemplate       = "Deprecated: set the alert message template via `message_config.template` instead. " + changelogMigrationRef
+	deprecatedIncidentTemplate      = "Deprecated: set the incident template via `incident_config.template` instead. " + changelogMigrationRef
+	deprecatedGroupingKeys          = "Deprecated: set grouping keys via `grouping_config.default.grouping_keys` instead. " + changelogMigrationRef
+	deprecatedGroupingWindowSeconds = "Deprecated: set the grouping window via `grouping_config.default.window_seconds` instead. " + changelogMigrationRef
+	deprecatedDeferTimeSeconds      = "Deprecated: set the escalation grace period via `escalation_config.when_alert_joins_group.grace_period_seconds`. " + changelogMigrationRef
+	deprecatedAutoRelateGrouped     = "Deprecated: use `escalation_config.when_alert_joins_group.mode` instead. " + changelogMigrationRef
 )
 
 type IncidentAlertRouteResource struct {
