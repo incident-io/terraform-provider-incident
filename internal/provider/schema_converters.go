@@ -51,6 +51,7 @@ func (r *IncidentWorkflowResource) buildModel(ctx context.Context, workflow clie
 		RunsOnIncidentModes:       buildRunsOnIncidentModes(workflow.RunsOnIncidentModes),
 		IncludePrivateIncidents:   types.BoolValue(workflow.IncludePrivateIncidents),
 		IncludePrivateEscalations: types.BoolPointerValue(lo.ToPtr(workflow.IncludePrivateEscalations)),
+		OwningTeamIDs:             buildOwningTeamIDs(workflow.OwningTeamIds),
 		ContinueOnStepError:       types.BoolValue(workflow.ContinueOnStepError),
 		RunsOnIncidents:           types.StringValue(string(workflow.RunsOnIncidents)),
 		State:                     types.StringValue(string(workflow.State)),
@@ -78,6 +79,21 @@ func buildOnceFor(onceFor []client.EngineReferenceV2) []basetypes.StringValue {
 	}
 
 	return out
+}
+
+// buildOwningTeamIDs maps the API's optional owning_team_ids into a set, staying null
+// when unset so it round-trips with an unconfigured owning_team_ids attribute.
+func buildOwningTeamIDs(teamIDs *[]string) types.Set {
+	if teamIDs == nil {
+		return types.SetNull(types.StringType)
+	}
+
+	elements := make([]attr.Value, len(*teamIDs))
+	for i, teamID := range *teamIDs {
+		elements[i] = types.StringValue(teamID)
+	}
+
+	return types.SetValueMust(types.StringType, elements)
 }
 
 func buildRunsOnIncidentModes(modes []client.WorkflowV2RunsOnIncidentModes) types.Set {

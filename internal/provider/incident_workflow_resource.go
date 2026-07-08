@@ -45,6 +45,7 @@ type IncidentWorkflowResourceModel struct {
 	OnceFor                   []types.String                       `tfsdk:"once_for"`
 	IncludePrivateIncidents   types.Bool                           `tfsdk:"include_private_incidents"`
 	IncludePrivateEscalations types.Bool                           `tfsdk:"include_private_escalations"`
+	OwningTeamIDs             types.Set                            `tfsdk:"owning_team_ids"`
 	ContinueOnStepError       types.Bool                           `tfsdk:"continue_on_step_error"`
 	Delay                     *IncidentWorkflowDelay               `tfsdk:"delay"`
 	RunsOnIncidents           types.String                         `tfsdk:"runs_on_incidents"`
@@ -134,6 +135,11 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				Optional:            true,
 				Computed:            true,
 			},
+			"owning_team_ids": schema.SetAttribute{
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "owning_team_ids"),
+				Optional:            true,
+				ElementType:         types.StringType,
+			},
 			"continue_on_step_error": schema.BoolAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "continue_on_step_error"),
 				Required:            true,
@@ -200,6 +206,7 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 		Folder:                  data.Folder.ValueStringPointer(),
 		Shortform:               data.Shortform.ValueStringPointer(),
 		IncludePrivateIncidents: data.IncludePrivateIncidents.ValueBool(),
+		OwningTeamIds:           toOwningTeamIDs(data.OwningTeamIDs),
 		ContinueOnStepError:     data.ContinueOnStepError.ValueBool(),
 		State:                   lo.ToPtr(client.WorkflowsCreateWorkflowPayloadV2State(data.State.ValueString())),
 		Annotations: &map[string]string{
@@ -265,6 +272,7 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		Folder:                  data.Folder.ValueStringPointer(),
 		Shortform:               data.Shortform.ValueStringPointer(),
 		IncludePrivateIncidents: data.IncludePrivateIncidents.ValueBool(),
+		OwningTeamIds:           toOwningTeamIDs(data.OwningTeamIDs),
 		ContinueOnStepError:     data.ContinueOnStepError.ValueBool(),
 		State:                   lo.ToPtr(client.WorkflowsUpdateWorkflowPayloadV2State(data.State.ValueString())),
 		Annotations: &map[string]string{
@@ -356,6 +364,23 @@ func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.C
 
 	r.client = client.Client
 	r.terraformVersion = client.TerraformVersion
+}
+
+// toOwningTeamIDs converts the owning_team_ids set into the optional slice the API
+// expects, returning nil when unset so we don't send an empty list.
+func toOwningTeamIDs(set types.Set) *[]string {
+	if set.IsNull() || set.IsUnknown() {
+		return nil
+	}
+
+	teamIDs := []string{}
+	for _, elem := range set.Elements() {
+		if str, ok := elem.(types.String); ok {
+			teamIDs = append(teamIDs, str.ValueString())
+		}
+	}
+
+	return &teamIDs
 }
 
 func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayloadV2 {
