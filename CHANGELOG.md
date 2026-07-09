@@ -1,3 +1,7 @@
+## v5.42.0
+
+- Add `owning_team_ids` to workflow resource
+
 # v5.41.1
 
 - Fix panic when importing or refreshing an `incident_escalation_path` if the API returns an unexpected successful response (e.g. a 2xx without the expected JSON body). The provider now returns a diagnostic with the response status instead of crashing on a nil pointer dereference.
