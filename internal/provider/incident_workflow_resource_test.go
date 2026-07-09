@@ -2,12 +2,14 @@ package provider
 
 import (
 	"bytes"
+	"fmt"
 	"reflect"
 	"testing"
 	"text/template"
 
 	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/samber/lo"
 )
 
 func TestAccIncidentWorkflowResource(t *testing.T) {
@@ -180,4 +182,120 @@ func testAccIncidentWorkflowResourceConfig(override *workflowTemplateOverrides) 
 	}
 
 	return buf.String()
+}
+
+// TestAccIncidentWorkflowResourceOwningTeamIDs checks that owning_team_ids round-trips:
+// unset reads back as absent, and teams provisioned in-config are applied and re-read.
+// Teams are a catalog type, so the test creates its own Team entries to reference.
+func TestAccIncidentWorkflowResourceOwningTeamIDs(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create without owning_team_ids
+			{
+				Config: testAccIncidentWorkflowResourceConfigOwningTeams(0),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckNoResourceAttr("incident_workflow.example", "owning_team_ids"),
+				),
+			},
+			// Update to add a single owning team
+			{
+				Config: testAccIncidentWorkflowResourceConfigOwningTeams(1),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "owning_team_ids.#", "1"),
+					resource.TestCheckResourceAttrPair(
+						"incident_workflow.example", "owning_team_ids.0",
+						"incident_catalog_entry.owner_team_0", "id"),
+				),
+			},
+			// Import and verify the owning teams survive a round-trip
+			{
+				ResourceName:      "incident_workflow.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			// Update to two owning teams
+			{
+				Config: testAccIncidentWorkflowResourceConfigOwningTeams(2),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "owning_team_ids.#", "2"),
+				),
+			},
+			// Clear owning teams again
+			{
+				Config: testAccIncidentWorkflowResourceConfigOwningTeams(0),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckNoResourceAttr("incident_workflow.example", "owning_team_ids"),
+				),
+			},
+		},
+	})
+}
+
+// testAccIncidentWorkflowResourceConfigOwningTeams renders a workflow owning teamCount
+// self-provisioned Team catalog entries (0 omits owning_team_ids entirely).
+func testAccIncidentWorkflowResourceConfigOwningTeams(teamCount int) string {
+	teamIDs := make([]string, teamCount)
+	for i := 0; i < teamCount; i++ {
+		teamIDs[i] = fmt.Sprintf("incident_catalog_entry.owner_team_%d.id", i)
+	}
+
+	return testRunTemplate("incident_workflow_with_owning_teams", `
+data "incident_catalog_type" "team" {
+  name = {{ quote .TeamTypeName }}
+}
+
+{{ range $i := .TeamIndices }}
+resource "incident_catalog_entry" "owner_team_{{ $i }}" {
+  catalog_type_id  = data.incident_catalog_type.team.id
+  external_id      = "tf-workflow-owning-team-test-{{ $i }}"
+  name             = "Terraform Workflow Owning Team Test {{ $i }}"
+  attribute_values = []
+}
+{{ end }}
+
+resource "incident_workflow" "example" {
+  name    = "Owning teams workflow"
+  trigger = "incident.updated"
+  condition_groups = [
+    {
+      conditions = [
+        {
+          subject        = "incident.status.category"
+          operation      = "one_of"
+          param_bindings = [{ array_value = [{ literal = "open" }] }]
+        }
+      ]
+    }
+  ]
+  steps = [
+    {
+      id   = "01HXVEA7Y0VWQBJB4F2X8WNRW6"
+      name = "incident.create_follow_ups"
+      param_bindings = [
+        { value = { reference = "incident" } },
+        { array_value = [{ literal = "Write postmortem" }] },
+        {}
+      ]
+    }
+  ]
+  expressions               = []
+  once_for                  = ["incident"]
+  include_private_incidents = false
+  continue_on_step_error    = false
+  runs_on_incidents         = "newly_created"
+  runs_on_incident_modes    = ["standard"]
+  state                     = "draft"
+  {{ if .TeamIDs }}owning_team_ids = [{{ range $i, $ref := .TeamIDs }}{{ if $i }}, {{ end }}{{ $ref }}{{ end }}]{{ end }}
+}
+`, struct {
+		TeamTypeName string
+		TeamIndices  []int
+		TeamIDs      []string
+	}{
+		TeamTypeName: teamTypeName(),
+		TeamIndices:  lo.Range(teamCount),
+		TeamIDs:      teamIDs,
+	})
 }

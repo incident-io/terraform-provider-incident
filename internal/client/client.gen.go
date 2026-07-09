@@ -9443,6 +9443,9 @@ type WorkflowSlimV2 struct {
 	// OnceFor This workflow will run 'once for' a list of references
 	OnceFor []EngineReferenceV2 `json:"once_for"`
 
+	// OwningTeamIds IDs of the teams that own this workflow
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
 	// RunsFrom The time from which this workflow will run on incidents
 	RunsFrom *time.Time `json:"runs_from,omitempty"`
 
@@ -9505,6 +9508,9 @@ type WorkflowV2 struct {
 	// OnceFor This workflow will run 'once for' a list of references
 	OnceFor []EngineReferenceV2 `json:"once_for"`
 
+	// OwningTeamIds IDs of the teams that own this workflow
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
 	// RunsFrom The time from which this workflow will run on incidents
 	RunsFrom *time.Time `json:"runs_from,omitempty"`
 
@@ -9566,6 +9572,9 @@ type WorkflowsCreateWorkflowPayloadV2 struct {
 
 	// OnceFor This workflow will run 'once for' a list of references
 	OnceFor []string `json:"once_for"`
+
+	// OwningTeamIds IDs of the teams that own this workflow
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
 
 	// RunsOnIncidentModes Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents.
 	RunsOnIncidentModes []WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes `json:"runs_on_incident_modes"`
@@ -9641,6 +9650,9 @@ type WorkflowsUpdateWorkflowPayloadV2 struct {
 
 	// OnceFor This workflow will run 'once for' a list of references
 	OnceFor []string `json:"once_for"`
+
+	// OwningTeamIds IDs of the teams that own this workflow
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
 
 	// RunsOnIncidentModes Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents.
 	RunsOnIncidentModes []WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes `json:"runs_on_incident_modes"`
