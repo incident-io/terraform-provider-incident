@@ -366,8 +366,6 @@ func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.C
 	r.terraformVersion = client.TerraformVersion
 }
 
-// toOwningTeamIDs converts the owning_team_ids set into the optional slice the API
-// expects, returning nil when unset so we don't send an empty list.
 func toOwningTeamIDs(set types.Set) *[]string {
 	if set.IsNull() || set.IsUnknown() {
 		return nil

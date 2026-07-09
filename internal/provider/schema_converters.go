@@ -81,8 +81,6 @@ func buildOnceFor(onceFor []client.EngineReferenceV2) []basetypes.StringValue {
 	return out
 }
 
-// buildOwningTeamIDs maps the API's optional owning_team_ids into a set, staying null
-// when unset so it round-trips with an unconfigured owning_team_ids attribute.
 func buildOwningTeamIDs(teamIDs *[]string) types.Set {
 	if teamIDs == nil {
 		return types.SetNull(types.StringType)
