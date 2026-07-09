@@ -1,3 +1,7 @@
+# v5.41.1
+
+- Fix panic when importing or refreshing an `incident_escalation_path` if the API returns an unexpected successful response (e.g. a 2xx without the expected JSON body). The provider now returns a diagnostic with the response status instead of crashing on a nil pointer dereference.
+
 ## v5.41.0
 
 This release adds support for a revised alert route configuration schema. Existing alert routes using the previous schema remain supported, though users are advised to migrate to the new schema, which better corresponds to the configuration options offered in incident.io.
@@ -43,7 +47,6 @@ For other cases, here is a more detailed description of the changes you'll need 
 
 As with any Terraform changes, we strongly recommend running `terraform plan` and inspecting the changes it would make before applying your updated configuration.
 
-- Fix panic when importing or refreshing an `incident_escalation_path` if the API returns an unexpected successful response (e.g. a 2xx without the expected JSON body). The provider now returns a diagnostic with the response status instead of crashing on a nil pointer dereference.
 
 ## v5.40.0
 
