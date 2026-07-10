@@ -1686,6 +1686,13 @@ const (
 	Wednesday WeekdayIntervalV2Weekday = "wednesday"
 )
 
+// Defines values for WorkflowSlimV2PrivateIncidentScope.
+const (
+	WorkflowSlimV2PrivateIncidentScopeAll         WorkflowSlimV2PrivateIncidentScope = "all"
+	WorkflowSlimV2PrivateIncidentScopeNone        WorkflowSlimV2PrivateIncidentScope = "none"
+	WorkflowSlimV2PrivateIncidentScopeOwningTeams WorkflowSlimV2PrivateIncidentScope = "owning_teams"
+)
+
 // Defines values for WorkflowSlimV2RunsOnIncidentModes.
 const (
 	WorkflowSlimV2RunsOnIncidentModesRetrospective WorkflowSlimV2RunsOnIncidentModes = "retrospective"
@@ -1705,6 +1712,13 @@ const (
 	WorkflowSlimV2StateDisabled WorkflowSlimV2State = "disabled"
 	WorkflowSlimV2StateDraft    WorkflowSlimV2State = "draft"
 	WorkflowSlimV2StateError    WorkflowSlimV2State = "error"
+)
+
+// Defines values for WorkflowV2PrivateIncidentScope.
+const (
+	WorkflowV2PrivateIncidentScopeAll         WorkflowV2PrivateIncidentScope = "all"
+	WorkflowV2PrivateIncidentScopeNone        WorkflowV2PrivateIncidentScope = "none"
+	WorkflowV2PrivateIncidentScopeOwningTeams WorkflowV2PrivateIncidentScope = "owning_teams"
 )
 
 // Defines values for WorkflowV2RunsOnIncidentModes.
@@ -1728,6 +1742,13 @@ const (
 	WorkflowV2StateError    WorkflowV2State = "error"
 )
 
+// Defines values for WorkflowsCreateWorkflowPayloadV2PrivateIncidentScope.
+const (
+	WorkflowsCreateWorkflowPayloadV2PrivateIncidentScopeAll         WorkflowsCreateWorkflowPayloadV2PrivateIncidentScope = "all"
+	WorkflowsCreateWorkflowPayloadV2PrivateIncidentScopeNone        WorkflowsCreateWorkflowPayloadV2PrivateIncidentScope = "none"
+	WorkflowsCreateWorkflowPayloadV2PrivateIncidentScopeOwningTeams WorkflowsCreateWorkflowPayloadV2PrivateIncidentScope = "owning_teams"
+)
+
 // Defines values for WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes.
 const (
 	WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModesRetrospective WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes = "retrospective"
@@ -1747,6 +1768,13 @@ const (
 	WorkflowsCreateWorkflowPayloadV2StateDisabled WorkflowsCreateWorkflowPayloadV2State = "disabled"
 	WorkflowsCreateWorkflowPayloadV2StateDraft    WorkflowsCreateWorkflowPayloadV2State = "draft"
 	WorkflowsCreateWorkflowPayloadV2StateError    WorkflowsCreateWorkflowPayloadV2State = "error"
+)
+
+// Defines values for WorkflowsUpdateWorkflowPayloadV2PrivateIncidentScope.
+const (
+	WorkflowsUpdateWorkflowPayloadV2PrivateIncidentScopeAll         WorkflowsUpdateWorkflowPayloadV2PrivateIncidentScope = "all"
+	WorkflowsUpdateWorkflowPayloadV2PrivateIncidentScopeNone        WorkflowsUpdateWorkflowPayloadV2PrivateIncidentScope = "none"
+	WorkflowsUpdateWorkflowPayloadV2PrivateIncidentScopeOwningTeams WorkflowsUpdateWorkflowPayloadV2PrivateIncidentScope = "owning_teams"
 )
 
 // Defines values for WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes.
@@ -9434,7 +9462,7 @@ type WorkflowSlimV2 struct {
 	// IncludePrivateEscalations Whether to include private escalations
 	IncludePrivateEscalations bool `json:"include_private_escalations"`
 
-	// IncludePrivateIncidents Whether to include private incidents
+	// IncludePrivateIncidents DEPRECATED: use `private_incident_scope` instead. `true` when the workflow runs on private incidents (a `private_incident_scope` of `all` or `owning_teams`), `false` when the scope is `none`.
 	IncludePrivateIncidents bool `json:"include_private_incidents"`
 
 	// Name Name provided by the user when creating the workflow
@@ -9445,6 +9473,9 @@ type WorkflowSlimV2 struct {
 
 	// OwningTeamIds IDs of the teams that own this workflow
 	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
+	// PrivateIncidentScope Which private incidents this workflow acts on: every private incident (all), those an owning team can see (owning_teams), or none
+	PrivateIncidentScope WorkflowSlimV2PrivateIncidentScope `json:"private_incident_scope"`
 
 	// RunsFrom The time from which this workflow will run on incidents
 	RunsFrom *time.Time `json:"runs_from,omitempty"`
@@ -9468,6 +9499,9 @@ type WorkflowSlimV2 struct {
 	// Version Revision of the workflow, uniquely identifying it's version
 	Version int64 `json:"version"`
 }
+
+// WorkflowSlimV2PrivateIncidentScope Which private incidents this workflow acts on: every private incident (all), those an owning team can see (owning_teams), or none
+type WorkflowSlimV2PrivateIncidentScope string
 
 // WorkflowSlimV2RunsOnIncidentModes Incident mode that workflows can run on
 type WorkflowSlimV2RunsOnIncidentModes string
@@ -9499,7 +9533,7 @@ type WorkflowV2 struct {
 	// IncludePrivateEscalations Whether to include private escalations
 	IncludePrivateEscalations bool `json:"include_private_escalations"`
 
-	// IncludePrivateIncidents Whether to include private incidents
+	// IncludePrivateIncidents DEPRECATED: use `private_incident_scope` instead. `true` when the workflow runs on private incidents (a `private_incident_scope` of `all` or `owning_teams`), `false` when the scope is `none`.
 	IncludePrivateIncidents bool `json:"include_private_incidents"`
 
 	// Name Name provided by the user when creating the workflow
@@ -9510,6 +9544,9 @@ type WorkflowV2 struct {
 
 	// OwningTeamIds IDs of the teams that own this workflow
 	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
+	// PrivateIncidentScope Which private incidents this workflow acts on: every private incident (all), those an owning team can see (owning_teams), or none
+	PrivateIncidentScope WorkflowV2PrivateIncidentScope `json:"private_incident_scope"`
 
 	// RunsFrom The time from which this workflow will run on incidents
 	RunsFrom *time.Time `json:"runs_from,omitempty"`
@@ -9533,6 +9570,9 @@ type WorkflowV2 struct {
 	// Version Revision of the workflow, uniquely identifying it's version
 	Version int64 `json:"version"`
 }
+
+// WorkflowV2PrivateIncidentScope Which private incidents this workflow acts on: every private incident (all), those an owning team can see (owning_teams), or none
+type WorkflowV2PrivateIncidentScope string
 
 // WorkflowV2RunsOnIncidentModes Incident mode that workflows can run on
 type WorkflowV2RunsOnIncidentModes string
@@ -9564,8 +9604,8 @@ type WorkflowsCreateWorkflowPayloadV2 struct {
 	// IncludePrivateEscalations Whether to include private escalations
 	IncludePrivateEscalations *bool `json:"include_private_escalations,omitempty"`
 
-	// IncludePrivateIncidents Whether to include private incidents
-	IncludePrivateIncidents bool `json:"include_private_incidents"`
+	// IncludePrivateIncidents DEPRECATED: use `private_incident_scope` instead. Mutually exclusive with `private_incident_scope` — sending both returns a validation error.
+	IncludePrivateIncidents *bool `json:"include_private_incidents,omitempty"`
 
 	// Name Name provided by the user when creating the workflow
 	Name string `json:"name"`
@@ -9575,6 +9615,9 @@ type WorkflowsCreateWorkflowPayloadV2 struct {
 
 	// OwningTeamIds IDs of the teams that own this workflow
 	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
+	// PrivateIncidentScope Which private incidents this workflow acts on: every private incident (all), those an owning team can see (owning_teams), or none
+	PrivateIncidentScope *WorkflowsCreateWorkflowPayloadV2PrivateIncidentScope `json:"private_incident_scope,omitempty"`
 
 	// RunsOnIncidentModes Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents.
 	RunsOnIncidentModes []WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes `json:"runs_on_incident_modes"`
@@ -9594,6 +9637,9 @@ type WorkflowsCreateWorkflowPayloadV2 struct {
 	// Trigger Trigger to set on the workflow
 	Trigger string `json:"trigger"`
 }
+
+// WorkflowsCreateWorkflowPayloadV2PrivateIncidentScope Which private incidents this workflow acts on: every private incident (all), those an owning team can see (owning_teams), or none
+type WorkflowsCreateWorkflowPayloadV2PrivateIncidentScope string
 
 // WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes defines model for WorkflowsCreateWorkflowPayloadV2.RunsOnIncidentModes.
 type WorkflowsCreateWorkflowPayloadV2RunsOnIncidentModes string
@@ -9642,8 +9688,8 @@ type WorkflowsUpdateWorkflowPayloadV2 struct {
 	// IncludePrivateEscalations Whether to include private escalations
 	IncludePrivateEscalations *bool `json:"include_private_escalations,omitempty"`
 
-	// IncludePrivateIncidents Whether to include private incidents
-	IncludePrivateIncidents bool `json:"include_private_incidents"`
+	// IncludePrivateIncidents DEPRECATED: use `private_incident_scope` instead. Mutually exclusive with `private_incident_scope` — sending both returns a validation error.
+	IncludePrivateIncidents *bool `json:"include_private_incidents,omitempty"`
 
 	// Name Name provided by the user when creating the workflow
 	Name string `json:"name"`
@@ -9653,6 +9699,9 @@ type WorkflowsUpdateWorkflowPayloadV2 struct {
 
 	// OwningTeamIds IDs of the teams that own this workflow
 	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
+	// PrivateIncidentScope Which private incidents this workflow acts on: every private incident (all), those an owning team can see (owning_teams), or none
+	PrivateIncidentScope *WorkflowsUpdateWorkflowPayloadV2PrivateIncidentScope `json:"private_incident_scope,omitempty"`
 
 	// RunsOnIncidentModes Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents.
 	RunsOnIncidentModes []WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes `json:"runs_on_incident_modes"`
@@ -9672,6 +9721,9 @@ type WorkflowsUpdateWorkflowPayloadV2 struct {
 	// Steps Steps that are executed as part of the workflow
 	Steps []StepConfigPayloadV2 `json:"steps"`
 }
+
+// WorkflowsUpdateWorkflowPayloadV2PrivateIncidentScope Which private incidents this workflow acts on: every private incident (all), those an owning team can see (owning_teams), or none
+type WorkflowsUpdateWorkflowPayloadV2PrivateIncidentScope string
 
 // WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes defines model for WorkflowsUpdateWorkflowPayloadV2.RunsOnIncidentModes.
 type WorkflowsUpdateWorkflowPayloadV2RunsOnIncidentModes string

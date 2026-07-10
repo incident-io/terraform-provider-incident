@@ -84,7 +84,6 @@ resource "incident_workflow" "autoassign_incident_lead" {
 - `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--condition_groups))
 - `continue_on_step_error` (Boolean) Whether to continue executing the workflow if a step fails
 - `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
-- `include_private_incidents` (Boolean) Whether to include private incidents
 - `name` (String) Name provided by the user when creating the workflow
 - `once_for` (List of String) This workflow will run 'once for' a list of references
 - `runs_on_incident_modes` (Set of String) Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents.
@@ -98,7 +97,9 @@ resource "incident_workflow" "autoassign_incident_lead" {
 - `delay` (Attributes) Configuration controlling workflow delay behaviour (see [below for nested schema](#nestedatt--delay))
 - `folder` (String) Folder to display the workflow in
 - `include_private_escalations` (Boolean) Whether to include private escalations
+- `include_private_incidents` (Boolean, Deprecated) DEPRECATED: use `private_incident_scope` instead. `true` when the workflow runs on private incidents (a `private_incident_scope` of `all` or `owning_teams`), `false` when the scope is `none`.
 - `owning_team_ids` (Set of String) IDs of the teams that own this workflow
+- `private_incident_scope` (String) Which private incidents this workflow acts on: every private incident (all), those an owning team can see (owning_teams), or none. Possible values are: `all`, `owning_teams`, `none`.
 - `shortform` (String) The shortform used to trigger this workflow (only applicable for manual triggers)
 
 ### Read-Only
