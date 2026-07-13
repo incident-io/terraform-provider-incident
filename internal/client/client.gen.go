@@ -20,32 +20,35 @@ import (
 
 // Defines values for APIKeyRoleV1Name.
 const (
-	APIKeyRoleV1NameActOnBehalfOfUsers            APIKeyRoleV1Name = "act_on_behalf_of_users"
-	APIKeyRoleV1NameApiKeysManage                 APIKeyRoleV1Name = "api_keys_manage"
-	APIKeyRoleV1NameCatalogEditor                 APIKeyRoleV1Name = "catalog_editor"
-	APIKeyRoleV1NameCatalogViewer                 APIKeyRoleV1Name = "catalog_viewer"
-	APIKeyRoleV1NameEscalationCreator             APIKeyRoleV1Name = "escalation_creator"
-	APIKeyRoleV1NameGlobalAccess                  APIKeyRoleV1Name = "global_access"
-	APIKeyRoleV1NameIncidentCreator               APIKeyRoleV1Name = "incident_creator"
-	APIKeyRoleV1NameIncidentEditor                APIKeyRoleV1Name = "incident_editor"
-	APIKeyRoleV1NameIncidentMembershipsEditor     APIKeyRoleV1Name = "incident_memberships_editor"
-	APIKeyRoleV1NameIncidentWorkloadPrivateViewer APIKeyRoleV1Name = "incident_workload_private_viewer"
-	APIKeyRoleV1NameIncidentWorkloadViewer        APIKeyRoleV1Name = "incident_workload_viewer"
-	APIKeyRoleV1NameInvestigationDownload         APIKeyRoleV1Name = "investigation_download"
-	APIKeyRoleV1NameManageSettings                APIKeyRoleV1Name = "manage_settings"
-	APIKeyRoleV1NameNotificationMethodsManage     APIKeyRoleV1Name = "notification_methods_manage"
-	APIKeyRoleV1NameOnCallEditor                  APIKeyRoleV1Name = "on_call_editor"
-	APIKeyRoleV1NamePostIncidentFlowOptOut        APIKeyRoleV1Name = "post_incident_flow_opt_out"
-	APIKeyRoleV1NamePostmortemsManage             APIKeyRoleV1Name = "postmortems_manage"
-	APIKeyRoleV1NamePrivateWorkflowsEditor        APIKeyRoleV1Name = "private_workflows_editor"
-	APIKeyRoleV1NameScheduleOverridesEditor       APIKeyRoleV1Name = "schedule_overrides_editor"
-	APIKeyRoleV1NameSchedulesEditor               APIKeyRoleV1Name = "schedules_editor"
-	APIKeyRoleV1NameSchedulesReader               APIKeyRoleV1Name = "schedules_reader"
-	APIKeyRoleV1NameSecuritySettingsEditor        APIKeyRoleV1Name = "security_settings_editor"
-	APIKeyRoleV1NameStatusPagePublisher           APIKeyRoleV1Name = "status_page_publisher"
-	APIKeyRoleV1NameTeamMembershipsManage         APIKeyRoleV1Name = "team_memberships_manage"
-	APIKeyRoleV1NameViewer                        APIKeyRoleV1Name = "viewer"
-	APIKeyRoleV1NameWorkflowsEditor               APIKeyRoleV1Name = "workflows_editor"
+	APIKeyRoleV1NameActOnBehalfOfUsers                  APIKeyRoleV1Name = "act_on_behalf_of_users"
+	APIKeyRoleV1NameApiKeysManage                       APIKeyRoleV1Name = "api_keys_manage"
+	APIKeyRoleV1NameCatalogEditor                       APIKeyRoleV1Name = "catalog_editor"
+	APIKeyRoleV1NameCatalogViewer                       APIKeyRoleV1Name = "catalog_viewer"
+	APIKeyRoleV1NameEscalationCreator                   APIKeyRoleV1Name = "escalation_creator"
+	APIKeyRoleV1NameGlobalAccess                        APIKeyRoleV1Name = "global_access"
+	APIKeyRoleV1NameIncidentCreator                     APIKeyRoleV1Name = "incident_creator"
+	APIKeyRoleV1NameIncidentEditor                      APIKeyRoleV1Name = "incident_editor"
+	APIKeyRoleV1NameIncidentMembershipsEditor           APIKeyRoleV1Name = "incident_memberships_editor"
+	APIKeyRoleV1NameIncidentWorkloadPrivateViewer       APIKeyRoleV1Name = "incident_workload_private_viewer"
+	APIKeyRoleV1NameIncidentWorkloadViewer              APIKeyRoleV1Name = "incident_workload_viewer"
+	APIKeyRoleV1NameInvestigationDownload               APIKeyRoleV1Name = "investigation_download"
+	APIKeyRoleV1NameManageSettings                      APIKeyRoleV1Name = "manage_settings"
+	APIKeyRoleV1NameNotificationMethodsManage           APIKeyRoleV1Name = "notification_methods_manage"
+	APIKeyRoleV1NameNotificationMethodsUnredactedViewer APIKeyRoleV1Name = "notification_methods_unredacted_viewer"
+	APIKeyRoleV1NameOnCallEditor                        APIKeyRoleV1Name = "on_call_editor"
+	APIKeyRoleV1NameOnCallViewer                        APIKeyRoleV1Name = "on_call_viewer"
+	APIKeyRoleV1NamePostIncidentFlowOptOut              APIKeyRoleV1Name = "post_incident_flow_opt_out"
+	APIKeyRoleV1NamePostmortemsManage                   APIKeyRoleV1Name = "postmortems_manage"
+	APIKeyRoleV1NamePrivateEscalationWorkflowsEditor    APIKeyRoleV1Name = "private_escalation_workflows_editor"
+	APIKeyRoleV1NamePrivateWorkflowsEditor              APIKeyRoleV1Name = "private_workflows_editor"
+	APIKeyRoleV1NameScheduleOverridesEditor             APIKeyRoleV1Name = "schedule_overrides_editor"
+	APIKeyRoleV1NameSchedulesEditor                     APIKeyRoleV1Name = "schedules_editor"
+	APIKeyRoleV1NameSchedulesReader                     APIKeyRoleV1Name = "schedules_reader"
+	APIKeyRoleV1NameSecuritySettingsEditor              APIKeyRoleV1Name = "security_settings_editor"
+	APIKeyRoleV1NameStatusPagePublisher                 APIKeyRoleV1Name = "status_page_publisher"
+	APIKeyRoleV1NameTeamMembershipsManage               APIKeyRoleV1Name = "team_memberships_manage"
+	APIKeyRoleV1NameViewer                              APIKeyRoleV1Name = "viewer"
+	APIKeyRoleV1NameWorkflowsEditor                     APIKeyRoleV1Name = "workflows_editor"
 )
 
 // Defines values for APIKeyTeamRoleV1Name.
@@ -53,39 +56,44 @@ const (
 	APIKeyTeamRoleV1NameApiKeysManage           APIKeyTeamRoleV1Name = "api_keys_manage"
 	APIKeyTeamRoleV1NameEscalationCreator       APIKeyTeamRoleV1Name = "escalation_creator"
 	APIKeyTeamRoleV1NameOnCallEditor            APIKeyTeamRoleV1Name = "on_call_editor"
+	APIKeyTeamRoleV1NamePrivateWorkflowsEditor  APIKeyTeamRoleV1Name = "private_workflows_editor"
 	APIKeyTeamRoleV1NameScheduleOverridesEditor APIKeyTeamRoleV1Name = "schedule_overrides_editor"
 	APIKeyTeamRoleV1NameSchedulesEditor         APIKeyTeamRoleV1Name = "schedules_editor"
 	APIKeyTeamRoleV1NameSchedulesReader         APIKeyTeamRoleV1Name = "schedules_reader"
+	APIKeyTeamRoleV1NameWorkflowsEditor         APIKeyTeamRoleV1Name = "workflows_editor"
 )
 
 // Defines values for APIKeysCreatePayloadV1RoleNames.
 const (
-	APIKeysCreatePayloadV1RoleNamesActOnBehalfOfUsers            APIKeysCreatePayloadV1RoleNames = "act_on_behalf_of_users"
-	APIKeysCreatePayloadV1RoleNamesApiKeysManage                 APIKeysCreatePayloadV1RoleNames = "api_keys_manage"
-	APIKeysCreatePayloadV1RoleNamesCatalogEditor                 APIKeysCreatePayloadV1RoleNames = "catalog_editor"
-	APIKeysCreatePayloadV1RoleNamesCatalogViewer                 APIKeysCreatePayloadV1RoleNames = "catalog_viewer"
-	APIKeysCreatePayloadV1RoleNamesEscalationCreator             APIKeysCreatePayloadV1RoleNames = "escalation_creator"
-	APIKeysCreatePayloadV1RoleNamesGlobalAccess                  APIKeysCreatePayloadV1RoleNames = "global_access"
-	APIKeysCreatePayloadV1RoleNamesIncidentCreator               APIKeysCreatePayloadV1RoleNames = "incident_creator"
-	APIKeysCreatePayloadV1RoleNamesIncidentEditor                APIKeysCreatePayloadV1RoleNames = "incident_editor"
-	APIKeysCreatePayloadV1RoleNamesIncidentMembershipsEditor     APIKeysCreatePayloadV1RoleNames = "incident_memberships_editor"
-	APIKeysCreatePayloadV1RoleNamesIncidentWorkloadPrivateViewer APIKeysCreatePayloadV1RoleNames = "incident_workload_private_viewer"
-	APIKeysCreatePayloadV1RoleNamesIncidentWorkloadViewer        APIKeysCreatePayloadV1RoleNames = "incident_workload_viewer"
-	APIKeysCreatePayloadV1RoleNamesInvestigationDownload         APIKeysCreatePayloadV1RoleNames = "investigation_download"
-	APIKeysCreatePayloadV1RoleNamesManageSettings                APIKeysCreatePayloadV1RoleNames = "manage_settings"
-	APIKeysCreatePayloadV1RoleNamesNotificationMethodsManage     APIKeysCreatePayloadV1RoleNames = "notification_methods_manage"
-	APIKeysCreatePayloadV1RoleNamesOnCallEditor                  APIKeysCreatePayloadV1RoleNames = "on_call_editor"
-	APIKeysCreatePayloadV1RoleNamesPostIncidentFlowOptOut        APIKeysCreatePayloadV1RoleNames = "post_incident_flow_opt_out"
-	APIKeysCreatePayloadV1RoleNamesPostmortemsManage             APIKeysCreatePayloadV1RoleNames = "postmortems_manage"
-	APIKeysCreatePayloadV1RoleNamesPrivateWorkflowsEditor        APIKeysCreatePayloadV1RoleNames = "private_workflows_editor"
-	APIKeysCreatePayloadV1RoleNamesScheduleOverridesEditor       APIKeysCreatePayloadV1RoleNames = "schedule_overrides_editor"
-	APIKeysCreatePayloadV1RoleNamesSchedulesEditor               APIKeysCreatePayloadV1RoleNames = "schedules_editor"
-	APIKeysCreatePayloadV1RoleNamesSchedulesReader               APIKeysCreatePayloadV1RoleNames = "schedules_reader"
-	APIKeysCreatePayloadV1RoleNamesSecuritySettingsEditor        APIKeysCreatePayloadV1RoleNames = "security_settings_editor"
-	APIKeysCreatePayloadV1RoleNamesStatusPagePublisher           APIKeysCreatePayloadV1RoleNames = "status_page_publisher"
-	APIKeysCreatePayloadV1RoleNamesTeamMembershipsManage         APIKeysCreatePayloadV1RoleNames = "team_memberships_manage"
-	APIKeysCreatePayloadV1RoleNamesViewer                        APIKeysCreatePayloadV1RoleNames = "viewer"
-	APIKeysCreatePayloadV1RoleNamesWorkflowsEditor               APIKeysCreatePayloadV1RoleNames = "workflows_editor"
+	APIKeysCreatePayloadV1RoleNamesActOnBehalfOfUsers                  APIKeysCreatePayloadV1RoleNames = "act_on_behalf_of_users"
+	APIKeysCreatePayloadV1RoleNamesApiKeysManage                       APIKeysCreatePayloadV1RoleNames = "api_keys_manage"
+	APIKeysCreatePayloadV1RoleNamesCatalogEditor                       APIKeysCreatePayloadV1RoleNames = "catalog_editor"
+	APIKeysCreatePayloadV1RoleNamesCatalogViewer                       APIKeysCreatePayloadV1RoleNames = "catalog_viewer"
+	APIKeysCreatePayloadV1RoleNamesEscalationCreator                   APIKeysCreatePayloadV1RoleNames = "escalation_creator"
+	APIKeysCreatePayloadV1RoleNamesGlobalAccess                        APIKeysCreatePayloadV1RoleNames = "global_access"
+	APIKeysCreatePayloadV1RoleNamesIncidentCreator                     APIKeysCreatePayloadV1RoleNames = "incident_creator"
+	APIKeysCreatePayloadV1RoleNamesIncidentEditor                      APIKeysCreatePayloadV1RoleNames = "incident_editor"
+	APIKeysCreatePayloadV1RoleNamesIncidentMembershipsEditor           APIKeysCreatePayloadV1RoleNames = "incident_memberships_editor"
+	APIKeysCreatePayloadV1RoleNamesIncidentWorkloadPrivateViewer       APIKeysCreatePayloadV1RoleNames = "incident_workload_private_viewer"
+	APIKeysCreatePayloadV1RoleNamesIncidentWorkloadViewer              APIKeysCreatePayloadV1RoleNames = "incident_workload_viewer"
+	APIKeysCreatePayloadV1RoleNamesInvestigationDownload               APIKeysCreatePayloadV1RoleNames = "investigation_download"
+	APIKeysCreatePayloadV1RoleNamesManageSettings                      APIKeysCreatePayloadV1RoleNames = "manage_settings"
+	APIKeysCreatePayloadV1RoleNamesNotificationMethodsManage           APIKeysCreatePayloadV1RoleNames = "notification_methods_manage"
+	APIKeysCreatePayloadV1RoleNamesNotificationMethodsUnredactedViewer APIKeysCreatePayloadV1RoleNames = "notification_methods_unredacted_viewer"
+	APIKeysCreatePayloadV1RoleNamesOnCallEditor                        APIKeysCreatePayloadV1RoleNames = "on_call_editor"
+	APIKeysCreatePayloadV1RoleNamesOnCallViewer                        APIKeysCreatePayloadV1RoleNames = "on_call_viewer"
+	APIKeysCreatePayloadV1RoleNamesPostIncidentFlowOptOut              APIKeysCreatePayloadV1RoleNames = "post_incident_flow_opt_out"
+	APIKeysCreatePayloadV1RoleNamesPostmortemsManage                   APIKeysCreatePayloadV1RoleNames = "postmortems_manage"
+	APIKeysCreatePayloadV1RoleNamesPrivateEscalationWorkflowsEditor    APIKeysCreatePayloadV1RoleNames = "private_escalation_workflows_editor"
+	APIKeysCreatePayloadV1RoleNamesPrivateWorkflowsEditor              APIKeysCreatePayloadV1RoleNames = "private_workflows_editor"
+	APIKeysCreatePayloadV1RoleNamesScheduleOverridesEditor             APIKeysCreatePayloadV1RoleNames = "schedule_overrides_editor"
+	APIKeysCreatePayloadV1RoleNamesSchedulesEditor                     APIKeysCreatePayloadV1RoleNames = "schedules_editor"
+	APIKeysCreatePayloadV1RoleNamesSchedulesReader                     APIKeysCreatePayloadV1RoleNames = "schedules_reader"
+	APIKeysCreatePayloadV1RoleNamesSecuritySettingsEditor              APIKeysCreatePayloadV1RoleNames = "security_settings_editor"
+	APIKeysCreatePayloadV1RoleNamesStatusPagePublisher                 APIKeysCreatePayloadV1RoleNames = "status_page_publisher"
+	APIKeysCreatePayloadV1RoleNamesTeamMembershipsManage               APIKeysCreatePayloadV1RoleNames = "team_memberships_manage"
+	APIKeysCreatePayloadV1RoleNamesViewer                              APIKeysCreatePayloadV1RoleNames = "viewer"
+	APIKeysCreatePayloadV1RoleNamesWorkflowsEditor                     APIKeysCreatePayloadV1RoleNames = "workflows_editor"
 )
 
 // Defines values for APIKeysCreatePayloadV1TeamRoleNames.
@@ -93,39 +101,44 @@ const (
 	APIKeysCreatePayloadV1TeamRoleNamesApiKeysManage           APIKeysCreatePayloadV1TeamRoleNames = "api_keys_manage"
 	APIKeysCreatePayloadV1TeamRoleNamesEscalationCreator       APIKeysCreatePayloadV1TeamRoleNames = "escalation_creator"
 	APIKeysCreatePayloadV1TeamRoleNamesOnCallEditor            APIKeysCreatePayloadV1TeamRoleNames = "on_call_editor"
+	APIKeysCreatePayloadV1TeamRoleNamesPrivateWorkflowsEditor  APIKeysCreatePayloadV1TeamRoleNames = "private_workflows_editor"
 	APIKeysCreatePayloadV1TeamRoleNamesScheduleOverridesEditor APIKeysCreatePayloadV1TeamRoleNames = "schedule_overrides_editor"
 	APIKeysCreatePayloadV1TeamRoleNamesSchedulesEditor         APIKeysCreatePayloadV1TeamRoleNames = "schedules_editor"
 	APIKeysCreatePayloadV1TeamRoleNamesSchedulesReader         APIKeysCreatePayloadV1TeamRoleNames = "schedules_reader"
+	APIKeysCreatePayloadV1TeamRoleNamesWorkflowsEditor         APIKeysCreatePayloadV1TeamRoleNames = "workflows_editor"
 )
 
 // Defines values for APIKeysUpdatePayloadV1RoleNames.
 const (
-	APIKeysUpdatePayloadV1RoleNamesActOnBehalfOfUsers            APIKeysUpdatePayloadV1RoleNames = "act_on_behalf_of_users"
-	APIKeysUpdatePayloadV1RoleNamesApiKeysManage                 APIKeysUpdatePayloadV1RoleNames = "api_keys_manage"
-	APIKeysUpdatePayloadV1RoleNamesCatalogEditor                 APIKeysUpdatePayloadV1RoleNames = "catalog_editor"
-	APIKeysUpdatePayloadV1RoleNamesCatalogViewer                 APIKeysUpdatePayloadV1RoleNames = "catalog_viewer"
-	APIKeysUpdatePayloadV1RoleNamesEscalationCreator             APIKeysUpdatePayloadV1RoleNames = "escalation_creator"
-	APIKeysUpdatePayloadV1RoleNamesGlobalAccess                  APIKeysUpdatePayloadV1RoleNames = "global_access"
-	APIKeysUpdatePayloadV1RoleNamesIncidentCreator               APIKeysUpdatePayloadV1RoleNames = "incident_creator"
-	APIKeysUpdatePayloadV1RoleNamesIncidentEditor                APIKeysUpdatePayloadV1RoleNames = "incident_editor"
-	APIKeysUpdatePayloadV1RoleNamesIncidentMembershipsEditor     APIKeysUpdatePayloadV1RoleNames = "incident_memberships_editor"
-	APIKeysUpdatePayloadV1RoleNamesIncidentWorkloadPrivateViewer APIKeysUpdatePayloadV1RoleNames = "incident_workload_private_viewer"
-	APIKeysUpdatePayloadV1RoleNamesIncidentWorkloadViewer        APIKeysUpdatePayloadV1RoleNames = "incident_workload_viewer"
-	APIKeysUpdatePayloadV1RoleNamesInvestigationDownload         APIKeysUpdatePayloadV1RoleNames = "investigation_download"
-	APIKeysUpdatePayloadV1RoleNamesManageSettings                APIKeysUpdatePayloadV1RoleNames = "manage_settings"
-	APIKeysUpdatePayloadV1RoleNamesNotificationMethodsManage     APIKeysUpdatePayloadV1RoleNames = "notification_methods_manage"
-	APIKeysUpdatePayloadV1RoleNamesOnCallEditor                  APIKeysUpdatePayloadV1RoleNames = "on_call_editor"
-	APIKeysUpdatePayloadV1RoleNamesPostIncidentFlowOptOut        APIKeysUpdatePayloadV1RoleNames = "post_incident_flow_opt_out"
-	APIKeysUpdatePayloadV1RoleNamesPostmortemsManage             APIKeysUpdatePayloadV1RoleNames = "postmortems_manage"
-	APIKeysUpdatePayloadV1RoleNamesPrivateWorkflowsEditor        APIKeysUpdatePayloadV1RoleNames = "private_workflows_editor"
-	APIKeysUpdatePayloadV1RoleNamesScheduleOverridesEditor       APIKeysUpdatePayloadV1RoleNames = "schedule_overrides_editor"
-	APIKeysUpdatePayloadV1RoleNamesSchedulesEditor               APIKeysUpdatePayloadV1RoleNames = "schedules_editor"
-	APIKeysUpdatePayloadV1RoleNamesSchedulesReader               APIKeysUpdatePayloadV1RoleNames = "schedules_reader"
-	APIKeysUpdatePayloadV1RoleNamesSecuritySettingsEditor        APIKeysUpdatePayloadV1RoleNames = "security_settings_editor"
-	APIKeysUpdatePayloadV1RoleNamesStatusPagePublisher           APIKeysUpdatePayloadV1RoleNames = "status_page_publisher"
-	APIKeysUpdatePayloadV1RoleNamesTeamMembershipsManage         APIKeysUpdatePayloadV1RoleNames = "team_memberships_manage"
-	APIKeysUpdatePayloadV1RoleNamesViewer                        APIKeysUpdatePayloadV1RoleNames = "viewer"
-	APIKeysUpdatePayloadV1RoleNamesWorkflowsEditor               APIKeysUpdatePayloadV1RoleNames = "workflows_editor"
+	APIKeysUpdatePayloadV1RoleNamesActOnBehalfOfUsers                  APIKeysUpdatePayloadV1RoleNames = "act_on_behalf_of_users"
+	APIKeysUpdatePayloadV1RoleNamesApiKeysManage                       APIKeysUpdatePayloadV1RoleNames = "api_keys_manage"
+	APIKeysUpdatePayloadV1RoleNamesCatalogEditor                       APIKeysUpdatePayloadV1RoleNames = "catalog_editor"
+	APIKeysUpdatePayloadV1RoleNamesCatalogViewer                       APIKeysUpdatePayloadV1RoleNames = "catalog_viewer"
+	APIKeysUpdatePayloadV1RoleNamesEscalationCreator                   APIKeysUpdatePayloadV1RoleNames = "escalation_creator"
+	APIKeysUpdatePayloadV1RoleNamesGlobalAccess                        APIKeysUpdatePayloadV1RoleNames = "global_access"
+	APIKeysUpdatePayloadV1RoleNamesIncidentCreator                     APIKeysUpdatePayloadV1RoleNames = "incident_creator"
+	APIKeysUpdatePayloadV1RoleNamesIncidentEditor                      APIKeysUpdatePayloadV1RoleNames = "incident_editor"
+	APIKeysUpdatePayloadV1RoleNamesIncidentMembershipsEditor           APIKeysUpdatePayloadV1RoleNames = "incident_memberships_editor"
+	APIKeysUpdatePayloadV1RoleNamesIncidentWorkloadPrivateViewer       APIKeysUpdatePayloadV1RoleNames = "incident_workload_private_viewer"
+	APIKeysUpdatePayloadV1RoleNamesIncidentWorkloadViewer              APIKeysUpdatePayloadV1RoleNames = "incident_workload_viewer"
+	APIKeysUpdatePayloadV1RoleNamesInvestigationDownload               APIKeysUpdatePayloadV1RoleNames = "investigation_download"
+	APIKeysUpdatePayloadV1RoleNamesManageSettings                      APIKeysUpdatePayloadV1RoleNames = "manage_settings"
+	APIKeysUpdatePayloadV1RoleNamesNotificationMethodsManage           APIKeysUpdatePayloadV1RoleNames = "notification_methods_manage"
+	APIKeysUpdatePayloadV1RoleNamesNotificationMethodsUnredactedViewer APIKeysUpdatePayloadV1RoleNames = "notification_methods_unredacted_viewer"
+	APIKeysUpdatePayloadV1RoleNamesOnCallEditor                        APIKeysUpdatePayloadV1RoleNames = "on_call_editor"
+	APIKeysUpdatePayloadV1RoleNamesOnCallViewer                        APIKeysUpdatePayloadV1RoleNames = "on_call_viewer"
+	APIKeysUpdatePayloadV1RoleNamesPostIncidentFlowOptOut              APIKeysUpdatePayloadV1RoleNames = "post_incident_flow_opt_out"
+	APIKeysUpdatePayloadV1RoleNamesPostmortemsManage                   APIKeysUpdatePayloadV1RoleNames = "postmortems_manage"
+	APIKeysUpdatePayloadV1RoleNamesPrivateEscalationWorkflowsEditor    APIKeysUpdatePayloadV1RoleNames = "private_escalation_workflows_editor"
+	APIKeysUpdatePayloadV1RoleNamesPrivateWorkflowsEditor              APIKeysUpdatePayloadV1RoleNames = "private_workflows_editor"
+	APIKeysUpdatePayloadV1RoleNamesScheduleOverridesEditor             APIKeysUpdatePayloadV1RoleNames = "schedule_overrides_editor"
+	APIKeysUpdatePayloadV1RoleNamesSchedulesEditor                     APIKeysUpdatePayloadV1RoleNames = "schedules_editor"
+	APIKeysUpdatePayloadV1RoleNamesSchedulesReader                     APIKeysUpdatePayloadV1RoleNames = "schedules_reader"
+	APIKeysUpdatePayloadV1RoleNamesSecuritySettingsEditor              APIKeysUpdatePayloadV1RoleNames = "security_settings_editor"
+	APIKeysUpdatePayloadV1RoleNamesStatusPagePublisher                 APIKeysUpdatePayloadV1RoleNames = "status_page_publisher"
+	APIKeysUpdatePayloadV1RoleNamesTeamMembershipsManage               APIKeysUpdatePayloadV1RoleNames = "team_memberships_manage"
+	APIKeysUpdatePayloadV1RoleNamesViewer                              APIKeysUpdatePayloadV1RoleNames = "viewer"
+	APIKeysUpdatePayloadV1RoleNamesWorkflowsEditor                     APIKeysUpdatePayloadV1RoleNames = "workflows_editor"
 )
 
 // Defines values for APIKeysUpdatePayloadV1TeamRoleNames.
@@ -133,9 +146,11 @@ const (
 	APIKeysUpdatePayloadV1TeamRoleNamesApiKeysManage           APIKeysUpdatePayloadV1TeamRoleNames = "api_keys_manage"
 	APIKeysUpdatePayloadV1TeamRoleNamesEscalationCreator       APIKeysUpdatePayloadV1TeamRoleNames = "escalation_creator"
 	APIKeysUpdatePayloadV1TeamRoleNamesOnCallEditor            APIKeysUpdatePayloadV1TeamRoleNames = "on_call_editor"
+	APIKeysUpdatePayloadV1TeamRoleNamesPrivateWorkflowsEditor  APIKeysUpdatePayloadV1TeamRoleNames = "private_workflows_editor"
 	APIKeysUpdatePayloadV1TeamRoleNamesScheduleOverridesEditor APIKeysUpdatePayloadV1TeamRoleNames = "schedule_overrides_editor"
 	APIKeysUpdatePayloadV1TeamRoleNamesSchedulesEditor         APIKeysUpdatePayloadV1TeamRoleNames = "schedules_editor"
 	APIKeysUpdatePayloadV1TeamRoleNamesSchedulesReader         APIKeysUpdatePayloadV1TeamRoleNames = "schedules_reader"
+	APIKeysUpdatePayloadV1TeamRoleNamesWorkflowsEditor         APIKeysUpdatePayloadV1TeamRoleNames = "workflows_editor"
 )
 
 // Defines values for ActionV1Status.
@@ -301,6 +316,7 @@ const (
 	AlertSourceV2SourceTypeRunscope          AlertSourceV2SourceType = "runscope"
 	AlertSourceV2SourceTypeSentry            AlertSourceV2SourceType = "sentry"
 	AlertSourceV2SourceTypeSentryMetric      AlertSourceV2SourceType = "sentry_metric"
+	AlertSourceV2SourceTypeServiceNow        AlertSourceV2SourceType = "service_now"
 	AlertSourceV2SourceTypeSns               AlertSourceV2SourceType = "sns"
 	AlertSourceV2SourceTypeSplunk            AlertSourceV2SourceType = "splunk"
 	AlertSourceV2SourceTypeStatusCake        AlertSourceV2SourceType = "status_cake"
@@ -351,6 +367,7 @@ const (
 	AlertSourcesCreatePayloadV2SourceTypeRunscope          AlertSourcesCreatePayloadV2SourceType = "runscope"
 	AlertSourcesCreatePayloadV2SourceTypeSentry            AlertSourcesCreatePayloadV2SourceType = "sentry"
 	AlertSourcesCreatePayloadV2SourceTypeSentryMetric      AlertSourcesCreatePayloadV2SourceType = "sentry_metric"
+	AlertSourcesCreatePayloadV2SourceTypeServiceNow        AlertSourcesCreatePayloadV2SourceType = "service_now"
 	AlertSourcesCreatePayloadV2SourceTypeSns               AlertSourcesCreatePayloadV2SourceType = "sns"
 	AlertSourcesCreatePayloadV2SourceTypeSplunk            AlertSourcesCreatePayloadV2SourceType = "splunk"
 	AlertSourcesCreatePayloadV2SourceTypeStatusCake        AlertSourcesCreatePayloadV2SourceType = "status_cake"
@@ -1104,6 +1121,20 @@ const (
 	FollowUpV2StatusOutstanding FollowUpV2Status = "outstanding"
 )
 
+// Defines values for FollowUpsConnectExternalIssuePayloadV2Provider.
+const (
+	FollowUpsConnectExternalIssuePayloadV2ProviderAsana       FollowUpsConnectExternalIssuePayloadV2Provider = "asana"
+	FollowUpsConnectExternalIssuePayloadV2ProviderAzureDevops FollowUpsConnectExternalIssuePayloadV2Provider = "azure_devops"
+	FollowUpsConnectExternalIssuePayloadV2ProviderClickUp     FollowUpsConnectExternalIssuePayloadV2Provider = "click_up"
+	FollowUpsConnectExternalIssuePayloadV2ProviderGithub      FollowUpsConnectExternalIssuePayloadV2Provider = "github"
+	FollowUpsConnectExternalIssuePayloadV2ProviderGitlab      FollowUpsConnectExternalIssuePayloadV2Provider = "gitlab"
+	FollowUpsConnectExternalIssuePayloadV2ProviderJira        FollowUpsConnectExternalIssuePayloadV2Provider = "jira"
+	FollowUpsConnectExternalIssuePayloadV2ProviderJiraServer  FollowUpsConnectExternalIssuePayloadV2Provider = "jira_server"
+	FollowUpsConnectExternalIssuePayloadV2ProviderLinear      FollowUpsConnectExternalIssuePayloadV2Provider = "linear"
+	FollowUpsConnectExternalIssuePayloadV2ProviderServiceNow  FollowUpsConnectExternalIssuePayloadV2Provider = "service_now"
+	FollowUpsConnectExternalIssuePayloadV2ProviderShortcut    FollowUpsConnectExternalIssuePayloadV2Provider = "shortcut"
+)
+
 // Defines values for FollowUpsUpdatePayloadV2Status.
 const (
 	FollowUpsUpdatePayloadV2StatusCompleted   FollowUpsUpdatePayloadV2Status = "completed"
@@ -1120,32 +1151,35 @@ const (
 
 // Defines values for IdentityV1Roles.
 const (
-	IdentityV1RolesActOnBehalfOfUsers            IdentityV1Roles = "act_on_behalf_of_users"
-	IdentityV1RolesApiKeysManage                 IdentityV1Roles = "api_keys_manage"
-	IdentityV1RolesCatalogEditor                 IdentityV1Roles = "catalog_editor"
-	IdentityV1RolesCatalogViewer                 IdentityV1Roles = "catalog_viewer"
-	IdentityV1RolesEscalationCreator             IdentityV1Roles = "escalation_creator"
-	IdentityV1RolesGlobalAccess                  IdentityV1Roles = "global_access"
-	IdentityV1RolesIncidentCreator               IdentityV1Roles = "incident_creator"
-	IdentityV1RolesIncidentEditor                IdentityV1Roles = "incident_editor"
-	IdentityV1RolesIncidentMembershipsEditor     IdentityV1Roles = "incident_memberships_editor"
-	IdentityV1RolesIncidentWorkloadPrivateViewer IdentityV1Roles = "incident_workload_private_viewer"
-	IdentityV1RolesIncidentWorkloadViewer        IdentityV1Roles = "incident_workload_viewer"
-	IdentityV1RolesInvestigationDownload         IdentityV1Roles = "investigation_download"
-	IdentityV1RolesManageSettings                IdentityV1Roles = "manage_settings"
-	IdentityV1RolesNotificationMethodsManage     IdentityV1Roles = "notification_methods_manage"
-	IdentityV1RolesOnCallEditor                  IdentityV1Roles = "on_call_editor"
-	IdentityV1RolesPostIncidentFlowOptOut        IdentityV1Roles = "post_incident_flow_opt_out"
-	IdentityV1RolesPostmortemsManage             IdentityV1Roles = "postmortems_manage"
-	IdentityV1RolesPrivateWorkflowsEditor        IdentityV1Roles = "private_workflows_editor"
-	IdentityV1RolesScheduleOverridesEditor       IdentityV1Roles = "schedule_overrides_editor"
-	IdentityV1RolesSchedulesEditor               IdentityV1Roles = "schedules_editor"
-	IdentityV1RolesSchedulesReader               IdentityV1Roles = "schedules_reader"
-	IdentityV1RolesSecuritySettingsEditor        IdentityV1Roles = "security_settings_editor"
-	IdentityV1RolesStatusPagePublisher           IdentityV1Roles = "status_page_publisher"
-	IdentityV1RolesTeamMembershipsManage         IdentityV1Roles = "team_memberships_manage"
-	IdentityV1RolesViewer                        IdentityV1Roles = "viewer"
-	IdentityV1RolesWorkflowsEditor               IdentityV1Roles = "workflows_editor"
+	IdentityV1RolesActOnBehalfOfUsers                  IdentityV1Roles = "act_on_behalf_of_users"
+	IdentityV1RolesApiKeysManage                       IdentityV1Roles = "api_keys_manage"
+	IdentityV1RolesCatalogEditor                       IdentityV1Roles = "catalog_editor"
+	IdentityV1RolesCatalogViewer                       IdentityV1Roles = "catalog_viewer"
+	IdentityV1RolesEscalationCreator                   IdentityV1Roles = "escalation_creator"
+	IdentityV1RolesGlobalAccess                        IdentityV1Roles = "global_access"
+	IdentityV1RolesIncidentCreator                     IdentityV1Roles = "incident_creator"
+	IdentityV1RolesIncidentEditor                      IdentityV1Roles = "incident_editor"
+	IdentityV1RolesIncidentMembershipsEditor           IdentityV1Roles = "incident_memberships_editor"
+	IdentityV1RolesIncidentWorkloadPrivateViewer       IdentityV1Roles = "incident_workload_private_viewer"
+	IdentityV1RolesIncidentWorkloadViewer              IdentityV1Roles = "incident_workload_viewer"
+	IdentityV1RolesInvestigationDownload               IdentityV1Roles = "investigation_download"
+	IdentityV1RolesManageSettings                      IdentityV1Roles = "manage_settings"
+	IdentityV1RolesNotificationMethodsManage           IdentityV1Roles = "notification_methods_manage"
+	IdentityV1RolesNotificationMethodsUnredactedViewer IdentityV1Roles = "notification_methods_unredacted_viewer"
+	IdentityV1RolesOnCallEditor                        IdentityV1Roles = "on_call_editor"
+	IdentityV1RolesOnCallViewer                        IdentityV1Roles = "on_call_viewer"
+	IdentityV1RolesPostIncidentFlowOptOut              IdentityV1Roles = "post_incident_flow_opt_out"
+	IdentityV1RolesPostmortemsManage                   IdentityV1Roles = "postmortems_manage"
+	IdentityV1RolesPrivateEscalationWorkflowsEditor    IdentityV1Roles = "private_escalation_workflows_editor"
+	IdentityV1RolesPrivateWorkflowsEditor              IdentityV1Roles = "private_workflows_editor"
+	IdentityV1RolesScheduleOverridesEditor             IdentityV1Roles = "schedule_overrides_editor"
+	IdentityV1RolesSchedulesEditor                     IdentityV1Roles = "schedules_editor"
+	IdentityV1RolesSchedulesReader                     IdentityV1Roles = "schedules_reader"
+	IdentityV1RolesSecuritySettingsEditor              IdentityV1Roles = "security_settings_editor"
+	IdentityV1RolesStatusPagePublisher                 IdentityV1Roles = "status_page_publisher"
+	IdentityV1RolesTeamMembershipsManage               IdentityV1Roles = "team_memberships_manage"
+	IdentityV1RolesViewer                              IdentityV1Roles = "viewer"
+	IdentityV1RolesWorkflowsEditor                     IdentityV1Roles = "workflows_editor"
 )
 
 // Defines values for IdentityV1TeamRoles.
@@ -1153,9 +1187,11 @@ const (
 	IdentityV1TeamRolesApiKeysManage           IdentityV1TeamRoles = "api_keys_manage"
 	IdentityV1TeamRolesEscalationCreator       IdentityV1TeamRoles = "escalation_creator"
 	IdentityV1TeamRolesOnCallEditor            IdentityV1TeamRoles = "on_call_editor"
+	IdentityV1TeamRolesPrivateWorkflowsEditor  IdentityV1TeamRoles = "private_workflows_editor"
 	IdentityV1TeamRolesScheduleOverridesEditor IdentityV1TeamRoles = "schedule_overrides_editor"
 	IdentityV1TeamRolesSchedulesEditor         IdentityV1TeamRoles = "schedules_editor"
 	IdentityV1TeamRolesSchedulesReader         IdentityV1TeamRoles = "schedules_reader"
+	IdentityV1TeamRolesWorkflowsEditor         IdentityV1TeamRoles = "workflows_editor"
 )
 
 // Defines values for IncidentAttachmentsCreatePayloadV1ResourceResourceType.
@@ -1669,10 +1705,10 @@ const (
 
 // Defines values for UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider.
 const (
-	UsersUpdatePagingProviderPayloadV2PreferredEscalationProviderNative       UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider = "native"
-	UsersUpdatePagingProviderPayloadV2PreferredEscalationProviderOpsgenie     UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider = "opsgenie"
-	UsersUpdatePagingProviderPayloadV2PreferredEscalationProviderPagerduty    UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider = "pagerduty"
-	UsersUpdatePagingProviderPayloadV2PreferredEscalationProviderSplunkOnCall UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider = "splunk_on_call"
+	Native       UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider = "native"
+	Opsgenie     UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider = "opsgenie"
+	Pagerduty    UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider = "pagerduty"
+	SplunkOnCall UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider = "splunk_on_call"
 )
 
 // Defines values for WeekdayIntervalV2Weekday.
@@ -2353,6 +2389,12 @@ type AlertMessageDestinationV3 struct {
 
 // AlertNoteV1 defines model for AlertNoteV1.
 type AlertNoteV1 struct {
+	// AlertGroupId ID of the alert group this note is attached to. Exactly one of alert_id or alert_group_id is set; the other is null.
+	AlertGroupId *string `json:"alert_group_id,omitempty"`
+
+	// AlertId ID of the alert this note is attached to. Exactly one of alert_id or alert_group_id is set; the other is null.
+	AlertId *string `json:"alert_id,omitempty"`
+
 	// Content Markdown body of the note
 	Content string `json:"content"`
 
@@ -2375,8 +2417,11 @@ type AlertNoteV1 struct {
 
 // AlertNotesCreatePayloadV1 defines model for AlertNotesCreatePayloadV1.
 type AlertNotesCreatePayloadV1 struct {
-	// AlertId ID of the alert to add the note to
-	AlertId string `json:"alert_id"`
+	// AlertGroupId ID of the alert group to add the note to. Provide exactly one of alert_id or alert_group_id.
+	AlertGroupId *string `json:"alert_group_id,omitempty"`
+
+	// AlertId ID of the alert to add the note to. Provide exactly one of alert_id or alert_group_id.
+	AlertId *string `json:"alert_id,omitempty"`
 
 	// Content Markdown body of the note
 	Content string `json:"content"`
@@ -3141,6 +3186,9 @@ type AlertRoutesUpdateResultV3 struct {
 
 // AlertSlimV2 defines model for AlertSlimV2.
 type AlertSlimV2 struct {
+	// AlertGroupIds The IDs of every alert group this alert belongs to. Empty when the alert is not part of any group.
+	AlertGroupIds *[]string `json:"alert_group_ids,omitempty"`
+
 	// AlertSourceId The ID of the alert source this alert fired on
 	AlertSourceId string `json:"alert_source_id"`
 
@@ -3422,6 +3470,9 @@ type AlertTemplateV2 struct {
 
 // AlertV2 defines model for AlertV2.
 type AlertV2 struct {
+	// AlertGroupIds The IDs of every alert group this alert belongs to. Empty when the alert is not part of any group.
+	AlertGroupIds *[]string `json:"alert_group_ids,omitempty"`
+
 	// AlertSourceId The ID of the alert source this alert fired on
 	AlertSourceId string `json:"alert_source_id"`
 
@@ -5980,6 +6031,23 @@ type FollowUpV2 struct {
 
 // FollowUpV2Status Status of the follow-up
 type FollowUpV2Status string
+
+// FollowUpsConnectExternalIssuePayloadV2 defines model for FollowUpsConnectExternalIssuePayloadV2.
+type FollowUpsConnectExternalIssuePayloadV2 struct {
+	// Provider The issue tracker provider the issue belongs to
+	Provider FollowUpsConnectExternalIssuePayloadV2Provider `json:"provider"`
+
+	// Url URL of the issue in the external provider
+	Url string `json:"url"`
+}
+
+// FollowUpsConnectExternalIssuePayloadV2Provider The issue tracker provider the issue belongs to
+type FollowUpsConnectExternalIssuePayloadV2Provider string
+
+// FollowUpsConnectExternalIssueResultV2 defines model for FollowUpsConnectExternalIssueResultV2.
+type FollowUpsConnectExternalIssueResultV2 struct {
+	FollowUp FollowUpV2 `json:"follow_up"`
+}
 
 // FollowUpsCreatePayloadV2 defines model for FollowUpsCreatePayloadV2.
 type FollowUpsCreatePayloadV2 struct {
@@ -9441,6 +9509,54 @@ type WorkflowDelayV2 struct {
 	ForSeconds int64 `json:"for_seconds"`
 }
 
+// WorkflowFormFieldPayloadV2 defines model for WorkflowFormFieldPayloadV2.
+type WorkflowFormFieldPayloadV2 struct {
+	// Array Whether this field holds a list of values rather than a single value
+	Array *bool `json:"array,omitempty"`
+
+	// Description Optional help text shown beneath the field
+	Description *string `json:"description,omitempty"`
+
+	// Id Stable identifier for this field; omit to create a new field
+	Id *string `json:"id,omitempty"`
+
+	// Key The key used to reference this field in the workflow scope
+	Key string `json:"key"`
+
+	// Required Whether this field must be filled in when running the workflow
+	Required *bool `json:"required,omitempty"`
+
+	// Title Human readable title shown in the form
+	Title string `json:"title"`
+
+	// Type The engine resource type of this field
+	Type string `json:"type"`
+}
+
+// WorkflowFormFieldV2 defines model for WorkflowFormFieldV2.
+type WorkflowFormFieldV2 struct {
+	// Array Whether this field holds a list of values rather than a single value
+	Array bool `json:"array"`
+
+	// Description Optional help text shown beneath the field
+	Description *string `json:"description,omitempty"`
+
+	// Id Stable identifier for this form field, preserved across versions
+	Id string `json:"id"`
+
+	// Key The key used to reference this field in the workflow scope
+	Key string `json:"key"`
+
+	// Required Whether this field must be filled in when running the workflow
+	Required bool `json:"required"`
+
+	// Title Human readable title shown in the form
+	Title string `json:"title"`
+
+	// Type The engine resource type of this field
+	Type string `json:"type"`
+}
+
 // WorkflowSlimV2 defines model for WorkflowSlimV2.
 type WorkflowSlimV2 struct {
 	// ConditionGroups Conditions that apply to the workflow trigger
@@ -9527,6 +9643,9 @@ type WorkflowV2 struct {
 	// Folder Folder to display the workflow in
 	Folder *string `json:"folder,omitempty"`
 
+	// FormFields User-configured form fields available in the workflow scope (manual triggers only)
+	FormFields *[]WorkflowFormFieldV2 `json:"form_fields,omitempty"`
+
 	// Id Unique identifier for the workflow
 	Id string `json:"id"`
 
@@ -9601,10 +9720,13 @@ type WorkflowsCreateWorkflowPayloadV2 struct {
 	// Folder Folder to display the workflow in
 	Folder *string `json:"folder,omitempty"`
 
+	// FormFields User-configured form fields available in the workflow scope (manual triggers only)
+	FormFields *[]WorkflowFormFieldPayloadV2 `json:"form_fields,omitempty"`
+
 	// IncludePrivateEscalations Whether to include private escalations
 	IncludePrivateEscalations *bool `json:"include_private_escalations,omitempty"`
 
-	// IncludePrivateIncidents DEPRECATED: use `private_incident_scope` instead. Mutually exclusive with `private_incident_scope` — sending both returns a validation error.
+	// IncludePrivateIncidents DEPRECATED: use `private_incident_scope` instead. May be sent alongside `private_incident_scope` only if they agree; contradictory values return a validation error.
 	IncludePrivateIncidents *bool `json:"include_private_incidents,omitempty"`
 
 	// Name Name provided by the user when creating the workflow
@@ -9685,10 +9807,13 @@ type WorkflowsUpdateWorkflowPayloadV2 struct {
 	// Folder Folder to display the workflow in
 	Folder *string `json:"folder,omitempty"`
 
+	// FormFields User-configured form fields available in the workflow scope (manual triggers only)
+	FormFields *[]WorkflowFormFieldPayloadV2 `json:"form_fields,omitempty"`
+
 	// IncludePrivateEscalations Whether to include private escalations
 	IncludePrivateEscalations *bool `json:"include_private_escalations,omitempty"`
 
-	// IncludePrivateIncidents DEPRECATED: use `private_incident_scope` instead. Mutually exclusive with `private_incident_scope` — sending both returns a validation error.
+	// IncludePrivateIncidents DEPRECATED: use `private_incident_scope` instead. May be sent alongside `private_incident_scope` only if they agree; contradictory values return a validation error.
 	IncludePrivateIncidents *bool `json:"include_private_incidents,omitempty"`
 
 	// Name Name provided by the user when creating the workflow
@@ -9778,8 +9903,11 @@ type ActionsV1ListParamsIncidentMode string
 
 // AlertNotesV1ListParams defines parameters for AlertNotesV1List.
 type AlertNotesV1ListParams struct {
-	// AlertId ID of the alert to list notes for
-	AlertId string `form:"alert_id" json:"alert_id"`
+	// AlertId ID of the alert to list notes for. Provide exactly one of alert_id or alert_group_id.
+	AlertId *string `form:"alert_id,omitempty" json:"alert_id,omitempty"`
+
+	// AlertGroupId ID of the alert group to list notes for. Provide exactly one of alert_id or alert_group_id.
+	AlertGroupId *string `form:"alert_group_id,omitempty" json:"alert_group_id,omitempty"`
 
 	// PageSize Integer number of records to return
 	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
@@ -9928,8 +10056,14 @@ type AlertsV2ListParams struct {
 	// AlertSource Filter on alert source by ID. The accepted operators are 'one_of', or 'not_in'.
 	AlertSource *map[string][]string `form:"alert_source,omitempty" json:"alert_source,omitempty"`
 
+	// AlertGroupId Filter on alert group ID. Returns alerts that belong to any of the specified groups. The accepted operator is 'one_of'.
+	AlertGroupId *map[string][]string `form:"alert_group_id,omitempty" json:"alert_group_id,omitempty"`
+
 	// CreatedAt Filter on alert created at timestamp. Accepted operators are 'gte', 'lte' and 'date_range'.
 	CreatedAt *map[string][]string `form:"created_at,omitempty" json:"created_at,omitempty"`
+
+	// Attributes Filter on an alerts attributes. Alert attribute ID should be sent, followed by the operator and values. Accepted operator will depend on the attribute type.
+	Attributes *map[string]map[string][]string `form:"attributes,omitempty" json:"attributes,omitempty"`
 
 	// HasNotes Filter on whether an alert has notes. The accepted operator is 'is'.
 	HasNotes *map[string][]string `form:"has_notes,omitempty" json:"has_notes,omitempty"`
@@ -10431,6 +10565,9 @@ type FollowUpsV2CreateJSONRequestBody = FollowUpsCreatePayloadV2
 
 // FollowUpsV2UpdateJSONRequestBody defines body for FollowUpsV2Update for application/json ContentType.
 type FollowUpsV2UpdateJSONRequestBody = FollowUpsUpdatePayloadV2
+
+// FollowUpsV2ConnectExternalIssueJSONRequestBody defines body for FollowUpsV2ConnectExternalIssue for application/json ContentType.
+type FollowUpsV2ConnectExternalIssueJSONRequestBody = FollowUpsConnectExternalIssuePayloadV2
 
 // IncidentRolesV2CreateJSONRequestBody defines body for IncidentRolesV2Create for application/json ContentType.
 type IncidentRolesV2CreateJSONRequestBody = IncidentRolesCreatePayloadV2
@@ -11047,6 +11184,9 @@ type ClientInterface interface {
 	// EscalationsV2Show request
 	EscalationsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// EscalationsV2CancelEscalation request
+	EscalationsV2CancelEscalation(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// FollowUpsV2List request
 	FollowUpsV2List(ctx context.Context, params *FollowUpsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -11065,6 +11205,11 @@ type ClientInterface interface {
 	FollowUpsV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	FollowUpsV2Update(ctx context.Context, id string, body FollowUpsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// FollowUpsV2ConnectExternalIssueWithBody request with any body
+	FollowUpsV2ConnectExternalIssueWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	FollowUpsV2ConnectExternalIssue(ctx context.Context, id string, body FollowUpsV2ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// HeartbeatV2Ping1 request
 	HeartbeatV2Ping1(ctx context.Context, alertSourceConfigId string, params *HeartbeatV2Ping1Params, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -13354,6 +13499,18 @@ func (c *Client) EscalationsV2Show(ctx context.Context, id string, reqEditors ..
 	return c.Client.Do(req)
 }
 
+func (c *Client) EscalationsV2CancelEscalation(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2CancelEscalationRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) FollowUpsV2List(ctx context.Context, params *FollowUpsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewFollowUpsV2ListRequest(c.Server, params)
 	if err != nil {
@@ -13428,6 +13585,30 @@ func (c *Client) FollowUpsV2UpdateWithBody(ctx context.Context, id string, conte
 
 func (c *Client) FollowUpsV2Update(ctx context.Context, id string, body FollowUpsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewFollowUpsV2UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) FollowUpsV2ConnectExternalIssueWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewFollowUpsV2ConnectExternalIssueRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) FollowUpsV2ConnectExternalIssue(ctx context.Context, id string, body FollowUpsV2ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewFollowUpsV2ConnectExternalIssueRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -14979,16 +15160,36 @@ func NewAlertNotesV1ListRequest(server string, params *AlertNotesV1ListParams) (
 	if params != nil {
 		queryValues := queryURL.Query()
 
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "alert_id", runtime.ParamLocationQuery, params.AlertId); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
+		if params.AlertId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "alert_id", runtime.ParamLocationQuery, *params.AlertId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
 				}
 			}
+
+		}
+
+		if params.AlertGroupId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "alert_group_id", runtime.ParamLocationQuery, *params.AlertGroupId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
 		}
 
 		if params.PageSize != nil {
@@ -18683,9 +18884,41 @@ func NewAlertsV2ListRequest(server string, params *AlertsV2ListParams) (*http.Re
 
 		}
 
+		if params.AlertGroupId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "alert_group_id", runtime.ParamLocationQuery, *params.AlertGroupId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
 		if params.CreatedAt != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "created_at", runtime.ParamLocationQuery, *params.CreatedAt); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Attributes != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "attributes", runtime.ParamLocationQuery, *params.Attributes); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err
@@ -20088,6 +20321,40 @@ func NewEscalationsV2ShowRequest(server string, id string) (*http.Request, error
 	return req, nil
 }
 
+// NewEscalationsV2CancelEscalationRequest generates requests for EscalationsV2CancelEscalation
+func NewEscalationsV2CancelEscalationRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalations/%s/actions/cancel", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewFollowUpsV2ListRequest generates requests for FollowUpsV2List
 func NewFollowUpsV2ListRequest(server string, params *FollowUpsV2ListParams) (*http.Request, error) {
 	var err error
@@ -20315,6 +20582,53 @@ func NewFollowUpsV2UpdateRequestWithBody(server string, id string, contentType s
 	}
 
 	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewFollowUpsV2ConnectExternalIssueRequest calls the generic FollowUpsV2ConnectExternalIssue builder with application/json body
+func NewFollowUpsV2ConnectExternalIssueRequest(server string, id string, body FollowUpsV2ConnectExternalIssueJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewFollowUpsV2ConnectExternalIssueRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewFollowUpsV2ConnectExternalIssueRequestWithBody generates requests for FollowUpsV2ConnectExternalIssue with any type of body
+func NewFollowUpsV2ConnectExternalIssueRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/follow_ups/%s/actions/connect_external_issue", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -25074,6 +25388,9 @@ type ClientWithResponsesInterface interface {
 	// EscalationsV2ShowWithResponse request
 	EscalationsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV2ShowResponse, error)
 
+	// EscalationsV2CancelEscalationWithResponse request
+	EscalationsV2CancelEscalationWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV2CancelEscalationResponse, error)
+
 	// FollowUpsV2ListWithResponse request
 	FollowUpsV2ListWithResponse(ctx context.Context, params *FollowUpsV2ListParams, reqEditors ...RequestEditorFn) (*FollowUpsV2ListResponse, error)
 
@@ -25092,6 +25409,11 @@ type ClientWithResponsesInterface interface {
 	FollowUpsV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*FollowUpsV2UpdateResponse, error)
 
 	FollowUpsV2UpdateWithResponse(ctx context.Context, id string, body FollowUpsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*FollowUpsV2UpdateResponse, error)
+
+	// FollowUpsV2ConnectExternalIssueWithBodyWithResponse request with any body
+	FollowUpsV2ConnectExternalIssueWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*FollowUpsV2ConnectExternalIssueResponse, error)
+
+	FollowUpsV2ConnectExternalIssueWithResponse(ctx context.Context, id string, body FollowUpsV2ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*FollowUpsV2ConnectExternalIssueResponse, error)
 
 	// HeartbeatV2Ping1WithResponse request
 	HeartbeatV2Ping1WithResponse(ctx context.Context, alertSourceConfigId string, params *HeartbeatV2Ping1Params, reqEditors ...RequestEditorFn) (*HeartbeatV2Ping1Response, error)
@@ -27990,6 +28312,27 @@ func (r EscalationsV2ShowResponse) StatusCode() int {
 	return 0
 }
 
+type EscalationsV2CancelEscalationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV2CancelEscalationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV2CancelEscalationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type FollowUpsV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -28093,6 +28436,28 @@ func (r FollowUpsV2UpdateResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r FollowUpsV2UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type FollowUpsV2ConnectExternalIssueResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *FollowUpsConnectExternalIssueResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r FollowUpsV2ConnectExternalIssueResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r FollowUpsV2ConnectExternalIssueResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -31386,6 +31751,15 @@ func (c *ClientWithResponses) EscalationsV2ShowWithResponse(ctx context.Context,
 	return ParseEscalationsV2ShowResponse(rsp)
 }
 
+// EscalationsV2CancelEscalationWithResponse request returning *EscalationsV2CancelEscalationResponse
+func (c *ClientWithResponses) EscalationsV2CancelEscalationWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*EscalationsV2CancelEscalationResponse, error) {
+	rsp, err := c.EscalationsV2CancelEscalation(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2CancelEscalationResponse(rsp)
+}
+
 // FollowUpsV2ListWithResponse request returning *FollowUpsV2ListResponse
 func (c *ClientWithResponses) FollowUpsV2ListWithResponse(ctx context.Context, params *FollowUpsV2ListParams, reqEditors ...RequestEditorFn) (*FollowUpsV2ListResponse, error) {
 	rsp, err := c.FollowUpsV2List(ctx, params, reqEditors...)
@@ -31445,6 +31819,23 @@ func (c *ClientWithResponses) FollowUpsV2UpdateWithResponse(ctx context.Context,
 		return nil, err
 	}
 	return ParseFollowUpsV2UpdateResponse(rsp)
+}
+
+// FollowUpsV2ConnectExternalIssueWithBodyWithResponse request with arbitrary body returning *FollowUpsV2ConnectExternalIssueResponse
+func (c *ClientWithResponses) FollowUpsV2ConnectExternalIssueWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*FollowUpsV2ConnectExternalIssueResponse, error) {
+	rsp, err := c.FollowUpsV2ConnectExternalIssueWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseFollowUpsV2ConnectExternalIssueResponse(rsp)
+}
+
+func (c *ClientWithResponses) FollowUpsV2ConnectExternalIssueWithResponse(ctx context.Context, id string, body FollowUpsV2ConnectExternalIssueJSONRequestBody, reqEditors ...RequestEditorFn) (*FollowUpsV2ConnectExternalIssueResponse, error) {
+	rsp, err := c.FollowUpsV2ConnectExternalIssue(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseFollowUpsV2ConnectExternalIssueResponse(rsp)
 }
 
 // HeartbeatV2Ping1WithResponse request returning *HeartbeatV2Ping1Response
@@ -35346,6 +35737,22 @@ func ParseEscalationsV2ShowResponse(rsp *http.Response) (*EscalationsV2ShowRespo
 	return response, nil
 }
 
+// ParseEscalationsV2CancelEscalationResponse parses an HTTP response from a EscalationsV2CancelEscalationWithResponse call
+func ParseEscalationsV2CancelEscalationResponse(rsp *http.Response) (*EscalationsV2CancelEscalationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV2CancelEscalationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
 // ParseFollowUpsV2ListResponse parses an HTTP response from a FollowUpsV2ListWithResponse call
 func ParseFollowUpsV2ListResponse(rsp *http.Response) (*FollowUpsV2ListResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -35456,6 +35863,32 @@ func ParseFollowUpsV2UpdateResponse(rsp *http.Response) (*FollowUpsV2UpdateRespo
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest FollowUpsUpdateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseFollowUpsV2ConnectExternalIssueResponse parses an HTTP response from a FollowUpsV2ConnectExternalIssueWithResponse call
+func ParseFollowUpsV2ConnectExternalIssueResponse(rsp *http.Response) (*FollowUpsV2ConnectExternalIssueResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &FollowUpsV2ConnectExternalIssueResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FollowUpsConnectExternalIssueResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

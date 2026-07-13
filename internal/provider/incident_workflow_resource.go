@@ -226,15 +226,17 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 		},
 	}
 
-	// Read from config, not the plan: scope is Computed, so the plan can carry a
-	// value from state the user never set, which would shadow a bool change.
+	// Forward whichever privacy fields the user set in config (ValidateConfig
+	// already ensures they agree). Read from config, not the plan: both are
+	// Computed, so the plan can carry a value from state the user never set.
 	var cfgScope types.String
 	var cfgBool types.Bool
 	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("private_incident_scope"), &cfgScope)...)
 	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("include_private_incidents"), &cfgBool)...)
 	if !cfgScope.IsNull() {
 		payload.PrivateIncidentScope = lo.ToPtr(client.WorkflowsCreateWorkflowPayloadV2PrivateIncidentScope(cfgScope.ValueString()))
-	} else if !cfgBool.IsNull() {
+	}
+	if !cfgBool.IsNull() {
 		payload.IncludePrivateIncidents = lo.ToPtr(cfgBool.ValueBool())
 	}
 
@@ -304,15 +306,17 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		SkipStepUpgrades: lo.ToPtr(true),
 	}
 
-	// Read from config, not the plan: scope is Computed, so the plan can carry a
-	// value from state the user never set, which would shadow a bool change.
+	// Forward whichever privacy fields the user set in config (ValidateConfig
+	// already ensures they agree). Read from config, not the plan: both are
+	// Computed, so the plan can carry a value from state the user never set.
 	var cfgScope types.String
 	var cfgBool types.Bool
 	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("private_incident_scope"), &cfgScope)...)
 	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("include_private_incidents"), &cfgBool)...)
 	if !cfgScope.IsNull() {
 		payload.PrivateIncidentScope = lo.ToPtr(client.WorkflowsUpdateWorkflowPayloadV2PrivateIncidentScope(cfgScope.ValueString()))
-	} else if !cfgBool.IsNull() {
+	}
+	if !cfgBool.IsNull() {
 		payload.IncludePrivateIncidents = lo.ToPtr(cfgBool.ValueBool())
 	}
 
