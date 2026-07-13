@@ -136,7 +136,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "include_private_incidents"),
 				Optional:            true,
 				Computed:            true,
-				DeprecationMessage:  "Use `private_incident_scope` instead. Setting both `include_private_incidents` and `private_incident_scope` is not allowed.",
+				DeprecationMessage:  "Use `private_incident_scope` instead. When both are set they must agree (include_private_incidents is true for the all and owning_teams scopes, false for none).",
 			},
 			"private_incident_scope": schema.StringAttribute{
 				MarkdownDescription: EnumValuesDescription("WorkflowV2", "private_incident_scope"),
@@ -416,9 +416,9 @@ func toOwningTeamIDs(set types.Set) *[]string {
 	return &teamIDs
 }
 
-// ValidateConfig rejects setting both include_private_incidents and the
-// private_incident_scope that supersedes it (the API treats them as mutually
-// exclusive), and checks private_incident_scope is a recognised value.
+// ValidateConfig blocks an unrecognised private_incident_scope, or an include_private_incidents
+// that contradicts it. The bool is true whenever the scope touches private incidents (all or
+// owning_teams), false for none; the API accepts both when they agree, so only disagreement errors.
 func (r *IncidentWorkflowResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	var includePrivate types.Bool
 	var scope types.String
@@ -431,18 +431,22 @@ func (r *IncidentWorkflowResource) ValidateConfig(ctx context.Context, req resou
 	scopeSet := !scope.IsNull() && !scope.IsUnknown()
 	boolSet := !includePrivate.IsNull() && !includePrivate.IsUnknown()
 
-	if scopeSet && boolSet {
-		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
-			"Cannot set both include_private_incidents and private_incident_scope",
-			"include_private_incidents is deprecated in favour of private_incident_scope; set only one of them.",
-		))
-	}
-
 	if scopeSet && !lo.Contains(privateIncidentScopes, scope.ValueString()) {
 		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
 			"Invalid private_incident_scope",
 			fmt.Sprintf("private_incident_scope must be one of %v, got %q.", privateIncidentScopes, scope.ValueString()),
 		))
+		return
+	}
+
+	if scopeSet && boolSet {
+		touchesPrivate := scope.ValueString() != "none"
+		if includePrivate.ValueBool() != touchesPrivate {
+			resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+				"include_private_incidents and private_incident_scope disagree",
+				"include_private_incidents is deprecated in favour of private_incident_scope. When both are set they must agree: include_private_incidents is true for the all and owning_teams scopes and false for none. Prefer setting only private_incident_scope.",
+			))
+		}
 	}
 }
 

@@ -280,22 +280,34 @@ func TestAccIncidentWorkflowResourcePrivateIncidentScope(t *testing.T) {
 					resource.TestCheckResourceAttr("incident_workflow.example", "private_incident_scope", "none"),
 				),
 			},
+			// Both fields set together is accepted as long as they agree (the round-trip case).
+			{
+				Config: testAccIncidentWorkflowConfigPrivacy(`
+  include_private_incidents = true
+  private_incident_scope    = "all"`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "private_incident_scope", "all"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "include_private_incidents", "true"),
+				),
+			},
 		},
 	})
 }
 
-// TestAccIncidentWorkflowResourcePrivateScopeConflict checks that setting both the
-// deprecated bool and the scope is rejected at plan time (mirrors the API's 422).
+// TestAccIncidentWorkflowResourcePrivateScopeConflict checks that contradictory bool/scope values
+// are rejected at plan time (mirrors the API's 422); agreeing values are covered by
+// TestAccIncidentWorkflowResourcePrivateIncidentScope.
 func TestAccIncidentWorkflowResourcePrivateScopeConflict(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
+				// none does not touch private incidents, so the bool must be false to agree.
 				Config: testAccIncidentWorkflowConfigPrivacy(`
-  include_private_incidents = false
+  include_private_incidents = true
   private_incident_scope    = "none"`),
-				ExpectError: regexp.MustCompile("Cannot set both"),
+				ExpectError: regexp.MustCompile("disagree"),
 			},
 		},
 	})
