@@ -1,3 +1,7 @@
+## v5.43.0
+
+- Add `private_incident_scope` to workflow resource (`all` / `owning_teams` / `none`), deprecating `include_private_incidents`. The two may be set together as long as they agree (`include_private_incidents` is `true` for the `all` and `owning_teams` scopes, `false` for `none`)
+
 ## v5.42.0
 
 - Add `owning_team_ids` to workflow resource
