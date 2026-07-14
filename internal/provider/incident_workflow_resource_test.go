@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"reflect"
+	"regexp"
 	"testing"
 	"text/template"
 
@@ -233,6 +234,85 @@ func TestAccIncidentWorkflowResourceOwningTeamIDs(t *testing.T) {
 	})
 }
 
+// TestAccIncidentWorkflowResourcePrivateIncidentScope checks that private_incident_scope
+// round-trips and that the deprecated include_private_incidents is derived from it on read.
+func TestAccIncidentWorkflowResourcePrivateIncidentScope(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create with scope = all; the deprecated bool is derived to true.
+			{
+				Config: testAccIncidentWorkflowConfigPrivacy(`private_incident_scope = "all"`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "private_incident_scope", "all"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "include_private_incidents", "true"),
+				),
+			},
+			// Import round-trip.
+			{
+				ResourceName:      "incident_workflow.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			// Update to scope = none; derived bool flips to false.
+			{
+				Config: testAccIncidentWorkflowConfigPrivacy(`private_incident_scope = "none"`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "private_incident_scope", "none"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "include_private_incidents", "false"),
+				),
+			},
+			// Legacy path: setting only the deprecated bool still works and derives the scope.
+			{
+				Config: testAccIncidentWorkflowConfigPrivacy(`include_private_incidents = true`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "include_private_incidents", "true"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "private_incident_scope", "all"),
+				),
+			},
+			// Flipping only the deprecated bool must reach the API even
+			// though a scope is now carried in state — decisions read config, not plan.
+			{
+				Config: testAccIncidentWorkflowConfigPrivacy(`include_private_incidents = false`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "include_private_incidents", "false"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "private_incident_scope", "none"),
+				),
+			},
+			// Both fields set together is accepted as long as they agree (the round-trip case).
+			{
+				Config: testAccIncidentWorkflowConfigPrivacy(`
+  include_private_incidents = true
+  private_incident_scope    = "all"`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "private_incident_scope", "all"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "include_private_incidents", "true"),
+				),
+			},
+		},
+	})
+}
+
+// TestAccIncidentWorkflowResourcePrivateScopeConflict checks that contradictory bool/scope values
+// are rejected at plan time (mirrors the API's 422); agreeing values are covered by
+// TestAccIncidentWorkflowResourcePrivateIncidentScope.
+func TestAccIncidentWorkflowResourcePrivateScopeConflict(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				// none does not touch private incidents, so the bool must be false to agree.
+				Config: testAccIncidentWorkflowConfigPrivacy(`
+  include_private_incidents = true
+  private_incident_scope    = "none"`),
+				ExpectError: regexp.MustCompile("disagree"),
+			},
+		},
+	})
+}
+
 // testAccIncidentWorkflowResourceConfigOwningTeams renders a workflow owning teamCount
 // self-provisioned Team catalog entries (0 omits owning_team_ids entirely).
 func testAccIncidentWorkflowResourceConfigOwningTeams(teamCount int) string {
@@ -298,4 +378,44 @@ resource "incident_workflow" "example" {
 		TeamIndices:  lo.Range(teamCount),
 		TeamIDs:      teamIDs,
 	})
+}
+
+// testAccIncidentWorkflowConfigPrivacy renders a minimal workflow with the given
+// privacy attribute lines spliced in (e.g. a private_incident_scope assignment).
+func testAccIncidentWorkflowConfigPrivacy(privacy string) string {
+	return testRunTemplate("incident_workflow_privacy", `
+resource "incident_workflow" "example" {
+  name    = "Private scope workflow"
+  trigger = "incident.updated"
+  condition_groups = [
+    {
+      conditions = [
+        {
+          subject        = "incident.status.category"
+          operation      = "one_of"
+          param_bindings = [{ array_value = [{ literal = "open" }] }]
+        }
+      ]
+    }
+  ]
+  steps = [
+    {
+      id   = "01HXVEA7Y0VWQBJB4F2X8WNRW6"
+      name = "incident.create_follow_ups"
+      param_bindings = [
+        { value = { reference = "incident" } },
+        { array_value = [{ literal = "Write postmortem" }] },
+        {}
+      ]
+    }
+  ]
+  expressions            = []
+  once_for               = ["incident"]
+  {{ .Privacy }}
+  continue_on_step_error = false
+  runs_on_incidents      = "newly_created"
+  runs_on_incident_modes = ["standard"]
+  state                  = "draft"
+}
+`, struct{ Privacy string }{Privacy: privacy})
 }

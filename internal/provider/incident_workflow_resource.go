@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -20,9 +21,13 @@ import (
 )
 
 var (
-	_ resource.Resource                = &IncidentWorkflowResource{}
-	_ resource.ResourceWithImportState = &IncidentWorkflowResource{}
+	_ resource.Resource                   = &IncidentWorkflowResource{}
+	_ resource.ResourceWithImportState    = &IncidentWorkflowResource{}
+	_ resource.ResourceWithValidateConfig = &IncidentWorkflowResource{}
 )
+
+// privateIncidentScopes are the valid values for the private_incident_scope attribute.
+var privateIncidentScopes = []string{"all", "owning_teams", "none"}
 
 type IncidentWorkflowResource struct {
 	client           *client.ClientWithResponses
@@ -44,6 +49,7 @@ type IncidentWorkflowResourceModel struct {
 	Expressions               models.IncidentEngineExpressions     `tfsdk:"expressions"`
 	OnceFor                   []types.String                       `tfsdk:"once_for"`
 	IncludePrivateIncidents   types.Bool                           `tfsdk:"include_private_incidents"`
+	PrivateIncidentScope      types.String                         `tfsdk:"private_incident_scope"`
 	IncludePrivateEscalations types.Bool                           `tfsdk:"include_private_escalations"`
 	OwningTeamIDs             types.Set                            `tfsdk:"owning_team_ids"`
 	ContinueOnStepError       types.Bool                           `tfsdk:"continue_on_step_error"`
@@ -128,7 +134,14 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 			},
 			"include_private_incidents": schema.BoolAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "include_private_incidents"),
-				Required:            true,
+				Optional:            true,
+				Computed:            true,
+				DeprecationMessage:  "Use `private_incident_scope` instead. When both are set they must agree (include_private_incidents is true for the all and owning_teams scopes, false for none).",
+			},
+			"private_incident_scope": schema.StringAttribute{
+				MarkdownDescription: EnumValuesDescription("WorkflowV2", "private_incident_scope"),
+				Optional:            true,
+				Computed:            true,
 			},
 			"include_private_escalations": schema.BoolAttribute{
 				MarkdownDescription: apischema.Docstring("WorkflowV2", "include_private_escalations"),
@@ -195,23 +208,36 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	payload := client.WorkflowsCreateWorkflowPayloadV2{
-		Trigger:                 data.Trigger.ValueString(),
-		Name:                    data.Name.ValueString(),
-		OnceFor:                 onceFor,
-		ConditionGroups:         data.ConditionGroups.ToPayload(),
-		Steps:                   toPayloadSteps(data.Steps),
-		Expressions:             data.Expressions.ToPayload(),
-		RunsOnIncidents:         client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidents(data.RunsOnIncidents.ValueString()),
-		RunsOnIncidentModes:     runsOnIncidentModes,
-		Folder:                  data.Folder.ValueStringPointer(),
-		Shortform:               data.Shortform.ValueStringPointer(),
-		IncludePrivateIncidents: data.IncludePrivateIncidents.ValueBool(),
-		OwningTeamIds:           toOwningTeamIDs(data.OwningTeamIDs),
-		ContinueOnStepError:     data.ContinueOnStepError.ValueBool(),
-		State:                   lo.ToPtr(client.WorkflowsCreateWorkflowPayloadV2State(data.State.ValueString())),
+		Trigger:             data.Trigger.ValueString(),
+		Name:                data.Name.ValueString(),
+		OnceFor:             onceFor,
+		ConditionGroups:     data.ConditionGroups.ToPayload(),
+		Steps:               toPayloadSteps(data.Steps),
+		Expressions:         data.Expressions.ToPayload(),
+		RunsOnIncidents:     client.WorkflowsCreateWorkflowPayloadV2RunsOnIncidents(data.RunsOnIncidents.ValueString()),
+		RunsOnIncidentModes: runsOnIncidentModes,
+		Folder:              data.Folder.ValueStringPointer(),
+		Shortform:           data.Shortform.ValueStringPointer(),
+		OwningTeamIds:       toOwningTeamIDs(data.OwningTeamIDs),
+		ContinueOnStepError: data.ContinueOnStepError.ValueBool(),
+		State:               lo.ToPtr(client.WorkflowsCreateWorkflowPayloadV2State(data.State.ValueString())),
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
+	}
+
+	// Forward whichever privacy fields the user set in config (ValidateConfig
+	// already ensures they agree). Read from config, not the plan: both are
+	// Computed, so the plan can carry a value from state the user never set.
+	var cfgScope types.String
+	var cfgBool types.Bool
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("private_incident_scope"), &cfgScope)...)
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("include_private_incidents"), &cfgBool)...)
+	if !cfgScope.IsNull() {
+		payload.PrivateIncidentScope = lo.ToPtr(client.WorkflowsCreateWorkflowPayloadV2PrivateIncidentScope(cfgScope.ValueString()))
+	}
+	if !cfgBool.IsNull() {
+		payload.IncludePrivateIncidents = lo.ToPtr(cfgBool.ValueBool())
 	}
 
 	if !data.IncludePrivateEscalations.IsNull() {
@@ -262,23 +288,36 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 	}
 
 	payload := client.WorkflowsV2UpdateWorkflowJSONRequestBody{
-		Name:                    data.Name.ValueString(),
-		ConditionGroups:         data.ConditionGroups.ToPayload(),
-		Steps:                   toPayloadSteps(data.Steps),
-		Expressions:             data.Expressions.ToPayload(),
-		OnceFor:                 onceFor,
-		RunsOnIncidents:         client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidents(data.RunsOnIncidents.ValueString()),
-		RunsOnIncidentModes:     runsOnIncidentModes,
-		Folder:                  data.Folder.ValueStringPointer(),
-		Shortform:               data.Shortform.ValueStringPointer(),
-		IncludePrivateIncidents: data.IncludePrivateIncidents.ValueBool(),
-		OwningTeamIds:           toOwningTeamIDs(data.OwningTeamIDs),
-		ContinueOnStepError:     data.ContinueOnStepError.ValueBool(),
-		State:                   lo.ToPtr(client.WorkflowsUpdateWorkflowPayloadV2State(data.State.ValueString())),
+		Name:                data.Name.ValueString(),
+		ConditionGroups:     data.ConditionGroups.ToPayload(),
+		Steps:               toPayloadSteps(data.Steps),
+		Expressions:         data.Expressions.ToPayload(),
+		OnceFor:             onceFor,
+		RunsOnIncidents:     client.WorkflowsUpdateWorkflowPayloadV2RunsOnIncidents(data.RunsOnIncidents.ValueString()),
+		RunsOnIncidentModes: runsOnIncidentModes,
+		Folder:              data.Folder.ValueStringPointer(),
+		Shortform:           data.Shortform.ValueStringPointer(),
+		OwningTeamIds:       toOwningTeamIDs(data.OwningTeamIDs),
+		ContinueOnStepError: data.ContinueOnStepError.ValueBool(),
+		State:               lo.ToPtr(client.WorkflowsUpdateWorkflowPayloadV2State(data.State.ValueString())),
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
 		SkipStepUpgrades: lo.ToPtr(true),
+	}
+
+	// Forward whichever privacy fields the user set in config (ValidateConfig
+	// already ensures they agree). Read from config, not the plan: both are
+	// Computed, so the plan can carry a value from state the user never set.
+	var cfgScope types.String
+	var cfgBool types.Bool
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("private_incident_scope"), &cfgScope)...)
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("include_private_incidents"), &cfgBool)...)
+	if !cfgScope.IsNull() {
+		payload.PrivateIncidentScope = lo.ToPtr(client.WorkflowsUpdateWorkflowPayloadV2PrivateIncidentScope(cfgScope.ValueString()))
+	}
+	if !cfgBool.IsNull() {
+		payload.IncludePrivateIncidents = lo.ToPtr(cfgBool.ValueBool())
 	}
 
 	if !data.IncludePrivateEscalations.IsNull() {
@@ -379,6 +418,40 @@ func toOwningTeamIDs(set types.Set) *[]string {
 	}
 
 	return &teamIDs
+}
+
+// ValidateConfig blocks an unrecognised private_incident_scope, or an include_private_incidents
+// that contradicts it. The bool is true whenever the scope touches private incidents (all or
+// owning_teams), false for none; the API accepts both when they agree, so only disagreement errors.
+func (r *IncidentWorkflowResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var includePrivate types.Bool
+	var scope types.String
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("include_private_incidents"), &includePrivate)...)
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("private_incident_scope"), &scope)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	scopeSet := !scope.IsNull() && !scope.IsUnknown()
+	boolSet := !includePrivate.IsNull() && !includePrivate.IsUnknown()
+
+	if scopeSet && !lo.Contains(privateIncidentScopes, scope.ValueString()) {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"Invalid private_incident_scope",
+			fmt.Sprintf("private_incident_scope must be one of %v, got %q.", privateIncidentScopes, scope.ValueString()),
+		))
+		return
+	}
+
+	if scopeSet && boolSet {
+		touchesPrivate := scope.ValueString() != "none"
+		if includePrivate.ValueBool() != touchesPrivate {
+			resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+				"include_private_incidents and private_incident_scope disagree",
+				"include_private_incidents is deprecated in favour of private_incident_scope. When both are set they must agree: include_private_incidents is true for the all and owning_teams scopes and false for none. Prefer setting only private_incident_scope.",
+			))
+		}
+	}
 }
 
 func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayloadV2 {

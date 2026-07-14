@@ -50,6 +50,7 @@ func (r *IncidentWorkflowResource) buildModel(ctx context.Context, workflow clie
 		OnceFor:                   buildOnceFor(workflow.OnceFor),
 		RunsOnIncidentModes:       buildRunsOnIncidentModes(workflow.RunsOnIncidentModes),
 		IncludePrivateIncidents:   types.BoolValue(workflow.IncludePrivateIncidents),
+		PrivateIncidentScope:      types.StringValue(string(workflow.PrivateIncidentScope)),
 		IncludePrivateEscalations: types.BoolPointerValue(lo.ToPtr(workflow.IncludePrivateEscalations)),
 		OwningTeamIDs:             buildOwningTeamIDs(workflow.OwningTeamIds),
 		ContinueOnStepError:       types.BoolValue(workflow.ContinueOnStepError),
