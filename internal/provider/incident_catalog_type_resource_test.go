@@ -3,6 +3,7 @@ package provider
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"reflect"
 	"regexp"
 	"strings"
@@ -124,6 +125,48 @@ func TestAccIncidentCatalogTypeResource(t *testing.T) {
 	})
 }
 
+// TestAccIncidentCatalogTypeResourceOwningTeams exercises the owning_team_ids
+// attribute. It's gated on a real team catalog-entry ID being supplied via
+// TF_ACC_OWNING_TEAM_ID, so CI without one skips. The create-without-owners drift
+// case is already covered by the ImportStateVerify steps in the tests above.
+func TestAccIncidentCatalogTypeResourceOwningTeams(t *testing.T) {
+	teamID := os.Getenv("TF_ACC_OWNING_TEAM_ID")
+	if teamID == "" {
+		t.Skip("TF_ACC_OWNING_TEAM_ID is not set: skipping owning_team_ids test")
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create with a single owning team
+			{
+				Config: testAccIncidentCatalogTypeResourceConfigWithOwningTeams([]string{teamID}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type.example", "owning_team_ids.#", "1"),
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type.example", "owning_team_ids.0", teamID),
+				),
+			},
+			// Import
+			{
+				ResourceName:      "incident_catalog_type.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			// Update to manage ownership as exactly empty
+			{
+				Config: testAccIncidentCatalogTypeResourceConfigWithOwningTeams([]string{}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_catalog_type.example", "owning_team_ids.#", "0"),
+				),
+			},
+		},
+	})
+}
+
 func generateTypeName() string {
 	// The test run ID is a uuid, which won't be accepted. Strip it down to
 	// something allowed
@@ -154,6 +197,36 @@ resource "incident_catalog_type" "example" {
   source_repo_url = "https://github.com/incident-io/terraform-demo"
 }
 `))
+
+var catalogTypeWithOwningTeamsTemplate = template.Must(template.New("incident_catalog_type_with_owning_teams").Funcs(sprig.TxtFuncMap()).Parse(`
+resource "incident_catalog_type" "example" {
+  name        = {{ quote .Name }}
+  description = {{ quote .Description }}
+
+  source_repo_url = "https://github.com/incident-io/terraform-demo"
+
+  owning_team_ids = [{{ range $i, $id := .OwningTeamIDs }}{{ if $i }}, {{ end }}{{ quote $id }}{{ end }}]
+}
+`))
+
+func testAccIncidentCatalogTypeResourceConfigWithOwningTeams(owningTeamIDs []string) string {
+	model := struct {
+		Name          string
+		Description   string
+		OwningTeamIDs []string
+	}{
+		Name:          StableSuffix("Service"),
+		Description:   "Catalog Type Acceptance tests",
+		OwningTeamIDs: owningTeamIDs,
+	}
+
+	var buf bytes.Buffer
+	if err := catalogTypeWithOwningTeamsTemplate.Execute(&buf, model); err != nil {
+		panic(err)
+	}
+
+	return buf.String()
+}
 
 func catalogTypeDefault() client.CatalogTypeV2 {
 	return client.CatalogTypeV2{

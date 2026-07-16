@@ -61,6 +61,11 @@ func (i *IncidentCatalogTypeDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "use_name_as_identifier"),
 				Computed:            true,
 			},
+			"owning_team_ids": schema.SetAttribute{
+				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "owning_team_ids"),
+				Computed:            true,
+				ElementType:         types.StringType,
+			},
 		},
 	}
 }
@@ -127,7 +132,10 @@ func (i *IncidentCatalogTypeDataSource) Read(ctx context.Context, req datasource
 		return
 	}
 
-	modelResp := new(IncidentCatalogTypeResource).buildModel(*catalogType)
+	emptyPlan := &IncidentCatalogTypeResourceModel{
+		OwningTeamIDs: types.SetNull(types.StringType),
+	}
+	modelResp := new(IncidentCatalogTypeResource).buildModel(*catalogType, emptyPlan)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
 }

@@ -54,6 +54,7 @@ const (
 // Defines values for APIKeyTeamRoleV1Name.
 const (
 	APIKeyTeamRoleV1NameApiKeysManage           APIKeyTeamRoleV1Name = "api_keys_manage"
+	APIKeyTeamRoleV1NameCatalogEditor           APIKeyTeamRoleV1Name = "catalog_editor"
 	APIKeyTeamRoleV1NameEscalationCreator       APIKeyTeamRoleV1Name = "escalation_creator"
 	APIKeyTeamRoleV1NameOnCallEditor            APIKeyTeamRoleV1Name = "on_call_editor"
 	APIKeyTeamRoleV1NamePrivateWorkflowsEditor  APIKeyTeamRoleV1Name = "private_workflows_editor"
@@ -99,6 +100,7 @@ const (
 // Defines values for APIKeysCreatePayloadV1TeamRoleNames.
 const (
 	APIKeysCreatePayloadV1TeamRoleNamesApiKeysManage           APIKeysCreatePayloadV1TeamRoleNames = "api_keys_manage"
+	APIKeysCreatePayloadV1TeamRoleNamesCatalogEditor           APIKeysCreatePayloadV1TeamRoleNames = "catalog_editor"
 	APIKeysCreatePayloadV1TeamRoleNamesEscalationCreator       APIKeysCreatePayloadV1TeamRoleNames = "escalation_creator"
 	APIKeysCreatePayloadV1TeamRoleNamesOnCallEditor            APIKeysCreatePayloadV1TeamRoleNames = "on_call_editor"
 	APIKeysCreatePayloadV1TeamRoleNamesPrivateWorkflowsEditor  APIKeysCreatePayloadV1TeamRoleNames = "private_workflows_editor"
@@ -144,6 +146,7 @@ const (
 // Defines values for APIKeysUpdatePayloadV1TeamRoleNames.
 const (
 	APIKeysUpdatePayloadV1TeamRoleNamesApiKeysManage           APIKeysUpdatePayloadV1TeamRoleNames = "api_keys_manage"
+	APIKeysUpdatePayloadV1TeamRoleNamesCatalogEditor           APIKeysUpdatePayloadV1TeamRoleNames = "catalog_editor"
 	APIKeysUpdatePayloadV1TeamRoleNamesEscalationCreator       APIKeysUpdatePayloadV1TeamRoleNames = "escalation_creator"
 	APIKeysUpdatePayloadV1TeamRoleNamesOnCallEditor            APIKeysUpdatePayloadV1TeamRoleNames = "on_call_editor"
 	APIKeysUpdatePayloadV1TeamRoleNamesPrivateWorkflowsEditor  APIKeysUpdatePayloadV1TeamRoleNames = "private_workflows_editor"
@@ -1095,6 +1098,7 @@ const (
 
 // Defines values for ExternalResourceV1ResourceType.
 const (
+	ExternalResourceV1ResourceTypeArbitraryUrl                ExternalResourceV1ResourceType = "arbitrary_url"
 	ExternalResourceV1ResourceTypeAtlassianStatuspageIncident ExternalResourceV1ResourceType = "atlassian_statuspage_incident"
 	ExternalResourceV1ResourceTypeDatadogMonitorAlert         ExternalResourceV1ResourceType = "datadog_monitor_alert"
 	ExternalResourceV1ResourceTypeGithubPullRequest           ExternalResourceV1ResourceType = "github_pull_request"
@@ -1185,6 +1189,7 @@ const (
 // Defines values for IdentityV1TeamRoles.
 const (
 	IdentityV1TeamRolesApiKeysManage           IdentityV1TeamRoles = "api_keys_manage"
+	IdentityV1TeamRolesCatalogEditor           IdentityV1TeamRoles = "catalog_editor"
 	IdentityV1TeamRolesEscalationCreator       IdentityV1TeamRoles = "escalation_creator"
 	IdentityV1TeamRolesOnCallEditor            IdentityV1TeamRoles = "on_call_editor"
 	IdentityV1TeamRolesPrivateWorkflowsEditor  IdentityV1TeamRoles = "private_workflows_editor"
@@ -1196,6 +1201,7 @@ const (
 
 // Defines values for IncidentAttachmentsCreatePayloadV1ResourceResourceType.
 const (
+	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeArbitraryUrl                IncidentAttachmentsCreatePayloadV1ResourceResourceType = "arbitrary_url"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeAtlassianStatuspageIncident IncidentAttachmentsCreatePayloadV1ResourceResourceType = "atlassian_statuspage_incident"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeDatadogMonitorAlert         IncidentAttachmentsCreatePayloadV1ResourceResourceType = "datadog_monitor_alert"
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeGithubPullRequest           IncidentAttachmentsCreatePayloadV1ResourceResourceType = "github_pull_request"
@@ -1624,6 +1630,14 @@ const (
 	StatusPageMaintenanceV2MaintenanceStatusMaintenanceScheduled  StatusPageMaintenanceV2MaintenanceStatus = "maintenance_scheduled"
 )
 
+// Defines values for StatusPageRetrospectiveIncidentUpdateV2IncidentStatus.
+const (
+	StatusPageRetrospectiveIncidentUpdateV2IncidentStatusIdentified    StatusPageRetrospectiveIncidentUpdateV2IncidentStatus = "identified"
+	StatusPageRetrospectiveIncidentUpdateV2IncidentStatusInvestigating StatusPageRetrospectiveIncidentUpdateV2IncidentStatus = "investigating"
+	StatusPageRetrospectiveIncidentUpdateV2IncidentStatusMonitoring    StatusPageRetrospectiveIncidentUpdateV2IncidentStatus = "monitoring"
+	StatusPageRetrospectiveIncidentUpdateV2IncidentStatusResolved      StatusPageRetrospectiveIncidentUpdateV2IncidentStatus = "resolved"
+)
+
 // Defines values for StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatus.
 const (
 	StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatusIdentified    StatusPagesCreateStatusPageIncidentPayloadV2IncidentStatus = "identified"
@@ -1634,10 +1648,10 @@ const (
 
 // Defines values for StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus.
 const (
-	StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatusIdentified    StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus = "identified"
-	StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatusInvestigating StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus = "investigating"
-	StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatusMonitoring    StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus = "monitoring"
-	StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatusResolved      StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus = "resolved"
+	Identified    StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus = "identified"
+	Investigating StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus = "investigating"
+	Monitoring    StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus = "monitoring"
+	Resolved      StatusPagesCreateStatusPageIncidentUpdatePayloadV2IncidentStatus = "resolved"
 )
 
 // Defines values for StatusPagesCreateStatusPageMaintenancePayloadV2MaintenanceStatus.
@@ -1843,6 +1857,7 @@ const (
 
 // Defines values for IncidentAttachmentsV1ListParamsResourceType.
 const (
+	ArbitraryUrl                IncidentAttachmentsV1ListParamsResourceType = "arbitrary_url"
 	AtlassianStatuspageIncident IncidentAttachmentsV1ListParamsResourceType = "atlassian_statuspage_incident"
 	DatadogMonitorAlert         IncidentAttachmentsV1ListParamsResourceType = "datadog_monitor_alert"
 	GithubPullRequest           IncidentAttachmentsV1ListParamsResourceType = "github_pull_request"
@@ -1948,6 +1963,9 @@ type APIKeyTeamRoleV1Name string
 
 // APIKeyV1 defines model for APIKeyV1.
 type APIKeyV1 struct {
+	// Comments Freeform notes about this API key
+	Comments *string `json:"comments,omitempty"`
+
 	// CreatedAt When the API key was created
 	CreatedAt time.Time `json:"created_at"`
 	Creator   ActorV1   `json:"creator"`
@@ -1976,6 +1994,9 @@ type APIKeyV1 struct {
 
 // APIKeysCreatePayloadV1 defines model for APIKeysCreatePayloadV1.
 type APIKeysCreatePayloadV1 struct {
+	// Comments Freeform notes about the API key
+	Comments *string `json:"comments,omitempty"`
+
 	// Name Human-readable name for the new API key
 	Name string `json:"name"`
 
@@ -2030,6 +2051,9 @@ type APIKeysShowResultV1 struct {
 
 // APIKeysUpdatePayloadV1 defines model for APIKeysUpdatePayloadV1.
 type APIKeysUpdatePayloadV1 struct {
+	// Comments Freeform notes about the API key
+	Comments *string `json:"comments,omitempty"`
+
 	// Name Human-readable name for the API key
 	Name string `json:"name"`
 
@@ -2764,51 +2788,55 @@ type AlertRouteIncidentConfigV3 struct {
 // AlertRouteIncidentTemplatePayloadV2 defines model for AlertRouteIncidentTemplatePayloadV2.
 type AlertRouteIncidentTemplatePayloadV2 struct {
 	// CustomFields Custom fields configuration
-	CustomFields  *[]AlertRouteCustomFieldBindingPayloadV2         `json:"custom_fields,omitempty"`
-	IncidentMode  *AlertRouteTemplateBindingPayloadV2              `json:"incident_mode,omitempty"`
-	IncidentType  *AlertRouteTemplateBindingPayloadV2              `json:"incident_type,omitempty"`
-	Name          AlertRouteAutoGeneratedTemplateBindingPayloadV2  `json:"name"`
-	Severity      *AlertRouteSeverityBindingPayloadV2              `json:"severity,omitempty"`
-	StartInTriage *AlertRouteTemplateBindingPayloadV2              `json:"start_in_triage,omitempty"`
-	Summary       *AlertRouteAutoGeneratedTemplateBindingPayloadV2 `json:"summary,omitempty"`
-	Workspace     *AlertRouteTemplateBindingPayloadV2              `json:"workspace,omitempty"`
+	CustomFields    *[]AlertRouteCustomFieldBindingPayloadV2         `json:"custom_fields,omitempty"`
+	IncidentMode    *AlertRouteTemplateBindingPayloadV2              `json:"incident_mode,omitempty"`
+	IncidentType    *AlertRouteTemplateBindingPayloadV2              `json:"incident_type,omitempty"`
+	MembershipTeams *AlertRouteTemplateBindingPayloadV2              `json:"membership_teams,omitempty"`
+	Name            AlertRouteAutoGeneratedTemplateBindingPayloadV2  `json:"name"`
+	Severity        *AlertRouteSeverityBindingPayloadV2              `json:"severity,omitempty"`
+	StartInTriage   *AlertRouteTemplateBindingPayloadV2              `json:"start_in_triage,omitempty"`
+	Summary         *AlertRouteAutoGeneratedTemplateBindingPayloadV2 `json:"summary,omitempty"`
+	Workspace       *AlertRouteTemplateBindingPayloadV2              `json:"workspace,omitempty"`
 }
 
 // AlertRouteIncidentTemplatePayloadV3 defines model for AlertRouteIncidentTemplatePayloadV3.
 type AlertRouteIncidentTemplatePayloadV3 struct {
 	// CustomFields Custom fields configuration
-	CustomFields  *[]AlertRouteCustomFieldBindingPayloadV3         `json:"custom_fields,omitempty"`
-	IncidentMode  *AlertRouteTemplateBindingPayloadV3              `json:"incident_mode,omitempty"`
-	IncidentType  *AlertRouteTemplateBindingPayloadV3              `json:"incident_type,omitempty"`
-	Name          AlertRouteAutoGeneratedTemplateBindingPayloadV3  `json:"name"`
-	Severity      *AlertRouteSeverityBindingPayloadV3              `json:"severity,omitempty"`
-	StartInTriage *AlertRouteTemplateBindingPayloadV3              `json:"start_in_triage,omitempty"`
-	Summary       *AlertRouteAutoGeneratedTemplateBindingPayloadV3 `json:"summary,omitempty"`
+	CustomFields    *[]AlertRouteCustomFieldBindingPayloadV3         `json:"custom_fields,omitempty"`
+	IncidentMode    *AlertRouteTemplateBindingPayloadV3              `json:"incident_mode,omitempty"`
+	IncidentType    *AlertRouteTemplateBindingPayloadV3              `json:"incident_type,omitempty"`
+	MembershipTeams *AlertRouteTemplateBindingPayloadV3              `json:"membership_teams,omitempty"`
+	Name            AlertRouteAutoGeneratedTemplateBindingPayloadV3  `json:"name"`
+	Severity        *AlertRouteSeverityBindingPayloadV3              `json:"severity,omitempty"`
+	StartInTriage   *AlertRouteTemplateBindingPayloadV3              `json:"start_in_triage,omitempty"`
+	Summary         *AlertRouteAutoGeneratedTemplateBindingPayloadV3 `json:"summary,omitempty"`
 }
 
 // AlertRouteIncidentTemplateV2 defines model for AlertRouteIncidentTemplateV2.
 type AlertRouteIncidentTemplateV2 struct {
 	// CustomFields Custom fields configuration
-	CustomFields  *[]AlertRouteCustomFieldBindingV2         `json:"custom_fields,omitempty"`
-	IncidentMode  *AlertRouteTemplateBindingV2              `json:"incident_mode,omitempty"`
-	IncidentType  *AlertRouteTemplateBindingV2              `json:"incident_type,omitempty"`
-	Name          AlertRouteAutoGeneratedTemplateBindingV2  `json:"name"`
-	Severity      *AlertRouteSeverityBindingV2              `json:"severity,omitempty"`
-	StartInTriage *AlertRouteTemplateBindingV2              `json:"start_in_triage,omitempty"`
-	Summary       *AlertRouteAutoGeneratedTemplateBindingV2 `json:"summary,omitempty"`
-	Workspace     *AlertRouteTemplateBindingV2              `json:"workspace,omitempty"`
+	CustomFields    *[]AlertRouteCustomFieldBindingV2         `json:"custom_fields,omitempty"`
+	IncidentMode    *AlertRouteTemplateBindingV2              `json:"incident_mode,omitempty"`
+	IncidentType    *AlertRouteTemplateBindingV2              `json:"incident_type,omitempty"`
+	MembershipTeams *AlertRouteTemplateBindingV2              `json:"membership_teams,omitempty"`
+	Name            AlertRouteAutoGeneratedTemplateBindingV2  `json:"name"`
+	Severity        *AlertRouteSeverityBindingV2              `json:"severity,omitempty"`
+	StartInTriage   *AlertRouteTemplateBindingV2              `json:"start_in_triage,omitempty"`
+	Summary         *AlertRouteAutoGeneratedTemplateBindingV2 `json:"summary,omitempty"`
+	Workspace       *AlertRouteTemplateBindingV2              `json:"workspace,omitempty"`
 }
 
 // AlertRouteIncidentTemplateV3 defines model for AlertRouteIncidentTemplateV3.
 type AlertRouteIncidentTemplateV3 struct {
 	// CustomFields Custom fields configuration
-	CustomFields  *[]AlertRouteCustomFieldBindingV3         `json:"custom_fields,omitempty"`
-	IncidentMode  *AlertRouteTemplateBindingV3              `json:"incident_mode,omitempty"`
-	IncidentType  *AlertRouteTemplateBindingV3              `json:"incident_type,omitempty"`
-	Name          AlertRouteAutoGeneratedTemplateBindingV3  `json:"name"`
-	Severity      *AlertRouteSeverityBindingV3              `json:"severity,omitempty"`
-	StartInTriage *AlertRouteTemplateBindingV3              `json:"start_in_triage,omitempty"`
-	Summary       *AlertRouteAutoGeneratedTemplateBindingV3 `json:"summary,omitempty"`
+	CustomFields    *[]AlertRouteCustomFieldBindingV3         `json:"custom_fields,omitempty"`
+	IncidentMode    *AlertRouteTemplateBindingV3              `json:"incident_mode,omitempty"`
+	IncidentType    *AlertRouteTemplateBindingV3              `json:"incident_type,omitempty"`
+	MembershipTeams *AlertRouteTemplateBindingV3              `json:"membership_teams,omitempty"`
+	Name            AlertRouteAutoGeneratedTemplateBindingV3  `json:"name"`
+	Severity        *AlertRouteSeverityBindingV3              `json:"severity,omitempty"`
+	StartInTriage   *AlertRouteTemplateBindingV3              `json:"start_in_triage,omitempty"`
+	Summary         *AlertRouteAutoGeneratedTemplateBindingV3 `json:"summary,omitempty"`
 }
 
 // AlertRouteSeverityBindingPayloadV2 defines model for AlertRouteSeverityBindingPayloadV2.
@@ -3657,6 +3685,9 @@ type CatalogCreateTypePayloadV3 struct {
 	// Name Name is the human readable name of this type
 	Name string `json:"name"`
 
+	// OwningTeamIds IDs of the teams that own this catalog type
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
 	// Ranked If this type should be ranked
 	Ranked *bool `json:"ranked,omitempty"`
 
@@ -4217,6 +4248,9 @@ type CatalogTypeV3 struct {
 	// Name Name is the human readable name of this type
 	Name string `json:"name"`
 
+	// OwningTeamIds IDs of the teams that own this catalog type
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
 	// Ranked If this type should be ranked
 	Ranked bool `json:"ranked"`
 
@@ -4356,6 +4390,9 @@ type CatalogUpdateTypePayloadV3 struct {
 
 	// Name Name is the human readable name of this type
 	Name string `json:"name"`
+
+	// OwningTeamIds IDs of the teams that own this catalog type
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
 
 	// Ranked If this type should be ranked
 	Ranked *bool `json:"ranked,omitempty"`
@@ -6276,11 +6313,17 @@ type IncidentAttachmentsCreatePayloadV1 struct {
 	// IncidentId ID of the incident to add an attachment to
 	IncidentId string `json:"incident_id"`
 	Resource   struct {
+		// Emoji Emoji shortcode representing the link, without surrounding colons. Only supported for the arbitrary_url resource type.
+		Emoji *string `json:"emoji,omitempty"`
+
 		// ExternalId ID of the resource in the external system
 		ExternalId *string `json:"external_id,omitempty"`
 
 		// ResourceType E.g. PagerDuty: the external system that holds the resource
 		ResourceType IncidentAttachmentsCreatePayloadV1ResourceResourceType `json:"resource_type"`
+
+		// Title Human readable title for the link. Only supported for the arbitrary_url resource type.
+		Title *string `json:"title,omitempty"`
 
 		// Url URL of the external resource to attach for the given resource type.
 		Url *string `json:"url,omitempty"`
@@ -8912,6 +8955,24 @@ type StatusPageMaintenanceV2 struct {
 // StatusPageMaintenanceV2MaintenanceStatus Current status for this maintenance window
 type StatusPageMaintenanceV2MaintenanceStatus string
 
+// StatusPageRetrospectiveIncidentUpdateV2 A single update in the reconstructed timeline of a retrospective status page incident.
+type StatusPageRetrospectiveIncidentUpdateV2 struct {
+	// ComponentStatuses An array of mappings from component ID to component status at the time this update was published
+	ComponentStatuses *[]StatusPageIncidentAffectedComponentV2 `json:"component_statuses,omitempty"`
+
+	// IncidentStatus Current status for this incident
+	IncidentStatus StatusPageRetrospectiveIncidentUpdateV2IncidentStatus `json:"incident_status"`
+
+	// Message Markdown update on what's changed about this status page incident
+	Message string `json:"message"`
+
+	// PublishedAt When this update was published. Must be in the past.
+	PublishedAt time.Time `json:"published_at"`
+}
+
+// StatusPageRetrospectiveIncidentUpdateV2IncidentStatus Current status for this incident
+type StatusPageRetrospectiveIncidentUpdateV2IncidentStatus string
+
 // StatusPageStructureComponentV2 defines model for StatusPageStructureComponentV2.
 type StatusPageStructureComponentV2 struct {
 	// ComponentId The ID of the affected component. This may be found by calling the ShowStatusPageStructure endpoint.
@@ -9099,6 +9160,26 @@ type StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatus stri
 // StatusPagesCreateStatusPageMaintenanceUpdateResultV2 defines model for StatusPagesCreateStatusPageMaintenanceUpdateResultV2.
 type StatusPagesCreateStatusPageMaintenanceUpdateResultV2 struct {
 	StatusPageMaintenanceUpdate *StatusPageMaintenanceUpdateV2 `json:"status_page_maintenance_update,omitempty"`
+}
+
+// StatusPagesCreateStatusPageRetrospectiveIncidentPayloadV2 defines model for StatusPagesCreateStatusPageRetrospectiveIncidentPayloadV2.
+type StatusPagesCreateStatusPageRetrospectiveIncidentPayloadV2 struct {
+	// IdempotencyKey A unique key to de-duplicate requests. If you send a request with an idempotency_key that was already used, the original response will be returned.
+	IdempotencyKey string `json:"idempotency_key"`
+
+	// Name A title for the incident
+	Name string `json:"name"`
+
+	// StatusPageId ID of the status page. You can find this by calling the ListStatusPages endpoint.
+	StatusPageId string `json:"status_page_id"`
+
+	// Updates The reconstructed timeline of updates for this incident, ordered chronologically (earliest first). The final update must set incident_status to "resolved".
+	Updates []StatusPageRetrospectiveIncidentUpdateV2 `json:"updates"`
+}
+
+// StatusPagesCreateStatusPageRetrospectiveIncidentResultV2 defines model for StatusPagesCreateStatusPageRetrospectiveIncidentResultV2.
+type StatusPagesCreateStatusPageRetrospectiveIncidentResultV2 struct {
+	StatusPageIncident *StatusPageIncidentV2 `json:"status_page_incident,omitempty"`
 }
 
 // StatusPagesListResponseIncidentsResultV1 defines model for StatusPagesListResponseIncidentsResultV1.
@@ -10629,6 +10710,9 @@ type StatusPagesV2CreateStatusPageMaintenanceUpdateJSONRequestBody = StatusPages
 // StatusPagesV2CreateStatusPageMaintenanceJSONRequestBody defines body for StatusPagesV2CreateStatusPageMaintenance for application/json ContentType.
 type StatusPagesV2CreateStatusPageMaintenanceJSONRequestBody = StatusPagesCreateStatusPageMaintenancePayloadV2
 
+// StatusPagesV2CreateStatusPageRetrospectiveIncidentJSONRequestBody defines body for StatusPagesV2CreateStatusPageRetrospectiveIncident for application/json ContentType.
+type StatusPagesV2CreateStatusPageRetrospectiveIncidentJSONRequestBody = StatusPagesCreateStatusPageRetrospectiveIncidentPayloadV2
+
 // TelemetryV2UpdateDataSourceJSONRequestBody defines body for TelemetryV2UpdateDataSource for application/json ContentType.
 type TelemetryV2UpdateDataSourceJSONRequestBody = TelemetryUpdateDataSourcePayloadV2
 
@@ -11400,6 +11484,11 @@ type ClientInterface interface {
 
 	// StatusPagesV2ShowStatusPageMaintenance request
 	StatusPagesV2ShowStatusPageMaintenance(ctx context.Context, statusPageMaintenanceId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StatusPagesV2CreateStatusPageRetrospectiveIncidentWithBody request with any body
+	StatusPagesV2CreateStatusPageRetrospectiveIncidentWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	StatusPagesV2CreateStatusPageRetrospectiveIncident(ctx context.Context, body StatusPagesV2CreateStatusPageRetrospectiveIncidentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// StatusPagesV2ShowStatusPageStructure request
 	StatusPagesV2ShowStatusPageStructure(ctx context.Context, statusPageId string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -14449,6 +14538,30 @@ func (c *Client) StatusPagesV2CreateStatusPageMaintenance(ctx context.Context, b
 
 func (c *Client) StatusPagesV2ShowStatusPageMaintenance(ctx context.Context, statusPageMaintenanceId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewStatusPagesV2ShowStatusPageMaintenanceRequest(c.Server, statusPageMaintenanceId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) StatusPagesV2CreateStatusPageRetrospectiveIncidentWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPagesV2CreateStatusPageRetrospectiveIncidentRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) StatusPagesV2CreateStatusPageRetrospectiveIncident(ctx context.Context, body StatusPagesV2CreateStatusPageRetrospectiveIncidentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStatusPagesV2CreateStatusPageRetrospectiveIncidentRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -23347,6 +23460,46 @@ func NewStatusPagesV2ShowStatusPageMaintenanceRequest(server string, statusPageM
 	return req, nil
 }
 
+// NewStatusPagesV2CreateStatusPageRetrospectiveIncidentRequest calls the generic StatusPagesV2CreateStatusPageRetrospectiveIncident builder with application/json body
+func NewStatusPagesV2CreateStatusPageRetrospectiveIncidentRequest(server string, body StatusPagesV2CreateStatusPageRetrospectiveIncidentJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewStatusPagesV2CreateStatusPageRetrospectiveIncidentRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewStatusPagesV2CreateStatusPageRetrospectiveIncidentRequestWithBody generates requests for StatusPagesV2CreateStatusPageRetrospectiveIncident with any type of body
+func NewStatusPagesV2CreateStatusPageRetrospectiveIncidentRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/status_page_retrospective_incidents")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewStatusPagesV2ShowStatusPageStructureRequest generates requests for StatusPagesV2ShowStatusPageStructure
 func NewStatusPagesV2ShowStatusPageStructureRequest(server string, statusPageId string) (*http.Request, error) {
 	var err error
@@ -25604,6 +25757,11 @@ type ClientWithResponsesInterface interface {
 
 	// StatusPagesV2ShowStatusPageMaintenanceWithResponse request
 	StatusPagesV2ShowStatusPageMaintenanceWithResponse(ctx context.Context, statusPageMaintenanceId string, reqEditors ...RequestEditorFn) (*StatusPagesV2ShowStatusPageMaintenanceResponse, error)
+
+	// StatusPagesV2CreateStatusPageRetrospectiveIncidentWithBodyWithResponse request with any body
+	StatusPagesV2CreateStatusPageRetrospectiveIncidentWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2CreateStatusPageRetrospectiveIncidentResponse, error)
+
+	StatusPagesV2CreateStatusPageRetrospectiveIncidentWithResponse(ctx context.Context, body StatusPagesV2CreateStatusPageRetrospectiveIncidentJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPagesV2CreateStatusPageRetrospectiveIncidentResponse, error)
 
 	// StatusPagesV2ShowStatusPageStructureWithResponse request
 	StatusPagesV2ShowStatusPageStructureWithResponse(ctx context.Context, statusPageId string, reqEditors ...RequestEditorFn) (*StatusPagesV2ShowStatusPageStructureResponse, error)
@@ -29557,6 +29715,28 @@ func (r StatusPagesV2ShowStatusPageMaintenanceResponse) StatusCode() int {
 	return 0
 }
 
+type StatusPagesV2CreateStatusPageRetrospectiveIncidentResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *StatusPagesCreateStatusPageRetrospectiveIncidentResultV2
+}
+
+// Status returns HTTPResponse.Status
+func (r StatusPagesV2CreateStatusPageRetrospectiveIncidentResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StatusPagesV2CreateStatusPageRetrospectiveIncidentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type StatusPagesV2ShowStatusPageStructureResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -32446,6 +32626,23 @@ func (c *ClientWithResponses) StatusPagesV2ShowStatusPageMaintenanceWithResponse
 		return nil, err
 	}
 	return ParseStatusPagesV2ShowStatusPageMaintenanceResponse(rsp)
+}
+
+// StatusPagesV2CreateStatusPageRetrospectiveIncidentWithBodyWithResponse request with arbitrary body returning *StatusPagesV2CreateStatusPageRetrospectiveIncidentResponse
+func (c *ClientWithResponses) StatusPagesV2CreateStatusPageRetrospectiveIncidentWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StatusPagesV2CreateStatusPageRetrospectiveIncidentResponse, error) {
+	rsp, err := c.StatusPagesV2CreateStatusPageRetrospectiveIncidentWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPagesV2CreateStatusPageRetrospectiveIncidentResponse(rsp)
+}
+
+func (c *ClientWithResponses) StatusPagesV2CreateStatusPageRetrospectiveIncidentWithResponse(ctx context.Context, body StatusPagesV2CreateStatusPageRetrospectiveIncidentJSONRequestBody, reqEditors ...RequestEditorFn) (*StatusPagesV2CreateStatusPageRetrospectiveIncidentResponse, error) {
+	rsp, err := c.StatusPagesV2CreateStatusPageRetrospectiveIncident(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStatusPagesV2CreateStatusPageRetrospectiveIncidentResponse(rsp)
 }
 
 // StatusPagesV2ShowStatusPageStructureWithResponse request returning *StatusPagesV2ShowStatusPageStructureResponse
@@ -37123,6 +37320,32 @@ func ParseStatusPagesV2ShowStatusPageMaintenanceResponse(rsp *http.Response) (*S
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStatusPagesV2CreateStatusPageRetrospectiveIncidentResponse parses an HTTP response from a StatusPagesV2CreateStatusPageRetrospectiveIncidentWithResponse call
+func ParseStatusPagesV2CreateStatusPageRetrospectiveIncidentResponse(rsp *http.Response) (*StatusPagesV2CreateStatusPageRetrospectiveIncidentResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StatusPagesV2CreateStatusPageRetrospectiveIncidentResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest StatusPagesCreateStatusPageRetrospectiveIncidentResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
 
 	}
 

@@ -7,4 +7,5 @@ resource "incident_catalog_type" "service_tier" {
   EOF
   categories      = ["service"]
   source_repo_url = "https://github.com/mycompany/infrastructure"
+  owning_team_ids = ["01FCNDV6P870EA6S7TK1DSYD5H"]
 }
