@@ -57,6 +57,7 @@ resource "incident_catalog_type" "service_tier" {
   EOF
   categories      = ["service"]
   source_repo_url = "https://github.com/mycompany/infrastructure"
+  owning_team_ids = ["01FCNDV6P870EA6S7TK1DSYD5H"]
 }
 ```
 
@@ -72,6 +73,7 @@ resource "incident_catalog_type" "service_tier" {
 ### Optional
 
 - `categories` (List of String) The categories that this type belongs to, to be shown in the web dashboard. Possible values are: `customer`, `issue-tracker`, `product-feature`, `service`, `on-call`, `team`, `user`.
+- `owning_team_ids` (Set of String) IDs of the teams that own this catalog type
 - `type_name` (String) The type name of this catalog type, to be used when defining attributes. This is immutable once a CatalogType has been created. For non-externally sync types, it must follow the pattern Custom["SomeName"]
 - `use_name_as_identifier` (Boolean) If enabled, you can refer to entries of this type by their name, as well as their external ID and any aliases.
 

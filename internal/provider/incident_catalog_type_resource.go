@@ -39,6 +39,7 @@ type IncidentCatalogTypeResourceModel struct {
 	SourceRepoURL       types.String `tfsdk:"source_repo_url"`
 	Categories          types.List   `tfsdk:"categories"`
 	UseNameAsIdentifier types.Bool   `tfsdk:"use_name_as_identifier"`
+	OwningTeamIDs       types.Set    `tfsdk:"owning_team_ids"`
 }
 
 func NewIncidentCatalogTypeResource() resource.Resource {
@@ -105,6 +106,11 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 				Optional:            true,
 				Computed:            true,
 			},
+			"owning_team_ids": schema.SetAttribute{
+				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "owning_team_ids"),
+				Optional:            true,
+				ElementType:         types.StringType,
+			},
 		},
 	}
 }
@@ -165,6 +171,15 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 	}
 	requestBody.Categories = lo.ToPtr(categories)
 
+	if !data.OwningTeamIDs.IsUnknown() && !data.OwningTeamIDs.IsNull() {
+		ids := []string{}
+		resp.Diagnostics.Append(data.OwningTeamIDs.ElementsAs(ctx, &ids, false)...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		requestBody.OwningTeamIds = &ids
+	}
+
 	result, err := r.client.CatalogV3CreateTypeWithResponse(ctx, requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create catalog type, got error: %s", err))
@@ -172,7 +187,7 @@ func (r *IncidentCatalogTypeResource) Create(ctx context.Context, req resource.C
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created a catalog type resource with id=%s", result.JSON201.CatalogType.Id))
-	data = r.buildModel(result.JSON201.CatalogType)
+	data = r.buildModel(result.JSON201.CatalogType, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -196,7 +211,7 @@ func (r *IncidentCatalogTypeResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
-	data = r.buildModel(result.JSON200.CatalogType)
+	data = r.buildModel(result.JSON200.CatalogType, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -236,13 +251,22 @@ func (r *IncidentCatalogTypeResource) Update(ctx context.Context, req resource.U
 	}
 	requestBody.Categories = lo.ToPtr(categories)
 
+	if !data.OwningTeamIDs.IsUnknown() && !data.OwningTeamIDs.IsNull() {
+		ids := []string{}
+		resp.Diagnostics.Append(data.OwningTeamIDs.ElementsAs(ctx, &ids, false)...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		requestBody.OwningTeamIds = &ids
+	}
+
 	result, err := r.client.CatalogV3UpdateTypeWithResponse(ctx, data.ID.ValueString(), requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update catalog type, got error: %s", err))
 		return
 	}
 
-	data = r.buildModel(result.JSON200.CatalogType)
+	data = r.buildModel(result.JSON200.CatalogType, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -264,7 +288,7 @@ func (r *IncidentCatalogTypeResource) ImportState(ctx context.Context, req resou
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV3) *IncidentCatalogTypeResourceModel {
+func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV3, prior *IncidentCatalogTypeResourceModel) *IncidentCatalogTypeResourceModel {
 	model := &IncidentCatalogTypeResourceModel{
 		ID:                  types.StringValue(catalogType.Id),
 		Name:                types.StringValue(catalogType.Name),
@@ -282,5 +306,28 @@ func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV
 	}
 	model.Categories = types.ListValueMust(types.StringType, categories)
 
+	// The API always returns owning_team_ids, but a practitioner who never sets the
+	// attribute should keep it null rather than picking up a perpetual diff. Only
+	// reflect owners back into state when the prior config actually managed them.
+	if prior != nil && !prior.OwningTeamIDs.IsUnknown() && !prior.OwningTeamIDs.IsNull() {
+		model.OwningTeamIDs = owningTeamIDsToSet(catalogType.OwningTeamIds)
+	} else {
+		model.OwningTeamIDs = types.SetNull(types.StringType)
+	}
+
 	return model
+}
+
+// owningTeamIDsToSet converts the API's owning team IDs into a set. A nil slice
+// becomes an empty set (not null): the API omits the field when there are no owners,
+// so a practitioner who configured an empty set must read it back as empty to avoid an
+// inconsistent-result error.
+func owningTeamIDsToSet(ids *[]string) types.Set {
+	slice := lo.FromPtr(ids)
+	elements := make([]attr.Value, len(slice))
+	for i, id := range slice {
+		elements[i] = types.StringValue(id)
+	}
+
+	return types.SetValueMust(types.StringType, elements)
 }
