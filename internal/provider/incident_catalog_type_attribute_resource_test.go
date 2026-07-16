@@ -105,8 +105,8 @@ func testAccIncidentCatalogTypeAttributeImportStateIDFunc(s *terraform.State) (s
 }
 
 // TestAccIncidentCatalogTypeAttributeResourceImportMissingAttribute is a
-// regression test for RESP-18431. Importing an attribute ID that doesn't exist
-// on the catalog type used to fail with a cryptic "Value Conversion Error"
+// regression test for GitHub issue #391. Importing an attribute ID that doesn't
+// exist on the catalog type used to fail with a cryptic "Value Conversion Error"
 // against `path`, because buildModel left the optional `path` list untyped
 // (types.List[DynamicPseudoType]) when the attribute wasn't found. Import now
 // returns a clear diagnostic instead.
@@ -228,7 +228,7 @@ func TestAttributeToPayload_PreservesModes(t *testing.T) {
 	}
 }
 
-// TestBuildModel_PathAlwaysTyped is a regression test for RESP-18431.
+// TestBuildModel_PathAlwaysTyped is a regression test for GitHub issue #391.
 //
 // buildModel used to set the optional `path` list only inside the branch that
 // matched the requested attribute ID. When the attribute wasn't present in the
