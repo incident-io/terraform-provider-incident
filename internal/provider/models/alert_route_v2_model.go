@@ -375,6 +375,61 @@ func (AlertRouteResourceModel) FromAPIV2(apiModel client.AlertRouteV2) AlertRout
 	return AlertRouteResourceModel{}.FromAPIV2WithPlan(apiModel, nil)
 }
 
+// escalationTargetFromBindings builds an escalation target model from the API
+// bindings, reconciling the users field against the plan.
+//
+// The API echoes the escalation_paths binding back in the users field of a
+// target even when the request never set users. Storing that echo makes the
+// applied state disagree with the plan, which the framework rejects with
+// "Provider produced inconsistent result after apply" (issue #390). We
+// therefore drop users only in the precise echo case: the API target carries
+// escalation_paths, the plan contains a target with that same escalation_paths
+// binding, and that plan target did not configure users. Everything else —
+// users-only targets, targets that configure both fields, targets with no
+// matching plan entry (out-of-band edits), and the nil-plan import path — is
+// preserved verbatim so genuine remote state still surfaces as drift.
+//
+// One case is undetectable by construction: users added out-of-band to the
+// exact target Terraform manages via escalation_paths looks identical to the
+// echo and is dropped.
+//
+// escalation_targets is a set, so plan targets are matched by binding content,
+// never by position.
+func escalationTargetFromBindings(users, escalationPaths *IncidentEngineParamBinding, plan *AlertRouteResourceModel) AlertRouteEscalationTargetModel {
+	model := AlertRouteEscalationTargetModel{
+		EscalationPaths: escalationPaths,
+		Users:           users,
+	}
+
+	if users == nil || escalationPaths == nil {
+		return model
+	}
+	if plan == nil || plan.EscalationConfig == nil {
+		return model
+	}
+
+	// Prefer an exact match (paths and users): the API value is exactly what a
+	// plan target configured, so it must be kept even if a sibling plan target
+	// shares the same escalation_paths binding without users.
+	for _, planTarget := range plan.EscalationConfig.EscalationTargets {
+		if paramBindingsEqual(planTarget.EscalationPaths, escalationPaths) &&
+			paramBindingsEqual(planTarget.Users, users) {
+			return model
+		}
+	}
+
+	// Otherwise, a plan target managing this escalation_paths binding without
+	// users identifies the API's users value as the echo.
+	for _, planTarget := range plan.EscalationConfig.EscalationTargets {
+		if paramBindingsEqual(planTarget.EscalationPaths, escalationPaths) && planTarget.Users == nil {
+			model.Users = nil
+			return model
+		}
+	}
+
+	return model
+}
+
 func (AlertRouteResourceModel) FromAPIV2WithPlan(apiModel client.AlertRouteV2, plan *AlertRouteResourceModel) AlertRouteResourceModel {
 	result := AlertRouteResourceModel{}
 
@@ -466,19 +521,22 @@ func (AlertRouteResourceModel) FromAPIV2WithPlan(apiModel client.AlertRouteV2, p
 
 	if apiModel.EscalationConfig.EscalationTargets != nil {
 		for _, target := range apiModel.EscalationConfig.EscalationTargets {
-			model := AlertRouteEscalationTargetModel{}
+			var users, escalationPaths *IncidentEngineParamBinding
 
 			if target.Users != nil {
 				binding := IncidentEngineParamBinding{}.FromAPI(*target.Users)
-				model.Users = &binding
+				users = &binding
 			}
 
 			if target.EscalationPaths != nil {
 				binding := IncidentEngineParamBinding{}.FromAPI(*target.EscalationPaths)
-				model.EscalationPaths = &binding
+				escalationPaths = &binding
 			}
 
-			result.EscalationConfig.EscalationTargets = append(result.EscalationConfig.EscalationTargets, model)
+			result.EscalationConfig.EscalationTargets = append(
+				result.EscalationConfig.EscalationTargets,
+				escalationTargetFromBindings(users, escalationPaths, plan),
+			)
 		}
 	}
 

@@ -142,6 +142,41 @@ func (IncidentEngineParamBindingValue) FromAPI(pbv client.EngineParamBindingValu
 	}
 }
 
+// paramBindingValuesEqual reports whether two param binding values are equal,
+// comparing both the literal and reference fields. Literal comparison uses the
+// custom type's Equal, so it stays consistent with how the framework compares
+// these values in state.
+func paramBindingValuesEqual(a, b IncidentEngineParamBindingValue) bool {
+	return a.Literal.Equal(b.Literal) && a.Reference.Equal(b.Reference)
+}
+
+// paramBindingsEqual reports whether two param bindings hold the same value. It
+// is nil-safe: two nil bindings are equal, and a nil binding never equals a
+// non-nil one.
+func paramBindingsEqual(a, b *IncidentEngineParamBinding) bool {
+	if a == nil || b == nil {
+		return a == b
+	}
+
+	if (a.Value == nil) != (b.Value == nil) {
+		return false
+	}
+	if a.Value != nil && !paramBindingValuesEqual(*a.Value, *b.Value) {
+		return false
+	}
+
+	if len(a.ArrayValue) != len(b.ArrayValue) {
+		return false
+	}
+	for i := range a.ArrayValue {
+		if !paramBindingValuesEqual(a.ArrayValue[i], b.ArrayValue[i]) {
+			return false
+		}
+	}
+
+	return true
+}
+
 type IncidentEngineExpressions []IncidentEngineExpression
 
 func (IncidentEngineExpressions) FromAPI(expressions []client.ExpressionV2) IncidentEngineExpressions {
