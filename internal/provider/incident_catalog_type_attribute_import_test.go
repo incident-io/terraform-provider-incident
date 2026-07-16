@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/tfversion"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -100,6 +101,10 @@ import {
 `
 
 	resource.UnitTest(t, resource.TestCase{
+		// `import {}` config blocks are only supported from Terraform 1.5.
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			tfversion.SkipBelow(tfversion.Version1_5_0),
+		},
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
@@ -176,6 +181,10 @@ import {
 `
 
 	resource.UnitTest(t, resource.TestCase{
+		// `import {}` config blocks are only supported from Terraform 1.5.
+		TerraformVersionChecks: []tfversion.TerraformVersionCheck{
+			tfversion.SkipBelow(tfversion.Version1_5_0),
+		},
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{

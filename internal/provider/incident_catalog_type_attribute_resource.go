@@ -516,6 +516,10 @@ func (r *IncidentCatalogTypeAttributeResource) ImportState(ctx context.Context, 
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog type, got error: %s", err))
 		return
 	}
+	if result.JSON200 == nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog type: unexpected response %s", result.Status()))
+		return
+	}
 
 	data, found := r.buildModel(result.JSON200.CatalogType, attributeID)
 	if !found {
