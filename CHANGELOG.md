@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v5.44.0
+
 - Add `owning_team_ids` to catalog type resource and data source
 
 ## v5.43.1
