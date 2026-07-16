@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add `owning_team_ids` to catalog type resource and data source
+
 ## v5.43.1
 
 - Fix `Value Conversion Error` (`Path: path`) when importing an `incident_catalog_type_attribute` via an `import {}` block. When the API response for the catalog type did not contain the imported attribute, `buildModel` produced an untyped `path` list (`types.List[DynamicPseudoType]`) that the framework rejected while writing state. `buildModel` now always writes a fully-typed `path`, `ImportState` populates the full model (and returns a clear diagnostic if the catalog type or attribute can't be found), and `Read` removes the resource from state if the attribute no longer exists.
