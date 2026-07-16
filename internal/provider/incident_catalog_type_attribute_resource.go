@@ -9,7 +9,6 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
-	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
@@ -273,7 +272,11 @@ func (r *IncidentCatalogTypeAttributeResource) Create(ctx context.Context, req r
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("Updated catalog type schema for id=%s", result.JSON200.CatalogType.Id))
-	data = r.buildModel(result.JSON200.CatalogType, attributeID)
+	data, found := r.buildModel(result.JSON200.CatalogType, attributeID)
+	if !found {
+		resp.Diagnostics.AddError("Client Error", "Unable to find attribute in catalog type schema after creation")
+		return
+	}
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -297,7 +300,12 @@ func (r *IncidentCatalogTypeAttributeResource) Read(ctx context.Context, req res
 		return
 	}
 
-	data = r.buildModel(result.JSON200.CatalogType, data.ID.ValueString())
+	data, found := r.buildModel(result.JSON200.CatalogType, data.ID.ValueString())
+	if !found {
+		tflog.Warn(ctx, fmt.Sprintf("Attribute with ID %s not found in catalog type %s: removing from state.", data.ID.ValueString(), data.CatalogTypeID.ValueString()))
+		resp.State.RemoveResource(ctx)
+		return
+	}
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -365,7 +373,11 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("Updated catalog type schema for catalog type with id=%s", result.JSON200.CatalogType.Id))
-	data = r.buildModel(result.JSON200.CatalogType, attributeID)
+	data, found := r.buildModel(result.JSON200.CatalogType, attributeID)
+	if !found {
+		resp.Diagnostics.AddError("Client Error", "Unable to find attribute in catalog type schema after update")
+		return
+	}
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -402,10 +414,22 @@ func (r *IncidentCatalogTypeAttributeResource) Delete(ctx context.Context, req r
 	}
 }
 
-func (r *IncidentCatalogTypeAttributeResource) buildModel(catalogType client.CatalogTypeV3, attributeID string) *IncidentCatalogTypeAttributesResourceModel {
+// buildModel builds the Terraform model for the attribute identified by
+// attributeID within the given catalog type. The boolean return value reports
+// whether an attribute with that ID was found in the type's schema.
+//
+// It always initialises every attribute (including the optional list `path`)
+// to a fully-typed value, even when the attribute isn't found. This matters
+// because a zero-value types.List has no element type: serialising it into
+// state produces a tftypes.List[tftypes.DynamicPseudoType], which the framework
+// rejects with a "Value Conversion Error" against the schema's
+// types.List[types.String]. Returning a typed null keeps state writes valid and
+// lets callers decide how to handle a missing attribute.
+func (r *IncidentCatalogTypeAttributeResource) buildModel(catalogType client.CatalogTypeV3, attributeID string) (*IncidentCatalogTypeAttributesResourceModel, bool) {
 	result := &IncidentCatalogTypeAttributesResourceModel{
 		ID:            types.StringValue(attributeID),
 		CatalogTypeID: types.StringValue(catalogType.Id),
+		Path:          types.ListNull(types.StringType),
 	}
 
 	for _, attribute := range catalogType.Schema.Attributes {
@@ -418,7 +442,6 @@ func (r *IncidentCatalogTypeAttributeResource) buildModel(catalogType client.Cat
 				result.BacklinkAttribute = types.StringValue(*attribute.BacklinkAttribute)
 			}
 
-			result.Path = types.ListNull(types.StringType)
 			if attribute.Path != nil {
 				path := []attr.Value{}
 				for _, item := range *attribute.Path {
@@ -426,11 +449,11 @@ func (r *IncidentCatalogTypeAttributeResource) buildModel(catalogType client.Cat
 				}
 				result.Path = types.ListValueMust(types.StringType, path)
 			}
-			break
+			return result, true
 		}
 	}
 
-	return result
+	return result, false
 }
 
 var (
@@ -475,9 +498,35 @@ func (r *IncidentCatalogTypeAttributeResource) ImportState(ctx context.Context, 
 
 	tflog.Info(ctx, fmt.Sprintf("Importing catalog type attribute with catalog_type_id=%s and attribute_id=%s", catalogTypeID, attributeID))
 
-	// Set the IDs to the state
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), attributeID)...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("catalog_type_id"), catalogTypeID)...)
+	// Fetch the catalog type and populate the full model, matching what Read
+	// does. Writing only `id` and `catalog_type_id` leaves the optional `path`
+	// list attribute untyped in state, which caused a "Value Conversion Error"
+	// when importing via an `import {}` block (the framework saw
+	// types.List[DynamicPseudoType] instead of types.List[String]).
+	result, err := r.client.CatalogV3ShowTypeWithResponse(ctx, catalogTypeID)
+	if err != nil {
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			resp.Diagnostics.AddError(
+				"Catalog Type Not Found",
+				fmt.Sprintf("No catalog type exists with ID %q. Import IDs must be in the format catalog_type_id:attribute_id.", catalogTypeID),
+			)
+			return
+		}
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read catalog type, got error: %s", err))
+		return
+	}
+
+	data, found := r.buildModel(result.JSON200.CatalogType, attributeID)
+	if !found {
+		resp.Diagnostics.AddError(
+			"Attribute Not Found",
+			fmt.Sprintf("Catalog type %q has no attribute with ID %q. Import IDs must be in the format catalog_type_id:attribute_id.", catalogTypeID, attributeID),
+		)
+		return
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (*IncidentCatalogTypeAttributeResource) attributeToPayload(attribute client.CatalogTypeAttributeV3) client.CatalogTypeAttributePayloadV3 {
