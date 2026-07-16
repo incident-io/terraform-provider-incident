@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Fix `Provider produced inconsistent result after apply` when creating an `incident_alert_route` whose `escalation_config.escalation_targets` use `escalation_paths`. The API echoes the escalation paths binding back in the target's `users` field; the provider now ignores that echo unless `users` was configured on the target, while preserving users-only targets, targets that configure both fields, and out-of-band remote state.
+
 ## v5.44.0
 
 - Add `owning_team_ids` to catalog type resource and data source

@@ -224,19 +224,22 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 		WhenAlertJoinsGroup:   whenAlertJoinsGroupFromAPI(apiModel.EscalationConfig.WhenAlertJoinsGroup),
 	}
 	for _, target := range apiModel.EscalationConfig.EscalationTargets {
-		model := AlertRouteEscalationTargetModel{}
+		var users, escalationPaths *IncidentEngineParamBinding
 
 		if target.Users != nil {
 			binding := paramBindingFromV3(*target.Users)
-			model.Users = &binding
+			users = &binding
 		}
 
 		if target.EscalationPaths != nil {
 			binding := paramBindingFromV3(*target.EscalationPaths)
-			model.EscalationPaths = &binding
+			escalationPaths = &binding
 		}
 
-		result.EscalationConfig.EscalationTargets = append(result.EscalationConfig.EscalationTargets, model)
+		result.EscalationConfig.EscalationTargets = append(
+			result.EscalationConfig.EscalationTargets,
+			escalationTargetFromBindings(users, escalationPaths, plan),
+		)
 	}
 
 	// Grouping config. The detail fields (grouping_keys, window_seconds,
