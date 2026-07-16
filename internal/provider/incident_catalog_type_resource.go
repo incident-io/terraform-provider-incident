@@ -318,14 +318,14 @@ func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV
 	return model
 }
 
-// owningTeamIDsToSet converts the API's owning team IDs into a set, treating a nil
-// slice as a null set.
+// owningTeamIDsToSet converts the API's owning team IDs into a set. A nil slice
+// becomes an empty set (not null): the API omits the field when there are no owners,
+// so a practitioner who configured an empty set must read it back as empty to avoid an
+// inconsistent-result error.
 func owningTeamIDsToSet(ids *[]string) types.Set {
-	if ids == nil {
-		return types.SetNull(types.StringType)
-	}
-	elements := make([]attr.Value, len(*ids))
-	for i, id := range *ids {
+	slice := lo.FromPtr(ids)
+	elements := make([]attr.Value, len(slice))
+	for i, id := range slice {
 		elements[i] = types.StringValue(id)
 	}
 
