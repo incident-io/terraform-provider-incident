@@ -132,10 +132,10 @@ func (i *IncidentCatalogTypeDataSource) Read(ctx context.Context, req datasource
 		return
 	}
 
-	emptyPlan := &IncidentCatalogTypeResourceModel{
-		OwningTeamIDs: types.SetNull(types.StringType),
-	}
-	modelResp := new(IncidentCatalogTypeResource).buildModel(*catalogType, emptyPlan)
+	modelResp := new(IncidentCatalogTypeResource).buildModel(*catalogType, nil)
+	// A data source is read-only and recomputed on every read, so there's no
+	// perpetual-diff concern: always surface the owning teams the API returns.
+	modelResp.OwningTeamIDs = owningTeamIDsToSet(catalogType.OwningTeamIds)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
 }

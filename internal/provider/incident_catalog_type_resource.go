@@ -306,15 +306,28 @@ func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV
 	}
 	model.Categories = types.ListValueMust(types.StringType, categories)
 
-	if catalogType.OwningTeamIds != nil && prior != nil && !prior.OwningTeamIDs.IsUnknown() && !prior.OwningTeamIDs.IsNull() {
-		elements := make([]attr.Value, len(*catalogType.OwningTeamIds))
-		for i, id := range *catalogType.OwningTeamIds {
-			elements[i] = types.StringValue(id)
-		}
-		model.OwningTeamIDs = types.SetValueMust(types.StringType, elements)
+	// The API always returns owning_team_ids, but a practitioner who never sets the
+	// attribute should keep it null rather than picking up a perpetual diff. Only
+	// reflect owners back into state when the prior config actually managed them.
+	if prior != nil && !prior.OwningTeamIDs.IsUnknown() && !prior.OwningTeamIDs.IsNull() {
+		model.OwningTeamIDs = owningTeamIDsToSet(catalogType.OwningTeamIds)
 	} else {
 		model.OwningTeamIDs = types.SetNull(types.StringType)
 	}
 
 	return model
+}
+
+// owningTeamIDsToSet converts the API's owning team IDs into a set, treating a nil
+// slice as a null set.
+func owningTeamIDsToSet(ids *[]string) types.Set {
+	if ids == nil {
+		return types.SetNull(types.StringType)
+	}
+	elements := make([]attr.Value, len(*ids))
+	for i, id := range *ids {
+		elements[i] = types.StringValue(id)
+	}
+
+	return types.SetValueMust(types.StringType, elements)
 }
