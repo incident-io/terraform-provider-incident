@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/samber/lo"
 )
 
 // TestAlertRouteV2RoundTrip is a light round-trip of the v2 mapping. Its main
@@ -88,5 +89,88 @@ func TestAlertRouteV2RoundTrip(t *testing.T) {
 	}
 	if !payload.EscalationConfig.AutoCancelEscalations {
 		t.Error("payload auto_cancel_escalations should be true")
+	}
+}
+
+// TestAlertRouteV2EscalationPathTargetIgnoresDuplicateUsers covers ONC-12476: for
+// an escalation-path target the API echoes the same binding back in `users` too
+// (legacy frontend compatibility, pending ONC-5335). Because escalation_targets
+// is a set, surfacing that duplicate as a configured `users` value leaves the
+// read-back element unable to correlate with the planned element (users = null),
+// which Terraform reports as "Provider produced inconsistent result after apply".
+// FromAPIV2 must therefore drop the duplicated users and keep only escalation_paths.
+func TestAlertRouteV2EscalationPathTargetIgnoresDuplicateUsers(t *testing.T) {
+	pathBinding := &client.EngineParamBindingV2{
+		ArrayValue: &[]client.EngineParamBindingValueV2{
+			{Literal: lo.ToPtr("01FAKEFAKEFAKEFAKEFAKEFAKE")},
+		},
+	}
+
+	api := client.AlertRouteV2{
+		Id:              "01ABC",
+		Name:            "route",
+		Version:         2,
+		AlertSources:    []client.AlertRouteAlertSourceV2{},
+		ChannelConfig:   []client.AlertRouteChannelConfigV2{},
+		ConditionGroups: []client.ConditionGroupV2{},
+		Expressions:     []client.ExpressionV2{},
+		EscalationConfig: client.AlertRouteEscalationConfigV2{
+			EscalationTargets: []client.AlertRouteEscalationTargetV2{
+				// Escalation-path target: the API duplicates the binding into users.
+				{EscalationPaths: pathBinding, Users: pathBinding},
+			},
+		},
+		IncidentConfig:   client.AlertRouteIncidentConfigV2{GroupingKeys: []client.GroupingKeyV2{}},
+		IncidentTemplate: client.AlertRouteIncidentTemplateV2{},
+	}
+
+	model := AlertRouteResourceModel{}.FromAPIV2(api)
+
+	if got := len(model.EscalationConfig.EscalationTargets); got != 1 {
+		t.Fatalf("escalation_targets: got %d, want 1", got)
+	}
+	target := model.EscalationConfig.EscalationTargets[0]
+	if target.EscalationPaths == nil {
+		t.Error("escalation_paths should be set")
+	}
+	if target.Users != nil {
+		t.Error("users should be nil for an escalation-path target (API duplicate must be dropped)")
+	}
+}
+
+// TestAlertRouteV2UserTargetKeepsUsers confirms the sibling case: a genuine user
+// target (escalation_paths absent) still maps users through.
+func TestAlertRouteV2UserTargetKeepsUsers(t *testing.T) {
+	userBinding := &client.EngineParamBindingV2{
+		ArrayValue: &[]client.EngineParamBindingValueV2{
+			{Literal: lo.ToPtr("01USER")},
+		},
+	}
+
+	api := client.AlertRouteV2{
+		Id:              "01ABC",
+		Name:            "route",
+		Version:         2,
+		AlertSources:    []client.AlertRouteAlertSourceV2{},
+		ChannelConfig:   []client.AlertRouteChannelConfigV2{},
+		ConditionGroups: []client.ConditionGroupV2{},
+		Expressions:     []client.ExpressionV2{},
+		EscalationConfig: client.AlertRouteEscalationConfigV2{
+			EscalationTargets: []client.AlertRouteEscalationTargetV2{
+				{Users: userBinding},
+			},
+		},
+		IncidentConfig:   client.AlertRouteIncidentConfigV2{GroupingKeys: []client.GroupingKeyV2{}},
+		IncidentTemplate: client.AlertRouteIncidentTemplateV2{},
+	}
+
+	model := AlertRouteResourceModel{}.FromAPIV2(api)
+
+	target := model.EscalationConfig.EscalationTargets[0]
+	if target.Users == nil {
+		t.Error("users should be set for a user target")
+	}
+	if target.EscalationPaths != nil {
+		t.Error("escalation_paths should be nil for a user target")
 	}
 }
