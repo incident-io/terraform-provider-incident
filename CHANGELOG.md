@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add support for `form_fields` on `incident_workflow`, letting you define the fields shown to a user when they manually trigger a workflow. Each form field has a `key`, `title`, `type`, `array` and `required` setting, plus an optional `description`.
+
 ## v5.44.0
 
 - Add `owning_team_ids` to catalog type resource and data source
