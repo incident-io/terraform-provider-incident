@@ -56,6 +56,7 @@ func (r *IncidentWorkflowResource) buildModel(ctx context.Context, workflow clie
 		ContinueOnStepError:       types.BoolValue(workflow.ContinueOnStepError),
 		RunsOnIncidents:           types.StringValue(string(workflow.RunsOnIncidents)),
 		State:                     types.StringValue(string(workflow.State)),
+		FormFields:                buildFormFields(workflow.FormFields),
 	}
 	if workflow.Folder != nil {
 		model.Folder = types.StringValue(*workflow.Folder)
@@ -70,6 +71,31 @@ func (r *IncidentWorkflowResource) buildModel(ctx context.Context, workflow clie
 		}
 	}
 	return model
+}
+
+// buildFormFields converts workflow form fields from the API response into the
+// Terraform model. It returns nil (rather than an empty slice) when the API has
+// no form fields, so workflows without any configured form fields don't show a
+// perpetual diff against an unset attribute.
+func buildFormFields(fields *[]client.WorkflowFormFieldV2) []IncidentWorkflowFormField {
+	if fields == nil || len(*fields) == 0 {
+		return nil
+	}
+
+	out := []IncidentWorkflowFormField{}
+	for _, f := range *fields {
+		out = append(out, IncidentWorkflowFormField{
+			ID:          types.StringValue(f.Id),
+			Key:         types.StringValue(f.Key),
+			Title:       types.StringValue(f.Title),
+			Type:        types.StringValue(f.Type),
+			Array:       types.BoolValue(f.Array),
+			Required:    types.BoolValue(f.Required),
+			Description: types.StringPointerValue(f.Description),
+		})
+	}
+
+	return out
 }
 
 func buildOnceFor(onceFor []client.EngineReferenceV2) []basetypes.StringValue {
