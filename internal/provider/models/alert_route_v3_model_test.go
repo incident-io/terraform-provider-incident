@@ -250,6 +250,51 @@ func TestAlertRouteV3MessageConfigDestinationsNullVsEmpty(t *testing.T) {
 	}
 }
 
+// TestAlertRouteV3EscalationPathTargetIgnoresDuplicateUsers covers ONC-12476 for
+// the v3 mapping: an escalation-path target has its binding echoed back in `users`
+// too (legacy compat, pending ONC-5335). escalation_targets is a set, so surfacing
+// that duplicate leaves the read-back element unable to correlate with the planned
+// element (users = null). FromAPIV3 must keep only escalation_paths.
+func TestAlertRouteV3EscalationPathTargetIgnoresDuplicateUsers(t *testing.T) {
+	pathBinding := &client.EngineParamBindingV3{
+		ArrayValue: &[]client.EngineParamBindingValueV3{
+			{Literal: lo.ToPtr("01FAKEFAKEFAKEFAKEFAKEFAKE")},
+		},
+	}
+
+	api := client.AlertRouteV3{
+		Id:              "01ABC",
+		Name:            "route",
+		ConditionGroups: []client.ConditionGroupV3{},
+		Expressions:     []client.ExpressionV3{},
+		GroupingConfig: client.AlertGroupingConfigV3{
+			Default: client.GroupingSettingsV3{Enabled: false},
+		},
+		MessageConfig: client.AlertMessageConfigV3{
+			Destinations: []client.AlertMessageDestinationV3{},
+		},
+		EscalationConfig: client.AlertRouteEscalationConfigV3{
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{
+				{EscalationPaths: pathBinding, Users: pathBinding},
+			},
+		},
+		IncidentConfig: client.AlertRouteIncidentConfigV3{Enabled: false},
+	}
+
+	model := AlertRouteResourceModel{}.FromAPIV3(api)
+
+	if got := len(model.EscalationConfig.EscalationTargets); got != 1 {
+		t.Fatalf("escalation_targets: got %d, want 1", got)
+	}
+	target := model.EscalationConfig.EscalationTargets[0]
+	if target.EscalationPaths == nil {
+		t.Error("escalation_paths should be set")
+	}
+	if target.Users != nil {
+		t.Error("users should be nil for an escalation-path target (API duplicate must be dropped)")
+	}
+}
+
 // TestAlertRouteV3ImportLeavesConditionalFieldsNull simulates an import/read of a
 // route with grouping and incident creation disabled: the API omits the
 // conditional detail fields and there is no prior plan/state. Those fields are

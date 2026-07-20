@@ -468,14 +468,22 @@ func (AlertRouteResourceModel) FromAPIV2WithPlan(apiModel client.AlertRouteV2, p
 		for _, target := range apiModel.EscalationConfig.EscalationTargets {
 			model := AlertRouteEscalationTargetModel{}
 
-			if target.Users != nil {
-				binding := IncidentEngineParamBinding{}.FromAPI(*target.Users)
-				model.Users = &binding
-			}
-
-			if target.EscalationPaths != nil {
+			// A target is either an escalation-path binding or a user binding,
+			// never both (enforced server-side). For escalation-path targets the
+			// API echoes the same binding back in `users` too, for legacy frontend
+			// compatibility (pending ONC-5335). We must not surface that duplicate
+			// as a configured `users` value: escalation_targets is a set, so a
+			// read-back element with a non-null `users` fails to correlate with the
+			// planned element (users = null), producing "Provider produced
+			// inconsistent result after apply". Prefer escalation_paths and only
+			// fall back to users when it's absent.
+			switch {
+			case target.EscalationPaths != nil:
 				binding := IncidentEngineParamBinding{}.FromAPI(*target.EscalationPaths)
 				model.EscalationPaths = &binding
+			case target.Users != nil:
+				binding := IncidentEngineParamBinding{}.FromAPI(*target.Users)
+				model.Users = &binding
 			}
 
 			result.EscalationConfig.EscalationTargets = append(result.EscalationConfig.EscalationTargets, model)
