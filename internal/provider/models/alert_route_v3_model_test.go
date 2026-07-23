@@ -407,3 +407,68 @@ func TestAlertRouteV3CustomFieldsNullVsEmpty(t *testing.T) {
 		t.Errorf("custom_fields: expected length 0, got %d", len(gotEmpty.IncidentConfig.Template.CustomFields))
 	}
 }
+
+// TestWhenAlertJoinsGroupFromAPIGracePeriodByMode covers the mapping of
+// grace_period_seconds out of the API. The grace period is only a real,
+// configurable field when mode is on_each_new_alert. For on_priority_increase
+// the API still echoes back a (zero) grace_period_seconds, but the config/plan
+// always holds null there (ValidateConfig rejects setting it). If we copied the
+// server's 0 into state, apply would fail with "Provider produced inconsistent
+// result after apply: was null, but now cty.NumberIntVal(0)".
+func TestWhenAlertJoinsGroupFromAPIGracePeriodByMode(t *testing.T) {
+	tests := []struct {
+		name           string
+		mode           client.AlertRouteWhenAlertJoinsGroupV3Mode
+		apiGrace       *int32
+		wantGraceNull  bool
+		wantGraceValue int64
+	}{
+		{
+			name:           "on_each_new_alert carries the grace period",
+			mode:           client.AlertRouteWhenAlertJoinsGroupV3ModeOnEachNewAlert,
+			apiGrace:       lo.ToPtr(int32(60)),
+			wantGraceNull:  false,
+			wantGraceValue: 60,
+		},
+		{
+			name:          "on_priority_increase ignores a server-sent zero",
+			mode:          client.AlertRouteWhenAlertJoinsGroupV3ModeOnPriorityIncrease,
+			apiGrace:      lo.ToPtr(int32(0)),
+			wantGraceNull: true,
+		},
+		{
+			name:          "on_priority_increase with nil grace stays null",
+			mode:          client.AlertRouteWhenAlertJoinsGroupV3ModeOnPriorityIncrease,
+			apiGrace:      nil,
+			wantGraceNull: true,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			obj := whenAlertJoinsGroupFromAPI(&client.AlertRouteWhenAlertJoinsGroupV3{
+				Mode:               tc.mode,
+				GracePeriodSeconds: tc.apiGrace,
+			})
+
+			var m AlertRouteWhenAlertJoinsGroupModel
+			obj.As(context.Background(), &m, basetypes.ObjectAsOptions{})
+
+			if got := m.Mode.ValueString(); got != string(tc.mode) {
+				t.Errorf("mode: got %q, want %q", got, tc.mode)
+			}
+			if tc.wantGraceNull {
+				if !m.GracePeriodSeconds.IsNull() {
+					t.Errorf("grace_period_seconds: expected null, got %d", m.GracePeriodSeconds.ValueInt64())
+				}
+				return
+			}
+			if m.GracePeriodSeconds.IsNull() {
+				t.Fatal("grace_period_seconds: expected a value, got null")
+			}
+			if got := m.GracePeriodSeconds.ValueInt64(); got != tc.wantGraceValue {
+				t.Errorf("grace_period_seconds: got %d, want %d", got, tc.wantGraceValue)
+			}
+		})
+	}
+}

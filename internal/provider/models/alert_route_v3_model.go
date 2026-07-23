@@ -48,8 +48,15 @@ func whenAlertJoinsGroupFromAPI(in *client.AlertRouteWhenAlertJoinsGroupV3) type
 		return types.ObjectNull(WhenAlertJoinsGroupAttrTypes())
 	}
 
+	// The grace period only applies when re-escalating on each new alert. For
+	// other modes the API still returns a (zero) value, but it isn't a
+	// configurable field there: ValidateConfig rejects it and whenAlertJoinsGroupToPayload
+	// never sends it, so the config/plan always holds null. Mirror that here and
+	// leave it null unless the mode is on_each_new_alert, otherwise a server-sent
+	// 0 would clash with the null plan and produce a "Provider produced
+	// inconsistent result after apply" error.
 	gracePeriodSeconds := types.Int64Null()
-	if in.GracePeriodSeconds != nil {
+	if in.Mode == client.AlertRouteWhenAlertJoinsGroupV3ModeOnEachNewAlert && in.GracePeriodSeconds != nil {
 		gracePeriodSeconds = types.Int64Value(int64(*in.GracePeriodSeconds))
 	}
 
