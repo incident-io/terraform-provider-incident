@@ -47,6 +47,49 @@ changes to one entry to an update to that same entry when the upstream changes.
 ## Example Usage
 
 ```terraform
+################################################################################
+# Simple Example
+################################################################################
+resource "incident_catalog_type" "simple_example" {
+  name            = "Simple Example"
+  description     = "A simple example catalog type"
+  source_repo_url = "https://example.com/myrepo"
+}
+
+resource "incident_catalog_type_attribute" "example_url" {
+  catalog_type_id = incident_catalog_type.simple_example.id
+  name            = "url"
+  type            = "String"
+}
+
+resource "incident_catalog_entries" "simple_example" {
+  id = incident_catalog_type.simple_example.id
+
+  entries = {
+    foo = {
+      name = "Foo"
+      attribute_values = {
+        # Map keys must be attribute ID (with parentheses for dynamic key), not attribute name
+        (incident_catalog_type_attribute.example_url.id) = {
+          value = "https://example.com/foo"
+        }
+      }
+    }
+    bar = {
+      name = "Bar"
+      attribute_values = {
+        (incident_catalog_type_attribute.example_url.id) = {
+          value = "https://example.com/bar"
+        }
+      }
+    }
+  }
+}
+
+################################################################################
+# Complex Example with JSON Data Source
+################################################################################
+#
 # Load a catalog from a JSON file. You may also use an HTTP endpoint or some
 # other data source, or prepare this file using a script before terraform runs.
 #
@@ -196,7 +239,7 @@ This can be used to allow other attributes of a catalog entry to be managed else
 
 Required:
 
-- `attribute_values` (Attributes Map) (see [below for nested schema](#nestedatt--entries--attribute_values))
+- `attribute_values` (Attributes Map) Map of attribute ID to attribute values. (Keys are the system-generated IDs.) (see [below for nested schema](#nestedatt--entries--attribute_values))
 - `name` (String) Name is the human readable name of this entry
 
 Optional:
