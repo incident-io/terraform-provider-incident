@@ -57,6 +57,20 @@ type IncidentWorkflowResourceModel struct {
 	RunsOnIncidents           types.String                         `tfsdk:"runs_on_incidents"`
 	RunsOnIncidentModes       types.Set                            `tfsdk:"runs_on_incident_modes"`
 	State                     types.String                         `tfsdk:"state"`
+	FormFields                []IncidentWorkflowFormField          `tfsdk:"form_fields"`
+}
+
+// IncidentWorkflowFormField represents a form field presented to the user when
+// a workflow with a manual trigger is triggered by hand. The value they provide
+// is made available in the workflow scope under the field's key.
+type IncidentWorkflowFormField struct {
+	ID          types.String `tfsdk:"id"`
+	Key         types.String `tfsdk:"key"`
+	Title       types.String `tfsdk:"title"`
+	Type        types.String `tfsdk:"type"`
+	Description types.String `tfsdk:"description"`
+	Array       types.Bool   `tfsdk:"array"`
+	Required    types.Bool   `tfsdk:"required"`
 }
 
 type IncidentWorkflowStep struct {
@@ -184,6 +198,46 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				MarkdownDescription: EnumValuesDescription("WorkflowV2", "state"),
 				Required:            true,
 			},
+			"form_fields": schema.ListNestedAttribute{
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "form_fields"),
+				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"id": schema.StringAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "id"),
+							Optional:            true,
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+						},
+						"key": schema.StringAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "key"),
+							Required:            true,
+						},
+						"title": schema.StringAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "title"),
+							Required:            true,
+						},
+						"type": schema.StringAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "type"),
+							Required:            true,
+						},
+						"description": schema.StringAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "description"),
+							Optional:            true,
+						},
+						"array": schema.BoolAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "array"),
+							Required:            true,
+						},
+						"required": schema.BoolAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "required"),
+							Required:            true,
+						},
+					},
+				},
+			},
 		},
 	}
 }
@@ -221,6 +275,7 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 		OwningTeamIds:       toOwningTeamIDs(data.OwningTeamIDs),
 		ContinueOnStepError: data.ContinueOnStepError.ValueBool(),
 		State:               lo.ToPtr(client.WorkflowsCreateWorkflowPayloadV2State(data.State.ValueString())),
+		FormFields:          toPayloadFormFields(data.FormFields),
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
@@ -300,6 +355,7 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		OwningTeamIds:       toOwningTeamIDs(data.OwningTeamIDs),
 		ContinueOnStepError: data.ContinueOnStepError.ValueBool(),
 		State:               lo.ToPtr(client.WorkflowsUpdateWorkflowPayloadV2State(data.State.ValueString())),
+		FormFields:          toPayloadFormFields(data.FormFields),
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
@@ -452,6 +508,27 @@ func (r *IncidentWorkflowResource) ValidateConfig(ctx context.Context, req resou
 			))
 		}
 	}
+}
+
+func toPayloadFormFields(fields []IncidentWorkflowFormField) *[]client.WorkflowFormFieldPayloadV2 {
+	if fields == nil {
+		return nil
+	}
+
+	out := []client.WorkflowFormFieldPayloadV2{}
+	for _, field := range fields {
+		out = append(out, client.WorkflowFormFieldPayloadV2{
+			Id:          field.ID.ValueStringPointer(),
+			Key:         field.Key.ValueString(),
+			Title:       field.Title.ValueString(),
+			Type:        field.Type.ValueString(),
+			Array:       field.Array.ValueBoolPointer(),
+			Required:    field.Required.ValueBoolPointer(),
+			Description: field.Description.ValueStringPointer(),
+		})
+	}
+
+	return &out
 }
 
 func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayloadV2 {

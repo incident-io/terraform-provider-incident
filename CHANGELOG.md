@@ -6,6 +6,8 @@
 
 - Fix `Provider produced inconsistent result after apply` on `incident_alert_route` when `escalation_config.escalation_targets` sets an escalation path. For escalation-path targets the API echoes the same binding back in `users` for legacy compatibility; the provider surfaced that duplicate, leaving the read-back set element (`users` non-null) unable to correlate with the planned element (`users = null`). The provider now keeps only `escalation_paths` for escalation-path targets.
 
+- Add support for `form_fields` on `incident_workflow`, letting you define the fields shown to a user when they manually trigger a workflow. Each form field has a `key`, `title`, `type`, `array` and `required` setting, plus an optional `description`.
+
 ## v5.44.0
 
 - Add `owning_team_ids` to catalog type resource and data source
