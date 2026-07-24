@@ -116,7 +116,6 @@ func TestAccIncidentAlertRouteV3ResourceComprehensive(t *testing.T) {
 					// Message config (destinations).
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "message_config.destinations.#", "1"),
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "message_config.destinations.0.slack_targets.channel_visibility", "public"),
-					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "message_config.destinations.0.slack_targets.group_alerts_summary", "false"),
 
 					// Escalation config with when_alert_joins_group.
 					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "escalation_config.when_alert_joins_group.mode", "on_each_new_alert"),
@@ -404,8 +403,7 @@ resource "incident_alert_route" "comprehensive" {
       {
         condition_groups = []
         slack_targets = {
-          channel_visibility   = "public"
-          group_alerts_summary = false
+          channel_visibility = "public"
           binding = {
             value = {
               literal = %[2]q
