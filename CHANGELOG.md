@@ -1,3 +1,8 @@
+## Unreleased
+
+- Document import support for `incident_schedule_sync_target` and `incident_schedule_sync_rule`, the last two resources whose registry pages had no import example. Targets import by their ID; rules are nested under a schedule in the API, so they import by `schedule_id:rule_id`.
+- Make importing either resource read it from the API up front, so the imported state is fully populated and an ID that doesn't exist fails with a clear message rather than silently importing an empty resource. An import ID with an empty schedule or rule ID is now rejected too, and an unexpected successful API response without a body returns a diagnostic instead of panicking.
+
 ## v5.45.0
 
 - Add `group_alerts_summary` to the v3 `incident_alert_route` resource, on Slack and MS Teams channel targets under `message_config.destinations`. When enabled, grouped alerts render as a single editable group-summary message per channel instead of one message per alert.

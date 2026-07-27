@@ -154,6 +154,22 @@ TF_CLI_CONFIG_FILE=./dev.tfrc terraform plan
 TF_CLI_CONFIG_FILE=./dev.tfrc terraform apply
 ```
 
+## Import support
+
+Every resource supports `terraform import`, and each resource's registry page documents how.
+When you add a resource, implement `resource.ResourceWithImportState` and add an
+`examples/resources/<resource_name>/import.sh` showing the command: `tfplugindocs` renders that
+script into the "Import" section of the resource's page, so without it the resource looks
+un-importable even though the code supports it.
+
+`ImportState` should populate the whole model from the API rather than writing only the ID
+attributes. That keeps imported state identical to what `Read` produces, makes an ID that doesn't
+exist fail with a clear diagnostic instead of importing an empty resource, and avoids the untyped
+collection attributes that break `import {}` blocks with a "Value Conversion Error". For a resource
+nested under a parent (like a sync rule under a schedule), take a composite
+`parent_id:resource_id` import ID, as `incident_catalog_type_attribute` and
+`incident_schedule_sync_rule` do.
+
 ## Schema Attributes - What to use when
 
 ### `Optional`
