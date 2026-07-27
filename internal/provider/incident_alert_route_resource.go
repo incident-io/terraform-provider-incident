@@ -9,6 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -256,6 +257,7 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 										"group_alerts_summary": schema.BoolAttribute{
 											Optional:            true,
 											Computed:            true,
+											Default:             booldefault.StaticBool(false),
 											MarkdownDescription: apischema.Docstring("AlertRouteChannelTargetV3", "group_alerts_summary"),
 											PlanModifiers: []planmodifier.Bool{
 												boolplanmodifier.UseStateForUnknown(),
@@ -279,6 +281,7 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 										"group_alerts_summary": schema.BoolAttribute{
 											Optional:            true,
 											Computed:            true,
+											Default:             booldefault.StaticBool(false),
 											MarkdownDescription: apischema.Docstring("AlertRouteChannelTargetV3", "group_alerts_summary"),
 											PlanModifiers: []planmodifier.Bool{
 												boolplanmodifier.UseStateForUnknown(),
