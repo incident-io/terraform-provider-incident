@@ -111,6 +111,10 @@ resource "incident_alert_route" "service_alerts" {
             ]
           }
           channel_visibility = "public"
+
+          // When grouping is enabled, collapse grouped alerts into a single
+          // group-summary message per channel instead of one message per alert.
+          group_alerts_summary = true
         }
       }
     ]
@@ -1515,6 +1519,10 @@ Required:
 - `binding` (Attributes) (see [below for nested schema](#nestedatt--message_config--destinations--ms_teams_targets--binding))
 - `channel_visibility` (String) The visibility of the channel
 
+Optional:
+
+- `group_alerts_summary` (Boolean) Whether grouped alerts should render as a single group-summary message per channel
+
 <a id="nestedatt--message_config--destinations--ms_teams_targets--binding"></a>
 ### Nested Schema for `message_config.destinations.ms_teams_targets.binding`
 
@@ -1550,6 +1558,10 @@ Required:
 
 - `binding` (Attributes) (see [below for nested schema](#nestedatt--message_config--destinations--slack_targets--binding))
 - `channel_visibility` (String) The visibility of the channel
+
+Optional:
+
+- `group_alerts_summary` (Boolean) Whether grouped alerts should render as a single group-summary message per channel
 
 <a id="nestedatt--message_config--destinations--slack_targets--binding"></a>
 ### Nested Schema for `message_config.destinations.slack_targets.binding`

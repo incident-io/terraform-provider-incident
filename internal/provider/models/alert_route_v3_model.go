@@ -101,11 +101,27 @@ type AlertRouteV3GroupingSettingsModel struct {
 }
 
 type AlertRouteV3MessageConfigModel struct {
-	Destinations []AlertRouteChannelConfigModel `tfsdk:"destinations"`
+	Destinations []AlertRouteV3ChannelConfigModel `tfsdk:"destinations"`
 	// Template is the v3 message template. Note the v3 API renamed this field
 	// from message_template to template (the v2 top-level message_template is a
 	// separate, deprecated attribute).
 	Template *IncidentEngineParamBinding `tfsdk:"template"`
+}
+
+// AlertRouteV3ChannelConfigModel mirrors the v2 AlertRouteChannelConfigModel but
+// uses the v3 channel target, which carries the v3-only group_alerts_summary
+// field. Kept separate from the v2 struct so neither is forced to match two
+// different schema shapes.
+type AlertRouteV3ChannelConfigModel struct {
+	ConditionGroups IncidentEngineConditionGroups   `tfsdk:"condition_groups"`
+	MsTeamsTargets  *AlertRouteV3ChannelTargetModel `tfsdk:"ms_teams_targets"`
+	SlackTargets    *AlertRouteV3ChannelTargetModel `tfsdk:"slack_targets"`
+}
+
+type AlertRouteV3ChannelTargetModel struct {
+	Binding            *IncidentEngineParamBinding `tfsdk:"binding"`
+	ChannelVisibility  types.String                `tfsdk:"channel_visibility"`
+	GroupAlertsSummary types.Bool                  `tfsdk:"group_alerts_summary"`
 }
 
 // AlertRouteV3IncidentTemplateModel mirrors the v2 incident template but drops
@@ -295,23 +311,25 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 	// doesn't produce drift (reconciled against the plan below).
 	result.MessageConfig = &AlertRouteV3MessageConfigModel{}
 	for _, destination := range apiModel.MessageConfig.Destinations {
-		model := AlertRouteChannelConfigModel{
+		model := AlertRouteV3ChannelConfigModel{
 			ConditionGroups: conditionGroupsFromV3(destination.ConditionGroups),
 		}
 
 		if destination.SlackTargets != nil {
 			binding := paramBindingFromV3(destination.SlackTargets.Binding)
-			model.SlackTargets = &AlertRouteChannelTargetModel{
-				ChannelVisibility: types.StringValue(destination.SlackTargets.ChannelVisibility),
-				Binding:           &binding,
+			model.SlackTargets = &AlertRouteV3ChannelTargetModel{
+				ChannelVisibility:  types.StringValue(destination.SlackTargets.ChannelVisibility),
+				Binding:            &binding,
+				GroupAlertsSummary: types.BoolPointerValue(destination.SlackTargets.GroupAlertsSummary),
 			}
 		}
 
 		if destination.MsTeamsTargets != nil {
 			binding := paramBindingFromV3(destination.MsTeamsTargets.Binding)
-			model.MsTeamsTargets = &AlertRouteChannelTargetModel{
-				ChannelVisibility: types.StringValue(destination.MsTeamsTargets.ChannelVisibility),
-				Binding:           &binding,
+			model.MsTeamsTargets = &AlertRouteV3ChannelTargetModel{
+				ChannelVisibility:  types.StringValue(destination.MsTeamsTargets.ChannelVisibility),
+				Binding:            &binding,
+				GroupAlertsSummary: types.BoolPointerValue(destination.MsTeamsTargets.GroupAlertsSummary),
 			}
 		}
 
@@ -331,7 +349,7 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 	// otherwise leave it nil so an omitted optional stays null.
 	if len(result.MessageConfig.Destinations) == 0 &&
 		plan != nil && plan.MessageConfig != nil && plan.MessageConfig.Destinations != nil {
-		result.MessageConfig.Destinations = []AlertRouteChannelConfigModel{}
+		result.MessageConfig.Destinations = []AlertRouteV3ChannelConfigModel{}
 	}
 
 	// Incident config. auto_decline_enabled and condition_groups are optional in
@@ -596,15 +614,17 @@ func (m AlertRouteResourceModel) ToCreatePayloadV3() client.AlertRoutesCreatePay
 
 			if destination.SlackTargets != nil && destination.SlackTargets.Binding != nil {
 				payloadDestination.SlackTargets = &client.AlertRouteChannelTargetPayloadV3{
-					ChannelVisibility: client.AlertRouteChannelTargetPayloadV3ChannelVisibility(destination.SlackTargets.ChannelVisibility.ValueString()),
-					Binding:           paramBindingToV3Payload(*destination.SlackTargets.Binding),
+					ChannelVisibility:  client.AlertRouteChannelTargetPayloadV3ChannelVisibility(destination.SlackTargets.ChannelVisibility.ValueString()),
+					Binding:            paramBindingToV3Payload(*destination.SlackTargets.Binding),
+					GroupAlertsSummary: destination.SlackTargets.GroupAlertsSummary.ValueBoolPointer(),
 				}
 			}
 
 			if destination.MsTeamsTargets != nil && destination.MsTeamsTargets.Binding != nil {
 				payloadDestination.MsTeamsTargets = &client.AlertRouteChannelTargetPayloadV3{
-					ChannelVisibility: client.AlertRouteChannelTargetPayloadV3ChannelVisibility(destination.MsTeamsTargets.ChannelVisibility.ValueString()),
-					Binding:           paramBindingToV3Payload(*destination.MsTeamsTargets.Binding),
+					ChannelVisibility:  client.AlertRouteChannelTargetPayloadV3ChannelVisibility(destination.MsTeamsTargets.ChannelVisibility.ValueString()),
+					Binding:            paramBindingToV3Payload(*destination.MsTeamsTargets.Binding),
+					GroupAlertsSummary: destination.MsTeamsTargets.GroupAlertsSummary.ValueBoolPointer(),
 				}
 			}
 

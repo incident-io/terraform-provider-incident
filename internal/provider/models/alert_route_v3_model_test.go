@@ -52,7 +52,8 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 				{
 					ConditionGroups: []client.ConditionGroupV3{},
 					SlackTargets: &client.AlertRouteChannelTargetV3{
-						ChannelVisibility: "public",
+						ChannelVisibility:  "public",
+						GroupAlertsSummary: lo.ToPtr(true),
 						Binding: client.EngineParamBindingV3{
 							Value: &client.EngineParamBindingValueV3{Literal: lo.ToPtr("C123")},
 						},
@@ -134,6 +135,9 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 	if model.MessageConfig.Destinations[0].SlackTargets == nil {
 		t.Fatal("slack_targets is nil")
 	}
+	if !model.MessageConfig.Destinations[0].SlackTargets.GroupAlertsSummary.ValueBool() {
+		t.Error("slack_targets.group_alerts_summary should be true")
+	}
 
 	// Escalation config.
 	if !model.EscalationConfig.AutoCancelEscalations.ValueBool() {
@@ -176,6 +180,9 @@ func TestAlertRouteV3RoundTrip(t *testing.T) {
 	slack := payload.MessageConfig.Destinations[0].SlackTargets
 	if slack == nil || slack.Binding.Value == nil || lo.FromPtr(slack.Binding.Value.Literal) != "C123" {
 		t.Errorf("payload slack binding literal mismatch: %+v", slack)
+	}
+	if !lo.FromPtr(slack.GroupAlertsSummary) {
+		t.Errorf("payload slack group_alerts_summary should be true: %+v", slack)
 	}
 	if !payload.EscalationConfig.AutoCancelEscalations {
 		t.Error("payload auto_cancel_escalations should be true")
@@ -225,7 +232,7 @@ func TestAlertRouteV3MessageConfigDestinationsNullVsEmpty(t *testing.T) {
 	// Plan with an explicit, non-nil empty destinations slice.
 	planEmpty := &AlertRouteResourceModel{
 		MessageConfig: &AlertRouteV3MessageConfigModel{
-			Destinations: []AlertRouteChannelConfigModel{},
+			Destinations: []AlertRouteV3ChannelConfigModel{},
 		},
 	}
 
