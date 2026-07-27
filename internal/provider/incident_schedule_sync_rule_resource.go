@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -145,6 +144,14 @@ func (r *IncidentScheduleSyncRuleResource) Read(ctx context.Context, req resourc
 		return
 	}
 
+	if result.JSON200 == nil {
+		resp.Diagnostics.AddError(
+			"Client Error",
+			fmt.Sprintf("Unable to read schedule sync rule: unexpected response from API (status %s)", result.Status()),
+		)
+		return
+	}
+
 	data = models.ScheduleSyncRuleResourceModel{}.FromAPI(result.JSON200.ScheduleSyncRule)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -187,24 +194,61 @@ func (r *IncidentScheduleSyncRuleResource) Delete(ctx context.Context, req resou
 	}
 }
 
+// parseScheduleSyncRuleImportID splits the composite import ID a sync rule is
+// identified by. Rules are nested under a schedule in the API, so both IDs are
+// needed to look one up.
+func parseScheduleSyncRuleImportID(importID string) (scheduleID string, ruleID string, ok bool) {
+	idParts := strings.Split(strings.TrimSpace(importID), ":")
+	if len(idParts) == 2 {
+		scheduleID, ruleID = strings.TrimSpace(idParts[0]), strings.TrimSpace(idParts[1])
+	}
+
+	return scheduleID, ruleID, scheduleID != "" && ruleID != ""
+}
+
 func (r *IncidentScheduleSyncRuleResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	// Import ID format: schedule_id:rule_id
-	idParts := strings.Split(req.ID, ":")
-	if len(idParts) != 2 {
+	scheduleID, ruleID, ok := parseScheduleSyncRuleImportID(req.ID)
+	if !ok {
 		resp.Diagnostics.AddError(
 			"Invalid Import ID",
-			"The import ID must be in the format: schedule_id:rule_id",
+			fmt.Sprintf("The import ID must be in the format: schedule_id:rule_id (got %q)", req.ID),
 		)
 		return
 	}
 
-	scheduleID := idParts[0]
-	ruleID := idParts[1]
-
 	tflog.Info(ctx, fmt.Sprintf("Importing schedule sync rule with schedule_id=%s and rule_id=%s", scheduleID, ruleID))
 
-	claimResource(ctx, r.client, ruleID, &resp.Diagnostics, client.ScheduleSyncRule, r.terraformVersion)
+	// Populate the full model rather than just the IDs, so the imported state
+	// matches what Read would produce and a missing rule fails with a clear
+	// message instead of an empty import.
+	result, err := r.client.SchedulesV2ShowScheduleSyncRuleWithResponse(ctx, scheduleID, ruleID)
+	if err != nil {
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			resp.Diagnostics.AddError(
+				"Schedule Sync Rule Not Found",
+				fmt.Sprintf("No sync rule with ID %q exists on schedule %q. Import IDs must be in the format schedule_id:rule_id.", ruleID, scheduleID),
+			)
+			return
+		}
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read schedule sync rule, got error: %s", err))
+		return
+	}
 
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), ruleID)...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("schedule_id"), scheduleID)...)
+	if result.JSON200 == nil {
+		resp.Diagnostics.AddError(
+			"Client Error",
+			fmt.Sprintf("Unable to read schedule sync rule: unexpected response from API (status %s)", result.Status()),
+		)
+		return
+	}
+
+	claimResource(ctx, r.client, ruleID, &resp.Diagnostics, client.ScheduleSyncRule, r.terraformVersion)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	data := models.ScheduleSyncRuleResourceModel{}.FromAPI(result.JSON200.ScheduleSyncRule)
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

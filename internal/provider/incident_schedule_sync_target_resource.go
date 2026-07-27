@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -203,6 +203,14 @@ func (r *IncidentScheduleSyncTargetResource) Read(ctx context.Context, req resou
 		return
 	}
 
+	if result.JSON200 == nil {
+		resp.Diagnostics.AddError(
+			"Client Error",
+			fmt.Sprintf("Unable to read schedule sync target: unexpected response from API (status %s)", result.Status()),
+		)
+		return
+	}
+
 	// Preserve new_slack_user_group from state since it's not returned by API
 	newSlackUserGroup := data.NewSlackUserGroup
 
@@ -254,6 +262,51 @@ func (r *IncidentScheduleSyncTargetResource) Delete(ctx context.Context, req res
 }
 
 func (r *IncidentScheduleSyncTargetResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	claimResource(ctx, r.client, req.ID, &resp.Diagnostics, client.ScheduleSyncTarget, r.terraformVersion)
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+	targetID := strings.TrimSpace(req.ID)
+	if targetID == "" {
+		resp.Diagnostics.AddError(
+			"Invalid Import ID",
+			"The import ID must be the ID of the sync target to import.",
+		)
+		return
+	}
+
+	tflog.Info(ctx, fmt.Sprintf("Importing schedule sync target with id=%s", targetID))
+
+	// Populate the full model rather than just the ID, so the imported state
+	// matches what Read would produce and a missing target fails with a clear
+	// message instead of an empty import.
+	result, err := r.client.ScheduleSyncTargetsV2ShowWithResponse(ctx, targetID)
+	if err != nil {
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			resp.Diagnostics.AddError(
+				"Schedule Sync Target Not Found",
+				fmt.Sprintf("No sync target exists with ID %q.", targetID),
+			)
+			return
+		}
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read schedule sync target, got error: %s", err))
+		return
+	}
+
+	if result.JSON200 == nil {
+		resp.Diagnostics.AddError(
+			"Client Error",
+			fmt.Sprintf("Unable to read schedule sync target: unexpected response from API (status %s)", result.Status()),
+		)
+		return
+	}
+
+	claimResource(ctx, r.client, targetID, &resp.Diagnostics, client.ScheduleSyncTarget, r.terraformVersion)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// new_slack_user_group describes how to create a Slack user group, so it is
+	// never part of an imported target: the group already exists, and the
+	// imported configuration should reference it with slack_user_group_id.
+	data := models.ScheduleSyncTargetResourceModel{}.FromAPI(result.JSON200.ScheduleSyncTarget)
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

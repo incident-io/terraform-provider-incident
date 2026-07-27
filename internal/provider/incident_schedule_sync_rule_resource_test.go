@@ -72,6 +72,12 @@ func TestAccIncidentScheduleSyncRuleResource_InvalidImportID(t *testing.T) {
 				ImportStateId: "invalid-id-without-colon",
 				ExpectError:   regexp.MustCompile(`The import ID must be in the format: schedule_id:rule_id`),
 			},
+			{
+				ResourceName:  "incident_schedule_sync_rule.test",
+				ImportState:   true,
+				ImportStateId: ":01ABC123DEF456GHI789JKL",
+				ExpectError:   regexp.MustCompile(`The import ID must be in the format: schedule_id:rule_id`),
+			},
 		},
 	})
 }
