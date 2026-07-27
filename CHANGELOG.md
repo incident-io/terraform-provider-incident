@@ -1,3 +1,7 @@
+## v5.45.0
+
+- Add `group_alerts_summary` to the v3 `incident_alert_route` resource, on Slack and MS Teams channel targets under `message_config.destinations`. When enabled, grouped alerts render as a single editable group-summary message per channel instead of one message per alert.
+
 ## v5.44.2
 
 - Fix `Provider produced inconsistent result after apply` on `incident_alert_route` when `escalation_config.when_alert_joins_group.mode` is `on_priority_increase` (or any mode other than `on_each_new_alert`) and `grace_period_seconds` is not set. The API echoes back a zero `grace_period_seconds` for these modes, but the field is only configurable with `on_each_new_alert` (it is rejected by validation and never sent otherwise), so the plan holds null. The provider now only reads `grace_period_seconds` into state when the mode is `on_each_new_alert`, matching how it is validated and sent.
