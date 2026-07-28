@@ -6,7 +6,10 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/samber/lo"
+
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -29,6 +32,7 @@ type IncidentUserDataSourceModel struct {
 	ID          types.String `tfsdk:"id" json:"id"`
 	Name        types.String `tfsdk:"name" json:"name"`
 	SlackUserID types.String `tfsdk:"slack_user_id" json:"slack_user_id"`
+	IsActive    types.Bool   `tfsdk:"is_active" json:"is_active"`
 }
 
 type IncidentUserRequest struct {
@@ -73,8 +77,11 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 		}
 		user = &result.JSON200.User
 	} else if !data.Email.IsNull() {
+		// Include inactive users so a scheduled user who has since been
+		// deactivated (offboarded) still resolves — otherwise the apply breaks.
 		result, err := i.client.UsersV2ListWithResponse(ctx, &client.UsersV2ListParams{
-			Email: data.Email.ValueStringPointer(),
+			Email:           data.Email.ValueStringPointer(),
+			IncludeInactive: lo.ToPtr(true),
 		})
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
@@ -90,7 +97,8 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 		user = &result.JSON200.Users[0]
 	} else if !data.SlackUserID.IsNull() {
 		result, err := i.client.UsersV2ListWithResponse(ctx, &client.UsersV2ListParams{
-			SlackUserId: data.SlackUserID.ValueStringPointer(),
+			SlackUserId:     data.SlackUserID.ValueStringPointer(),
+			IncludeInactive: lo.ToPtr(true),
 		})
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
@@ -109,6 +117,33 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 		return
 	}
 
+	// Warn (but don't fail) when a config references an inactive user. We still
+	// resolve them so an apply doesn't break the moment someone is offboarded,
+	// but nudge authors to move on-call responsibilities to an active user. An
+	// inactive user is either deactivated (the common case, offboarding) or not
+	// yet active — the public API only exposes is_active, so the message covers
+	// both rather than asserting deactivation.
+	if !user.IsActive {
+		lookup := path.Root("email")
+		switch {
+		case !data.ID.IsNull():
+			lookup = path.Root("id")
+		case !data.SlackUserID.IsNull():
+			lookup = path.Root("slack_user_id")
+		}
+		resp.Diagnostics.AddAttributeWarning(
+			lookup,
+			"User is not active",
+			fmt.Sprintf(
+				"User %q (%s) is not active — they've either been deactivated "+
+					"(e.g. offboarded) or are not yet active. Referencing inactive users "+
+					"(e.g. in schedules or escalation paths) is discouraged — move these "+
+					"responsibilities to an active user.",
+				user.Name, user.Id,
+			),
+		)
+	}
+
 	modelResp := i.buildModel(*user)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
 }
@@ -119,6 +154,7 @@ func (i *IncidentUserDataSource) buildModel(userType client.UserWithRolesV2) *In
 		ID:          types.StringValue(userType.Id),
 		Name:        types.StringValue(userType.Name),
 		SlackUserID: types.StringPointerValue(userType.SlackUserId),
+		IsActive:    types.BoolValue(userType.IsActive),
 	}
 
 	return model
@@ -139,6 +175,10 @@ func (i *IncidentUserDataSource) Schema(ctx context.Context, req datasource.Sche
 			},
 			"slack_user_id": schema.StringAttribute{
 				Optional: true,
+			},
+			"is_active": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Whether the user is active. False if the user has been deactivated (e.g. offboarded) or is not yet active.",
 			},
 		},
 	}
