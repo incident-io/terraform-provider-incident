@@ -26,4 +26,5 @@ Users all have a single base role, and can be assigned multiple custom roles. Th
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+- `is_active` (Boolean) Whether the user is active. False if the user has been deactivated (e.g. offboarded) or is not yet active.
 - `name` (String)
