@@ -33,3 +33,16 @@ resource "incident_schedule_sync_rule" "platform_eu_oncall" {
   sync_type               = "on_call"
   rotation_id             = "eu"
 }
+
+# Keep a manager in the Slack user group regardless of who is on call.
+# Omit permanent_member_user_ids to leave existing members unchanged on update;
+# set it to [] to clear them.
+resource "incident_schedule_sync_rule" "platform_oncall_with_manager" {
+  schedule_id             = incident_schedule.platform.id
+  schedule_sync_target_id = incident_schedule_sync_target.platform_oncall.id
+  sync_type               = "on_call"
+
+  permanent_member_user_ids = [
+    data.incident_user.platform_manager.id,
+  ]
+}

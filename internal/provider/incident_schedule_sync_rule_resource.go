@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
@@ -74,6 +75,11 @@ func (r *IncidentScheduleSyncRuleResource) Schema(ctx context.Context, req resou
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
+			"permanent_member_user_ids": schema.SetAttribute{
+				Optional:            true,
+				ElementType:         types.StringType,
+				MarkdownDescription: apischema.Docstring("ScheduleSyncRuleV2", "permanent_member_user_ids") + "\n\nOmitting the attribute leaves existing permanent members unchanged on update. Set to `[]` to clear them.",
+			},
 		},
 	}
 }
@@ -103,11 +109,14 @@ func (r *IncidentScheduleSyncRuleResource) Create(ctx context.Context, req resou
 		return
 	}
 
+	plannedPermanentMembers := data.PermanentMemberUserIDs
+
 	result, err := r.client.SchedulesV2CreateScheduleSyncRuleWithResponse(ctx, data.ScheduleID.ValueString(), client.SchedulesCreateScheduleSyncRulePayloadV2{
 		ScheduleSyncRule: client.ScheduleSyncRuleCreatePayloadV2{
-			ScheduleSyncTargetId: data.ScheduleSyncTargetID.ValueString(),
-			SyncType:             client.ScheduleSyncRuleCreatePayloadV2SyncType(data.SyncType.ValueString()),
-			RotationId:           data.RotationID.ValueStringPointer(),
+			ScheduleSyncTargetId:   data.ScheduleSyncTargetID.ValueString(),
+			SyncType:               client.ScheduleSyncRuleCreatePayloadV2SyncType(data.SyncType.ValueString()),
+			RotationId:             data.RotationID.ValueStringPointer(),
+			PermanentMemberUserIds: data.PermanentMemberUserIDsPayload(),
 			Annotations: &map[string]string{
 				"incident.io/terraform/version": r.terraformVersion,
 			},
@@ -121,6 +130,7 @@ func (r *IncidentScheduleSyncRuleResource) Create(ctx context.Context, req resou
 	tflog.Trace(ctx, fmt.Sprintf("created schedule sync rule with id=%s", result.JSON201.ScheduleSyncRule.Id))
 
 	data = models.ScheduleSyncRuleResourceModel{}.FromAPI(result.JSON201.ScheduleSyncRule)
+	data.PreserveEmptyPermanentMemberUserIDs(plannedPermanentMembers)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -131,6 +141,8 @@ func (r *IncidentScheduleSyncRuleResource) Read(ctx context.Context, req resourc
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
+	priorPermanentMembers := data.PermanentMemberUserIDs
 
 	result, err := r.client.SchedulesV2ShowScheduleSyncRuleWithResponse(ctx, data.ScheduleID.ValueString(), data.ID.ValueString())
 	if err != nil {
@@ -153,6 +165,15 @@ func (r *IncidentScheduleSyncRuleResource) Read(ctx context.Context, req resourc
 	}
 
 	data = models.ScheduleSyncRuleResourceModel{}.FromAPI(result.JSON200.ScheduleSyncRule)
+	// When the attribute is unset in state, leave it null even if the API
+	// returns members set outside Terraform — omitting the field on update
+	// means "leave unchanged", so we must not invent a diff that would clear
+	// them. An explicit empty set in state is preserved so `= []` sticks.
+	if priorPermanentMembers.IsNull() {
+		data.PermanentMemberUserIDs = types.SetNull(types.StringType)
+	} else {
+		data.PreserveEmptyPermanentMemberUserIDs(priorPermanentMembers)
+	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -164,8 +185,11 @@ func (r *IncidentScheduleSyncRuleResource) Update(ctx context.Context, req resou
 		return
 	}
 
+	plannedPermanentMembers := data.PermanentMemberUserIDs
+
 	result, err := r.client.SchedulesV2UpdateScheduleSyncRuleWithResponse(ctx, data.ScheduleID.ValueString(), data.ID.ValueString(), client.SchedulesUpdateScheduleSyncRulePayloadV2{
-		SyncType: client.SchedulesUpdateScheduleSyncRulePayloadV2SyncType(data.SyncType.ValueString()),
+		SyncType:               client.SchedulesUpdateScheduleSyncRulePayloadV2SyncType(data.SyncType.ValueString()),
+		PermanentMemberUserIds: data.PermanentMemberUserIDsPayload(),
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
@@ -176,6 +200,12 @@ func (r *IncidentScheduleSyncRuleResource) Update(ctx context.Context, req resou
 	}
 
 	data = models.ScheduleSyncRuleResourceModel{}.FromAPI(result.JSON200.ScheduleSyncRule)
+	if plannedPermanentMembers.IsNull() {
+		// Omitted on the wire — members are unchanged and still unmanaged.
+		data.PermanentMemberUserIDs = types.SetNull(types.StringType)
+	} else {
+		data.PreserveEmptyPermanentMemberUserIDs(plannedPermanentMembers)
+	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
