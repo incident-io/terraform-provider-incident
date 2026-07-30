@@ -372,8 +372,13 @@ func (r *IncidentCatalogEntryResource) Delete(ctx context.Context, req resource.
 		}
 	}
 
-	// If no managed_attributes set, delete the entire entry as before
-	_, err := r.client.CatalogV2DestroyEntry(ctx, data.ID.ValueString())
+	// If no managed_attributes set, delete the entire entry as before.
+	//
+	// oapi-codegen 2.8.0 started emitting the schema's `deprecated` flag as a real
+	// Go "Deprecated:" marker, so staticcheck now reports this call. The replacement
+	// is CatalogV3DestroyEntry, but moving the delete path from v2 to v3 is a
+	// functional change that wants its own PR and acceptance run, not a codegen bump.
+	_, err := r.client.CatalogV2DestroyEntry(ctx, data.ID.ValueString()) //nolint:staticcheck // migrate to CatalogV3DestroyEntry separately.
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete catalog entry, got error: %s", err))
 		return

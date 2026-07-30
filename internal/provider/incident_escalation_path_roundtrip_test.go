@@ -85,7 +85,7 @@ func TestEscalationPathRoundTrip(t *testing.T) {
 				Name:     "Office hours",
 				Timezone: "Europe/London",
 				WeekdayIntervals: []client.WeekdayIntervalV2{
-					{StartTime: "09:00", EndTime: "17:00", Weekday: client.Monday},
+					{StartTime: "09:00", EndTime: "17:00", Weekday: client.WeekdayIntervalV2WeekdayMonday},
 				},
 			},
 		},

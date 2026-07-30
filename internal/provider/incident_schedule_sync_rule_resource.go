@@ -273,7 +273,7 @@ func (r *IncidentScheduleSyncRuleResource) ImportState(ctx context.Context, req 
 		return
 	}
 
-	claimResource(ctx, r.client, ruleID, &resp.Diagnostics, client.ScheduleSyncRule, r.terraformVersion)
+	claimResource(ctx, r.client, ruleID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncRule, r.terraformVersion)
 	if resp.Diagnostics.HasError() {
 		return
 	}
