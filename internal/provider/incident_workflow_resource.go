@@ -523,8 +523,14 @@ func toPayloadFormFields(fields []IncidentWorkflowFormField) *[]client.WorkflowF
 
 	out := []client.WorkflowFormFieldPayloadV2{}
 	for _, field := range fields {
+		// Omit id when null/unknown so the API creates a new field. ValueStringPointer
+		// on Unknown returns &"", which omitempty still encodes as "id":"".
+		var id *string
+		if !field.ID.IsNull() && !field.ID.IsUnknown() {
+			id = field.ID.ValueStringPointer()
+		}
 		out = append(out, client.WorkflowFormFieldPayloadV2{
-			Id:          field.ID.ValueStringPointer(),
+			Id:          id,
 			Key:         field.Key.ValueString(),
 			Title:       field.Title.ValueString(),
 			Type:        field.Type.ValueString(),
