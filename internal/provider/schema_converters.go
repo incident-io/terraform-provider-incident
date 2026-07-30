@@ -98,6 +98,21 @@ func buildFormFields(fields *[]client.WorkflowFormFieldV2) []IncidentWorkflowFor
 	return out
 }
 
+// reconcileFormFields keeps an explicitly empty form_fields list empty in state.
+// The API doesn't distinguish "no form fields" from an empty list, so
+// buildFormFields collapses both to nil to keep an unset attribute quiet — but a
+// user who wrote `form_fields = []` (the idiom the other workflow list
+// attributes use) planned an empty list, and Terraform rejects the apply as an
+// inconsistent result if we hand back null instead. prior is the configured or
+// previously stored value; built is what came off the API response.
+func reconcileFormFields(prior, built []IncidentWorkflowFormField) []IncidentWorkflowFormField {
+	if built == nil && prior != nil && len(prior) == 0 {
+		return []IncidentWorkflowFormField{}
+	}
+
+	return built
+}
+
 func buildOnceFor(onceFor []client.EngineReferenceV2) []basetypes.StringValue {
 	out := []basetypes.StringValue{}
 

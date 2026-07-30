@@ -313,7 +313,9 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created a workflow resource with id=%s", result.JSON201.Workflow.Id))
+	formFields := data.FormFields
 	data = r.buildModel(ctx, result.JSON201.Workflow)
+	data.FormFields = reconcileFormFields(formFields, data.FormFields)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -393,7 +395,9 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
+	formFields := data.FormFields
 	data = r.buildModel(ctx, result.JSON200.Workflow)
+	data.FormFields = reconcileFormFields(formFields, data.FormFields)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -419,7 +423,9 @@ func (r *IncidentWorkflowResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
+	formFields := data.FormFields
 	data = r.buildModel(ctx, result.JSON200.Workflow)
+	data.FormFields = reconcileFormFields(formFields, data.FormFields)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 

@@ -117,3 +117,42 @@ func TestWorkflowFormFieldsNilRoundTrip(t *testing.T) {
 		t.Errorf("expected nil payload for nil model form fields, got %#v", got)
 	}
 }
+
+// TestWorkflowFormFieldsEmptyListStaysEmpty covers `form_fields = []`. The API
+// can't tell an empty list apart from no form fields, so buildFormFields
+// collapses both to nil; reconcileFormFields has to put the empty list back when
+// that's what the user actually planned, or Terraform fails the apply with
+// "Provider produced inconsistent result after apply".
+func TestWorkflowFormFieldsEmptyListStaysEmpty(t *testing.T) {
+	empty := []IncidentWorkflowFormField{}
+
+	// An explicit empty list survives an API response with no form fields.
+	got := reconcileFormFields(empty, buildFormFields(&[]client.WorkflowFormFieldV2{}))
+	if got == nil {
+		t.Errorf("expected empty list to stay empty, got nil")
+	} else if len(got) != 0 {
+		t.Errorf("expected 0 form fields, got %d", len(got))
+	}
+
+	// ...and an omitted attribute stays null rather than becoming an empty list.
+	if got := reconcileFormFields(nil, buildFormFields(nil)); got != nil {
+		t.Errorf("expected unset form fields to stay nil, got %#v", got)
+	}
+
+	// An empty list still sends an empty array, so the API clears any existing fields.
+	payload := toPayloadFormFields(empty)
+	if payload == nil {
+		t.Fatalf("expected empty model to produce a non-nil payload, so the API clears fields")
+	}
+	if len(*payload) != 0 {
+		t.Errorf("expected empty payload, got %d fields", len(*payload))
+	}
+
+	// Fields returned by the API always win over the prior value.
+	built := buildFormFields(&[]client.WorkflowFormFieldV2{{
+		Id: "01FCNDV6P870EA6S7TK1DSYDG0", Key: "reason", Title: "Reason", Type: "Text",
+	}})
+	if got := reconcileFormFields(empty, built); len(got) != 1 {
+		t.Errorf("expected API form fields to win, got %d", len(got))
+	}
+}
