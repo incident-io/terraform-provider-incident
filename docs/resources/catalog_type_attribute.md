@@ -94,7 +94,19 @@ resource "incident_catalog_type_attribute" "service_tier_services" {
 
 - `catalog_type_id` (String) ID of this catalog type
 - `name` (String) The name of this attribute.
-- `type` (String) The type of this attribute.
+- `type` (String) The type of this attribute. This is either one of the primitive types below, or a reference to any catalog type in your organisation.
+
+Primitive types:
+
+- `String` - Simple text without formatting
+- `Text` - Rich text supporting formatting like italic, bold and otherwise
+- `Bool` - Boolean true or false value
+- `Number` - Floating point number
+- `Image["avatar"]` - A URL pointing to a person's avatar, rendered inline as a circular image
+
+Note that `Bool`, `Text` and `Number` attributes cannot be arrays, so may not be combined with `array = true`. The `Labels` primitive is not supported for catalog attributes.
+
+To reference another catalog type, use its type name. For types managed in Terraform this is the `type_name` attribute (e.g. `incident_catalog_type.service_tier.type_name`), which takes the form `Custom["ServiceTier"]`. Catalog types synced from integrations are referenced by their own name, such as `PagerDutyService` or `PagerDutyUser`.
 
 ### Optional
 
