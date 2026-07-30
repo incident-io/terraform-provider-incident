@@ -75,9 +75,9 @@ jobs:
       # Running in parallel will cause each test to collide on resource names.
       max-parallel: 1
       matrix:
-        # We only want to support 1.2.* for now.
         terraform:
           - '1.2.*'
+          - '1.15.*'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-go@v7.0.0
