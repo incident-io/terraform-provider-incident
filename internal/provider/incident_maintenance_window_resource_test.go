@@ -15,7 +15,7 @@ import (
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
-func testAccMaintenanceWindowLeadUserID() string {
+func testAccMaintenanceWindowLeadUserID(t *testing.T) string {
 	if id := os.Getenv("TF_ACC_LEAD_USER_ID"); id != "" {
 		return id
 	}
@@ -28,22 +28,26 @@ func testAccMaintenanceWindowLeadUserID() string {
 
 	c, err := client.New(context.Background(), apiKey, endpoint, "test")
 	if err != nil {
-		panic("error creating client to fetch lead user ID: " + err.Error())
+		t.Fatalf("error creating client to fetch lead user ID: %s", err)
 	}
 
 	result, err := c.UsersV2ListWithResponse(context.Background(), &client.UsersV2ListParams{})
 	if err != nil {
-		panic("error listing users: " + err.Error())
+		t.Fatalf("error listing users: %s", err)
 	}
 	if result.JSON200 == nil || len(result.JSON200.Users) == 0 {
-		panic("no users found in test workspace")
+		t.Fatal("no users found in test workspace")
 	}
 
 	return result.JSON200.Users[0].Id
 }
 
 func TestAccIncidentMaintenanceWindowResource(t *testing.T) {
-	model := maintenanceWindowDefault()
+	// Skip before building the model, which needs a live API call to look up a
+	// lead user ID.
+	testAccPreCheck(t)
+
+	model := maintenanceWindowDefault(t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -108,7 +112,11 @@ func TestAccIncidentMaintenanceWindowResource(t *testing.T) {
 }
 
 func TestAccIncidentMaintenanceWindowResourceWithOptionalFields(t *testing.T) {
-	model := maintenanceWindowDefault()
+	// Skip before building the model, which needs a live API call to look up a
+	// lead user ID.
+	testAccPreCheck(t)
+
+	model := maintenanceWindowDefault(t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -260,7 +268,7 @@ resource "incident_maintenance_window" "example" {
 }
 `))
 
-func maintenanceWindowDefault() maintenanceWindowModel {
+func maintenanceWindowDefault(t *testing.T) maintenanceWindowModel {
 	// Use dates in the future to avoid issues with validation
 	startAt := time.Now().Add(24 * time.Hour).Truncate(time.Second).UTC().Format(time.RFC3339)
 	endAt := time.Now().Add(28 * time.Hour).Truncate(time.Second).UTC().Format(time.RFC3339)
@@ -269,7 +277,7 @@ func maintenanceWindowDefault() maintenanceWindowModel {
 		Name:          "Test Maintenance Window",
 		StartAt:       startAt,
 		EndAt:         endAt,
-		LeadUserID:    testAccMaintenanceWindowLeadUserID(),
+		LeadUserID:    testAccMaintenanceWindowLeadUserID(t),
 		ShowInSidebar: true,
 	}
 }
