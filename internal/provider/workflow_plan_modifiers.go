@@ -57,8 +57,10 @@ func (m formFieldIDPlanModifier) MarkdownDescription(ctx context.Context) string
 }
 
 func (formFieldIDPlanModifier) PlanModifyString(ctx context.Context, req planmodifier.StringRequest, resp *planmodifier.StringResponse) {
-	// An explicitly configured id wins.
-	if !req.ConfigValue.IsNull() && !req.ConfigValue.IsUnknown() {
+	// An explicitly configured id wins — including when it's still unknown
+	// (e.g. a variable or resource reference). Matching UseStateForUnknown:
+	// a non-null config value is authoritative and must not be overwritten.
+	if !req.ConfigValue.IsNull() {
 		return
 	}
 

@@ -148,10 +148,17 @@ func TestWorkflowFormFieldsEmptyListStaysEmpty(t *testing.T) {
 		t.Errorf("expected empty payload, got %d fields", len(*payload))
 	}
 
-	// Fields returned by the API always win over the prior value.
 	built := buildFormFields(&[]client.WorkflowFormFieldV2{{
 		Id: "01FCNDV6P870EA6S7TK1DSYDG0", Key: "reason", Title: "Reason", Type: "Text",
 	}})
+
+	// Omitting form_fields leaves API fields unmanaged: keep state null even
+	// when the API still has fields (payload omitted them, so they weren't cleared).
+	if got := reconcileFormFields(nil, built); got != nil {
+		t.Errorf("expected omitted form fields to stay nil when API still has fields, got %#v", got)
+	}
+
+	// When form_fields is set, fields returned by the API win over the prior value.
 	if got := reconcileFormFields(empty, built); len(got) != 1 {
 		t.Errorf("expected API form fields to win, got %d", len(got))
 	}

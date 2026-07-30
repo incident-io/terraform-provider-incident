@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Add support for `form_fields` on `incident_workflow`, letting you define the fields shown to a user when they manually trigger a workflow. The value a user provides is available in the workflow scope under `workflow_form.<key>`. Each form field has a `key`, `title`, `type`, `array` and `required` setting, plus an optional `description` and a computed `id`. Form fields only apply to manual triggers. Either `form_fields = []` or omitting the attribute clears any existing fields.
+- Add support for `form_fields` on `incident_workflow`, letting you define the fields shown to a user when they manually trigger a workflow. The value a user provides is available in the workflow scope under `workflow_form.<key>`. Each form field has a `key`, `title`, `type`, `array` and `required` setting, plus an optional `description` and a computed `id`. Form fields only apply to manual triggers. Omit the attribute to leave existing fields unchanged on update; set it to `[]` to clear them.
 
 ## v5.46.0
 

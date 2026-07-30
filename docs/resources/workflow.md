@@ -149,6 +149,8 @@ resource "incident_workflow" "page_execs" {
 - `delay` (Attributes) Configuration controlling workflow delay behaviour (see [below for nested schema](#nestedatt--delay))
 - `folder` (String) Folder to display the workflow in
 - `form_fields` (Attributes List) User-configured form fields available in the workflow scope (manual triggers only) (see [below for nested schema](#nestedatt--form_fields))
+
+Omitting the attribute leaves existing form fields unchanged on update. Set to `[]` to clear them.
 - `include_private_escalations` (Boolean) Whether to include private escalations
 - `include_private_incidents` (Boolean, Deprecated) DEPRECATED: use `private_incident_scope` instead. `true` when the workflow runs on private incidents (a `private_incident_scope` of `all` or `owning_teams`), `false` when the scope is `none`.
 - `owning_team_ids` (Set of String) IDs of the teams that own this workflow

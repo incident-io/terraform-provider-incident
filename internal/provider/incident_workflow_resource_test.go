@@ -383,8 +383,8 @@ resource "incident_workflow" "example" {
 
 // TestAccIncidentWorkflowResourceFormFields checks that form_fields round-trips on a
 // manually triggered workflow: unset reads back as absent, fields are applied and
-// re-read (with a server-generated id), and both `[]` and omitting the attribute
-// clear them again without leaving a diff behind.
+// re-read (with a server-generated id), `[]` clears them, and omitting the attribute
+// leaves them unmanaged (null in state) without leaving a diff behind.
 func TestAccIncidentWorkflowResourceFormFields(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -421,11 +421,14 @@ func TestAccIncidentWorkflowResourceFormFields(t *testing.T) {
 					resource.TestCheckResourceAttrSet("incident_workflow.example", "form_fields.0.id"),
 				),
 			},
-			// Import and verify the form fields survive a round-trip.
+			// Import and verify the form fields survive a round-trip. form_fields is
+			// ignored because an omitted attribute stays null on read (leave
+			// unchanged), so passthrough import does not re-populate it.
 			{
-				ResourceName:      "incident_workflow.example",
-				ImportState:       true,
-				ImportStateVerify: true,
+				ResourceName:            "incident_workflow.example",
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{"form_fields"},
 			},
 			// Update the first field and add a second, array-valued one. Dropping the
 			// optional description must read back as absent, not as an empty string.
@@ -465,7 +468,7 @@ func TestAccIncidentWorkflowResourceFormFields(t *testing.T) {
 					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.#", "0"),
 				),
 			},
-			// Omitting the attribute entirely leaves it absent.
+			// Omitting the attribute entirely leaves it absent (unmanaged).
 			{
 				Config: testAccIncidentWorkflowConfigFormFields(""),
 				Check: resource.ComposeAggregateTestCheckFunc(

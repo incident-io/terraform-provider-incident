@@ -199,7 +199,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				Required:            true,
 			},
 			"form_fields": schema.ListNestedAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowV2", "form_fields"),
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "form_fields") + "\n\nOmitting the attribute leaves existing form fields unchanged on update. Set to `[]` to clear them.",
 				Optional:            true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
