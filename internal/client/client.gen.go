@@ -7993,6 +7993,22 @@ type ScheduleCreatePayloadV2 struct {
 	Timezone *string `json:"timezone,omitempty"`
 }
 
+// ScheduleCreatePayloadV3 defines model for ScheduleCreatePayloadV3.
+type ScheduleCreatePayloadV3 struct {
+	// Annotations Annotations that can track metadata about this schedule
+	Annotations          *map[string]string                     `json:"annotations,omitempty"`
+	HolidaysPublicConfig *ScheduleHolidaysPublicConfigPayloadV2 `json:"holidays_public_config,omitempty"`
+
+	// Name Human readable name for the schedule
+	Name string `json:"name"`
+
+	// TeamIds IDs of teams that own this schedule
+	TeamIds *[]string `json:"team_ids,omitempty"`
+
+	// Timezone Timezone the schedule's rotations are anchored to, as an IANA name
+	Timezone string `json:"timezone"`
+}
+
 // ScheduleEntriesListPayloadV2 The schedule entries for a window of time, grouped by where they come from.
 //
 // `scheduled` are the entries produced by the schedule's rotation rules before
@@ -8339,6 +8355,9 @@ type ScheduleSyncRuleCreatePayloadV2 struct {
 	// Annotations Annotations that track metadata about this resource
 	Annotations *map[string]string `json:"annotations,omitempty"`
 
+	// PermanentMemberUserIds IDs of users to always keep in the Slack user group, regardless of who is on call. Each must be an active user in your organisation. Defaults to none.
+	PermanentMemberUserIds *[]string `json:"permanent_member_user_ids,omitempty"`
+
 	// RotationId If set, scopes the rule to a single rotation on the schedule. When unset, all rotations are synced.
 	RotationId *string `json:"rotation_id,omitempty"`
 
@@ -8360,11 +8379,17 @@ type ScheduleSyncRuleCreatePayloadV2SyncType string
 // rotation on the schedule is included; set rotation_id to scope the rule to a
 // single rotation. As the schedule's shifts change hands, we keep the target's
 // Slack user group membership in step with the rule.
+//
+// permanent_member_user_ids names users who stay in the group whichever way the
+// shifts fall, on top of whoever sync_type selects.
 type ScheduleSyncRuleV2 struct {
 	CreatedAt time.Time `json:"created_at"`
 
 	// Id Unique identifier of the sync rule
 	Id string `json:"id"`
+
+	// PermanentMemberUserIds IDs of users always kept in the Slack user group, regardless of who is on call. Useful for keeping e.g. a manager in the group so they see mentions without being paged. Scoped to this rule: when several rules feed the same group, we sync the union of their permanent members.
+	PermanentMemberUserIds []string `json:"permanent_member_user_ids"`
 
 	// RotationId If set, only members of this rotation sync to the user group. When unset, all rotations on the schedule are synced.
 	RotationId *string `json:"rotation_id,omitempty"`
@@ -8529,6 +8554,19 @@ type ScheduleUpdatePayloadV2 struct {
 	Timezone *string `json:"timezone,omitempty"`
 }
 
+// ScheduleUpdatePayloadV3 defines model for ScheduleUpdatePayloadV3.
+type ScheduleUpdatePayloadV3 struct {
+	// Annotations Annotations that can track metadata about this schedule
+	Annotations          *map[string]string                     `json:"annotations,omitempty"`
+	HolidaysPublicConfig *ScheduleHolidaysPublicConfigPayloadV2 `json:"holidays_public_config,omitempty"`
+
+	// Name Human readable name for the schedule
+	Name string `json:"name"`
+
+	// TeamIds IDs of teams that own this schedule. Send an empty list to remove all owners; omit it to leave ownership as it is.
+	TeamIds *[]string `json:"team_ids,omitempty"`
+}
+
 // ScheduleV2 defines model for ScheduleV2.
 type ScheduleV2 struct {
 	// Annotations Annotations that track metadata about this resource
@@ -8556,6 +8594,27 @@ type ScheduleV2 struct {
 	TeamIds []string `json:"team_ids"`
 
 	// Timezone Timezone of the schedule, as interpreted at the point of generating the report
+	Timezone  string    `json:"timezone"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// ScheduleV3 defines model for ScheduleV3.
+type ScheduleV3 struct {
+	// Annotations Annotations that track metadata about this resource
+	Annotations          map[string]string               `json:"annotations"`
+	CreatedAt            time.Time                       `json:"created_at"`
+	HolidaysPublicConfig *ScheduleHolidaysPublicConfigV2 `json:"holidays_public_config,omitempty"`
+
+	// Id Unique internal ID of the schedule
+	Id string `json:"id"`
+
+	// Name Human readable name for the schedule
+	Name string `json:"name"`
+
+	// TeamIds IDs of teams that own this schedule
+	TeamIds []string `json:"team_ids"`
+
+	// Timezone Timezone the schedule's rotations are anchored to, as an IANA name
 	Timezone  string    `json:"timezone"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -8589,9 +8648,19 @@ type SchedulesCreatePayloadV2 struct {
 	Schedule ScheduleCreatePayloadV2 `json:"schedule"`
 }
 
+// SchedulesCreatePayloadV3 defines model for SchedulesCreatePayloadV3.
+type SchedulesCreatePayloadV3 struct {
+	Schedule ScheduleCreatePayloadV3 `json:"schedule"`
+}
+
 // SchedulesCreateResultV2 defines model for SchedulesCreateResultV2.
 type SchedulesCreateResultV2 struct {
 	Schedule ScheduleV2 `json:"schedule"`
+}
+
+// SchedulesCreateResultV3 defines model for SchedulesCreateResultV3.
+type SchedulesCreateResultV3 struct {
+	Schedule ScheduleV3 `json:"schedule"`
 }
 
 // SchedulesCreateScheduleReplicaPayloadV2 defines model for SchedulesCreateScheduleReplicaPayloadV2.
@@ -8619,6 +8688,9 @@ type SchedulesCreateScheduleSyncRuleResultV2 struct {
 	// rotation on the schedule is included; set rotation_id to scope the rule to a
 	// single rotation. As the schedule's shifts change hands, we keep the target's
 	// Slack user group membership in step with the rule.
+	//
+	// permanent_member_user_ids names users who stay in the group whichever way the
+	// shifts fall, on top of whoever sync_type selects.
 	ScheduleSyncRule ScheduleSyncRuleV2 `json:"schedule_sync_rule"`
 }
 
@@ -8632,6 +8704,12 @@ type SchedulesListOverridesResultV2 struct {
 type SchedulesListResultV2 struct {
 	PaginationMeta *PaginationMetaResultWithTotalV2 `json:"pagination_meta,omitempty"`
 	Schedules      []ScheduleV2                     `json:"schedules"`
+}
+
+// SchedulesListResultV3 defines model for SchedulesListResultV3.
+type SchedulesListResultV3 struct {
+	PaginationMeta PaginationMetaResultV3 `json:"pagination_meta"`
+	Schedules      []ScheduleV3           `json:"schedules"`
 }
 
 // SchedulesListScheduleEntriesResultV2 defines model for SchedulesListScheduleEntriesResultV2.
@@ -8686,6 +8764,11 @@ type SchedulesShowResultV2 struct {
 	Schedule ScheduleV2 `json:"schedule"`
 }
 
+// SchedulesShowResultV3 defines model for SchedulesShowResultV3.
+type SchedulesShowResultV3 struct {
+	Schedule ScheduleV3 `json:"schedule"`
+}
+
 // SchedulesShowScheduleReplicaResultV2 defines model for SchedulesShowScheduleReplicaResultV2.
 type SchedulesShowScheduleReplicaResultV2 struct {
 	ScheduleReplica ScheduleReplicaV2 `json:"schedule_replica"`
@@ -8701,6 +8784,9 @@ type SchedulesShowScheduleSyncRuleResultV2 struct {
 	// rotation on the schedule is included; set rotation_id to scope the rule to a
 	// single rotation. As the schedule's shifts change hands, we keep the target's
 	// Slack user group membership in step with the rule.
+	//
+	// permanent_member_user_ids names users who stay in the group whichever way the
+	// shifts fall, on top of whoever sync_type selects.
 	ScheduleSyncRule ScheduleSyncRuleV2 `json:"schedule_sync_rule"`
 }
 
@@ -8709,15 +8795,28 @@ type SchedulesUpdatePayloadV2 struct {
 	Schedule ScheduleUpdatePayloadV2 `json:"schedule"`
 }
 
+// SchedulesUpdatePayloadV3 defines model for SchedulesUpdatePayloadV3.
+type SchedulesUpdatePayloadV3 struct {
+	Schedule ScheduleUpdatePayloadV3 `json:"schedule"`
+}
+
 // SchedulesUpdateResultV2 defines model for SchedulesUpdateResultV2.
 type SchedulesUpdateResultV2 struct {
 	Schedule ScheduleV2 `json:"schedule"`
+}
+
+// SchedulesUpdateResultV3 defines model for SchedulesUpdateResultV3.
+type SchedulesUpdateResultV3 struct {
+	Schedule ScheduleV3 `json:"schedule"`
 }
 
 // SchedulesUpdateScheduleSyncRulePayloadV2 defines model for SchedulesUpdateScheduleSyncRulePayloadV2.
 type SchedulesUpdateScheduleSyncRulePayloadV2 struct {
 	// Annotations Annotations that track metadata about this resource
 	Annotations *map[string]string `json:"annotations,omitempty"`
+
+	// PermanentMemberUserIds IDs of users to always keep in the Slack user group, regardless of who is on call. Each must be an active user in your organisation. Replaces the rule's current permanent members: pass an empty array to remove them all, or omit the field to leave them unchanged.
+	PermanentMemberUserIds *[]string `json:"permanent_member_user_ids,omitempty"`
 
 	// SyncType Which schedule members sync to the user group
 	SyncType SchedulesUpdateScheduleSyncRulePayloadV2SyncType `json:"sync_type"`
@@ -8736,6 +8835,9 @@ type SchedulesUpdateScheduleSyncRuleResultV2 struct {
 	// rotation on the schedule is included; set rotation_id to scope the rule to a
 	// single rotation. As the schedule's shifts change hands, we keep the target's
 	// Slack user group membership in step with the rule.
+	//
+	// permanent_member_user_ids names users who stay in the group whichever way the
+	// shifts fall, on top of whoever sync_type selects.
 	ScheduleSyncRule ScheduleSyncRuleV2 `json:"schedule_sync_rule"`
 }
 
@@ -10700,6 +10802,15 @@ type CatalogV3ShowEntryParams struct {
 	Expand *bool `form:"expand,omitempty" json:"expand,omitempty"`
 }
 
+// SchedulesV3ListParams defines parameters for SchedulesV3List.
+type SchedulesV3ListParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A schedule's ID. This endpoint will return a list of schedules after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
 // TeamsV3ListParams defines parameters for TeamsV3List.
 type TeamsV3ListParams struct {
 	// PageSize Integer number of records to return
@@ -10963,6 +11074,12 @@ type CatalogV3UpdateTypeJSONRequestBody = CatalogUpdateTypePayloadV3
 
 // CatalogV3UpdateTypeSchemaJSONRequestBody defines body for CatalogV3UpdateTypeSchema for application/json ContentType.
 type CatalogV3UpdateTypeSchemaJSONRequestBody = CatalogUpdateTypeSchemaPayloadV3
+
+// SchedulesV3CreateJSONRequestBody defines body for SchedulesV3Create for application/json ContentType.
+type SchedulesV3CreateJSONRequestBody = SchedulesCreatePayloadV3
+
+// SchedulesV3UpdateJSONRequestBody defines body for SchedulesV3Update for application/json ContentType.
+type SchedulesV3UpdateJSONRequestBody = SchedulesUpdatePayloadV3
 
 // RequestEditorFn  is the function signature for the RequestEditor callback function
 type RequestEditorFn func(ctx context.Context, req *http.Request) error
@@ -11242,9 +11359,6 @@ type ClientInterface interface {
 	MaintenanceWindowsV1UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	MaintenanceWindowsV1Update(ctx context.Context, id string, body MaintenanceWindowsV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// UtilitiesV1OpenAPI request
-	UtilitiesV1OpenAPI(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// UtilitiesV1OpenAPIV3 request
 	UtilitiesV1OpenAPIV3(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -11854,6 +11968,25 @@ type ClientInterface interface {
 	CatalogV3UpdateTypeSchemaWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	CatalogV3UpdateTypeSchema(ctx context.Context, id string, body CatalogV3UpdateTypeSchemaJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3List request
+	SchedulesV3List(ctx context.Context, params *SchedulesV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3CreateWithBody request with any body
+	SchedulesV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SchedulesV3Create(ctx context.Context, body SchedulesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3Destroy request
+	SchedulesV3Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3Show request
+	SchedulesV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3UpdateWithBody request with any body
+	SchedulesV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SchedulesV3Update(ctx context.Context, id string, body SchedulesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// TeamsV3List request
 	TeamsV3List(ctx context.Context, params *TeamsV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -12764,18 +12897,6 @@ func (c *Client) MaintenanceWindowsV1UpdateWithBody(ctx context.Context, id stri
 
 func (c *Client) MaintenanceWindowsV1Update(ctx context.Context, id string, body MaintenanceWindowsV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewMaintenanceWindowsV1UpdateRequest(c.Server, id, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) UtilitiesV1OpenAPI(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewUtilitiesV1OpenAPIRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -15474,6 +15595,90 @@ func (c *Client) CatalogV3UpdateTypeSchema(ctx context.Context, id string, body 
 	return c.Client.Do(req)
 }
 
+func (c *Client) SchedulesV3List(ctx context.Context, params *SchedulesV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV3Create(ctx context.Context, body SchedulesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV3Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3DestroyRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SchedulesV3Update(ctx context.Context, id string, body SchedulesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) TeamsV3List(ctx context.Context, params *TeamsV3ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewTeamsV3ListRequest(c.Server, params)
 	if err != nil {
@@ -17844,33 +18049,6 @@ func NewMaintenanceWindowsV1UpdateRequestWithBody(server string, id string, cont
 	}
 
 	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewUtilitiesV1OpenAPIRequest generates requests for UtilitiesV1OpenAPI
-func NewUtilitiesV1OpenAPIRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/openapi.json")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
 
 	return req, nil
 }
@@ -25739,6 +25917,226 @@ func NewCatalogV3UpdateTypeSchemaRequestWithBody(server string, id string, conte
 	return req, nil
 }
 
+// NewSchedulesV3ListRequest generates requests for SchedulesV3List
+func NewSchedulesV3ListRequest(server string, params *SchedulesV3ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/schedules")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page_size", runtime.ParamLocationQuery, *params.PageSize); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "after", runtime.ParamLocationQuery, *params.After); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV3CreateRequest calls the generic SchedulesV3Create builder with application/json body
+func NewSchedulesV3CreateRequest(server string, body SchedulesV3CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSchedulesV3CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewSchedulesV3CreateRequestWithBody generates requests for SchedulesV3Create with any type of body
+func NewSchedulesV3CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/schedules")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewSchedulesV3DestroyRequest generates requests for SchedulesV3Destroy
+func NewSchedulesV3DestroyRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/schedules/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV3ShowRequest generates requests for SchedulesV3Show
+func NewSchedulesV3ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/schedules/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV3UpdateRequest calls the generic SchedulesV3Update builder with application/json body
+func NewSchedulesV3UpdateRequest(server string, id string, body SchedulesV3UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSchedulesV3UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewSchedulesV3UpdateRequestWithBody generates requests for SchedulesV3Update with any type of body
+func NewSchedulesV3UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/schedules/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewTeamsV3ListRequest generates requests for TeamsV3List
 func NewTeamsV3ListRequest(server string, params *TeamsV3ListParams) (*http.Request, error) {
 	var err error
@@ -26086,9 +26484,6 @@ type ClientWithResponsesInterface interface {
 	MaintenanceWindowsV1UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1UpdateResponse, error)
 
 	MaintenanceWindowsV1UpdateWithResponse(ctx context.Context, id string, body MaintenanceWindowsV1UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*MaintenanceWindowsV1UpdateResponse, error)
-
-	// UtilitiesV1OpenAPIWithResponse request
-	UtilitiesV1OpenAPIWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilitiesV1OpenAPIResponse, error)
 
 	// UtilitiesV1OpenAPIV3WithResponse request
 	UtilitiesV1OpenAPIV3WithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilitiesV1OpenAPIV3Response, error)
@@ -26698,6 +27093,25 @@ type ClientWithResponsesInterface interface {
 	CatalogV3UpdateTypeSchemaWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CatalogV3UpdateTypeSchemaResponse, error)
 
 	CatalogV3UpdateTypeSchemaWithResponse(ctx context.Context, id string, body CatalogV3UpdateTypeSchemaJSONRequestBody, reqEditors ...RequestEditorFn) (*CatalogV3UpdateTypeSchemaResponse, error)
+
+	// SchedulesV3ListWithResponse request
+	SchedulesV3ListWithResponse(ctx context.Context, params *SchedulesV3ListParams, reqEditors ...RequestEditorFn) (*SchedulesV3ListResponse, error)
+
+	// SchedulesV3CreateWithBodyWithResponse request with any body
+	SchedulesV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV3CreateResponse, error)
+
+	SchedulesV3CreateWithResponse(ctx context.Context, body SchedulesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV3CreateResponse, error)
+
+	// SchedulesV3DestroyWithResponse request
+	SchedulesV3DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV3DestroyResponse, error)
+
+	// SchedulesV3ShowWithResponse request
+	SchedulesV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV3ShowResponse, error)
+
+	// SchedulesV3UpdateWithBodyWithResponse request with any body
+	SchedulesV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV3UpdateResponse, error)
+
+	SchedulesV3UpdateWithResponse(ctx context.Context, id string, body SchedulesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV3UpdateResponse, error)
 
 	// TeamsV3ListWithResponse request
 	TeamsV3ListWithResponse(ctx context.Context, params *TeamsV3ListParams, reqEditors ...RequestEditorFn) (*TeamsV3ListResponse, error)
@@ -27878,28 +28292,6 @@ func (r MaintenanceWindowsV1UpdateResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r MaintenanceWindowsV1UpdateResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type UtilitiesV1OpenAPIResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *openapi_types.File
-}
-
-// Status returns HTTPResponse.Status
-func (r UtilitiesV1OpenAPIResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r UtilitiesV1OpenAPIResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -31423,6 +31815,115 @@ func (r CatalogV3UpdateTypeSchemaResponse) StatusCode() int {
 	return 0
 }
 
+type SchedulesV3ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SchedulesListResultV3
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV3ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV3ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV3CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *SchedulesCreateResultV3
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV3CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV3CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV3DestroyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV3DestroyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV3DestroyResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV3ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SchedulesShowResultV3
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV3ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV3ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SchedulesV3UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SchedulesUpdateResultV3
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV3UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV3UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type TeamsV3ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -32127,15 +32628,6 @@ func (c *ClientWithResponses) MaintenanceWindowsV1UpdateWithResponse(ctx context
 		return nil, err
 	}
 	return ParseMaintenanceWindowsV1UpdateResponse(rsp)
-}
-
-// UtilitiesV1OpenAPIWithResponse request returning *UtilitiesV1OpenAPIResponse
-func (c *ClientWithResponses) UtilitiesV1OpenAPIWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilitiesV1OpenAPIResponse, error) {
-	rsp, err := c.UtilitiesV1OpenAPI(ctx, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseUtilitiesV1OpenAPIResponse(rsp)
 }
 
 // UtilitiesV1OpenAPIV3WithResponse request returning *UtilitiesV1OpenAPIV3Response
@@ -34091,6 +34583,67 @@ func (c *ClientWithResponses) CatalogV3UpdateTypeSchemaWithResponse(ctx context.
 	return ParseCatalogV3UpdateTypeSchemaResponse(rsp)
 }
 
+// SchedulesV3ListWithResponse request returning *SchedulesV3ListResponse
+func (c *ClientWithResponses) SchedulesV3ListWithResponse(ctx context.Context, params *SchedulesV3ListParams, reqEditors ...RequestEditorFn) (*SchedulesV3ListResponse, error) {
+	rsp, err := c.SchedulesV3List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3ListResponse(rsp)
+}
+
+// SchedulesV3CreateWithBodyWithResponse request with arbitrary body returning *SchedulesV3CreateResponse
+func (c *ClientWithResponses) SchedulesV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV3CreateResponse, error) {
+	rsp, err := c.SchedulesV3CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3CreateResponse(rsp)
+}
+
+func (c *ClientWithResponses) SchedulesV3CreateWithResponse(ctx context.Context, body SchedulesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV3CreateResponse, error) {
+	rsp, err := c.SchedulesV3Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3CreateResponse(rsp)
+}
+
+// SchedulesV3DestroyWithResponse request returning *SchedulesV3DestroyResponse
+func (c *ClientWithResponses) SchedulesV3DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV3DestroyResponse, error) {
+	rsp, err := c.SchedulesV3Destroy(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3DestroyResponse(rsp)
+}
+
+// SchedulesV3ShowWithResponse request returning *SchedulesV3ShowResponse
+func (c *ClientWithResponses) SchedulesV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV3ShowResponse, error) {
+	rsp, err := c.SchedulesV3Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3ShowResponse(rsp)
+}
+
+// SchedulesV3UpdateWithBodyWithResponse request with arbitrary body returning *SchedulesV3UpdateResponse
+func (c *ClientWithResponses) SchedulesV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV3UpdateResponse, error) {
+	rsp, err := c.SchedulesV3UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3UpdateResponse(rsp)
+}
+
+func (c *ClientWithResponses) SchedulesV3UpdateWithResponse(ctx context.Context, id string, body SchedulesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV3UpdateResponse, error) {
+	rsp, err := c.SchedulesV3Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3UpdateResponse(rsp)
+}
+
 // TeamsV3ListWithResponse request returning *TeamsV3ListResponse
 func (c *ClientWithResponses) TeamsV3ListWithResponse(ctx context.Context, params *TeamsV3ListParams, reqEditors ...RequestEditorFn) (*TeamsV3ListResponse, error) {
 	rsp, err := c.TeamsV3List(ctx, params, reqEditors...)
@@ -35403,32 +35956,6 @@ func ParseMaintenanceWindowsV1UpdateResponse(rsp *http.Response) (*MaintenanceWi
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest MaintenanceWindowsUpdateResultV1
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseUtilitiesV1OpenAPIResponse parses an HTTP response from a UtilitiesV1OpenAPIWithResponse call
-func ParseUtilitiesV1OpenAPIResponse(rsp *http.Response) (*UtilitiesV1OpenAPIResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &UtilitiesV1OpenAPIResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest openapi_types.File
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -39365,6 +39892,126 @@ func ParseCatalogV3UpdateTypeSchemaResponse(rsp *http.Response) (*CatalogV3Updat
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest CatalogUpdateTypeSchemaResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV3ListResponse parses an HTTP response from a SchedulesV3ListWithResponse call
+func ParseSchedulesV3ListResponse(rsp *http.Response) (*SchedulesV3ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV3ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SchedulesListResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV3CreateResponse parses an HTTP response from a SchedulesV3CreateWithResponse call
+func ParseSchedulesV3CreateResponse(rsp *http.Response) (*SchedulesV3CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV3CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest SchedulesCreateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV3DestroyResponse parses an HTTP response from a SchedulesV3DestroyWithResponse call
+func ParseSchedulesV3DestroyResponse(rsp *http.Response) (*SchedulesV3DestroyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV3DestroyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV3ShowResponse parses an HTTP response from a SchedulesV3ShowWithResponse call
+func ParseSchedulesV3ShowResponse(rsp *http.Response) (*SchedulesV3ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV3ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SchedulesShowResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV3UpdateResponse parses an HTTP response from a SchedulesV3UpdateWithResponse call
+func ParseSchedulesV3UpdateResponse(rsp *http.Response) (*SchedulesV3UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV3UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SchedulesUpdateResultV3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

@@ -82,6 +82,52 @@ func TestAccIncidentScheduleSyncRuleResource_InvalidImportID(t *testing.T) {
 	})
 }
 
+// TestAccIncidentScheduleSyncRuleResource_PermanentMembers tests creating and
+// clearing permanent Slack user group members on a sync rule.
+//
+// NOTE: This test requires Slack usergroups:write scope, which is not available
+// in CI. Set TF_ACC_SLACK_USER_GROUPS=1 to run this test locally with a
+// workspace that has the scope. It also needs INCIDENT_TEST_USER_ID for an
+// active user in the test organisation.
+func TestAccIncidentScheduleSyncRuleResource_PermanentMembers(t *testing.T) {
+	if os.Getenv("TF_ACC_SLACK_USER_GROUPS") == "" {
+		t.Skip("TF_ACC_SLACK_USER_GROUPS is not set: skipping test that requires Slack usergroups:write scope")
+	}
+	userID := os.Getenv("INCIDENT_TEST_USER_ID")
+	if userID == "" {
+		t.Skip("INCIDENT_TEST_USER_ID is not set: skipping permanent members test")
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccScheduleSyncRuleResourceConfigWithPermanentMembers(userID),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_schedule_sync_rule.test", "permanent_member_user_ids.#", "1"),
+					resource.TestCheckTypeSetElemAttr("incident_schedule_sync_rule.test", "permanent_member_user_ids.*", userID),
+				),
+			},
+			{
+				Config: testAccScheduleSyncRuleResourceConfigWithPermanentMembersCleared(),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_schedule_sync_rule.test", "permanent_member_user_ids.#", "0"),
+				),
+			},
+			{
+				ResourceName:      "incident_schedule_sync_rule.test",
+				ImportState:       true,
+				ImportStateVerify: true,
+				// Import reads API state: empty members collapse to null, while
+				// the config above keeps an explicit empty set.
+				ImportStateVerifyIgnore: []string{"permanent_member_user_ids"},
+				ImportStateIdFunc:       importScheduleSyncRuleStateIDFunc("incident_schedule_sync_rule.test"),
+			},
+		},
+	})
+}
+
 // TestAccIncidentScheduleSyncRuleResource_Rotation tests creating a sync rule
 // scoped to a single rotation.
 //
@@ -161,6 +207,98 @@ resource "incident_schedule_sync_rule" "test" {
 	}{
 		SyncType: syncType,
 	})
+}
+
+func testAccScheduleSyncRuleResourceConfigWithPermanentMembers(userID string) string {
+	return testRunTemplate("incident_schedule_sync_rule_permanent_members", `
+resource "incident_schedule" "test" {
+  name     = "Test Schedule for Sync Rule Permanent Members"
+  timezone = "Europe/London"
+
+  rotations = [{
+    id   = "primary"
+    name = "Primary"
+
+    versions = [{
+      handover_start_at = "2024-05-01T12:00:00Z"
+      users             = []
+      layers = [{
+        id   = "primary"
+        name = "Primary"
+      }]
+      handovers = [{
+        interval_type = "daily"
+        interval      = 1
+      }]
+    }]
+  }]
+}
+
+resource "incident_schedule_sync_target" "test" {
+  add_bot_to_group = true
+
+  new_slack_user_group = {
+    name        = "Test Sync Rule Permanent Members Target"
+    handle      = "test-sync-rule-permanent-members"
+    description = "Target for testing permanent members on schedule sync rules"
+  }
+}
+
+resource "incident_schedule_sync_rule" "test" {
+  schedule_id             = incident_schedule.test.id
+  schedule_sync_target_id = incident_schedule_sync_target.test.id
+  sync_type               = "on_call"
+  permanent_member_user_ids = [{{ quote .UserID }}]
+}
+`, struct {
+		UserID string
+	}{
+		UserID: userID,
+	})
+}
+
+func testAccScheduleSyncRuleResourceConfigWithPermanentMembersCleared() string {
+	return testRunTemplate("incident_schedule_sync_rule_permanent_members_cleared", `
+resource "incident_schedule" "test" {
+  name     = "Test Schedule for Sync Rule Permanent Members"
+  timezone = "Europe/London"
+
+  rotations = [{
+    id   = "primary"
+    name = "Primary"
+
+    versions = [{
+      handover_start_at = "2024-05-01T12:00:00Z"
+      users             = []
+      layers = [{
+        id   = "primary"
+        name = "Primary"
+      }]
+      handovers = [{
+        interval_type = "daily"
+        interval      = 1
+      }]
+    }]
+  }]
+}
+
+resource "incident_schedule_sync_target" "test" {
+  add_bot_to_group = true
+
+  new_slack_user_group = {
+    name        = "Test Sync Rule Permanent Members Target"
+    handle      = "test-sync-rule-permanent-members"
+    description = "Target for testing permanent members on schedule sync rules"
+  }
+}
+
+resource "incident_schedule_sync_rule" "test" {
+  schedule_id               = incident_schedule.test.id
+  schedule_sync_target_id   = incident_schedule_sync_target.test.id
+  sync_type                 = "on_call"
+  permanent_member_user_ids = []
+}
+`, struct{}{})
 }
 
 func testAccScheduleSyncRuleResourceConfigWithRotation(rotationID string) string {
