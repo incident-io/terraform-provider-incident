@@ -10,6 +10,7 @@ import (
 
 	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/samber/lo"
 )
 
@@ -469,6 +470,119 @@ func TestAccIncidentWorkflowResourceFormFields(t *testing.T) {
 				Config: testAccIncidentWorkflowConfigFormFields(""),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckNoResourceAttr("incident_workflow.example", "form_fields"),
+				),
+			},
+		},
+	})
+}
+
+// TestAccIncidentWorkflowResourceFormFieldIDsFollowKeys checks that a form field's
+// computed id follows its key rather than its position in the list. form_fields is
+// ordered, so an id correlated by position moves onto the wrong field the moment an
+// earlier field is removed — the update would then rewrite the surviving field's
+// identity (and type) instead of deleting the one that went away.
+func TestAccIncidentWorkflowResourceFormFieldIDsFollowKeys(t *testing.T) {
+	idsByKey := map[string]string{}
+
+	captureIDs := func(s *terraform.State) error {
+		res, ok := s.RootModule().Resources["incident_workflow.example"]
+		if !ok {
+			return fmt.Errorf("incident_workflow.example not found in state")
+		}
+
+		idsByKey = map[string]string{}
+		for i := 0; ; i++ {
+			key, ok := res.Primary.Attributes[fmt.Sprintf("form_fields.%d.key", i)]
+			if !ok {
+				break
+			}
+			idsByKey[key] = res.Primary.Attributes[fmt.Sprintf("form_fields.%d.id", i)]
+		}
+
+		if len(idsByKey) != 2 {
+			return fmt.Errorf("expected to capture 2 form field ids, got %d", len(idsByKey))
+		}
+		for key, id := range idsByKey {
+			if id == "" {
+				return fmt.Errorf("form field %q has no id in state", key)
+			}
+		}
+
+		return nil
+	}
+
+	// checkOnlyRemainingField asserts the single surviving field is the expected
+	// key and still carries the id it was created with.
+	checkOnlyRemainingField := func(key string) func(*terraform.State) error {
+		return func(s *terraform.State) error {
+			want := idsByKey[key]
+			if want == "" {
+				return fmt.Errorf("no id captured for form field %q", key)
+			}
+
+			res, ok := s.RootModule().Resources["incident_workflow.example"]
+			if !ok {
+				return fmt.Errorf("incident_workflow.example not found in state")
+			}
+			if got := res.Primary.Attributes["form_fields.0.key"]; got != key {
+				return fmt.Errorf("expected the remaining form field to be %q, got %q", key, got)
+			}
+			if got := res.Primary.Attributes["form_fields.0.id"]; got != want {
+				return fmt.Errorf(
+					"form field %q id changed from %q to %q: ids must follow the key, not the list position",
+					key, want, got)
+			}
+
+			return nil
+		}
+	}
+
+	twoFields := `
+  form_fields = [
+    {
+      key      = "reason"
+      title    = "Reason"
+      type     = "Text"
+      array    = false
+      required = false
+    },
+    {
+      key      = "responders"
+      title    = "Responders"
+      type     = "User"
+      array    = true
+      required = false
+    },
+  ]`
+
+	// The first field is gone, so responders moves from index 1 to index 0.
+	onlyResponders := `
+  form_fields = [
+    {
+      key      = "responders"
+      title    = "Responders"
+      type     = "User"
+      array    = true
+      required = false
+    },
+  ]`
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentWorkflowConfigFormFields(twoFields),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.#", "2"),
+					captureIDs,
+				),
+			},
+			{
+				Config: testAccIncidentWorkflowConfigFormFields(onlyResponders),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.#", "1"),
+					checkOnlyRemainingField("responders"),
 				),
 			},
 		},

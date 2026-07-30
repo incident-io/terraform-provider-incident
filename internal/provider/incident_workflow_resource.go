@@ -208,7 +208,9 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 							Optional:            true,
 							Computed:            true,
 							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
+								// Correlates by key, not list position: see
+								// formFieldIDPlanModifier.
+								formFieldIDPlanModifier{},
 							},
 						},
 						"key": schema.StringAttribute{
