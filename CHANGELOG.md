@@ -1,6 +1,8 @@
 ## Unreleased
 
-- Add optional `permanent_member_user_ids` to `incident_schedule_sync_rule`, naming users who stay in the synced Slack user group regardless of who is on call. Omit the attribute to leave existing members unchanged on update; set it to `[]` to clear them. Requires the public API support from [incident-io/core#67760](https://github.com/incident-io/core/pull/67760).
+## v5.46.0
+
+- Add optional `permanent_member_user_ids` to `incident_schedule_sync_rule`, naming users who stay in the synced Slack user group regardless of who is on call. Omit the attribute to leave existing members unchanged on update; set it to `[]` to clear them.
 - Stop `terraform apply` breaking when a user referenced by `email` or `slack_user_id` in the `incident_user` data source has been deactivated (e.g. offboarded). These lookups now include inactive users, so an already-scheduled user still resolves instead of failing the apply. The data source also exposes a computed `is_active` attribute and emits a plan-time warning (rather than an error) when it resolves an inactive user, nudging authors to move on-call responsibilities to an active user.
 - Document import support for `incident_schedule_sync_target` and `incident_schedule_sync_rule`, the last two resources whose registry pages had no import example. Targets import by their ID; rules are nested under a schedule in the API, so they import by `schedule_id:rule_id`.
 - Make importing either resource read it from the API up front, so the imported state is fully populated and an ID that doesn't exist fails with a clear message rather than silently importing an empty resource. An import ID with an empty schedule or rule ID is now rejected too, and an unexpected successful API response without a body returns a diagnostic instead of panicking.
