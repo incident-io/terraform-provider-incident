@@ -10,6 +10,7 @@ import (
 
 	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/samber/lo"
 )
 
@@ -378,6 +379,247 @@ resource "incident_workflow" "example" {
 		TeamIndices:  lo.Range(teamCount),
 		TeamIDs:      teamIDs,
 	})
+}
+
+// TestAccIncidentWorkflowResourceFormFields checks that form_fields round-trips on a
+// manually triggered workflow: unset reads back as absent, fields are applied and
+// re-read (with a server-generated id), and both `[]` and omitting the attribute
+// clear them again without leaving a diff behind.
+func TestAccIncidentWorkflowResourceFormFields(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create without form_fields: the attribute stays absent.
+			{
+				Config: testAccIncidentWorkflowConfigFormFields(""),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckNoResourceAttr("incident_workflow.example", "form_fields"),
+				),
+			},
+			// Add a single form field. id is computed, so we only check it is set.
+			{
+				Config: testAccIncidentWorkflowConfigFormFields(`
+  form_fields = [
+    {
+      key         = "reason"
+      title       = "Reason for paging"
+      type        = "Text"
+      description = "Why are we paging the execs?"
+      array       = false
+      required    = true
+    },
+  ]`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.#", "1"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.0.key", "reason"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.0.title", "Reason for paging"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.0.type", "Text"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.0.description", "Why are we paging the execs?"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.0.array", "false"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.0.required", "true"),
+					resource.TestCheckResourceAttrSet("incident_workflow.example", "form_fields.0.id"),
+				),
+			},
+			// Import and verify the form fields survive a round-trip.
+			{
+				ResourceName:      "incident_workflow.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+			// Update the first field and add a second, array-valued one. Dropping the
+			// optional description must read back as absent, not as an empty string.
+			{
+				Config: testAccIncidentWorkflowConfigFormFields(`
+  form_fields = [
+    {
+      key      = "reason"
+      title    = "Why are we paging?"
+      type     = "Text"
+      array    = false
+      required = false
+    },
+    {
+      key      = "responders"
+      title    = "Who should we page?"
+      type     = "User"
+      array    = true
+      required = true
+    },
+  ]`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.#", "2"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.0.title", "Why are we paging?"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.0.required", "false"),
+					resource.TestCheckNoResourceAttr("incident_workflow.example", "form_fields.0.description"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.1.key", "responders"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.1.type", "User"),
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.1.array", "true"),
+				),
+			},
+			// An explicit empty list clears the fields and stays empty in state.
+			{
+				Config: testAccIncidentWorkflowConfigFormFields(`
+  form_fields = []`),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.#", "0"),
+				),
+			},
+			// Omitting the attribute entirely leaves it absent.
+			{
+				Config: testAccIncidentWorkflowConfigFormFields(""),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckNoResourceAttr("incident_workflow.example", "form_fields"),
+				),
+			},
+		},
+	})
+}
+
+// TestAccIncidentWorkflowResourceFormFieldIDsFollowKeys checks that a form field's
+// computed id follows its key rather than its position in the list. form_fields is
+// ordered, so an id correlated by position moves onto the wrong field the moment an
+// earlier field is removed — the update would then rewrite the surviving field's
+// identity (and type) instead of deleting the one that went away.
+func TestAccIncidentWorkflowResourceFormFieldIDsFollowKeys(t *testing.T) {
+	idsByKey := map[string]string{}
+
+	captureIDs := func(s *terraform.State) error {
+		res, ok := s.RootModule().Resources["incident_workflow.example"]
+		if !ok {
+			return fmt.Errorf("incident_workflow.example not found in state")
+		}
+
+		idsByKey = map[string]string{}
+		for i := 0; ; i++ {
+			key, ok := res.Primary.Attributes[fmt.Sprintf("form_fields.%d.key", i)]
+			if !ok {
+				break
+			}
+			idsByKey[key] = res.Primary.Attributes[fmt.Sprintf("form_fields.%d.id", i)]
+		}
+
+		if len(idsByKey) != 2 {
+			return fmt.Errorf("expected to capture 2 form field ids, got %d", len(idsByKey))
+		}
+		for key, id := range idsByKey {
+			if id == "" {
+				return fmt.Errorf("form field %q has no id in state", key)
+			}
+		}
+
+		return nil
+	}
+
+	// checkOnlyRemainingField asserts the single surviving field is the expected
+	// key and still carries the id it was created with.
+	checkOnlyRemainingField := func(key string) func(*terraform.State) error {
+		return func(s *terraform.State) error {
+			want := idsByKey[key]
+			if want == "" {
+				return fmt.Errorf("no id captured for form field %q", key)
+			}
+
+			res, ok := s.RootModule().Resources["incident_workflow.example"]
+			if !ok {
+				return fmt.Errorf("incident_workflow.example not found in state")
+			}
+			if got := res.Primary.Attributes["form_fields.0.key"]; got != key {
+				return fmt.Errorf("expected the remaining form field to be %q, got %q", key, got)
+			}
+			if got := res.Primary.Attributes["form_fields.0.id"]; got != want {
+				return fmt.Errorf(
+					"form field %q id changed from %q to %q: ids must follow the key, not the list position",
+					key, want, got)
+			}
+
+			return nil
+		}
+	}
+
+	twoFields := `
+  form_fields = [
+    {
+      key      = "reason"
+      title    = "Reason"
+      type     = "Text"
+      array    = false
+      required = false
+    },
+    {
+      key      = "responders"
+      title    = "Responders"
+      type     = "User"
+      array    = true
+      required = false
+    },
+  ]`
+
+	// The first field is gone, so responders moves from index 1 to index 0.
+	onlyResponders := `
+  form_fields = [
+    {
+      key      = "responders"
+      title    = "Responders"
+      type     = "User"
+      array    = true
+      required = false
+    },
+  ]`
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentWorkflowConfigFormFields(twoFields),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.#", "2"),
+					captureIDs,
+				),
+			},
+			{
+				Config: testAccIncidentWorkflowConfigFormFields(onlyResponders),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_workflow.example", "form_fields.#", "1"),
+					checkOnlyRemainingField("responders"),
+				),
+			},
+		},
+	})
+}
+
+// testAccIncidentWorkflowConfigFormFields renders a manually triggered workflow with
+// the given form_fields attribute lines spliced in (empty string omits them). form
+// fields only apply to manual triggers, so this can't reuse the incident.updated
+// workflow the other tests share.
+func testAccIncidentWorkflowConfigFormFields(formFields string) string {
+	return testRunTemplate("incident_workflow_form_fields", `
+resource "incident_workflow" "example" {
+  name    = "Form fields workflow"
+  trigger = "manual"
+  condition_groups = []
+  steps = [
+    {
+      id   = "01HXVEA7Y0VWQBJB4F2X8WNRW6"
+      name = "incident.create_follow_ups"
+      param_bindings = [
+        { value = { reference = "incident" } },
+        { array_value = [{ literal = "Write postmortem" }] },
+        {}
+      ]
+    }
+  ]
+  expressions            = []
+  once_for               = ["incident"]
+  {{ .FormFields }}
+  include_private_incidents = false
+  continue_on_step_error = false
+  runs_on_incidents      = "newly_created_and_active"
+  runs_on_incident_modes = ["standard"]
+  state                  = "draft"
+}
+`, struct{ FormFields string }{FormFields: formFields})
 }
 
 // testAccIncidentWorkflowConfigPrivacy renders a minimal workflow with the given

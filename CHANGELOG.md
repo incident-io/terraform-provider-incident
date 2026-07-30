@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add support for `form_fields` on `incident_workflow`, letting you define the fields shown to a user when they manually trigger a workflow. The value a user provides is available in the workflow scope under `workflow_form.<key>`. Each form field has a `key`, `title`, `type`, `array` and `required` setting, plus an optional `description` and a computed `id`. Form fields only apply to manual triggers. Either `form_fields = []` or omitting the attribute clears any existing fields.
+
 ## v5.46.0
 
 - Add optional `permanent_member_user_ids` to `incident_schedule_sync_rule`, naming users who stay in the synced Slack user group regardless of who is on call. Omit the attribute to leave existing members unchanged on update; set it to `[]` to clear them.
