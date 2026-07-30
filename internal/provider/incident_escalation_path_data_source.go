@@ -55,7 +55,7 @@ func (d *IncidentEscalationPathDataSource) getEscalationPathTypeID(ctx context.C
 	d.escalationPathTypeIDOnce.Do(func() {
 		typesResult, err := d.client.CatalogV3ListTypesWithResponse(ctx)
 		if err == nil && typesResult.StatusCode() >= 400 {
-			err = fmt.Errorf(string(typesResult.Body))
+			err = fmt.Errorf("%s", typesResult.Body)
 		}
 		if err != nil {
 			d.escalationPathTypeIDLookupErr = fmt.Errorf("unable to list catalog types, got error: %s", err)
@@ -431,7 +431,7 @@ func (d *IncidentEscalationPathDataSource) Read(ctx context.Context, req datasou
 			PageSize:      1,
 		})
 		if err == nil && entriesResult.StatusCode() >= 400 {
-			err = fmt.Errorf(string(entriesResult.Body))
+			err = fmt.Errorf("%s", entriesResult.Body)
 		}
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list catalog entries, got error: %s", err))

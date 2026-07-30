@@ -57,7 +57,7 @@ func (d *IncidentScheduleDataSource) getScheduleTypeID(ctx context.Context) (str
 	d.scheduleTypeIDOnce.Do(func() {
 		typesResult, err := d.client.CatalogV3ListTypesWithResponse(ctx)
 		if err == nil && typesResult.StatusCode() >= 400 {
-			err = fmt.Errorf(string(typesResult.Body))
+			err = fmt.Errorf("%s", typesResult.Body)
 		}
 		if err != nil {
 			d.scheduleTypeIDLookupError = fmt.Errorf("unable to list catalog types, got error: %s", err)
@@ -119,7 +119,7 @@ func (d *IncidentScheduleDataSource) Read(ctx context.Context, req datasource.Re
 			PageSize:      1,
 		})
 		if err == nil && entriesResult.StatusCode() >= 400 {
-			err = fmt.Errorf(string(entriesResult.Body))
+			err = fmt.Errorf("%s", entriesResult.Body)
 		}
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list catalog entries, got error: %s", err))
