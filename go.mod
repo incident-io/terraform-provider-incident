@@ -1,6 +1,6 @@
 module github.com/incident-io/terraform-provider-incident
 
-go 1.23.7
+go 1.26.5
 
 require (
 	github.com/Masterminds/sprig v2.22.0+incompatible
