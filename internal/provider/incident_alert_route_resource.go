@@ -505,7 +505,7 @@ func (r *IncidentAlertRouteResource) Create(ctx context.Context, req resource.Cr
 			return
 		}
 
-		claimResource(ctx, r.client, result.JSON201.AlertRoute.Id, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
+		claimResource(ctx, r.client, result.JSON201.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
 		tflog.Trace(ctx, fmt.Sprintf("Created an alert route with id=%s", result.JSON201.AlertRoute.Id))
 
 		data = models.AlertRouteResourceModel{}.FromAPIV3WithPlan(result.JSON201.AlertRoute, &plan)
@@ -519,7 +519,7 @@ func (r *IncidentAlertRouteResource) Create(ctx context.Context, req resource.Cr
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON201.AlertRoute.Id, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
+	claimResource(ctx, r.client, result.JSON201.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
 	tflog.Trace(ctx, fmt.Sprintf("Created an alert route with id=%s", result.JSON201.AlertRoute.Id))
 
 	data = models.AlertRouteResourceModel{}.FromAPIV2WithPlan(result.JSON201.AlertRoute, &plan)
@@ -612,7 +612,7 @@ func (r *IncidentAlertRouteResource) Update(ctx context.Context, req resource.Up
 			return
 		}
 
-		claimResource(ctx, r.client, showResult.JSON200.AlertRoute.Id, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
+		claimResource(ctx, r.client, showResult.JSON200.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
 
 		data = models.AlertRouteResourceModel{}.FromAPIV3WithPlan(updateResult.JSON200.AlertRoute, &plan)
 		resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -639,7 +639,7 @@ func (r *IncidentAlertRouteResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
-	claimResource(ctx, r.client, showResult.JSON200.AlertRoute.Id, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
+	claimResource(ctx, r.client, showResult.JSON200.AlertRoute.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
 
 	data = models.AlertRouteResourceModel{}.FromAPIV2WithPlan(updateResult.JSON200.AlertRoute, &plan)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -676,7 +676,7 @@ func (r *IncidentAlertRouteResource) ImportState(ctx context.Context, req resour
 	// state via the matching API so the subsequent refresh dispatches correctly.
 	id := req.ID
 
-	claimResource(ctx, r.client, id, &resp.Diagnostics, client.AlertRoute, r.terraformVersion)
+	claimResource(ctx, r.client, id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
 	if resp.Diagnostics.HasError() {
 		return
 	}
