@@ -155,12 +155,21 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 				Required:    true,
 			},
 			"type": schema.StringAttribute{
-				MarkdownDescription: "The type of this attribute. Valid types include:\n\n" +
-					"- `Bool` - A boolean value (true/false)\n" +
-					"- `Number` - A numeric value\n" +
-					"- `String` - A single-line text string\n" +
-					"- `Text` - Rich text with formatting\n" +
-					"- `Custom[\"TypeName\"]` - A reference to another catalog type (use `incident_catalog_type.other.type_name`)",
+				MarkdownDescription: "The type of this attribute. This is either one of the primitive " +
+					"types below, or a reference to any catalog type in your organisation.\n\n" +
+					"Primitive types:\n\n" +
+					"- `String` - Simple text without formatting\n" +
+					"- `Text` - Rich text supporting formatting like italic, bold and otherwise\n" +
+					"- `Bool` - Boolean true or false value\n" +
+					"- `Number` - Floating point number\n" +
+					"- `Image[\"avatar\"]` - A URL pointing to a person's avatar, rendered inline as a circular image\n\n" +
+					"Note that `Bool`, `Text` and `Number` attributes cannot be arrays, so may not be " +
+					"combined with `array = true`. The `Labels` primitive is not supported for catalog " +
+					"attributes.\n\n" +
+					"To reference another catalog type, use its type name. For types managed in Terraform " +
+					"this is the `type_name` attribute (e.g. `incident_catalog_type.service_tier.type_name`), " +
+					"which takes the form `Custom[\"ServiceTier\"]`. Catalog types synced from integrations " +
+					"are referenced by their own name, such as `PagerDutyService` or `PagerDutyUser`.",
 				Required: true,
 			},
 			"array": schema.BoolAttribute{
