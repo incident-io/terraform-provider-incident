@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Fix `Provider produced inconsistent result after apply` on `incident_workflow` when a workflow step gains new parameters, which failed the apply with `.steps[0].param_bindings: new element N has appeared`. Step `param_bindings` are positional, so when a step grows the API pads the bindings out to the new parameter count and creating a workflow returned more bindings than were configured. The provider now drops those trailing empty bindings. Bindings that carry data are kept, so a genuine change made outside Terraform still shows up as a diff.
+
 ## v5.46.0
 
 - Add optional `permanent_member_user_ids` to `incident_schedule_sync_rule`, naming users who stay in the synced Slack user group regardless of who is on call. Omit the attribute to leave existing members unchanged on update; set it to `[]` to clear them.

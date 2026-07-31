@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -76,4 +77,83 @@ func TestIncidentEngineParamBindingValue_SemanticEquality(t *testing.T) {
 	equal, diags = escaped.StringSemanticEquals(ctx, raw)
 	require.False(t, diags.HasError())
 	assert.True(t, equal, "HTML-escaped and raw literals should be semantically equal")
+}
+
+func TestIncidentEngineParamBindings_TrimAppendedEmpty(t *testing.T) {
+	literal := func(s string) IncidentEngineParamBinding {
+		return IncidentEngineParamBinding{
+			ArrayValue: []IncidentEngineParamBindingValue{
+				{Literal: jsontypes.NewNormalizedJSONOrStringValue(s)},
+			},
+		}
+	}
+	ref := func(s string) IncidentEngineParamBinding {
+		return IncidentEngineParamBinding{
+			Value: &IncidentEngineParamBindingValue{Reference: types.StringValue(s)},
+		}
+	}
+	empty := IncidentEngineParamBinding{}
+
+	tests := []struct {
+		name     string
+		bindings IncidentEngineParamBindings
+		priorLen int
+		want     IncidentEngineParamBindings
+	}{
+		{
+			name:     "drops_bindings_appended_by_a_step_gaining_params",
+			bindings: IncidentEngineParamBindings{ref("incident"), literal("Write postmortem"), empty, empty, empty, empty},
+			priorLen: 3,
+			want:     IncidentEngineParamBindings{ref("incident"), literal("Write postmortem"), empty},
+		},
+		{
+			name:     "keeps_a_configured_trailing_empty",
+			bindings: IncidentEngineParamBindings{ref("incident"), literal("Write postmortem"), empty},
+			priorLen: 3,
+			want:     IncidentEngineParamBindings{ref("incident"), literal("Write postmortem"), empty},
+		},
+		{
+			name:     "no_op_when_lengths_already_match",
+			bindings: IncidentEngineParamBindings{ref("incident"), literal("Write postmortem")},
+			priorLen: 2,
+			want:     IncidentEngineParamBindings{ref("incident"), literal("Write postmortem")},
+		},
+		{
+			name:     "keeps_extra_bindings_that_hold_data",
+			bindings: IncidentEngineParamBindings{ref("incident"), literal("Write postmortem"), empty, literal("set-elsewhere")},
+			priorLen: 3,
+			want:     IncidentEngineParamBindings{ref("incident"), literal("Write postmortem"), empty, literal("set-elsewhere")},
+		},
+		{
+			name:     "stops_trimming_at_populated_binding",
+			bindings: IncidentEngineParamBindings{ref("incident"), literal("t"), empty, literal("data"), empty},
+			priorLen: 2,
+			want:     IncidentEngineParamBindings{ref("incident"), literal("t"), empty, literal("data")},
+		},
+		{
+			name:     "leaves_shorter_responses_alone",
+			bindings: IncidentEngineParamBindings{ref("incident")},
+			priorLen: 3,
+			want:     IncidentEngineParamBindings{ref("incident")},
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			assert.Equal(t, tc.want, tc.bindings.TrimAppendedEmpty(tc.priorLen))
+		})
+	}
+}
+
+func TestIncidentEngineParamBinding_IsEmpty(t *testing.T) {
+	assert.True(t, IncidentEngineParamBinding{}.IsEmpty(), "zero binding is empty")
+	assert.True(t, IncidentEngineParamBinding{ArrayValue: []IncidentEngineParamBindingValue{}}.IsEmpty(),
+		"empty (non-nil) array_value is still empty")
+
+	assert.False(t, IncidentEngineParamBinding{
+		Value: &IncidentEngineParamBindingValue{},
+	}.IsEmpty(), "a present value object is not empty, even with zero fields")
+	assert.False(t, IncidentEngineParamBinding{
+		ArrayValue: []IncidentEngineParamBindingValue{{Reference: types.StringValue("incident")}},
+	}.IsEmpty(), "a populated array_value is not empty")
 }

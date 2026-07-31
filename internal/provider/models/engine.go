@@ -97,9 +97,25 @@ func (IncidentEngineParamBindings) FromAPI(pbs []client.EngineParamBindingV2) In
 	return out
 }
 
+// TrimAppendedEmpty drops trailing empty bindings the API padded onto a step that has
+// gained params, beyond the priorLen we sent. Stopping at priorLen keeps a configured
+// empty binding, which means "skip this optional param".
+func (pbs IncidentEngineParamBindings) TrimAppendedEmpty(priorLen int) IncidentEngineParamBindings {
+	out := pbs
+	for len(out) > priorLen && out[len(out)-1].IsEmpty() {
+		out = out[:len(out)-1]
+	}
+
+	return out
+}
+
 type IncidentEngineParamBinding struct {
 	ArrayValue []IncidentEngineParamBindingValue `tfsdk:"array_value"`
 	Value      *IncidentEngineParamBindingValue  `tfsdk:"value"`
+}
+
+func (binding IncidentEngineParamBinding) IsEmpty() bool {
+	return binding.Value == nil && len(binding.ArrayValue) == 0
 }
 
 func (IncidentEngineParamBinding) FromAPI(pb client.EngineParamBindingV2) IncidentEngineParamBinding {

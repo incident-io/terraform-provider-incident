@@ -258,7 +258,9 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created a workflow resource with id=%s", result.JSON201.Workflow.Id))
-	data = r.buildModel(ctx, result.JSON201.Workflow)
+	// Unlike update and read, create has no skip_step_upgrades, so the response may
+	// carry param_bindings the plan never set.
+	data = r.buildModel(ctx, result.JSON201.Workflow, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -337,7 +339,7 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	data = r.buildModel(ctx, result.JSON200.Workflow)
+	data = r.buildModel(ctx, result.JSON200.Workflow, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -363,7 +365,7 @@ func (r *IncidentWorkflowResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	data = r.buildModel(ctx, result.JSON200.Workflow)
+	data = r.buildModel(ctx, result.JSON200.Workflow, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
