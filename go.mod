@@ -18,7 +18,7 @@ require (
 	github.com/oapi-codegen/runtime v1.6.0
 	github.com/oklog/ulid/v2 v2.1.2
 	github.com/pkg/errors v0.9.1
-	github.com/samber/lo v1.52.0
+	github.com/samber/lo v1.53.0
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/sync v0.22.0
 )
