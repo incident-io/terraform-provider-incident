@@ -61,9 +61,9 @@ jobs:
           test -z "$(git status --porcelain)" || \
             (echo; echo "Unexpected untracked files after code generation. Run 'go generate ./...' command and commit."; exit 1)
 
-  # Run acceptance tests in a matrix with Terraform CLI versions
+  # Run acceptance tests against each CLI we support
   test:
-    name: Terraform Provider Acceptance Tests
+    name: Acceptance Tests (${{ matrix.cli }} ${{ matrix.version }})
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -75,18 +75,42 @@ jobs:
       # Running in parallel will cause each test to collide on resource names.
       max-parallel: 1
       matrix:
-        # We only want to support 1.2.* for now.
-        terraform:
-          - '1.2.*'
+        include:
+          # The oldest Terraform we support. HashiCorp patch only the latest two
+          # minors, so this tracks the oldest that is not end-of-life: bump it
+          # when we're happy to drop the CLI below.
+          - cli: terraform
+            version: '1.14.*'
+          # The latest Terraform, so we find out about breakage early.
+          - cli: terraform
+            version: '1.15.*'
+          # OpenTofu, tested directly rather than assumed compatible.
+          - cli: opentofu
+            version: '1.12.5'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-go@v7.0.0
         with:
           go-version-file: 'go.mod'
       - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        if: matrix.cli == 'terraform'
         with:
-          terraform_version: ${{ matrix.terraform }}
+          terraform_version: ${{ matrix.version }}
           terraform_wrapper: false
+      - uses: opentofu/setup-opentofu@000eeb8522f0572907c393e8151076c205fdba1b # v2.0.2
+        if: matrix.cli == 'opentofu'
+        with:
+          tofu_version: ${{ matrix.version }}
+          tofu_wrapper: false
+      # terraform-plugin-testing drives the terraform binary on PATH and builds
+      # provider addresses under registry.terraform.io, which OpenTofu rejects.
+      # Point it at tofu and give it an address OpenTofu will accept.
+      - name: Point the test harness at OpenTofu
+        if: matrix.cli == 'opentofu'
+        run: |
+          echo "TF_ACC_TERRAFORM_PATH=$(which tofu)" >> "$GITHUB_ENV"
+          echo "TF_ACC_PROVIDER_HOST=registry.opentofu.org" >> "$GITHUB_ENV"
+          echo "TF_ACC_PROVIDER_NAMESPACE=incident-io" >> "$GITHUB_ENV"
       - run: go mod download
       - env:
           INCIDENT_API_KEY: ${{ secrets.INCIDENT_API_KEY }}

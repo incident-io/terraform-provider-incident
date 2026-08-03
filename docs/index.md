@@ -8,6 +8,12 @@ description: |-
   To view the full documentation of this provider, we recommend reading the
   documentation on the Terraform
   Registry https://registry.terraform.io/providers/incident-io/incident/latest.
+  Supported Terraform versions
+  From v6.0.0 this provider supports Terraform 1.14 and above, and is tested
+  against the Terraform versions HashiCorp still patch. It is also tested directly
+  against OpenTofu. Older Terraform releases are no longer tested, and while the
+  provider may continue to work with them we won't be fixing issues that only
+  reproduce there. Pin to v5.x if you need to stay on an older CLI.
 ---
 
 # incident Provider
@@ -20,6 +26,14 @@ custom fields and more inside of your incident.io account.
 To view the full documentation of this provider, we recommend reading the
 documentation on the [Terraform
 Registry](https://registry.terraform.io/providers/incident-io/incident/latest).
+
+## Supported Terraform versions
+
+From v6.0.0 this provider supports Terraform 1.14 and above, and is tested
+against the Terraform versions HashiCorp still patch. It is also tested directly
+against OpenTofu. Older Terraform releases are no longer tested, and while the
+provider may continue to work with them we won't be fixing issues that only
+reproduce there. Pin to v5.x if you need to stay on an older CLI.
 
 ## Example Usage
 

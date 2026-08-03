@@ -259,7 +259,9 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 				Computed:            true,
 				Optional:            true,
 				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
+					// Not UseStateForUnknown: nodes are a nested collection, so a newly
+					// added node has no state value and that modifier would plan null.
+					stringplanmodifier.UseNonNullStateForUnknown(),
 				},
 			},
 			"type": schema.StringAttribute{

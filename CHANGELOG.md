@@ -1,5 +1,13 @@
 ## Unreleased
 
+#### Breaking changes
+
+- **Terraform 1.14 is now the minimum supported version.** HashiCorp only patch the latest two Terraform minors, and until now this provider's acceptance tests ran solely against Terraform 1.2, which has been end-of-life since 2022. We now test against the Terraform versions still receiving patches, and no longer test anything older. Nothing enforces this at install time — the provider still advertises protocol 6, so it may keep working on older CLIs — but we won't be fixing issues that only reproduce below 1.14. Pin to v5.x if you need to stay on an older Terraform.
+
+#### Other changes
+
+- The provider is now tested directly against OpenTofu on every change, rather than relying on Terraform compatibility to cover it.
+
 ## v5.46.1
 
 - Fix `Provider produced inconsistent result after apply` on `incident_workflow` when a workflow step gains new parameters, which failed the apply with `.steps[0].param_bindings: new element N has appeared`. Step `param_bindings` are positional, so when a step grows the API pads the bindings out to the new parameter count and creating a workflow returned more bindings than were configured. The provider now drops those trailing empty bindings. Bindings that carry data are kept, so a genuine change made outside Terraform still shows up as a diff.

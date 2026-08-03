@@ -345,7 +345,11 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 											Computed:            true,
 											MarkdownDescription: EnumValuesDescription("AlertTemplateAttributeBindingPayloadV2", "merge_strategy"),
 											PlanModifiers: []planmodifier.String{
-												stringplanmodifier.UseStateForUnknown(),
+												// Not UseStateForUnknown: this is a child of a
+												// nested collection, so a newly added binding
+												// has no state value and that modifier would
+												// plan null.
+												stringplanmodifier.UseNonNullStateForUnknown(),
 											},
 										},
 									},
