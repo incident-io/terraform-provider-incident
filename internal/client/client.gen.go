@@ -51,6 +51,7 @@ const (
 	APIKeyRoleV1NameTeamMembershipsManage               APIKeyRoleV1Name = "team_memberships_manage"
 	APIKeyRoleV1NameViewer                              APIKeyRoleV1Name = "viewer"
 	APIKeyRoleV1NameWorkflowsEditor                     APIKeyRoleV1Name = "workflows_editor"
+	APIKeyRoleV1NameWorkflowsViewer                     APIKeyRoleV1Name = "workflows_viewer"
 )
 
 // Valid indicates whether the value is a known member of the APIKeyRoleV1Name enum.
@@ -117,6 +118,8 @@ func (e APIKeyRoleV1Name) Valid() bool {
 	case APIKeyRoleV1NameViewer:
 		return true
 	case APIKeyRoleV1NameWorkflowsEditor:
+		return true
+	case APIKeyRoleV1NameWorkflowsViewer:
 		return true
 	default:
 		return false
@@ -201,6 +204,7 @@ const (
 	APIKeysCreatePayloadV1RoleNamesTeamMembershipsManage               APIKeysCreatePayloadV1RoleNames = "team_memberships_manage"
 	APIKeysCreatePayloadV1RoleNamesViewer                              APIKeysCreatePayloadV1RoleNames = "viewer"
 	APIKeysCreatePayloadV1RoleNamesWorkflowsEditor                     APIKeysCreatePayloadV1RoleNames = "workflows_editor"
+	APIKeysCreatePayloadV1RoleNamesWorkflowsViewer                     APIKeysCreatePayloadV1RoleNames = "workflows_viewer"
 )
 
 // Valid indicates whether the value is a known member of the APIKeysCreatePayloadV1RoleNames enum.
@@ -267,6 +271,8 @@ func (e APIKeysCreatePayloadV1RoleNames) Valid() bool {
 	case APIKeysCreatePayloadV1RoleNamesViewer:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesWorkflowsEditor:
+		return true
+	case APIKeysCreatePayloadV1RoleNamesWorkflowsViewer:
 		return true
 	default:
 		return false
@@ -351,6 +357,7 @@ const (
 	APIKeysUpdatePayloadV1RoleNamesTeamMembershipsManage               APIKeysUpdatePayloadV1RoleNames = "team_memberships_manage"
 	APIKeysUpdatePayloadV1RoleNamesViewer                              APIKeysUpdatePayloadV1RoleNames = "viewer"
 	APIKeysUpdatePayloadV1RoleNamesWorkflowsEditor                     APIKeysUpdatePayloadV1RoleNames = "workflows_editor"
+	APIKeysUpdatePayloadV1RoleNamesWorkflowsViewer                     APIKeysUpdatePayloadV1RoleNames = "workflows_viewer"
 )
 
 // Valid indicates whether the value is a known member of the APIKeysUpdatePayloadV1RoleNames enum.
@@ -417,6 +424,8 @@ func (e APIKeysUpdatePayloadV1RoleNames) Valid() bool {
 	case APIKeysUpdatePayloadV1RoleNamesViewer:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesWorkflowsEditor:
+		return true
+	case APIKeysUpdatePayloadV1RoleNamesWorkflowsViewer:
 		return true
 	default:
 		return false
@@ -3504,6 +3513,7 @@ const (
 	IdentityV1RolesTeamMembershipsManage               IdentityV1Roles = "team_memberships_manage"
 	IdentityV1RolesViewer                              IdentityV1Roles = "viewer"
 	IdentityV1RolesWorkflowsEditor                     IdentityV1Roles = "workflows_editor"
+	IdentityV1RolesWorkflowsViewer                     IdentityV1Roles = "workflows_viewer"
 )
 
 // Valid indicates whether the value is a known member of the IdentityV1Roles enum.
@@ -3570,6 +3580,8 @@ func (e IdentityV1Roles) Valid() bool {
 	case IdentityV1RolesViewer:
 		return true
 	case IdentityV1RolesWorkflowsEditor:
+		return true
+	case IdentityV1RolesWorkflowsViewer:
 		return true
 	default:
 		return false
@@ -4278,6 +4290,27 @@ func (e ManagementMetaV2ManagedBy) Valid() bool {
 	}
 }
 
+// Defines values for OnCallNotificationMethodCreatePayloadPublicV2MethodType.
+const (
+	OnCallNotificationMethodCreatePayloadPublicV2MethodTypeEmail           OnCallNotificationMethodCreatePayloadPublicV2MethodType = "email"
+	OnCallNotificationMethodCreatePayloadPublicV2MethodTypePhone           OnCallNotificationMethodCreatePayloadPublicV2MethodType = "phone"
+	OnCallNotificationMethodCreatePayloadPublicV2MethodTypeWhatsappMessage OnCallNotificationMethodCreatePayloadPublicV2MethodType = "whatsapp_message"
+)
+
+// Valid indicates whether the value is a known member of the OnCallNotificationMethodCreatePayloadPublicV2MethodType enum.
+func (e OnCallNotificationMethodCreatePayloadPublicV2MethodType) Valid() bool {
+	switch e {
+	case OnCallNotificationMethodCreatePayloadPublicV2MethodTypeEmail:
+		return true
+	case OnCallNotificationMethodCreatePayloadPublicV2MethodTypePhone:
+		return true
+	case OnCallNotificationMethodCreatePayloadPublicV2MethodTypeWhatsappMessage:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for OnCallNotificationMethodPublicV2MethodType.
 const (
 	OnCallNotificationMethodPublicV2MethodTypeApp             OnCallNotificationMethodPublicV2MethodType = "app"
@@ -4320,6 +4353,54 @@ func (e OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticality) Val
 	case OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticalityActive:
 		return true
 	case OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticalityCritical:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OnCallNotificationRuleCreatePayloadPublicV2MethodType.
+const (
+	OnCallNotificationRuleCreatePayloadPublicV2MethodTypeApp             OnCallNotificationRuleCreatePayloadPublicV2MethodType = "app"
+	OnCallNotificationRuleCreatePayloadPublicV2MethodTypeEmail           OnCallNotificationRuleCreatePayloadPublicV2MethodType = "email"
+	OnCallNotificationRuleCreatePayloadPublicV2MethodTypeMicrosoftTeams  OnCallNotificationRuleCreatePayloadPublicV2MethodType = "microsoft_teams"
+	OnCallNotificationRuleCreatePayloadPublicV2MethodTypePhone           OnCallNotificationRuleCreatePayloadPublicV2MethodType = "phone"
+	OnCallNotificationRuleCreatePayloadPublicV2MethodTypeSlack           OnCallNotificationRuleCreatePayloadPublicV2MethodType = "slack"
+	OnCallNotificationRuleCreatePayloadPublicV2MethodTypeWhatsappMessage OnCallNotificationRuleCreatePayloadPublicV2MethodType = "whatsapp_message"
+)
+
+// Valid indicates whether the value is a known member of the OnCallNotificationRuleCreatePayloadPublicV2MethodType enum.
+func (e OnCallNotificationRuleCreatePayloadPublicV2MethodType) Valid() bool {
+	switch e {
+	case OnCallNotificationRuleCreatePayloadPublicV2MethodTypeApp:
+		return true
+	case OnCallNotificationRuleCreatePayloadPublicV2MethodTypeEmail:
+		return true
+	case OnCallNotificationRuleCreatePayloadPublicV2MethodTypeMicrosoftTeams:
+		return true
+	case OnCallNotificationRuleCreatePayloadPublicV2MethodTypePhone:
+		return true
+	case OnCallNotificationRuleCreatePayloadPublicV2MethodTypeSlack:
+		return true
+	case OnCallNotificationRuleCreatePayloadPublicV2MethodTypeWhatsappMessage:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OnCallNotificationRuleCreatePayloadPublicV2RuleType.
+const (
+	OnCallNotificationRuleCreatePayloadPublicV2RuleTypeHighUrgency OnCallNotificationRuleCreatePayloadPublicV2RuleType = "high_urgency"
+	OnCallNotificationRuleCreatePayloadPublicV2RuleTypeLowUrgency  OnCallNotificationRuleCreatePayloadPublicV2RuleType = "low_urgency"
+)
+
+// Valid indicates whether the value is a known member of the OnCallNotificationRuleCreatePayloadPublicV2RuleType enum.
+func (e OnCallNotificationRuleCreatePayloadPublicV2RuleType) Valid() bool {
+	switch e {
+	case OnCallNotificationRuleCreatePayloadPublicV2RuleTypeHighUrgency:
+		return true
+	case OnCallNotificationRuleCreatePayloadPublicV2RuleTypeLowUrgency:
 		return true
 	default:
 		return false
@@ -4394,16 +4475,16 @@ func (e OnCallNotificationRulePublicV2MethodType) Valid() bool {
 
 // Defines values for OnCallNotificationRulePublicV2RuleType.
 const (
-	HighUrgency OnCallNotificationRulePublicV2RuleType = "high_urgency"
-	LowUrgency  OnCallNotificationRulePublicV2RuleType = "low_urgency"
+	OnCallNotificationRulePublicV2RuleTypeHighUrgency OnCallNotificationRulePublicV2RuleType = "high_urgency"
+	OnCallNotificationRulePublicV2RuleTypeLowUrgency  OnCallNotificationRulePublicV2RuleType = "low_urgency"
 )
 
 // Valid indicates whether the value is a known member of the OnCallNotificationRulePublicV2RuleType enum.
 func (e OnCallNotificationRulePublicV2RuleType) Valid() bool {
 	switch e {
-	case HighUrgency:
+	case OnCallNotificationRulePublicV2RuleTypeHighUrgency:
 		return true
-	case LowUrgency:
+	case OnCallNotificationRulePublicV2RuleTypeLowUrgency:
 		return true
 	default:
 		return false
@@ -4584,6 +4665,24 @@ func (e ScheduleRotationCreatePayloadV2SchedulingMode) Valid() bool {
 	}
 }
 
+// Defines values for ScheduleRotationCreatePayloadV3SchedulingMode.
+const (
+	ScheduleRotationCreatePayloadV3SchedulingModeFair       ScheduleRotationCreatePayloadV3SchedulingMode = "fair"
+	ScheduleRotationCreatePayloadV3SchedulingModeSequential ScheduleRotationCreatePayloadV3SchedulingMode = "sequential"
+)
+
+// Valid indicates whether the value is a known member of the ScheduleRotationCreatePayloadV3SchedulingMode enum.
+func (e ScheduleRotationCreatePayloadV3SchedulingMode) Valid() bool {
+	switch e {
+	case ScheduleRotationCreatePayloadV3SchedulingModeFair:
+		return true
+	case ScheduleRotationCreatePayloadV3SchedulingModeSequential:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ScheduleRotationHandoverV2IntervalType.
 const (
 	Daily  ScheduleRotationHandoverV2IntervalType = "daily"
@@ -4623,6 +4722,24 @@ func (e ScheduleRotationUpdatePayloadV2SchedulingMode) Valid() bool {
 	}
 }
 
+// Defines values for ScheduleRotationUpdatePayloadV3SchedulingMode.
+const (
+	ScheduleRotationUpdatePayloadV3SchedulingModeFair       ScheduleRotationUpdatePayloadV3SchedulingMode = "fair"
+	ScheduleRotationUpdatePayloadV3SchedulingModeSequential ScheduleRotationUpdatePayloadV3SchedulingMode = "sequential"
+)
+
+// Valid indicates whether the value is a known member of the ScheduleRotationUpdatePayloadV3SchedulingMode enum.
+func (e ScheduleRotationUpdatePayloadV3SchedulingMode) Valid() bool {
+	switch e {
+	case ScheduleRotationUpdatePayloadV3SchedulingModeFair:
+		return true
+	case ScheduleRotationUpdatePayloadV3SchedulingModeSequential:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ScheduleRotationV2SchedulingMode.
 const (
 	ScheduleRotationV2SchedulingModeFair       ScheduleRotationV2SchedulingMode = "fair"
@@ -4635,6 +4752,24 @@ func (e ScheduleRotationV2SchedulingMode) Valid() bool {
 	case ScheduleRotationV2SchedulingModeFair:
 		return true
 	case ScheduleRotationV2SchedulingModeSequential:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ScheduleRotationV3SchedulingMode.
+const (
+	ScheduleRotationV3SchedulingModeFair       ScheduleRotationV3SchedulingMode = "fair"
+	ScheduleRotationV3SchedulingModeSequential ScheduleRotationV3SchedulingMode = "sequential"
+)
+
+// Valid indicates whether the value is a known member of the ScheduleRotationV3SchedulingMode enum.
+func (e ScheduleRotationV3SchedulingMode) Valid() bool {
+	switch e {
+	case ScheduleRotationV3SchedulingModeFair:
+		return true
+	case ScheduleRotationV3SchedulingModeSequential:
 		return true
 	default:
 		return false
@@ -4737,6 +4872,48 @@ func (e ScheduleSyncRuleV2SyncType) Valid() bool {
 	case ScheduleSyncRuleV2SyncTypeAllUsers:
 		return true
 	case ScheduleSyncRuleV2SyncTypeOnCall:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SchedulesPreviewRotationRolloutPayloadV3Rollout.
+const (
+	SchedulesPreviewRotationRolloutPayloadV3RolloutAfterCurrentShift SchedulesPreviewRotationRolloutPayloadV3Rollout = "after_current_shift"
+	SchedulesPreviewRotationRolloutPayloadV3RolloutAfterFullRotation SchedulesPreviewRotationRolloutPayloadV3Rollout = "after_full_rotation"
+	SchedulesPreviewRotationRolloutPayloadV3RolloutImmediate         SchedulesPreviewRotationRolloutPayloadV3Rollout = "immediate"
+)
+
+// Valid indicates whether the value is a known member of the SchedulesPreviewRotationRolloutPayloadV3Rollout enum.
+func (e SchedulesPreviewRotationRolloutPayloadV3Rollout) Valid() bool {
+	switch e {
+	case SchedulesPreviewRotationRolloutPayloadV3RolloutAfterCurrentShift:
+		return true
+	case SchedulesPreviewRotationRolloutPayloadV3RolloutAfterFullRotation:
+		return true
+	case SchedulesPreviewRotationRolloutPayloadV3RolloutImmediate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SchedulesUpdateRotationPayloadV3Rollout.
+const (
+	SchedulesUpdateRotationPayloadV3RolloutAfterCurrentShift SchedulesUpdateRotationPayloadV3Rollout = "after_current_shift"
+	SchedulesUpdateRotationPayloadV3RolloutAfterFullRotation SchedulesUpdateRotationPayloadV3Rollout = "after_full_rotation"
+	SchedulesUpdateRotationPayloadV3RolloutImmediate         SchedulesUpdateRotationPayloadV3Rollout = "immediate"
+)
+
+// Valid indicates whether the value is a known member of the SchedulesUpdateRotationPayloadV3Rollout enum.
+func (e SchedulesUpdateRotationPayloadV3Rollout) Valid() bool {
+	switch e {
+	case SchedulesUpdateRotationPayloadV3RolloutAfterCurrentShift:
+		return true
+	case SchedulesUpdateRotationPayloadV3RolloutAfterFullRotation:
+		return true
+	case SchedulesUpdateRotationPayloadV3RolloutImmediate:
 		return true
 	default:
 		return false
@@ -5028,6 +5205,90 @@ func (e StatusPagesCreateStatusPageMaintenanceUpdatePayloadV2MaintenanceStatus) 
 	}
 }
 
+// Defines values for StepProgressSlimV2Status.
+const (
+	StepProgressSlimV2StatusComplete StepProgressSlimV2Status = "complete"
+	StepProgressSlimV2StatusError    StepProgressSlimV2Status = "error"
+	StepProgressSlimV2StatusPending  StepProgressSlimV2Status = "pending"
+)
+
+// Valid indicates whether the value is a known member of the StepProgressSlimV2Status enum.
+func (e StepProgressSlimV2Status) Valid() bool {
+	switch e {
+	case StepProgressSlimV2StatusComplete:
+		return true
+	case StepProgressSlimV2StatusError:
+		return true
+	case StepProgressSlimV2StatusPending:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StepProgressSlimV2WebhookDeliveryState.
+const (
+	StepProgressSlimV2WebhookDeliveryStateAvailable   StepProgressSlimV2WebhookDeliveryState = "available"
+	StepProgressSlimV2WebhookDeliveryStateExpired     StepProgressSlimV2WebhookDeliveryState = "expired"
+	StepProgressSlimV2WebhookDeliveryStateUnavailable StepProgressSlimV2WebhookDeliveryState = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the StepProgressSlimV2WebhookDeliveryState enum.
+func (e StepProgressSlimV2WebhookDeliveryState) Valid() bool {
+	switch e {
+	case StepProgressSlimV2WebhookDeliveryStateAvailable:
+		return true
+	case StepProgressSlimV2WebhookDeliveryStateExpired:
+		return true
+	case StepProgressSlimV2WebhookDeliveryStateUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StepProgressV2Status.
+const (
+	StepProgressV2StatusComplete StepProgressV2Status = "complete"
+	StepProgressV2StatusError    StepProgressV2Status = "error"
+	StepProgressV2StatusPending  StepProgressV2Status = "pending"
+)
+
+// Valid indicates whether the value is a known member of the StepProgressV2Status enum.
+func (e StepProgressV2Status) Valid() bool {
+	switch e {
+	case StepProgressV2StatusComplete:
+		return true
+	case StepProgressV2StatusError:
+		return true
+	case StepProgressV2StatusPending:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StepProgressV2WebhookDeliveryState.
+const (
+	StepProgressV2WebhookDeliveryStateAvailable   StepProgressV2WebhookDeliveryState = "available"
+	StepProgressV2WebhookDeliveryStateExpired     StepProgressV2WebhookDeliveryState = "expired"
+	StepProgressV2WebhookDeliveryStateUnavailable StepProgressV2WebhookDeliveryState = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the StepProgressV2WebhookDeliveryState enum.
+func (e StepProgressV2WebhookDeliveryState) Valid() bool {
+	switch e {
+	case StepProgressV2WebhookDeliveryStateAvailable:
+		return true
+	case StepProgressV2WebhookDeliveryStateExpired:
+		return true
+	case StepProgressV2WebhookDeliveryStateUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for UserSeatsV2OnCall.
 const (
 	UserSeatsV2OnCallFullAccess UserSeatsV2OnCall = "full_access"
@@ -5193,6 +5454,66 @@ func (e UsersUpdatePagingProviderPayloadV2PreferredEscalationProvider) Valid() b
 	case UsersUpdatePagingProviderPayloadV2PreferredEscalationProviderPagerduty:
 		return true
 	case UsersUpdatePagingProviderPayloadV2PreferredEscalationProviderSplunkOnCall:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WebhookDeliverySlimV2Outcome.
+const (
+	WebhookDeliverySlimV2OutcomeNetworkError WebhookDeliverySlimV2Outcome = "network_error"
+	WebhookDeliverySlimV2OutcomeNon2xx       WebhookDeliverySlimV2Outcome = "non_2xx"
+	WebhookDeliverySlimV2OutcomeSuccess      WebhookDeliverySlimV2Outcome = "success"
+	WebhookDeliverySlimV2OutcomeTimeout      WebhookDeliverySlimV2Outcome = "timeout"
+	WebhookDeliverySlimV2OutcomeTlsError     WebhookDeliverySlimV2Outcome = "tls_error"
+	WebhookDeliverySlimV2OutcomeUnreachable  WebhookDeliverySlimV2Outcome = "unreachable"
+)
+
+// Valid indicates whether the value is a known member of the WebhookDeliverySlimV2Outcome enum.
+func (e WebhookDeliverySlimV2Outcome) Valid() bool {
+	switch e {
+	case WebhookDeliverySlimV2OutcomeNetworkError:
+		return true
+	case WebhookDeliverySlimV2OutcomeNon2xx:
+		return true
+	case WebhookDeliverySlimV2OutcomeSuccess:
+		return true
+	case WebhookDeliverySlimV2OutcomeTimeout:
+		return true
+	case WebhookDeliverySlimV2OutcomeTlsError:
+		return true
+	case WebhookDeliverySlimV2OutcomeUnreachable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WebhookDeliveryV2Outcome.
+const (
+	WebhookDeliveryV2OutcomeNetworkError WebhookDeliveryV2Outcome = "network_error"
+	WebhookDeliveryV2OutcomeNon2xx       WebhookDeliveryV2Outcome = "non_2xx"
+	WebhookDeliveryV2OutcomeSuccess      WebhookDeliveryV2Outcome = "success"
+	WebhookDeliveryV2OutcomeTimeout      WebhookDeliveryV2Outcome = "timeout"
+	WebhookDeliveryV2OutcomeTlsError     WebhookDeliveryV2Outcome = "tls_error"
+	WebhookDeliveryV2OutcomeUnreachable  WebhookDeliveryV2Outcome = "unreachable"
+)
+
+// Valid indicates whether the value is a known member of the WebhookDeliveryV2Outcome enum.
+func (e WebhookDeliveryV2Outcome) Valid() bool {
+	switch e {
+	case WebhookDeliveryV2OutcomeNetworkError:
+		return true
+	case WebhookDeliveryV2OutcomeNon2xx:
+		return true
+	case WebhookDeliveryV2OutcomeSuccess:
+		return true
+	case WebhookDeliveryV2OutcomeTimeout:
+		return true
+	case WebhookDeliveryV2OutcomeTlsError:
+		return true
+	case WebhookDeliveryV2OutcomeUnreachable:
 		return true
 	default:
 		return false
@@ -14660,6 +14981,34 @@ type NewSlackUserGroupPayloadV2 struct {
 	SlackTeamId *string `json:"slack_team_id,omitempty"`
 }
 
+// OnCallNotificationMethodCreatePayloadPublicV2 Example: {"email_address":"oncall@example.com","method_type":"phone","phone_number":"+447123456789","whatsapp_number":"+447123456789"}
+type OnCallNotificationMethodCreatePayloadPublicV2 struct {
+	// EmailAddress Required when method_type is 'email'. The email address to send notifications to.
+	//
+	// Example: oncall@example.com
+	EmailAddress *string `json:"email_address,omitempty"`
+
+	// MethodType Notification method types that can be created via the public API.
+	//
+	// Example: phone
+	MethodType OnCallNotificationMethodCreatePayloadPublicV2MethodType `json:"method_type"`
+
+	// PhoneNumber Required when method_type is 'phone'. E.164 phone number. Created unverified — the user must complete verification before the method is usable.
+	//
+	// Example: +447123456789
+	PhoneNumber *string `json:"phone_number,omitempty"`
+
+	// WhatsappNumber Required when method_type is 'whatsapp_message'. E.164 WhatsApp number. Created unverified — the user must complete verification before the method is usable.
+	//
+	// Example: +447123456789
+	WhatsappNumber *string `json:"whatsapp_number,omitempty"`
+}
+
+// OnCallNotificationMethodCreatePayloadPublicV2MethodType Notification method types that can be created via the public API.
+//
+// Example: phone
+type OnCallNotificationMethodCreatePayloadPublicV2MethodType string
+
 // OnCallNotificationMethodPhoneDetailsPublicV2 Example: {"supports_sms":true,"supports_voice":true}
 type OnCallNotificationMethodPhoneDetailsPublicV2 struct {
 	// SupportsSms Whether this phone number can receive SMS notifications.
@@ -14716,6 +15065,43 @@ type OnCallNotificationRuleAppDetailsPublicV2 struct {
 //
 // Example: critical
 type OnCallNotificationRuleAppDetailsPublicV2PushNotificationCriticality string
+
+// OnCallNotificationRuleCreatePayloadPublicV2 Example: {"app":{"push_notification_criticality":"critical"},"delay_seconds":0,"method_target":{"all":{},"specific":{"id":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"specific"},"method_type":"app","phone":{"channel":"voice"},"rule_type":"low_urgency"}
+type OnCallNotificationRuleCreatePayloadPublicV2 struct {
+	// App Example: {"push_notification_criticality":"critical"}
+	App *OnCallNotificationRuleAppDetailsPublicV2 `json:"app,omitempty"`
+
+	// DelaySeconds Delay in seconds before this rule activates. 0 means immediate.
+	//
+	// Example: 0
+	DelaySeconds int64 `json:"delay_seconds"`
+
+	// MethodTarget Example: {"all":{},"specific":{"id":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"specific"}
+	MethodTarget OnCallNotificationRuleMethodTargetPublicV2 `json:"method_target"`
+
+	// MethodType The high-level type of notification method. Phone rules include phone details that distinguish SMS from voice calls.
+	//
+	// Example: app
+	MethodType OnCallNotificationRuleCreatePayloadPublicV2MethodType `json:"method_type"`
+
+	// Phone Example: {"channel":"voice"}
+	Phone *OnCallNotificationRulePhoneDetailsPublicV2 `json:"phone,omitempty"`
+
+	// RuleType The urgency level this rule applies to
+	//
+	// Example: low_urgency
+	RuleType OnCallNotificationRuleCreatePayloadPublicV2RuleType `json:"rule_type"`
+}
+
+// OnCallNotificationRuleCreatePayloadPublicV2MethodType The high-level type of notification method. Phone rules include phone details that distinguish SMS from voice calls.
+//
+// Example: app
+type OnCallNotificationRuleCreatePayloadPublicV2MethodType string
+
+// OnCallNotificationRuleCreatePayloadPublicV2RuleType The urgency level this rule applies to
+//
+// Example: low_urgency
+type OnCallNotificationRuleCreatePayloadPublicV2RuleType string
 
 // OnCallNotificationRuleMethodTargetAllPublicV2 Example: {}
 type OnCallNotificationRuleMethodTargetAllPublicV2 = map[string]interface{}
@@ -15123,7 +15509,7 @@ type RetrospectiveIncidentOptionsV2 struct {
 	// Example: https://docs.google.com/my_doc_id
 	PostmortemDocumentUrl *string `json:"postmortem_document_url,omitempty"`
 
-	// SlackChannelId Pass the ID of a Slack channel to attach the incident to an existing channel, rather than creating a new one
+	// SlackChannelId Pass the ID of a Slack channel to attach the incident to an existing channel. If not provided, no Slack channel will be created for this retrospective incident.
 	//
 	// Example: abc123
 	SlackChannelId *string `json:"slack_channel_id,omitempty"`
@@ -15586,6 +15972,54 @@ type ScheduleRotationCreatePayloadV2 struct {
 // Example: fair
 type ScheduleRotationCreatePayloadV2SchedulingMode string
 
+// ScheduleRotationCreatePayloadV3 Example: {"concurrent_shifts":1,"first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"},{"interval":1,"interval_type":"hourly"}],"name":"Primary","rank":1,"scheduling_mode":"fair","users":[{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
+type ScheduleRotationCreatePayloadV3 struct {
+	// ConcurrentShifts How many shifts should run at the same time, which is how many people are on call at once
+	//
+	// Example: 1
+	ConcurrentShifts *int64 `json:"concurrent_shifts,omitempty"`
+
+	// FirstIntervalStartsAt When the first handover interval starts being counted from. The first user comes on call at this moment and shifts change hands one interval later, so this fixes the time of day and day of week handovers land on. Usually a time in the past.
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	FirstIntervalStartsAt time.Time `json:"first_interval_starts_at"`
+
+	// Handovers The cadence shifts hand over on. More than one entry alternates between them.
+	//
+	// Example: [{"interval":1,"interval_type":"hourly"},{"interval":1,"interval_type":"hourly"}]
+	Handovers []ScheduleRotationHandoverV2 `json:"handovers"`
+
+	// Name Human readable name for the rotation, unique within the schedule
+	//
+	// Example: Primary
+	Name string `json:"name"`
+
+	// Rank Where this rotation should sit in the schedule's running order, lowest first. Leave it out to add the rotation unordered. Two rotations on a schedule can't share a rank.
+	//
+	// Example: 1
+	Rank *int64 `json:"rank,omitempty"`
+
+	// SchedulingMode How users are allocated across shifts of differing length. Omit to leave us to pick.
+	//
+	// Example: fair
+	SchedulingMode *ScheduleRotationCreatePayloadV3SchedulingMode `json:"scheduling_mode,omitempty"`
+
+	// Users The people in the rotation, in the order they take shifts
+	//
+	// Example: [{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}]
+	Users []UserReferencePayloadV2 `json:"users"`
+
+	// WorkingIntervals If set, restricts on-call to these weekday intervals
+	//
+	// Example: [{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]
+	WorkingIntervals *[]ScheduleRotationWorkingIntervalCreatePayloadV2 `json:"working_intervals,omitempty"`
+}
+
+// ScheduleRotationCreatePayloadV3SchedulingMode How users are allocated across shifts of differing length. Omit to leave us to pick.
+//
+// Example: fair
+type ScheduleRotationCreatePayloadV3SchedulingMode string
+
 // ScheduleRotationHandoverV2 Example: {"interval":1,"interval_type":"hourly"}
 type ScheduleRotationHandoverV2 struct {
 	// Interval Example: 1
@@ -15656,6 +16090,54 @@ type ScheduleRotationUpdatePayloadV2 struct {
 // Example: fair
 type ScheduleRotationUpdatePayloadV2SchedulingMode string
 
+// ScheduleRotationUpdatePayloadV3 Example: {"concurrent_shifts":1,"first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"},{"interval":1,"interval_type":"hourly"}],"name":"Primary","rank":1,"scheduling_mode":"fair","users":[{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
+type ScheduleRotationUpdatePayloadV3 struct {
+	// ConcurrentShifts How many shifts should run at the same time, which is how many people are on call at once. Reducing this stops scheduling the last of them, and removes any overrides that were on those shifts.
+	//
+	// Example: 1
+	ConcurrentShifts *int64 `json:"concurrent_shifts,omitempty"`
+
+	// FirstIntervalStartsAt Moves the point the first interval is counted from. Leave this out to keep the rotation handing over when it does today, which is usually what you want: we may have moved it since you set it, to phase in an earlier change without cutting a shift short.
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	FirstIntervalStartsAt *time.Time `json:"first_interval_starts_at,omitempty"`
+
+	// Handovers The cadence shifts hand over on. More than one entry alternates between them.
+	//
+	// Example: [{"interval":1,"interval_type":"hourly"},{"interval":1,"interval_type":"hourly"}]
+	Handovers []ScheduleRotationHandoverV2 `json:"handovers"`
+
+	// Name Human readable name for the rotation, unique within the schedule
+	//
+	// Example: Primary
+	Name string `json:"name"`
+
+	// Rank Moves this rotation in the schedule's running order, lowest first. Leave it out to keep the order it has today. Two rotations on a schedule can't share a rank.
+	//
+	// Example: 1
+	Rank *int64 `json:"rank,omitempty"`
+
+	// SchedulingMode How users are allocated across shifts of differing length. Omit to keep whatever the rotation has today.
+	//
+	// Example: fair
+	SchedulingMode *ScheduleRotationUpdatePayloadV3SchedulingMode `json:"scheduling_mode,omitempty"`
+
+	// Users The people in the rotation, in the order they take shifts
+	//
+	// Example: [{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}]
+	Users []UserReferencePayloadV2 `json:"users"`
+
+	// WorkingIntervals If set, restricts on-call to these weekday intervals
+	//
+	// Example: [{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]
+	WorkingIntervals *[]ScheduleRotationWorkingIntervalCreatePayloadV2 `json:"working_intervals,omitempty"`
+}
+
+// ScheduleRotationUpdatePayloadV3SchedulingMode How users are allocated across shifts of differing length. Omit to keep whatever the rotation has today.
+//
+// Example: fair
+type ScheduleRotationUpdatePayloadV3SchedulingMode string
+
 // ScheduleRotationV2 Example: {"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary On-Call Schedule","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
 type ScheduleRotationV2 struct {
 	// EffectiveFrom When this version of the rotation takes effect. A rotation can appear multiple times in `rotations` with the same `id`, scheduling changes ahead of time: each version applies from its `effective_from` until the next version's. A rotation's first version has no `effective_from`.
@@ -15713,6 +16195,74 @@ type ScheduleRotationV2 struct {
 //
 // Example: fair
 type ScheduleRotationV2SchedulingMode string
+
+// ScheduleRotationV3 Example: {"concurrent_shifts":1,"effective_from":"2021-08-17T13:28:57.801578Z","first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYRT","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary","rank":1,"schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
+type ScheduleRotationV3 struct {
+	// ConcurrentShifts How many shifts run at the same time, which is how many people are on call at once
+	//
+	// Example: 1
+	ConcurrentShifts int64 `json:"concurrent_shifts"`
+
+	// EffectiveFrom When this shape of the rotation took over. Unset when the rotation has only ever had one.
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	EffectiveFrom *time.Time `json:"effective_from,omitempty"`
+
+	// FirstIntervalStartsAt When the first handover interval starts being counted from, which fixes the time of day and day of week shifts change hands. The dashboard calls this the handover time.
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	FirstIntervalStartsAt time.Time `json:"first_interval_starts_at"`
+
+	// Handovers The cadence shifts hand over on, applied in turn
+	//
+	// Example: [{"interval":1,"interval_type":"hourly"}]
+	Handovers []ScheduleRotationHandoverV2 `json:"handovers"`
+
+	// Id Unique ID of this rotation
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYRT
+	Id string `json:"id"`
+
+	// Layers The layers themselves. Schedule entries carry the layer they came from, so these IDs are how you tell concurrent shifts apart.
+	//
+	// Example: [{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}]
+	Layers []ScheduleLayerV2 `json:"layers"`
+
+	// Name Human readable name for the rotation, unique within the schedule
+	//
+	// Example: Primary
+	Name string `json:"name"`
+
+	// Rank Where this rotation sits in the schedule's running order, lowest first. Unset when it has never been ordered.
+	//
+	// Example: 1
+	Rank *int64 `json:"rank,omitempty"`
+
+	// ScheduleId ID of the schedule this rotation belongs to
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	ScheduleId string `json:"schedule_id"`
+
+	// SchedulingMode How users are allocated across shifts of differing length
+	//
+	// Example: fair
+	SchedulingMode *ScheduleRotationV3SchedulingMode `json:"scheduling_mode,omitempty"`
+
+	// Users The people in the rotation, in the order they take shifts
+	//
+	// Example: [{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]
+	Users []UserV2 `json:"users"`
+
+	// WorkingIntervals If set, restricts on-call to these weekday intervals
+	//
+	// Example: [{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]
+	WorkingIntervals *[]ScheduleRotationWorkingIntervalV2 `json:"working_intervals,omitempty"`
+}
+
+// ScheduleRotationV3SchedulingMode How users are allocated across shifts of differing length
+//
+// Example: fair
+type ScheduleRotationV3SchedulingMode string
 
 // ScheduleRotationWorkingIntervalCreatePayloadV2 Example: {"end_time":"17:00","start_time":"09:00","weekday":"monday"}
 type ScheduleRotationWorkingIntervalCreatePayloadV2 struct {
@@ -16221,6 +16771,18 @@ type SchedulesCreateResultV3 struct {
 	Schedule ScheduleV3 `json:"schedule"`
 }
 
+// SchedulesCreateRotationPayloadV3 Example: {"rotation":{"concurrent_shifts":1,"first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"},{"interval":1,"interval_type":"hourly"}],"name":"Primary","rank":1,"scheduling_mode":"fair","users":[{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}}
+type SchedulesCreateRotationPayloadV3 struct {
+	// Rotation Example: {"concurrent_shifts":1,"first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"},{"interval":1,"interval_type":"hourly"}],"name":"Primary","rank":1,"scheduling_mode":"fair","users":[{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
+	Rotation ScheduleRotationCreatePayloadV3 `json:"rotation"`
+}
+
+// SchedulesCreateRotationResultV3 Example: {"rotation":{"concurrent_shifts":1,"effective_from":"2021-08-17T13:28:57.801578Z","first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYRT","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary","rank":1,"schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}}
+type SchedulesCreateRotationResultV3 struct {
+	// Rotation Example: {"concurrent_shifts":1,"effective_from":"2021-08-17T13:28:57.801578Z","first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYRT","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary","rank":1,"schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
+	Rotation ScheduleRotationV3 `json:"rotation"`
+}
+
 // SchedulesCreateScheduleReplicaPayloadV2 Example: {"schedule_replica":{"mirror_window_days":14,"replica_fallback_user_id":"PA7AXXN","replica_provider":"pagerduty","replica_provider_id":"PO8107X","sources":[{"layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}]}}
 type SchedulesCreateScheduleReplicaPayloadV2 struct {
 	// ScheduleReplica Example: {"mirror_window_days":14,"replica_fallback_user_id":"PA7AXXN","replica_provider":"pagerduty","replica_provider_id":"PO8107X","sources":[{"layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}]}
@@ -16284,6 +16846,15 @@ type SchedulesListResultV3 struct {
 	Schedules []ScheduleV3 `json:"schedules"`
 }
 
+// SchedulesListRotationsResultV3 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"rotations":[{"concurrent_shifts":1,"effective_from":"2021-08-17T13:28:57.801578Z","first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYRT","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary","rank":1,"schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+type SchedulesListRotationsResultV3 struct {
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta PaginationMetaResultV3 `json:"pagination_meta"`
+
+	// Rotations Example: [{"concurrent_shifts":1,"effective_from":"2021-08-17T13:28:57.801578Z","first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYRT","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary","rank":1,"schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
+	Rotations []ScheduleRotationV3 `json:"rotations"`
+}
+
 // SchedulesListScheduleEntriesResultV2 Example: {"pagination_meta":{"after":"abc123","after_url":"abc123"},"schedule_entries":{"final":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"overrides":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}],"scheduled":[{"end_at":"2021-08-17T13:28:57.801578Z","entry_id":"01G0J1EXE7AXZ2C93K61WBPYEH","fingerprint":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}]}}
 type SchedulesListScheduleEntriesResultV2 struct {
 	// PaginationMeta Example: {"after":"abc123","after_url":"abc123"}
@@ -16314,6 +16885,33 @@ type SchedulesListScheduleSyncRulesResultV2 struct {
 
 	// ScheduleSyncRules Example: [{"created_at":"2021-08-17T13:28:57.801578Z","id":"01JXYZ000000000000000000CD","permanent_member_user_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"rotation_id":"01JXYZ000000000000000000RT","schedule_id":"01JXYZ000000000000000000EF","schedule_sync_target":{"add_bot_to_group":true,"created_at":"2021-08-17T13:28:57.801578Z","id":"01JXYZ000000000000000000AB","linked_schedules":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary On-Call Schedule","team_ids":["01JPQA75EPNEES4479P16P4XAB"]}],"slack_team_id":"T02A1AZHG3J","slack_user_group_id":"S06MNNU5BMK","updated_at":"2021-08-17T13:28:57.801578Z"},"schedule_sync_target_id":"01JXYZ000000000000000000AB","sync_type":"on_call","updated_at":"2021-08-17T13:28:57.801578Z"}]
 	ScheduleSyncRules []ScheduleSyncRuleV2 `json:"schedule_sync_rules"`
+}
+
+// SchedulesPreviewRotationRolloutPayloadV3 Example: {"from":"2021-08-17T13:28:57.801578Z","rollout":"after_current_shift","rotation":{"concurrent_shifts":1,"first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"},{"interval":1,"interval_type":"hourly"}],"name":"Primary","rank":1,"scheduling_mode":"fair","users":[{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}}
+type SchedulesPreviewRotationRolloutPayloadV3 struct {
+	// From Treat this timestamp as now when computing the rollout. Required for a reproducible plan.
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	From time.Time `json:"from"`
+
+	// Rollout How the edit would be introduced.
+	//
+	// Example: after_current_shift
+	Rollout *SchedulesPreviewRotationRolloutPayloadV3Rollout `json:"rollout,omitempty"`
+
+	// Rotation Example: {"concurrent_shifts":1,"first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"},{"interval":1,"interval_type":"hourly"}],"name":"Primary","rank":1,"scheduling_mode":"fair","users":[{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
+	Rotation ScheduleRotationUpdatePayloadV3 `json:"rotation"`
+}
+
+// SchedulesPreviewRotationRolloutPayloadV3Rollout How the edit would be introduced.
+//
+// Example: after_current_shift
+type SchedulesPreviewRotationRolloutPayloadV3Rollout string
+
+// SchedulesPreviewRotationRolloutResultV3 Example: {"rotation":{"concurrent_shifts":1,"effective_from":"2021-08-17T13:28:57.801578Z","first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYRT","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary","rank":1,"schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}}
+type SchedulesPreviewRotationRolloutResultV3 struct {
+	// Rotation Example: {"concurrent_shifts":1,"effective_from":"2021-08-17T13:28:57.801578Z","first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYRT","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary","rank":1,"schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
+	Rotation ScheduleRotationV3 `json:"rotation"`
 }
 
 // SchedulesPreviewScheduleEntriesPayloadV2 Example: {"entry_window_end":"2021-01-08T00:00:00Z","entry_window_start":"2021-01-01T00:00:00Z","schedule":{"annotations":{"incident.io/terraform/version":"version-of-terraform"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"My Rotation","scheduling_mode":"fair","users":[{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"holidays_public_config":{"country_codes":["abc123"]},"name":"Primary On-call Schedule","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"America/Los_Angeles"}}
@@ -16356,6 +16954,12 @@ type SchedulesShowResultV2 struct {
 type SchedulesShowResultV3 struct {
 	// Schedule Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"created_at":"2021-08-17T13:28:57.801578Z","holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary on-call","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Schedule ScheduleV3 `json:"schedule"`
+}
+
+// SchedulesShowRotationResultV3 Example: {"rotation":{"concurrent_shifts":1,"effective_from":"2021-08-17T13:28:57.801578Z","first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYRT","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary","rank":1,"schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}}
+type SchedulesShowRotationResultV3 struct {
+	// Rotation Example: {"concurrent_shifts":1,"effective_from":"2021-08-17T13:28:57.801578Z","first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYRT","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary","rank":1,"schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
+	Rotation ScheduleRotationV3 `json:"rotation"`
 }
 
 // SchedulesShowScheduleReplicaResultV2 Example: {"schedule_replica":{"created_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","last_sync_error":"Failed to find external user for Milly","last_synced_at":"2023-11-07T13:33:30Z","mirror_window_days":14,"replica_fallback_user_id":"PA7AXXN","replica_provider":"pagerduty","replica_provider_id":"PO8107X","schedule_id":"01FDAG4SAP5TYPT98WGR2N7W91","sources":[{"layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}],"updated_at":"2021-08-17T13:28:57.801578Z","user_statuses":[{"external_user_id":"PJYTRGS","user_id":"01G0J1EXE7AXZ2C93K61WBPYEH"}]}}
@@ -16404,6 +17008,38 @@ type SchedulesUpdateResultV2 struct {
 type SchedulesUpdateResultV3 struct {
 	// Schedule Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"created_at":"2021-08-17T13:28:57.801578Z","holidays_public_config":{"country_codes":["GB","FR"]},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Primary on-call","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"Europe/London","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Schedule ScheduleV3 `json:"schedule"`
+}
+
+// SchedulesUpdateRotationPayloadV3 Example: {"expected_effective_from":"2021-08-17T13:28:57.801578Z","from":"2021-08-17T13:28:57.801578Z","rollout":"after_current_shift","rotation":{"concurrent_shifts":1,"first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"},{"interval":1,"interval_type":"hourly"}],"name":"Primary","rank":1,"scheduling_mode":"fair","users":[{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}}
+type SchedulesUpdateRotationPayloadV3 struct {
+	// ExpectedEffectiveFrom Stale-plan guard: the effective_from PreviewRotationRollout (or an earlier plan) produced for this change. If set and the server computes a different value, the write is rejected before it happens. Omit to skip the check.
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	ExpectedEffectiveFrom *time.Time `json:"expected_effective_from,omitempty"`
+
+	// From Treat this timestamp as now when computing a rollout. Pin it at plan time and pass the same value on apply so the split doesn't drift. Ignored when rollout is omitted.
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	From *time.Time `json:"from,omitempty"`
+
+	// Rollout How the edit is introduced. Omit for an immediate replace of the current shape. There is no fixed-date option on this endpoint — choose one of the strategies below.
+	//
+	// Example: after_current_shift
+	Rollout *SchedulesUpdateRotationPayloadV3Rollout `json:"rollout,omitempty"`
+
+	// Rotation Example: {"concurrent_shifts":1,"first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"},{"interval":1,"interval_type":"hourly"}],"name":"Primary","rank":1,"scheduling_mode":"fair","users":[{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
+	Rotation ScheduleRotationUpdatePayloadV3 `json:"rotation"`
+}
+
+// SchedulesUpdateRotationPayloadV3Rollout How the edit is introduced. Omit for an immediate replace of the current shape. There is no fixed-date option on this endpoint — choose one of the strategies below.
+//
+// Example: after_current_shift
+type SchedulesUpdateRotationPayloadV3Rollout string
+
+// SchedulesUpdateRotationResultV3 Example: {"rotation":{"concurrent_shifts":1,"effective_from":"2021-08-17T13:28:57.801578Z","first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYRT","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary","rank":1,"schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}}
+type SchedulesUpdateRotationResultV3 struct {
+	// Rotation Example: {"concurrent_shifts":1,"effective_from":"2021-08-17T13:28:57.801578Z","first_interval_starts_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYRT","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"Primary","rank":1,"schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","scheduling_mode":"fair","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
+	Rotation ScheduleRotationV3 `json:"rotation"`
 }
 
 // SchedulesUpdateScheduleSyncRulePayloadV2 Example: {"annotations":{"incident.io/terraform/version":"3.0.0"},"permanent_member_user_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"sync_type":"on_call"}
@@ -17492,6 +18128,108 @@ type StepConfigV2 struct {
 	ParamBindings []EngineParamBindingV2 `json:"param_bindings"`
 }
 
+// StepProgressSlimV2 Example: {"completed_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","status":"complete","step":"slack.post_message","webhook_delivery":{"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","status_code":500},"webhook_delivery_state":"expired"}
+type StepProgressSlimV2 struct {
+	// CompletedAt Status of the step
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	CompletedAt *time.Time `json:"completed_at,omitempty"`
+
+	// Error The cause of an errored step
+	//
+	// Example: Something went wrong and our engineers have been notified.
+	Error *string `json:"error,omitempty"`
+
+	// IncidentId If this step ran for a specific incident (e.g. in a loop), the incident ID
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentId *string `json:"incident_id,omitempty"`
+
+	// IncidentReference If this step ran for a specific incident (e.g. in a loop), the incident reference
+	//
+	// Example: INC-123
+	IncidentReference *string `json:"incident_reference,omitempty"`
+
+	// Status Status of the step
+	//
+	// Example: complete
+	Status StepProgressSlimV2Status `json:"status"`
+
+	// Step Name of the step
+	//
+	// Example: slack.post_message
+	Step string `json:"step"`
+
+	// WebhookDelivery Example: {"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","status_code":500}
+	WebhookDelivery *WebhookDeliverySlimV2 `json:"webhook_delivery,omitempty"`
+
+	// WebhookDeliveryState Whether this step's delivery can be shown, for a webhook.send step. Absent for all other step types
+	//
+	// Example: expired
+	WebhookDeliveryState *StepProgressSlimV2WebhookDeliveryState `json:"webhook_delivery_state,omitempty"`
+}
+
+// StepProgressSlimV2Status Status of the step
+//
+// Example: complete
+type StepProgressSlimV2Status string
+
+// StepProgressSlimV2WebhookDeliveryState Whether this step's delivery can be shown, for a webhook.send step. Absent for all other step types
+//
+// Example: expired
+type StepProgressSlimV2WebhookDeliveryState string
+
+// StepProgressV2 Example: {"completed_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","status":"complete","step":"slack.post_message","webhook_delivery":{"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","request":{"body":"{\"incident_id\":\"01FCNDV6P870EA6S7TK1DSYDG0\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"response":{"body":"{\"error\":\"unprocessable\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"status_code":500},"webhook_delivery_state":"expired"}
+type StepProgressV2 struct {
+	// CompletedAt Status of the step
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	CompletedAt *time.Time `json:"completed_at,omitempty"`
+
+	// Error The cause of an errored step
+	//
+	// Example: Something went wrong and our engineers have been notified.
+	Error *string `json:"error,omitempty"`
+
+	// IncidentId If this step ran for a specific incident (e.g. in a loop), the incident ID
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentId *string `json:"incident_id,omitempty"`
+
+	// IncidentReference If this step ran for a specific incident (e.g. in a loop), the incident reference
+	//
+	// Example: INC-123
+	IncidentReference *string `json:"incident_reference,omitempty"`
+
+	// Status Status of the step
+	//
+	// Example: complete
+	Status StepProgressV2Status `json:"status"`
+
+	// Step Name of the step
+	//
+	// Example: slack.post_message
+	Step string `json:"step"`
+
+	// WebhookDelivery Example: {"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","request":{"body":"{\"incident_id\":\"01FCNDV6P870EA6S7TK1DSYDG0\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"response":{"body":"{\"error\":\"unprocessable\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"status_code":500}
+	WebhookDelivery *WebhookDeliveryV2 `json:"webhook_delivery,omitempty"`
+
+	// WebhookDeliveryState Whether this step's delivery can be shown, for a webhook.send step. Absent for all other step types
+	//
+	// Example: expired
+	WebhookDeliveryState *StepProgressV2WebhookDeliveryState `json:"webhook_delivery_state,omitempty"`
+}
+
+// StepProgressV2Status Status of the step
+//
+// Example: complete
+type StepProgressV2Status string
+
+// StepProgressV2WebhookDeliveryState Whether this step's delivery can be shown, for a webhook.send step. Absent for all other step types
+//
+// Example: expired
+type StepProgressV2WebhookDeliveryState string
+
 // TeamSlimV2 Example: {"id":"abc123","name":"abc123"}
 type TeamSlimV2 struct {
 	// Id Unique ID of the team
@@ -17850,6 +18588,30 @@ type UserWithRolesV2 struct {
 // Example: owner
 type UserWithRolesV2Role string
 
+// UsersCreateNotificationMethodPayloadV2 Example: {"notification_method":{"email_address":"oncall@example.com","method_type":"phone","phone_number":"+447123456789","whatsapp_number":"+447123456789"}}
+type UsersCreateNotificationMethodPayloadV2 struct {
+	// NotificationMethod Example: {"email_address":"oncall@example.com","method_type":"phone","phone_number":"+447123456789","whatsapp_number":"+447123456789"}
+	NotificationMethod OnCallNotificationMethodCreatePayloadPublicV2 `json:"notification_method"`
+}
+
+// UsersCreateNotificationMethodResultV2 Example: {"notification_method":{"address":"•••••••6789","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_usable":true,"method_type":"app","phone_details":{"supports_sms":true,"supports_voice":true}}}
+type UsersCreateNotificationMethodResultV2 struct {
+	// NotificationMethod Example: {"address":"•••••••6789","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_usable":true,"method_type":"app","phone_details":{"supports_sms":true,"supports_voice":true}}
+	NotificationMethod OnCallNotificationMethodPublicV2 `json:"notification_method"`
+}
+
+// UsersCreateNotificationRulePayloadV2 Example: {"notification_rule":{"app":{"push_notification_criticality":"critical"},"delay_seconds":0,"method_target":{"all":{},"specific":{"id":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"specific"},"method_type":"app","phone":{"channel":"voice"},"rule_type":"low_urgency"}}
+type UsersCreateNotificationRulePayloadV2 struct {
+	// NotificationRule Example: {"app":{"push_notification_criticality":"critical"},"delay_seconds":0,"method_target":{"all":{},"specific":{"id":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"specific"},"method_type":"app","phone":{"channel":"voice"},"rule_type":"low_urgency"}
+	NotificationRule OnCallNotificationRuleCreatePayloadPublicV2 `json:"notification_rule"`
+}
+
+// UsersCreateNotificationRuleResultV2 Example: {"notification_rule":{"app":{"push_notification_criticality":"critical"},"delay_seconds":0,"id":"01FCNDV6P870EA6S7TK1DSYDG0","method_target":{"all":{},"specific":{"id":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"specific"},"method_type":"app","phone":{"channel":"voice"},"rule_type":"low_urgency"}}
+type UsersCreateNotificationRuleResultV2 struct {
+	// NotificationRule Example: {"app":{"push_notification_criticality":"critical"},"delay_seconds":0,"id":"01FCNDV6P870EA6S7TK1DSYDG0","method_target":{"all":{},"specific":{"id":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"specific"},"method_type":"app","phone":{"channel":"voice"},"rule_type":"low_urgency"}
+	NotificationRule OnCallNotificationRulePublicV2 `json:"notification_rule"`
+}
+
 // UsersListNotificationMethodsResultV2 Example: {"notification_methods":[{"address":"•••••••6789","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_usable":true,"method_type":"app","phone_details":{"supports_sms":true,"supports_voice":true}}]}
 type UsersListNotificationMethodsResultV2 struct {
 	// NotificationMethods Example: [{"address":"•••••••6789","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_usable":true,"method_type":"app","phone_details":{"supports_sms":true,"supports_voice":true}}]
@@ -17908,6 +18670,114 @@ type UtilitiesIdentityResultV1 struct {
 	// Identity Example: {"dashboard_url":"https://app.incident.io/my-org","name":"Alertmanager token","roles":["viewer"],"team_roles":["catalog_editor"],"teams":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Platform"}]}
 	Identity IdentityV1 `json:"identity"`
 }
+
+// WebhookDeliveryRequestV2 Example: {"body":"{\"incident_id\":\"01FCNDV6P870EA6S7TK1DSYDG0\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}}
+type WebhookDeliveryRequestV2 struct {
+	// Body The interpolated request body
+	//
+	// Example: {"incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	Body *string `json:"body,omitempty"`
+
+	// BodyTruncated Whether the body was truncated, in which case it may not be valid JSON
+	//
+	// Example: false
+	BodyTruncated bool `json:"body_truncated"`
+
+	// Headers Headers sent with the request, including those added automatically. Values interpolated from a secret are replaced with [secret], and the signature header is always redacted
+	//
+	// Example: {"Content-Type":"application/json"}
+	Headers map[string]string `json:"headers"`
+}
+
+// WebhookDeliveryResponseV2 Example: {"body":"{\"error\":\"unprocessable\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}}
+type WebhookDeliveryResponseV2 struct {
+	// Body The response body returned by the endpoint
+	//
+	// Example: {"error":"unprocessable"}
+	Body *string `json:"body,omitempty"`
+
+	// BodyTruncated Whether the body was truncated, in which case it may not be valid JSON
+	//
+	// Example: false
+	BodyTruncated bool `json:"body_truncated"`
+
+	// Headers Headers returned by the endpoint, excluding any whose name resembles a credential
+	//
+	// Example: {"Content-Type":"application/json"}
+	Headers map[string]string `json:"headers"`
+}
+
+// WebhookDeliverySlimV2 Example: {"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","status_code":500}
+type WebhookDeliverySlimV2 struct {
+	// DurationMs Time taken by the request, in milliseconds
+	//
+	// Example: 412
+	DurationMs *int64 `json:"duration_ms,omitempty"`
+
+	// Endpoint The interpolated URL the request was sent to. Redirects are followed, so this is the URL requested rather than the URL that ultimately served it
+	//
+	// Example: https://example.com/hooks/incident
+	Endpoint string `json:"endpoint"`
+
+	// Method HTTP method used for the request
+	//
+	// Example: POST
+	Method string `json:"method"`
+
+	// Outcome The result of the delivery attempt. Only success and non_2xx have a response
+	//
+	// Example: non_2xx
+	Outcome WebhookDeliverySlimV2Outcome `json:"outcome"`
+
+	// StatusCode HTTP status code returned by the endpoint. Absent when no response was received
+	//
+	// Example: 500
+	StatusCode *int64 `json:"status_code,omitempty"`
+}
+
+// WebhookDeliverySlimV2Outcome The result of the delivery attempt. Only success and non_2xx have a response
+//
+// Example: non_2xx
+type WebhookDeliverySlimV2Outcome string
+
+// WebhookDeliveryV2 Example: {"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","request":{"body":"{\"incident_id\":\"01FCNDV6P870EA6S7TK1DSYDG0\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"response":{"body":"{\"error\":\"unprocessable\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"status_code":500}
+type WebhookDeliveryV2 struct {
+	// DurationMs Time taken by the request, in milliseconds
+	//
+	// Example: 412
+	DurationMs *int64 `json:"duration_ms,omitempty"`
+
+	// Endpoint The interpolated URL the request was sent to. Redirects are followed, so this is the URL requested rather than the URL that ultimately served it
+	//
+	// Example: https://example.com/hooks/incident
+	Endpoint string `json:"endpoint"`
+
+	// Method HTTP method used for the request
+	//
+	// Example: POST
+	Method string `json:"method"`
+
+	// Outcome The result of the delivery attempt. Only success and non_2xx have a response
+	//
+	// Example: non_2xx
+	Outcome WebhookDeliveryV2Outcome `json:"outcome"`
+
+	// Request Example: {"body":"{\"incident_id\":\"01FCNDV6P870EA6S7TK1DSYDG0\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}}
+	Request WebhookDeliveryRequestV2 `json:"request"`
+
+	// Response Example: {"body":"{\"error\":\"unprocessable\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}}
+	Response *WebhookDeliveryResponseV2 `json:"response,omitempty"`
+
+	// StatusCode HTTP status code returned by the endpoint. Absent when no response was received
+	//
+	// Example: 500
+	StatusCode *int64 `json:"status_code,omitempty"`
+}
+
+// WebhookDeliveryV2Outcome The result of the delivery attempt. Only success and non_2xx have a response
+//
+// Example: non_2xx
+type WebhookDeliveryV2Outcome string
 
 // WeekdayIntervalConfigV2 Example: {"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}
 type WeekdayIntervalConfigV2 struct {
@@ -18053,6 +18923,167 @@ type WorkflowFormFieldV2 struct {
 	//
 	// Example: User
 	Type string `json:"type"`
+}
+
+// WorkflowRunSlimV2 Example: {"cancelled_at":"2021-08-17T13:28:57.801578Z","created_at":"2021-08-17T13:28:57.801578Z","enqueued_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","progress":[{"completed_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","status":"complete","step":"slack.post_message","webhook_delivery":{"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","status_code":500},"webhook_delivery_state":"expired"}],"scheduled_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","workflow_id":"01FCNDV6P870EA6S7TK1DSYDG0","workflow_name":"Announce incident updates","workflow_version_id":"01FCNDV6P870EA6S7TK1DSYDG0","workflow_version_number":3}
+type WorkflowRunSlimV2 struct {
+	// CancelledAt If the run was cancelled, this is when
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	CancelledAt *time.Time `json:"cancelled_at,omitempty"`
+
+	// CreatedAt When the resource was created
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// EnqueuedAt When the run was enqueued for execution
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	EnqueuedAt *time.Time `json:"enqueued_at,omitempty"`
+
+	// Error Error produced by the workflow, if it failed
+	//
+	// Example: Something went wrong and our engineers have been notified.
+	Error *string `json:"error,omitempty"`
+
+	// Id Unique identifier for the workflow run
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// IncidentId If this run was against a specific incident, this is the ID of that incident
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentId *string `json:"incident_id,omitempty"`
+
+	// IncidentReference If this run was against a specific incident, this is the reference of that incident
+	//
+	// Example: INC-123
+	IncidentReference *string `json:"incident_reference,omitempty"`
+
+	// Progress Status of each step as it is worked
+	//
+	// Example: [{"completed_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","status":"complete","step":"slack.post_message","webhook_delivery":{"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","status_code":500},"webhook_delivery_state":"expired"}]
+	Progress []StepProgressSlimV2 `json:"progress"`
+
+	// ScheduledAt When the run was scheduled for
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	ScheduledAt time.Time `json:"scheduled_at"`
+
+	// UpdatedAt When the resource was last updated
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	UpdatedAt time.Time `json:"updated_at"`
+
+	// WorkflowId Unique identifier for the underlying workflow
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	WorkflowId string `json:"workflow_id"`
+
+	// WorkflowName Name of the underlying workflow
+	//
+	// Example: Announce incident updates
+	WorkflowName *string `json:"workflow_name,omitempty"`
+
+	// WorkflowVersionId Unique identifier of the workflow version
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	WorkflowVersionId string `json:"workflow_version_id"`
+
+	// WorkflowVersionNumber Monotonically incrementing version number for the version that ran
+	//
+	// Example: 3
+	WorkflowVersionNumber int64 `json:"workflow_version_number"`
+}
+
+// WorkflowRunV2 Example: {"cancelled_at":"2021-08-17T13:28:57.801578Z","created_at":"2021-08-17T13:28:57.801578Z","enqueued_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","progress":[{"completed_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","status":"complete","step":"slack.post_message","webhook_delivery":{"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","request":{"body":"{\"incident_id\":\"01FCNDV6P870EA6S7TK1DSYDG0\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"response":{"body":"{\"error\":\"unprocessable\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"status_code":500},"webhook_delivery_state":"expired"}],"scheduled_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","workflow_id":"01FCNDV6P870EA6S7TK1DSYDG0","workflow_name":"Announce incident updates","workflow_version_id":"01FCNDV6P870EA6S7TK1DSYDG0","workflow_version_number":3}
+type WorkflowRunV2 struct {
+	// CancelledAt If the run was cancelled, this is when
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	CancelledAt *time.Time `json:"cancelled_at,omitempty"`
+
+	// CreatedAt When the resource was created
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// EnqueuedAt When the run was enqueued for execution
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	EnqueuedAt *time.Time `json:"enqueued_at,omitempty"`
+
+	// Error Error produced by the workflow, if it failed
+	//
+	// Example: Something went wrong and our engineers have been notified.
+	Error *string `json:"error,omitempty"`
+
+	// Id Unique identifier for the workflow run
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// IncidentId If this run was against a specific incident, this is the ID of that incident
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentId *string `json:"incident_id,omitempty"`
+
+	// IncidentReference If this run was against a specific incident, this is the reference of that incident
+	//
+	// Example: INC-123
+	IncidentReference *string `json:"incident_reference,omitempty"`
+
+	// Progress Status of each step as it is worked
+	//
+	// Example: [{"completed_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","status":"complete","step":"slack.post_message","webhook_delivery":{"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","request":{"body":"{\"incident_id\":\"01FCNDV6P870EA6S7TK1DSYDG0\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"response":{"body":"{\"error\":\"unprocessable\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"status_code":500},"webhook_delivery_state":"expired"}]
+	Progress []StepProgressV2 `json:"progress"`
+
+	// ScheduledAt When the run was scheduled for
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	ScheduledAt time.Time `json:"scheduled_at"`
+
+	// UpdatedAt When the resource was last updated
+	//
+	// Example: 2021-08-17T13:28:57.801578Z
+	UpdatedAt time.Time `json:"updated_at"`
+
+	// WorkflowId Unique identifier for the underlying workflow
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	WorkflowId string `json:"workflow_id"`
+
+	// WorkflowName Name of the underlying workflow
+	//
+	// Example: Announce incident updates
+	WorkflowName *string `json:"workflow_name,omitempty"`
+
+	// WorkflowVersionId Unique identifier of the workflow version
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	WorkflowVersionId string `json:"workflow_version_id"`
+
+	// WorkflowVersionNumber Monotonically incrementing version number for the version that ran
+	//
+	// Example: 3
+	WorkflowVersionNumber int64 `json:"workflow_version_number"`
+}
+
+// WorkflowRunsListResultV2 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25,"total_record_count":238},"workflow_runs":[{"cancelled_at":"2021-08-17T13:28:57.801578Z","created_at":"2021-08-17T13:28:57.801578Z","enqueued_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","progress":[{"completed_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","status":"complete","step":"slack.post_message","webhook_delivery":{"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","status_code":500},"webhook_delivery_state":"expired"}],"scheduled_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","workflow_id":"01FCNDV6P870EA6S7TK1DSYDG0","workflow_name":"Announce incident updates","workflow_version_id":"01FCNDV6P870EA6S7TK1DSYDG0","workflow_version_number":3}]}
+type WorkflowRunsListResultV2 struct {
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25,"total_record_count":238}
+	PaginationMeta *PaginationMetaResultWithTotalV2 `json:"pagination_meta,omitempty"`
+
+	// WorkflowRuns Example: [{"cancelled_at":"2021-08-17T13:28:57.801578Z","created_at":"2021-08-17T13:28:57.801578Z","enqueued_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","progress":[{"completed_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","status":"complete","step":"slack.post_message","webhook_delivery":{"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","status_code":500},"webhook_delivery_state":"expired"}],"scheduled_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","workflow_id":"01FCNDV6P870EA6S7TK1DSYDG0","workflow_name":"Announce incident updates","workflow_version_id":"01FCNDV6P870EA6S7TK1DSYDG0","workflow_version_number":3}]
+	WorkflowRuns []WorkflowRunSlimV2 `json:"workflow_runs"`
+}
+
+// WorkflowRunsShowResultV2 Example: {"workflow_run":{"cancelled_at":"2021-08-17T13:28:57.801578Z","created_at":"2021-08-17T13:28:57.801578Z","enqueued_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","progress":[{"completed_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","status":"complete","step":"slack.post_message","webhook_delivery":{"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","request":{"body":"{\"incident_id\":\"01FCNDV6P870EA6S7TK1DSYDG0\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"response":{"body":"{\"error\":\"unprocessable\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"status_code":500},"webhook_delivery_state":"expired"}],"scheduled_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","workflow_id":"01FCNDV6P870EA6S7TK1DSYDG0","workflow_name":"Announce incident updates","workflow_version_id":"01FCNDV6P870EA6S7TK1DSYDG0","workflow_version_number":3}}
+type WorkflowRunsShowResultV2 struct {
+	// WorkflowRun Example: {"cancelled_at":"2021-08-17T13:28:57.801578Z","created_at":"2021-08-17T13:28:57.801578Z","enqueued_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","progress":[{"completed_at":"2021-08-17T13:28:57.801578Z","error":"Something went wrong and our engineers have been notified.","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_reference":"INC-123","status":"complete","step":"slack.post_message","webhook_delivery":{"duration_ms":412,"endpoint":"https://example.com/hooks/incident","method":"POST","outcome":"non_2xx","request":{"body":"{\"incident_id\":\"01FCNDV6P870EA6S7TK1DSYDG0\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"response":{"body":"{\"error\":\"unprocessable\"}","body_truncated":false,"headers":{"Content-Type":"application/json"}},"status_code":500},"webhook_delivery_state":"expired"}],"scheduled_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","workflow_id":"01FCNDV6P870EA6S7TK1DSYDG0","workflow_name":"Announce incident updates","workflow_version_id":"01FCNDV6P870EA6S7TK1DSYDG0","workflow_version_number":3}
+	WorkflowRun WorkflowRunV2 `json:"workflow_run"`
 }
 
 // WorkflowSlimV2 Example: {"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"continue_on_step_error":true,"delay":{"conditions_apply_over_delay":false,"for_seconds":60},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"folder":"My folder 01","id":"01FCNDV6P870EA6S7TK1DSYDG0","include_private_escalations":true,"include_private_incidents":true,"name":"My little workflow","once_for":[{"array":false,"key":"incident.custom_field[\"01FCNDV6P870EA6S7TK1DSYDG0\"]","label":"Incident -\u003e Affected Team","type":"IncidentSeverity"}],"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"private_incident_scope":"owning_teams","runs_from":"2021-08-17T13:28:57.801578Z","runs_on_incident_modes":["standard","test","retrospective"],"runs_on_incidents":"newly_created","shortform":"page-the-ceo","state":"active","steps":[{"label":"PagerDuty Escalate","name":"pagerduty.escalate"}],"trigger":{"label":"Incident Updated","name":"incident.updated"},"version":3}
@@ -19115,6 +20146,24 @@ type UsersV2ListParams struct {
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
+// WorkflowRunsV2ListParams defines parameters for WorkflowRunsV2List.
+type WorkflowRunsV2ListParams struct {
+	// WorkflowId Unique identifier for the workflow to filter by
+	WorkflowId *string `form:"workflow_id,omitempty" json:"workflow_id,omitempty"`
+
+	// IncidentId Unique identifier for the incident to filter by
+	IncidentId *string `form:"incident_id,omitempty" json:"incident_id,omitempty"`
+
+	// CreatedAt Filter on workflow run created at timestamp. The accepted operators are 'gte', 'lte' and 'date_range'.
+	CreatedAt *map[string][]string `form:"created_at,omitempty" json:"created_at,omitempty"`
+
+	// PageSize Number of workflow runs to return per page
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A workflow run's ID. This endpoint will return a list of workflow runs after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
 // WorkflowsV2ShowWorkflowParams defines parameters for WorkflowsV2ShowWorkflow.
 type WorkflowsV2ShowWorkflowParams struct {
 	// SkipStepUpgrades Skips workflow step upgrades, when the parameters for an existing workflow step change
@@ -19159,6 +20208,15 @@ type SchedulesV3ListParams struct {
 	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// After A schedule's ID. This endpoint will return a list of schedules after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
+// SchedulesV3ListRotationsParams defines parameters for SchedulesV3ListRotations.
+type SchedulesV3ListRotationsParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A rotation's ID. This endpoint will return a list of rotations after this ID in relation to the API response order.
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
@@ -19413,6 +20471,12 @@ type StatusPagesV2CreateStatusPageRetrospectiveIncidentJSONRequestBody = StatusP
 // TelemetryV2UpdateDataSourceJSONRequestBody defines body for TelemetryV2UpdateDataSource for application/json ContentType.
 type TelemetryV2UpdateDataSourceJSONRequestBody = TelemetryUpdateDataSourcePayloadV2
 
+// UsersV2CreateNotificationMethodJSONRequestBody defines body for UsersV2CreateNotificationMethod for application/json ContentType.
+type UsersV2CreateNotificationMethodJSONRequestBody = UsersCreateNotificationMethodPayloadV2
+
+// UsersV2CreateNotificationRuleJSONRequestBody defines body for UsersV2CreateNotificationRule for application/json ContentType.
+type UsersV2CreateNotificationRuleJSONRequestBody = UsersCreateNotificationRulePayloadV2
+
 // UsersV2UpdatePagingProviderJSONRequestBody defines body for UsersV2UpdatePagingProvider for application/json ContentType.
 type UsersV2UpdatePagingProviderJSONRequestBody = UsersUpdatePagingProviderPayloadV2
 
@@ -19451,6 +20515,15 @@ type SchedulesV3CreateJSONRequestBody = SchedulesCreatePayloadV3
 
 // SchedulesV3UpdateJSONRequestBody defines body for SchedulesV3Update for application/json ContentType.
 type SchedulesV3UpdateJSONRequestBody = SchedulesUpdatePayloadV3
+
+// SchedulesV3CreateRotationJSONRequestBody defines body for SchedulesV3CreateRotation for application/json ContentType.
+type SchedulesV3CreateRotationJSONRequestBody = SchedulesCreateRotationPayloadV3
+
+// SchedulesV3UpdateRotationJSONRequestBody defines body for SchedulesV3UpdateRotation for application/json ContentType.
+type SchedulesV3UpdateRotationJSONRequestBody = SchedulesUpdateRotationPayloadV3
+
+// SchedulesV3PreviewRotationRolloutJSONRequestBody defines body for SchedulesV3PreviewRotationRollout for application/json ContentType.
+type SchedulesV3PreviewRotationRolloutJSONRequestBody = SchedulesPreviewRotationRolloutPayloadV3
 
 // RequestEditorFn is the function signature for the RequestEditor callback function
 type RequestEditorFn func(ctx context.Context, req *http.Request) error
@@ -22411,12 +23484,56 @@ type ClientInterface interface {
 	// Corresponds with GET /v2/users/{user_id}/notification_methods (the `UsersV2ListNotificationMethods` operationId).
 	UsersV2ListNotificationMethods(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// UsersV2CreateNotificationMethodWithBody CreateNotificationMethod Users V2
+	//
+	// Create a notification method for a user.
+	//
+	// Supports email, phone, and WhatsApp methods. Email methods require the additional escalation emails feature to be enabled for the organisation, and are usable immediately. Phone and WhatsApp methods are created unverified — the owning user must complete verification before they can receive notifications. App, Slack, and Microsoft Teams methods cannot be created via the API.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/users/{user_id}/notification_methods (the `UsersV2CreateNotificationMethod` operationId).
+	UsersV2CreateNotificationMethodWithBody(ctx context.Context, userId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UsersV2CreateNotificationMethod CreateNotificationMethod Users V2
+	//
+	// Create a notification method for a user.
+	//
+	// Supports email, phone, and WhatsApp methods. Email methods require the additional escalation emails feature to be enabled for the organisation, and are usable immediately. Phone and WhatsApp methods are created unverified — the owning user must complete verification before they can receive notifications. App, Slack, and Microsoft Teams methods cannot be created via the API.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/users/{user_id}/notification_methods (the `UsersV2CreateNotificationMethod` operationId).
+	UsersV2CreateNotificationMethod(ctx context.Context, userId string, body UsersV2CreateNotificationMethodJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// UsersV2ListNotificationRules ListNotificationRules Users V2
 	//
 	// List notification rules for a user. Rules define how and when a user is notified for on-call pages. Only includes high_urgency and low_urgency rules; shift_changes rules are not returned.
 	//
 	// Corresponds with GET /v2/users/{user_id}/notification_rules (the `UsersV2ListNotificationRules` operationId).
 	UsersV2ListNotificationRules(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UsersV2CreateNotificationRuleWithBody CreateNotificationRule Users V2
+	//
+	// Create a notification rule for a user.
+	//
+	// Rules define how and when a user is notified for on-call pages (high_urgency or low_urgency). Email, phone, and WhatsApp rules must target a specific notification method by ID. App rules target all registered devices. Phone and WhatsApp methods may be unverified when the rule is created — the rule will not fire until the method is verified.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/users/{user_id}/notification_rules (the `UsersV2CreateNotificationRule` operationId).
+	UsersV2CreateNotificationRuleWithBody(ctx context.Context, userId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UsersV2CreateNotificationRule CreateNotificationRule Users V2
+	//
+	// Create a notification rule for a user.
+	//
+	// Rules define how and when a user is notified for on-call pages (high_urgency or low_urgency). Email, phone, and WhatsApp rules must target a specific notification method by ID. App rules target all registered devices. Phone and WhatsApp methods may be unverified when the rule is created — the rule will not fire until the method is verified.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/users/{user_id}/notification_rules (the `UsersV2CreateNotificationRule` operationId).
+	UsersV2CreateNotificationRule(ctx context.Context, userId string, body UsersV2CreateNotificationRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// UsersV2ShowPagingProvider ShowPagingProvider Users V2
 	//
@@ -22449,6 +23566,45 @@ type ClientInterface interface {
 	//
 	// Corresponds with GET /v2/users/{user_id}/policies/{policy_id}/open (the `PoliciesV2HasOpenForUser` operationId).
 	PoliciesV2HasOpenForUser(ctx context.Context, userId string, policyId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// WorkflowRunsV2List List WorkflowRuns V2
+	//
+	// List workflow runs, newest first. Cancelled runs are never returned.
+	//
+	// The webhook delivery on each step omits the headers and bodies. Fetch a single run to see them.
+	//
+	// You can filter on when a run was created:
+	//
+	// ```
+	// # Runs created on or after a date
+	// curl 'https://api.incident.io/v2/workflow_runs?created_at[gte]=2026-07-01'
+	//
+	// # Runs created on or before a date
+	// curl 'https://api.incident.io/v2/workflow_runs?created_at[lte]=2026-07-31'
+	//
+	// # Runs created between two dates
+	// curl 'https://api.incident.io/v2/workflow_runs?created_at[date_range]=2026-07-01~2026-07-31'
+	// ```
+	//
+	// Paginate by passing the last run's ID as `after`. The response's
+	// `pagination_meta.after` carries the value to send next, and is absent on the last page.
+	// An `after` that isn't a run in your organisation returns 404.
+	//
+	// Corresponds with GET /v2/workflow_runs (the `WorkflowRunsV2List` operationId).
+	WorkflowRunsV2List(ctx context.Context, params *WorkflowRunsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// WorkflowRunsV2Show Show WorkflowRuns V2
+	//
+	// Show a single workflow run, including the full webhook delivery for any step that sent one.
+	//
+	// A delivery is kept for 7 days. After that `webhook_delivery_state` becomes
+	// `expired` and the delivery itself is absent: the step still ran and may well have
+	// succeeded, so an expired delivery must not be read as a failure.
+	//
+	// This may return a cancelled run, in which case `cancelled_at` is set.
+	//
+	// Corresponds with GET /v2/workflow_runs/{id} (the `WorkflowRunsV2Show` operationId).
+	WorkflowRunsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// WorkflowsV2ListWorkflows ListWorkflows Workflows V2
 	//
@@ -22799,6 +23955,123 @@ type ClientInterface interface {
 	//
 	// Corresponds with PUT /v3/schedules/{id} (the `SchedulesV3Update` operationId).
 	SchedulesV3Update(ctx context.Context, id string, body SchedulesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3ListRotations ListRotations Schedules V3
+	//
+	// List the rotations on a schedule.
+	//
+	// Corresponds with GET /v3/schedules/{schedule_id}/rotations (the `SchedulesV3ListRotations` operationId).
+	SchedulesV3ListRotations(ctx context.Context, scheduleId string, params *SchedulesV3ListRotationsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3CreateRotationWithBody CreateRotation Schedules V3
+	//
+	// Add a rotation to a schedule.
+	//
+	// The rotation starts scheduling people immediately. Its ID, and an ID for each of its
+	// layers, are assigned by us and returned in the response.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/schedules/{schedule_id}/rotations (the `SchedulesV3CreateRotation` operationId).
+	SchedulesV3CreateRotationWithBody(ctx context.Context, scheduleId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3CreateRotation CreateRotation Schedules V3
+	//
+	// Add a rotation to a schedule.
+	//
+	// The rotation starts scheduling people immediately. Its ID, and an ID for each of its
+	// layers, are assigned by us and returned in the response.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/schedules/{schedule_id}/rotations (the `SchedulesV3CreateRotation` operationId).
+	SchedulesV3CreateRotation(ctx context.Context, scheduleId string, body SchedulesV3CreateRotationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3DestroyRotation DestroyRotation Schedules V3
+	//
+	// Remove a rotation from a schedule, including any changes scheduled for it.
+	//
+	// This is rejected if an escalation path still routes to the rotation.
+	//
+	// Corresponds with DELETE /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3DestroyRotation` operationId).
+	SchedulesV3DestroyRotation(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3ShowRotation ShowRotation Schedules V3
+	//
+	// Get a single rotation.
+	//
+	// Corresponds with GET /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3ShowRotation` operationId).
+	SchedulesV3ShowRotation(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3UpdateRotationWithBody UpdateRotation Schedules V3
+	//
+	// Change a rotation.
+	//
+	// Without `rollout`, this replaces the rotation's current shape immediately.
+	// If a change was already scheduled for a future date, this edits that pending change
+	// rather than what's live today.
+	//
+	// With `rollout`, the server introduces the new line-up according to that
+	// strategy (e.g. `after_current_shift` keeps the live shift and schedules the
+	// edit from the next handover). Earlier shapes of the rotation are left alone, so who
+	// was on call in the past doesn't move. A pending future version is discarded — a new
+	// edit supersedes it. Use PreviewRotationRollout at plan time to learn the
+	// `effective_from` this will produce, then pass it as
+	// `expected_effective_from` on apply to reject a stale plan.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3UpdateRotation` operationId).
+	SchedulesV3UpdateRotationWithBody(ctx context.Context, scheduleId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3UpdateRotation UpdateRotation Schedules V3
+	//
+	// Change a rotation.
+	//
+	// Without `rollout`, this replaces the rotation's current shape immediately.
+	// If a change was already scheduled for a future date, this edits that pending change
+	// rather than what's live today.
+	//
+	// With `rollout`, the server introduces the new line-up according to that
+	// strategy (e.g. `after_current_shift` keeps the live shift and schedules the
+	// edit from the next handover). Earlier shapes of the rotation are left alone, so who
+	// was on call in the past doesn't move. A pending future version is discarded — a new
+	// edit supersedes it. Use PreviewRotationRollout at plan time to learn the
+	// `effective_from` this will produce, then pass it as
+	// `expected_effective_from` on apply to reject a stale plan.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3UpdateRotation` operationId).
+	SchedulesV3UpdateRotation(ctx context.Context, scheduleId string, id string, body SchedulesV3UpdateRotationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3PreviewRotationRolloutWithBody PreviewRotationRollout Schedules V3
+	//
+	// Preview how a rotation edit would be introduced under a rollout strategy.
+	//
+	// Returns the resulting rotation — including the server-chosen `effective_from`
+	// — WITHOUT saving. Pin `from` at plan time so apply can pass the same value
+	// and produce the same split. This endpoint only covers the strategies listed on
+	// `rollout`; there is no fixed-date option.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/schedules/{schedule_id}/rotations/{id}/actions/preview_rollout (the `SchedulesV3PreviewRotationRollout` operationId).
+	SchedulesV3PreviewRotationRolloutWithBody(ctx context.Context, scheduleId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV3PreviewRotationRollout PreviewRotationRollout Schedules V3
+	//
+	// Preview how a rotation edit would be introduced under a rollout strategy.
+	//
+	// Returns the resulting rotation — including the server-chosen `effective_from`
+	// — WITHOUT saving. Pin `from` at plan time so apply can pass the same value
+	// and produce the same split. This endpoint only covers the strategies listed on
+	// `rollout`; there is no fixed-date option.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/schedules/{schedule_id}/rotations/{id}/actions/preview_rollout (the `SchedulesV3PreviewRotationRollout` operationId).
+	SchedulesV3PreviewRotationRollout(ctx context.Context, scheduleId string, id string, body SchedulesV3PreviewRotationRolloutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// TeamsV3List List Teams V3
 	//
@@ -28280,6 +29553,48 @@ func (c *Client) UsersV2ListNotificationMethods(ctx context.Context, userId stri
 	return c.Client.Do(req)
 }
 
+// UsersV2CreateNotificationMethodWithBody CreateNotificationMethod Users V2
+//
+// Create a notification method for a user.
+//
+// Supports email, phone, and WhatsApp methods. Email methods require the additional escalation emails feature to be enabled for the organisation, and are usable immediately. Phone and WhatsApp methods are created unverified — the owning user must complete verification before they can receive notifications. App, Slack, and Microsoft Teams methods cannot be created via the API.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/users/{user_id}/notification_methods (the `UsersV2CreateNotificationMethod` operationId).
+func (c *Client) UsersV2CreateNotificationMethodWithBody(ctx context.Context, userId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUsersV2CreateNotificationMethodRequestWithBody(c.Server, userId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// UsersV2CreateNotificationMethod CreateNotificationMethod Users V2
+//
+// Create a notification method for a user.
+//
+// Supports email, phone, and WhatsApp methods. Email methods require the additional escalation emails feature to be enabled for the organisation, and are usable immediately. Phone and WhatsApp methods are created unverified — the owning user must complete verification before they can receive notifications. App, Slack, and Microsoft Teams methods cannot be created via the API.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/users/{user_id}/notification_methods (the `UsersV2CreateNotificationMethod` operationId).
+func (c *Client) UsersV2CreateNotificationMethod(ctx context.Context, userId string, body UsersV2CreateNotificationMethodJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUsersV2CreateNotificationMethodRequest(c.Server, userId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // UsersV2ListNotificationRules ListNotificationRules Users V2
 //
 // List notification rules for a user. Rules define how and when a user is notified for on-call pages. Only includes high_urgency and low_urgency rules; shift_changes rules are not returned.
@@ -28287,6 +29602,48 @@ func (c *Client) UsersV2ListNotificationMethods(ctx context.Context, userId stri
 // Corresponds with GET /v2/users/{user_id}/notification_rules (the `UsersV2ListNotificationRules` operationId).
 func (c *Client) UsersV2ListNotificationRules(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUsersV2ListNotificationRulesRequest(c.Server, userId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// UsersV2CreateNotificationRuleWithBody CreateNotificationRule Users V2
+//
+// Create a notification rule for a user.
+//
+// Rules define how and when a user is notified for on-call pages (high_urgency or low_urgency). Email, phone, and WhatsApp rules must target a specific notification method by ID. App rules target all registered devices. Phone and WhatsApp methods may be unverified when the rule is created — the rule will not fire until the method is verified.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/users/{user_id}/notification_rules (the `UsersV2CreateNotificationRule` operationId).
+func (c *Client) UsersV2CreateNotificationRuleWithBody(ctx context.Context, userId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUsersV2CreateNotificationRuleRequestWithBody(c.Server, userId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// UsersV2CreateNotificationRule CreateNotificationRule Users V2
+//
+// Create a notification rule for a user.
+//
+// Rules define how and when a user is notified for on-call pages (high_urgency or low_urgency). Email, phone, and WhatsApp rules must target a specific notification method by ID. App rules target all registered devices. Phone and WhatsApp methods may be unverified when the rule is created — the rule will not fire until the method is verified.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/users/{user_id}/notification_rules (the `UsersV2CreateNotificationRule` operationId).
+func (c *Client) UsersV2CreateNotificationRule(ctx context.Context, userId string, body UsersV2CreateNotificationRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUsersV2CreateNotificationRuleRequest(c.Server, userId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -28359,6 +29716,65 @@ func (c *Client) UsersV2UpdatePagingProvider(ctx context.Context, userId string,
 // Corresponds with GET /v2/users/{user_id}/policies/{policy_id}/open (the `PoliciesV2HasOpenForUser` operationId).
 func (c *Client) PoliciesV2HasOpenForUser(ctx context.Context, userId string, policyId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPoliciesV2HasOpenForUserRequest(c.Server, userId, policyId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// WorkflowRunsV2List List WorkflowRuns V2
+//
+// List workflow runs, newest first. Cancelled runs are never returned.
+//
+// The webhook delivery on each step omits the headers and bodies. Fetch a single run to see them.
+//
+// You can filter on when a run was created:
+//
+// ```
+// # Runs created on or after a date
+// curl 'https://api.incident.io/v2/workflow_runs?created_at[gte]=2026-07-01'
+//
+// # Runs created on or before a date
+// curl 'https://api.incident.io/v2/workflow_runs?created_at[lte]=2026-07-31'
+//
+// # Runs created between two dates
+// curl 'https://api.incident.io/v2/workflow_runs?created_at[date_range]=2026-07-01~2026-07-31'
+// ```
+//
+// Paginate by passing the last run's ID as `after`. The response's
+// `pagination_meta.after` carries the value to send next, and is absent on the last page.
+// An `after` that isn't a run in your organisation returns 404.
+//
+// Corresponds with GET /v2/workflow_runs (the `WorkflowRunsV2List` operationId).
+func (c *Client) WorkflowRunsV2List(ctx context.Context, params *WorkflowRunsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowRunsV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// WorkflowRunsV2Show Show WorkflowRuns V2
+//
+// Show a single workflow run, including the full webhook delivery for any step that sent one.
+//
+// A delivery is kept for 7 days. After that `webhook_delivery_state` becomes
+// `expired` and the delivery itself is absent: the step still ran and may well have
+// succeeded, so an expired delivery must not be read as a failure.
+//
+// This may return a cancelled run, in which case `cancelled_at` is set.
+//
+// Corresponds with GET /v2/workflow_runs/{id} (the `WorkflowRunsV2Show` operationId).
+func (c *Client) WorkflowRunsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewWorkflowRunsV2ShowRequest(c.Server, id)
 	if err != nil {
 		return nil, err
 	}
@@ -29109,6 +30525,213 @@ func (c *Client) SchedulesV3UpdateWithBody(ctx context.Context, id string, conte
 // Corresponds with PUT /v3/schedules/{id} (the `SchedulesV3Update` operationId).
 func (c *Client) SchedulesV3Update(ctx context.Context, id string, body SchedulesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSchedulesV3UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// SchedulesV3ListRotations ListRotations Schedules V3
+//
+// List the rotations on a schedule.
+//
+// Corresponds with GET /v3/schedules/{schedule_id}/rotations (the `SchedulesV3ListRotations` operationId).
+func (c *Client) SchedulesV3ListRotations(ctx context.Context, scheduleId string, params *SchedulesV3ListRotationsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3ListRotationsRequest(c.Server, scheduleId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// SchedulesV3CreateRotationWithBody CreateRotation Schedules V3
+//
+// Add a rotation to a schedule.
+//
+// The rotation starts scheduling people immediately. Its ID, and an ID for each of its
+// layers, are assigned by us and returned in the response.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/schedules/{schedule_id}/rotations (the `SchedulesV3CreateRotation` operationId).
+func (c *Client) SchedulesV3CreateRotationWithBody(ctx context.Context, scheduleId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3CreateRotationRequestWithBody(c.Server, scheduleId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// SchedulesV3CreateRotation CreateRotation Schedules V3
+//
+// Add a rotation to a schedule.
+//
+// The rotation starts scheduling people immediately. Its ID, and an ID for each of its
+// layers, are assigned by us and returned in the response.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/schedules/{schedule_id}/rotations (the `SchedulesV3CreateRotation` operationId).
+func (c *Client) SchedulesV3CreateRotation(ctx context.Context, scheduleId string, body SchedulesV3CreateRotationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3CreateRotationRequest(c.Server, scheduleId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// SchedulesV3DestroyRotation DestroyRotation Schedules V3
+//
+// Remove a rotation from a schedule, including any changes scheduled for it.
+//
+// This is rejected if an escalation path still routes to the rotation.
+//
+// Corresponds with DELETE /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3DestroyRotation` operationId).
+func (c *Client) SchedulesV3DestroyRotation(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3DestroyRotationRequest(c.Server, scheduleId, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// SchedulesV3ShowRotation ShowRotation Schedules V3
+//
+// Get a single rotation.
+//
+// Corresponds with GET /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3ShowRotation` operationId).
+func (c *Client) SchedulesV3ShowRotation(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3ShowRotationRequest(c.Server, scheduleId, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// SchedulesV3UpdateRotationWithBody UpdateRotation Schedules V3
+//
+// Change a rotation.
+//
+// Without `rollout`, this replaces the rotation's current shape immediately.
+// If a change was already scheduled for a future date, this edits that pending change
+// rather than what's live today.
+//
+// With `rollout`, the server introduces the new line-up according to that
+// strategy (e.g. `after_current_shift` keeps the live shift and schedules the
+// edit from the next handover). Earlier shapes of the rotation are left alone, so who
+// was on call in the past doesn't move. A pending future version is discarded — a new
+// edit supersedes it. Use PreviewRotationRollout at plan time to learn the
+// `effective_from` this will produce, then pass it as
+// `expected_effective_from` on apply to reject a stale plan.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3UpdateRotation` operationId).
+func (c *Client) SchedulesV3UpdateRotationWithBody(ctx context.Context, scheduleId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3UpdateRotationRequestWithBody(c.Server, scheduleId, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// SchedulesV3UpdateRotation UpdateRotation Schedules V3
+//
+// Change a rotation.
+//
+// Without `rollout`, this replaces the rotation's current shape immediately.
+// If a change was already scheduled for a future date, this edits that pending change
+// rather than what's live today.
+//
+// With `rollout`, the server introduces the new line-up according to that
+// strategy (e.g. `after_current_shift` keeps the live shift and schedules the
+// edit from the next handover). Earlier shapes of the rotation are left alone, so who
+// was on call in the past doesn't move. A pending future version is discarded — a new
+// edit supersedes it. Use PreviewRotationRollout at plan time to learn the
+// `effective_from` this will produce, then pass it as
+// `expected_effective_from` on apply to reject a stale plan.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3UpdateRotation` operationId).
+func (c *Client) SchedulesV3UpdateRotation(ctx context.Context, scheduleId string, id string, body SchedulesV3UpdateRotationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3UpdateRotationRequest(c.Server, scheduleId, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// SchedulesV3PreviewRotationRolloutWithBody PreviewRotationRollout Schedules V3
+//
+// Preview how a rotation edit would be introduced under a rollout strategy.
+//
+// Returns the resulting rotation — including the server-chosen `effective_from`
+// — WITHOUT saving. Pin `from` at plan time so apply can pass the same value
+// and produce the same split. This endpoint only covers the strategies listed on
+// `rollout`; there is no fixed-date option.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/schedules/{schedule_id}/rotations/{id}/actions/preview_rollout (the `SchedulesV3PreviewRotationRollout` operationId).
+func (c *Client) SchedulesV3PreviewRotationRolloutWithBody(ctx context.Context, scheduleId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3PreviewRotationRolloutRequestWithBody(c.Server, scheduleId, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// SchedulesV3PreviewRotationRollout PreviewRotationRollout Schedules V3
+//
+// Preview how a rotation edit would be introduced under a rollout strategy.
+//
+// Returns the resulting rotation — including the server-chosen `effective_from`
+// — WITHOUT saving. Pin `from` at plan time so apply can pass the same value
+// and produce the same split. This endpoint only covers the strategies listed on
+// `rollout`; there is no fixed-date option.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/schedules/{schedule_id}/rotations/{id}/actions/preview_rollout (the `SchedulesV3PreviewRotationRollout` operationId).
+func (c *Client) SchedulesV3PreviewRotationRollout(ctx context.Context, scheduleId string, id string, body SchedulesV3PreviewRotationRolloutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV3PreviewRotationRolloutRequest(c.Server, scheduleId, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -38024,6 +39647,53 @@ func NewUsersV2ListNotificationMethodsRequest(server string, userId string) (*ht
 	return req, nil
 }
 
+// NewUsersV2CreateNotificationMethodRequest calls the generic UsersV2CreateNotificationMethod builder with application/json body
+func NewUsersV2CreateNotificationMethodRequest(server string, userId string, body UsersV2CreateNotificationMethodJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUsersV2CreateNotificationMethodRequestWithBody(server, userId, "application/json", bodyReader)
+}
+
+// NewUsersV2CreateNotificationMethodRequestWithBody constructs an http.Request for the UsersV2CreateNotificationMethod method, with any body, and a specified content type
+func NewUsersV2CreateNotificationMethodRequestWithBody(server string, userId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "user_id", userId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/users/%s/notification_methods", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewUsersV2ListNotificationRulesRequest constructs an http.Request for the UsersV2ListNotificationRules method
 func NewUsersV2ListNotificationRulesRequest(server string, userId string) (*http.Request, error) {
 	var err error
@@ -38054,6 +39724,53 @@ func NewUsersV2ListNotificationRulesRequest(server string, userId string) (*http
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewUsersV2CreateNotificationRuleRequest calls the generic UsersV2CreateNotificationRule builder with application/json body
+func NewUsersV2CreateNotificationRuleRequest(server string, userId string, body UsersV2CreateNotificationRuleJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUsersV2CreateNotificationRuleRequestWithBody(server, userId, "application/json", bodyReader)
+}
+
+// NewUsersV2CreateNotificationRuleRequestWithBody constructs an http.Request for the UsersV2CreateNotificationRule method, with any body, and a specified content type
+func NewUsersV2CreateNotificationRuleRequestWithBody(server string, userId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "user_id", userId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/users/%s/notification_rules", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -38163,6 +39880,142 @@ func NewPoliciesV2HasOpenForUserRequest(server string, userId string, policyId s
 	}
 
 	operationPath := fmt.Sprintf("/v2/users/%s/policies/%s/open", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewWorkflowRunsV2ListRequest constructs an http.Request for the WorkflowRunsV2List method
+func NewWorkflowRunsV2ListRequest(server string, params *WorkflowRunsV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/workflow_runs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.WorkflowId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "workflow_id", *params.WorkflowId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.IncidentId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "incident_id", *params.IncidentId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.CreatedAt != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "created_at", *params.CreatedAt, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "object", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewWorkflowRunsV2ShowRequest constructs an http.Request for the WorkflowRunsV2Show method
+func NewWorkflowRunsV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/workflow_runs/%s", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -39382,6 +41235,316 @@ func NewSchedulesV3UpdateRequestWithBody(server string, id string, contentType s
 	}
 
 	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewSchedulesV3ListRotationsRequest constructs an http.Request for the SchedulesV3ListRotations method
+func NewSchedulesV3ListRotationsRequest(server string, scheduleId string, params *SchedulesV3ListRotationsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "schedule_id", scheduleId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/schedules/%s/rotations", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV3CreateRotationRequest calls the generic SchedulesV3CreateRotation builder with application/json body
+func NewSchedulesV3CreateRotationRequest(server string, scheduleId string, body SchedulesV3CreateRotationJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSchedulesV3CreateRotationRequestWithBody(server, scheduleId, "application/json", bodyReader)
+}
+
+// NewSchedulesV3CreateRotationRequestWithBody constructs an http.Request for the SchedulesV3CreateRotation method, with any body, and a specified content type
+func NewSchedulesV3CreateRotationRequestWithBody(server string, scheduleId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "schedule_id", scheduleId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/schedules/%s/rotations", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewSchedulesV3DestroyRotationRequest constructs an http.Request for the SchedulesV3DestroyRotation method
+func NewSchedulesV3DestroyRotationRequest(server string, scheduleId string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "schedule_id", scheduleId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/schedules/%s/rotations/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV3ShowRotationRequest constructs an http.Request for the SchedulesV3ShowRotation method
+func NewSchedulesV3ShowRotationRequest(server string, scheduleId string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "schedule_id", scheduleId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/schedules/%s/rotations/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV3UpdateRotationRequest calls the generic SchedulesV3UpdateRotation builder with application/json body
+func NewSchedulesV3UpdateRotationRequest(server string, scheduleId string, id string, body SchedulesV3UpdateRotationJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSchedulesV3UpdateRotationRequestWithBody(server, scheduleId, id, "application/json", bodyReader)
+}
+
+// NewSchedulesV3UpdateRotationRequestWithBody constructs an http.Request for the SchedulesV3UpdateRotation method, with any body, and a specified content type
+func NewSchedulesV3UpdateRotationRequestWithBody(server string, scheduleId string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "schedule_id", scheduleId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/schedules/%s/rotations/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewSchedulesV3PreviewRotationRolloutRequest calls the generic SchedulesV3PreviewRotationRollout builder with application/json body
+func NewSchedulesV3PreviewRotationRolloutRequest(server string, scheduleId string, id string, body SchedulesV3PreviewRotationRolloutJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSchedulesV3PreviewRotationRolloutRequestWithBody(server, scheduleId, id, "application/json", bodyReader)
+}
+
+// NewSchedulesV3PreviewRotationRolloutRequestWithBody constructs an http.Request for the SchedulesV3PreviewRotationRollout method, with any body, and a specified content type
+func NewSchedulesV3PreviewRotationRolloutRequestWithBody(server string, scheduleId string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "schedule_id", scheduleId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/schedules/%s/rotations/%s/actions/preview_rollout", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -42648,6 +44811,28 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /v2/users/{user_id}/notification_methods (the `UsersV2ListNotificationMethods` operationId).
 	UsersV2ListNotificationMethodsWithResponse(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*UsersV2ListNotificationMethodsResponse, error)
 
+	// UsersV2CreateNotificationMethodWithBodyWithResponse CreateNotificationMethod Users V2
+	//
+	// Create a notification method for a user.
+	//
+	// Supports email, phone, and WhatsApp methods. Email methods require the additional escalation emails feature to be enabled for the organisation, and are usable immediately. Phone and WhatsApp methods are created unverified — the owning user must complete verification before they can receive notifications. App, Slack, and Microsoft Teams methods cannot be created via the API.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/users/{user_id}/notification_methods (the `UsersV2CreateNotificationMethod` operationId).
+	UsersV2CreateNotificationMethodWithBodyWithResponse(ctx context.Context, userId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UsersV2CreateNotificationMethodResponse, error)
+
+	// UsersV2CreateNotificationMethodWithResponse CreateNotificationMethod Users V2
+	//
+	// Create a notification method for a user.
+	//
+	// Supports email, phone, and WhatsApp methods. Email methods require the additional escalation emails feature to be enabled for the organisation, and are usable immediately. Phone and WhatsApp methods are created unverified — the owning user must complete verification before they can receive notifications. App, Slack, and Microsoft Teams methods cannot be created via the API.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/users/{user_id}/notification_methods (the `UsersV2CreateNotificationMethod` operationId).
+	UsersV2CreateNotificationMethodWithResponse(ctx context.Context, userId string, body UsersV2CreateNotificationMethodJSONRequestBody, reqEditors ...RequestEditorFn) (*UsersV2CreateNotificationMethodResponse, error)
+
 	// UsersV2ListNotificationRulesWithResponse ListNotificationRules Users V2
 	//
 	// List notification rules for a user. Rules define how and when a user is notified for on-call pages. Only includes high_urgency and low_urgency rules; shift_changes rules are not returned.
@@ -42656,6 +44841,28 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with GET /v2/users/{user_id}/notification_rules (the `UsersV2ListNotificationRules` operationId).
 	UsersV2ListNotificationRulesWithResponse(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*UsersV2ListNotificationRulesResponse, error)
+
+	// UsersV2CreateNotificationRuleWithBodyWithResponse CreateNotificationRule Users V2
+	//
+	// Create a notification rule for a user.
+	//
+	// Rules define how and when a user is notified for on-call pages (high_urgency or low_urgency). Email, phone, and WhatsApp rules must target a specific notification method by ID. App rules target all registered devices. Phone and WhatsApp methods may be unverified when the rule is created — the rule will not fire until the method is verified.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/users/{user_id}/notification_rules (the `UsersV2CreateNotificationRule` operationId).
+	UsersV2CreateNotificationRuleWithBodyWithResponse(ctx context.Context, userId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UsersV2CreateNotificationRuleResponse, error)
+
+	// UsersV2CreateNotificationRuleWithResponse CreateNotificationRule Users V2
+	//
+	// Create a notification rule for a user.
+	//
+	// Rules define how and when a user is notified for on-call pages (high_urgency or low_urgency). Email, phone, and WhatsApp rules must target a specific notification method by ID. App rules target all registered devices. Phone and WhatsApp methods may be unverified when the rule is created — the rule will not fire until the method is verified.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/users/{user_id}/notification_rules (the `UsersV2CreateNotificationRule` operationId).
+	UsersV2CreateNotificationRuleWithResponse(ctx context.Context, userId string, body UsersV2CreateNotificationRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*UsersV2CreateNotificationRuleResponse, error)
 
 	// UsersV2ShowPagingProviderWithResponse ShowPagingProvider Users V2
 	//
@@ -42692,6 +44899,49 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with GET /v2/users/{user_id}/policies/{policy_id}/open (the `PoliciesV2HasOpenForUser` operationId).
 	PoliciesV2HasOpenForUserWithResponse(ctx context.Context, userId string, policyId string, reqEditors ...RequestEditorFn) (*PoliciesV2HasOpenForUserResponse, error)
+
+	// WorkflowRunsV2ListWithResponse List WorkflowRuns V2
+	//
+	// List workflow runs, newest first. Cancelled runs are never returned.
+	//
+	// The webhook delivery on each step omits the headers and bodies. Fetch a single run to see them.
+	//
+	// You can filter on when a run was created:
+	//
+	// ```
+	// # Runs created on or after a date
+	// curl 'https://api.incident.io/v2/workflow_runs?created_at[gte]=2026-07-01'
+	//
+	// # Runs created on or before a date
+	// curl 'https://api.incident.io/v2/workflow_runs?created_at[lte]=2026-07-31'
+	//
+	// # Runs created between two dates
+	// curl 'https://api.incident.io/v2/workflow_runs?created_at[date_range]=2026-07-01~2026-07-31'
+	// ```
+	//
+	// Paginate by passing the last run's ID as `after`. The response's
+	// `pagination_meta.after` carries the value to send next, and is absent on the last page.
+	// An `after` that isn't a run in your organisation returns 404.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/workflow_runs (the `WorkflowRunsV2List` operationId).
+	WorkflowRunsV2ListWithResponse(ctx context.Context, params *WorkflowRunsV2ListParams, reqEditors ...RequestEditorFn) (*WorkflowRunsV2ListResponse, error)
+
+	// WorkflowRunsV2ShowWithResponse Show WorkflowRuns V2
+	//
+	// Show a single workflow run, including the full webhook delivery for any step that sent one.
+	//
+	// A delivery is kept for 7 days. After that `webhook_delivery_state` becomes
+	// `expired` and the delivery itself is absent: the step still ran and may well have
+	// succeeded, so an expired delivery must not be read as a failure.
+	//
+	// This may return a cancelled run, in which case `cancelled_at` is set.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/workflow_runs/{id} (the `WorkflowRunsV2Show` operationId).
+	WorkflowRunsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowRunsV2ShowResponse, error)
 
 	// WorkflowsV2ListWorkflowsWithResponse ListWorkflows Workflows V2
 	//
@@ -43074,6 +45324,129 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with PUT /v3/schedules/{id} (the `SchedulesV3Update` operationId).
 	SchedulesV3UpdateWithResponse(ctx context.Context, id string, body SchedulesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV3UpdateResponse, error)
+
+	// SchedulesV3ListRotationsWithResponse ListRotations Schedules V3
+	//
+	// List the rotations on a schedule.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/schedules/{schedule_id}/rotations (the `SchedulesV3ListRotations` operationId).
+	SchedulesV3ListRotationsWithResponse(ctx context.Context, scheduleId string, params *SchedulesV3ListRotationsParams, reqEditors ...RequestEditorFn) (*SchedulesV3ListRotationsResponse, error)
+
+	// SchedulesV3CreateRotationWithBodyWithResponse CreateRotation Schedules V3
+	//
+	// Add a rotation to a schedule.
+	//
+	// The rotation starts scheduling people immediately. Its ID, and an ID for each of its
+	// layers, are assigned by us and returned in the response.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/schedules/{schedule_id}/rotations (the `SchedulesV3CreateRotation` operationId).
+	SchedulesV3CreateRotationWithBodyWithResponse(ctx context.Context, scheduleId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV3CreateRotationResponse, error)
+
+	// SchedulesV3CreateRotationWithResponse CreateRotation Schedules V3
+	//
+	// Add a rotation to a schedule.
+	//
+	// The rotation starts scheduling people immediately. Its ID, and an ID for each of its
+	// layers, are assigned by us and returned in the response.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/schedules/{schedule_id}/rotations (the `SchedulesV3CreateRotation` operationId).
+	SchedulesV3CreateRotationWithResponse(ctx context.Context, scheduleId string, body SchedulesV3CreateRotationJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV3CreateRotationResponse, error)
+
+	// SchedulesV3DestroyRotationWithResponse DestroyRotation Schedules V3
+	//
+	// Remove a rotation from a schedule, including any changes scheduled for it.
+	//
+	// This is rejected if an escalation path still routes to the rotation.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3DestroyRotation` operationId).
+	SchedulesV3DestroyRotationWithResponse(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*SchedulesV3DestroyRotationResponse, error)
+
+	// SchedulesV3ShowRotationWithResponse ShowRotation Schedules V3
+	//
+	// Get a single rotation.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3ShowRotation` operationId).
+	SchedulesV3ShowRotationWithResponse(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*SchedulesV3ShowRotationResponse, error)
+
+	// SchedulesV3UpdateRotationWithBodyWithResponse UpdateRotation Schedules V3
+	//
+	// Change a rotation.
+	//
+	// Without `rollout`, this replaces the rotation's current shape immediately.
+	// If a change was already scheduled for a future date, this edits that pending change
+	// rather than what's live today.
+	//
+	// With `rollout`, the server introduces the new line-up according to that
+	// strategy (e.g. `after_current_shift` keeps the live shift and schedules the
+	// edit from the next handover). Earlier shapes of the rotation are left alone, so who
+	// was on call in the past doesn't move. A pending future version is discarded — a new
+	// edit supersedes it. Use PreviewRotationRollout at plan time to learn the
+	// `effective_from` this will produce, then pass it as
+	// `expected_effective_from` on apply to reject a stale plan.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3UpdateRotation` operationId).
+	SchedulesV3UpdateRotationWithBodyWithResponse(ctx context.Context, scheduleId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV3UpdateRotationResponse, error)
+
+	// SchedulesV3UpdateRotationWithResponse UpdateRotation Schedules V3
+	//
+	// Change a rotation.
+	//
+	// Without `rollout`, this replaces the rotation's current shape immediately.
+	// If a change was already scheduled for a future date, this edits that pending change
+	// rather than what's live today.
+	//
+	// With `rollout`, the server introduces the new line-up according to that
+	// strategy (e.g. `after_current_shift` keeps the live shift and schedules the
+	// edit from the next handover). Earlier shapes of the rotation are left alone, so who
+	// was on call in the past doesn't move. A pending future version is discarded — a new
+	// edit supersedes it. Use PreviewRotationRollout at plan time to learn the
+	// `effective_from` this will produce, then pass it as
+	// `expected_effective_from` on apply to reject a stale plan.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3UpdateRotation` operationId).
+	SchedulesV3UpdateRotationWithResponse(ctx context.Context, scheduleId string, id string, body SchedulesV3UpdateRotationJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV3UpdateRotationResponse, error)
+
+	// SchedulesV3PreviewRotationRolloutWithBodyWithResponse PreviewRotationRollout Schedules V3
+	//
+	// Preview how a rotation edit would be introduced under a rollout strategy.
+	//
+	// Returns the resulting rotation — including the server-chosen `effective_from`
+	// — WITHOUT saving. Pin `from` at plan time so apply can pass the same value
+	// and produce the same split. This endpoint only covers the strategies listed on
+	// `rollout`; there is no fixed-date option.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/schedules/{schedule_id}/rotations/{id}/actions/preview_rollout (the `SchedulesV3PreviewRotationRollout` operationId).
+	SchedulesV3PreviewRotationRolloutWithBodyWithResponse(ctx context.Context, scheduleId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV3PreviewRotationRolloutResponse, error)
+
+	// SchedulesV3PreviewRotationRolloutWithResponse PreviewRotationRollout Schedules V3
+	//
+	// Preview how a rotation edit would be introduced under a rollout strategy.
+	//
+	// Returns the resulting rotation — including the server-chosen `effective_from`
+	// — WITHOUT saving. Pin `from` at plan time so apply can pass the same value
+	// and produce the same split. This endpoint only covers the strategies listed on
+	// `rollout`; there is no fixed-date option.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/schedules/{schedule_id}/rotations/{id}/actions/preview_rollout (the `SchedulesV3PreviewRotationRollout` operationId).
+	SchedulesV3PreviewRotationRolloutWithResponse(ctx context.Context, scheduleId string, id string, body SchedulesV3PreviewRotationRolloutJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV3PreviewRotationRolloutResponse, error)
 
 	// TeamsV3ListWithResponse List Teams V3
 	//
@@ -50606,6 +52979,47 @@ func (r UsersV2ListNotificationMethodsResponse) ContentType() string {
 	return ""
 }
 
+type UsersV2CreateNotificationMethodResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *UsersCreateNotificationMethodResultV2
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r UsersV2CreateNotificationMethodResponse) GetJSON201() *UsersCreateNotificationMethodResultV2 {
+	return r.JSON201
+}
+
+// GetBody returns the raw response body bytes
+func (r UsersV2CreateNotificationMethodResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r UsersV2CreateNotificationMethodResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UsersV2CreateNotificationMethodResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r UsersV2CreateNotificationMethodResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type UsersV2ListNotificationRulesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -50641,6 +53055,47 @@ func (r UsersV2ListNotificationRulesResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r UsersV2ListNotificationRulesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type UsersV2CreateNotificationRuleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *UsersCreateNotificationRuleResultV2
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r UsersV2CreateNotificationRuleResponse) GetJSON201() *UsersCreateNotificationRuleResultV2 {
+	return r.JSON201
+}
+
+// GetBody returns the raw response body bytes
+func (r UsersV2CreateNotificationRuleResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r UsersV2CreateNotificationRuleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UsersV2CreateNotificationRuleResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r UsersV2CreateNotificationRuleResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -50757,6 +53212,88 @@ func (r PoliciesV2HasOpenForUserResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r PoliciesV2HasOpenForUserResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type WorkflowRunsV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *WorkflowRunsListResultV2
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r WorkflowRunsV2ListResponse) GetJSON200() *WorkflowRunsListResultV2 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r WorkflowRunsV2ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r WorkflowRunsV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r WorkflowRunsV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r WorkflowRunsV2ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type WorkflowRunsV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *WorkflowRunsShowResultV2
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r WorkflowRunsV2ShowResponse) GetJSON200() *WorkflowRunsShowResultV2 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r WorkflowRunsV2ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r WorkflowRunsV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r WorkflowRunsV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r WorkflowRunsV2ShowResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -51863,6 +54400,245 @@ func (r SchedulesV3UpdateResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r SchedulesV3UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type SchedulesV3ListRotationsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *SchedulesListRotationsResultV3
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r SchedulesV3ListRotationsResponse) GetJSON200() *SchedulesListRotationsResultV3 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r SchedulesV3ListRotationsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV3ListRotationsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV3ListRotationsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r SchedulesV3ListRotationsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type SchedulesV3CreateRotationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *SchedulesCreateRotationResultV3
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r SchedulesV3CreateRotationResponse) GetJSON201() *SchedulesCreateRotationResultV3 {
+	return r.JSON201
+}
+
+// GetBody returns the raw response body bytes
+func (r SchedulesV3CreateRotationResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV3CreateRotationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV3CreateRotationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r SchedulesV3CreateRotationResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type SchedulesV3DestroyRotationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r SchedulesV3DestroyRotationResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV3DestroyRotationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV3DestroyRotationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r SchedulesV3DestroyRotationResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type SchedulesV3ShowRotationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *SchedulesShowRotationResultV3
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r SchedulesV3ShowRotationResponse) GetJSON200() *SchedulesShowRotationResultV3 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r SchedulesV3ShowRotationResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV3ShowRotationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV3ShowRotationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r SchedulesV3ShowRotationResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type SchedulesV3UpdateRotationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *SchedulesUpdateRotationResultV3
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r SchedulesV3UpdateRotationResponse) GetJSON200() *SchedulesUpdateRotationResultV3 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r SchedulesV3UpdateRotationResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV3UpdateRotationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV3UpdateRotationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r SchedulesV3UpdateRotationResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type SchedulesV3PreviewRotationRolloutResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *SchedulesPreviewRotationRolloutResultV3
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r SchedulesV3PreviewRotationRolloutResponse) GetJSON200() *SchedulesPreviewRotationRolloutResultV3 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r SchedulesV3PreviewRotationRolloutResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV3PreviewRotationRolloutResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV3PreviewRotationRolloutResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r SchedulesV3PreviewRotationRolloutResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -56623,6 +59399,40 @@ func (c *ClientWithResponses) UsersV2ListNotificationMethodsWithResponse(ctx con
 	return ParseUsersV2ListNotificationMethodsResponse(rsp)
 }
 
+// UsersV2CreateNotificationMethodWithBodyWithResponse CreateNotificationMethod Users V2
+//
+// Create a notification method for a user.
+//
+// Supports email, phone, and WhatsApp methods. Email methods require the additional escalation emails feature to be enabled for the organisation, and are usable immediately. Phone and WhatsApp methods are created unverified — the owning user must complete verification before they can receive notifications. App, Slack, and Microsoft Teams methods cannot be created via the API.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/users/{user_id}/notification_methods (the `UsersV2CreateNotificationMethod` operationId).
+func (c *ClientWithResponses) UsersV2CreateNotificationMethodWithBodyWithResponse(ctx context.Context, userId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UsersV2CreateNotificationMethodResponse, error) {
+	rsp, err := c.UsersV2CreateNotificationMethodWithBody(ctx, userId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUsersV2CreateNotificationMethodResponse(rsp)
+}
+
+// UsersV2CreateNotificationMethodWithResponse CreateNotificationMethod Users V2
+//
+// Create a notification method for a user.
+//
+// Supports email, phone, and WhatsApp methods. Email methods require the additional escalation emails feature to be enabled for the organisation, and are usable immediately. Phone and WhatsApp methods are created unverified — the owning user must complete verification before they can receive notifications. App, Slack, and Microsoft Teams methods cannot be created via the API.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/users/{user_id}/notification_methods (the `UsersV2CreateNotificationMethod` operationId).
+func (c *ClientWithResponses) UsersV2CreateNotificationMethodWithResponse(ctx context.Context, userId string, body UsersV2CreateNotificationMethodJSONRequestBody, reqEditors ...RequestEditorFn) (*UsersV2CreateNotificationMethodResponse, error) {
+	rsp, err := c.UsersV2CreateNotificationMethod(ctx, userId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUsersV2CreateNotificationMethodResponse(rsp)
+}
+
 // UsersV2ListNotificationRulesWithResponse ListNotificationRules Users V2
 //
 // List notification rules for a user. Rules define how and when a user is notified for on-call pages. Only includes high_urgency and low_urgency rules; shift_changes rules are not returned.
@@ -56636,6 +59446,40 @@ func (c *ClientWithResponses) UsersV2ListNotificationRulesWithResponse(ctx conte
 		return nil, err
 	}
 	return ParseUsersV2ListNotificationRulesResponse(rsp)
+}
+
+// UsersV2CreateNotificationRuleWithBodyWithResponse CreateNotificationRule Users V2
+//
+// Create a notification rule for a user.
+//
+// Rules define how and when a user is notified for on-call pages (high_urgency or low_urgency). Email, phone, and WhatsApp rules must target a specific notification method by ID. App rules target all registered devices. Phone and WhatsApp methods may be unverified when the rule is created — the rule will not fire until the method is verified.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/users/{user_id}/notification_rules (the `UsersV2CreateNotificationRule` operationId).
+func (c *ClientWithResponses) UsersV2CreateNotificationRuleWithBodyWithResponse(ctx context.Context, userId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UsersV2CreateNotificationRuleResponse, error) {
+	rsp, err := c.UsersV2CreateNotificationRuleWithBody(ctx, userId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUsersV2CreateNotificationRuleResponse(rsp)
+}
+
+// UsersV2CreateNotificationRuleWithResponse CreateNotificationRule Users V2
+//
+// Create a notification rule for a user.
+//
+// Rules define how and when a user is notified for on-call pages (high_urgency or low_urgency). Email, phone, and WhatsApp rules must target a specific notification method by ID. App rules target all registered devices. Phone and WhatsApp methods may be unverified when the rule is created — the rule will not fire until the method is verified.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/users/{user_id}/notification_rules (the `UsersV2CreateNotificationRule` operationId).
+func (c *ClientWithResponses) UsersV2CreateNotificationRuleWithResponse(ctx context.Context, userId string, body UsersV2CreateNotificationRuleJSONRequestBody, reqEditors ...RequestEditorFn) (*UsersV2CreateNotificationRuleResponse, error) {
+	rsp, err := c.UsersV2CreateNotificationRule(ctx, userId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUsersV2CreateNotificationRuleResponse(rsp)
 }
 
 // UsersV2ShowPagingProviderWithResponse ShowPagingProvider Users V2
@@ -56696,6 +59540,61 @@ func (c *ClientWithResponses) PoliciesV2HasOpenForUserWithResponse(ctx context.C
 		return nil, err
 	}
 	return ParsePoliciesV2HasOpenForUserResponse(rsp)
+}
+
+// WorkflowRunsV2ListWithResponse List WorkflowRuns V2
+//
+// List workflow runs, newest first. Cancelled runs are never returned.
+//
+// The webhook delivery on each step omits the headers and bodies. Fetch a single run to see them.
+//
+// You can filter on when a run was created:
+//
+// ```
+// # Runs created on or after a date
+// curl 'https://api.incident.io/v2/workflow_runs?created_at[gte]=2026-07-01'
+//
+// # Runs created on or before a date
+// curl 'https://api.incident.io/v2/workflow_runs?created_at[lte]=2026-07-31'
+//
+// # Runs created between two dates
+// curl 'https://api.incident.io/v2/workflow_runs?created_at[date_range]=2026-07-01~2026-07-31'
+// ```
+//
+// Paginate by passing the last run's ID as `after`. The response's
+// `pagination_meta.after` carries the value to send next, and is absent on the last page.
+// An `after` that isn't a run in your organisation returns 404.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/workflow_runs (the `WorkflowRunsV2List` operationId).
+func (c *ClientWithResponses) WorkflowRunsV2ListWithResponse(ctx context.Context, params *WorkflowRunsV2ListParams, reqEditors ...RequestEditorFn) (*WorkflowRunsV2ListResponse, error) {
+	rsp, err := c.WorkflowRunsV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseWorkflowRunsV2ListResponse(rsp)
+}
+
+// WorkflowRunsV2ShowWithResponse Show WorkflowRuns V2
+//
+// Show a single workflow run, including the full webhook delivery for any step that sent one.
+//
+// A delivery is kept for 7 days. After that `webhook_delivery_state` becomes
+// `expired` and the delivery itself is absent: the step still ran and may well have
+// succeeded, so an expired delivery must not be read as a failure.
+//
+// This may return a cancelled run, in which case `cancelled_at` is set.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/workflow_runs/{id} (the `WorkflowRunsV2Show` operationId).
+func (c *ClientWithResponses) WorkflowRunsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*WorkflowRunsV2ShowResponse, error) {
+	rsp, err := c.WorkflowRunsV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseWorkflowRunsV2ShowResponse(rsp)
 }
 
 // WorkflowsV2ListWorkflowsWithResponse ListWorkflows Workflows V2
@@ -57318,6 +60217,183 @@ func (c *ClientWithResponses) SchedulesV3UpdateWithResponse(ctx context.Context,
 		return nil, err
 	}
 	return ParseSchedulesV3UpdateResponse(rsp)
+}
+
+// SchedulesV3ListRotationsWithResponse ListRotations Schedules V3
+//
+// List the rotations on a schedule.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/schedules/{schedule_id}/rotations (the `SchedulesV3ListRotations` operationId).
+func (c *ClientWithResponses) SchedulesV3ListRotationsWithResponse(ctx context.Context, scheduleId string, params *SchedulesV3ListRotationsParams, reqEditors ...RequestEditorFn) (*SchedulesV3ListRotationsResponse, error) {
+	rsp, err := c.SchedulesV3ListRotations(ctx, scheduleId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3ListRotationsResponse(rsp)
+}
+
+// SchedulesV3CreateRotationWithBodyWithResponse CreateRotation Schedules V3
+//
+// Add a rotation to a schedule.
+//
+// The rotation starts scheduling people immediately. Its ID, and an ID for each of its
+// layers, are assigned by us and returned in the response.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/schedules/{schedule_id}/rotations (the `SchedulesV3CreateRotation` operationId).
+func (c *ClientWithResponses) SchedulesV3CreateRotationWithBodyWithResponse(ctx context.Context, scheduleId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV3CreateRotationResponse, error) {
+	rsp, err := c.SchedulesV3CreateRotationWithBody(ctx, scheduleId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3CreateRotationResponse(rsp)
+}
+
+// SchedulesV3CreateRotationWithResponse CreateRotation Schedules V3
+//
+// Add a rotation to a schedule.
+//
+// The rotation starts scheduling people immediately. Its ID, and an ID for each of its
+// layers, are assigned by us and returned in the response.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/schedules/{schedule_id}/rotations (the `SchedulesV3CreateRotation` operationId).
+func (c *ClientWithResponses) SchedulesV3CreateRotationWithResponse(ctx context.Context, scheduleId string, body SchedulesV3CreateRotationJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV3CreateRotationResponse, error) {
+	rsp, err := c.SchedulesV3CreateRotation(ctx, scheduleId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3CreateRotationResponse(rsp)
+}
+
+// SchedulesV3DestroyRotationWithResponse DestroyRotation Schedules V3
+//
+// Remove a rotation from a schedule, including any changes scheduled for it.
+//
+// This is rejected if an escalation path still routes to the rotation.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3DestroyRotation` operationId).
+func (c *ClientWithResponses) SchedulesV3DestroyRotationWithResponse(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*SchedulesV3DestroyRotationResponse, error) {
+	rsp, err := c.SchedulesV3DestroyRotation(ctx, scheduleId, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3DestroyRotationResponse(rsp)
+}
+
+// SchedulesV3ShowRotationWithResponse ShowRotation Schedules V3
+//
+// Get a single rotation.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3ShowRotation` operationId).
+func (c *ClientWithResponses) SchedulesV3ShowRotationWithResponse(ctx context.Context, scheduleId string, id string, reqEditors ...RequestEditorFn) (*SchedulesV3ShowRotationResponse, error) {
+	rsp, err := c.SchedulesV3ShowRotation(ctx, scheduleId, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3ShowRotationResponse(rsp)
+}
+
+// SchedulesV3UpdateRotationWithBodyWithResponse UpdateRotation Schedules V3
+//
+// Change a rotation.
+//
+// Without `rollout`, this replaces the rotation's current shape immediately.
+// If a change was already scheduled for a future date, this edits that pending change
+// rather than what's live today.
+//
+// With `rollout`, the server introduces the new line-up according to that
+// strategy (e.g. `after_current_shift` keeps the live shift and schedules the
+// edit from the next handover). Earlier shapes of the rotation are left alone, so who
+// was on call in the past doesn't move. A pending future version is discarded — a new
+// edit supersedes it. Use PreviewRotationRollout at plan time to learn the
+// `effective_from` this will produce, then pass it as
+// `expected_effective_from` on apply to reject a stale plan.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3UpdateRotation` operationId).
+func (c *ClientWithResponses) SchedulesV3UpdateRotationWithBodyWithResponse(ctx context.Context, scheduleId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV3UpdateRotationResponse, error) {
+	rsp, err := c.SchedulesV3UpdateRotationWithBody(ctx, scheduleId, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3UpdateRotationResponse(rsp)
+}
+
+// SchedulesV3UpdateRotationWithResponse UpdateRotation Schedules V3
+//
+// Change a rotation.
+//
+// Without `rollout`, this replaces the rotation's current shape immediately.
+// If a change was already scheduled for a future date, this edits that pending change
+// rather than what's live today.
+//
+// With `rollout`, the server introduces the new line-up according to that
+// strategy (e.g. `after_current_shift` keeps the live shift and schedules the
+// edit from the next handover). Earlier shapes of the rotation are left alone, so who
+// was on call in the past doesn't move. A pending future version is discarded — a new
+// edit supersedes it. Use PreviewRotationRollout at plan time to learn the
+// `effective_from` this will produce, then pass it as
+// `expected_effective_from` on apply to reject a stale plan.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/schedules/{schedule_id}/rotations/{id} (the `SchedulesV3UpdateRotation` operationId).
+func (c *ClientWithResponses) SchedulesV3UpdateRotationWithResponse(ctx context.Context, scheduleId string, id string, body SchedulesV3UpdateRotationJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV3UpdateRotationResponse, error) {
+	rsp, err := c.SchedulesV3UpdateRotation(ctx, scheduleId, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3UpdateRotationResponse(rsp)
+}
+
+// SchedulesV3PreviewRotationRolloutWithBodyWithResponse PreviewRotationRollout Schedules V3
+//
+// Preview how a rotation edit would be introduced under a rollout strategy.
+//
+// Returns the resulting rotation — including the server-chosen `effective_from`
+// — WITHOUT saving. Pin `from` at plan time so apply can pass the same value
+// and produce the same split. This endpoint only covers the strategies listed on
+// `rollout`; there is no fixed-date option.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/schedules/{schedule_id}/rotations/{id}/actions/preview_rollout (the `SchedulesV3PreviewRotationRollout` operationId).
+func (c *ClientWithResponses) SchedulesV3PreviewRotationRolloutWithBodyWithResponse(ctx context.Context, scheduleId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV3PreviewRotationRolloutResponse, error) {
+	rsp, err := c.SchedulesV3PreviewRotationRolloutWithBody(ctx, scheduleId, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3PreviewRotationRolloutResponse(rsp)
+}
+
+// SchedulesV3PreviewRotationRolloutWithResponse PreviewRotationRollout Schedules V3
+//
+// Preview how a rotation edit would be introduced under a rollout strategy.
+//
+// Returns the resulting rotation — including the server-chosen `effective_from`
+// — WITHOUT saving. Pin `from` at plan time so apply can pass the same value
+// and produce the same split. This endpoint only covers the strategies listed on
+// `rollout`; there is no fixed-date option.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/schedules/{schedule_id}/rotations/{id}/actions/preview_rollout (the `SchedulesV3PreviewRotationRollout` operationId).
+func (c *ClientWithResponses) SchedulesV3PreviewRotationRolloutWithResponse(ctx context.Context, scheduleId string, id string, body SchedulesV3PreviewRotationRolloutJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV3PreviewRotationRolloutResponse, error) {
+	rsp, err := c.SchedulesV3PreviewRotationRollout(ctx, scheduleId, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV3PreviewRotationRolloutResponse(rsp)
 }
 
 // TeamsV3ListWithResponse List Teams V3
@@ -61961,6 +65037,32 @@ func ParseUsersV2ListNotificationMethodsResponse(rsp *http.Response) (*UsersV2Li
 	return response, nil
 }
 
+// ParseUsersV2CreateNotificationMethodResponse parses an HTTP response from a UsersV2CreateNotificationMethodWithResponse call
+func ParseUsersV2CreateNotificationMethodResponse(rsp *http.Response) (*UsersV2CreateNotificationMethodResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UsersV2CreateNotificationMethodResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest UsersCreateNotificationMethodResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseUsersV2ListNotificationRulesResponse parses an HTTP response from a UsersV2ListNotificationRulesWithResponse call
 func ParseUsersV2ListNotificationRulesResponse(rsp *http.Response) (*UsersV2ListNotificationRulesResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -61981,6 +65083,32 @@ func ParseUsersV2ListNotificationRulesResponse(rsp *http.Response) (*UsersV2List
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUsersV2CreateNotificationRuleResponse parses an HTTP response from a UsersV2CreateNotificationRuleWithResponse call
+func ParseUsersV2CreateNotificationRuleResponse(rsp *http.Response) (*UsersV2CreateNotificationRuleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UsersV2CreateNotificationRuleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest UsersCreateNotificationRuleResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
 
 	}
 
@@ -62045,6 +65173,58 @@ func ParsePoliciesV2HasOpenForUserResponse(rsp *http.Response) (*PoliciesV2HasOp
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest PoliciesHasOpenForUserResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseWorkflowRunsV2ListResponse parses an HTTP response from a WorkflowRunsV2ListWithResponse call
+func ParseWorkflowRunsV2ListResponse(rsp *http.Response) (*WorkflowRunsV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &WorkflowRunsV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest WorkflowRunsListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseWorkflowRunsV2ShowResponse parses an HTTP response from a WorkflowRunsV2ShowWithResponse call
+func ParseWorkflowRunsV2ShowResponse(rsp *http.Response) (*WorkflowRunsV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &WorkflowRunsV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest WorkflowRunsShowResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -62713,6 +65893,152 @@ func ParseSchedulesV3UpdateResponse(rsp *http.Response) (*SchedulesV3UpdateRespo
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest SchedulesUpdateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV3ListRotationsResponse parses an HTTP response from a SchedulesV3ListRotationsWithResponse call
+func ParseSchedulesV3ListRotationsResponse(rsp *http.Response) (*SchedulesV3ListRotationsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV3ListRotationsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SchedulesListRotationsResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV3CreateRotationResponse parses an HTTP response from a SchedulesV3CreateRotationWithResponse call
+func ParseSchedulesV3CreateRotationResponse(rsp *http.Response) (*SchedulesV3CreateRotationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV3CreateRotationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest SchedulesCreateRotationResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV3DestroyRotationResponse parses an HTTP response from a SchedulesV3DestroyRotationWithResponse call
+func ParseSchedulesV3DestroyRotationResponse(rsp *http.Response) (*SchedulesV3DestroyRotationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV3DestroyRotationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV3ShowRotationResponse parses an HTTP response from a SchedulesV3ShowRotationWithResponse call
+func ParseSchedulesV3ShowRotationResponse(rsp *http.Response) (*SchedulesV3ShowRotationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV3ShowRotationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SchedulesShowRotationResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV3UpdateRotationResponse parses an HTTP response from a SchedulesV3UpdateRotationWithResponse call
+func ParseSchedulesV3UpdateRotationResponse(rsp *http.Response) (*SchedulesV3UpdateRotationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV3UpdateRotationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SchedulesUpdateRotationResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV3PreviewRotationRolloutResponse parses an HTTP response from a SchedulesV3PreviewRotationRolloutWithResponse call
+func ParseSchedulesV3PreviewRotationRolloutResponse(rsp *http.Response) (*SchedulesV3PreviewRotationRolloutResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV3PreviewRotationRolloutResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SchedulesPreviewRotationRolloutResultV3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
