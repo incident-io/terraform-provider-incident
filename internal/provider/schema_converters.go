@@ -38,14 +38,15 @@ func forceCoerce[T any](ctx context.Context, input any) T {
 	return res
 }
 
-// buildModel converts from the response type to the terraform model/schema type.
-func (r *IncidentWorkflowResource) buildModel(ctx context.Context, workflow client.WorkflowV2) *IncidentWorkflowResourceModel {
+// buildModel converts from the response type to the terraform model/schema type. prior
+// is the plan (create/update) or prior state (read), and nil on import.
+func (r *IncidentWorkflowResource) buildModel(ctx context.Context, workflow client.WorkflowV2, prior *IncidentWorkflowResourceModel) *IncidentWorkflowResourceModel {
 	model := &IncidentWorkflowResourceModel{
 		ID:                        types.StringValue(workflow.Id),
 		Name:                      types.StringValue(workflow.Name),
 		Trigger:                   types.StringValue(workflow.Trigger.Name),
 		ConditionGroups:           models.IncidentEngineConditionGroups{}.FromAPI(forceCoerce[[]client.ConditionGroupV2](ctx, workflow.ConditionGroups)),
-		Steps:                     buildSteps(workflow.Steps),
+		Steps:                     buildSteps(workflow.Steps, prior),
 		Expressions:               models.IncidentEngineExpressions{}.FromAPI(forceCoerce[[]client.ExpressionV2](ctx, workflow.Expressions)),
 		OnceFor:                   buildOnceFor(workflow.OnceFor),
 		RunsOnIncidentModes:       buildRunsOnIncidentModes(workflow.RunsOnIncidentModes),
@@ -104,15 +105,28 @@ func buildRunsOnIncidentModes(modes []client.WorkflowV2RunsOnIncidentModes) type
 	return types.SetValueMust(types.StringType, elements)
 }
 
-func buildSteps(steps []client.StepConfigV2) []IncidentWorkflowStep {
+func buildSteps(steps []client.StepConfigV2, prior *IncidentWorkflowResourceModel) []IncidentWorkflowStep {
 	out := []IncidentWorkflowStep{}
 
+	// Keyed by step ID so we survive reordering. Unseen steps keep all their bindings.
+	priorBindingCounts := map[string]int{}
+	if prior != nil {
+		for _, step := range prior.Steps {
+			priorBindingCounts[step.ID.ValueString()] = len(step.ParamBindings)
+		}
+	}
+
 	for _, s := range steps {
+		paramBindings := models.IncidentEngineParamBindings{}.FromAPI(s.ParamBindings)
+		if priorLen, ok := priorBindingCounts[s.Id]; ok {
+			paramBindings = paramBindings.TrimAppendedEmpty(priorLen)
+		}
+
 		out = append(out, IncidentWorkflowStep{
 			ForEach:       types.StringPointerValue(s.ForEach),
 			ID:            types.StringValue(s.Id),
 			Name:          types.StringValue(s.Name),
-			ParamBindings: models.IncidentEngineParamBindings{}.FromAPI(s.ParamBindings),
+			ParamBindings: paramBindings,
 		})
 	}
 
