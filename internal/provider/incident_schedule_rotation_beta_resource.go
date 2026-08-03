@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -84,7 +85,35 @@ A rotation is a group of people who take turns being on call, and the cadence th
 hand over on. A schedule can hold several, and each is managed independently — so
 changing one never rewrites the others.
 
-Editing a rotation takes effect straight away.`,
+Editing a rotation takes effect straight away, unless ` + "`rollout`" + ` says otherwise.
+
+## Choosing a scheduling mode
+
+` + "`scheduling_mode`" + ` decides who takes the next shift.
+
+` + "`fair`" + ` shares time on call out evenly, tracking how much each person has already
+done and giving the next shift to whoever is behind. Someone newly added has done
+none, so ` + "`fair`" + ` tends to bring them on call sooner rather than adding them to
+the back of the queue.
+
+` + "`sequential`" + ` goes around the list in order, so the next person on call is always
+the one after the last.
+
+For an even rotation — everyone on for the same length of time, no working hours,
+nobody joining or leaving — the two behave identically. They only diverge once
+shifts differ in length, ` + "`working_intervals`" + ` is set, or the list of users
+changes. Reach for ` + "`sequential`" + ` when it matters that the running order is
+obvious to the people in it.
+
+## Beta, and what happens next
+
+This resource is in beta. Its schema may still change in ways that are not
+backwards compatible, so pin the provider version if that matters to you.
+
+The plan is for these resources to become the only way to manage schedules. In
+v7.0 they lose the ` + "`_beta`" + ` suffix and ` + "`incident_schedule`" + `, which declares
+its rotations inline, is removed. Until then both work and neither is deprecated.
+See ` + "`incident_schedule_beta`" + ` for how the two differ and how to migrate.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
@@ -135,15 +164,18 @@ Editing a rotation takes effect straight away.`,
 				MarkdownDescription: apischema.Docstring("ScheduleRotationV3", "first_interval_starts_at"),
 			},
 			"concurrent_shifts": schema.Int64Attribute{
-				Required: true,
+				Optional: true,
+				Computed: true,
+				Default:  int64default.StaticInt64(1),
 				MarkdownDescription: apischema.Docstring("ScheduleRotationV3", "concurrent_shifts") +
-					". Reducing this stops scheduling the last of them, and stops any overrides on those shifts from applying.",
+					". Defaults to 1, one person on call at a time. Reducing this stops scheduling the last of them, and stops any overrides on those shifts from applying.",
 			},
 			"working_intervals": schema.ListNestedAttribute{
 				Optional: true,
 				MarkdownDescription: "If set, restricts on-call to these weekday intervals. " +
-					"Omit it to keep the rotation on call around the clock — an empty list " +
-					"isn't a way to say that.",
+					"Omit it to keep the rotation on call around the clock. An empty list is " +
+					"not valid, and is rejected at plan time — it would leave a rotation " +
+					"nobody is ever on call for.",
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"weekday": schema.StringAttribute{
@@ -175,7 +207,8 @@ Editing a rotation takes effect straight away.`,
 			"scheduling_mode": schema.StringAttribute{
 				Optional: true,
 				MarkdownDescription: apischema.Docstring("ScheduleRotationV3", "scheduling_mode") +
-					fmt.Sprintf(". One of %s. Omit it to leave us to pick.",
+					fmt.Sprintf(". One of %s. Omit it to leave us to pick. For an even rotation "+
+						"the two behave identically — see the resource description for when they diverge.",
 						strings.Join(scheduleRotationSchedulingModes, ", ")),
 			},
 			// Only read on an edit, and never returned to us, so it stays exactly what
@@ -1012,6 +1045,12 @@ func (r *IncidentScheduleRotationBetaResource) Update(ctx context.Context, req r
 
 		// The moment ModifyPlan showed. The API rejects the write if it now works out
 		// differently, so a change can't land at a time nobody saw in the plan.
+		//
+		// Deliberately without the `from` the payload also accepts. Pinning the
+		// plan-time moment and replaying it here looks like the natural pairing, but
+		// doing so caused stale-plan rejections that omitting it solves — so the
+		// server works from apply-time now, and the guard below is what catches a
+		// plan that has been sat on.
 		if !plan.EffectiveFrom.IsNull() && !plan.EffectiveFrom.IsUnknown() {
 			expected, diags := plan.EffectiveFrom.ValueRFC3339Time()
 			resp.Diagnostics.Append(diags...)

@@ -19,8 +19,7 @@ resource "incident_schedule_rotation_beta" "primary" {
     }
   ]
 
-  # How many people are on call at the same time.
-  concurrent_shifts = 1
+  # concurrent_shifts is omitted, so one person is on call at a time.
 }
 
 # A rotation that only covers weekday working hours, with two people on call at

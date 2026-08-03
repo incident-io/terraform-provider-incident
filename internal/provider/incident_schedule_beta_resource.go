@@ -62,11 +62,57 @@ func (r *IncidentScheduleBetaResource) Schema(_ context.Context, _ resource.Sche
 
 A schedule holds the rotations that decide who is on call. This resource manages
 only the schedule itself — its name, timezone, owning teams and public holidays.
-Rotations are managed separately, so adding or editing one never means rewriting
-the whole schedule.
+Rotations are managed separately, as ` + "`incident_schedule_rotation_beta`" + `, so
+adding or editing one never means rewriting the whole schedule.
 
 A schedule created here starts with no rotations, and nobody is on call until one
-is added.`,
+is added.
+
+## How this differs from ` + "`incident_schedule`" + `
+
+` + "`incident_schedule`" + ` declares a schedule and every one of its rotations in a
+single resource. That means a change to one rotation rewrites the whole schedule,
+and it is why editing a rotation there can disturb who is on call elsewhere on the
+schedule, or drop overrides that were attached to a shift.
+
+This resource splits the two apart. Each rotation is its own resource with its own
+lifecycle, so a change is confined to the rotation you edited. It also brings
+controls the older resource has no way to express: ` + "`rollout`" + ` decides when a
+changed line-up takes over rather than swapping it under whoever is on call right
+now, ` + "`scheduling_mode`" + ` decides how people are allocated across shifts of
+differing length, and ` + "`working_intervals`" + ` restricts a rotation to given hours.
+
+## Beta, and what happens next
+
+This resource is in beta. Its schema may still change in ways that are not
+backwards compatible, so pin the provider version if that matters to you.
+
+The plan is for these resources to become the only way to manage schedules. In
+v7.0 they lose the ` + "`_beta`" + ` suffix and ` + "`incident_schedule`" + ` is removed. Until
+then both work, and ` + "`incident_schedule`" + ` is not deprecated — there is no need to
+move anything yet.
+
+## Migrating from ` + "`incident_schedule`" + `
+
+Moving across is not a rename, because one ` + "`incident_schedule`" + ` becomes one
+` + "`incident_schedule_beta`" + ` plus one ` + "`incident_schedule_rotation_beta`" + ` per
+rotation. Import the existing schedule and each of its rotations by ID rather than
+recreating them, so nobody's on-call history is disturbed:
+
+    import {
+      to = incident_schedule_beta.primary
+      id = "01ABC123DEF456GHI789JKL"
+    }
+
+    import {
+      to = incident_schedule_rotation_beta.primary_weekdays
+      id = "01ABC123DEF456GHI789JKL:01MNO456PQR789STU012VWX"
+    }
+
+Remove the old ` + "`incident_schedule`" + ` from your configuration once the imports are
+in place. Take the schedule out of state with ` + "`terraform state rm`" + ` rather than
+letting Terraform destroy it, which would delete the schedule and everyone's
+shifts along with it.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,

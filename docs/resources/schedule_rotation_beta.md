@@ -7,7 +7,27 @@ description: |-
   A rotation is a group of people who take turns being on call, and the cadence they
   hand over on. A schedule can hold several, and each is managed independently — so
   changing one never rewrites the others.
-  Editing a rotation takes effect straight away.
+  Editing a rotation takes effect straight away, unless rollout says otherwise.
+  Choosing a scheduling mode
+  scheduling_mode decides who takes the next shift.
+  fair shares time on call out evenly, tracking how much each person has already
+  done and giving the next shift to whoever is behind. Someone newly added has done
+  none, so fair tends to bring them on call sooner rather than adding them to
+  the back of the queue.
+  sequential goes around the list in order, so the next person on call is always
+  the one after the last.
+  For an even rotation — everyone on for the same length of time, no working hours,
+  nobody joining or leaving — the two behave identically. They only diverge once
+  shifts differ in length, working_intervals is set, or the list of users
+  changes. Reach for sequential when it matters that the running order is
+  obvious to the people in it.
+  Beta, and what happens next
+  This resource is in beta. Its schema may still change in ways that are not
+  backwards compatible, so pin the provider version if that matters to you.
+  The plan is for these resources to become the only way to manage schedules. In
+  v7.0 they lose the _beta suffix and incident_schedule, which declares
+  its rotations inline, is removed. Until then both work and neither is deprecated.
+  See incident_schedule_beta for how the two differ and how to migrate.
 ---
 
 # incident_schedule_rotation_beta (Resource)
@@ -18,7 +38,35 @@ A rotation is a group of people who take turns being on call, and the cadence th
 hand over on. A schedule can hold several, and each is managed independently — so
 changing one never rewrites the others.
 
-Editing a rotation takes effect straight away.
+Editing a rotation takes effect straight away, unless `rollout` says otherwise.
+
+## Choosing a scheduling mode
+
+`scheduling_mode` decides who takes the next shift.
+
+`fair` shares time on call out evenly, tracking how much each person has already
+done and giving the next shift to whoever is behind. Someone newly added has done
+none, so `fair` tends to bring them on call sooner rather than adding them to
+the back of the queue.
+
+`sequential` goes around the list in order, so the next person on call is always
+the one after the last.
+
+For an even rotation — everyone on for the same length of time, no working hours,
+nobody joining or leaving — the two behave identically. They only diverge once
+shifts differ in length, `working_intervals` is set, or the list of users
+changes. Reach for `sequential` when it matters that the running order is
+obvious to the people in it.
+
+## Beta, and what happens next
+
+This resource is in beta. Its schema may still change in ways that are not
+backwards compatible, so pin the provider version if that matters to you.
+
+The plan is for these resources to become the only way to manage schedules. In
+v7.0 they lose the `_beta` suffix and `incident_schedule`, which declares
+its rotations inline, is removed. Until then both work and neither is deprecated.
+See `incident_schedule_beta` for how the two differ and how to migrate.
 
 ## Example Usage
 
@@ -44,8 +92,7 @@ resource "incident_schedule_rotation_beta" "primary" {
     }
   ]
 
-  # How many people are on call at the same time.
-  concurrent_shifts = 1
+  # concurrent_shifts is omitted, so one person is on call at a time.
 }
 
 # A rotation that only covers weekday working hours, with two people on call at
@@ -88,7 +135,6 @@ resource "incident_schedule_rotation_beta" "business_hours" {
 
 ### Required
 
-- `concurrent_shifts` (Number) How many shifts run at the same time, which is how many people are on call at once. Reducing this stops scheduling the last of them, and stops any overrides on those shifts from applying.
 - `first_interval_starts_at` (String) When the first handover interval starts being counted from, which fixes the time of day and day of week shifts change hands. The dashboard calls this the handover time.
 - `handovers` (Attributes List) The cadence shifts hand over on, applied in turn (see [below for nested schema](#nestedatt--handovers))
 - `name` (String) Human readable name for the rotation, unique within the schedule
@@ -97,10 +143,11 @@ resource "incident_schedule_rotation_beta" "business_hours" {
 
 ### Optional
 
+- `concurrent_shifts` (Number) How many shifts run at the same time, which is how many people are on call at once. Defaults to 1, one person on call at a time. Reducing this stops scheduling the last of them, and stops any overrides on those shifts from applying.
 - `rank` (Number) Where this rotation sits in the schedule's running order, lowest first. Unset when it has never been ordered.
 - `rollout` (String) How a change to this rotation is introduced: `immediate` replaces the line-up now and can change who is on call this minute, `after_current_shift` lets the shift on call finish first, and `after_full_rotation` waits for everyone to have taken a turn. Leave it out to replace the line-up straight away. Creating a rotation ignores it, as there's no shift to protect yet.
-- `scheduling_mode` (String) How users are allocated across shifts of differing length. One of fair, sequential. Omit it to leave us to pick.
-- `working_intervals` (Attributes List) If set, restricts on-call to these weekday intervals. Omit it to keep the rotation on call around the clock — an empty list isn't a way to say that. (see [below for nested schema](#nestedatt--working_intervals))
+- `scheduling_mode` (String) How users are allocated across shifts of differing length. One of fair, sequential. Omit it to leave us to pick. For an even rotation the two behave identically — see the resource description for when they diverge.
+- `working_intervals` (Attributes List) If set, restricts on-call to these weekday intervals. Omit it to keep the rotation on call around the clock. An empty list is not valid, and is rejected at plan time — it would leave a rotation nobody is ever on call for. (see [below for nested schema](#nestedatt--working_intervals))
 
 ### Read-Only
 
