@@ -1208,8 +1208,14 @@ func rotationInputsKnown(plan tftypes.Value) bool {
 // never disturbs who is on call. first_interval_starts_at is left out because
 // phasing a change in re-anchors it anyway: routing a move through a rollout would
 // throw the move away, where a plain edit simply makes it.
+//
+// scheduling_mode is in. It decides who gets allocated to which shift, so on a
+// rotation with uneven handovers or working intervals — the rotations someone would
+// set it on at all — changing it can move who is on call, which is the thing a
+// rollout exists to hold back.
 func rotationLineUpDiffers(plan, state IncidentScheduleRotationBetaModel) bool {
 	return !plan.ConcurrentShifts.Equal(state.ConcurrentShifts) ||
+		!plan.SchedulingMode.Equal(state.SchedulingMode) ||
 		!reflect.DeepEqual(plan.Users, state.Users) ||
 		!reflect.DeepEqual(plan.Handovers, state.Handovers) ||
 		!reflect.DeepEqual(plan.WorkingIntervals, state.WorkingIntervals)

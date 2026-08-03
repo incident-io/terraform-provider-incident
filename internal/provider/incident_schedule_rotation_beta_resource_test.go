@@ -344,6 +344,11 @@ func TestRotationLineUpDiffers(t *testing.T) {
 		"users":             func(m *IncidentScheduleRotationBetaModel) { m.Users = append(m.Users, types.StringValue("02USER")) },
 		"handovers":         func(m *IncidentScheduleRotationBetaModel) { m.Handovers[0].Interval = types.Int64Value(2) },
 		"concurrent_shifts": func(m *IncidentScheduleRotationBetaModel) { m.ConcurrentShifts = types.Int64Value(2) },
+		// Picks who lands on which shift, so on an uneven rotation it can move who is
+		// on call — exactly what a rollout is asked to hold back.
+		"scheduling_mode": func(m *IncidentScheduleRotationBetaModel) {
+			m.SchedulingMode = types.StringValue("sequential")
+		},
 		"working_intervals": func(m *IncidentScheduleRotationBetaModel) {
 			m.WorkingIntervals = []IncidentScheduleRotationBetaWorkingWindow{{
 				Weekday:   types.StringValue("monday"),
