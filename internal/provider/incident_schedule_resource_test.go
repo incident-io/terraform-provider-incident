@@ -431,7 +431,7 @@ func incidentScheduleDefault(name string) client.ScheduleV2 {
 	)
 
 	return client.ScheduleV2{
-		Name:     name,
+		Name:     StableSuffix(name),
 		Timezone: "Europe/London",
 		Config: &client.ScheduleConfigV2{
 			Rotations: []client.ScheduleRotationV2{

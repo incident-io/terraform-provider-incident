@@ -68,7 +68,7 @@ func testAccIncidentCustomFieldDataSourceConfig(payload customFieldDataSourceFix
 
 func customFieldDefault() client.CustomFieldV2 {
 	return client.CustomFieldV2{
-		Name:        "Affected Teams",
+		Name:        StableSuffix("Affected Teams"),
 		Description: "The teams that are affected by this incident",
 		FieldType:   client.CustomFieldV2FieldType("multi_select"),
 	}

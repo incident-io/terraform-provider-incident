@@ -94,7 +94,7 @@ func TestAccIncidentMaintenanceWindowResource(t *testing.T) {
 			// Update and read
 			{
 				Config: testAccMaintenanceWindowResourceConfig(maintenanceWindowModel{
-					Name:          "Updated Maintenance Window",
+					Name:          StableSuffix("Updated Maintenance Window"),
 					StartAt:       model.StartAt,
 					EndAt:         model.EndAt,
 					LeadUserID:    model.LeadUserID,
@@ -102,7 +102,7 @@ func TestAccIncidentMaintenanceWindowResource(t *testing.T) {
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_maintenance_window.example", "name", "Updated Maintenance Window"),
+						"incident_maintenance_window.example", "name", StableSuffix("Updated Maintenance Window")),
 					resource.TestCheckResourceAttr(
 						"incident_maintenance_window.example", "show_in_sidebar", "false"),
 				),
@@ -274,7 +274,7 @@ func maintenanceWindowDefault(t *testing.T) maintenanceWindowModel {
 	endAt := time.Now().Add(28 * time.Hour).Truncate(time.Second).UTC().Format(time.RFC3339)
 
 	return maintenanceWindowModel{
-		Name:          "Test Maintenance Window",
+		Name:          StableSuffix("Test Maintenance Window"),
 		StartAt:       startAt,
 		EndAt:         endAt,
 		LeadUserID:    testAccMaintenanceWindowLeadUserID(t),

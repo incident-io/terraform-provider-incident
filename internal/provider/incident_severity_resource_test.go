@@ -38,11 +38,11 @@ func TestAccIncidentSeverityResource(t *testing.T) {
 			// Update and read
 			{
 				Config: testAccIncidentSeverityResourceConfig(&client.SeverityV2{
-					Name: "Godawful",
+					Name: StableSuffix("Godawful"),
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_severity.example", "name", "Godawful"),
+						"incident_severity.example", "name", StableSuffix("Godawful")),
 				),
 			},
 		},
@@ -58,12 +58,12 @@ func TestAccIncidentSeverityResourceWithoutRank(t *testing.T) {
 			// Create and read
 			{
 				Config: testAccIncidentSeverityResourceConfig(&client.SeverityV2{
-					Name: "Pretty bad",
+					Name: StableSuffix("Pretty bad"),
 					Rank: -1,
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_severity.example", "name", "Pretty bad"),
+						"incident_severity.example", "name", StableSuffix("Pretty bad")),
 				),
 			},
 		},
@@ -82,7 +82,7 @@ resource "incident_severity" "example" {
 
 func incidentSeverityDefault() client.SeverityV2 {
 	return client.SeverityV2{
-		Name:        "P0",
+		Name:        StableSuffix("P0"),
 		Description: "All work stops until this issue is resolved.",
 		Rank:        7,
 	}

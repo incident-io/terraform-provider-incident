@@ -57,7 +57,7 @@ data "incident_alert_attribute" "by_name" {
 
 func alertAttributeDefault() client.AlertAttributeV2 {
 	return client.AlertAttributeV2{
-		Name:  "Severity",
+		Name:  StableSuffix("Severity"),
 		Type:  "String",
 		Array: false,
 	}

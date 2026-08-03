@@ -40,12 +40,12 @@ func TestAccIncidentRoleResource(t *testing.T) {
 			// Update and read
 			{
 				Config: testAccIncidentRoleResourceConfig(&client.IncidentRoleV2{
-					Name:      "Communications Follow",
+					Name:      StableSuffix("Communications Follow"),
 					Shortform: "comms",
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_incident_role.example", "name", "Communications Follow"),
+						"incident_incident_role.example", "name", StableSuffix("Communications Follow")),
 				),
 			},
 		},
@@ -63,7 +63,7 @@ resource "incident_incident_role" "example" {
 
 func incidentRoleDefault() client.IncidentRoleV2 {
 	return client.IncidentRoleV2{
-		Name:         "Communications Lead",
+		Name:         StableSuffix("Communications Lead"),
 		Description:  "Responsible for communications on behalf of the response team.",
 		Instructions: "Manage internal and external communications on behalf of the response team.",
 		Shortform:    "communications",

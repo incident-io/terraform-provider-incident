@@ -37,11 +37,11 @@ func TestAccIncidentStatusResource(t *testing.T) {
 			// Update and read
 			{
 				Config: testAccIncidentStatusResourceConfig(&client.IncidentStatusV1{
-					Name: "Clean-up",
+					Name: StableSuffix("Clean-up"),
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_status.example", "name", "Clean-up"),
+						"incident_status.example", "name", StableSuffix("Clean-up")),
 				),
 			},
 		},
@@ -58,7 +58,7 @@ resource "incident_status" "example" {
 
 func incidentStatusDefault() client.IncidentStatusV1 {
 	return client.IncidentStatusV1{
-		Name:        "Clean up",
+		Name:        StableSuffix("Clean up"),
 		Description: "We're cleaning up",
 		Category:    client.IncidentStatusV1CategoryLive,
 	}

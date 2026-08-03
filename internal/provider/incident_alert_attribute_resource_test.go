@@ -20,13 +20,13 @@ func TestAccAlertAttributeResource(t *testing.T) {
 			// Create and read (backwards compatibility - no required field)
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
-					Name:  "Severity",
+					Name:  StableSuffix("Severity"),
 					Type:  "String",
 					Array: false,
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_alert_attribute.example", "name", "Severity"),
+						"incident_alert_attribute.example", "name", StableSuffix("Severity")),
 					resource.TestCheckResourceAttr(
 						"incident_alert_attribute.example", "type", "String"),
 					resource.TestCheckResourceAttr(
@@ -44,7 +44,7 @@ func TestAccAlertAttributeResource(t *testing.T) {
 			// Update to include required=true and emoji
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
-					Name:     "Severity",
+					Name:     StableSuffix("Severity"),
 					Type:     "String",
 					Array:    false,
 					Required: boolPtr(true),
@@ -52,7 +52,7 @@ func TestAccAlertAttributeResource(t *testing.T) {
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_alert_attribute.example", "name", "Severity"),
+						"incident_alert_attribute.example", "name", StableSuffix("Severity")),
 					resource.TestCheckResourceAttr(
 						"incident_alert_attribute.example", "required", "true"),
 					resource.TestCheckResourceAttr(
@@ -62,14 +62,14 @@ func TestAccAlertAttributeResource(t *testing.T) {
 			// Update to required=false
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
-					Name:     "UpdatedSeverity",
+					Name:     StableSuffix("UpdatedSeverity"),
 					Type:     "String",
 					Array:    false,
 					Required: boolPtr(false),
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_alert_attribute.example", "name", "UpdatedSeverity"),
+						"incident_alert_attribute.example", "name", StableSuffix("UpdatedSeverity")),
 					resource.TestCheckResourceAttr(
 						"incident_alert_attribute.example", "required", "false"),
 				),
@@ -93,7 +93,7 @@ func TestAccAlertAttributeResource(t *testing.T) {
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_alert_attribute.example", "name", "UpdatedSeverity"),
+						"incident_alert_attribute.example", "name", StableSuffix("UpdatedSeverity")),
 				),
 			},
 		},

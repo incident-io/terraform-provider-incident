@@ -58,13 +58,18 @@ func TestAccAlertSourceResource(t *testing.T) {
 	})
 }
 
-func testRunTemplate(tmplName, source string, args any) string {
+// testTemplateFuncs is sprig plus stableSuffix, which names a resource uniquely per
+// test run so runs against the shared test org don't collide:
+// {{ stableSuffix "My thing" | quote }}.
+func testTemplateFuncs() template.FuncMap {
 	funcs := sprig.TxtFuncMap()
-	// Give templates a way to name a resource uniquely per test run, so runs against
-	// the shared test org don't collide: {{ stableSuffix "My thing" }}.
 	funcs["stableSuffix"] = StableSuffix
 
-	tmpl := template.Must(template.New(tmplName).Funcs(funcs).Parse(source))
+	return funcs
+}
+
+func testRunTemplate(tmplName, source string, args any) string {
+	tmpl := template.Must(template.New(tmplName).Funcs(testTemplateFuncs()).Parse(source))
 	var buf bytes.Buffer
 	err := tmpl.Execute(&buf, args)
 	if err != nil {
