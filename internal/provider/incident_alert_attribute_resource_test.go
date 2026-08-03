@@ -110,14 +110,14 @@ func TestAccAlertAttributeResourceWithRequired(t *testing.T) {
 			// Create and read with required=true
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
-					Name:     "RequiredAttribute",
+					Name:     StableSuffix("RequiredAttribute"),
 					Type:     "String",
 					Array:    false,
 					Required: boolPtr(true),
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_alert_attribute.example", "name", "RequiredAttribute"),
+						"incident_alert_attribute.example", "name", StableSuffix("RequiredAttribute")),
 					resource.TestCheckResourceAttr(
 						"incident_alert_attribute.example", "type", "String"),
 					resource.TestCheckResourceAttr(

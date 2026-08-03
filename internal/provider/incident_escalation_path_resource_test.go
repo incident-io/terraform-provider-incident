@@ -354,7 +354,7 @@ func TestAccIncidentEscalationPathMaxDepth(t *testing.T) {
 			{
 				Config: testAccIncidentEscalationPathNestedConfig(5),
 				Check: resource.TestCheckResourceAttr(
-					"incident_escalation_path.example", "name", "Deeply Nested Path Test"),
+					"incident_escalation_path.example", "name", StableSuffix("Deeply Nested Path Test")),
 			},
 		},
 	})
@@ -408,7 +408,7 @@ func testAccIncidentEscalationPathNestedConfig(ifElseLevels int) string {
                         subject        = "escalation.working_hours[\"UK\"]"
                       }
                     ]
-                    then_path = [%s
+                    then_path = [%[1]s
                     ]
                     else_path = []
                   }
@@ -417,7 +417,7 @@ func testAccIncidentEscalationPathNestedConfig(ifElseLevels int) string {
 
 	return fmt.Sprintf(`
 resource "incident_schedule" "primary_on_call" {
-  name     = "Deep Nesting Test Schedule"
+  name     = %[2]q
   timezone = "Europe/London"
   rotations = [{
     id   = "primary"
@@ -435,7 +435,7 @@ resource "incident_schedule" "primary_on_call" {
 }
 
 resource "incident_escalation_path" "example" {
-  name = "Deeply Nested Path Test"
+  name = %[3]q
 
   path = [
     {
@@ -449,7 +449,7 @@ resource "incident_escalation_path" "example" {
             subject        = "escalation.working_hours[\"UK\"]"
           }
         ]
-        then_path = [%s
+        then_path = [%[1]s
         ]
         else_path = []
       }
@@ -473,7 +473,7 @@ resource "incident_escalation_path" "example" {
 
   team_ids = []
 }
-`, node)
+`, node, StableSuffix("Deep Nesting Test Schedule"), StableSuffix("Deeply Nested Path Test"))
 }
 
 func TestAccIncidentEscalationPathSelectedRotaID(t *testing.T) {

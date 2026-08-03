@@ -39,7 +39,7 @@ func TestAccAlertSourceResource(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfig("updated-source", "datadog"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "updated-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("updated-source")),
 				),
 			},
 			// Test full configuration with template
@@ -205,7 +205,7 @@ func TestAccAlertSourceResource_Heartbeat(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigWithHeartbeat("heartbeat-source", 60),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "heartbeat-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("heartbeat-source")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "heartbeat"),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "heartbeat_options.interval_seconds", "60"),
 					resource.TestCheckResourceAttrSet("incident_alert_source.test", "heartbeat_options.failure_threshold"),
@@ -268,7 +268,7 @@ func TestAccAlertSourceResource_Jira(t *testing.T) {
 				// This is the default project in our dev account
 				Config: testAccAlertSourceResourceConfigWithJira("jira-source", []string{"46a0db2b-17d4-48c1-961e-563d87797b5c/10000"}),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "jira-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("jira-source")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "jira_options.project_ids.#", "1"),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "jira_options.project_ids.0", "46a0db2b-17d4-48c1-961e-563d87797b5c/10000"),
 				),
@@ -1098,7 +1098,7 @@ func TestAccAlertSourceResourceOwningTeamIDs(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfig("test-source-no-teams", "datadog"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "test-source-no-teams"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("test-source-no-teams")),
 					resource.TestCheckNoResourceAttr("incident_alert_source.test", "owning_team_ids"),
 				),
 			},
@@ -1106,7 +1106,7 @@ func TestAccAlertSourceResourceOwningTeamIDs(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigWithOwningTeamIDs("test-source-with-teams"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "test-source-with-teams"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("test-source-with-teams")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "owning_team_ids.#", "1"),
 					resource.TestCheckResourceAttrPair("incident_alert_source.test", "owning_team_ids.0", "incident_catalog_entry.owner_team", "id"),
 				),
@@ -1115,7 +1115,7 @@ func TestAccAlertSourceResourceOwningTeamIDs(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigWithDifferentOwningTeamIDs("test-source-updated-teams"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "test-source-updated-teams"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("test-source-updated-teams")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "owning_team_ids.#", "2"),
 				),
 			},
@@ -1174,7 +1174,7 @@ func TestAccAlertSourceResource_Email(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigWithEmail("email-source"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "email-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("email-source")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "email"),
 					resource.TestCheckResourceAttrSet("incident_alert_source.test", "email_address"),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "email_options.redactions.#", "2"),
@@ -1242,7 +1242,7 @@ func TestAccAlertSourceResource_HTTPCustomOptions(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigWithHTTPCustom("http-custom-source"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "http-custom-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("http-custom-source")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "http_custom"),
 					resource.TestCheckResourceAttrSet("incident_alert_source.test", "alert_events_url"),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "http_custom_options.deduplication_key_path", "$.alert_id"),
