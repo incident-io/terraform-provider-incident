@@ -14,14 +14,17 @@ import (
 
 var testRunID = uuid.NewString()
 
-// testRunShortID keeps concurrent runs apart without eating the name length limits
-// several resources enforce: custom fields cap at 50 characters, and a full UUID adds
-// 39. Eight hex characters is 4.3 billion values, which is plenty for the handful of
-// runs that overlap in practice.
-var testRunShortID = testRunID[:8]
+// testRunShortID keeps concurrent runs apart while costing as few characters as
+// possible. Custom fields cap names at 50, and several test names compose: a route
+// name carries the suffix and is then interpolated into a custom field name, so every
+// character here is paid for more than once. Four hex characters is 65,536 values,
+// ample for the handful of runs that ever overlap.
+var testRunShortID = testRunID[:4]
 
+// StableSuffix makes a name unique to this test run. The result is not meant to be
+// readable, only unique and short: see testRunShortID.
 func StableSuffix(thing string) string {
-	return fmt.Sprintf("%s (%s)", thing, testRunShortID)
+	return fmt.Sprintf("%s-%s", thing, testRunShortID)
 }
 
 var testAccProtoV6ProviderFactories = map[string]func() (tfprotov6.ProviderServer, error){

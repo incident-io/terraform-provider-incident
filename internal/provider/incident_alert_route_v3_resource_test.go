@@ -313,13 +313,13 @@ func testAccIncidentAlertRouteV3ResourceConfigComprehensive(name string) string 
 resource "incident_custom_field" "type_field" {
   # Keep the name within the API's 50-character limit, even when the route name
   # suffix is the longer "-updated" variant.
-  name        = "Type %[1]s"
+  name        = "typ-%[1]s"
   description = "The type of the incident."
   field_type  = "text"
 }
 
 resource "incident_alert_source" "http_test" {
-  name        = "HTTP Test Alert Source V3 %[1]s"
+  name        = "hsrc3-%[1]s"
   source_type = "http"
   template = {
     title = {
