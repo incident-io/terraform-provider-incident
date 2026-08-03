@@ -1595,12 +1595,12 @@ data "incident_catalog_type" "team" {
 resource "incident_catalog_entry" "owner_team" {
   catalog_type_id = data.incident_catalog_type.team.id
   external_id     = "tf-alert-route-owning-team-test"
-  name            = "Terraform Alert Route Owning Team Test"
+  name            = "Team A for %[1]s"
   attribute_values = []
 }
 
 resource "incident_alert_source" "test" {
-  name        = "Test Source for Owning Teams"
+  name        = "Source for %[1]s"
   source_type = "http"
   template = {
     title = {
@@ -1750,19 +1750,19 @@ data "incident_catalog_type" "team" {
 resource "incident_catalog_entry" "owner_team" {
   catalog_type_id = data.incident_catalog_type.team.id
   external_id     = "tf-alert-route-owning-team-test"
-  name            = "Terraform Alert Route Owning Team Test"
+  name            = "Team A for %[1]s"
   attribute_values = []
 }
 
 resource "incident_catalog_entry" "owner_team_2" {
   catalog_type_id = data.incident_catalog_type.team.id
   external_id     = "tf-alert-route-owning-team-test-2"
-  name            = "Terraform Alert Route Owning Team Test 2"
+  name            = "Team B for %[1]s"
   attribute_values = []
 }
 
 resource "incident_alert_source" "test" {
-  name        = "Test Source for Owning Teams"
+  name        = "Source for %[1]s"
   source_type = "http"
   template = {
     title = {
