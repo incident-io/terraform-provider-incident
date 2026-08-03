@@ -1,14 +1,17 @@
 ## Unreleased
 
+## v6.0.0
+
 #### Breaking changes
 
 - **Terraform 1.14 is now the minimum supported version.** HashiCorp only patch the latest two Terraform minors, and until now this provider's acceptance tests ran solely against Terraform 1.2, which has been end-of-life since 2022. We now test against the Terraform versions still receiving patches, and no longer test anything older. Nothing enforces this at install time — the provider still advertises protocol 6, so it may keep working on older CLIs — but we won't be fixing issues that only reproduce below 1.14. Pin to v5.x if you need to stay on an older Terraform.
 
 #### Other changes
 
-- Add `incident_schedule_beta` and `incident_schedule_rotation_beta` resources, along with matching data sources, for the v3 schedules API. A schedule and its rotations are now separate resources, so adding or editing one rotation no longer means rewriting the whole schedule, and each rotation can be managed on its own. `incident_schedule_beta` covers the schedule itself — name, timezone, owning teams and public holidays — and starts with no rotations, so nobody is on call until one is added. `incident_schedule_rotation_beta` covers the people in a rotation, how often they hand over, how many are on call at once, and optional working hours.
-- These resources are beta. They are named `_beta` because their schemas may change in ways that aren't backwards compatible while we settle the design, and they're versioned separately from the rest of the provider for that reason. The existing `incident_schedule` resource and data source are unchanged, continue to use the v2 API, and are not deprecated.
+- Add beta support for the v3 schedules API, as `incident_schedule_beta` and `incident_schedule_rotation_beta` resources with matching data sources. A schedule and its rotations are separate resources, so a rotation can be managed on its own. Note that a new `incident_schedule_beta` has no rotations, so nobody is on call until one is added.
+- These resources are beta: their schemas may change in ways that aren't backwards compatible while we settle the design, which is why they're named `_beta` and versioned separately from the rest of the provider. The existing `incident_schedule` resource and data source are unchanged, continue to use the v2 API, and are not deprecated.
 - The provider is now tested directly against OpenTofu on every change, rather than relying on Terraform compatibility to cover it.
+- Keep `Computed` attributes nested inside collections planning as unknown rather than null when a new element is added, which the update to `terraform-plugin-framework` 1.19.0 would otherwise have changed. Without this, adding an entry to an existing `incident_catalog_entries`, a node to an `incident_escalation_path`, or a template to an `incident_alert_source` could fail the apply with `Provider produced inconsistent result after apply`.
 
 ## v5.46.1
 
