@@ -71,6 +71,41 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 						"incident_catalog_entries.example", "entries.two.name", "Three"),
 				),
 			},
+			// Add an entry to an existing resource. The new key has no prior state, so
+			// its Computed id must plan as unknown rather than null: see
+			// UseNonNullStateForUnknown. Named four, as the step above renames two to
+			// "Three".
+			{
+				Config: testAccIncidentCatalogEntriesResourceConfig([]catalogEntryElement{
+					{
+						Name:        "One",
+						ExternalID:  "one",
+						Description: "This is the first entry",
+						ArrayValue:  "null",
+					},
+					{
+						Name:        "Three",
+						ExternalID:  "two",
+						Description: "This is the third entry",
+						ArrayValue:  "[]",
+					},
+					{
+						Name:        "Four",
+						ExternalID:  "four",
+						Description: "This entry is added after the resource exists",
+						Aliases:     []string{"quatre"},
+						ArrayValue:  "[]",
+					},
+				}, false),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_catalog_entries.example", "entries.four.name", "Four"),
+					resource.TestCheckResourceAttrSet(
+						"incident_catalog_entries.example", "entries.four.id"),
+					resource.TestCheckResourceAttr(
+						"incident_catalog_entries.example", "entries.four.aliases.0", "quatre"),
+				),
+			},
 		},
 	})
 }

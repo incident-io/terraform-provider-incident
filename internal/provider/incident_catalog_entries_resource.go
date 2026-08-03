@@ -107,7 +107,10 @@ changes to one entry to an update to that same entry when the upstream changes.
 							MarkdownDescription: apischema.Docstring("CatalogEntryV3", "id"),
 							Computed:            true,
 							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
+								// Not UseStateForUnknown: this is a child of a nested
+								// attribute, so a newly added entry has no state value and
+								// that modifier would plan null instead of unknown.
+								stringplanmodifier.UseNonNullStateForUnknown(),
 							},
 						},
 						"name": schema.StringAttribute{
@@ -117,7 +120,7 @@ changes to one entry to an update to that same entry when the upstream changes.
 						"aliases": schema.ListAttribute{
 							ElementType: types.StringType,
 							PlanModifiers: []planmodifier.List{
-								listplanmodifier.UseStateForUnknown(),
+								listplanmodifier.UseNonNullStateForUnknown(),
 							},
 							MarkdownDescription: apischema.Docstring("CatalogEntryV3", "aliases"),
 							Optional:            true,
