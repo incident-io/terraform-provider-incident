@@ -8,6 +8,19 @@ description: |-
   hand over on. A schedule can hold several, and each is managed independently — so
   changing one never rewrites the others.
   Editing a rotation takes effect straight away, unless rollout says otherwise.
+  Changing when shifts hand over
+  first_interval_starts_at is the point intervals are counted from. With
+  handovers it fixes the time of day and day of week that shifts change hands —
+  the dashboard calls it the handover time.
+  It can't change in the same apply as rollout. Whenever rollout is set the
+  rotation keeps the interval start it already runs: an immediate rollout copies that
+  across so the cadence doesn't move, and a phased one works backwards from the next
+  handover so the new line-up slots into the rhythm people are already working. Either
+  way a new first_interval_starts_at is discarded, so the provider stops the apply
+  rather than storing a value that won't be kept.
+  To change both, take it in two applies:
+  Change first_interval_starts_at on its own, with rollout unset. The new
+  cadence takes effect straight away.Then make the line-up change, with rollout set.
   Choosing a scheduling mode
   scheduling_mode decides who takes the next shift.
   fair shares time on call out evenly, tracking how much each person has already
@@ -39,6 +52,25 @@ hand over on. A schedule can hold several, and each is managed independently —
 changing one never rewrites the others.
 
 Editing a rotation takes effect straight away, unless `rollout` says otherwise.
+
+## Changing when shifts hand over
+
+`first_interval_starts_at` is the point intervals are counted from. With
+`handovers` it fixes the time of day and day of week that shifts change hands —
+the dashboard calls it the handover time.
+
+It can't change in the same apply as `rollout`. Whenever `rollout` is set the
+rotation keeps the interval start it already runs: an immediate rollout copies that
+across so the cadence doesn't move, and a phased one works backwards from the next
+handover so the new line-up slots into the rhythm people are already working. Either
+way a new `first_interval_starts_at` is discarded, so the provider stops the apply
+rather than storing a value that won't be kept.
+
+To change both, take it in two applies:
+
+1. Change `first_interval_starts_at` on its own, with `rollout` unset. The new
+   cadence takes effect straight away.
+2. Then make the line-up change, with `rollout` set.
 
 ## Choosing a scheduling mode
 
@@ -135,11 +167,11 @@ resource "incident_schedule_rotation_beta" "business_hours" {
 
 ### Required
 
-- `first_interval_starts_at` (String) When the first handover interval starts being counted from, which fixes the time of day and day of week shifts change hands. The dashboard calls this the handover time.
+- `first_interval_starts_at` (String) When the first handover interval starts being counted from, which fixes the time of day and day of week shifts change hands. The dashboard calls this the handover time.. Can't be changed in the same apply as `rollout` — see the resource description for why, and what to do instead.
 - `handovers` (Attributes List) The cadence shifts hand over on, applied in turn (see [below for nested schema](#nestedatt--handovers))
 - `name` (String) Human readable name for the rotation, unique within the schedule
 - `schedule_id` (String) ID of the schedule this rotation belongs to. Changing this replaces the rotation, as a rotation can't move between schedules.
-- `users` (List of String) IDs of the people in the rotation, in the order they take shifts.
+- `users` (List of String) IDs of the people in the rotation, in the order they take shifts. Use the special ID `NOBODY` for a slot with nobody in it, which schedules the shift without putting anyone on call until an override covers it.
 
 ### Optional
 

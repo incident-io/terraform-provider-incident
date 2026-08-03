@@ -11,7 +11,6 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -87,6 +86,25 @@ changing one never rewrites the others.
 
 Editing a rotation takes effect straight away, unless ` + "`rollout`" + ` says otherwise.
 
+## Changing when shifts hand over
+
+` + "`first_interval_starts_at`" + ` is the point intervals are counted from. With
+` + "`handovers`" + ` it fixes the time of day and day of week that shifts change hands —
+the dashboard calls it the handover time.
+
+It can't change in the same apply as ` + "`rollout`" + `. Whenever ` + "`rollout`" + ` is set the
+rotation keeps the interval start it already runs: an immediate rollout copies that
+across so the cadence doesn't move, and a phased one works backwards from the next
+handover so the new line-up slots into the rhythm people are already working. Either
+way a new ` + "`first_interval_starts_at`" + ` is discarded, so the provider stops the apply
+rather than storing a value that won't be kept.
+
+To change both, take it in two applies:
+
+1. Change ` + "`first_interval_starts_at`" + ` on its own, with ` + "`rollout`" + ` unset. The new
+   cadence takes effect straight away.
+2. Then make the line-up change, with ` + "`rollout`" + ` set.
+
 ## Choosing a scheduling mode
 
 ` + "`scheduling_mode`" + ` decides who takes the next shift.
@@ -135,9 +153,11 @@ See ` + "`incident_schedule_beta`" + ` for how the two differ and how to migrate
 				MarkdownDescription: apischema.Docstring("ScheduleRotationV3", "name"),
 			},
 			"users": schema.ListAttribute{
-				Required:            true,
-				ElementType:         types.StringType,
-				MarkdownDescription: "IDs of the people in the rotation, in the order they take shifts.",
+				Required:    true,
+				ElementType: types.StringType,
+				MarkdownDescription: "IDs of the people in the rotation, in the order they take shifts. " +
+					"Use the special ID `NOBODY` for a slot with nobody in it, which schedules " +
+					"the shift without putting anyone on call until an override covers it.",
 			},
 			"handovers": schema.ListNestedAttribute{
 				Required:            true,
@@ -159,9 +179,11 @@ See ` + "`incident_schedule_beta`" + ` for how the two differ and how to migrate
 			// "Z" with a zero offset. It stops short of treating two different offsets for
 			// one instant as equal, which is part of what anchorToState is for.
 			"first_interval_starts_at": schema.StringAttribute{
-				Required:            true,
-				CustomType:          timetypes.RFC3339Type{},
-				MarkdownDescription: apischema.Docstring("ScheduleRotationV3", "first_interval_starts_at"),
+				Required:   true,
+				CustomType: timetypes.RFC3339Type{},
+				MarkdownDescription: apischema.Docstring("ScheduleRotationV3", "first_interval_starts_at") +
+					". Can't be changed in the same apply as `rollout` — see the resource " +
+					"description for why, and what to do instead.",
 			},
 			"concurrent_shifts": schema.Int64Attribute{
 				Optional: true,
@@ -336,7 +358,10 @@ func (r *IncidentScheduleRotationBetaResource) validateUsers(ctx context.Context
 		resp.Diagnostics.AddAttributeError(
 			usersPath,
 			"Empty users",
-			"A rotation needs at least one person to put on call. Remove the rotation instead if it shouldn't schedule anyone.",
+			"A rotation needs at least one entry. For a rotation that schedules shifts without "+
+				"putting anyone on call — a shadow rotation covered by overrides — use the special "+
+				"ID NOBODY rather than an empty list. Remove the rotation instead if it shouldn't "+
+				"exist at all.",
 		)
 	}
 }
@@ -589,27 +614,6 @@ func (r *IncidentScheduleRotationBetaResource) validateSchedulingMode(ctx contex
 	}
 }
 
-// knownString returns the value of a string attribute, and false when it's missing, null
-// or unknown — none of which can be judged at plan time.
-func knownString(value attr.Value) (string, bool) {
-	str, ok := value.(types.String)
-	if !ok || str.IsNull() || str.IsUnknown() {
-		return "", false
-	}
-
-	return str.ValueString(), true
-}
-
-// knownInt64 is knownString for a number attribute.
-func knownInt64(value attr.Value) (int64, bool) {
-	number, ok := value.(types.Int64)
-	if !ok || number.IsNull() || number.IsUnknown() {
-		return 0, false
-	}
-
-	return number.ValueInt64(), true
-}
-
 // clockTimeMinutes parses an HH:MM time of day into minutes since midnight.
 func clockTimeMinutes(value string) (int, bool) {
 	if !clockTimePattern.MatchString(value) {
@@ -702,19 +706,27 @@ func (r *IncidentScheduleRotationBetaResource) planEffectiveFrom(ctx context.Con
 
 	previewed := result.JSON200.Rotation
 
-	// Phasing a change in anchors the new line-up to the cadence the rotation runs
-	// today, so a handover time moved in the same breath is dropped. first_interval_
-	// starts_at is a required attribute, which Terraform expects an apply to store
-	// exactly as planned — so left alone this surfaces as an apply that blames the
-	// provider for a bug. Say what's actually happening, before anything is written.
+	// Any rollout keeps the interval start the rotation already runs — immediate copies
+	// it across, a phased one works back from the next handover — so a first_interval_
+	// starts_at moved in the same breath is dropped. It's a required attribute, which
+	// Terraform expects an apply to store exactly as planned, so left alone this
+	// surfaces as an apply that blames the provider for a bug. Say what's actually
+	// happening, before anything is written.
+	//
+	// Read from the preview rather than assumed, so this stops firing by itself if the
+	// API ever starts honouring both in one write.
 	timezone := r.scheduleTimezone(ctx, state.ScheduleID.ValueString())
 	if !anchorToState(previewed, plan.FirstIntervalStartsAt, timezone).Equal(plan.FirstIntervalStartsAt) {
 		resp.Diagnostics.AddAttributeError(
 			path.Root("first_interval_starts_at"),
-			"Handover time can't move while a change is phased in",
-			"This rotation hands over on the cadence it runs today, and that's what the new "+
-				"line-up is anchored to, so this handover time would be dropped. Move it in an "+
-				"apply of its own — or one without rollout set — then phase the rest in.",
+			"Can't change first_interval_starts_at and rollout together",
+			"Whenever rollout is set, the rotation keeps the interval start it already runs, "+
+				"so the value set here would be discarded rather than stored.\n\n"+
+				"Apply the first_interval_starts_at change on its own with rollout unset, then "+
+				"make the line-up change with rollout set. Or drop rollout from this change, if "+
+				"replacing the line-up straight away is acceptable.\n\n"+
+				"See \"Changing when shifts hand over\" in the incident_schedule_rotation_beta "+
+				"documentation for why.",
 		)
 		return
 	}
@@ -819,12 +831,13 @@ func (r *IncidentScheduleRotationBetaResource) warnStrandedOverrides(ctx context
 
 	shiftsPath := path.Root("concurrent_shifts")
 	r.warnLostOverrides(ctx, resp, state, droppedIDs, &shiftsPath, func(count string) string {
-		return fmt.Sprintf("Reducing concurrent shifts from %d to %d on rotation %q removes "+
-			"on-call layer(s) %s, which stops %s targeting them from applying. The overrides "+
-			"aren't deleted, but nothing renders one once its layer is gone, and adding the "+
-			"shift back creates a new layer rather than restoring this one. Recreate the "+
-			"overrides you still need on a remaining shift.",
-			len(layers), planned, state.Name.ValueString(), strings.Join(names, ", "), count)
+		return fmt.Sprintf("Reducing concurrent shifts from %d to %d on rotation %q means %s "+
+			"will no longer have a shift to apply to, and will stop having any effect on the "+
+			"schedule. This removes shift(s) %s. Review your overrides after this change to "+
+			"make sure the right people are on call — recreating the ones you still need on a "+
+			"remaining shift, as adding the shift back later creates a new one rather than "+
+			"restoring this.",
+			len(layers), planned, state.Name.ValueString(), count, strings.Join(names, ", "))
 	})
 }
 

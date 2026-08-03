@@ -210,9 +210,9 @@ func TestScheduleRotationModifyPlanTrimmedShifts(t *testing.T) {
 	for _, want := range []string{
 		"2 active or upcoming overrides will stop applying",
 		`Reducing concurrent shifts from 2 to 1 on rotation "Weekday shadow"`,
-		`removes on-call layer(s) "Weekday shadow"`,
-		"stops 2 active or upcoming overrides targeting them from applying",
-		"Recreate the overrides you still need on a remaining shift.",
+		`This removes shift(s) "Weekday shadow"`,
+		"2 active or upcoming overrides will no longer have a shift to apply to",
+		"Review your overrides after this change",
 	} {
 		if !strings.Contains(got[0], want) {
 			t.Errorf("warning missing %q, got: %s", want, got[0])
@@ -233,9 +233,9 @@ func TestScheduleRotationModifyPlanCountAgreement(t *testing.T) {
 	if len(got) != 1 || !strings.HasPrefix(got[0], "1 active or upcoming override will stop applying") {
 		t.Errorf("unexpected warning: %+v", got)
 	}
-	// "stops 1 ... override ... from applying" has to agree too, which is why the
-	// message never puts a verb straight after the count.
-	if !strings.Contains(got[0], "stops 1 active or upcoming override targeting them from applying") {
+	// The detail has to agree in number too, which is why the count is only ever
+	// followed by a verb that reads the same either way.
+	if !strings.Contains(got[0], "1 active or upcoming override will no longer have a shift") {
 		t.Errorf("unexpected warning: %+v", got)
 	}
 }
