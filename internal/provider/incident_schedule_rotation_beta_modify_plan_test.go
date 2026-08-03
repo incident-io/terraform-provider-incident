@@ -358,8 +358,11 @@ func TestScheduleRotationModifyPlanRotationGone(t *testing.T) {
 // response shouldn't stop anyone editing a schedule.
 func TestScheduleRotationModifyPlanLookupFailed(t *testing.T) {
 	api := &fakeAPI{
-		layers:          []client.ScheduleLayerV2{layer("01LAYER1", "Primary"), layer("01LAYER2", "Shadow")},
-		overridesStatus: http.StatusInternalServerError,
+		layers: []client.ScheduleLayerV2{layer("01LAYER1", "Primary"), layer("01LAYER2", "Shadow")},
+		// Any failure the client won't retry. A 500 exercises the same path, but the
+		// client retries it ten times with backoff, so the test would spend three
+		// minutes proving the retry policy rather than this plan behaviour.
+		overridesStatus: http.StatusForbidden,
 	}
 
 	plan := rotationValue(t, "01SCHED", 1)
