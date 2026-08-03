@@ -87,7 +87,7 @@ func TestAccAlertAttributeResource(t *testing.T) {
 			},
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
-					Name:  "UpdatedSeverity",
+					Name:  StableSuffix("UpdatedSeverity"),
 					Type:  "String",
 					Array: false,
 				}),

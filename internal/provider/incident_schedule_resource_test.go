@@ -630,7 +630,9 @@ func testAccIncidentScheduleResourceConfig(override *client.ScheduleV2) string {
 		}
 	}
 
-	terraformText := generateScheduleTerraform("example", &model)
+	// Use the model's name, not a literal: overrides set Name expecting it to reach the
+	// config, and it was previously merged in and then ignored.
+	terraformText := generateScheduleTerraform(model.Name, &model)
 
 	return terraformText
 }

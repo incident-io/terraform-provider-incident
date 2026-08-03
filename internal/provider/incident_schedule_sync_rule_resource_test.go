@@ -212,7 +212,7 @@ resource "incident_schedule_sync_rule" "test" {
 func testAccScheduleSyncRuleResourceConfigWithPermanentMembers(userID string) string {
 	return testRunTemplate("incident_schedule_sync_rule_permanent_members", `
 resource "incident_schedule" "test" {
-  name     = {{ stableSuffix "Test Schedule for Sync Rule Permanent Members" | quote }}
+  name     = {{ stableSuffix "Sync Rule Permanent Members" | quote }}
   timezone = "Europe/London"
 
   rotations = [{
@@ -238,7 +238,7 @@ resource "incident_schedule_sync_target" "test" {
   add_bot_to_group = true
 
   new_slack_user_group = {
-    name        = {{ stableSuffix "Test Sync Rule Permanent Members Target" | quote }}
+    name        = {{ stableSuffix "Sync Rule Permanent Members Target" | quote }}
     handle      = "test-sync-rule-permanent-members"
     description = "Target for testing permanent members on schedule sync rules"
   }
@@ -260,7 +260,7 @@ resource "incident_schedule_sync_rule" "test" {
 func testAccScheduleSyncRuleResourceConfigWithPermanentMembersCleared() string {
 	return testRunTemplate("incident_schedule_sync_rule_permanent_members_cleared", `
 resource "incident_schedule" "test" {
-  name     = {{ stableSuffix "Test Schedule for Sync Rule Permanent Members" | quote }}
+  name     = {{ stableSuffix "Sync Rule Permanent Members" | quote }}
   timezone = "Europe/London"
 
   rotations = [{
@@ -286,7 +286,7 @@ resource "incident_schedule_sync_target" "test" {
   add_bot_to_group = true
 
   new_slack_user_group = {
-    name        = {{ stableSuffix "Test Sync Rule Permanent Members Target" | quote }}
+    name        = {{ stableSuffix "Sync Rule Permanent Members Target" | quote }}
     handle      = "test-sync-rule-permanent-members"
     description = "Target for testing permanent members on schedule sync rules"
   }
