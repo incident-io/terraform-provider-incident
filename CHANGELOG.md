@@ -6,6 +6,8 @@
 
 #### Other changes
 
+- Add `incident_schedule_beta` and `incident_schedule_rotation_beta` resources, along with matching data sources, for the v3 schedules API. A schedule and its rotations are now separate resources, so adding or editing one rotation no longer means rewriting the whole schedule, and each rotation can be managed on its own. `incident_schedule_beta` covers the schedule itself — name, timezone, owning teams and public holidays — and starts with no rotations, so nobody is on call until one is added. `incident_schedule_rotation_beta` covers the people in a rotation, how often they hand over, how many are on call at once, and optional working hours.
+- These resources are beta. They are named `_beta` because their schemas may change in ways that aren't backwards compatible while we settle the design, and they're versioned separately from the rest of the provider for that reason. The existing `incident_schedule` resource and data source are unchanged, continue to use the v2 API, and are not deprecated.
 - The provider is now tested directly against OpenTofu on every change, rather than relying on Terraform compatibility to cover it.
 
 ## v5.46.1

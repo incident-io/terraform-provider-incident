@@ -137,6 +137,8 @@ func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Reso
 		NewIncidentSeverityResource,
 		NewIncidentStatusResource,
 		NewIncidentScheduleResource,
+		NewIncidentScheduleBetaResource,
+		NewIncidentScheduleRotationBetaResource,
 		NewIncidentScheduleSyncTargetResource,
 		NewIncidentScheduleSyncRuleResource,
 		NewIncidentWorkflowResource,
@@ -159,6 +161,8 @@ func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.
 		NewIncidentAlertAttributeDataSource,
 		NewIncidentAlertSourcesDataSource,
 		NewIncidentScheduleDataSource,
+		NewIncidentScheduleBetaDataSource,
+		NewIncidentScheduleRotationBetaDataSource,
 		NewIncidentIncidentTypesDataSource,
 		NewIncidentEscalationPathDataSource,
 	}
