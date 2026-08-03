@@ -98,7 +98,7 @@ resource "incident_alert_source" "test" {
 `, struct {
 		Name, SourceType, Title, Description string
 	}{
-		Name:        name,
+		Name:        StableSuffix(name),
 		SourceType:  sourceType,
 		Title:       testAlertSourceTitle,
 		Description: testAlertSourceDescription,
@@ -136,7 +136,7 @@ resource "incident_alert_source" "test" {
 		Description string
 		ProjectIDs  []string
 	}{
-		Name:        name,
+		Name:        StableSuffix(name),
 		Title:       testAlertSourceTitle,
 		Description: testAlertSourceDescription,
 		ProjectIDs:  projectIDs,
@@ -244,7 +244,7 @@ resource "incident_alert_source" "test" {
 		Name            string
 		IntervalSeconds int
 	}{
-		Name:            name,
+		Name:            StableSuffix(name),
 		IntervalSeconds: intervalSeconds,
 	})
 }
@@ -1158,7 +1158,7 @@ resource "incident_alert_source" "test" {
 `, struct {
 		Name, Title, Description, TeamTypeName string
 	}{
-		Name:         name,
+		Name:         StableSuffix(name),
 		Title:        testAlertSourceTitle,
 		Description:  testAlertSourceDescription,
 		TeamTypeName: teamTypeName(),
@@ -1218,7 +1218,7 @@ resource "incident_alert_source" "test" {
 `, struct {
 		Name, Title, Description string
 	}{
-		Name:        name,
+		Name:        StableSuffix(name),
 		Title:       testAlertSourceTitle,
 		Description: testAlertSourceDescription,
 	})
@@ -1314,7 +1314,7 @@ resource "incident_alert_source" "test" {
 `, struct {
 		Name, Title, Description string
 	}{
-		Name:        name,
+		Name:        StableSuffix(name),
 		Title:       testAlertSourceTitle,
 		Description: testAlertSourceDescription,
 	})
@@ -1345,7 +1345,7 @@ resource "incident_alert_source" "test" {
 `, struct {
 		Name, Title, Description string
 	}{
-		Name:        name,
+		Name:        StableSuffix(name),
 		Title:       testAlertSourceTitle,
 		Description: testAlertSourceDescription,
 	})
@@ -1396,7 +1396,7 @@ resource "incident_alert_source" "test" {
 `, struct {
 		Name, Title, Description, TeamTypeName string
 	}{
-		Name:         name,
+		Name:         StableSuffix(name),
 		Title:        testAlertSourceTitle,
 		Description:  testAlertSourceDescription,
 		TeamTypeName: teamTypeName(),
