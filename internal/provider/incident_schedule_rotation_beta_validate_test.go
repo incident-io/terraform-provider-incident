@@ -65,7 +65,10 @@ func validateScheduleRotation(t *testing.T, overrides map[string]tftypes.Value) 
 		t.Fatalf("schema build failed: %+v", schemaResp.Diagnostics)
 	}
 
-	objType := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+	objType, ok := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+	if !ok {
+		t.Fatalf("schema type is not an object")
+	}
 
 	attributes := map[string]tftypes.Value{
 		"id":          tftypes.NewValue(tftypes.String, "01ROTA"),
@@ -95,7 +98,10 @@ func validateScheduleRotation(t *testing.T, overrides map[string]tftypes.Value) 
 		Raw:    tftypes.NewValue(objType, attributes),
 	}
 
-	r := NewIncidentScheduleRotationBetaResource().(*IncidentScheduleRotationBetaResource)
+	r, ok := NewIncidentScheduleRotationBetaResource().(*IncidentScheduleRotationBetaResource)
+	if !ok {
+		t.Fatalf("NewIncidentScheduleRotationBetaResource did not return a *IncidentScheduleRotationBetaResource")
+	}
 	var resp resource.ValidateConfigResponse
 	r.ValidateConfig(context.Background(), resource.ValidateConfigRequest{Config: config}, &resp)
 	return resp
@@ -438,7 +444,10 @@ func validateScheduleRotationDataSource(t *testing.T, id, name tftypes.Value) da
 		t.Fatalf("schema build failed: %+v", schemaResp.Diagnostics)
 	}
 
-	objType := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+	objType, ok := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+	if !ok {
+		t.Fatalf("schema type is not an object")
+	}
 	config := tfsdk.Config{
 		Schema: schemaResp.Schema,
 		Raw: tftypes.NewValue(objType, map[string]tftypes.Value{
@@ -456,7 +465,10 @@ func validateScheduleRotationDataSource(t *testing.T, id, name tftypes.Value) da
 		}),
 	}
 
-	d := NewIncidentScheduleRotationBetaDataSource().(*IncidentScheduleRotationBetaDataSource)
+	d, ok := NewIncidentScheduleRotationBetaDataSource().(*IncidentScheduleRotationBetaDataSource)
+	if !ok {
+		t.Fatalf("NewIncidentScheduleRotationBetaDataSource did not return a *IncidentScheduleRotationBetaDataSource")
+	}
 	var resp datasource.ValidateConfigResponse
 	d.ValidateConfig(context.Background(), datasource.ValidateConfigRequest{Config: config}, &resp)
 	return resp

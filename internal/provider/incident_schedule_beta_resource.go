@@ -41,10 +41,10 @@ type IncidentScheduleBetaResource struct {
 
 // IncidentScheduleBetaModel is the Terraform state/plan shape for the resource.
 type IncidentScheduleBetaModel struct {
-	ID                   types.String              `tfsdk:"id"`
-	Name                 types.String              `tfsdk:"name"`
-	Timezone             types.String              `tfsdk:"timezone"`
-	TeamIDs              types.Set                 `tfsdk:"team_ids"`
+	ID                   types.String                        `tfsdk:"id"`
+	Name                 types.String                        `tfsdk:"name"`
+	Timezone             types.String                        `tfsdk:"timezone"`
+	TeamIDs              types.Set                           `tfsdk:"team_ids"`
 	HolidaysPublicConfig *IncidentScheduleBetaHolidaysConfig `tfsdk:"holidays_public_config"`
 }
 

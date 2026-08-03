@@ -23,7 +23,10 @@ func scheduleV3ConfigFor(t *testing.T, holidays tftypes.Value) tfsdk.Config {
 		t.Fatalf("schema build failed: %+v", schemaResp.Diagnostics)
 	}
 
-	objType := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+	objType, ok := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+	if !ok {
+		t.Fatalf("schema type is not an object")
+	}
 
 	return tfsdk.Config{
 		Schema: schemaResp.Schema,
@@ -47,7 +50,10 @@ var holidaysObjectType = tftypes.Object{
 func validateScheduleV3(t *testing.T, holidays tftypes.Value) resource.ValidateConfigResponse {
 	t.Helper()
 
-	r := NewIncidentScheduleBetaResource().(*IncidentScheduleBetaResource)
+	r, ok := NewIncidentScheduleBetaResource().(*IncidentScheduleBetaResource)
+	if !ok {
+		t.Fatalf("NewIncidentScheduleBetaResource did not return a *IncidentScheduleBetaResource")
+	}
 	var resp resource.ValidateConfigResponse
 	r.ValidateConfig(
 		context.Background(),
@@ -153,7 +159,10 @@ func TestScheduleV3ValidateTimezone(t *testing.T) {
 
 		var schemaResp resource.SchemaResponse
 		NewIncidentScheduleBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
-		objType := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+		objType, ok := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+		if !ok {
+			t.Fatalf("schema type is not an object")
+		}
 
 		config := tfsdk.Config{
 			Schema: schemaResp.Schema,
@@ -166,7 +175,10 @@ func TestScheduleV3ValidateTimezone(t *testing.T) {
 			}),
 		}
 
-		r := NewIncidentScheduleBetaResource().(*IncidentScheduleBetaResource)
+		r, ok := NewIncidentScheduleBetaResource().(*IncidentScheduleBetaResource)
+		if !ok {
+			t.Fatalf("NewIncidentScheduleBetaResource did not return a *IncidentScheduleBetaResource")
+		}
 		var resp resource.ValidateConfigResponse
 		r.ValidateConfig(context.Background(), resource.ValidateConfigRequest{Config: config}, &resp)
 		return resp
@@ -205,7 +217,10 @@ func validateScheduleV3DataSource(t *testing.T, id, name tftypes.Value) datasour
 		t.Fatalf("schema build failed: %+v", schemaResp.Diagnostics)
 	}
 
-	objType := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+	objType, ok := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+	if !ok {
+		t.Fatalf("schema type is not an object")
+	}
 	config := tfsdk.Config{
 		Schema: schemaResp.Schema,
 		Raw: tftypes.NewValue(objType, map[string]tftypes.Value{
@@ -216,7 +231,10 @@ func validateScheduleV3DataSource(t *testing.T, id, name tftypes.Value) datasour
 		}),
 	}
 
-	d := NewIncidentScheduleBetaDataSource().(*IncidentScheduleBetaDataSource)
+	d, ok := NewIncidentScheduleBetaDataSource().(*IncidentScheduleBetaDataSource)
+	if !ok {
+		t.Fatalf("NewIncidentScheduleBetaDataSource did not return a *IncidentScheduleBetaDataSource")
+	}
 	var resp datasource.ValidateConfigResponse
 	d.ValidateConfig(context.Background(), datasource.ValidateConfigRequest{Config: config}, &resp)
 	return resp

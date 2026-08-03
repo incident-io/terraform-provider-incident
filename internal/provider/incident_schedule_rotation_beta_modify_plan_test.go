@@ -116,7 +116,10 @@ func rotationValue(t *testing.T, scheduleID string, concurrentShifts int64) tfty
 
 	var schemaResp resource.SchemaResponse
 	NewIncidentScheduleRotationBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
-	objType := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+	objType, ok := schemaResp.Schema.Type().TerraformType(context.Background()).(tftypes.Object)
+	if !ok {
+		t.Fatalf("schema type is not an object")
+	}
 
 	return tftypes.NewValue(objType, map[string]tftypes.Value{
 		"id":          tftypes.NewValue(tftypes.String, "01ROTA"),

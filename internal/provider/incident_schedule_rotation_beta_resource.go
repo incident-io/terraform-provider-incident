@@ -47,18 +47,18 @@ type IncidentScheduleRotationBetaResource struct {
 
 // IncidentScheduleRotationBetaModel is the Terraform state/plan shape for the resource.
 type IncidentScheduleRotationBetaModel struct {
-	ID                    types.String                    `tfsdk:"id"`
-	ScheduleID            types.String                    `tfsdk:"schedule_id"`
-	Name                  types.String                    `tfsdk:"name"`
-	Users                 []types.String                  `tfsdk:"users"`
+	ID                    types.String                                `tfsdk:"id"`
+	ScheduleID            types.String                                `tfsdk:"schedule_id"`
+	Name                  types.String                                `tfsdk:"name"`
+	Users                 []types.String                              `tfsdk:"users"`
 	Handovers             []IncidentScheduleRotationBetaHandover      `tfsdk:"handovers"`
-	FirstIntervalStartsAt timetypes.RFC3339               `tfsdk:"first_interval_starts_at"`
-	ConcurrentShifts      types.Int64                     `tfsdk:"concurrent_shifts"`
+	FirstIntervalStartsAt timetypes.RFC3339                           `tfsdk:"first_interval_starts_at"`
+	ConcurrentShifts      types.Int64                                 `tfsdk:"concurrent_shifts"`
 	WorkingIntervals      []IncidentScheduleRotationBetaWorkingWindow `tfsdk:"working_intervals"`
-	Rank                  types.Int64                     `tfsdk:"rank"`
-	SchedulingMode        types.String                    `tfsdk:"scheduling_mode"`
-	Rollout               types.String                    `tfsdk:"rollout"`
-	EffectiveFrom         timetypes.RFC3339               `tfsdk:"effective_from"`
+	Rank                  types.Int64                                 `tfsdk:"rank"`
+	SchedulingMode        types.String                                `tfsdk:"scheduling_mode"`
+	Rollout               types.String                                `tfsdk:"rollout"`
+	EffectiveFrom         timetypes.RFC3339                           `tfsdk:"effective_from"`
 }
 
 type IncidentScheduleRotationBetaHandover struct {
