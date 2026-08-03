@@ -8,7 +8,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/samber/lo"
 )
@@ -90,7 +89,7 @@ type workflowTemplateOverrides struct {
 	ExpressionLabel  string
 }
 
-var incidentWorkflowTemplate = template.Must(template.New("incident_workflow").Funcs(sprig.TxtFuncMap()).Parse(`
+var incidentWorkflowTemplate = template.Must(template.New("incident_workflow").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_workflow" "example" {
 	name               = {{ quote .Name }}
 	trigger            = "incident.updated"
@@ -329,7 +328,7 @@ data "incident_catalog_type" "team" {
 {{ range $i := .TeamIndices }}
 resource "incident_catalog_entry" "owner_team_{{ $i }}" {
   catalog_type_id  = data.incident_catalog_type.team.id
-  external_id      = "tf-workflow-owning-team-test-{{ $i }}"
+  external_id      = {{ stableSuffix (printf "tf-workflow-owning-team-test-%d" $i) | quote }}
   name             = {{ stableSuffix (printf "Terraform Workflow Owning Team Test %d" $i) | quote }}
   attribute_values = []
 }

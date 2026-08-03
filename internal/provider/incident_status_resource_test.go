@@ -6,7 +6,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -48,7 +47,7 @@ func TestAccIncidentStatusResource(t *testing.T) {
 	})
 }
 
-var incidentStatusTemplate = template.Must(template.New("incident_status").Funcs(sprig.TxtFuncMap()).Parse(`
+var incidentStatusTemplate = template.Must(template.New("incident_status").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_status" "example" {
   name         = {{ quote .Name }}
   description  = {{ quote .Description }}

@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"fmt"
 	"reflect"
+	"strconv"
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -70,7 +70,7 @@ func TestAccIncidentSeverityResourceWithoutRank(t *testing.T) {
 	})
 }
 
-var incidentSeverityTemplate = template.Must(template.New("incident_severity").Funcs(sprig.TxtFuncMap()).Parse(`
+var incidentSeverityTemplate = template.Must(template.New("incident_severity").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_severity" "example" {
   name         = {{ quote .Name }}
   description  = {{ quote .Description }}
@@ -80,11 +80,23 @@ resource "incident_severity" "example" {
 }
 `))
 
+// stableRank derives a rank from the test run, because ranks must be unique within the
+// org and the CLI legs of a CI run create severities concurrently. Real severities sit
+// at low ranks, so we stay well clear of them.
+func stableRank() int64 {
+	n, err := strconv.ParseInt(testRunShortID, 16, 64)
+	if err != nil {
+		panic(err)
+	}
+
+	return 100 + n%1000
+}
+
 func incidentSeverityDefault() client.SeverityV2 {
 	return client.SeverityV2{
 		Name:        StableSuffix("P0"),
 		Description: "All work stops until this issue is resolved.",
-		Rank:        7,
+		Rank:        stableRank(),
 	}
 }
 

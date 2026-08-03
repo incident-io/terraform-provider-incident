@@ -8,7 +8,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -391,7 +390,7 @@ resource "incident_catalog_entry" "test" {
 	})
 }
 
-var catalogEntryTemplate = template.Must(template.New("incident_catalog_entry").Funcs(sprig.TxtFuncMap()).Parse(`
+var catalogEntryTemplate = template.Must(template.New("incident_catalog_entry").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_catalog_type" "example" {
   name        = "Catalog Entry Acceptance Test ({{ .ID }})"
   description = "Used in terraform acceptance tests for incident_catalog_entry"

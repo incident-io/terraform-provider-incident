@@ -9,7 +9,6 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
@@ -205,7 +204,7 @@ type maintenanceWindowModel struct {
 	ShowInSidebar bool
 }
 
-var maintenanceWindowTemplate = template.Must(template.New("incident_maintenance_window").Funcs(sprig.TxtFuncMap()).Parse(`
+var maintenanceWindowTemplate = template.Must(template.New("incident_maintenance_window").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_maintenance_window" "example" {
   name            = {{ quote .Name }}
   start_at        = {{ quote .StartAt }}
@@ -233,7 +232,7 @@ resource "incident_maintenance_window" "example" {
 }
 `))
 
-var maintenanceWindowWithOptionalFieldsTemplate = template.Must(template.New("incident_maintenance_window_optional").Funcs(sprig.TxtFuncMap()).Parse(`
+var maintenanceWindowWithOptionalFieldsTemplate = template.Must(template.New("incident_maintenance_window_optional").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_maintenance_window" "example" {
   name            = {{ quote .Name }}
   start_at        = {{ quote .StartAt }}

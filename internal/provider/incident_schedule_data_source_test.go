@@ -5,7 +5,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
@@ -54,7 +53,7 @@ func TestAccIncidentScheduleDataSource(t *testing.T) {
 	})
 }
 
-var incidentScheduleDataSourceTemplate = template.Must(template.New("incident_schedule_data_source").Funcs(sprig.TxtFuncMap()).Parse(`
+var incidentScheduleDataSourceTemplate = template.Must(template.New("incident_schedule_data_source").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_schedule" "example" {
   name     = {{ quote .Name }}
   timezone = {{ quote .Timezone }}

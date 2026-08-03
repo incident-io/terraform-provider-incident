@@ -5,7 +5,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -40,7 +39,7 @@ func TestAccIncidentCustomFieldDataSource(t *testing.T) {
 	})
 }
 
-var customFieldDataSourceTemplate = template.Must(template.New("incident_custom_field_data_source").Funcs(sprig.TxtFuncMap()).Parse(`
+var customFieldDataSourceTemplate = template.Must(template.New("incident_custom_field_data_source").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_custom_field" "example" {
   name        = {{ quote .ResourceName }}
   description = {{ quote .ResourceDescription }}

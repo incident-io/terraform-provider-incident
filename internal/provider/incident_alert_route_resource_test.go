@@ -802,7 +802,7 @@ func testAccIncidentAlertRouteResourceConfigWithChannelConfig(name string) strin
 
 	return testRunTemplate("incident_alert_route.channel_config", `
 resource "incident_alert_source" "channel_test" {
-  name        = "chsrc-%[1]s"
+  name        = "chsrc-{{ .Name }}"
   source_type = "http"
   template = {
     title = {
@@ -1594,7 +1594,7 @@ data "incident_catalog_type" "team" {
 # Create a team catalog entry for this test
 resource "incident_catalog_entry" "owner_team" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tf-alert-route-owning-team-test"
+  external_id     = "tma-%[1]s"
   name            = "tma-%[1]s"
   attribute_values = []
 }
@@ -1749,14 +1749,14 @@ data "incident_catalog_type" "team" {
 # Create team catalog entries for this test
 resource "incident_catalog_entry" "owner_team" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tf-alert-route-owning-team-test"
+  external_id     = "tma-%[1]s"
   name            = "tma-%[1]s"
   attribute_values = []
 }
 
 resource "incident_catalog_entry" "owner_team_2" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tf-alert-route-owning-team-test-2"
+  external_id     = "tmb-%[1]s"
   name            = "tmb-%[1]s"
   attribute_values = []
 }

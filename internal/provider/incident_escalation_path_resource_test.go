@@ -8,7 +8,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
@@ -141,7 +140,7 @@ func TestAccIncidentEscalationPathTeamIDs(t *testing.T) {
 	})
 }
 
-var escalationPathTemplate = template.Must(template.New("incident_escalation_path").Funcs(sprig.TxtFuncMap()).Parse(`
+var escalationPathTemplate = template.Must(template.New("incident_escalation_path").Funcs(testTemplateFuncs()).Parse(`
 # This is the _official_ team catalog type
 # This means our test will only work in Github, you'll need to point this to your local
 # Team type!
@@ -153,8 +152,8 @@ data "incident_catalog_type" "team" {
 # This is a team catalog entry
 resource "incident_catalog_entry" "terraform" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id = "tf-acceptance-test"
-  name = "Terraform test team"
+  external_id = {{ stableSuffix "tf-acceptance-test" | quote }}
+  name = {{ stableSuffix "Terraform test team" | quote }}
   attribute_values = []
   managed_attributes = []
 }
@@ -508,19 +507,19 @@ func TestAccIncidentEscalationPathSelectedRotaID(t *testing.T) {
 func testAccIncidentEscalationPathResourceConfigWithSelectedRotaID(name string) string {
 	return fmt.Sprintf(`
 data "incident_catalog_type" "team" {
-  name = %q
+  name = %[1]q
 }
 
 resource "incident_catalog_entry" "terraform_rota_modes" {
   catalog_type_id    = data.incident_catalog_type.team.id
-  external_id        = "tf-acceptance-test-rota-modes"
-  name               = "Terraform test team rota modes"
+  external_id        = %[4]q
+  name               = %[4]q
   attribute_values   = []
   managed_attributes = []
 }
 
 resource "incident_schedule" "rota_modes" {
-  name     = %q
+  name     = %[2]q
   timezone = "Europe/London"
   rotations = [{
     id   = "primary"
@@ -542,7 +541,7 @@ resource "incident_schedule" "rota_modes" {
 }
 
 resource "incident_escalation_path" "rota_modes" {
-  name = %q
+  name = %[3]q
 
   path = [
     {
@@ -570,7 +569,7 @@ resource "incident_escalation_path" "rota_modes" {
 
   team_ids = [incident_catalog_entry.terraform_rota_modes.id]
 }
-`, teamTypeName(), name, name)
+`, teamTypeName(), name, name, StableSuffix("tf-acceptance-test-rota-modes"))
 }
 
 func TestAccIncidentEscalationPathSelectedRotaIDValidation(t *testing.T) {
@@ -706,19 +705,19 @@ func TestAccIncidentEscalationPathUnknownValues(t *testing.T) {
 func testAccIncidentEscalationPathResourceConfigUnknownValues(name string) string {
 	return fmt.Sprintf(`
 data "incident_catalog_type" "team" {
-  name = %q
+  name = %[1]q
 }
 
 resource "incident_catalog_entry" "terraform_unknown_values" {
   catalog_type_id    = data.incident_catalog_type.team.id
-  external_id        = "tf-acceptance-test-unknown-values"
-  name               = "Terraform test team unknown values"
+  external_id        = %[4]q
+  name               = %[4]q
   attribute_values   = []
   managed_attributes = []
 }
 
 resource "incident_schedule" "unknown_values" {
-  name     = %q
+  name     = %[2]q
   timezone = "Europe/London"
   rotations = [{
     id   = "primary"
@@ -767,7 +766,7 @@ locals {
 }
 
 resource "incident_escalation_path" "unknown_values" {
-  name = %q
+  name = %[3]q
 
   path = local.path_templates[var.path_template]
 
@@ -788,5 +787,5 @@ resource "incident_escalation_path" "unknown_values" {
 
   team_ids = [incident_catalog_entry.terraform_unknown_values.id]
 }
-`, teamTypeName(), name, name)
+`, teamTypeName(), name, name, StableSuffix("tf-acceptance-test-unknown-values"))
 }

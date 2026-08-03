@@ -1,15 +1,12 @@
 package provider
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"os"
 	"regexp"
 	"testing"
-	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 )
@@ -56,26 +53,6 @@ func TestAccAlertSourceResource(t *testing.T) {
 			},
 		},
 	})
-}
-
-// testTemplateFuncs is sprig plus stableSuffix, which names a resource uniquely per
-// test run so runs against the shared test org don't collide:
-// {{ stableSuffix "My thing" | quote }}.
-func testTemplateFuncs() template.FuncMap {
-	funcs := sprig.TxtFuncMap()
-	funcs["stableSuffix"] = StableSuffix
-
-	return funcs
-}
-
-func testRunTemplate(tmplName, source string, args any) string {
-	tmpl := template.Must(template.New(tmplName).Funcs(testTemplateFuncs()).Parse(source))
-	var buf bytes.Buffer
-	err := tmpl.Execute(&buf, args)
-	if err != nil {
-		panic(err)
-	}
-	return buf.String()
 }
 
 func testAccAlertSourceResourceConfig(name string, sourceType string) string {
@@ -700,7 +677,7 @@ data "incident_catalog_type" "team" {
 # Create a team catalog entry for this test
 resource "incident_catalog_entry" "test_team" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tf-alert-source-privacy-test"
+  external_id     = {{ stableSuffix "tf-alert-source-privacy-test" | quote }}
   name            = {{ stableSuffix "Alert Source Privacy Test Team" | quote }}
   attribute_values = []
 }
@@ -912,8 +889,10 @@ func extractAttributes(after any) []map[string]any {
 
 func testAccAlertSourceResourceConfigIssue342(withThirdAttribute bool) string {
 	return testRunTemplate("incident_alert_source_issue_342", `
+// Priority is a built-in attribute that already exists in the org, so it must be
+// looked up by its real name rather than a per-run one.
 data "incident_alert_attribute" "priority" {
-  name = {{ stableSuffix "Priority" | quote }}
+  name = "Priority"
 }
 
 data "incident_catalog_type" "alert_priority" {
@@ -1133,7 +1112,7 @@ data "incident_catalog_type" "team" {
 # Create a team catalog entry for this test
 resource "incident_catalog_entry" "owner_team" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tf-alert-source-owning-team-test"
+  external_id     = {{ stableSuffix "tf-alert-source-owning-team-test" | quote }}
   name            = {{ stableSuffix "Alert Source Owning Team Test" | quote }}
   attribute_values = []
 }
@@ -1361,14 +1340,14 @@ data "incident_catalog_type" "team" {
 # Create team catalog entries for this test
 resource "incident_catalog_entry" "owner_team" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tf-alert-source-owning-team-test"
+  external_id     = {{ stableSuffix "tf-alert-source-owning-team-test" | quote }}
   name            = {{ stableSuffix "Alert Source Owning Team Test" | quote }}
   attribute_values = []
 }
 
 resource "incident_catalog_entry" "owner_team_2" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tf-alert-source-owning-team-test-2"
+  external_id     = {{ stableSuffix "tf-alert-source-owning-team-test-2" | quote }}
   name            = {{ stableSuffix "Alert Source Owning Team Test 2" | quote }}
   attribute_values = []
 }

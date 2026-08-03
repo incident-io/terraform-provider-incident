@@ -6,7 +6,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
@@ -41,7 +40,7 @@ func TestAccIncidentRoleResource(t *testing.T) {
 			{
 				Config: testAccIncidentRoleResourceConfig(&client.IncidentRoleV2{
 					Name:      StableSuffix("Communications Follow"),
-					Shortform: "comms",
+					Shortform: StableSuffix("comms-follow"),
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
@@ -52,7 +51,7 @@ func TestAccIncidentRoleResource(t *testing.T) {
 	})
 }
 
-var incidentRoleTemplate = template.Must(template.New("incident_role").Funcs(sprig.TxtFuncMap()).Parse(`
+var incidentRoleTemplate = template.Must(template.New("incident_role").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_incident_role" "example" {
   name         = {{ quote .Name }}
   description  = {{ quote .Description }}
@@ -66,7 +65,7 @@ func incidentRoleDefault() client.IncidentRoleV2 {
 		Name:         StableSuffix("Communications Lead"),
 		Description:  "Responsible for communications on behalf of the response team.",
 		Instructions: "Manage internal and external communications on behalf of the response team.",
-		Shortform:    "communications",
+		Shortform:    StableSuffix("comms"),
 	}
 }
 

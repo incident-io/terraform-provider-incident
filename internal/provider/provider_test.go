@@ -1,11 +1,15 @@
 package provider
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"os"
+	"strings"
 	"testing"
+	"text/template"
 
+	"github.com/Masterminds/sprig"
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
@@ -25,6 +29,35 @@ var testRunShortID = testRunID[:4]
 // readable, only unique and short: see testRunShortID.
 func StableSuffix(thing string) string {
 	return fmt.Sprintf("%s-%s", thing, testRunShortID)
+}
+
+// testTemplateFuncs is sprig plus stableSuffix, which names a resource uniquely per
+// test run so runs against the shared test org don't collide:
+// {{ stableSuffix "My thing" | quote }}.
+func testTemplateFuncs() template.FuncMap {
+	funcs := sprig.TxtFuncMap()
+	funcs["stableSuffix"] = StableSuffix
+
+	return funcs
+}
+
+func testRunTemplate(tmplName, source string, args any) string {
+	tmpl := template.Must(template.New(tmplName).Funcs(testTemplateFuncs()).Parse(source))
+	var buf bytes.Buffer
+	err := tmpl.Execute(&buf, args)
+	if err != nil {
+		panic(err)
+	}
+
+	// A Sprintf verb in a Go template is emitted verbatim rather than substituted, so a
+	// resource silently gets a fixed name that collides with every other run. Fail here
+	// instead, where the cause is obvious.
+	out := buf.String()
+	if strings.Contains(out, "%[") {
+		panic(fmt.Sprintf("%s: rendered config contains an unsubstituted format verb, use {{ }} instead", tmplName))
+	}
+
+	return out
 }
 
 var testAccProtoV6ProviderFactories = map[string]func() (tfprotov6.ProviderServer, error){

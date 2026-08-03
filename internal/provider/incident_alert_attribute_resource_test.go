@@ -6,7 +6,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
@@ -136,7 +135,7 @@ func TestAccAlertAttributeResourceWithRequired(t *testing.T) {
 	})
 }
 
-var alertAttributeTemplate = template.Must(template.New("incident_alert_attribute").Funcs(sprig.TxtFuncMap()).Parse(`
+var alertAttributeTemplate = template.Must(template.New("incident_alert_attribute").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_alert_attribute" "example" {
   name  = {{ quote .Name }}
   type  = {{ quote .Type }}

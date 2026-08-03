@@ -5,7 +5,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
@@ -42,7 +41,7 @@ func TestAccIncidentRoleDataSource(t *testing.T) {
 	})
 }
 
-var incidentRoleDataSourceTemplate = template.Must(template.New("incident_role_data_source").Funcs(sprig.TxtFuncMap()).Parse(`
+var incidentRoleDataSourceTemplate = template.Must(template.New("incident_role_data_source").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_incident_role" "example" {
   name         = {{ quote .Name }}
   description  = {{ quote .Description }}

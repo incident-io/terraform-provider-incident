@@ -5,7 +5,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
@@ -37,7 +36,7 @@ func TestAccIncidentCatalogTypeDataSource(t *testing.T) {
 	})
 }
 
-var catalogTypeDataSourceTemplate = template.Must(template.New("incident_catalog_type_data_source").Funcs(sprig.TxtFuncMap()).Parse(`
+var catalogTypeDataSourceTemplate = template.Must(template.New("incident_catalog_type_data_source").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_catalog_type" "example" {
   name        = {{ quote .ResourceName }}
   type_name    = {{ quote .ResourceTypeName }}

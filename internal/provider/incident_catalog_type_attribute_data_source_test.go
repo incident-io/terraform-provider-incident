@@ -5,7 +5,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -37,7 +36,7 @@ func TestAccIncidentCatalogTypeAttributeDataSource(t *testing.T) {
 	})
 }
 
-var catalogTypeAttributeDataSourceTemplate = template.Must(template.New("incident_catalog_type_attribute_data_source").Funcs(sprig.TxtFuncMap()).Parse(`
+var catalogTypeAttributeDataSourceTemplate = template.Must(template.New("incident_catalog_type_attribute_data_source").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_catalog_type" "example" {
   name        = "Example ({{ .ID }})"
   description = "Used in terraform acceptance tests"
