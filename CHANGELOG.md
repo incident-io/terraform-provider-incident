@@ -1,6 +1,9 @@
 ## Unreleased
 
+## v5.46.1
+
 - Fix `Provider produced inconsistent result after apply` on `incident_workflow` when a workflow step gains new parameters, which failed the apply with `.steps[0].param_bindings: new element N has appeared`. Step `param_bindings` are positional, so when a step grows the API pads the bindings out to the new parameter count and creating a workflow returned more bindings than were configured. The provider now drops those trailing empty bindings. Bindings that carry data are kept, so a genuine change made outside Terraform still shows up as a diff.
+- Return a diagnostic instead of panicking when the incident.io API client cannot be created, for example when `INCIDENT_ENDPOINT` is set to an invalid URL. Previously this crashed the provider with a raw Go stack trace; it now reports `Unable to Create incident.io API Client` with the underlying error, like every other failure in the provider.
 
 ## v5.46.0
 
