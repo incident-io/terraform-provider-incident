@@ -24,7 +24,7 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 			// Create and read
 			{
 				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
-					Name:     "example",
+					Name:     StableSuffix("example"),
 					Timezone: "Europe/London",
 					Config: &client.ScheduleConfigV2{
 						Rotations: []client.ScheduleRotationV2{
@@ -75,7 +75,7 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_schedule.example", "name", "example",
+						"incident_schedule.example", "name", StableSuffix("example"),
 					),
 					resource.TestCheckResourceAttr(
 						"incident_schedule.example", "timezone", "Europe/London",
@@ -109,7 +109,7 @@ func TestAccIncidentScheduleResourceTimezoneUpdate(t *testing.T) {
 			// Initial creation
 			{
 				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
-					Name:     "timezone-test",
+					Name:     StableSuffix("timezone-test"),
 					Timezone: "Europe/London",
 				}),
 				Check: resource.ComposeTestCheckFunc(
@@ -126,7 +126,7 @@ func TestAccIncidentScheduleResourceTimezoneUpdate(t *testing.T) {
 			// Attempt to update timezone - should destroy the existing and recreate
 			{
 				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
-					Name:     "timezone-test",
+					Name:     StableSuffix("timezone-test"),
 					Timezone: "America/New_York",
 				}),
 				Check: resource.ComposeTestCheckFunc(
@@ -157,7 +157,7 @@ func TestAccIncidentScheduleResourceRotationUpdates(t *testing.T) {
 			// Create with initial rotation
 			{
 				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
-					Name:     "rotation-test",
+					Name:     StableSuffix("rotation-test"),
 					Timezone: "Europe/London",
 					Config: &client.ScheduleConfigV2{
 						Rotations: []client.ScheduleRotationV2{
@@ -193,7 +193,7 @@ func TestAccIncidentScheduleResourceRotationUpdates(t *testing.T) {
 			// Add a new version to the rotation
 			{
 				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
-					Name:     "rotation-test",
+					Name:     StableSuffix("rotation-test"),
 					Timezone: "Europe/London",
 					Config: &client.ScheduleConfigV2{
 						Rotations: []client.ScheduleRotationV2{
@@ -301,7 +301,7 @@ func TestAccIncidentScheduleResourceHolidayConfig(t *testing.T) {
 			// Create with holiday config
 			{
 				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
-					Name:     "holiday-test",
+					Name:     StableSuffix("holiday-test"),
 					Timezone: "Europe/London",
 					HolidaysPublicConfig: &client.ScheduleHolidaysPublicConfigV2{
 						CountryCodes: []string{"GB", "FR"},
@@ -322,7 +322,7 @@ func TestAccIncidentScheduleResourceHolidayConfig(t *testing.T) {
 			// Update holiday config
 			{
 				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
-					Name:     "holiday-test",
+					Name:     StableSuffix("holiday-test"),
 					Timezone: "Europe/London",
 					HolidaysPublicConfig: &client.ScheduleHolidaysPublicConfigV2{
 						CountryCodes: []string{"GB", "DE"},
@@ -337,7 +337,7 @@ func TestAccIncidentScheduleResourceHolidayConfig(t *testing.T) {
 			// Remove holiday config
 			{
 				Config: testAccIncidentScheduleResourceConfig(&client.ScheduleV2{
-					Name:     "holiday-test",
+					Name:     StableSuffix("holiday-test"),
 					Timezone: "Europe/London",
 				}),
 				Check: resource.TestCheckResourceAttr(

@@ -41,11 +41,11 @@ func TestAccIncidentWorkflowResource(t *testing.T) {
 			// Update name and check new state
 			{
 				Config: testAccIncidentWorkflowResourceConfig(&workflowTemplateOverrides{
-					Name: "My New Name",
+					Name: StableSuffix("My New Name"),
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_workflow.example", "name", "My New Name"),
+						"incident_workflow.example", "name", StableSuffix("My New Name")),
 				),
 			},
 			// Update conditions and check new state
@@ -157,7 +157,7 @@ resource "incident_workflow" "example" {
 
 func incidentWorkflowDefault() workflowTemplateOverrides {
 	return workflowTemplateOverrides{
-		Name:             "My Test Workflow",
+		Name:             StableSuffix("My Test Workflow"),
 		ConditionParam:   "open",
 		StepFollowUpName: "Write postmortem",
 		ExpressionLabel:  "Count active participants",
@@ -330,13 +330,13 @@ data "incident_catalog_type" "team" {
 resource "incident_catalog_entry" "owner_team_{{ $i }}" {
   catalog_type_id  = data.incident_catalog_type.team.id
   external_id      = "tf-workflow-owning-team-test-{{ $i }}"
-  name             = "Terraform Workflow Owning Team Test {{ $i }}"
+  name             = {{ stableSuffix (printf "Terraform Workflow Owning Team Test %d" $i) | quote }}
   attribute_values = []
 }
 {{ end }}
 
 resource "incident_workflow" "example" {
-  name    = "Owning teams workflow"
+  name    = {{ stableSuffix "Owning teams workflow" | quote }}
   trigger = "incident.updated"
   condition_groups = [
     {
@@ -385,7 +385,7 @@ resource "incident_workflow" "example" {
 func testAccIncidentWorkflowConfigPrivacy(privacy string) string {
 	return testRunTemplate("incident_workflow_privacy", `
 resource "incident_workflow" "example" {
-  name    = "Private scope workflow"
+  name    = {{ stableSuffix "Private scope workflow" | quote }}
   trigger = "incident.updated"
   condition_groups = [
     {
