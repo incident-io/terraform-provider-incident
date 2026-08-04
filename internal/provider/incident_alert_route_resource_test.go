@@ -1594,7 +1594,7 @@ data "incident_catalog_type" "team" {
 # Create a team catalog entry for this test
 resource "incident_catalog_entry" "owner_team" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tma-%[1]s"
+  external_id     = %[3]q
   name            = "tma-%[1]s"
   attribute_values = []
 }
@@ -1734,7 +1734,7 @@ resource "incident_alert_route" "test" {
 
   owning_team_ids = [incident_catalog_entry.owner_team.id]
 }
-`, name, teamTypeName())
+`, name, teamTypeName(), StableSuffix("tf-alert-route-owning-team-test"))
 }
 
 func testAccIncidentAlertRouteResourceConfigWithMultipleOwningTeamIDs(name string) string {
@@ -1749,14 +1749,14 @@ data "incident_catalog_type" "team" {
 # Create team catalog entries for this test
 resource "incident_catalog_entry" "owner_team" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tma-%[1]s"
+  external_id     = %[3]q
   name            = "tma-%[1]s"
   attribute_values = []
 }
 
 resource "incident_catalog_entry" "owner_team_2" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tmb-%[1]s"
+  external_id     = %[4]q
   name            = "tmb-%[1]s"
   attribute_values = []
 }
@@ -1899,7 +1899,8 @@ resource "incident_alert_route" "test" {
     incident_catalog_entry.owner_team_2.id
   ]
 }
-`, name, teamTypeName())
+`, name, teamTypeName(), StableSuffix("tf-alert-route-owning-team-test"),
+		StableSuffix("tf-alert-route-owning-team-test-2"))
 }
 
 // TestAccIncidentAlertRouteResourceRawJSONLiteral reproduces ONC-11943: a
