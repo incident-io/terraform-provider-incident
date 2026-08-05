@@ -5,7 +5,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
@@ -63,9 +62,9 @@ func TestAccIncidentCatalogEntryDataSource(t *testing.T) {
 	})
 }
 
-var catalogEntryDataSourceTemplate = template.Must(template.New("incident_catalog_entry_data_source").Funcs(sprig.TxtFuncMap()).Parse(`
+var catalogEntryDataSourceTemplate = template.Must(template.New("incident_catalog_entry_data_source").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_catalog_type" "example" {
-  name        = "Catalog Type For Entry Test"
+  name        = {{ stableSuffix "Catalog Type For Entry Test" | quote }}
   type_name   = {{ quote .TypeName }}
   description = "Used in terraform acceptance tests"
 

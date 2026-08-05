@@ -57,7 +57,7 @@ func TestAccIncidentAlertRouteV3Resource(t *testing.T) {
 				Config: testAccIncidentAlertRouteV3ResourceConfig("test-route-v3"),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestMatchResourceAttr("incident_alert_route.test", "id", regexp.MustCompile("^[a-zA-Z0-9]+$")),
-					resource.TestCheckResourceAttr("incident_alert_route.test", "name", "test-route-v3"),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "name", StableSuffix("test-route-v3")),
 					resource.TestCheckResourceAttr("incident_alert_route.test", "enabled", "true"),
 					resource.TestCheckResourceAttr("incident_alert_route.test", "is_private", "false"),
 					// Grouping config lives at the top level in v3.
@@ -87,7 +87,7 @@ func TestAccIncidentAlertRouteV3Resource(t *testing.T) {
 			{
 				Config: testAccIncidentAlertRouteV3ResourceConfig("test-route-v3-updated"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_route.test", "name", "test-route-v3-updated"),
+					resource.TestCheckResourceAttr("incident_alert_route.test", "name", StableSuffix("test-route-v3-updated")),
 				),
 			},
 		},
@@ -103,7 +103,7 @@ func TestAccIncidentAlertRouteV3ResourceComprehensive(t *testing.T) {
 				Config: testAccIncidentAlertRouteV3ResourceConfigComprehensive("comprehensive-test-route-v3"),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestMatchResourceAttr("incident_alert_route.comprehensive", "id", regexp.MustCompile("^[a-zA-Z0-9]+$")),
-					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "name", "comprehensive-test-route-v3"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "name", StableSuffix("comprehensive-test-route-v3")),
 
 					// Alert sources.
 					resource.TestCheckResourceAttrSet("incident_alert_route.comprehensive", "alert_sources.0.alert_source_id"),
@@ -151,7 +151,7 @@ func TestAccIncidentAlertRouteV3ResourceComprehensive(t *testing.T) {
 			{
 				Config: testAccIncidentAlertRouteV3ResourceConfigComprehensive("comprehensive-test-route-v3-updated"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "name", "comprehensive-test-route-v3-updated"),
+					resource.TestCheckResourceAttr("incident_alert_route.comprehensive", "name", StableSuffix("comprehensive-test-route-v3-updated")),
 				),
 			},
 		},
@@ -267,6 +267,8 @@ const alertRouteV3IncidentTemplateBlock = `
     }`
 
 func testAccIncidentAlertRouteV3ResourceConfig(name string) string {
+	name = StableSuffix(name)
+
 	return fmt.Sprintf(`
 resource "incident_alert_route" "test" {
   name       = %[1]q
@@ -305,17 +307,19 @@ resource "incident_alert_route" "test" {
 }
 
 func testAccIncidentAlertRouteV3ResourceConfigComprehensive(name string) string {
+	name = StableSuffix(name)
+
 	return fmt.Sprintf(`
 resource "incident_custom_field" "type_field" {
   # Keep the name within the API's 50-character limit, even when the route name
   # suffix is the longer "-updated" variant.
-  name        = "Type %[1]s"
+  name        = "typ-%[1]s"
   description = "The type of the incident."
   field_type  = "text"
 }
 
 resource "incident_alert_source" "http_test" {
-  name        = "HTTP Test Alert Source V3 %[1]s"
+  name        = "hsrc3-%[1]s"
   source_type = "http"
   template = {
     title = {

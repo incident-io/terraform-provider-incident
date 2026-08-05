@@ -6,7 +6,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
@@ -92,9 +91,9 @@ func TestAccIncidentCatalogEntriesDataSource_Empty(t *testing.T) {
 	})
 }
 
-var catalogEntriesDataSourceTemplate = template.Must(template.New("incident_catalog_entries_data_source").Funcs(sprig.TxtFuncMap()).Parse(`
+var catalogEntriesDataSourceTemplate = template.Must(template.New("incident_catalog_entries_data_source").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_catalog_type" "test" {
-  name        = "Test Catalog Type"
+  name        = {{ stableSuffix "Test Catalog Type" | quote }}
   type_name   = {{ quote .TypeName }}
   description = "Used in terraform acceptance tests"
 
@@ -136,9 +135,9 @@ data "incident_catalog_entries" "test" {
 }
 `))
 
-var catalogEntriesDataSourceTemplateWithAliases = template.Must(template.New("incident_catalog_entries_data_source_aliases").Funcs(sprig.TxtFuncMap()).Parse(`
+var catalogEntriesDataSourceTemplateWithAliases = template.Must(template.New("incident_catalog_entries_data_source_aliases").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_catalog_type" "test" {
-  name        = "Test Catalog Type With Aliases"
+  name        = {{ stableSuffix "Test Catalog Type With Aliases" | quote }}
   type_name   = {{ quote .TypeName }}
   description = "Used in terraform acceptance tests"
 
@@ -160,9 +159,9 @@ data "incident_catalog_entries" "test" {
 }
 `))
 
-var catalogEntriesDataSourceTemplateEmpty = template.Must(template.New("incident_catalog_entries_data_source_empty").Funcs(sprig.TxtFuncMap()).Parse(`
+var catalogEntriesDataSourceTemplateEmpty = template.Must(template.New("incident_catalog_entries_data_source_empty").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_catalog_type" "test" {
-  name        = "Empty Catalog Type"
+  name        = {{ stableSuffix "Empty Catalog Type" | quote }}
   type_name   = {{ quote .TypeName }}
   description = "Used in terraform acceptance tests"
 

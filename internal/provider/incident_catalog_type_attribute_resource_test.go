@@ -8,7 +8,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -149,7 +148,7 @@ func testAccIncidentCatalogTypeAttributeMissingImportStateIDFunc(s *terraform.St
 	return "", fmt.Errorf("Couldn't find catalog_type_attribute resource")
 }
 
-var catalogTypeAttributeTemplate = template.Must(template.New("incident_catalog_type_attribute").Funcs(sprig.TxtFuncMap()).Parse(`
+var catalogTypeAttributeTemplate = template.Must(template.New("incident_catalog_type_attribute").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_catalog_type" "example" {
   name        = "Example ({{ .ID }})"
   description = "Used in terraform acceptance tests"

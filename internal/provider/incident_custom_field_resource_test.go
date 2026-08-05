@@ -5,7 +5,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
@@ -19,7 +18,7 @@ func TestAccIncidentCustomFieldResource(t *testing.T) {
 				Config: testAccIncidentCustomFieldResourceConfig(customFieldTemplateParams{}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_custom_field.example", "name", "Features"),
+						"incident_custom_field.example", "name", StableSuffix("Features")),
 					resource.TestCheckResourceAttr(
 						"incident_custom_field.example", "description", "Features impacted by this incident"),
 					resource.TestCheckResourceAttr(
@@ -54,7 +53,7 @@ func TestAccIncidentCustomFieldResource_CatalogBacked(t *testing.T) {
 				Config: testAccIncidentCustomFieldResourceConfig(customFieldTemplateParams{WithCatalogType: true}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_custom_field.example", "name", "Features"),
+						"incident_custom_field.example", "name", StableSuffix("Features")),
 					resource.TestCheckResourceAttr(
 						"incident_custom_field.example", "description", "Features impacted by this incident"),
 					resource.TestCheckResourceAttr(
@@ -89,10 +88,10 @@ func TestAccIncidentCustomFieldResource_CatalogBacked(t *testing.T) {
 	})
 }
 
-var customFieldTemplate = template.Must(template.New("incident_custom_field").Funcs(sprig.TxtFuncMap()).Parse(`
+var customFieldTemplate = template.Must(template.New("incident_custom_field").Funcs(testTemplateFuncs()).Parse(`
 {{- if .WithCatalogType }}
 resource "incident_catalog_type" "example" {
-  name = "My type"
+  name = {{ stableSuffix "My type" | quote }}
   description = "My type description"
 
   source_repo_url = "https://github.com/incident-io/terraform-demo"
@@ -105,7 +104,7 @@ resource "incident_catalog_type_attribute" "example_string_attr" {
 }
 
 resource "incident_catalog_type" "other" {
-  name = "My other type"
+  name = {{ stableSuffix "My other type" | quote }}
   description = "My other type description"
 
   source_repo_url = "https://github.com/incident-io/terraform-demo"
@@ -120,7 +119,7 @@ resource "incident_catalog_type_attribute" "example_catalog_attr" {
 
 {{- if .WithFilter }}
 resource "incident_custom_field" "other" {
-  name = "Other field"
+  name = {{ stableSuffix "Other field" | quote }}
   description = "Other field description"
 
   field_type = "single_select"
@@ -129,7 +128,7 @@ resource "incident_custom_field" "other" {
 {{- end }}
 
 resource "incident_custom_field" "example" {
-  name                          = "Features"
+  name                          = {{ stableSuffix "Features" | quote }}
   description                   = "Features impacted by this incident"
   field_type                     = "multi_select"
 

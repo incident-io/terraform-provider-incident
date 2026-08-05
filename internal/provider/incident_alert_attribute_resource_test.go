@@ -6,7 +6,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
@@ -20,13 +19,13 @@ func TestAccAlertAttributeResource(t *testing.T) {
 			// Create and read (backwards compatibility - no required field)
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
-					Name:  "Severity",
+					Name:  StableSuffix("Severity"),
 					Type:  "String",
 					Array: false,
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_alert_attribute.example", "name", "Severity"),
+						"incident_alert_attribute.example", "name", StableSuffix("Severity")),
 					resource.TestCheckResourceAttr(
 						"incident_alert_attribute.example", "type", "String"),
 					resource.TestCheckResourceAttr(
@@ -44,7 +43,7 @@ func TestAccAlertAttributeResource(t *testing.T) {
 			// Update to include required=true and emoji
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
-					Name:     "Severity",
+					Name:     StableSuffix("Severity"),
 					Type:     "String",
 					Array:    false,
 					Required: boolPtr(true),
@@ -52,7 +51,7 @@ func TestAccAlertAttributeResource(t *testing.T) {
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_alert_attribute.example", "name", "Severity"),
+						"incident_alert_attribute.example", "name", StableSuffix("Severity")),
 					resource.TestCheckResourceAttr(
 						"incident_alert_attribute.example", "required", "true"),
 					resource.TestCheckResourceAttr(
@@ -62,14 +61,14 @@ func TestAccAlertAttributeResource(t *testing.T) {
 			// Update to required=false
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
-					Name:     "UpdatedSeverity",
+					Name:     StableSuffix("UpdatedSeverity"),
 					Type:     "String",
 					Array:    false,
 					Required: boolPtr(false),
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_alert_attribute.example", "name", "UpdatedSeverity"),
+						"incident_alert_attribute.example", "name", StableSuffix("UpdatedSeverity")),
 					resource.TestCheckResourceAttr(
 						"incident_alert_attribute.example", "required", "false"),
 				),
@@ -87,13 +86,13 @@ func TestAccAlertAttributeResource(t *testing.T) {
 			},
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
-					Name:  "UpdatedSeverity",
+					Name:  StableSuffix("UpdatedSeverity"),
 					Type:  "String",
 					Array: false,
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_alert_attribute.example", "name", "UpdatedSeverity"),
+						"incident_alert_attribute.example", "name", StableSuffix("UpdatedSeverity")),
 				),
 			},
 		},
@@ -110,14 +109,14 @@ func TestAccAlertAttributeResourceWithRequired(t *testing.T) {
 			// Create and read with required=true
 			{
 				Config: testAccAlertAttributeResourceConfig(alertAttributeElement{
-					Name:     "RequiredAttribute",
+					Name:     StableSuffix("RequiredAttribute"),
 					Type:     "String",
 					Array:    false,
 					Required: boolPtr(true),
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_alert_attribute.example", "name", "RequiredAttribute"),
+						"incident_alert_attribute.example", "name", StableSuffix("RequiredAttribute")),
 					resource.TestCheckResourceAttr(
 						"incident_alert_attribute.example", "type", "String"),
 					resource.TestCheckResourceAttr(
@@ -136,7 +135,7 @@ func TestAccAlertAttributeResourceWithRequired(t *testing.T) {
 	})
 }
 
-var alertAttributeTemplate = template.Must(template.New("incident_alert_attribute").Funcs(sprig.TxtFuncMap()).Parse(`
+var alertAttributeTemplate = template.Must(template.New("incident_alert_attribute").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_alert_attribute" "example" {
   name  = {{ quote .Name }}
   type  = {{ quote .Type }}

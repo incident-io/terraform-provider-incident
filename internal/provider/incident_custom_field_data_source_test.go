@@ -5,7 +5,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -40,7 +39,7 @@ func TestAccIncidentCustomFieldDataSource(t *testing.T) {
 	})
 }
 
-var customFieldDataSourceTemplate = template.Must(template.New("incident_custom_field_data_source").Funcs(sprig.TxtFuncMap()).Parse(`
+var customFieldDataSourceTemplate = template.Must(template.New("incident_custom_field_data_source").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_custom_field" "example" {
   name        = {{ quote .ResourceName }}
   description = {{ quote .ResourceDescription }}
@@ -68,7 +67,7 @@ func testAccIncidentCustomFieldDataSourceConfig(payload customFieldDataSourceFix
 
 func customFieldDefault() client.CustomFieldV2 {
 	return client.CustomFieldV2{
-		Name:        "Affected Teams",
+		Name:        StableSuffix("Affected Teams"),
 		Description: "The teams that are affected by this incident",
 		FieldType:   client.CustomFieldV2FieldType("multi_select"),
 	}

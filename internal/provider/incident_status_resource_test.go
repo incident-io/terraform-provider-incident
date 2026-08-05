@@ -6,7 +6,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -37,18 +36,18 @@ func TestAccIncidentStatusResource(t *testing.T) {
 			// Update and read
 			{
 				Config: testAccIncidentStatusResourceConfig(&client.IncidentStatusV1{
-					Name: "Clean-up",
+					Name: StableSuffix("Clean-up"),
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_status.example", "name", "Clean-up"),
+						"incident_status.example", "name", StableSuffix("Clean-up")),
 				),
 			},
 		},
 	})
 }
 
-var incidentStatusTemplate = template.Must(template.New("incident_status").Funcs(sprig.TxtFuncMap()).Parse(`
+var incidentStatusTemplate = template.Must(template.New("incident_status").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_status" "example" {
   name         = {{ quote .Name }}
   description  = {{ quote .Description }}
@@ -58,7 +57,7 @@ resource "incident_status" "example" {
 
 func incidentStatusDefault() client.IncidentStatusV1 {
 	return client.IncidentStatusV1{
-		Name:        "Clean up",
+		Name:        StableSuffix("Clean up"),
 		Description: "We're cleaning up",
 		Category:    client.IncidentStatusV1CategoryLive,
 	}

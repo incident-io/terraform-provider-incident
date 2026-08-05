@@ -1,15 +1,12 @@
 package provider
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"os"
 	"regexp"
 	"testing"
-	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 )
@@ -23,7 +20,7 @@ func TestAccAlertSourceResource(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfig("test-source", "datadog"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "test-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("test-source")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "datadog"),
 					resource.TestCheckResourceAttrSet("incident_alert_source.test", "id"),
 					resource.TestCheckResourceAttrSet("incident_alert_source.test", "secret_token"),
@@ -39,14 +36,14 @@ func TestAccAlertSourceResource(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfig("updated-source", "datadog"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "updated-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("updated-source")),
 				),
 			},
 			// Test full configuration with template
 			{
 				Config: testAccAlertSourceResourceConfigFull(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "full-test-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("full-test-source")),
 					resource.TestCheckResourceAttrSet("incident_alert_source.test", "template.title.literal"),
 					resource.TestCheckResourceAttrSet("incident_alert_source.test", "template.description.literal"),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "template.attributes.#", "1"),
@@ -56,16 +53,6 @@ func TestAccAlertSourceResource(t *testing.T) {
 			},
 		},
 	})
-}
-
-func testRunTemplate(tmplName, source string, args any) string {
-	tmpl := template.Must(template.New(tmplName).Funcs(sprig.TxtFuncMap()).Parse(source))
-	var buf bytes.Buffer
-	err := tmpl.Execute(&buf, args)
-	if err != nil {
-		panic(err)
-	}
-	return buf.String()
 }
 
 func testAccAlertSourceResourceConfig(name string, sourceType string) string {
@@ -88,7 +75,7 @@ resource "incident_alert_source" "test" {
 `, struct {
 		Name, SourceType, Title, Description string
 	}{
-		Name:        name,
+		Name:        StableSuffix(name),
 		SourceType:  sourceType,
 		Title:       testAlertSourceTitle,
 		Description: testAlertSourceDescription,
@@ -126,7 +113,7 @@ resource "incident_alert_source" "test" {
 		Description string
 		ProjectIDs  []string
 	}{
-		Name:        name,
+		Name:        StableSuffix(name),
 		Title:       testAlertSourceTitle,
 		Description: testAlertSourceDescription,
 		ProjectIDs:  projectIDs,
@@ -136,13 +123,13 @@ resource "incident_alert_source" "test" {
 func testAccAlertSourceResourceConfigFull() string {
 	return testRunTemplate("incident_alert_source_full", `
 resource "incident_alert_attribute" "test" {
-  name = "test-attribute"
+  name = {{ stableSuffix "test-attribute" | quote }}
   type = "String"
   array = false
 }
 
 resource "incident_alert_source" "test" {
-  name        = "full-test-source"
+  name        = {{ stableSuffix "full-test-source" | quote }}
   source_type = "datadog"
 
   template = {
@@ -195,7 +182,7 @@ func TestAccAlertSourceResource_Heartbeat(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigWithHeartbeat("heartbeat-source", 60),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "heartbeat-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("heartbeat-source")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "heartbeat"),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "heartbeat_options.interval_seconds", "60"),
 					resource.TestCheckResourceAttrSet("incident_alert_source.test", "heartbeat_options.failure_threshold"),
@@ -234,7 +221,7 @@ resource "incident_alert_source" "test" {
 		Name            string
 		IntervalSeconds int
 	}{
-		Name:            name,
+		Name:            StableSuffix(name),
 		IntervalSeconds: intervalSeconds,
 	})
 }
@@ -258,7 +245,7 @@ func TestAccAlertSourceResource_Jira(t *testing.T) {
 				// This is the default project in our dev account
 				Config: testAccAlertSourceResourceConfigWithJira("jira-source", []string{"46a0db2b-17d4-48c1-961e-563d87797b5c/10000"}),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "jira-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("jira-source")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "jira_options.project_ids.#", "1"),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "jira_options.project_ids.0", "46a0db2b-17d4-48c1-961e-563d87797b5c/10000"),
 				),
@@ -420,7 +407,7 @@ resource "incident_alert_source" "test" {
 				// Test missing required template fields
 				Config: testRunTemplate("incident_alert_source_invalid", `
 resource "incident_alert_source" "test" {
-  name        = "test-source"
+  name        = {{ stableSuffix "test-source" | quote }}
   source_type = "datadog"
   template = {
     # Missing required title
@@ -528,7 +515,7 @@ func TestAccAlertSourceResource_DynamicAttributes(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigDynamicAttributes(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "name", "tf-dynamic-alert-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "name", StableSuffix("tf-dynamic-alert-source")),
 					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "source_type", "http"),
 					// Verify we have 2 attributes
 					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "template.attributes.#", "2"),
@@ -542,13 +529,13 @@ func testAccAlertSourceResourceConfigDynamicAttributes() string {
 	return testRunTemplate("incident_alert_source_dynamic_attributes", `
 # Create alert attributes directly
 resource "incident_alert_attribute" "team" {
-  name  = "team-tf-attr"
+  name  = {{ stableSuffix "team-tf-attr" | quote }}
   type  = "String"
   array = false
 }
 
 resource "incident_alert_attribute" "feature" {
-  name  = "feature-tf-attr"
+  name  = {{ stableSuffix "feature-tf-attr" | quote }}
   type  = "String"
   array = false
 }
@@ -559,7 +546,7 @@ locals {
 
 # Use those attributes in an alert source
 resource "incident_alert_source" "dynamic_alert_source" {
-  name        = "tf-dynamic-alert-source"
+  name        = {{ stableSuffix "tf-dynamic-alert-source" | quote }}
   source_type = "http"
 
   template = {
@@ -603,7 +590,7 @@ resource "incident_alert_source" "dynamic_alert_source" {
 func testAccAlertSourceResourceConfigVisibleToTeamsWithoutPrivate() string {
 	return testRunTemplate("incident_alert_source_visible_to_teams_without_private", `
 resource "incident_alert_source" "test" {
-  name        = "test-source-invalid"
+  name        = {{ stableSuffix "test-source-invalid" | quote }}
   source_type = "http"
 
   template = {
@@ -631,7 +618,7 @@ resource "incident_alert_source" "test" {
 func testAccAlertSourceResourceConfigPrivateWithoutTeams() string {
 	return testRunTemplate("incident_alert_source_private_without_teams", `
 resource "incident_alert_source" "test" {
-  name        = "test-source-invalid"
+  name        = {{ stableSuffix "test-source-invalid" | quote }}
   source_type = "http"
 
   template = {
@@ -664,7 +651,7 @@ func TestAccAlertSourceResource_Private(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigPrivate(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "private-alert-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("private-alert-source")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "http"),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "template.is_private", "true"),
 					resource.TestCheckResourceAttrSet("incident_alert_source.test", "template.visible_to_teams.array_value.0.literal"),
@@ -690,13 +677,13 @@ data "incident_catalog_type" "team" {
 # Create a team catalog entry for this test
 resource "incident_catalog_entry" "test_team" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tf-alert-source-privacy-test"
-  name            = "Terraform Alert Source Privacy Test Team"
+  external_id     = {{ stableSuffix "tf-alert-source-privacy-test" | quote }}
+  name            = {{ stableSuffix "Alert Source Privacy Test Team" | quote }}
   attribute_values = []
 }
 
 resource "incident_alert_source" "test" {
-  name        = "private-alert-source"
+  name        = {{ stableSuffix "private-alert-source" | quote }}
   source_type = "http"
 
   template = {
@@ -902,6 +889,8 @@ func extractAttributes(after any) []map[string]any {
 
 func testAccAlertSourceResourceConfigIssue342(withThirdAttribute bool) string {
 	return testRunTemplate("incident_alert_source_issue_342", `
+// Priority is a built-in attribute that already exists in the org, so it must be
+// looked up by its real name rather than a per-run one.
 data "incident_alert_attribute" "priority" {
   name = "Priority"
 }
@@ -919,31 +908,31 @@ data "incident_catalog_entries" "priorities" {
 # merge_strategy = "first_wins", which sits alongside the literal-only
 # priority binding.
 resource "incident_alert_attribute" "url" {
-  name  = "issue-342-url"
+  name  = {{ stableSuffix "issue-342-url" | quote }}
   type  = "String"
   array = false
 }
 
 resource "incident_alert_attribute" "country" {
-  name  = "issue-342-country"
+  name  = {{ stableSuffix "issue-342-country" | quote }}
   type  = "String"
   array = false
 }
 
 resource "incident_alert_attribute" "environment" {
-  name  = "issue-342-environment"
+  name  = {{ stableSuffix "issue-342-environment" | quote }}
   type  = "String"
   array = false
 }
 
 resource "incident_alert_attribute" "service" {
-  name  = "issue-342-service"
+  name  = {{ stableSuffix "issue-342-service" | quote }}
   type  = "String"
   array = false
 }
 
 resource "incident_alert_source" "test" {
-  name        = "issue-342-test-source"
+  name        = {{ stableSuffix "issue-342-test-source" | quote }}
   source_type = "datadog"
 
   template = {
@@ -1088,7 +1077,7 @@ func TestAccAlertSourceResourceOwningTeamIDs(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfig("test-source-no-teams", "datadog"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "test-source-no-teams"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("test-source-no-teams")),
 					resource.TestCheckNoResourceAttr("incident_alert_source.test", "owning_team_ids"),
 				),
 			},
@@ -1096,7 +1085,7 @@ func TestAccAlertSourceResourceOwningTeamIDs(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigWithOwningTeamIDs("test-source-with-teams"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "test-source-with-teams"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("test-source-with-teams")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "owning_team_ids.#", "1"),
 					resource.TestCheckResourceAttrPair("incident_alert_source.test", "owning_team_ids.0", "incident_catalog_entry.owner_team", "id"),
 				),
@@ -1105,7 +1094,7 @@ func TestAccAlertSourceResourceOwningTeamIDs(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigWithDifferentOwningTeamIDs("test-source-updated-teams"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "test-source-updated-teams"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("test-source-updated-teams")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "owning_team_ids.#", "2"),
 				),
 			},
@@ -1123,8 +1112,8 @@ data "incident_catalog_type" "team" {
 # Create a team catalog entry for this test
 resource "incident_catalog_entry" "owner_team" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tf-alert-source-owning-team-test"
-  name            = "Terraform Alert Source Owning Team Test"
+  external_id     = {{ stableSuffix "tf-alert-source-owning-team-test" | quote }}
+  name            = {{ stableSuffix "Alert Source Owning Team Test" | quote }}
   attribute_values = []
 }
 
@@ -1148,7 +1137,7 @@ resource "incident_alert_source" "test" {
 `, struct {
 		Name, Title, Description, TeamTypeName string
 	}{
-		Name:         name,
+		Name:         StableSuffix(name),
 		Title:        testAlertSourceTitle,
 		Description:  testAlertSourceDescription,
 		TeamTypeName: teamTypeName(),
@@ -1164,7 +1153,7 @@ func TestAccAlertSourceResource_Email(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigWithEmail("email-source"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "email-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("email-source")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "email"),
 					resource.TestCheckResourceAttrSet("incident_alert_source.test", "email_address"),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "email_options.redactions.#", "2"),
@@ -1208,7 +1197,7 @@ resource "incident_alert_source" "test" {
 `, struct {
 		Name, Title, Description string
 	}{
-		Name:        name,
+		Name:        StableSuffix(name),
 		Title:       testAlertSourceTitle,
 		Description: testAlertSourceDescription,
 	})
@@ -1232,7 +1221,7 @@ func TestAccAlertSourceResource_HTTPCustomOptions(t *testing.T) {
 			{
 				Config: testAccAlertSourceResourceConfigWithHTTPCustom("http-custom-source"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", "http-custom-source"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("http-custom-source")),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "http_custom"),
 					resource.TestCheckResourceAttrSet("incident_alert_source.test", "alert_events_url"),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "http_custom_options.deduplication_key_path", "$.alert_id"),
@@ -1276,7 +1265,7 @@ func TestAccAlertSourceResource_HTTPCustomOptionsComputed(t *testing.T) {
 func testAccAlertSourceResourceConfigHTTPCustomComputed(name string) string {
 	return testRunTemplate("incident_alert_source_http_custom_computed", `
 resource "incident_alert_attribute" "dedup" {
-  name  = "dedup-tf-attr"
+  name  = {{ stableSuffix "dedup-tf-attr" | quote }}
   type  = "String"
   array = false
 }
@@ -1304,7 +1293,7 @@ resource "incident_alert_source" "test" {
 `, struct {
 		Name, Title, Description string
 	}{
-		Name:        name,
+		Name:        StableSuffix(name),
 		Title:       testAlertSourceTitle,
 		Description: testAlertSourceDescription,
 	})
@@ -1335,7 +1324,7 @@ resource "incident_alert_source" "test" {
 `, struct {
 		Name, Title, Description string
 	}{
-		Name:        name,
+		Name:        StableSuffix(name),
 		Title:       testAlertSourceTitle,
 		Description: testAlertSourceDescription,
 	})
@@ -1351,15 +1340,15 @@ data "incident_catalog_type" "team" {
 # Create team catalog entries for this test
 resource "incident_catalog_entry" "owner_team" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tf-alert-source-owning-team-test"
-  name            = "Terraform Alert Source Owning Team Test"
+  external_id     = {{ stableSuffix "tf-alert-source-owning-team-test" | quote }}
+  name            = {{ stableSuffix "Alert Source Owning Team Test" | quote }}
   attribute_values = []
 }
 
 resource "incident_catalog_entry" "owner_team_2" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = "tf-alert-source-owning-team-test-2"
-  name            = "Terraform Alert Source Owning Team Test 2"
+  external_id     = {{ stableSuffix "tf-alert-source-owning-team-test-2" | quote }}
+  name            = {{ stableSuffix "Alert Source Owning Team Test 2" | quote }}
   attribute_values = []
 }
 
@@ -1386,7 +1375,7 @@ resource "incident_alert_source" "test" {
 `, struct {
 		Name, Title, Description, TeamTypeName string
 	}{
-		Name:         name,
+		Name:         StableSuffix(name),
 		Title:        testAlertSourceTitle,
 		Description:  testAlertSourceDescription,
 		TeamTypeName: teamTypeName(),

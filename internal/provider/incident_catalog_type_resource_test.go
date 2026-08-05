@@ -10,7 +10,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
@@ -178,7 +177,7 @@ func generateTypeName() string {
 	return fmt.Sprintf(`Custom["Spaceships%s"]`, allowedRunID)
 }
 
-var catalogTypeTemplate = template.Must(template.New("incident_catalog_type").Funcs(sprig.TxtFuncMap()).Parse(`
+var catalogTypeTemplate = template.Must(template.New("incident_catalog_type").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_catalog_type" "example" {
   name        = {{ quote .Name }}
   {{ if ne .TypeName "" }}type_name   = {{ quote .TypeName }}{{ end }}
@@ -188,7 +187,7 @@ resource "incident_catalog_type" "example" {
 }
 `))
 
-var catalogTypeWithUseNameAsIdentifierTemplate = template.Must(template.New("incident_catalog_type_with_use_name").Funcs(sprig.TxtFuncMap()).Parse(`
+var catalogTypeWithUseNameAsIdentifierTemplate = template.Must(template.New("incident_catalog_type_with_use_name").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_catalog_type" "example" {
   name                   = {{ quote .Name }}
   description            = {{ quote .Description }}
@@ -198,7 +197,7 @@ resource "incident_catalog_type" "example" {
 }
 `))
 
-var catalogTypeWithOwningTeamsTemplate = template.Must(template.New("incident_catalog_type_with_owning_teams").Funcs(sprig.TxtFuncMap()).Parse(`
+var catalogTypeWithOwningTeamsTemplate = template.Must(template.New("incident_catalog_type_with_owning_teams").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_catalog_type" "example" {
   name        = {{ quote .Name }}
   description = {{ quote .Description }}

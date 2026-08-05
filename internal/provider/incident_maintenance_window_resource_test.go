@@ -9,7 +9,6 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 	"github.com/incident-io/terraform-provider-incident/internal/client"
@@ -94,7 +93,7 @@ func TestAccIncidentMaintenanceWindowResource(t *testing.T) {
 			// Update and read
 			{
 				Config: testAccMaintenanceWindowResourceConfig(maintenanceWindowModel{
-					Name:          "Updated Maintenance Window",
+					Name:          StableSuffix("Updated Maintenance Window"),
 					StartAt:       model.StartAt,
 					EndAt:         model.EndAt,
 					LeadUserID:    model.LeadUserID,
@@ -102,7 +101,7 @@ func TestAccIncidentMaintenanceWindowResource(t *testing.T) {
 				}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"incident_maintenance_window.example", "name", "Updated Maintenance Window"),
+						"incident_maintenance_window.example", "name", StableSuffix("Updated Maintenance Window")),
 					resource.TestCheckResourceAttr(
 						"incident_maintenance_window.example", "show_in_sidebar", "false"),
 				),
@@ -205,7 +204,7 @@ type maintenanceWindowModel struct {
 	ShowInSidebar bool
 }
 
-var maintenanceWindowTemplate = template.Must(template.New("incident_maintenance_window").Funcs(sprig.TxtFuncMap()).Parse(`
+var maintenanceWindowTemplate = template.Must(template.New("incident_maintenance_window").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_maintenance_window" "example" {
   name            = {{ quote .Name }}
   start_at        = {{ quote .StartAt }}
@@ -233,7 +232,7 @@ resource "incident_maintenance_window" "example" {
 }
 `))
 
-var maintenanceWindowWithOptionalFieldsTemplate = template.Must(template.New("incident_maintenance_window_optional").Funcs(sprig.TxtFuncMap()).Parse(`
+var maintenanceWindowWithOptionalFieldsTemplate = template.Must(template.New("incident_maintenance_window_optional").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_maintenance_window" "example" {
   name            = {{ quote .Name }}
   start_at        = {{ quote .StartAt }}
@@ -274,7 +273,7 @@ func maintenanceWindowDefault(t *testing.T) maintenanceWindowModel {
 	endAt := time.Now().Add(28 * time.Hour).Truncate(time.Second).UTC().Format(time.RFC3339)
 
 	return maintenanceWindowModel{
-		Name:          "Test Maintenance Window",
+		Name:          StableSuffix("Test Maintenance Window"),
 		StartAt:       startAt,
 		EndAt:         endAt,
 		LeadUserID:    testAccMaintenanceWindowLeadUserID(t),

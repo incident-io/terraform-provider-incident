@@ -13,7 +13,7 @@ func TestAccIncidentAlertSourcesDataSource(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccIncidentAlertSourcesDataSourceConfig,
+				Config: testAccIncidentAlertSourcesDataSourceConfig(),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					// Check that we have at least 2 alert sources (our created ones plus any existing ones)
 					resource.TestCheckResourceAttrWith("data.incident_alert_sources.test", "alert_sources.#", func(value string) error {
@@ -24,11 +24,11 @@ func TestAccIncidentAlertSourcesDataSource(t *testing.T) {
 					}),
 					// Check that our test alert sources exist in the results
 					resource.TestCheckTypeSetElemNestedAttrs("data.incident_alert_sources.test", "alert_sources.*", map[string]string{
-						"name":        "Test HTTP Alert Source 1",
+						"name":        StableSuffix("Test HTTP Alert Source 1"),
 						"source_type": "http",
 					}),
 					resource.TestCheckTypeSetElemNestedAttrs("data.incident_alert_sources.test", "alert_sources.*", map[string]string{
-						"name":        "Test HTTP Alert Source 2",
+						"name":        StableSuffix("Test HTTP Alert Source 2"),
 						"source_type": "http",
 					}),
 				),
@@ -37,9 +37,13 @@ func TestAccIncidentAlertSourcesDataSource(t *testing.T) {
 	})
 }
 
-const testAccIncidentAlertSourcesDataSourceConfig = `
+func testAccIncidentAlertSourcesDataSourceConfig() string {
+	return testRunTemplate("incident_alert_sources_data_source", testAccIncidentAlertSourcesDataSourceTemplate, nil)
+}
+
+const testAccIncidentAlertSourcesDataSourceTemplate = `
 resource "incident_alert_source" "test1" {
-  name        = "Test HTTP Alert Source 1"
+  name        = {{ stableSuffix "Test HTTP Alert Source 1" | quote }}
   source_type = "http"
   template = {
     title = {
@@ -54,7 +58,7 @@ resource "incident_alert_source" "test1" {
 }
 
 resource "incident_alert_source" "test2" {
-  name        = "Test HTTP Alert Source 2"
+  name        = {{ stableSuffix "Test HTTP Alert Source 2" | quote }}
   source_type = "http"
   template = {
     title = {

@@ -5,7 +5,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
@@ -79,7 +78,7 @@ func TestAccIncidentEscalationPathDataSource(t *testing.T) {
 	})
 }
 
-var escalationPathDataSourceTemplate = template.Must(template.New("incident_escalation_path_data_source").Funcs(sprig.TxtFuncMap()).Parse(`
+var escalationPathDataSourceTemplate = template.Must(template.New("incident_escalation_path_data_source").Funcs(testTemplateFuncs()).Parse(`
 # This is the _official_ team catalog type
 data "incident_catalog_type" "team" {
   name = {{ quote .TeamTypeName }}
@@ -88,8 +87,8 @@ data "incident_catalog_type" "team" {
 # This is a team catalog entry
 resource "incident_catalog_entry" "terraform" {
   catalog_type_id = data.incident_catalog_type.team.id
-  external_id = "tf-acceptance-test-ds"
-  name = "Terraform test team (data source)"
+  external_id = {{ stableSuffix "tf-acceptance-test-ds" | quote }}
+  name = {{ stableSuffix "Terraform test team (data source)" | quote }}
   attribute_values = []
   managed_attributes = []
 }

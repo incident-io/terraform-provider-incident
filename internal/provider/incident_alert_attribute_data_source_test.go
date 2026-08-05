@@ -6,7 +6,6 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	"github.com/incident-io/terraform-provider-incident/internal/client"
@@ -44,7 +43,7 @@ func TestAccIncidentAlertAttributeDataSource(t *testing.T) {
 	})
 }
 
-var incidentAlertAttributeDataSourceTemplate = template.Must(template.New("incident_alert_attribute_data_source").Funcs(sprig.TxtFuncMap()).Parse(`
+var incidentAlertAttributeDataSourceTemplate = template.Must(template.New("incident_alert_attribute_data_source").Funcs(testTemplateFuncs()).Parse(`
 resource "incident_alert_attribute" "example" {
   name  = {{ quote .Name }}
   type  = {{ quote .Type }}
@@ -57,7 +56,7 @@ data "incident_alert_attribute" "by_name" {
 
 func alertAttributeDefault() client.AlertAttributeV2 {
 	return client.AlertAttributeV2{
-		Name:  "Severity",
+		Name:  StableSuffix("Severity"),
 		Type:  "String",
 		Array: false,
 	}
