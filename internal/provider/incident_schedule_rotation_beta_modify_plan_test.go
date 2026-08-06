@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -395,4 +396,195 @@ func TestScheduleRotationModifyPlanUnconfigured(t *testing.T) {
 	if resp.Diagnostics.HasError() || len(warnings(resp)) != 0 {
 		t.Errorf("expected no diagnostics, got %+v", resp.Diagnostics)
 	}
+}
+
+// withAttribute returns a rotation with one attribute replaced, so a case can vary a
+// single field without restating the whole thing.
+func withAttribute(t *testing.T, rotation tftypes.Value, name string, value tftypes.Value) tftypes.Value {
+	t.Helper()
+
+	// As hands back the value's own map, so copy first: mutating it in place would
+	// change the rotation we were handed too, leaving a plan built from state equal to
+	// it and quietly passing every "this changed" check.
+	var attributes map[string]tftypes.Value
+	if err := rotation.Copy().As(&attributes); err != nil {
+		t.Fatalf("unpacking rotation: %v", err)
+	}
+	attributes[name] = value
+
+	return tftypes.NewValue(rotation.Type(), attributes)
+}
+
+// effectiveFrom returns a rotation whose scheduled change lands in from now —
+// negative for a cutover that has already happened.
+func effectiveFrom(t *testing.T, rotation tftypes.Value, in time.Duration) tftypes.Value {
+	t.Helper()
+
+	return withAttribute(t, rotation, "effective_from",
+		tftypes.NewValue(tftypes.String, time.Now().Add(in).UTC().Format(time.RFC3339)))
+}
+
+// TestScheduleRotationModifyPlanSupersededChange is the case this warning exists for: a
+// rotation with a change still pending, being edited. A rotation holds one scheduled
+// change, so the pending one goes — and after an import there's nothing else to say so,
+// since we report the scheduled shape rather than the line-up on call.
+func TestScheduleRotationModifyPlanSupersededChange(t *testing.T) {
+	api := &fakeAPI{layers: []client.ScheduleLayerV2{layer("01LAYER1", "Primary")}}
+
+	state := effectiveFrom(t, rotationValue(t, "01SCHED", 1), 90*24*time.Hour)
+	plan := withAttribute(t, state, "name", tftypes.NewValue(tftypes.String, "Renamed"))
+
+	resp := modifyRotationPlan(t, api, state, &plan)
+	if resp.Diagnostics.HasError() {
+		t.Fatalf("unexpected errors: %+v", resp.Diagnostics)
+	}
+
+	got := warnings(resp)
+	if len(got) != 1 {
+		t.Fatalf("expected one warning, got %+v", got)
+	}
+	for _, want := range []string{
+		"This edits a change that is already scheduled",
+		`Rotation "Weekday shadow" has a change scheduled for`,
+		"rewrites that change rather than who is on call now",
+		"Set rollout to immediate",
+	} {
+		if !strings.Contains(got[0], want) {
+			t.Errorf("warning missing %q, got: %s", want, got[0])
+		}
+	}
+
+	// State alone settles this, so it costs a plan nothing.
+	if api.requests != 0 {
+		t.Errorf("expected no API calls, got %d", api.requests)
+	}
+}
+
+// supersededWarnings runs the check on its own. A rollout that phases in a line-up
+// change sends planEffectiveFrom to the preview endpoint, which isn't what these cases
+// are about — calling the check directly keeps them to one reason to fail.
+func supersededWarnings(t *testing.T, state, plan tftypes.Value) []string {
+	t.Helper()
+
+	var schemaResp resource.SchemaResponse
+	NewIncidentScheduleRotationBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+
+	r := &IncidentScheduleRotationBetaResource{}
+	var resp resource.ModifyPlanResponse
+	r.warnSupersededChange(context.Background(), resource.ModifyPlanRequest{
+		State: tfsdk.State{Schema: schemaResp.Schema, Raw: state},
+		Plan:  tfsdk.Plan{Schema: schemaResp.Schema, Raw: plan},
+	}, &resp)
+
+	return warnings(resp)
+}
+
+// TestScheduleRotationModifyPlanSupersededChangeWithRollout is the other half: a
+// rollout picks its own moment to take over, which discards the one already scheduled
+// rather than rewriting what happens at it. Same situation, materially different
+// outcome, so the warning has to say something different.
+func TestScheduleRotationModifyPlanSupersededChangeWithRollout(t *testing.T) {
+	state := effectiveFrom(t, rotationValue(t, "01SCHED", 1), 90*24*time.Hour)
+	// Two shifts rather than one, so there's a line-up change for the rollout to phase
+	// in — a rollout on its own is never sent, and is covered below.
+	plan := withAttribute(t,
+		withAttribute(t, state, "rollout", tftypes.NewValue(tftypes.String, "after_current_shift")),
+		"concurrent_shifts", tftypes.NewValue(tftypes.Number, 2))
+
+	got := supersededWarnings(t, state, plan)
+	if len(got) != 1 {
+		t.Fatalf("expected one warning, got %+v", got)
+	}
+	for _, want := range []string{
+		"A scheduled change to this rotation will be replaced",
+		`Rotation "Weekday shadow" has a change scheduled for`,
+		"Rolling this edit out replaces it, so that change won't happen",
+	} {
+		if !strings.Contains(got[0], want) {
+			t.Errorf("warning missing %q, got: %s", want, got[0])
+		}
+	}
+}
+
+// TestScheduleRotationModifyPlanSupersededChangeReplaced checks a rotation being
+// replaced stays quiet: replacing takes the scheduled change with it.
+func TestScheduleRotationModifyPlanSupersededChangeReplaced(t *testing.T) {
+	api := &fakeAPI{
+		layers:    []client.ScheduleLayerV2{layer("01LAYER1", "Primary")},
+		overrides: []client.ScheduleOverrideV2{override("01OVER1", "01LAYER1", 24*time.Hour)},
+	}
+
+	var schemaResp resource.SchemaResponse
+	NewIncidentScheduleRotationBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+
+	state := effectiveFrom(t, rotationValue(t, "01SCHED", 1), 90*24*time.Hour)
+	plan := effectiveFrom(t, rotationValue(t, "01OTHERSCHED", 1), 90*24*time.Hour)
+
+	r := &IncidentScheduleRotationBetaResource{client: api.start(t)}
+	resp := resource.ModifyPlanResponse{RequiresReplace: path.Paths{path.Root("schedule_id")}}
+	r.ModifyPlan(context.Background(), resource.ModifyPlanRequest{
+		State: tfsdk.State{Schema: schemaResp.Schema, Raw: state},
+		Plan:  tfsdk.Plan{Schema: schemaResp.Schema, Raw: plan},
+	}, &resp)
+
+	for _, got := range warnings(resp) {
+		if strings.Contains(got, "scheduled") {
+			t.Errorf("expected no scheduled-change warning on a replace, got: %s", got)
+		}
+	}
+}
+
+// TestScheduleRotationModifyPlanSupersededChangeQuiet covers the cases that must not
+// warn — the ones that decide whether the warning is worth trusting when it does fire.
+func TestScheduleRotationModifyPlanSupersededChangeQuiet(t *testing.T) {
+	rename := func(t *testing.T, state tftypes.Value) (tftypes.Value, tftypes.Value) {
+		return state, withAttribute(t, state, "name", tftypes.NewValue(tftypes.String, "Renamed"))
+	}
+
+	for name, build := range map[string]func(*testing.T) (tftypes.Value, tftypes.Value){
+		// The overwhelmingly common shape: no cutover has ever happened.
+		"no scheduled change": func(t *testing.T) (tftypes.Value, tftypes.Value) {
+			return rename(t, rotationValue(t, "01SCHED", 1))
+		},
+		// A rotation whose line-up changed in the past keeps that dated version, and
+		// it's the one we report — so editing it supersedes nothing.
+		"a cutover that already happened": func(t *testing.T) (tftypes.Value, tftypes.Value) {
+			return rename(t, effectiveFrom(t, rotationValue(t, "01SCHED", 1), -90*24*time.Hour))
+		},
+		// Nothing is written, so the scheduled change survives — this is the plan
+		// straight after importing a rotation that has one pending.
+		"a plan that changes nothing": func(t *testing.T) (tftypes.Value, tftypes.Value) {
+			state := effectiveFrom(t, rotationValue(t, "01SCHED", 1), 90*24*time.Hour)
+			return state, state
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			api := &fakeAPI{layers: []client.ScheduleLayerV2{layer("01LAYER1", "Primary")}}
+			state, plan := build(t)
+
+			resp := modifyRotationPlan(t, api, state, &plan)
+			if resp.Diagnostics.HasError() {
+				t.Fatalf("unexpected errors: %+v", resp.Diagnostics)
+			}
+			if got := warnings(resp); len(got) != 0 {
+				t.Errorf("expected no warnings, got %+v", got)
+			}
+		})
+	}
+
+	// A rollout is only sent when there's a line-up to phase in, so an edit that sets one
+	// while leaving the line-up alone rewrites the scheduled change like any other.
+	t.Run("a rollout with no line-up change", func(t *testing.T) {
+		api := &fakeAPI{layers: []client.ScheduleLayerV2{layer("01LAYER1", "Primary")}}
+
+		state := effectiveFrom(t, rotationValue(t, "01SCHED", 1), 90*24*time.Hour)
+		plan := withAttribute(t,
+			withAttribute(t, state, "rollout", tftypes.NewValue(tftypes.String, "after_current_shift")),
+			"name", tftypes.NewValue(tftypes.String, "Renamed"))
+
+		got := warnings(modifyRotationPlan(t, api, state, &plan))
+		if len(got) != 1 || !strings.Contains(got[0], "This edits a change that is already scheduled") {
+			t.Errorf("expected the rewrite warning, got %+v", got)
+		}
+	})
 }

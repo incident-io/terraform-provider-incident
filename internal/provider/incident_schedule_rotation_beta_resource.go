@@ -640,7 +640,59 @@ func clockTimeMinutes(value string) (int, bool) {
 // problem and leaving the first to be discovered after the apply.
 func (r *IncidentScheduleRotationBetaResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
 	r.warnStrandedOverrides(ctx, req, resp)
+	r.warnSupersededChange(ctx, req, resp)
 	r.planEffectiveFrom(ctx, req, resp)
+}
+
+// warnSupersededChange says so when an edit lands on a change that was already
+// scheduled — a rotation holds at most one. Easy to walk into after an import, since we
+// report the scheduled shape rather than the line-up on call.
+func (r *IncidentScheduleRotationBetaResource) warnSupersededChange(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	// A create has nothing scheduled, and a destroy or replace takes the whole rotation
+	// with its scheduled change — the override warning is what matters there.
+	if req.State.Raw.IsNull() || req.Plan.Raw.IsNull() || len(resp.RequiresReplace) > 0 {
+		return
+	}
+
+	// A plan that changes nothing writes nothing, so the scheduled change survives.
+	if req.Plan.Raw.Equal(req.State.Raw) {
+		return
+	}
+
+	var state, plan IncidentScheduleRotationBetaModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
+	if resp.Diagnostics.HasError() || state.EffectiveFrom.IsNull() || state.EffectiveFrom.IsUnknown() {
+		return
+	}
+
+	effectiveFrom, diags := state.EffectiveFrom.ValueRFC3339Time()
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() || !effectiveFrom.After(time.Now()) {
+		return
+	}
+
+	name, scheduledFor := state.Name.ValueString(), effectiveFrom.UTC().Format(time.RFC3339)
+
+	// A rollout picks its own moment and discards the scheduled one; without a rollout
+	// the moment stays and only what happens at it changes. Same condition Update sends
+	// the rollout on, since a rollout is only phased in when there's a line-up to phase.
+	if plan.Rollout.IsNull() || !rotationLineUpDiffers(plan, state) {
+		resp.Diagnostics.AddWarning(
+			"This edits a change that is already scheduled",
+			fmt.Sprintf("Rotation %q has a change scheduled for %s, and this rewrites that "+
+				"change rather than who is on call now. Set rollout to immediate to change "+
+				"the current line-up instead.", name, scheduledFor),
+		)
+		return
+	}
+
+	resp.Diagnostics.AddWarning(
+		"A scheduled change to this rotation will be replaced",
+		fmt.Sprintf("Rotation %q has a change scheduled for %s. Rolling this edit out "+
+			"replaces it, so that change won't happen — a rotation can only have one "+
+			"scheduled at a time.", name, scheduledFor),
+	)
 }
 
 // planEffectiveFrom works out when a change to this rotation takes over, so the plan
