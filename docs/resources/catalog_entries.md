@@ -263,6 +263,17 @@ Optional:
 
 Import is supported using the following syntax:
 
+In Terraform v1.5.0 and later, the [`import` block](https://developer.hashicorp.com/terraform/language/import) can be used with the `id` attribute, for example:
+
+```terraform
+# Import catalog entries using the catalog_type_id
+# Replace the ID with a real catalog type ID from your incident.io organization
+import {
+  to = incident_catalog_entries.example
+  id = "01ABC123DEF456GHI789JKL"
+}
+```
+
 The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell
