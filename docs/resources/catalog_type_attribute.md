@@ -125,6 +125,17 @@ NOTE: When enabled, you should use the `managed_attributes` argument on either `
 
 Import is supported using the following syntax:
 
+In Terraform v1.5.0 and later, the [`import` block](https://developer.hashicorp.com/terraform/language/import) can be used with the `id` attribute, for example:
+
+```terraform
+# Import a catalog type attribute using the format catalog_type_id:attribute_id
+# Replace the IDs with real IDs from your incident.io organization
+import {
+  to = incident_catalog_type_attribute.example
+  id = "01ABC123DEF456GHI789JKL:01MNO456PQR789STU012VWX"
+}
+```
+
 The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell

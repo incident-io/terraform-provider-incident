@@ -1649,6 +1649,22 @@ Optional:
 
 Import is supported using the following syntax:
 
+In Terraform v1.5.0 and later, the [`import` block](https://developer.hashicorp.com/terraform/language/import) can be used with the `id` attribute, for example:
+
+```terraform
+# Import an alert route using its ID. Replace the ID with a real ID from your
+# incident.io organization.
+#
+# The provider automatically detects which configuration format to import:
+# alert routes where the current format is available import using it
+# (grouping_config), and routes where it isn't available yet import using the
+# deprecated format.
+import {
+  to = incident_alert_route.example
+  id = "01ABC123DEF456GHI789JKL"
+}
+```
+
 The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell

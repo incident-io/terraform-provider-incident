@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Warn at plan time when an edit to an `incident_schedule_rotation_beta` lands on a change already scheduled on that rotation: a rollout replaces that change, and an edit without one rewrites it rather than changing who is on call now. Easy to miss after importing a rotation.
+- Document `import` blocks on every resource's registry page, above the existing `terraform import` command. Config-driven import can be reviewed and applied like any other change, rather than needing a command run by hand.
 
 ## v6.0.0
 

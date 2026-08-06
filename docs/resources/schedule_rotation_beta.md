@@ -208,6 +208,18 @@ Required:
 
 Import is supported using the following syntax:
 
+In Terraform v1.5.0 and later, the [`import` block](https://developer.hashicorp.com/terraform/language/import) can be used with the `id` attribute, for example:
+
+```terraform
+# Import a rotation using its schedule's ID and its own ID, separated by a colon.
+# A rotation is only addressable through the schedule that holds it.
+# Replace both IDs with real ones from your incident.io organization.
+import {
+  to = incident_schedule_rotation_beta.example
+  id = "01ABC123DEF456GHI789JKL:01MNO456PQR789STU012VWX"
+}
+```
+
 The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell
