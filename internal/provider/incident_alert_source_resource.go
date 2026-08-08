@@ -281,12 +281,17 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 			},
 			"secret_token": schema.StringAttribute{
 				Computed: true,
-				// We do *not* mark this as sensitive, since it is no more sensitive
-				// than other values in the Terraform state.
+				// This token authenticates anyone sending events to the alert source, so
+				// it is more sensitive than the rest of the resource and should not be
+				// printed in plan output, which often ends up in CI logs.
 				//
-				// If we marked this as sensitive, it would not appear in CLI output,
-				// which makes setting up new alert sources more difficult than
-				// necessary.
+				// It is still stored in plain text in state, as all Terraform values are.
+				// To read it during setup, wrap it in nonsensitive():
+				//
+				//   output "secret_token" {
+				//     value = nonsensitive(incident_alert_source.example.secret_token)
+				//   }
+				Sensitive:           true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV2", "secret_token"),
 				PlanModifiers: []planmodifier.String{
 					// This does not change after creation
