@@ -51,6 +51,8 @@ output "webhook_alert_sources_count" {
 
 output "webhook_alert_source_details" {
   description = "Details of webhook alert sources"
+  # secret_token is a sensitive value, so any output including it must say so.
+  sensitive = true
   value = [for source in data.incident_alert_sources.webhooks_only.alert_sources : {
     id           = source.id
     name         = source.name

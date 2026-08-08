@@ -1,5 +1,18 @@
 ## Unreleased
 
+#### Breaking changes
+
+- **`secret_token` on `incident_alert_source` is now marked sensitive**, so it is redacted in plan and apply output instead of being printed in full. That token authenticates anyone sending events to the source, and printing it meant it landed in the logs of any CI runner applying the change. The value is unchanged and is still stored in plain text in state, as all Terraform values are.
+- This is breaking for configurations that pass the token somewhere Terraform does not accept a sensitive value, most commonly an `output` block without `sensitive = true`. Wrap the reference in `nonsensitive()` to keep the old behaviour:
+
+  ```terraform
+  output "secret_token" {
+    value = nonsensitive(incident_alert_source.example.secret_token)
+  }
+  ```
+
+  The equivalent attribute on the `incident_alert_sources` data source has been sensitive since it was added in v5.9.0; this brings the resource in line with it.
+
 ## v6.0.1
 
 - Warn at plan time when an edit to an `incident_schedule_rotation_beta` lands on a change already scheduled on that rotation: a rollout replaces that change, and an edit without one rewrites it rather than changing who is on call now. Easy to miss after importing a rotation.
