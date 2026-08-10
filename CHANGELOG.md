@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v6.1.0
+
 - Add optional `retry_config` to `incident_escalation_path` levels, allowing you
   to configure repeated notifications on a single level.
 
