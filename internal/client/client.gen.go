@@ -11361,6 +11361,9 @@ type EscalationPathNodeLevelV2 struct {
 	// Example: all
 	AckMode *EscalationPathNodeLevelV2AckMode `json:"ack_mode,omitempty"`
 
+	// RetryConfig Example: {"attempts":3,"interval_seconds":300}
+	RetryConfig *EscalationPathRetryConfigV2 `json:"retry_config,omitempty"`
+
 	// RoundRobinConfig Example: {"enabled":false,"rotate_after_seconds":120}
 	RoundRobinConfig *EscalationPathRoundRobinConfigV2 `json:"round_robin_config,omitempty"`
 
@@ -11541,6 +11544,19 @@ type EscalationPathRepeatConfigV2 struct {
 	//
 	// Example: 1800
 	RepeatAfterSeconds int32 `json:"repeat_after_seconds"`
+}
+
+// EscalationPathRetryConfigV2 Example: {"attempts":3,"interval_seconds":300}
+type EscalationPathRetryConfigV2 struct {
+	// Attempts The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+	//
+	// Example: 3
+	Attempts int64 `json:"attempts"`
+
+	// IntervalSeconds How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+	//
+	// Example: 300
+	IntervalSeconds int64 `json:"interval_seconds"`
 }
 
 // EscalationPathRoundRobinConfigV2 Example: {"enabled":false,"rotate_after_seconds":120}

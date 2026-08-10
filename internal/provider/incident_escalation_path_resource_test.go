@@ -572,6 +572,95 @@ resource "incident_escalation_path" "rota_modes" {
 `, teamTypeName(), name, name, StableSuffix("tf-acceptance-test-rota-modes"))
 }
 
+func TestAccIncidentEscalationPathRetryConfig(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create and read a level that pages more than once via retry_config.
+			{
+				Config: testAccIncidentEscalationPathResourceConfigWithRetryConfig(
+					StableSuffix("EP retry-config"),
+				),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.retries", "path.0.level.retry_config.attempts", "3"),
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.retries", "path.0.level.retry_config.interval_seconds", "60"),
+				),
+			},
+			{
+				ResourceName:      "incident_escalation_path.retries",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+func testAccIncidentEscalationPathResourceConfigWithRetryConfig(name string) string {
+	return fmt.Sprintf(`
+data "incident_catalog_type" "team" {
+  name = %[1]q
+}
+
+resource "incident_catalog_entry" "terraform_retries" {
+  catalog_type_id    = data.incident_catalog_type.team.id
+  external_id        = %[4]q
+  name               = %[4]q
+  attribute_values   = []
+  managed_attributes = []
+}
+
+resource "incident_schedule" "retries" {
+  name     = %[2]q
+  timezone = "Europe/London"
+  rotations = [{
+    id   = "primary"
+    name = "Primary"
+    versions = [{
+      handover_start_at = "2024-05-01T12:00:00Z"
+      users             = []
+      layers = [{
+        id   = "primary"
+        name = "Primary"
+      }]
+      handovers = [{
+        interval_type = "daily"
+        interval      = 1
+      }]
+    }]
+  }]
+  team_ids = [incident_catalog_entry.terraform_retries.id]
+}
+
+resource "incident_escalation_path" "retries" {
+  name = %[3]q
+
+  path = [
+    {
+      type = "level"
+      level = {
+        targets = [{
+          type    = "schedule"
+          id      = incident_schedule.retries.id
+          urgency = "high"
+        }]
+        time_to_ack_seconds = 300
+
+        retry_config = {
+          attempts         = 3
+          interval_seconds = 60
+        }
+      }
+    }
+  ]
+
+  team_ids = [incident_catalog_entry.terraform_retries.id]
+}
+`, teamTypeName(), name, name, StableSuffix("tf-acceptance-test-retries"))
+}
+
 func TestAccIncidentEscalationPathSelectedRotaIDValidation(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },

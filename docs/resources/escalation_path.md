@@ -602,6 +602,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -620,6 +621,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -717,6 +727,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -735,6 +746,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -800,6 +820,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -818,6 +839,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -998,6 +1028,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1016,6 +1047,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -1113,6 +1153,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1131,6 +1172,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -1196,6 +1246,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1214,6 +1265,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -1279,6 +1339,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1297,6 +1358,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -1560,6 +1630,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1578,6 +1649,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -1675,6 +1755,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1693,6 +1774,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -1758,6 +1848,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1776,6 +1867,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -1956,6 +2056,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -1974,6 +2075,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -2071,6 +2181,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2089,6 +2200,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -2154,6 +2274,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2172,6 +2293,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -2237,6 +2367,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2255,6 +2386,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -2320,6 +2460,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2338,6 +2479,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -2684,6 +2834,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2702,6 +2853,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -2799,6 +2959,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2817,6 +2978,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -2882,6 +3052,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -2900,6 +3071,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -3080,6 +3260,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3098,6 +3279,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -3195,6 +3385,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3213,6 +3404,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -3278,6 +3478,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3296,6 +3497,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -3361,6 +3571,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3379,6 +3590,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -3642,6 +3862,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3660,6 +3881,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -3757,6 +3987,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3775,6 +4006,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -3840,6 +4080,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -3858,6 +4099,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -4038,6 +4288,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -4056,6 +4307,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -4153,6 +4413,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -4171,6 +4432,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -4236,6 +4506,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -4254,6 +4525,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -4319,6 +4599,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -4337,6 +4618,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -4402,6 +4692,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -4420,6 +4711,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -4485,6 +4785,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -4503,6 +4804,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--then_path--level--round_robin_config"></a>
@@ -4932,6 +5242,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -4950,6 +5261,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -5047,6 +5367,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -5065,6 +5386,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -5130,6 +5460,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -5148,6 +5479,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -5328,6 +5668,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -5346,6 +5687,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -5443,6 +5793,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -5461,6 +5812,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -5526,6 +5886,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -5544,6 +5905,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -5609,6 +5979,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -5627,6 +5998,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -5890,6 +6270,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -5908,6 +6289,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -6005,6 +6395,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -6023,6 +6414,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -6088,6 +6488,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -6106,6 +6507,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -6286,6 +6696,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -6304,6 +6715,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -6401,6 +6821,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -6419,6 +6840,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -6484,6 +6914,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -6502,6 +6933,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -6567,6 +7007,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -6585,6 +7026,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -6650,6 +7100,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -6668,6 +7119,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -7014,6 +7474,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -7032,6 +7493,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -7129,6 +7599,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -7147,6 +7618,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -7212,6 +7692,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -7230,6 +7711,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -7410,6 +7900,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -7428,6 +7919,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -7525,6 +8025,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -7543,6 +8044,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -7608,6 +8118,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -7626,6 +8137,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -7691,6 +8211,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -7709,6 +8230,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -7972,6 +8502,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -7990,6 +8521,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
@@ -8087,6 +8627,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -8105,6 +8646,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
@@ -8170,6 +8720,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -8188,6 +8739,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -8368,6 +8928,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -8386,6 +8947,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
@@ -8483,6 +9053,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -8501,6 +9072,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -8566,6 +9146,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -8584,6 +9165,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -8649,6 +9239,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -8667,6 +9258,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -8732,6 +9332,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -8750,6 +9351,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
@@ -8815,6 +9425,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -8833,6 +9444,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--if_else--else_path--level--round_robin_config"></a>
@@ -8898,6 +9518,7 @@ Required:
 Optional:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--level--round_robin_config))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
@@ -8916,6 +9537,15 @@ Optional:
 
 - `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+
+
+<a id="nestedatt--path--level--retry_config"></a>
+### Nested Schema for `path.level.retry_config`
+
+Required:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
 
 
 <a id="nestedatt--path--level--round_robin_config"></a>

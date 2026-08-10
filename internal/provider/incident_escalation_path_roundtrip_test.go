@@ -147,3 +147,72 @@ func TestEscalationPathRoundTrip(t *testing.T) {
 		t.Fatalf("expected nested then-path level target to round-trip")
 	}
 }
+
+// TestEscalationPathRetryConfigRoundTrip proves a level's retry_config survives
+// the API -> model -> payload conversion. Without carrying the field in both
+// directions, a read/modify/write (as Terraform does on every apply) silently
+// dropped the retry configuration.
+func TestEscalationPathRetryConfigRoundTrip(t *testing.T) {
+	ctx := context.Background()
+	r := &IncidentEscalationPathResource{}
+
+	ep := client.EscalationPathV2{
+		Id:   "ep-1",
+		Name: "Retry path",
+		Path: []client.EscalationPathNodeV2{
+			{
+				Id:   "node-1",
+				Type: client.EscalationPathNodeV2TypeLevel,
+				Level: &client.EscalationPathNodeLevelV2{
+					Targets: []client.EscalationPathTargetV2{
+						{
+							Id:      "schedule-1",
+							Type:    client.EscalationPathTargetV2TypeSchedule,
+							Urgency: client.EscalationPathTargetV2UrgencyHigh,
+						},
+					},
+					TimeToAckSeconds: lo.ToPtr(int64(300)),
+					RetryConfig: &client.EscalationPathRetryConfigV2{
+						Attempts:        3,
+						IntervalSeconds: 60,
+					},
+				},
+			},
+		},
+	}
+
+	var diags diag.Diagnostics
+	model := r.buildModel(ctx, ep, &diags)
+	if diags.HasError() {
+		t.Fatalf("buildModel produced errors: %#v", diags)
+	}
+
+	nodes := decodeNodes(ctx, model.Path, &diags)
+	if diags.HasError() {
+		t.Fatalf("decodeNodes produced errors: %#v", diags)
+	}
+	if len(nodes) != 1 || nodes[0].Level == nil {
+		t.Fatalf("expected a single level node in the model")
+	}
+	if rc := nodes[0].Level.RetryConfig; rc == nil {
+		t.Fatalf("expected retry_config to survive into the model")
+	} else if rc.Attempts.ValueInt64() != 3 || rc.IntervalSeconds.ValueInt64() != 60 {
+		t.Fatalf("unexpected retry_config in model: %+v", rc)
+	}
+
+	var payloadDiags diag.Diagnostics
+	payload := r.toPathPayload(ctx, model.Path, &payloadDiags)
+	if payloadDiags.HasError() {
+		t.Fatalf("toPathPayload produced errors: %#v", payloadDiags)
+	}
+	if len(payload) != 1 || payload[0].Level == nil {
+		t.Fatalf("expected a single level node in the payload")
+	}
+	rc := payload[0].Level.RetryConfig
+	if rc == nil {
+		t.Fatalf("expected retry_config to survive into the payload")
+	}
+	if rc.Attempts != 3 || rc.IntervalSeconds != 60 {
+		t.Fatalf("unexpected retry_config in payload: %+v", rc)
+	}
+}
