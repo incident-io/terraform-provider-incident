@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Add optional `retry_config` to `incident_escalation_path` levels, allowing you
+  to configure repeated notifications on a single level.
+
 ## v6.0.1
 
 - Warn at plan time when an edit to an `incident_schedule_rotation_beta` lands on a change already scheduled on that rotation: a rollout replaces that change, and an edit without one rewrites it rather than changing who is on call now. Easy to miss after importing a rotation.

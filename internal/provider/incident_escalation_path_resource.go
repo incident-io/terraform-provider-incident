@@ -65,6 +65,7 @@ type IncidentEscalationPathNodeIfElse struct {
 type IncidentEscalationPathNodeLevel struct {
 	Targets                          types.List                          `tfsdk:"targets"`
 	RoundRobinConfig                 *IncidentEscalationRoundRobinConfig `tfsdk:"round_robin_config"`
+	RetryConfig                      *IncidentEscalationRetryConfig      `tfsdk:"retry_config"`
 	TimeToAckIntervalCondition       types.String                        `tfsdk:"time_to_ack_interval_condition"`
 	TimeToAckSeconds                 types.Int64                         `tfsdk:"time_to_ack_seconds"`
 	TimeToAckWeekdayIntervalConfigID types.String                        `tfsdk:"time_to_ack_weekday_interval_config_id"`
@@ -93,6 +94,11 @@ type IncidentEscalationPathNodeRepeat struct {
 type IncidentEscalationRoundRobinConfig struct {
 	Enabled            types.Bool  `tfsdk:"enabled"`
 	RotateAfterSeconds types.Int64 `tfsdk:"rotate_after_seconds"`
+}
+
+type IncidentEscalationRetryConfig struct {
+	Attempts        types.Int64 `tfsdk:"attempts"`
+	IntervalSeconds types.Int64 `tfsdk:"interval_seconds"`
 }
 
 type IncidentEscalationPathTarget struct {
@@ -138,6 +144,10 @@ func nodeAttrTypes(depth int) map[string]attr.Type {
 			"round_robin_config": types.ObjectType{AttrTypes: map[string]attr.Type{
 				"enabled":              types.BoolType,
 				"rotate_after_seconds": types.Int64Type,
+			}},
+			"retry_config": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"attempts":         types.Int64Type,
+				"interval_seconds": types.Int64Type,
 			}},
 			"time_to_ack_seconds":                    types.Int64Type,
 			"time_to_ack_interval_condition":         types.StringType,
@@ -311,6 +321,19 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 							"rotate_after_seconds": schema.Int64Attribute{
 								MarkdownDescription: apischema.Docstring("EscalationPathRoundRobinConfigV2", "rotate_after_seconds"),
 								Optional:            true,
+							},
+						},
+					},
+					"retry_config": schema.SingleNestedAttribute{
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"attempts": schema.Int64Attribute{
+								MarkdownDescription: apischema.Docstring("EscalationPathRetryConfigV2", "attempts"),
+								Required:            true,
+							},
+							"interval_seconds": schema.Int64Attribute{
+								MarkdownDescription: apischema.Docstring("EscalationPathRetryConfigV2", "interval_seconds"),
+								Required:            true,
 							},
 						},
 					},
@@ -949,6 +972,12 @@ func (r *IncidentEscalationPathResource) toPathModel(ctx context.Context, nodes 
 					RotateAfterSeconds: rotateAfterSeconds,
 				}
 			}
+			if value := node.Level.RetryConfig; value != nil {
+				elem.Level.RetryConfig = &IncidentEscalationRetryConfig{
+					Attempts:        types.Int64Value(value.Attempts),
+					IntervalSeconds: types.Int64Value(value.IntervalSeconds),
+				}
+			}
 			if value := node.Level.TimeToAckSeconds; value != nil {
 				elem.Level.TimeToAckSeconds = types.Int64Value(*value)
 			}
@@ -1112,6 +1141,13 @@ func (r *IncidentEscalationPathResource) toPathPayload(ctx context.Context, path
 				elem.Level.RoundRobinConfig = &client.EscalationPathRoundRobinConfigV2{
 					Enabled:            node.Level.RoundRobinConfig.Enabled.ValueBool(),
 					RotateAfterSeconds: node.Level.RoundRobinConfig.RotateAfterSeconds.ValueInt64Pointer(),
+				}
+			}
+
+			if node.Level.RetryConfig != nil {
+				elem.Level.RetryConfig = &client.EscalationPathRetryConfigV2{
+					Attempts:        node.Level.RetryConfig.Attempts.ValueInt64(),
+					IntervalSeconds: node.Level.RetryConfig.IntervalSeconds.ValueInt64(),
 				}
 			}
 

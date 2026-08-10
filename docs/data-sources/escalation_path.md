@@ -448,11 +448,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -545,11 +555,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -613,11 +633,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -787,11 +817,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -884,11 +924,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -952,11 +1002,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -1020,11 +1080,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -1271,11 +1341,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -1368,11 +1448,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -1436,11 +1526,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -1610,11 +1710,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -1707,11 +1817,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -1775,11 +1895,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -1843,11 +1973,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -1911,11 +2051,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -2239,11 +2389,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -2336,11 +2496,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -2404,11 +2574,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -2578,11 +2758,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -2675,11 +2865,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -2743,11 +2943,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -2811,11 +3021,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -3062,11 +3282,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -3159,11 +3389,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -3227,11 +3467,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -3401,11 +3651,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -3498,11 +3758,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -3566,11 +3836,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -3634,11 +3914,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -3702,11 +3992,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -3770,11 +4070,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.else_path.level.round_robin_config`
@@ -4175,11 +4485,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -4272,11 +4592,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -4340,11 +4670,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -4514,11 +4854,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -4611,11 +4961,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -4679,11 +5039,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -4747,11 +5117,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -4998,11 +5378,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -5095,11 +5485,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -5163,11 +5563,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -5337,11 +5747,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -5434,11 +5854,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -5502,11 +5932,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -5570,11 +6010,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -5638,11 +6088,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -5966,11 +6426,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -6063,11 +6533,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -6131,11 +6611,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -6305,11 +6795,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -6402,11 +6902,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -6470,11 +6980,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -6538,11 +7058,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -6789,11 +7319,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.level.round_robin_config`
@@ -6886,11 +7426,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.level.round_robin_config`
@@ -6954,11 +7504,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -7128,11 +7688,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.level.round_robin_config`
@@ -7225,11 +7795,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -7293,11 +7873,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -7361,11 +7951,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -7429,11 +8029,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.level.round_robin_config`
@@ -7497,11 +8107,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--if_else--then_path--level--retry_config"></a>
+### Nested Schema for `path.if_else.then_path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--if_else--then_path--level--round_robin_config"></a>
 ### Nested Schema for `path.if_else.then_path.level.round_robin_config`
@@ -7565,11 +8185,21 @@ Read-Only:
 Read-Only:
 
 - `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--level--targets))
 - `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--path--level--retry_config"></a>
+### Nested Schema for `path.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
 
 <a id="nestedatt--path--level--round_robin_config"></a>
 ### Nested Schema for `path.level.round_robin_config`

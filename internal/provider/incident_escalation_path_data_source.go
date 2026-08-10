@@ -219,6 +219,19 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 							},
 						},
 					},
+					"retry_config": schema.SingleNestedAttribute{
+						Computed: true,
+						Attributes: map[string]schema.Attribute{
+							"attempts": schema.Int64Attribute{
+								Computed:            true,
+								MarkdownDescription: apischema.Docstring("EscalationPathRetryConfigV2", "attempts"),
+							},
+							"interval_seconds": schema.Int64Attribute{
+								Computed:            true,
+								MarkdownDescription: apischema.Docstring("EscalationPathRetryConfigV2", "interval_seconds"),
+							},
+						},
+					},
 					"time_to_ack_seconds": schema.Int64Attribute{
 						Computed:            true,
 						MarkdownDescription: apischema.Docstring("EscalationPathNodeLevelV2", "time_to_ack_seconds"),
