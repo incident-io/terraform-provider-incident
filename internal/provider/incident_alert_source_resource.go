@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/http"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -14,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
@@ -25,6 +28,7 @@ var (
 	_ resource.ResourceWithConfigure      = &IncidentAlertSourceResource{}
 	_ resource.ResourceWithImportState    = &IncidentAlertSourceResource{}
 	_ resource.ResourceWithValidateConfig = &IncidentAlertSourceResource{}
+	_ resource.ResourceWithModifyPlan     = &IncidentAlertSourceResource{}
 )
 
 type IncidentAlertSourceResource struct {
@@ -250,6 +254,141 @@ func (m useStateForUnknownIncludingNull) PlanModifyBool(ctx context.Context, req
 
 func NewIncidentAlertSourceResource() resource.Resource {
 	return &IncidentAlertSourceResource{}
+}
+
+// alertSourceValidateTimeout bounds the plan-time template check. Long enough that a
+// slow-but-working API still answers, short enough that an unhealthy one costs a plan
+// seconds rather than minutes. A var so tests don't have to wait it out.
+var alertSourceValidateTimeout = 10 * time.Second
+
+// ModifyPlan asks the API whether the planned template would be accepted, so a broken
+// expression shows up in the plan instead of part way through an apply.
+//
+// It can't live in ValidateConfig, which is also called by `terraform validate` — that
+// runs the provider without configuring it, so there's no client to ask with.
+func (r *IncidentAlertSourceResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	// A destroy plans no template, and an unconfigured provider has no client.
+	if r.client == nil || req.Plan.Raw.IsNull() {
+		return
+	}
+
+	// An expression pointing at, say, a catalog type this same apply creates is unknown
+	// until it exists. Validating around the gaps would report errors the apply won't hit,
+	// so leave those configs alone.
+	if !alertSourceTemplateSettled(req.Plan.Raw) {
+		return
+	}
+
+	var data models.AlertSourceResourceModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// The schema makes template required, so this shouldn't happen — but ToPayload has a
+	// value receiver, and a panic in a plan modifier takes the whole provider down over a
+	// check that is only advisory.
+	if data.Template == nil {
+		return
+	}
+
+	// The shared client retries a 5xx ten times with exponential backoff, which is right
+	// for a read an apply depends on and far too patient for an advisory check: it would
+	// stall a plan for minutes per alert source. Give up quickly and warn instead.
+	ctx, cancel := context.WithTimeout(ctx, alertSourceValidateTimeout)
+	defer cancel()
+
+	_, err := r.client.AlertSourcesV2ValidateWithResponse(ctx, client.AlertSourcesValidatePayloadV2{
+		SourceType:    client.AlertSourcesValidatePayloadV2SourceType(data.SourceType.ValueString()),
+		Template:      data.Template.ToPayload(),
+		OwningTeamIds: owningTeamIDsPayload(data.OwningTeamIDs),
+	})
+	if err == nil {
+		return
+	}
+
+	// 422 is the API telling us this template is wrong, which is the whole point.
+	var httpErr client.HTTPError
+	if errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusUnprocessableEntity {
+		resp.Diagnostics.AddAttributeError(path.Root("template"),
+			"Invalid alert source template", httpErr.Error())
+		return
+	}
+
+	// Anything else means the check didn't run, not that the config is bad: the endpoint
+	// isn't deployed yet, the API is down, the request timed out. Warn, because failing
+	// here would break plans over a config that may be perfectly good.
+	resp.Diagnostics.AddAttributeWarning(path.Root("template"),
+		"Could not validate the alert source template",
+		fmt.Sprintf("The template was not checked, and may still be rejected when you apply: %s", err))
+}
+
+// alertSourceComputedLeaves are the template's Optional+Computed attributes, which sit
+// unknown in the plan whenever the config leaves them out. The API fills them in, and the
+// payload we send leaves them out too, so validation still describes what an apply would
+// do — treating them as unsettled would skip the check on any config with a binding.
+var alertSourceComputedLeaves = map[string]bool{
+	"merge_strategy": true,
+	"is_private":     true,
+}
+
+// alertSourceTemplateSettled reports whether the values validation reads are known. An
+// expression pointing at a catalog type this same apply creates is unknown until it
+// exists, and checking around that reports errors the apply won't hit.
+func alertSourceTemplateSettled(plan tftypes.Value) bool {
+	var attributes map[string]tftypes.Value
+	if err := plan.As(&attributes); err != nil {
+		return false
+	}
+
+	if !attributes["source_type"].IsKnown() {
+		return false
+	}
+
+	settled := true
+	err := tftypes.Walk(attributes["template"], func(steps *tftypes.AttributePath, value tftypes.Value) (bool, error) {
+		if value.IsKnown() {
+			return true, nil
+		}
+
+		if name, ok := lastAttributeName(steps); ok && alertSourceComputedLeaves[name] {
+			return false, nil
+		}
+
+		settled = false
+
+		return false, nil
+	})
+	if err != nil {
+		return false
+	}
+
+	return settled
+}
+
+func lastAttributeName(steps *tftypes.AttributePath) (string, bool) {
+	if steps == nil || len(steps.Steps()) == 0 {
+		return "", false
+	}
+
+	name, ok := steps.Steps()[len(steps.Steps())-1].(tftypes.AttributeName)
+
+	return string(name), ok
+}
+
+func owningTeamIDsPayload(configured types.Set) *[]string {
+	if configured.IsNull() || configured.IsUnknown() {
+		return nil
+	}
+
+	teamIDs := []string{}
+	for _, elem := range configured.Elements() {
+		if str, ok := elem.(types.String); ok {
+			teamIDs = append(teamIDs, str.ValueString())
+		}
+	}
+
+	return &teamIDs
 }
 
 func (r *IncidentAlertSourceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -494,17 +633,7 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 	}
 
 	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertSourcesV2CreateResponse, error) {
-		var owningTeamIDs *[]string
-		if !data.OwningTeamIDs.IsNull() {
-			teamIDs := []string{}
-			for _, elem := range data.OwningTeamIDs.Elements() {
-				if str, ok := elem.(types.String); ok {
-					teamIDs = append(teamIDs, str.ValueString())
-				}
-			}
-
-			owningTeamIDs = &teamIDs
-		}
+		owningTeamIDs := owningTeamIDsPayload(data.OwningTeamIDs)
 
 		payload := client.AlertSourcesCreatePayloadV2{
 			Name:              data.Name.ValueString(),
