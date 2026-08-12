@@ -3,6 +3,8 @@ package models
 import (
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/types"
+
 	"github.com/incident-io/terraform-provider-incident/internal/client"
 	"github.com/samber/lo"
 )
@@ -135,6 +137,60 @@ func TestAlertRouteV2EscalationPathTargetIgnoresDuplicateUsers(t *testing.T) {
 	}
 	if target.Users != nil {
 		t.Error("users should be nil for an escalation-path target (API duplicate must be dropped)")
+	}
+}
+
+// TestAlertRouteV2ReconcilesConditionOperation covers ONC-12602 end-to-end for
+// the v2 mapping: the API accepts `one_of` on a String subject but stores and
+// returns `contains_one_of`. FromAPIV2WithPlan must restore the planned `one_of`
+// so the read-back matches the plan and apply converges. On an import/read with
+// no plan the API value is kept verbatim.
+func TestAlertRouteV2ReconcilesConditionOperation(t *testing.T) {
+	api := client.AlertRouteV2{
+		Id:            "01ABC",
+		Name:          "route",
+		Version:       2,
+		AlertSources:  []client.AlertRouteAlertSourceV2{},
+		ChannelConfig: []client.AlertRouteChannelConfigV2{},
+		ConditionGroups: []client.ConditionGroupV2{
+			{
+				Conditions: []client.ConditionV2{
+					{
+						Subject:   client.ConditionSubjectV2{Reference: "alert.attributes.01GH"},
+						Operation: client.ConditionOperationV2{Value: "contains_one_of"},
+					},
+				},
+			},
+		},
+		Expressions: []client.ExpressionV2{},
+		EscalationConfig: client.AlertRouteEscalationConfigV2{
+			EscalationTargets: []client.AlertRouteEscalationTargetV2{},
+		},
+		IncidentConfig:   client.AlertRouteIncidentConfigV2{GroupingKeys: []client.GroupingKeyV2{}},
+		IncidentTemplate: client.AlertRouteIncidentTemplateV2{},
+	}
+
+	plan := &AlertRouteResourceModel{
+		ConditionGroups: IncidentEngineConditionGroups{
+			{
+				Conditions: IncidentEngineConditions{
+					{
+						Subject:   types.StringValue("alert.attributes.01GH"),
+						Operation: types.StringValue("one_of"),
+					},
+				},
+			},
+		},
+	}
+
+	withPlan := AlertRouteResourceModel{}.FromAPIV2WithPlan(api, plan)
+	if got := withPlan.ConditionGroups[0].Conditions[0].Operation.ValueString(); got != "one_of" {
+		t.Errorf("with plan: operation should be reconciled to %q, got %q", "one_of", got)
+	}
+
+	noPlan := AlertRouteResourceModel{}.FromAPIV2(api)
+	if got := noPlan.ConditionGroups[0].Conditions[0].Operation.ValueString(); got != "contains_one_of" {
+		t.Errorf("no plan: operation should stay verbatim %q, got %q", "contains_one_of", got)
 	}
 }
 

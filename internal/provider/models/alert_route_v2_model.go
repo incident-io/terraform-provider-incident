@@ -650,6 +650,28 @@ func (AlertRouteResourceModel) FromAPIV2WithPlan(apiModel client.AlertRouteV2, p
 		result.MessageTemplate = &binding
 	}
 
+	// Preserve the planned operation for any condition the API normalised to a
+	// semantically-equivalent value (e.g. `one_of` -> `contains_one_of` for a
+	// String subject), which would otherwise make the read-back disagree with the
+	// plan and fail apply. See IncidentEngineConditionGroups.ReconcileOperations.
+	if plan != nil {
+		result.ConditionGroups.ReconcileOperations(plan.ConditionGroups)
+		for i := range result.AlertSources {
+			if i < len(plan.AlertSources) {
+				result.AlertSources[i].ConditionGroups.ReconcileOperations(plan.AlertSources[i].ConditionGroups)
+			}
+		}
+		for i := range result.ChannelConfig {
+			if i < len(plan.ChannelConfig) {
+				result.ChannelConfig[i].ConditionGroups.ReconcileOperations(plan.ChannelConfig[i].ConditionGroups)
+			}
+		}
+		if result.IncidentConfig != nil && plan.IncidentConfig != nil {
+			result.IncidentConfig.ConditionGroups.ReconcileOperations(plan.IncidentConfig.ConditionGroups)
+		}
+		result.Expressions.ReconcileOperations(plan.Expressions)
+	}
+
 	return result
 }
 

@@ -61,6 +61,51 @@ type IncidentEngineConditionGroup struct {
 	Conditions IncidentEngineConditions `tfsdk:"conditions"`
 }
 
+// serverOperationNormalisations maps the condition operations the API accepts on
+// input to the canonical form it stores and returns. For a String (rather than
+// CatalogEntry) subject the API silently rewrites the set-membership operators
+// to their substring-matching equivalents: `one_of` becomes `contains_one_of`
+// and `not_one_of` becomes `not_contains_one_of`. `one_of` is the value used in
+// the provider docs and the API reference example, so it is a natural thing to
+// write, but because operation is stored verbatim from the read-back the plan
+// (`one_of`) then disagrees with the applied state (`contains_one_of`) and
+// Terraform aborts with "Provider produced inconsistent result after apply",
+// tainting the route so it never converges (ONC-12602).
+//
+// We only ever preserve the planned value when the API's value is exactly the
+// known normalisation of it, so any other divergence (a genuine change, or an
+// unrelated out-of-band edit) is still surfaced rather than masked.
+var serverOperationNormalisations = map[string]string{
+	"one_of":     "contains_one_of",
+	"not_one_of": "not_contains_one_of",
+}
+
+// ReconcileOperations restores planned condition operations onto this read-back
+// set wherever the API normalised the operation to a semantically-equivalent
+// value it accepts but rewrites (see serverOperationNormalisations). Condition
+// groups and the conditions within them are ordered lists, so we correlate
+// positionally against the plan and additionally require the subject to match,
+// which keeps a genuine operation change (or a mismatched correlation) surfaced.
+func (groups IncidentEngineConditionGroups) ReconcileOperations(plan IncidentEngineConditionGroups) {
+	for gi := range groups {
+		if gi >= len(plan) {
+			break
+		}
+		for ci := range groups[gi].Conditions {
+			if ci >= len(plan[gi].Conditions) {
+				break
+			}
+
+			planned := plan[gi].Conditions[ci]
+			applied := groups[gi].Conditions[ci]
+			if applied.Subject.Equal(planned.Subject) &&
+				serverOperationNormalisations[planned.Operation.ValueString()] == applied.Operation.ValueString() {
+				groups[gi].Conditions[ci].Operation = planned.Operation
+			}
+		}
+	}
+}
+
 type IncidentEngineConditions []IncidentEngineCondition
 
 func (IncidentEngineConditions) FromAPI(conditions []client.ConditionV2) IncidentEngineConditions {
@@ -159,6 +204,39 @@ func (IncidentEngineParamBindingValue) FromAPI(pbv client.EngineParamBindingValu
 }
 
 type IncidentEngineExpressions []IncidentEngineExpression
+
+// ReconcileOperations restores planned condition operations onto the condition
+// groups nested inside expression operations (filter and branch conditions),
+// mirroring IncidentEngineConditionGroups.ReconcileOperations. We correlate
+// expressions, operations and branches positionally against the plan.
+func (expressions IncidentEngineExpressions) ReconcileOperations(plan IncidentEngineExpressions) {
+	for ei := range expressions {
+		if ei >= len(plan) {
+			break
+		}
+		for oi := range expressions[ei].Operations {
+			if oi >= len(plan[ei].Operations) {
+				break
+			}
+
+			op := expressions[ei].Operations[oi]
+			planOp := plan[ei].Operations[oi]
+
+			if op.Filter != nil && planOp.Filter != nil {
+				op.Filter.ConditionGroups.ReconcileOperations(planOp.Filter.ConditionGroups)
+			}
+
+			if op.Branches != nil && planOp.Branches != nil {
+				for bi := range op.Branches.Branches {
+					if bi >= len(planOp.Branches.Branches) {
+						break
+					}
+					op.Branches.Branches[bi].ConditionGroups.ReconcileOperations(planOp.Branches.Branches[bi].ConditionGroups)
+				}
+			}
+		}
+	}
+}
 
 func (IncidentEngineExpressions) FromAPI(expressions []client.ExpressionV2) IncidentEngineExpressions {
 	out := IncidentEngineExpressions{}

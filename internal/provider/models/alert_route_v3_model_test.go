@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/samber/lo"
 
@@ -412,6 +413,66 @@ func TestAlertRouteV3CustomFieldsNullVsEmpty(t *testing.T) {
 	}
 	if len(gotEmpty.IncidentConfig.Template.CustomFields) != 0 {
 		t.Errorf("custom_fields: expected length 0, got %d", len(gotEmpty.IncidentConfig.Template.CustomFields))
+	}
+}
+
+// TestAlertRouteV3ReconcilesConditionOperation covers ONC-12602 for the v3
+// mapping: the API accepts `one_of` on a String subject but stores and returns
+// `contains_one_of`. FromAPIV3WithPlan must restore the planned `one_of` so the
+// read-back matches the plan and apply converges; with no plan (import/read)
+// the API value is kept verbatim.
+func TestAlertRouteV3ReconcilesConditionOperation(t *testing.T) {
+	api := client.AlertRouteV3{
+		Id:   "01ABC",
+		Name: "route",
+		ConditionGroups: []client.ConditionGroupV3{
+			{
+				Conditions: []client.ConditionV3{
+					{
+						Subject:       client.ConditionSubjectV3{Reference: "alert.attributes.01GH"},
+						Operation:     client.ConditionOperationV3{Value: "contains_one_of"},
+						ParamBindings: []client.EngineParamBindingV3{},
+					},
+				},
+			},
+		},
+		Expressions: []client.ExpressionV3{},
+		GroupingConfig: client.AlertGroupingConfigV3{
+			Default: client.GroupingSettingsV3{Enabled: false},
+		},
+		MessageConfig: client.AlertMessageConfigV3{
+			Destinations: []client.AlertMessageDestinationV3{},
+		},
+		EscalationConfig: client.AlertRouteEscalationConfigV3{
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+		},
+		IncidentConfig: client.AlertRouteIncidentConfigV3{Enabled: false},
+	}
+
+	plan := &AlertRouteResourceModel{
+		GroupingConfig: &AlertRouteV3GroupingConfigModel{
+			Default: &AlertRouteV3GroupingSettingsModel{},
+		},
+		ConditionGroups: IncidentEngineConditionGroups{
+			{
+				Conditions: IncidentEngineConditions{
+					{
+						Subject:   types.StringValue("alert.attributes.01GH"),
+						Operation: types.StringValue("one_of"),
+					},
+				},
+			},
+		},
+	}
+
+	withPlan := AlertRouteResourceModel{}.FromAPIV3WithPlan(api, plan)
+	if got := withPlan.ConditionGroups[0].Conditions[0].Operation.ValueString(); got != "one_of" {
+		t.Errorf("with plan: operation should be reconciled to %q, got %q", "one_of", got)
+	}
+
+	noPlan := AlertRouteResourceModel{}.FromAPIV3(api)
+	if got := noPlan.ConditionGroups[0].Conditions[0].Operation.ValueString(); got != "contains_one_of" {
+		t.Errorf("no plan: operation should stay verbatim %q, got %q", "contains_one_of", got)
 	}
 }
 

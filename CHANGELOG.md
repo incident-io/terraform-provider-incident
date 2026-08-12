@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Fix `Provider produced inconsistent result after apply` on `incident_alert_route` when a condition uses `operation = "one_of"` (or `not_one_of`) on a String alert attribute. The API accepts that value but stores and returns the substring-matching equivalent (`contains_one_of` / `not_contains_one_of`), so the read-back disagreed with the plan and every apply failed, tainting the route so it never converged. The provider now preserves the planned operation when the API returns exactly that known normalisation. A genuine operation change, or any other divergence, is still surfaced. Applies to both the v2 and v3 alert route schemas.
+
 ## v6.1.0
 
 - Add optional `retry_config` to `incident_escalation_path` levels, allowing you

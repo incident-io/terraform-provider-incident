@@ -145,6 +145,96 @@ func TestIncidentEngineParamBindings_TrimAppendedEmpty(t *testing.T) {
 	}
 }
 
+// TestIncidentEngineConditionGroups_ReconcileOperations covers ONC-12602: the
+// alert-route API accepts `one_of` on a String subject but stores and returns
+// `contains_one_of`. Without reconciliation the read-back operation disagrees
+// with the plan and apply fails with "Provider produced inconsistent result
+// after apply". ReconcileOperations must restore the planned value for that
+// known normalisation while leaving genuine changes and unrelated values alone.
+func TestIncidentEngineConditionGroups_ReconcileOperations(t *testing.T) {
+	condition := func(subject, operation string) IncidentEngineCondition {
+		return IncidentEngineCondition{
+			Subject:   types.StringValue(subject),
+			Operation: types.StringValue(operation),
+		}
+	}
+	groups := func(conds ...IncidentEngineCondition) IncidentEngineConditionGroups {
+		return IncidentEngineConditionGroups{{Conditions: IncidentEngineConditions(conds)}}
+	}
+
+	tests := []struct {
+		name    string
+		applied IncidentEngineConditionGroups
+		plan    IncidentEngineConditionGroups
+		want    string
+	}{
+		{
+			name:    "restores planned one_of when API returns contains_one_of",
+			applied: groups(condition("alert.attributes.01ABC", "contains_one_of")),
+			plan:    groups(condition("alert.attributes.01ABC", "one_of")),
+			want:    "one_of",
+		},
+		{
+			name:    "restores planned not_one_of when API returns not_contains_one_of",
+			applied: groups(condition("alert.attributes.01ABC", "not_contains_one_of")),
+			plan:    groups(condition("alert.attributes.01ABC", "not_one_of")),
+			want:    "not_one_of",
+		},
+		{
+			name:    "leaves matching operations untouched",
+			applied: groups(condition("alert.attributes.01ABC", "one_of")),
+			plan:    groups(condition("alert.attributes.01ABC", "one_of")),
+			want:    "one_of",
+		},
+		{
+			name:    "does not mask an unrelated divergence",
+			applied: groups(condition("alert.attributes.01ABC", "is_set")),
+			plan:    groups(condition("alert.attributes.01ABC", "one_of")),
+			want:    "is_set",
+		},
+		{
+			name:    "does not reconcile across a different subject",
+			applied: groups(condition("alert.attributes.02XYZ", "contains_one_of")),
+			plan:    groups(condition("alert.attributes.01ABC", "one_of")),
+			want:    "contains_one_of",
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			tc.applied.ReconcileOperations(tc.plan)
+			got := tc.applied[0].Conditions[0].Operation.ValueString()
+			assert.Equal(t, tc.want, got)
+		})
+	}
+}
+
+// TestIncidentEngineConditionGroups_ReconcileOperationsMismatchedLengths
+// asserts that reconciliation is safe when the plan and read-back have
+// different numbers of groups or conditions (it correlates positionally and
+// stops at the shorter length rather than panicking).
+func TestIncidentEngineConditionGroups_ReconcileOperationsMismatchedLengths(t *testing.T) {
+	applied := IncidentEngineConditionGroups{
+		{Conditions: IncidentEngineConditions{
+			{Subject: types.StringValue("alert.attributes.01ABC"), Operation: types.StringValue("contains_one_of")},
+			{Subject: types.StringValue("alert.attributes.02XYZ"), Operation: types.StringValue("contains_one_of")},
+		}},
+	}
+	plan := IncidentEngineConditionGroups{
+		{Conditions: IncidentEngineConditions{
+			{Subject: types.StringValue("alert.attributes.01ABC"), Operation: types.StringValue("one_of")},
+		}},
+	}
+
+	assert.NotPanics(t, func() { applied.ReconcileOperations(plan) })
+	assert.Equal(t, "one_of", applied[0].Conditions[0].Operation.ValueString())
+	// The second condition has no planned counterpart, so it is left as-is.
+	assert.Equal(t, "contains_one_of", applied[0].Conditions[1].Operation.ValueString())
+
+	// A nil plan must be a no-op rather than a panic.
+	assert.NotPanics(t, func() { applied.ReconcileOperations(nil) })
+}
+
 func TestIncidentEngineParamBinding_IsEmpty(t *testing.T) {
 	assert.True(t, IncidentEngineParamBinding{}.IsEmpty(), "zero binding is empty")
 	assert.True(t, IncidentEngineParamBinding{ArrayValue: []IncidentEngineParamBindingValue{}}.IsEmpty(),
