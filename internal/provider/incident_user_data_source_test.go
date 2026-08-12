@@ -23,7 +23,7 @@ func TestSelectUser(t *testing.T) {
 		{
 			name:    "no users",
 			users:   nil,
-			wantErr: "User not found",
+			wantErr: "user not found",
 		},
 		{
 			name:   "single active user",
@@ -52,12 +52,12 @@ func TestSelectUser(t *testing.T) {
 		{
 			name:    "several users, none active",
 			users:   []client.UserWithRolesV2{user("one", false), user("two", false)},
-			wantErr: "Multiple users found",
+			wantErr: "multiple users found",
 		},
 		{
 			name:    "several active users",
 			users:   []client.UserWithRolesV2{user("one", true), user("two", true)},
-			wantErr: "Multiple users found",
+			wantErr: "multiple users found",
 		},
 	}
 

@@ -153,7 +153,7 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 // answer, so narrow to active users before giving up.
 func selectUser(users []client.UserWithRolesV2) (*client.UserWithRolesV2, error) {
 	if len(users) == 0 {
-		return nil, errors.New("User not found")
+		return nil, errors.New("user not found")
 	}
 	if len(users) == 1 {
 		return &users[0], nil
@@ -168,7 +168,7 @@ func selectUser(users []client.UserWithRolesV2) (*client.UserWithRolesV2, error)
 
 	// Either every match is inactive, so there's nothing to disambiguate on, or
 	// several are active and we can't tell which one was meant.
-	return nil, errors.New("Multiple users found")
+	return nil, errors.New("multiple users found")
 }
 
 func (i *IncidentUserDataSource) buildModel(userType client.UserWithRolesV2) *IncidentUserDataSourceModel {
