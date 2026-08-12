@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Fix the `incident_user` data source failing with "Multiple users found" when a lookup by `email` or `slack_user_id` matches an active user and a deactivated duplicate. This is a common state — someone who signed in via Slack before SSO, then again via SSO, with the first account deactivated — and we now resolve to the active user. Lookups that match several active users, or only inactive users, still error as before.
+
 ## v6.1.0
 
 - Add optional `retry_config` to `incident_escalation_path` levels, allowing you

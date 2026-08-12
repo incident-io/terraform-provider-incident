@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -87,14 +88,11 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
 			return
 		}
-		if len(result.JSON200.Users) == 0 {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "User not found"))
-			return
-		} else if len(result.JSON200.Users) > 1 {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "Multiple users found"))
+		user, err = selectUser(result.JSON200.Users)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
 			return
 		}
-		user = &result.JSON200.Users[0]
 	} else if !data.SlackUserID.IsNull() {
 		result, err := i.client.UsersV2ListWithResponse(ctx, &client.UsersV2ListParams{
 			SlackUserId:     data.SlackUserID.ValueStringPointer(),
@@ -104,14 +102,11 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
 			return
 		}
-		if len(result.JSON200.Users) == 0 {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "User not found"))
-			return
-		} else if len(result.JSON200.Users) > 1 {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "Multiple users found"))
+		user, err = selectUser(result.JSON200.Users)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
 			return
 		}
-		user = &result.JSON200.Users[0]
 	} else {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "No ID, Email or SlackUserId provided"))
 		return
@@ -146,6 +141,34 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 
 	modelResp := i.buildModel(*user)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
+}
+
+// selectUser picks the single user a lookup (by email or Slack user ID) meant.
+//
+// We list with IncludeInactive so a scheduled user who has since been offboarded
+// still resolves, which means a lookup can legitimately match more than one user:
+// orgs commonly have an active user and a deactivated duplicate on the same email
+// (someone who signed in via Slack before SSO, then again via SSO, with the first
+// account deactivated). In that case the active user is unambiguously the right
+// answer, so narrow to active users before giving up.
+func selectUser(users []client.UserWithRolesV2) (*client.UserWithRolesV2, error) {
+	if len(users) == 0 {
+		return nil, errors.New("User not found")
+	}
+	if len(users) == 1 {
+		return &users[0], nil
+	}
+
+	active := lo.Filter(users, func(user client.UserWithRolesV2, _ int) bool {
+		return user.IsActive
+	})
+	if len(active) == 1 {
+		return &active[0], nil
+	}
+
+	// Either every match is inactive, so there's nothing to disambiguate on, or
+	// several are active and we can't tell which one was meant.
+	return nil, errors.New("Multiple users found")
 }
 
 func (i *IncidentUserDataSource) buildModel(userType client.UserWithRolesV2) *IncidentUserDataSourceModel {
