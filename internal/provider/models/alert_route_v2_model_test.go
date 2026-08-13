@@ -140,11 +140,9 @@ func TestAlertRouteV2EscalationPathTargetIgnoresDuplicateUsers(t *testing.T) {
 	}
 }
 
-// TestAlertRouteV2ReconcilesConditionOperation covers ONC-12602 end-to-end for
-// the v2 mapping: the API accepts `one_of` on a String subject but stores and
-// returns `contains_one_of`. FromAPIV2WithPlan must restore the planned `one_of`
-// so the read-back matches the plan and apply converges. On an import/read with
-// no plan the API value is kept verbatim.
+// TestAlertRouteV2ReconcilesConditionOperation covers ONC-12602 end-to-end: the
+// planned `one_of` survives a `contains_one_of` read-back, and an import with no
+// plan keeps the API value.
 func TestAlertRouteV2ReconcilesConditionOperation(t *testing.T) {
 	api := client.AlertRouteV2{
 		Id:            "01ABC",
@@ -192,6 +190,55 @@ func TestAlertRouteV2ReconcilesConditionOperation(t *testing.T) {
 	if got := noPlan.ConditionGroups[0].Conditions[0].Operation.ValueString(); got != "contains_one_of" {
 		t.Errorf("no plan: operation should stay verbatim %q, got %q", "contains_one_of", got)
 	}
+}
+
+// TestReconcileAlertSourceOperationsCorrelatesByID asserts alert source conditions
+// still reconcile when the API returns the sources in a different order to the
+// plan, and that we do not reconcile against the wrong source.
+func TestReconcileAlertSourceOperationsCorrelatesByID(t *testing.T) {
+	source := func(id, operation string) AlertRouteAlertSourceModel {
+		return AlertRouteAlertSourceModel{
+			AlertSourceID: types.StringValue(id),
+			ConditionGroups: IncidentEngineConditionGroups{
+				{Conditions: IncidentEngineConditions{
+					{
+						Subject:   types.StringValue("alert.attributes.01GH"),
+						Operation: types.StringValue(operation),
+					},
+				}},
+			},
+		}
+	}
+	operationOf := func(s AlertRouteAlertSourceModel) string {
+		return s.ConditionGroups[0].Conditions[0].Operation.ValueString()
+	}
+
+	applied := []AlertRouteAlertSourceModel{
+		source("01SOURCEA", "contains_one_of"),
+		source("01SOURCEB", "contains_one_of"),
+	}
+	// Same sources in the opposite order, and only source B planned `one_of`.
+	plan := []AlertRouteAlertSourceModel{
+		source("01SOURCEB", "one_of"),
+		source("01SOURCEA", "contains_one_of"),
+	}
+
+	reconcileAlertSourceOperations(applied, plan)
+
+	if got := operationOf(applied[0]); got != "contains_one_of" {
+		t.Errorf("source A planned contains_one_of, should be left alone, got %q", got)
+	}
+	if got := operationOf(applied[1]); got != "one_of" {
+		t.Errorf("source B planned one_of, should be reconciled, got %q", got)
+	}
+
+	// An unplanned source is left alone, and a nil plan must not panic.
+	unplanned := []AlertRouteAlertSourceModel{source("01SOURCEC", "contains_one_of")}
+	reconcileAlertSourceOperations(unplanned, plan)
+	if got := operationOf(unplanned[0]); got != "contains_one_of" {
+		t.Errorf("unplanned source should be left alone, got %q", got)
+	}
+	reconcileAlertSourceOperations(unplanned, nil)
 }
 
 // TestAlertRouteV2UserTargetKeepsUsers confirms the sibling case: a genuine user

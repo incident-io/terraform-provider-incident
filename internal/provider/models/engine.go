@@ -61,31 +61,17 @@ type IncidentEngineConditionGroup struct {
 	Conditions IncidentEngineConditions `tfsdk:"conditions"`
 }
 
-// serverOperationNormalisations maps the condition operations the API accepts on
-// input to the canonical form it stores and returns. For a String (rather than
-// CatalogEntry) subject the API silently rewrites the set-membership operators
-// to their substring-matching equivalents: `one_of` becomes `contains_one_of`
-// and `not_one_of` becomes `not_contains_one_of`. `one_of` is the value used in
-// the provider docs and the API reference example, so it is a natural thing to
-// write, but because operation is stored verbatim from the read-back the plan
-// (`one_of`) then disagrees with the applied state (`contains_one_of`) and
-// Terraform aborts with "Provider produced inconsistent result after apply",
-// tainting the route so it never converges (ONC-12602).
-//
-// We only ever preserve the planned value when the API's value is exactly the
-// known normalisation of it, so any other divergence (a genuine change, or an
-// unrelated out-of-band edit) is still surfaced rather than masked.
+// serverOperationNormalisations maps operation aliases the API accepts to the
+// canonical name it returns for them. Each is canonical on other subject types,
+// so we match the API value exactly rather than rewriting on the alias alone.
 var serverOperationNormalisations = map[string]string{
-	"one_of":     "contains_one_of",
-	"not_one_of": "not_contains_one_of",
+	"one_of":   "contains_one_of", // String, Link and TemplatedText subjects
+	"contains": "name_contains",   // CatalogEntry subjects
 }
 
-// ReconcileOperations restores planned condition operations onto this read-back
-// set wherever the API normalised the operation to a semantically-equivalent
-// value it accepts but rewrites (see serverOperationNormalisations). Condition
-// groups and the conditions within them are ordered lists, so we correlate
-// positionally against the plan and additionally require the subject to match,
-// which keeps a genuine operation change (or a mismatched correlation) surfaced.
+// ReconcileOperations restores the planned operation wherever the API returned
+// the canonical form of an alias we sent (ONC-12602). Condition groups are lists,
+// so we correlate positionally and require the subject to match.
 func (groups IncidentEngineConditionGroups) ReconcileOperations(plan IncidentEngineConditionGroups) {
 	for gi := range groups {
 		if gi >= len(plan) {
@@ -205,22 +191,27 @@ func (IncidentEngineParamBindingValue) FromAPI(pbv client.EngineParamBindingValu
 
 type IncidentEngineExpressions []IncidentEngineExpression
 
-// ReconcileOperations restores planned condition operations onto the condition
-// groups nested inside expression operations (filter and branch conditions),
-// mirroring IncidentEngineConditionGroups.ReconcileOperations. We correlate
-// expressions, operations and branches positionally against the plan.
+// ReconcileOperations does the same for filter and branch conditions. Expressions
+// are a set, so we correlate by reference rather than position.
 func (expressions IncidentEngineExpressions) ReconcileOperations(plan IncidentEngineExpressions) {
+	planByReference := map[string]IncidentEngineExpression{}
+	for _, expression := range plan {
+		planByReference[expression.Reference.ValueString()] = expression
+	}
+
 	for ei := range expressions {
-		if ei >= len(plan) {
-			break
+		planExpression, ok := planByReference[expressions[ei].Reference.ValueString()]
+		if !ok {
+			continue
 		}
+
 		for oi := range expressions[ei].Operations {
-			if oi >= len(plan[ei].Operations) {
+			if oi >= len(planExpression.Operations) {
 				break
 			}
 
 			op := expressions[ei].Operations[oi]
-			planOp := plan[ei].Operations[oi]
+			planOp := planExpression.Operations[oi]
 
 			if op.Filter != nil && planOp.Filter != nil {
 				op.Filter.ConditionGroups.ReconcileOperations(planOp.Filter.ConditionGroups)

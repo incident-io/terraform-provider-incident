@@ -416,11 +416,8 @@ func TestAlertRouteV3CustomFieldsNullVsEmpty(t *testing.T) {
 	}
 }
 
-// TestAlertRouteV3ReconcilesConditionOperation covers ONC-12602 for the v3
-// mapping: the API accepts `one_of` on a String subject but stores and returns
-// `contains_one_of`. FromAPIV3WithPlan must restore the planned `one_of` so the
-// read-back matches the plan and apply converges; with no plan (import/read)
-// the API value is kept verbatim.
+// TestAlertRouteV3ReconcilesConditionOperation is
+// TestAlertRouteV2ReconcilesConditionOperation for the v3 mapping.
 func TestAlertRouteV3ReconcilesConditionOperation(t *testing.T) {
 	api := client.AlertRouteV3{
 		Id:   "01ABC",

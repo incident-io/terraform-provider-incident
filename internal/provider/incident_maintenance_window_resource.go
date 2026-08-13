@@ -237,7 +237,7 @@ func (r *IncidentMaintenanceWindowResource) Create(ctx context.Context, req reso
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("created a maintenance window resource with id=%s", result.JSON201.MaintenanceWindow.Id))
-	data = r.buildModel(result.JSON201.MaintenanceWindow)
+	data = r.buildModel(result.JSON201.MaintenanceWindow, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -260,7 +260,7 @@ func (r *IncidentMaintenanceWindowResource) Read(ctx context.Context, req resour
 		return
 	}
 
-	data = r.buildModel(result.JSON200.MaintenanceWindow)
+	data = r.buildModel(result.JSON200.MaintenanceWindow, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -298,7 +298,7 @@ func (r *IncidentMaintenanceWindowResource) Update(ctx context.Context, req reso
 		return
 	}
 
-	data = r.buildModel(result.JSON200.MaintenanceWindow)
+	data = r.buildModel(result.JSON200.MaintenanceWindow, data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -410,7 +410,9 @@ func (r *IncidentMaintenanceWindowResource) buildPayload(data *MaintenanceWindow
 	return payload, nil
 }
 
-func (r *IncidentMaintenanceWindowResource) buildModel(mw client.MaintenanceWindowV1) *MaintenanceWindowResourceModel {
+// buildModel converts from the response type to the terraform model/schema type.
+// prior is the plan (create/update) or prior state (read).
+func (r *IncidentMaintenanceWindowResource) buildModel(mw client.MaintenanceWindowV1, prior *MaintenanceWindowResourceModel) *MaintenanceWindowResourceModel {
 	model := &MaintenanceWindowResourceModel{
 		ID:                   types.StringValue(mw.Id),
 		Name:                 types.StringValue(mw.Name),
@@ -465,6 +467,10 @@ func (r *IncidentMaintenanceWindowResource) buildModel(mw client.MaintenanceWind
 	// Nullable strings
 	model.NotificationMessage = types.StringPointerValue(mw.NotificationMessage)
 	model.IncidentID = types.StringPointerValue(mw.IncidentId)
+
+	if prior != nil {
+		model.AlertConditionGroups.ReconcileOperations(prior.AlertConditionGroups)
+	}
 
 	return model
 }

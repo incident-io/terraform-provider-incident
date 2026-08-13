@@ -55,10 +55,34 @@ type AlertRouteAlertSourceModel struct {
 	ConditionGroups IncidentEngineConditionGroups `tfsdk:"condition_groups"`
 }
 
+// reconcileAlertSourceOperations correlates by ID, not position: alert_sources is a set.
+func reconcileAlertSourceOperations(applied, plan []AlertRouteAlertSourceModel) {
+	planByAlertSourceID := map[string]AlertRouteAlertSourceModel{}
+	for _, source := range plan {
+		planByAlertSourceID[source.AlertSourceID.ValueString()] = source
+	}
+
+	for i := range applied {
+		if planned, ok := planByAlertSourceID[applied[i].AlertSourceID.ValueString()]; ok {
+			applied[i].ConditionGroups.ReconcileOperations(planned.ConditionGroups)
+		}
+	}
+}
+
 type AlertRouteChannelConfigModel struct {
 	ConditionGroups IncidentEngineConditionGroups `tfsdk:"condition_groups"`
 	MsTeamsTargets  *AlertRouteChannelTargetModel `tfsdk:"ms_teams_targets"`
 	SlackTargets    *AlertRouteChannelTargetModel `tfsdk:"slack_targets"`
+}
+
+// reconcileChannelConfigOperations falls back to position: channel configs are a
+// set with no ID to key on.
+func reconcileChannelConfigOperations(applied, plan []AlertRouteChannelConfigModel) {
+	for i := range applied {
+		if i < len(plan) {
+			applied[i].ConditionGroups.ReconcileOperations(plan[i].ConditionGroups)
+		}
+	}
 }
 
 type AlertRouteChannelTargetModel struct {
@@ -650,22 +674,10 @@ func (AlertRouteResourceModel) FromAPIV2WithPlan(apiModel client.AlertRouteV2, p
 		result.MessageTemplate = &binding
 	}
 
-	// Preserve the planned operation for any condition the API normalised to a
-	// semantically-equivalent value (e.g. `one_of` -> `contains_one_of` for a
-	// String subject), which would otherwise make the read-back disagree with the
-	// plan and fail apply. See IncidentEngineConditionGroups.ReconcileOperations.
 	if plan != nil {
 		result.ConditionGroups.ReconcileOperations(plan.ConditionGroups)
-		for i := range result.AlertSources {
-			if i < len(plan.AlertSources) {
-				result.AlertSources[i].ConditionGroups.ReconcileOperations(plan.AlertSources[i].ConditionGroups)
-			}
-		}
-		for i := range result.ChannelConfig {
-			if i < len(plan.ChannelConfig) {
-				result.ChannelConfig[i].ConditionGroups.ReconcileOperations(plan.ChannelConfig[i].ConditionGroups)
-			}
-		}
+		reconcileAlertSourceOperations(result.AlertSources, plan.AlertSources)
+		reconcileChannelConfigOperations(result.ChannelConfig, plan.ChannelConfig)
 		if result.IncidentConfig != nil && plan.IncidentConfig != nil {
 			result.IncidentConfig.ConditionGroups.ReconcileOperations(plan.IncidentConfig.ConditionGroups)
 		}

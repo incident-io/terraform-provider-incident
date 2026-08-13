@@ -9,9 +9,13 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
 )
 
 func testAccMaintenanceWindowLeadUserID(t *testing.T) string {
@@ -297,4 +301,46 @@ func testAccMaintenanceWindowResourceConfigWithOptionalFields(model maintenanceW
 	}
 
 	return buf.String()
+}
+
+// TestMaintenanceWindowBuildModelReconcilesConditionOperation covers ONC-12602 for
+// maintenance windows, which carry alert condition groups just like alert routes do.
+func TestMaintenanceWindowBuildModelReconcilesConditionOperation(t *testing.T) {
+	mw := client.MaintenanceWindowV1{
+		Id:   "01ABC",
+		Name: "window",
+		AlertConditionGroups: []client.ConditionGroupV2{
+			{
+				Conditions: []client.ConditionV2{
+					{
+						Subject:   client.ConditionSubjectV2{Reference: "alert.attributes.01GH"},
+						Operation: client.ConditionOperationV2{Value: "contains_one_of"},
+					},
+				},
+			},
+		},
+	}
+
+	prior := &MaintenanceWindowResourceModel{
+		AlertConditionGroups: models.IncidentEngineConditionGroups{
+			{
+				Conditions: models.IncidentEngineConditions{
+					{
+						Subject:   types.StringValue("alert.attributes.01GH"),
+						Operation: types.StringValue("one_of"),
+					},
+				},
+			},
+		},
+	}
+
+	r := &IncidentMaintenanceWindowResource{}
+
+	withPrior := r.buildModel(mw, prior)
+	assert.Equal(t, "one_of", withPrior.AlertConditionGroups[0].Conditions[0].Operation.ValueString(),
+		"with a plan the operation should be reconciled")
+
+	noPrior := r.buildModel(mw, nil)
+	assert.Equal(t, "contains_one_of", noPrior.AlertConditionGroups[0].Conditions[0].Operation.ValueString(),
+		"with no plan the operation should stay verbatim")
 }

@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Fix `Provider produced inconsistent result after apply` on `incident_alert_route` when a condition uses `operation = "one_of"` (or `not_one_of`) on a String alert attribute. The API accepts that value but stores and returns the substring-matching equivalent (`contains_one_of` / `not_contains_one_of`), so the read-back disagreed with the plan and every apply failed, tainting the route so it never converged. The provider now preserves the planned operation when the API returns exactly that known normalisation. A genuine operation change, or any other divergence, is still surfaced. Applies to both the v2 and v3 alert route schemas.
+- Fix `Provider produced inconsistent result after apply` when a condition uses an operation alias that the API renames on read. `operation = "one_of"` on a String alert attribute reads back as `contains_one_of`. `operation = "contains"` on a catalog entry reads back as `name_contains`. The state then disagreed with the plan, so every apply failed and left the resource tainted. The provider now keeps the planned operation when the API returns exactly the canonical name of the alias it sent. It still reports a real operation change, or any other difference. This covers `incident_alert_route` (v2 and v3 schemas), `incident_workflow` and `incident_maintenance_window`.
 
 ## v6.1.0
 

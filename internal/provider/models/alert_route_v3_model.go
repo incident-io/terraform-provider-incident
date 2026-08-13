@@ -118,6 +118,15 @@ type AlertRouteV3ChannelConfigModel struct {
 	SlackTargets    *AlertRouteV3ChannelTargetModel `tfsdk:"slack_targets"`
 }
 
+// reconcileDestinationOperations is reconcileChannelConfigOperations for v3 destinations.
+func reconcileDestinationOperations(applied, plan []AlertRouteV3ChannelConfigModel) {
+	for i := range applied {
+		if i < len(plan) {
+			applied[i].ConditionGroups.ReconcileOperations(plan[i].ConditionGroups)
+		}
+	}
+}
+
 type AlertRouteV3ChannelTargetModel struct {
 	Binding            *IncidentEngineParamBinding `tfsdk:"binding"`
 	ChannelVisibility  types.String                `tfsdk:"channel_visibility"`
@@ -389,23 +398,11 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 		result.IncidentConfig.Template = incidentTemplateFromAPIV3(apiModel.IncidentConfig.Template, planTemplate)
 	}
 
-	// Preserve the planned operation for any condition the API normalised to a
-	// semantically-equivalent value (e.g. `one_of` -> `contains_one_of` for a
-	// String subject), which would otherwise make the read-back disagree with the
-	// plan and fail apply. See IncidentEngineConditionGroups.ReconcileOperations.
 	if plan != nil {
 		result.ConditionGroups.ReconcileOperations(plan.ConditionGroups)
-		for i := range result.AlertSources {
-			if i < len(plan.AlertSources) {
-				result.AlertSources[i].ConditionGroups.ReconcileOperations(plan.AlertSources[i].ConditionGroups)
-			}
-		}
+		reconcileAlertSourceOperations(result.AlertSources, plan.AlertSources)
 		if plan.MessageConfig != nil {
-			for i := range result.MessageConfig.Destinations {
-				if i < len(plan.MessageConfig.Destinations) {
-					result.MessageConfig.Destinations[i].ConditionGroups.ReconcileOperations(plan.MessageConfig.Destinations[i].ConditionGroups)
-				}
-			}
+			reconcileDestinationOperations(result.MessageConfig.Destinations, plan.MessageConfig.Destinations)
 		}
 		if result.IncidentConfig != nil && plan.IncidentConfig != nil {
 			result.IncidentConfig.ConditionGroups.ReconcileOperations(plan.IncidentConfig.ConditionGroups)
