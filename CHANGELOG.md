@@ -1,7 +1,5 @@
 ## Unreleased
 
-- Fix `Provider produced inconsistent result after apply` when a condition uses an operation alias that the API renames on read. `operation = "one_of"` on a String alert attribute reads back as `contains_one_of`. `operation = "contains"` on a catalog entry reads back as `name_contains`. The state then disagreed with the plan, so every apply failed and left the resource tainted. The provider now keeps the planned operation when the API returns exactly the canonical name of the alias it sent. It still reports a real operation change, or any other difference. This covers `incident_alert_route` (v2 and v3 schemas), `incident_workflow` and `incident_maintenance_window`.
-
 ## v6.1.0
 
 - Add optional `retry_config` to `incident_escalation_path` levels, allowing you
