@@ -118,6 +118,15 @@ type AlertRouteV3ChannelConfigModel struct {
 	SlackTargets    *AlertRouteV3ChannelTargetModel `tfsdk:"slack_targets"`
 }
 
+// reconcileDestinationOperations is reconcileChannelConfigOperations for v3 destinations.
+func reconcileDestinationOperations(applied, plan []AlertRouteV3ChannelConfigModel) {
+	for i := range applied {
+		if i < len(plan) {
+			applied[i].ConditionGroups.ReconcileOperations(plan[i].ConditionGroups)
+		}
+	}
+}
+
 type AlertRouteV3ChannelTargetModel struct {
 	Binding            *IncidentEngineParamBinding `tfsdk:"binding"`
 	ChannelVisibility  types.String                `tfsdk:"channel_visibility"`
@@ -387,6 +396,18 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 	// stale one in state.
 	if apiModel.IncidentConfig.Template != nil {
 		result.IncidentConfig.Template = incidentTemplateFromAPIV3(apiModel.IncidentConfig.Template, planTemplate)
+	}
+
+	if plan != nil {
+		result.ConditionGroups.ReconcileOperations(plan.ConditionGroups)
+		reconcileAlertSourceOperations(result.AlertSources, plan.AlertSources)
+		if plan.MessageConfig != nil {
+			reconcileDestinationOperations(result.MessageConfig.Destinations, plan.MessageConfig.Destinations)
+		}
+		if result.IncidentConfig != nil && plan.IncidentConfig != nil {
+			result.IncidentConfig.ConditionGroups.ReconcileOperations(plan.IncidentConfig.ConditionGroups)
+		}
+		result.Expressions.ReconcileOperations(plan.Expressions)
 	}
 
 	return result

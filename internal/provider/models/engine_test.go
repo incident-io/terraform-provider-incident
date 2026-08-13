@@ -145,6 +145,148 @@ func TestIncidentEngineParamBindings_TrimAppendedEmpty(t *testing.T) {
 	}
 }
 
+// TestIncidentEngineConditionGroups_ReconcileOperations covers ONC-12602: restore
+// the planned value for a known alias, leave everything else alone.
+func TestIncidentEngineConditionGroups_ReconcileOperations(t *testing.T) {
+	condition := func(subject, operation string) IncidentEngineCondition {
+		return IncidentEngineCondition{
+			Subject:   types.StringValue(subject),
+			Operation: types.StringValue(operation),
+		}
+	}
+	groups := func(conds ...IncidentEngineCondition) IncidentEngineConditionGroups {
+		return IncidentEngineConditionGroups{{Conditions: IncidentEngineConditions(conds)}}
+	}
+
+	tests := []struct {
+		name    string
+		applied IncidentEngineConditionGroups
+		plan    IncidentEngineConditionGroups
+		want    string
+	}{
+		{
+			name:    "restores planned one_of when API returns contains_one_of",
+			applied: groups(condition("alert.attributes.01ABC", "contains_one_of")),
+			plan:    groups(condition("alert.attributes.01ABC", "one_of")),
+			want:    "one_of",
+		},
+		{
+			name:    "restores planned contains when API returns name_contains",
+			applied: groups(condition("incident.custom_field.01ABC", "name_contains")),
+			plan:    groups(condition("incident.custom_field.01ABC", "contains")),
+			want:    "contains",
+		},
+		{
+			name:    "leaves matching operations untouched",
+			applied: groups(condition("alert.attributes.01ABC", "one_of")),
+			plan:    groups(condition("alert.attributes.01ABC", "one_of")),
+			want:    "one_of",
+		},
+		{
+			// `contains` is canonical on String, so the API returns it unchanged.
+			name:    "leaves an alias that is canonical for the subject untouched",
+			applied: groups(condition("alert.attributes.01ABC", "contains")),
+			plan:    groups(condition("alert.attributes.01ABC", "contains")),
+			want:    "contains",
+		},
+		{
+			name:    "does not mask an unrelated divergence",
+			applied: groups(condition("alert.attributes.01ABC", "is_set")),
+			plan:    groups(condition("alert.attributes.01ABC", "one_of")),
+			want:    "is_set",
+		},
+		{
+			name:    "does not reconcile across a different subject",
+			applied: groups(condition("alert.attributes.02XYZ", "contains_one_of")),
+			plan:    groups(condition("alert.attributes.01ABC", "one_of")),
+			want:    "contains_one_of",
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			tc.applied.ReconcileOperations(tc.plan)
+			got := tc.applied[0].Conditions[0].Operation.ValueString()
+			assert.Equal(t, tc.want, got)
+		})
+	}
+}
+
+// TestIncidentEngineConditionGroups_ReconcileOperationsMismatchedLengths asserts
+// reconciliation is safe when the plan and read-back have different numbers of
+// groups or conditions.
+func TestIncidentEngineConditionGroups_ReconcileOperationsMismatchedLengths(t *testing.T) {
+	applied := IncidentEngineConditionGroups{
+		{Conditions: IncidentEngineConditions{
+			{Subject: types.StringValue("alert.attributes.01ABC"), Operation: types.StringValue("contains_one_of")},
+			{Subject: types.StringValue("alert.attributes.02XYZ"), Operation: types.StringValue("contains_one_of")},
+		}},
+	}
+	plan := IncidentEngineConditionGroups{
+		{Conditions: IncidentEngineConditions{
+			{Subject: types.StringValue("alert.attributes.01ABC"), Operation: types.StringValue("one_of")},
+		}},
+	}
+
+	assert.NotPanics(t, func() { applied.ReconcileOperations(plan) })
+	assert.Equal(t, "one_of", applied[0].Conditions[0].Operation.ValueString())
+	// The second condition has no planned counterpart, so it is left as-is.
+	assert.Equal(t, "contains_one_of", applied[0].Conditions[1].Operation.ValueString())
+
+	// A nil plan must be a no-op rather than a panic.
+	assert.NotPanics(t, func() { applied.ReconcileOperations(nil) })
+}
+
+// TestIncidentEngineExpressions_ReconcileOperationsCorrelatesByReference asserts
+// filter conditions still reconcile when the API returns expressions in a
+// different order to the plan.
+func TestIncidentEngineExpressions_ReconcileOperationsCorrelatesByReference(t *testing.T) {
+	expression := func(reference, operation string) IncidentEngineExpression {
+		return IncidentEngineExpression{
+			Reference: types.StringValue(reference),
+			Operations: IncidentEngineExpressionOperations{
+				{
+					OperationType: types.StringValue("filter"),
+					Filter: &IncidentEngineExpressionFilterOpts{
+						ConditionGroups: IncidentEngineConditionGroups{
+							{Conditions: IncidentEngineConditions{
+								{
+									Subject:   types.StringValue("alert.attributes.01ABC"),
+									Operation: types.StringValue(operation),
+								},
+							}},
+						},
+					},
+				},
+			},
+		}
+	}
+	operationOf := func(e IncidentEngineExpression) string {
+		return e.Operations[0].Filter.ConditionGroups[0].Conditions[0].Operation.ValueString()
+	}
+
+	applied := IncidentEngineExpressions{
+		expression("first", "contains_one_of"),
+		expression("second", "contains_one_of"),
+	}
+	// The plan holds the same expressions in the opposite order.
+	plan := IncidentEngineExpressions{
+		expression("second", "one_of"),
+		expression("first", "one_of"),
+	}
+
+	applied.ReconcileOperations(plan)
+
+	assert.Equal(t, "one_of", operationOf(applied[0]), "first expression reconciled")
+	assert.Equal(t, "one_of", operationOf(applied[1]), "second expression reconciled")
+
+	// An unplanned expression is left alone, and a nil plan must not panic.
+	unplanned := IncidentEngineExpressions{expression("third", "contains_one_of")}
+	assert.NotPanics(t, func() { unplanned.ReconcileOperations(plan) })
+	assert.Equal(t, "contains_one_of", operationOf(unplanned[0]))
+	assert.NotPanics(t, func() { unplanned.ReconcileOperations(nil) })
+}
+
 func TestIncidentEngineParamBinding_IsEmpty(t *testing.T) {
 	assert.True(t, IncidentEngineParamBinding{}.IsEmpty(), "zero binding is empty")
 	assert.True(t, IncidentEngineParamBinding{ArrayValue: []IncidentEngineParamBindingValue{}}.IsEmpty(),

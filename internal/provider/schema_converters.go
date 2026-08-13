@@ -70,6 +70,12 @@ func (r *IncidentWorkflowResource) buildModel(ctx context.Context, workflow clie
 			ForSeconds:               types.Int64Value(workflow.Delay.ForSeconds),
 		}
 	}
+
+	if prior != nil {
+		model.ConditionGroups.ReconcileOperations(prior.ConditionGroups)
+		model.Expressions.ReconcileOperations(prior.Expressions)
+	}
+
 	return model
 }
 

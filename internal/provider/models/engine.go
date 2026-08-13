@@ -61,6 +61,37 @@ type IncidentEngineConditionGroup struct {
 	Conditions IncidentEngineConditions `tfsdk:"conditions"`
 }
 
+// serverOperationNormalisations maps operation aliases the API accepts to the
+// canonical name it returns for them. Each is canonical on other subject types,
+// so we match the API value exactly rather than rewriting on the alias alone.
+var serverOperationNormalisations = map[string]string{
+	"one_of":   "contains_one_of", // String, Link and TemplatedText subjects
+	"contains": "name_contains",   // CatalogEntry subjects
+}
+
+// ReconcileOperations restores the planned operation wherever the API returned
+// the canonical form of an alias we sent (ONC-12602). Condition groups are lists,
+// so we correlate positionally and require the subject to match.
+func (groups IncidentEngineConditionGroups) ReconcileOperations(plan IncidentEngineConditionGroups) {
+	for gi := range groups {
+		if gi >= len(plan) {
+			break
+		}
+		for ci := range groups[gi].Conditions {
+			if ci >= len(plan[gi].Conditions) {
+				break
+			}
+
+			planned := plan[gi].Conditions[ci]
+			applied := groups[gi].Conditions[ci]
+			if applied.Subject.Equal(planned.Subject) &&
+				serverOperationNormalisations[planned.Operation.ValueString()] == applied.Operation.ValueString() {
+				groups[gi].Conditions[ci].Operation = planned.Operation
+			}
+		}
+	}
+}
+
 type IncidentEngineConditions []IncidentEngineCondition
 
 func (IncidentEngineConditions) FromAPI(conditions []client.ConditionV2) IncidentEngineConditions {
@@ -159,6 +190,44 @@ func (IncidentEngineParamBindingValue) FromAPI(pbv client.EngineParamBindingValu
 }
 
 type IncidentEngineExpressions []IncidentEngineExpression
+
+// ReconcileOperations does the same for filter and branch conditions. Expressions
+// are a set, so we correlate by reference rather than position.
+func (expressions IncidentEngineExpressions) ReconcileOperations(plan IncidentEngineExpressions) {
+	planByReference := map[string]IncidentEngineExpression{}
+	for _, expression := range plan {
+		planByReference[expression.Reference.ValueString()] = expression
+	}
+
+	for ei := range expressions {
+		planExpression, ok := planByReference[expressions[ei].Reference.ValueString()]
+		if !ok {
+			continue
+		}
+
+		for oi := range expressions[ei].Operations {
+			if oi >= len(planExpression.Operations) {
+				break
+			}
+
+			op := expressions[ei].Operations[oi]
+			planOp := planExpression.Operations[oi]
+
+			if op.Filter != nil && planOp.Filter != nil {
+				op.Filter.ConditionGroups.ReconcileOperations(planOp.Filter.ConditionGroups)
+			}
+
+			if op.Branches != nil && planOp.Branches != nil {
+				for bi := range op.Branches.Branches {
+					if bi >= len(planOp.Branches.Branches) {
+						break
+					}
+					op.Branches.Branches[bi].ConditionGroups.ReconcileOperations(planOp.Branches.Branches[bi].ConditionGroups)
+				}
+			}
+		}
+	}
+}
 
 func (IncidentEngineExpressions) FromAPI(expressions []client.ExpressionV2) IncidentEngineExpressions {
 	out := IncidentEngineExpressions{}

@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/samber/lo"
 
@@ -412,6 +413,167 @@ func TestAlertRouteV3CustomFieldsNullVsEmpty(t *testing.T) {
 	}
 	if len(gotEmpty.IncidentConfig.Template.CustomFields) != 0 {
 		t.Errorf("custom_fields: expected length 0, got %d", len(gotEmpty.IncidentConfig.Template.CustomFields))
+	}
+}
+
+// TestAlertRouteV3ReconcilesConditionOperation is
+// TestAlertRouteV2ReconcilesConditionOperation for the v3 mapping.
+func TestAlertRouteV3ReconcilesConditionOperation(t *testing.T) {
+	api := client.AlertRouteV3{
+		Id:   "01ABC",
+		Name: "route",
+		ConditionGroups: []client.ConditionGroupV3{
+			{
+				Conditions: []client.ConditionV3{
+					{
+						Subject:       client.ConditionSubjectV3{Reference: "alert.attributes.01GH"},
+						Operation:     client.ConditionOperationV3{Value: "contains_one_of"},
+						ParamBindings: []client.EngineParamBindingV3{},
+					},
+				},
+			},
+		},
+		Expressions: []client.ExpressionV3{},
+		GroupingConfig: client.AlertGroupingConfigV3{
+			Default: client.GroupingSettingsV3{Enabled: false},
+		},
+		MessageConfig: client.AlertMessageConfigV3{
+			Destinations: []client.AlertMessageDestinationV3{},
+		},
+		EscalationConfig: client.AlertRouteEscalationConfigV3{
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+		},
+		IncidentConfig: client.AlertRouteIncidentConfigV3{Enabled: false},
+	}
+
+	plan := &AlertRouteResourceModel{
+		GroupingConfig: &AlertRouteV3GroupingConfigModel{
+			Default: &AlertRouteV3GroupingSettingsModel{},
+		},
+		ConditionGroups: IncidentEngineConditionGroups{
+			{
+				Conditions: IncidentEngineConditions{
+					{
+						Subject:   types.StringValue("alert.attributes.01GH"),
+						Operation: types.StringValue("one_of"),
+					},
+				},
+			},
+		},
+	}
+
+	withPlan := AlertRouteResourceModel{}.FromAPIV3WithPlan(api, plan)
+	if got := withPlan.ConditionGroups[0].Conditions[0].Operation.ValueString(); got != "one_of" {
+		t.Errorf("with plan: operation should be reconciled to %q, got %q", "one_of", got)
+	}
+
+	noPlan := AlertRouteResourceModel{}.FromAPIV3(api)
+	if got := noPlan.ConditionGroups[0].Conditions[0].Operation.ValueString(); got != "contains_one_of" {
+		t.Errorf("no plan: operation should stay verbatim %q, got %q", "contains_one_of", got)
+	}
+}
+
+// TestAlertRouteV3ReconcilesEveryConditionGroupLocation guards the wiring rather
+// than the reconciliation itself: a condition group missed in FromAPIV3WithPlan
+// still fails apply, and every other test here only covers the top-level one.
+func TestAlertRouteV3ReconcilesEveryConditionGroupLocation(t *testing.T) {
+	const subject = "alert.attributes.01GH"
+
+	apiGroups := func() []client.ConditionGroupV3 {
+		return []client.ConditionGroupV3{
+			{Conditions: []client.ConditionV3{
+				{
+					Subject:       client.ConditionSubjectV3{Reference: subject},
+					Operation:     client.ConditionOperationV3{Value: "contains_one_of"},
+					ParamBindings: []client.EngineParamBindingV3{},
+				},
+			}},
+		}
+	}
+	planGroups := func() IncidentEngineConditionGroups {
+		return IncidentEngineConditionGroups{
+			{Conditions: IncidentEngineConditions{
+				{Subject: types.StringValue(subject), Operation: types.StringValue("one_of")},
+			}},
+		}
+	}
+
+	api := client.AlertRouteV3{
+		Id:              "01ABC",
+		Name:            "route",
+		ConditionGroups: apiGroups(),
+		AlertSources: []client.AlertRouteAlertSourceV3{
+			{AlertSourceId: "01SOURCE", ConditionGroups: apiGroups()},
+		},
+		Expressions: []client.ExpressionV3{
+			{
+				Reference: "expr",
+				Label:     "expr",
+				Operations: []client.ExpressionOperationV3{
+					{
+						OperationType: "filter",
+						Filter:        &client.ExpressionFilterOptsV3{ConditionGroups: apiGroups()},
+					},
+				},
+			},
+		},
+		GroupingConfig: client.AlertGroupingConfigV3{
+			Default: client.GroupingSettingsV3{Enabled: false},
+		},
+		MessageConfig: client.AlertMessageConfigV3{
+			Destinations: []client.AlertMessageDestinationV3{
+				{ConditionGroups: apiGroups()},
+			},
+		},
+		EscalationConfig: client.AlertRouteEscalationConfigV3{
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+		},
+		IncidentConfig: client.AlertRouteIncidentConfigV3{
+			Enabled:         true,
+			ConditionGroups: lo.ToPtr(apiGroups()),
+		},
+	}
+
+	plan := &AlertRouteResourceModel{
+		GroupingConfig: &AlertRouteV3GroupingConfigModel{
+			Default: &AlertRouteV3GroupingSettingsModel{},
+		},
+		ConditionGroups: planGroups(),
+		AlertSources: []AlertRouteAlertSourceModel{
+			{AlertSourceID: types.StringValue("01SOURCE"), ConditionGroups: planGroups()},
+		},
+		Expressions: IncidentEngineExpressions{
+			{
+				Reference: types.StringValue("expr"),
+				Operations: IncidentEngineExpressionOperations{
+					{
+						OperationType: types.StringValue("filter"),
+						Filter:        &IncidentEngineExpressionFilterOpts{ConditionGroups: planGroups()},
+					},
+				},
+			},
+		},
+		MessageConfig: &AlertRouteV3MessageConfigModel{
+			Destinations: []AlertRouteV3ChannelConfigModel{
+				{ConditionGroups: planGroups()},
+			},
+		},
+		IncidentConfig: &AlertRouteIncidentConfigModel{ConditionGroups: planGroups()},
+	}
+
+	result := AlertRouteResourceModel{}.FromAPIV3WithPlan(api, plan)
+
+	locations := map[string]IncidentEngineConditionGroups{
+		"condition_groups":              result.ConditionGroups,
+		"alert_sources":                 result.AlertSources[0].ConditionGroups,
+		"message_config.destinations":   result.MessageConfig.Destinations[0].ConditionGroups,
+		"incident_config":               result.IncidentConfig.ConditionGroups,
+		"expressions.operations.filter": result.Expressions[0].Operations[0].Filter.ConditionGroups,
+	}
+	for location, groups := range locations {
+		if got := groups[0].Conditions[0].Operation.ValueString(); got != "one_of" {
+			t.Errorf("%s: operation should be reconciled to %q, got %q", location, "one_of", got)
+		}
 	}
 }
 
