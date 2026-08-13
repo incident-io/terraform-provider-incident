@@ -473,6 +473,110 @@ func TestAlertRouteV3ReconcilesConditionOperation(t *testing.T) {
 	}
 }
 
+// TestAlertRouteV3ReconcilesEveryConditionGroupLocation guards the wiring rather
+// than the reconciliation itself: a condition group missed in FromAPIV3WithPlan
+// still fails apply, and every other test here only covers the top-level one.
+func TestAlertRouteV3ReconcilesEveryConditionGroupLocation(t *testing.T) {
+	const subject = "alert.attributes.01GH"
+
+	apiGroups := func() []client.ConditionGroupV3 {
+		return []client.ConditionGroupV3{
+			{Conditions: []client.ConditionV3{
+				{
+					Subject:       client.ConditionSubjectV3{Reference: subject},
+					Operation:     client.ConditionOperationV3{Value: "contains_one_of"},
+					ParamBindings: []client.EngineParamBindingV3{},
+				},
+			}},
+		}
+	}
+	planGroups := func() IncidentEngineConditionGroups {
+		return IncidentEngineConditionGroups{
+			{Conditions: IncidentEngineConditions{
+				{Subject: types.StringValue(subject), Operation: types.StringValue("one_of")},
+			}},
+		}
+	}
+
+	api := client.AlertRouteV3{
+		Id:              "01ABC",
+		Name:            "route",
+		ConditionGroups: apiGroups(),
+		AlertSources: []client.AlertRouteAlertSourceV3{
+			{AlertSourceId: "01SOURCE", ConditionGroups: apiGroups()},
+		},
+		Expressions: []client.ExpressionV3{
+			{
+				Reference: "expr",
+				Label:     "expr",
+				Operations: []client.ExpressionOperationV3{
+					{
+						OperationType: "filter",
+						Filter:        &client.ExpressionFilterOptsV3{ConditionGroups: apiGroups()},
+					},
+				},
+			},
+		},
+		GroupingConfig: client.AlertGroupingConfigV3{
+			Default: client.GroupingSettingsV3{Enabled: false},
+		},
+		MessageConfig: client.AlertMessageConfigV3{
+			Destinations: []client.AlertMessageDestinationV3{
+				{ConditionGroups: apiGroups()},
+			},
+		},
+		EscalationConfig: client.AlertRouteEscalationConfigV3{
+			EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+		},
+		IncidentConfig: client.AlertRouteIncidentConfigV3{
+			Enabled:         true,
+			ConditionGroups: lo.ToPtr(apiGroups()),
+		},
+	}
+
+	plan := &AlertRouteResourceModel{
+		GroupingConfig: &AlertRouteV3GroupingConfigModel{
+			Default: &AlertRouteV3GroupingSettingsModel{},
+		},
+		ConditionGroups: planGroups(),
+		AlertSources: []AlertRouteAlertSourceModel{
+			{AlertSourceID: types.StringValue("01SOURCE"), ConditionGroups: planGroups()},
+		},
+		Expressions: IncidentEngineExpressions{
+			{
+				Reference: types.StringValue("expr"),
+				Operations: IncidentEngineExpressionOperations{
+					{
+						OperationType: types.StringValue("filter"),
+						Filter:        &IncidentEngineExpressionFilterOpts{ConditionGroups: planGroups()},
+					},
+				},
+			},
+		},
+		MessageConfig: &AlertRouteV3MessageConfigModel{
+			Destinations: []AlertRouteV3ChannelConfigModel{
+				{ConditionGroups: planGroups()},
+			},
+		},
+		IncidentConfig: &AlertRouteIncidentConfigModel{ConditionGroups: planGroups()},
+	}
+
+	result := AlertRouteResourceModel{}.FromAPIV3WithPlan(api, plan)
+
+	locations := map[string]IncidentEngineConditionGroups{
+		"condition_groups":              result.ConditionGroups,
+		"alert_sources":                 result.AlertSources[0].ConditionGroups,
+		"message_config.destinations":   result.MessageConfig.Destinations[0].ConditionGroups,
+		"incident_config":               result.IncidentConfig.ConditionGroups,
+		"expressions.operations.filter": result.Expressions[0].Operations[0].Filter.ConditionGroups,
+	}
+	for location, groups := range locations {
+		if got := groups[0].Conditions[0].Operation.ValueString(); got != "one_of" {
+			t.Errorf("%s: operation should be reconciled to %q, got %q", location, "one_of", got)
+		}
+	}
+}
+
 // TestWhenAlertJoinsGroupFromAPIGracePeriodByMode covers the mapping of
 // grace_period_seconds out of the API. The grace period is only a real,
 // configurable field when mode is on_each_new_alert. For on_priority_increase

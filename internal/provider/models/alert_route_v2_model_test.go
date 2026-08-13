@@ -192,6 +192,101 @@ func TestAlertRouteV2ReconcilesConditionOperation(t *testing.T) {
 	}
 }
 
+// TestAlertRouteV2ReconcilesEveryConditionGroupLocation guards the wiring rather
+// than the reconciliation itself: a condition group missed in FromAPIV2WithPlan
+// still fails apply, and every other test here only covers the top-level one.
+func TestAlertRouteV2ReconcilesEveryConditionGroupLocation(t *testing.T) {
+	const subject = "alert.attributes.01GH"
+
+	apiGroups := func() []client.ConditionGroupV2 {
+		return []client.ConditionGroupV2{
+			{Conditions: []client.ConditionV2{
+				{
+					Subject:   client.ConditionSubjectV2{Reference: subject},
+					Operation: client.ConditionOperationV2{Value: "contains_one_of"},
+				},
+			}},
+		}
+	}
+	planGroups := func() IncidentEngineConditionGroups {
+		return IncidentEngineConditionGroups{
+			{Conditions: IncidentEngineConditions{
+				{Subject: types.StringValue(subject), Operation: types.StringValue("one_of")},
+			}},
+		}
+	}
+
+	api := client.AlertRouteV2{
+		Id:              "01ABC",
+		Name:            "route",
+		Version:         2,
+		ConditionGroups: apiGroups(),
+		AlertSources: []client.AlertRouteAlertSourceV2{
+			{AlertSourceId: "01SOURCE", ConditionGroups: apiGroups()},
+		},
+		ChannelConfig: []client.AlertRouteChannelConfigV2{
+			{ConditionGroups: apiGroups()},
+		},
+		Expressions: []client.ExpressionV2{
+			{
+				Reference: "expr",
+				Label:     "expr",
+				Operations: []client.ExpressionOperationV2{
+					{
+						OperationType: "filter",
+						Filter:        &client.ExpressionFilterOptsV2{ConditionGroups: apiGroups()},
+					},
+				},
+			},
+		},
+		EscalationConfig: client.AlertRouteEscalationConfigV2{
+			EscalationTargets: []client.AlertRouteEscalationTargetV2{},
+		},
+		IncidentConfig: client.AlertRouteIncidentConfigV2{
+			GroupingKeys:    []client.GroupingKeyV2{},
+			ConditionGroups: apiGroups(),
+		},
+		IncidentTemplate: client.AlertRouteIncidentTemplateV2{},
+	}
+
+	plan := &AlertRouteResourceModel{
+		ConditionGroups: planGroups(),
+		AlertSources: []AlertRouteAlertSourceModel{
+			{AlertSourceID: types.StringValue("01SOURCE"), ConditionGroups: planGroups()},
+		},
+		ChannelConfig: []AlertRouteChannelConfigModel{
+			{ConditionGroups: planGroups()},
+		},
+		Expressions: IncidentEngineExpressions{
+			{
+				Reference: types.StringValue("expr"),
+				Operations: IncidentEngineExpressionOperations{
+					{
+						OperationType: types.StringValue("filter"),
+						Filter:        &IncidentEngineExpressionFilterOpts{ConditionGroups: planGroups()},
+					},
+				},
+			},
+		},
+		IncidentConfig: &AlertRouteIncidentConfigModel{ConditionGroups: planGroups()},
+	}
+
+	result := AlertRouteResourceModel{}.FromAPIV2WithPlan(api, plan)
+
+	locations := map[string]IncidentEngineConditionGroups{
+		"condition_groups":              result.ConditionGroups,
+		"alert_sources":                 result.AlertSources[0].ConditionGroups,
+		"channel_config":                result.ChannelConfig[0].ConditionGroups,
+		"incident_config":               result.IncidentConfig.ConditionGroups,
+		"expressions.operations.filter": result.Expressions[0].Operations[0].Filter.ConditionGroups,
+	}
+	for location, groups := range locations {
+		if got := groups[0].Conditions[0].Operation.ValueString(); got != "one_of" {
+			t.Errorf("%s: operation should be reconciled to %q, got %q", location, "one_of", got)
+		}
+	}
+}
+
 // TestReconcileAlertSourceOperationsCorrelatesByID asserts alert source conditions
 // still reconcile when the API returns the sources in a different order to the
 // plan, and that we do not reconcile against the wrong source.
