@@ -87,14 +87,12 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
 			return
 		}
-		if len(result.JSON200.Users) == 0 {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "User not found"))
-			return
-		} else if len(result.JSON200.Users) > 1 {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "Multiple users found"))
+		match, err := selectUserByEmail(result.JSON200.Users)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
 			return
 		}
-		user = &result.JSON200.Users[0]
+		user = match
 	} else if !data.SlackUserID.IsNull() {
 		result, err := i.client.UsersV2ListWithResponse(ctx, &client.UsersV2ListParams{
 			SlackUserId:     data.SlackUserID.ValueStringPointer(),
@@ -146,6 +144,39 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 
 	modelResp := i.buildModel(*user)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
+}
+
+// selectUserByEmail picks the user a config means when an email lookup returns
+// more than one match.
+//
+// We list with include_inactive so a deactivated user still resolves, which
+// means an email can legitimately match several rows: e.g. an old deactivated
+// account plus the live SSO one, or a duplicate that was merged and later had
+// its PII scrubbed. In that case there is normally exactly one active user, and
+// that's unambiguously the one the config wants — so return it rather than
+// failing the apply.
+//
+// We only fail when the ambiguity is real: several active users share the
+// email, or every match is inactive (nothing to sensibly prefer).
+func selectUserByEmail(users []client.UserWithRolesV2) (*client.UserWithRolesV2, error) {
+	switch len(users) {
+	case 0:
+		return nil, fmt.Errorf("User not found")
+	case 1:
+		return &users[0], nil
+	}
+
+	active := lo.Filter(users, func(user client.UserWithRolesV2, _ int) bool {
+		return user.IsActive
+	})
+	if len(active) == 1 {
+		return &active[0], nil
+	}
+
+	return nil, fmt.Errorf(
+		"Multiple users found (%d matches, %d of them active) — refine the lookup by using id or slack_user_id instead",
+		len(users), len(active),
+	)
 }
 
 func (i *IncidentUserDataSource) buildModel(userType client.UserWithRolesV2) *IncidentUserDataSourceModel {
