@@ -1,6 +1,8 @@
 ## Unreleased
 
 - Check an `incident_alert_source`'s template at plan time. A reference that doesn't resolve, or a merge strategy the attribute doesn't support, now fails the plan. Previously it failed part way through an apply, after other resources had been created. Templates whose values aren't known until apply are left alone, and when the check can't run the plan warns rather than failing.
+- Add beta support for splitting an alert source from the attributes it populates, as `incident_alert_source_beta` and `incident_alert_source_attribute_beta` resources. `incident_alert_source_beta` manages just the source itself (name, type, title, description, priority, options); each attribute binding is its own `incident_alert_source_attribute_beta` resource with its own lifecycle, so filling in one more attribute doesn't mean rewriting every other attribute on the same source. These resources are beta: their schemas may change in ways that aren't backwards compatible while we settle the design. The existing `incident_alert_source` resource is unchanged and not deprecated.
+- Add `data.incident_rich_text`, for building a rich text document from markdown for fields — such as the new resources' `title` and `description` — that store a document rather than a `{{ }}` template.
 
 ## v6.1.1
 
