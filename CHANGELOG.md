@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Fix `incident_alert_route` wrongly requiring deprecated v2 attributes
+  (`incident_template` etc.) when the resource is driven by `for_each`/`count`.
+
 ## v6.1.0
 
 - Add optional `retry_config` to `incident_escalation_path` levels, allowing you

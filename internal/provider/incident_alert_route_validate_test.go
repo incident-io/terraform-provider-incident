@@ -297,6 +297,72 @@ resource "incident_alert_route" "test" {
 	})
 }
 
+// TestIncidentAlertRouteResource_ValidateConfigForEachUnknownGrouping is a
+// regression test for the case where the whole grouping_config object is
+// unknown at ValidateConfig time. Under for_each/count, Terraform validates the
+// resource block once with each.value entirely unknown, so
+// `grouping_config = each.value.grouping_config` is unknown. The mode selector
+// must not treat that unknown as v2 mode and demand the v2-only required fields
+// (incident_template, incident_config.auto_decline_enabled / grouping_window_seconds
+// / defer_time_seconds) — this config is a valid v3 route.
+func TestIncidentAlertRouteResource_ValidateConfigForEachUnknownGrouping(t *testing.T) {
+	config := `
+locals {
+  routes = {
+    "a" = {
+      grouping_config = { default = { enabled = false } }
+    }
+  }
+}
+
+resource "incident_alert_route" "test" {
+  for_each = local.routes
+
+  name       = "validate-foreach-${each.key}"
+  enabled    = true
+  is_private = false
+
+  alert_sources = [
+    {
+      alert_source_id  = "01SRC"
+      condition_groups = []
+    }
+  ]
+  condition_groups = []
+  expressions      = []
+
+  # Unknown at ValidateConfig time: each.value is unknown until for_each expands.
+  grouping_config = each.value.grouping_config
+
+  message_config = {
+    destinations = []
+  }
+
+  escalation_config = {
+    auto_cancel_escalations = true
+    escalation_targets      = []
+  }
+
+  incident_config = {
+    enabled          = false
+    condition_groups = []
+  }
+}
+`
+
+	resource.Test(t, resource.TestCase{
+		IsUnitTest:               true,
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config:             config,
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: true,
+			},
+		},
+	})
+}
+
 func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 	cases := []struct {
 		name   string
