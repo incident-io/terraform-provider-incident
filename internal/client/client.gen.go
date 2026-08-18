@@ -813,6 +813,273 @@ func (e AlertSlimV2Status) Valid() bool {
 	}
 }
 
+// Defines values for AlertSourceAttributeCreatePayloadV3MergeStrategy.
+const (
+	AlertSourceAttributeCreatePayloadV3MergeStrategyAppend    AlertSourceAttributeCreatePayloadV3MergeStrategy = "append"
+	AlertSourceAttributeCreatePayloadV3MergeStrategyFirstWins AlertSourceAttributeCreatePayloadV3MergeStrategy = "first_wins"
+	AlertSourceAttributeCreatePayloadV3MergeStrategyLastWins  AlertSourceAttributeCreatePayloadV3MergeStrategy = "last_wins"
+	AlertSourceAttributeCreatePayloadV3MergeStrategyMax       AlertSourceAttributeCreatePayloadV3MergeStrategy = "max"
+	AlertSourceAttributeCreatePayloadV3MergeStrategyMin       AlertSourceAttributeCreatePayloadV3MergeStrategy = "min"
+)
+
+// Valid indicates whether the value is a known member of the AlertSourceAttributeCreatePayloadV3MergeStrategy enum.
+func (e AlertSourceAttributeCreatePayloadV3MergeStrategy) Valid() bool {
+	switch e {
+	case AlertSourceAttributeCreatePayloadV3MergeStrategyAppend:
+		return true
+	case AlertSourceAttributeCreatePayloadV3MergeStrategyFirstWins:
+		return true
+	case AlertSourceAttributeCreatePayloadV3MergeStrategyLastWins:
+		return true
+	case AlertSourceAttributeCreatePayloadV3MergeStrategyMax:
+		return true
+	case AlertSourceAttributeCreatePayloadV3MergeStrategyMin:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AlertSourceAttributeUpdatePayloadV3MergeStrategy.
+const (
+	AlertSourceAttributeUpdatePayloadV3MergeStrategyAppend    AlertSourceAttributeUpdatePayloadV3MergeStrategy = "append"
+	AlertSourceAttributeUpdatePayloadV3MergeStrategyFirstWins AlertSourceAttributeUpdatePayloadV3MergeStrategy = "first_wins"
+	AlertSourceAttributeUpdatePayloadV3MergeStrategyLastWins  AlertSourceAttributeUpdatePayloadV3MergeStrategy = "last_wins"
+	AlertSourceAttributeUpdatePayloadV3MergeStrategyMax       AlertSourceAttributeUpdatePayloadV3MergeStrategy = "max"
+	AlertSourceAttributeUpdatePayloadV3MergeStrategyMin       AlertSourceAttributeUpdatePayloadV3MergeStrategy = "min"
+)
+
+// Valid indicates whether the value is a known member of the AlertSourceAttributeUpdatePayloadV3MergeStrategy enum.
+func (e AlertSourceAttributeUpdatePayloadV3MergeStrategy) Valid() bool {
+	switch e {
+	case AlertSourceAttributeUpdatePayloadV3MergeStrategyAppend:
+		return true
+	case AlertSourceAttributeUpdatePayloadV3MergeStrategyFirstWins:
+		return true
+	case AlertSourceAttributeUpdatePayloadV3MergeStrategyLastWins:
+		return true
+	case AlertSourceAttributeUpdatePayloadV3MergeStrategyMax:
+		return true
+	case AlertSourceAttributeUpdatePayloadV3MergeStrategyMin:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AlertSourceAttributeV3MergeStrategy.
+const (
+	AlertSourceAttributeV3MergeStrategyAppend    AlertSourceAttributeV3MergeStrategy = "append"
+	AlertSourceAttributeV3MergeStrategyFirstWins AlertSourceAttributeV3MergeStrategy = "first_wins"
+	AlertSourceAttributeV3MergeStrategyLastWins  AlertSourceAttributeV3MergeStrategy = "last_wins"
+	AlertSourceAttributeV3MergeStrategyMax       AlertSourceAttributeV3MergeStrategy = "max"
+	AlertSourceAttributeV3MergeStrategyMin       AlertSourceAttributeV3MergeStrategy = "min"
+)
+
+// Valid indicates whether the value is a known member of the AlertSourceAttributeV3MergeStrategy enum.
+func (e AlertSourceAttributeV3MergeStrategy) Valid() bool {
+	switch e {
+	case AlertSourceAttributeV3MergeStrategyAppend:
+		return true
+	case AlertSourceAttributeV3MergeStrategyFirstWins:
+		return true
+	case AlertSourceAttributeV3MergeStrategyLastWins:
+		return true
+	case AlertSourceAttributeV3MergeStrategyMax:
+		return true
+	case AlertSourceAttributeV3MergeStrategyMin:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AlertSourceAttributeValidatePayloadV3MergeStrategy.
+const (
+	AlertSourceAttributeValidatePayloadV3MergeStrategyAppend    AlertSourceAttributeValidatePayloadV3MergeStrategy = "append"
+	AlertSourceAttributeValidatePayloadV3MergeStrategyFirstWins AlertSourceAttributeValidatePayloadV3MergeStrategy = "first_wins"
+	AlertSourceAttributeValidatePayloadV3MergeStrategyLastWins  AlertSourceAttributeValidatePayloadV3MergeStrategy = "last_wins"
+	AlertSourceAttributeValidatePayloadV3MergeStrategyMax       AlertSourceAttributeValidatePayloadV3MergeStrategy = "max"
+	AlertSourceAttributeValidatePayloadV3MergeStrategyMin       AlertSourceAttributeValidatePayloadV3MergeStrategy = "min"
+)
+
+// Valid indicates whether the value is a known member of the AlertSourceAttributeValidatePayloadV3MergeStrategy enum.
+func (e AlertSourceAttributeValidatePayloadV3MergeStrategy) Valid() bool {
+	switch e {
+	case AlertSourceAttributeValidatePayloadV3MergeStrategyAppend:
+		return true
+	case AlertSourceAttributeValidatePayloadV3MergeStrategyFirstWins:
+		return true
+	case AlertSourceAttributeValidatePayloadV3MergeStrategyLastWins:
+		return true
+	case AlertSourceAttributeValidatePayloadV3MergeStrategyMax:
+		return true
+	case AlertSourceAttributeValidatePayloadV3MergeStrategyMin:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AlertSourceCreatePayloadV3SourceType.
+const (
+	AlertSourceCreatePayloadV3SourceTypeAlertmanager      AlertSourceCreatePayloadV3SourceType = "alertmanager"
+	AlertSourceCreatePayloadV3SourceTypeAppOptics         AlertSourceCreatePayloadV3SourceType = "app_optics"
+	AlertSourceCreatePayloadV3SourceTypeAzureMonitor      AlertSourceCreatePayloadV3SourceType = "azure_monitor"
+	AlertSourceCreatePayloadV3SourceTypeBigPanda          AlertSourceCreatePayloadV3SourceType = "big_panda"
+	AlertSourceCreatePayloadV3SourceTypeBugsnag           AlertSourceCreatePayloadV3SourceType = "bugsnag"
+	AlertSourceCreatePayloadV3SourceTypeCheckly           AlertSourceCreatePayloadV3SourceType = "checkly"
+	AlertSourceCreatePayloadV3SourceTypeChronosphere      AlertSourceCreatePayloadV3SourceType = "chronosphere"
+	AlertSourceCreatePayloadV3SourceTypeCloudflare        AlertSourceCreatePayloadV3SourceType = "cloudflare"
+	AlertSourceCreatePayloadV3SourceTypeCloudwatch        AlertSourceCreatePayloadV3SourceType = "cloudwatch"
+	AlertSourceCreatePayloadV3SourceTypeCoralogix         AlertSourceCreatePayloadV3SourceType = "coralogix"
+	AlertSourceCreatePayloadV3SourceTypeCronitor          AlertSourceCreatePayloadV3SourceType = "cronitor"
+	AlertSourceCreatePayloadV3SourceTypeCrowdstrikeFalcon AlertSourceCreatePayloadV3SourceType = "crowdstrike_falcon"
+	AlertSourceCreatePayloadV3SourceTypeDash0             AlertSourceCreatePayloadV3SourceType = "dash0"
+	AlertSourceCreatePayloadV3SourceTypeDatadog           AlertSourceCreatePayloadV3SourceType = "datadog"
+	AlertSourceCreatePayloadV3SourceTypeDynatrace         AlertSourceCreatePayloadV3SourceType = "dynatrace"
+	AlertSourceCreatePayloadV3SourceTypeElasticsearch     AlertSourceCreatePayloadV3SourceType = "elasticsearch"
+	AlertSourceCreatePayloadV3SourceTypeEmail             AlertSourceCreatePayloadV3SourceType = "email"
+	AlertSourceCreatePayloadV3SourceTypeExpel             AlertSourceCreatePayloadV3SourceType = "expel"
+	AlertSourceCreatePayloadV3SourceTypeGithubIssue       AlertSourceCreatePayloadV3SourceType = "github_issue"
+	AlertSourceCreatePayloadV3SourceTypeGoogleCloud       AlertSourceCreatePayloadV3SourceType = "google_cloud"
+	AlertSourceCreatePayloadV3SourceTypeGrafana           AlertSourceCreatePayloadV3SourceType = "grafana"
+	AlertSourceCreatePayloadV3SourceTypeHeartbeat         AlertSourceCreatePayloadV3SourceType = "heartbeat"
+	AlertSourceCreatePayloadV3SourceTypeHoneycomb         AlertSourceCreatePayloadV3SourceType = "honeycomb"
+	AlertSourceCreatePayloadV3SourceTypeHttp              AlertSourceCreatePayloadV3SourceType = "http"
+	AlertSourceCreatePayloadV3SourceTypeHttpCustom        AlertSourceCreatePayloadV3SourceType = "http_custom"
+	AlertSourceCreatePayloadV3SourceTypeIncomingCalls     AlertSourceCreatePayloadV3SourceType = "incoming_calls"
+	AlertSourceCreatePayloadV3SourceTypeJira              AlertSourceCreatePayloadV3SourceType = "jira"
+	AlertSourceCreatePayloadV3SourceTypeJsm               AlertSourceCreatePayloadV3SourceType = "jsm"
+	AlertSourceCreatePayloadV3SourceTypeMonteCarlo        AlertSourceCreatePayloadV3SourceType = "monte_carlo"
+	AlertSourceCreatePayloadV3SourceTypeNagios            AlertSourceCreatePayloadV3SourceType = "nagios"
+	AlertSourceCreatePayloadV3SourceTypeNewRelic          AlertSourceCreatePayloadV3SourceType = "new_relic"
+	AlertSourceCreatePayloadV3SourceTypeOpsgenie          AlertSourceCreatePayloadV3SourceType = "opsgenie"
+	AlertSourceCreatePayloadV3SourceTypePagerDuty         AlertSourceCreatePayloadV3SourceType = "pager_duty"
+	AlertSourceCreatePayloadV3SourceTypePanther           AlertSourceCreatePayloadV3SourceType = "panther"
+	AlertSourceCreatePayloadV3SourceTypePingdom           AlertSourceCreatePayloadV3SourceType = "pingdom"
+	AlertSourceCreatePayloadV3SourceTypePrtg              AlertSourceCreatePayloadV3SourceType = "prtg"
+	AlertSourceCreatePayloadV3SourceTypeRunscope          AlertSourceCreatePayloadV3SourceType = "runscope"
+	AlertSourceCreatePayloadV3SourceTypeSentry            AlertSourceCreatePayloadV3SourceType = "sentry"
+	AlertSourceCreatePayloadV3SourceTypeSentryMetric      AlertSourceCreatePayloadV3SourceType = "sentry_metric"
+	AlertSourceCreatePayloadV3SourceTypeServiceNow        AlertSourceCreatePayloadV3SourceType = "service_now"
+	AlertSourceCreatePayloadV3SourceTypeSns               AlertSourceCreatePayloadV3SourceType = "sns"
+	AlertSourceCreatePayloadV3SourceTypeSplunk            AlertSourceCreatePayloadV3SourceType = "splunk"
+	AlertSourceCreatePayloadV3SourceTypeStatusCake        AlertSourceCreatePayloadV3SourceType = "status_cake"
+	AlertSourceCreatePayloadV3SourceTypeStatusPageViews   AlertSourceCreatePayloadV3SourceType = "status_page_views"
+	AlertSourceCreatePayloadV3SourceTypeSumoLogic         AlertSourceCreatePayloadV3SourceType = "sumo_logic"
+	AlertSourceCreatePayloadV3SourceTypeUptime            AlertSourceCreatePayloadV3SourceType = "uptime"
+	AlertSourceCreatePayloadV3SourceTypeVercel            AlertSourceCreatePayloadV3SourceType = "vercel"
+	AlertSourceCreatePayloadV3SourceTypeWiz               AlertSourceCreatePayloadV3SourceType = "wiz"
+	AlertSourceCreatePayloadV3SourceTypeZendesk           AlertSourceCreatePayloadV3SourceType = "zendesk"
+)
+
+// Valid indicates whether the value is a known member of the AlertSourceCreatePayloadV3SourceType enum.
+func (e AlertSourceCreatePayloadV3SourceType) Valid() bool {
+	switch e {
+	case AlertSourceCreatePayloadV3SourceTypeAlertmanager:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeAppOptics:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeAzureMonitor:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeBigPanda:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeBugsnag:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeCheckly:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeChronosphere:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeCloudflare:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeCloudwatch:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeCoralogix:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeCronitor:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeCrowdstrikeFalcon:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeDash0:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeDatadog:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeDynatrace:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeElasticsearch:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeEmail:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeExpel:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeGithubIssue:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeGoogleCloud:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeGrafana:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeHeartbeat:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeHoneycomb:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeHttp:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeHttpCustom:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeIncomingCalls:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeJira:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeJsm:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeMonteCarlo:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeNagios:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeNewRelic:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeOpsgenie:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypePagerDuty:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypePanther:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypePingdom:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypePrtg:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeRunscope:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeSentry:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeSentryMetric:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeServiceNow:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeSns:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeSplunk:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeStatusCake:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeStatusPageViews:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeSumoLogic:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeUptime:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeVercel:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeWiz:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeZendesk:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for AlertSourceEmailOptionsPayloadV2Redactions.
 const (
 	AlertSourceEmailOptionsPayloadV2RedactionsCreditCardNumbers       AlertSourceEmailOptionsPayloadV2Redactions = "credit_card_numbers"
@@ -834,6 +1101,27 @@ func (e AlertSourceEmailOptionsPayloadV2Redactions) Valid() bool {
 	}
 }
 
+// Defines values for AlertSourceEmailOptionsPayloadV3Redactions.
+const (
+	AlertSourceEmailOptionsPayloadV3RedactionsCreditCardNumbers       AlertSourceEmailOptionsPayloadV3Redactions = "credit_card_numbers"
+	AlertSourceEmailOptionsPayloadV3RedactionsPhoneNumbers            AlertSourceEmailOptionsPayloadV3Redactions = "phone_numbers"
+	AlertSourceEmailOptionsPayloadV3RedactionsUsSocialSecurityNumbers AlertSourceEmailOptionsPayloadV3Redactions = "us_social_security_numbers"
+)
+
+// Valid indicates whether the value is a known member of the AlertSourceEmailOptionsPayloadV3Redactions enum.
+func (e AlertSourceEmailOptionsPayloadV3Redactions) Valid() bool {
+	switch e {
+	case AlertSourceEmailOptionsPayloadV3RedactionsCreditCardNumbers:
+		return true
+	case AlertSourceEmailOptionsPayloadV3RedactionsPhoneNumbers:
+		return true
+	case AlertSourceEmailOptionsPayloadV3RedactionsUsSocialSecurityNumbers:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for AlertSourceEmailOptionsV2Redactions.
 const (
 	AlertSourceEmailOptionsV2RedactionsCreditCardNumbers       AlertSourceEmailOptionsV2Redactions = "credit_card_numbers"
@@ -849,6 +1137,27 @@ func (e AlertSourceEmailOptionsV2Redactions) Valid() bool {
 	case AlertSourceEmailOptionsV2RedactionsPhoneNumbers:
 		return true
 	case AlertSourceEmailOptionsV2RedactionsUsSocialSecurityNumbers:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AlertSourceEmailOptionsV3Redactions.
+const (
+	AlertSourceEmailOptionsV3RedactionsCreditCardNumbers       AlertSourceEmailOptionsV3Redactions = "credit_card_numbers"
+	AlertSourceEmailOptionsV3RedactionsPhoneNumbers            AlertSourceEmailOptionsV3Redactions = "phone_numbers"
+	AlertSourceEmailOptionsV3RedactionsUsSocialSecurityNumbers AlertSourceEmailOptionsV3Redactions = "us_social_security_numbers"
+)
+
+// Valid indicates whether the value is a known member of the AlertSourceEmailOptionsV3Redactions enum.
+func (e AlertSourceEmailOptionsV3Redactions) Valid() bool {
+	switch e {
+	case AlertSourceEmailOptionsV3RedactionsCreditCardNumbers:
+		return true
+	case AlertSourceEmailOptionsV3RedactionsPhoneNumbers:
+		return true
+	case AlertSourceEmailOptionsV3RedactionsUsSocialSecurityNumbers:
 		return true
 	default:
 		return false
@@ -1008,6 +1317,324 @@ func (e AlertSourceV2SourceType) Valid() bool {
 	case AlertSourceV2SourceTypeWiz:
 		return true
 	case AlertSourceV2SourceTypeZendesk:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AlertSourceV3SourceType.
+const (
+	AlertSourceV3SourceTypeAlertmanager      AlertSourceV3SourceType = "alertmanager"
+	AlertSourceV3SourceTypeAppOptics         AlertSourceV3SourceType = "app_optics"
+	AlertSourceV3SourceTypeAzureMonitor      AlertSourceV3SourceType = "azure_monitor"
+	AlertSourceV3SourceTypeBigPanda          AlertSourceV3SourceType = "big_panda"
+	AlertSourceV3SourceTypeBugsnag           AlertSourceV3SourceType = "bugsnag"
+	AlertSourceV3SourceTypeCheckly           AlertSourceV3SourceType = "checkly"
+	AlertSourceV3SourceTypeChronosphere      AlertSourceV3SourceType = "chronosphere"
+	AlertSourceV3SourceTypeCloudflare        AlertSourceV3SourceType = "cloudflare"
+	AlertSourceV3SourceTypeCloudwatch        AlertSourceV3SourceType = "cloudwatch"
+	AlertSourceV3SourceTypeCoralogix         AlertSourceV3SourceType = "coralogix"
+	AlertSourceV3SourceTypeCronitor          AlertSourceV3SourceType = "cronitor"
+	AlertSourceV3SourceTypeCrowdstrikeFalcon AlertSourceV3SourceType = "crowdstrike_falcon"
+	AlertSourceV3SourceTypeDash0             AlertSourceV3SourceType = "dash0"
+	AlertSourceV3SourceTypeDatadog           AlertSourceV3SourceType = "datadog"
+	AlertSourceV3SourceTypeDynatrace         AlertSourceV3SourceType = "dynatrace"
+	AlertSourceV3SourceTypeElasticsearch     AlertSourceV3SourceType = "elasticsearch"
+	AlertSourceV3SourceTypeEmail             AlertSourceV3SourceType = "email"
+	AlertSourceV3SourceTypeExpel             AlertSourceV3SourceType = "expel"
+	AlertSourceV3SourceTypeGithubIssue       AlertSourceV3SourceType = "github_issue"
+	AlertSourceV3SourceTypeGoogleCloud       AlertSourceV3SourceType = "google_cloud"
+	AlertSourceV3SourceTypeGrafana           AlertSourceV3SourceType = "grafana"
+	AlertSourceV3SourceTypeHeartbeat         AlertSourceV3SourceType = "heartbeat"
+	AlertSourceV3SourceTypeHoneycomb         AlertSourceV3SourceType = "honeycomb"
+	AlertSourceV3SourceTypeHttp              AlertSourceV3SourceType = "http"
+	AlertSourceV3SourceTypeHttpCustom        AlertSourceV3SourceType = "http_custom"
+	AlertSourceV3SourceTypeIncomingCalls     AlertSourceV3SourceType = "incoming_calls"
+	AlertSourceV3SourceTypeJira              AlertSourceV3SourceType = "jira"
+	AlertSourceV3SourceTypeJsm               AlertSourceV3SourceType = "jsm"
+	AlertSourceV3SourceTypeMonteCarlo        AlertSourceV3SourceType = "monte_carlo"
+	AlertSourceV3SourceTypeNagios            AlertSourceV3SourceType = "nagios"
+	AlertSourceV3SourceTypeNewRelic          AlertSourceV3SourceType = "new_relic"
+	AlertSourceV3SourceTypeOpsgenie          AlertSourceV3SourceType = "opsgenie"
+	AlertSourceV3SourceTypePagerDuty         AlertSourceV3SourceType = "pager_duty"
+	AlertSourceV3SourceTypePanther           AlertSourceV3SourceType = "panther"
+	AlertSourceV3SourceTypePingdom           AlertSourceV3SourceType = "pingdom"
+	AlertSourceV3SourceTypePrtg              AlertSourceV3SourceType = "prtg"
+	AlertSourceV3SourceTypeRunscope          AlertSourceV3SourceType = "runscope"
+	AlertSourceV3SourceTypeSentry            AlertSourceV3SourceType = "sentry"
+	AlertSourceV3SourceTypeSentryMetric      AlertSourceV3SourceType = "sentry_metric"
+	AlertSourceV3SourceTypeServiceNow        AlertSourceV3SourceType = "service_now"
+	AlertSourceV3SourceTypeSns               AlertSourceV3SourceType = "sns"
+	AlertSourceV3SourceTypeSplunk            AlertSourceV3SourceType = "splunk"
+	AlertSourceV3SourceTypeStatusCake        AlertSourceV3SourceType = "status_cake"
+	AlertSourceV3SourceTypeStatusPageViews   AlertSourceV3SourceType = "status_page_views"
+	AlertSourceV3SourceTypeSumoLogic         AlertSourceV3SourceType = "sumo_logic"
+	AlertSourceV3SourceTypeUptime            AlertSourceV3SourceType = "uptime"
+	AlertSourceV3SourceTypeVercel            AlertSourceV3SourceType = "vercel"
+	AlertSourceV3SourceTypeWiz               AlertSourceV3SourceType = "wiz"
+	AlertSourceV3SourceTypeZendesk           AlertSourceV3SourceType = "zendesk"
+)
+
+// Valid indicates whether the value is a known member of the AlertSourceV3SourceType enum.
+func (e AlertSourceV3SourceType) Valid() bool {
+	switch e {
+	case AlertSourceV3SourceTypeAlertmanager:
+		return true
+	case AlertSourceV3SourceTypeAppOptics:
+		return true
+	case AlertSourceV3SourceTypeAzureMonitor:
+		return true
+	case AlertSourceV3SourceTypeBigPanda:
+		return true
+	case AlertSourceV3SourceTypeBugsnag:
+		return true
+	case AlertSourceV3SourceTypeCheckly:
+		return true
+	case AlertSourceV3SourceTypeChronosphere:
+		return true
+	case AlertSourceV3SourceTypeCloudflare:
+		return true
+	case AlertSourceV3SourceTypeCloudwatch:
+		return true
+	case AlertSourceV3SourceTypeCoralogix:
+		return true
+	case AlertSourceV3SourceTypeCronitor:
+		return true
+	case AlertSourceV3SourceTypeCrowdstrikeFalcon:
+		return true
+	case AlertSourceV3SourceTypeDash0:
+		return true
+	case AlertSourceV3SourceTypeDatadog:
+		return true
+	case AlertSourceV3SourceTypeDynatrace:
+		return true
+	case AlertSourceV3SourceTypeElasticsearch:
+		return true
+	case AlertSourceV3SourceTypeEmail:
+		return true
+	case AlertSourceV3SourceTypeExpel:
+		return true
+	case AlertSourceV3SourceTypeGithubIssue:
+		return true
+	case AlertSourceV3SourceTypeGoogleCloud:
+		return true
+	case AlertSourceV3SourceTypeGrafana:
+		return true
+	case AlertSourceV3SourceTypeHeartbeat:
+		return true
+	case AlertSourceV3SourceTypeHoneycomb:
+		return true
+	case AlertSourceV3SourceTypeHttp:
+		return true
+	case AlertSourceV3SourceTypeHttpCustom:
+		return true
+	case AlertSourceV3SourceTypeIncomingCalls:
+		return true
+	case AlertSourceV3SourceTypeJira:
+		return true
+	case AlertSourceV3SourceTypeJsm:
+		return true
+	case AlertSourceV3SourceTypeMonteCarlo:
+		return true
+	case AlertSourceV3SourceTypeNagios:
+		return true
+	case AlertSourceV3SourceTypeNewRelic:
+		return true
+	case AlertSourceV3SourceTypeOpsgenie:
+		return true
+	case AlertSourceV3SourceTypePagerDuty:
+		return true
+	case AlertSourceV3SourceTypePanther:
+		return true
+	case AlertSourceV3SourceTypePingdom:
+		return true
+	case AlertSourceV3SourceTypePrtg:
+		return true
+	case AlertSourceV3SourceTypeRunscope:
+		return true
+	case AlertSourceV3SourceTypeSentry:
+		return true
+	case AlertSourceV3SourceTypeSentryMetric:
+		return true
+	case AlertSourceV3SourceTypeServiceNow:
+		return true
+	case AlertSourceV3SourceTypeSns:
+		return true
+	case AlertSourceV3SourceTypeSplunk:
+		return true
+	case AlertSourceV3SourceTypeStatusCake:
+		return true
+	case AlertSourceV3SourceTypeStatusPageViews:
+		return true
+	case AlertSourceV3SourceTypeSumoLogic:
+		return true
+	case AlertSourceV3SourceTypeUptime:
+		return true
+	case AlertSourceV3SourceTypeVercel:
+		return true
+	case AlertSourceV3SourceTypeWiz:
+		return true
+	case AlertSourceV3SourceTypeZendesk:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AlertSourceValidatePayloadV3SourceType.
+const (
+	AlertSourceValidatePayloadV3SourceTypeAlertmanager      AlertSourceValidatePayloadV3SourceType = "alertmanager"
+	AlertSourceValidatePayloadV3SourceTypeAppOptics         AlertSourceValidatePayloadV3SourceType = "app_optics"
+	AlertSourceValidatePayloadV3SourceTypeAzureMonitor      AlertSourceValidatePayloadV3SourceType = "azure_monitor"
+	AlertSourceValidatePayloadV3SourceTypeBigPanda          AlertSourceValidatePayloadV3SourceType = "big_panda"
+	AlertSourceValidatePayloadV3SourceTypeBugsnag           AlertSourceValidatePayloadV3SourceType = "bugsnag"
+	AlertSourceValidatePayloadV3SourceTypeCheckly           AlertSourceValidatePayloadV3SourceType = "checkly"
+	AlertSourceValidatePayloadV3SourceTypeChronosphere      AlertSourceValidatePayloadV3SourceType = "chronosphere"
+	AlertSourceValidatePayloadV3SourceTypeCloudflare        AlertSourceValidatePayloadV3SourceType = "cloudflare"
+	AlertSourceValidatePayloadV3SourceTypeCloudwatch        AlertSourceValidatePayloadV3SourceType = "cloudwatch"
+	AlertSourceValidatePayloadV3SourceTypeCoralogix         AlertSourceValidatePayloadV3SourceType = "coralogix"
+	AlertSourceValidatePayloadV3SourceTypeCronitor          AlertSourceValidatePayloadV3SourceType = "cronitor"
+	AlertSourceValidatePayloadV3SourceTypeCrowdstrikeFalcon AlertSourceValidatePayloadV3SourceType = "crowdstrike_falcon"
+	AlertSourceValidatePayloadV3SourceTypeDash0             AlertSourceValidatePayloadV3SourceType = "dash0"
+	AlertSourceValidatePayloadV3SourceTypeDatadog           AlertSourceValidatePayloadV3SourceType = "datadog"
+	AlertSourceValidatePayloadV3SourceTypeDynatrace         AlertSourceValidatePayloadV3SourceType = "dynatrace"
+	AlertSourceValidatePayloadV3SourceTypeElasticsearch     AlertSourceValidatePayloadV3SourceType = "elasticsearch"
+	AlertSourceValidatePayloadV3SourceTypeEmail             AlertSourceValidatePayloadV3SourceType = "email"
+	AlertSourceValidatePayloadV3SourceTypeExpel             AlertSourceValidatePayloadV3SourceType = "expel"
+	AlertSourceValidatePayloadV3SourceTypeGithubIssue       AlertSourceValidatePayloadV3SourceType = "github_issue"
+	AlertSourceValidatePayloadV3SourceTypeGoogleCloud       AlertSourceValidatePayloadV3SourceType = "google_cloud"
+	AlertSourceValidatePayloadV3SourceTypeGrafana           AlertSourceValidatePayloadV3SourceType = "grafana"
+	AlertSourceValidatePayloadV3SourceTypeHeartbeat         AlertSourceValidatePayloadV3SourceType = "heartbeat"
+	AlertSourceValidatePayloadV3SourceTypeHoneycomb         AlertSourceValidatePayloadV3SourceType = "honeycomb"
+	AlertSourceValidatePayloadV3SourceTypeHttp              AlertSourceValidatePayloadV3SourceType = "http"
+	AlertSourceValidatePayloadV3SourceTypeHttpCustom        AlertSourceValidatePayloadV3SourceType = "http_custom"
+	AlertSourceValidatePayloadV3SourceTypeIncomingCalls     AlertSourceValidatePayloadV3SourceType = "incoming_calls"
+	AlertSourceValidatePayloadV3SourceTypeJira              AlertSourceValidatePayloadV3SourceType = "jira"
+	AlertSourceValidatePayloadV3SourceTypeJsm               AlertSourceValidatePayloadV3SourceType = "jsm"
+	AlertSourceValidatePayloadV3SourceTypeMonteCarlo        AlertSourceValidatePayloadV3SourceType = "monte_carlo"
+	AlertSourceValidatePayloadV3SourceTypeNagios            AlertSourceValidatePayloadV3SourceType = "nagios"
+	AlertSourceValidatePayloadV3SourceTypeNewRelic          AlertSourceValidatePayloadV3SourceType = "new_relic"
+	AlertSourceValidatePayloadV3SourceTypeOpsgenie          AlertSourceValidatePayloadV3SourceType = "opsgenie"
+	AlertSourceValidatePayloadV3SourceTypePagerDuty         AlertSourceValidatePayloadV3SourceType = "pager_duty"
+	AlertSourceValidatePayloadV3SourceTypePanther           AlertSourceValidatePayloadV3SourceType = "panther"
+	AlertSourceValidatePayloadV3SourceTypePingdom           AlertSourceValidatePayloadV3SourceType = "pingdom"
+	AlertSourceValidatePayloadV3SourceTypePrtg              AlertSourceValidatePayloadV3SourceType = "prtg"
+	AlertSourceValidatePayloadV3SourceTypeRunscope          AlertSourceValidatePayloadV3SourceType = "runscope"
+	AlertSourceValidatePayloadV3SourceTypeSentry            AlertSourceValidatePayloadV3SourceType = "sentry"
+	AlertSourceValidatePayloadV3SourceTypeSentryMetric      AlertSourceValidatePayloadV3SourceType = "sentry_metric"
+	AlertSourceValidatePayloadV3SourceTypeServiceNow        AlertSourceValidatePayloadV3SourceType = "service_now"
+	AlertSourceValidatePayloadV3SourceTypeSns               AlertSourceValidatePayloadV3SourceType = "sns"
+	AlertSourceValidatePayloadV3SourceTypeSplunk            AlertSourceValidatePayloadV3SourceType = "splunk"
+	AlertSourceValidatePayloadV3SourceTypeStatusCake        AlertSourceValidatePayloadV3SourceType = "status_cake"
+	AlertSourceValidatePayloadV3SourceTypeStatusPageViews   AlertSourceValidatePayloadV3SourceType = "status_page_views"
+	AlertSourceValidatePayloadV3SourceTypeSumoLogic         AlertSourceValidatePayloadV3SourceType = "sumo_logic"
+	AlertSourceValidatePayloadV3SourceTypeUptime            AlertSourceValidatePayloadV3SourceType = "uptime"
+	AlertSourceValidatePayloadV3SourceTypeVercel            AlertSourceValidatePayloadV3SourceType = "vercel"
+	AlertSourceValidatePayloadV3SourceTypeWiz               AlertSourceValidatePayloadV3SourceType = "wiz"
+	AlertSourceValidatePayloadV3SourceTypeZendesk           AlertSourceValidatePayloadV3SourceType = "zendesk"
+)
+
+// Valid indicates whether the value is a known member of the AlertSourceValidatePayloadV3SourceType enum.
+func (e AlertSourceValidatePayloadV3SourceType) Valid() bool {
+	switch e {
+	case AlertSourceValidatePayloadV3SourceTypeAlertmanager:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeAppOptics:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeAzureMonitor:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeBigPanda:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeBugsnag:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeCheckly:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeChronosphere:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeCloudflare:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeCloudwatch:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeCoralogix:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeCronitor:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeCrowdstrikeFalcon:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeDash0:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeDatadog:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeDynatrace:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeElasticsearch:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeEmail:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeExpel:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeGithubIssue:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeGoogleCloud:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeGrafana:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeHeartbeat:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeHoneycomb:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeHttp:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeHttpCustom:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeIncomingCalls:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeJira:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeJsm:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeMonteCarlo:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeNagios:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeNewRelic:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeOpsgenie:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypePagerDuty:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypePanther:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypePingdom:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypePrtg:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeRunscope:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeSentry:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeSentryMetric:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeServiceNow:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeSns:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeSplunk:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeStatusCake:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeStatusPageViews:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeSumoLogic:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeUptime:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeVercel:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeWiz:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeZendesk:
 		return true
 	default:
 		return false
@@ -3421,6 +4048,7 @@ const (
 	ExternalIssueReferenceV1ProviderJira        ExternalIssueReferenceV1Provider = "jira"
 	ExternalIssueReferenceV1ProviderJiraServer  ExternalIssueReferenceV1Provider = "jira_server"
 	ExternalIssueReferenceV1ProviderLinear      ExternalIssueReferenceV1Provider = "linear"
+	ExternalIssueReferenceV1ProviderNotion      ExternalIssueReferenceV1Provider = "notion"
 	ExternalIssueReferenceV1ProviderServiceNow  ExternalIssueReferenceV1Provider = "service_now"
 	ExternalIssueReferenceV1ProviderShortcut    ExternalIssueReferenceV1Provider = "shortcut"
 )
@@ -3444,6 +4072,8 @@ func (e ExternalIssueReferenceV1Provider) Valid() bool {
 		return true
 	case ExternalIssueReferenceV1ProviderLinear:
 		return true
+	case ExternalIssueReferenceV1ProviderNotion:
+		return true
 	case ExternalIssueReferenceV1ProviderServiceNow:
 		return true
 	case ExternalIssueReferenceV1ProviderShortcut:
@@ -3463,6 +4093,7 @@ const (
 	ExternalIssueReferenceV2ProviderJira        ExternalIssueReferenceV2Provider = "jira"
 	ExternalIssueReferenceV2ProviderJiraServer  ExternalIssueReferenceV2Provider = "jira_server"
 	ExternalIssueReferenceV2ProviderLinear      ExternalIssueReferenceV2Provider = "linear"
+	ExternalIssueReferenceV2ProviderNotion      ExternalIssueReferenceV2Provider = "notion"
 	ExternalIssueReferenceV2ProviderServiceNow  ExternalIssueReferenceV2Provider = "service_now"
 	ExternalIssueReferenceV2ProviderShortcut    ExternalIssueReferenceV2Provider = "shortcut"
 )
@@ -3485,6 +4116,8 @@ func (e ExternalIssueReferenceV2Provider) Valid() bool {
 	case ExternalIssueReferenceV2ProviderJiraServer:
 		return true
 	case ExternalIssueReferenceV2ProviderLinear:
+		return true
+	case ExternalIssueReferenceV2ProviderNotion:
 		return true
 	case ExternalIssueReferenceV2ProviderServiceNow:
 		return true
@@ -3592,6 +4225,7 @@ const (
 	FollowUpsConnectExternalIssuePayloadV2ProviderJira        FollowUpsConnectExternalIssuePayloadV2Provider = "jira"
 	FollowUpsConnectExternalIssuePayloadV2ProviderJiraServer  FollowUpsConnectExternalIssuePayloadV2Provider = "jira_server"
 	FollowUpsConnectExternalIssuePayloadV2ProviderLinear      FollowUpsConnectExternalIssuePayloadV2Provider = "linear"
+	FollowUpsConnectExternalIssuePayloadV2ProviderNotion      FollowUpsConnectExternalIssuePayloadV2Provider = "notion"
 	FollowUpsConnectExternalIssuePayloadV2ProviderServiceNow  FollowUpsConnectExternalIssuePayloadV2Provider = "service_now"
 	FollowUpsConnectExternalIssuePayloadV2ProviderShortcut    FollowUpsConnectExternalIssuePayloadV2Provider = "shortcut"
 )
@@ -3614,6 +4248,8 @@ func (e FollowUpsConnectExternalIssuePayloadV2Provider) Valid() bool {
 	case FollowUpsConnectExternalIssuePayloadV2ProviderJiraServer:
 		return true
 	case FollowUpsConnectExternalIssuePayloadV2ProviderLinear:
+		return true
+	case FollowUpsConnectExternalIssuePayloadV2ProviderNotion:
 		return true
 	case FollowUpsConnectExternalIssuePayloadV2ProviderServiceNow:
 		return true
@@ -4812,9 +5448,54 @@ func (e PostmortemDocumentsUpdateStatusPayloadV1Status) Valid() bool {
 	}
 }
 
+// Defines values for RichTextParseMarkdownPayloadV1FeatureSet.
+const (
+	RichTextParseMarkdownPayloadV1FeatureSetBasic                      RichTextParseMarkdownPayloadV1FeatureSet = "basic"
+	RichTextParseMarkdownPayloadV1FeatureSetBasicNoLinks               RichTextParseMarkdownPayloadV1FeatureSet = "basic_no_links"
+	RichTextParseMarkdownPayloadV1FeatureSetJira                       RichTextParseMarkdownPayloadV1FeatureSet = "jira"
+	RichTextParseMarkdownPayloadV1FeatureSetMrkdwn                     RichTextParseMarkdownPayloadV1FeatureSet = "mrkdwn"
+	RichTextParseMarkdownPayloadV1FeatureSetPlainMultiLine             RichTextParseMarkdownPayloadV1FeatureSet = "plain_multi_line"
+	RichTextParseMarkdownPayloadV1FeatureSetPlainSingleLine            RichTextParseMarkdownPayloadV1FeatureSet = "plain_single_line"
+	RichTextParseMarkdownPayloadV1FeatureSetPlainSingleLineWithSecrets RichTextParseMarkdownPayloadV1FeatureSet = "plain_single_line_with_secrets"
+	RichTextParseMarkdownPayloadV1FeatureSetRich                       RichTextParseMarkdownPayloadV1FeatureSet = "rich"
+	RichTextParseMarkdownPayloadV1FeatureSetRichWithImages             RichTextParseMarkdownPayloadV1FeatureSet = "rich_with_images"
+	RichTextParseMarkdownPayloadV1FeatureSetSlackRichText              RichTextParseMarkdownPayloadV1FeatureSet = "slack_rich_text"
+	RichTextParseMarkdownPayloadV1FeatureSetSlackRichTextWithHeadings  RichTextParseMarkdownPayloadV1FeatureSet = "slack_rich_text_with_headings"
+)
+
+// Valid indicates whether the value is a known member of the RichTextParseMarkdownPayloadV1FeatureSet enum.
+func (e RichTextParseMarkdownPayloadV1FeatureSet) Valid() bool {
+	switch e {
+	case RichTextParseMarkdownPayloadV1FeatureSetBasic:
+		return true
+	case RichTextParseMarkdownPayloadV1FeatureSetBasicNoLinks:
+		return true
+	case RichTextParseMarkdownPayloadV1FeatureSetJira:
+		return true
+	case RichTextParseMarkdownPayloadV1FeatureSetMrkdwn:
+		return true
+	case RichTextParseMarkdownPayloadV1FeatureSetPlainMultiLine:
+		return true
+	case RichTextParseMarkdownPayloadV1FeatureSetPlainSingleLine:
+		return true
+	case RichTextParseMarkdownPayloadV1FeatureSetPlainSingleLineWithSecrets:
+		return true
+	case RichTextParseMarkdownPayloadV1FeatureSetRich:
+		return true
+	case RichTextParseMarkdownPayloadV1FeatureSetRichWithImages:
+		return true
+	case RichTextParseMarkdownPayloadV1FeatureSetSlackRichText:
+		return true
+	case RichTextParseMarkdownPayloadV1FeatureSetSlackRichTextWithHeadings:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ScheduleReplicaCreatePayloadV2ReplicaProvider.
 const (
-	ScheduleReplicaCreatePayloadV2ReplicaProviderJira      ScheduleReplicaCreatePayloadV2ReplicaProvider = "jira"
+	ScheduleReplicaCreatePayloadV2ReplicaProviderJsm       ScheduleReplicaCreatePayloadV2ReplicaProvider = "jsm"
 	ScheduleReplicaCreatePayloadV2ReplicaProviderNative    ScheduleReplicaCreatePayloadV2ReplicaProvider = "native"
 	ScheduleReplicaCreatePayloadV2ReplicaProviderOpsgenie  ScheduleReplicaCreatePayloadV2ReplicaProvider = "opsgenie"
 	ScheduleReplicaCreatePayloadV2ReplicaProviderPagerduty ScheduleReplicaCreatePayloadV2ReplicaProvider = "pagerduty"
@@ -4823,7 +5504,7 @@ const (
 // Valid indicates whether the value is a known member of the ScheduleReplicaCreatePayloadV2ReplicaProvider enum.
 func (e ScheduleReplicaCreatePayloadV2ReplicaProvider) Valid() bool {
 	switch e {
-	case ScheduleReplicaCreatePayloadV2ReplicaProviderJira:
+	case ScheduleReplicaCreatePayloadV2ReplicaProviderJsm:
 		return true
 	case ScheduleReplicaCreatePayloadV2ReplicaProviderNative:
 		return true
@@ -4838,7 +5519,7 @@ func (e ScheduleReplicaCreatePayloadV2ReplicaProvider) Valid() bool {
 
 // Defines values for ScheduleReplicaV2ReplicaProvider.
 const (
-	ScheduleReplicaV2ReplicaProviderJira      ScheduleReplicaV2ReplicaProvider = "jira"
+	ScheduleReplicaV2ReplicaProviderJsm       ScheduleReplicaV2ReplicaProvider = "jsm"
 	ScheduleReplicaV2ReplicaProviderNative    ScheduleReplicaV2ReplicaProvider = "native"
 	ScheduleReplicaV2ReplicaProviderOpsgenie  ScheduleReplicaV2ReplicaProvider = "opsgenie"
 	ScheduleReplicaV2ReplicaProviderPagerduty ScheduleReplicaV2ReplicaProvider = "pagerduty"
@@ -4847,7 +5528,7 @@ const (
 // Valid indicates whether the value is a known member of the ScheduleReplicaV2ReplicaProvider enum.
 func (e ScheduleReplicaV2ReplicaProvider) Valid() bool {
 	switch e {
-	case ScheduleReplicaV2ReplicaProviderJira:
+	case ScheduleReplicaV2ReplicaProviderJsm:
 		return true
 	case ScheduleReplicaV2ReplicaProviderNative:
 		return true
@@ -5505,6 +6186,51 @@ func (e StepProgressV2WebhookDeliveryState) Valid() bool {
 	case StepProgressV2WebhookDeliveryStateExpired:
 		return true
 	case StepProgressV2WebhookDeliveryStateUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TextDocumentV1FeatureSet.
+const (
+	TextDocumentV1FeatureSetBasic                      TextDocumentV1FeatureSet = "basic"
+	TextDocumentV1FeatureSetBasicNoLinks               TextDocumentV1FeatureSet = "basic_no_links"
+	TextDocumentV1FeatureSetJira                       TextDocumentV1FeatureSet = "jira"
+	TextDocumentV1FeatureSetMrkdwn                     TextDocumentV1FeatureSet = "mrkdwn"
+	TextDocumentV1FeatureSetPlainMultiLine             TextDocumentV1FeatureSet = "plain_multi_line"
+	TextDocumentV1FeatureSetPlainSingleLine            TextDocumentV1FeatureSet = "plain_single_line"
+	TextDocumentV1FeatureSetPlainSingleLineWithSecrets TextDocumentV1FeatureSet = "plain_single_line_with_secrets"
+	TextDocumentV1FeatureSetRich                       TextDocumentV1FeatureSet = "rich"
+	TextDocumentV1FeatureSetRichWithImages             TextDocumentV1FeatureSet = "rich_with_images"
+	TextDocumentV1FeatureSetSlackRichText              TextDocumentV1FeatureSet = "slack_rich_text"
+	TextDocumentV1FeatureSetSlackRichTextWithHeadings  TextDocumentV1FeatureSet = "slack_rich_text_with_headings"
+)
+
+// Valid indicates whether the value is a known member of the TextDocumentV1FeatureSet enum.
+func (e TextDocumentV1FeatureSet) Valid() bool {
+	switch e {
+	case TextDocumentV1FeatureSetBasic:
+		return true
+	case TextDocumentV1FeatureSetBasicNoLinks:
+		return true
+	case TextDocumentV1FeatureSetJira:
+		return true
+	case TextDocumentV1FeatureSetMrkdwn:
+		return true
+	case TextDocumentV1FeatureSetPlainMultiLine:
+		return true
+	case TextDocumentV1FeatureSetPlainSingleLine:
+		return true
+	case TextDocumentV1FeatureSetPlainSingleLineWithSecrets:
+		return true
+	case TextDocumentV1FeatureSetRich:
+		return true
+	case TextDocumentV1FeatureSetRichWithImages:
+		return true
+	case TextDocumentV1FeatureSetSlackRichText:
+		return true
+	case TextDocumentV1FeatureSetSlackRichTextWithHeadings:
 		return true
 	default:
 		return false
@@ -6659,7 +7385,7 @@ type ActionV2 struct {
 // Example: outstanding
 type ActionV2Status string
 
-// ActionsCreatePayloadV2 Example: {"assignee_id":"01FCNDV6P870EA6S7TK1DSYDG0","description":"Call the fire brigade","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+// ActionsCreatePayloadV2 Example: {"assignee_id":"01FCNDV6P870EA6S7TK1DSYDG0","description":"Call the fire brigade","incident_id":"01FCNDV6P870EA6S7TK1DSYD5H"}
 type ActionsCreatePayloadV2 struct {
 	// AssigneeId ID of the user this action is assigned to
 	//
@@ -6673,7 +7399,7 @@ type ActionsCreatePayloadV2 struct {
 
 	// IncidentId Unique identifier of the incident the action belongs to
 	//
-	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	// Example: 01FCNDV6P870EA6S7TK1DSYD5H
 	IncidentId string `json:"incident_id"`
 }
 
@@ -8437,6 +9163,212 @@ type AlertSlimV2 struct {
 // Example: firing
 type AlertSlimV2Status string
 
+// AlertSourceAttributeCreatePayloadV3 Example: {"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
+type AlertSourceAttributeCreatePayloadV3 struct {
+	// AlertAttributeId The alert attribute to bind
+	//
+	// Example: 01GW2G3V0S59R238FAHPDS1R66
+	AlertAttributeId string `json:"alert_attribute_id"`
+
+	// ArrayValue Several values for this attribute
+	//
+	// Example: [{"literal":"SEV123","reference":"incident.severity"}]
+	ArrayValue *[]EngineParamBindingValuePayloadV3 `json:"array_value,omitempty"`
+
+	// ExpectedVersion The source version this write is based on, from a previous read. If the source has moved on, the write is rejected rather than applied on top of a change you haven't seen. When absent, the write applies on top of the current version.
+	//
+	// Example: 4
+	ExpectedVersion *int64 `json:"expected_version,omitempty"`
+
+	// Expressions The expressions this binding uses. Reference them from value or array_value: they are owned by this attribute, and removed with it.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
+
+	// MergeStrategy How values are combined when an alert is updated. Defaults to the source type's own default.
+	//
+	// Example: first_wins
+	MergeStrategy *AlertSourceAttributeCreatePayloadV3MergeStrategy `json:"merge_strategy,omitempty"`
+
+	// Value Example: {"literal":"SEV123","reference":"incident.severity"}
+	Value *EngineParamBindingValuePayloadV3 `json:"value,omitempty"`
+}
+
+// AlertSourceAttributeCreatePayloadV3MergeStrategy How values are combined when an alert is updated. Defaults to the source type's own default.
+//
+// Example: first_wins
+type AlertSourceAttributeCreatePayloadV3MergeStrategy string
+
+// AlertSourceAttributeUpdatePayloadV3 Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
+type AlertSourceAttributeUpdatePayloadV3 struct {
+	// ArrayValue Several values for this attribute
+	//
+	// Example: [{"literal":"SEV123","reference":"incident.severity"}]
+	ArrayValue *[]EngineParamBindingValuePayloadV3 `json:"array_value,omitempty"`
+
+	// ExpectedVersion The source version this write is based on, from a previous read. If the source has moved on, the write is rejected rather than applied on top of a change you haven't seen. When absent, the write applies on top of the current version.
+	//
+	// Example: 4
+	ExpectedVersion *int64 `json:"expected_version,omitempty"`
+
+	// Expressions The expressions this binding uses. Reference them from value or array_value: they are owned by this attribute, and removed with it.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
+
+	// MergeStrategy How values are combined when an alert is updated. Defaults to the source type's own default.
+	//
+	// Example: first_wins
+	MergeStrategy *AlertSourceAttributeUpdatePayloadV3MergeStrategy `json:"merge_strategy,omitempty"`
+
+	// Value Example: {"literal":"SEV123","reference":"incident.severity"}
+	Value *EngineParamBindingValuePayloadV3 `json:"value,omitempty"`
+}
+
+// AlertSourceAttributeUpdatePayloadV3MergeStrategy How values are combined when an alert is updated. Defaults to the source type's own default.
+//
+// Example: first_wins
+type AlertSourceAttributeUpdatePayloadV3MergeStrategy string
+
+// AlertSourceAttributeV3 Example: {"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
+type AlertSourceAttributeV3 struct {
+	// AlertAttributeId The alert attribute being bound. This also identifies the binding: an attribute can be bound at most once per source.
+	//
+	// Example: 01GW2G3V0S59R238FAHPDS1R66
+	AlertAttributeId string `json:"alert_attribute_id"`
+
+	// AlertSourceId The alert source this binding belongs to
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	AlertSourceId string `json:"alert_source_id"`
+
+	// ArrayValue Several values for this attribute
+	//
+	// Example: [{"literal":"SEV123","reference":"incident.severity"}]
+	ArrayValue *[]EngineParamBindingValuePayloadV3 `json:"array_value,omitempty"`
+
+	// Expressions The expressions this binding uses. They belong to this attribute, and are removed with it.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions []ExpressionPayloadV3 `json:"expressions"`
+
+	// MergeStrategy How values are combined when an alert is updated
+	//
+	// Example: first_wins
+	MergeStrategy AlertSourceAttributeV3MergeStrategy `json:"merge_strategy"`
+
+	// Value Example: {"literal":"SEV123","reference":"incident.severity"}
+	Value *EngineParamBindingValuePayloadV3 `json:"value,omitempty"`
+}
+
+// AlertSourceAttributeV3MergeStrategy How values are combined when an alert is updated
+//
+// Example: first_wins
+type AlertSourceAttributeV3MergeStrategy string
+
+// AlertSourceAttributeValidatePayloadV3 Example: {"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
+type AlertSourceAttributeValidatePayloadV3 struct {
+	// AlertAttributeId The alert attribute to bind
+	//
+	// Example: 01GW2G3V0S59R238FAHPDS1R66
+	AlertAttributeId string `json:"alert_attribute_id"`
+
+	// ArrayValue Several values for this attribute
+	//
+	// Example: [{"literal":"SEV123","reference":"incident.severity"}]
+	ArrayValue *[]EngineParamBindingValuePayloadV3 `json:"array_value,omitempty"`
+
+	// Expressions The expressions this binding uses. Reference them from value or array_value: they are owned by this attribute, and removed with it.
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
+
+	// MergeStrategy How values are combined when an alert is updated. Defaults to the source type's own default.
+	//
+	// Example: first_wins
+	MergeStrategy *AlertSourceAttributeValidatePayloadV3MergeStrategy `json:"merge_strategy,omitempty"`
+
+	// Value Example: {"literal":"SEV123","reference":"incident.severity"}
+	Value *EngineParamBindingValuePayloadV3 `json:"value,omitempty"`
+}
+
+// AlertSourceAttributeValidatePayloadV3MergeStrategy How values are combined when an alert is updated. Defaults to the source type's own default.
+//
+// Example: first_wins
+type AlertSourceAttributeValidatePayloadV3MergeStrategy string
+
+// AlertSourceCreatePayloadV3 Example: {"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+type AlertSourceCreatePayloadV3 struct {
+	// Annotations Annotations that track metadata about this alert source
+	//
+	// Example: {"incident.io/terraform/version":"version-of-terraform"}
+	Annotations *map[string]string `json:"annotations,omitempty"`
+
+	// AutoResolveIncidentAlerts Whether to resolve alerts when their incident resolves
+	//
+	// Example: true
+	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
+
+	// AutoResolveTimeoutMinutes How long to wait before automatically resolving alerts from this source
+	//
+	// Example: 60
+	AutoResolveTimeoutMinutes *int64 `json:"auto_resolve_timeout_minutes,omitempty"`
+
+	// Description Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Description *EngineParamBindingPayloadV3 `json:"description,omitempty"`
+
+	// EmailOptions Example: {"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"}
+	EmailOptions *AlertSourceEmailOptionsPayloadV3 `json:"email_options,omitempty"`
+
+	// Expressions The expressions used by this source's own bindings
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
+
+	// HeartbeatOptions Example: {"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60}
+	HeartbeatOptions *AlertSourceHeartbeatOptionsPayloadV3 `json:"heartbeat_options,omitempty"`
+
+	// HttpCustomOptions Example: {"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"}
+	HttpCustomOptions *AlertSourceHTTPCustomOptionsV3 `json:"http_custom_options,omitempty"`
+
+	// IsPrivate Whether alerts from this source are private
+	//
+	// Example: false
+	IsPrivate *bool `json:"is_private,omitempty"`
+
+	// JiraOptions Example: {"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]}
+	JiraOptions *AlertSourceJiraOptionsV3 `json:"jira_options,omitempty"`
+
+	// Name The name of this alert source, for the user's reference
+	//
+	// Example: My alert source
+	Name string `json:"name"`
+
+	// OwningTeamIds IDs of the teams that own this alert source
+	//
+	// Example: ["01G0J1EXE7AXZ2C93K61WBPYEH"]
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
+	// Priority Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Priority *EngineParamBindingPayloadV3 `json:"priority,omitempty"`
+
+	// SourceType Type of alert source
+	//
+	// Example: alertmanager
+	SourceType AlertSourceCreatePayloadV3SourceType `json:"source_type"`
+
+	// Title Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Title *EngineParamBindingPayloadV3 `json:"title,omitempty"`
+
+	// VisibleToTeams Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	VisibleToTeams *EngineParamBindingPayloadV3 `json:"visible_to_teams,omitempty"`
+}
+
+// AlertSourceCreatePayloadV3SourceType Type of alert source
+//
+// Example: alertmanager
+type AlertSourceCreatePayloadV3SourceType string
+
 // AlertSourceEmailOptionsPayloadV2 Example: {"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"}
 type AlertSourceEmailOptionsPayloadV2 struct {
 	// Redactions Which PII types to automatically redact from incoming email content before storage
@@ -8459,6 +9391,29 @@ type AlertSourceEmailOptionsPayloadV2 struct {
 //
 // Example: credit_card_numbers
 type AlertSourceEmailOptionsPayloadV2Redactions string
+
+// AlertSourceEmailOptionsPayloadV3 Example: {"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"}
+type AlertSourceEmailOptionsPayloadV3 struct {
+	// Redactions Which PII types to automatically redact from incoming email content before storage
+	//
+	// Example: ["credit_card_numbers"]
+	Redactions []AlertSourceEmailOptionsPayloadV3Redactions `json:"redactions"`
+
+	// TransformExpression JavaScript expression to transform email fields into structured alert fields
+	//
+	// Example: return {
+	//   title: $.subject,
+	//   description: $.text,
+	//   status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',
+	//   deduplication_key: $.header_message_id,
+	// }
+	TransformExpression *string `json:"transform_expression,omitempty"`
+}
+
+// AlertSourceEmailOptionsPayloadV3Redactions Which PII type to automatically redact from incoming email content before storage
+//
+// Example: credit_card_numbers
+type AlertSourceEmailOptionsPayloadV3Redactions string
 
 // AlertSourceEmailOptionsV2 Example: {"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"}
 type AlertSourceEmailOptionsV2 struct {
@@ -8488,6 +9443,34 @@ type AlertSourceEmailOptionsV2 struct {
 // Example: credit_card_numbers
 type AlertSourceEmailOptionsV2Redactions string
 
+// AlertSourceEmailOptionsV3 Example: {"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"}
+type AlertSourceEmailOptionsV3 struct {
+	// EmailAddress Email address this alert source receives alerts to
+	//
+	// Example: lawrence@example.com
+	EmailAddress string `json:"email_address"`
+
+	// Redactions Which PII types to automatically redact from incoming email content before storage
+	//
+	// Example: ["credit_card_numbers"]
+	Redactions []AlertSourceEmailOptionsV3Redactions `json:"redactions"`
+
+	// TransformExpression JavaScript expression to transform email fields into structured alert fields
+	//
+	// Example: return {
+	//   title: $.subject,
+	//   description: $.text,
+	//   status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',
+	//   deduplication_key: $.header_message_id,
+	// }
+	TransformExpression *string `json:"transform_expression,omitempty"`
+}
+
+// AlertSourceEmailOptionsV3Redactions Which PII type to automatically redact from incoming email content before storage
+//
+// Example: credit_card_numbers
+type AlertSourceEmailOptionsV3Redactions string
+
 // AlertSourceHTTPCustomOptionsV2 Example: {"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"}
 type AlertSourceHTTPCustomOptionsV2 struct {
 	// DeduplicationKeyPath JSON path to extract the deduplication key from the payload
@@ -8507,8 +9490,45 @@ type AlertSourceHTTPCustomOptionsV2 struct {
 	TransformExpression string `json:"transform_expression"`
 }
 
+// AlertSourceHTTPCustomOptionsV3 Example: {"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"}
+type AlertSourceHTTPCustomOptionsV3 struct {
+	// DeduplicationKeyPath JSON path to extract the deduplication key from the payload
+	//
+	// Example: $.alert_id
+	DeduplicationKeyPath string `json:"deduplication_key_path"`
+
+	// TransformExpression JavaScript expression that returns an object with all alert fields
+	//
+	// Example: return {
+	//   title: $.title || $.name || 'Unknown Alert',
+	//   status: $.status === 'resolved' ? 'resolved' : 'firing',
+	//   description: $.description || $.message || '',
+	//   sourceURL: $.url || $.link || '',
+	//   metadata: { team: $.team, severity: $.severity }
+	// }
+	TransformExpression string `json:"transform_expression"`
+}
+
 // AlertSourceHeartbeatOptionsPayloadV2 Example: {"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60}
 type AlertSourceHeartbeatOptionsPayloadV2 struct {
+	// FailureThreshold Number of consecutive missed pings before an alert fires.
+	//
+	// Example: 1
+	FailureThreshold *int64 `json:"failure_threshold,omitempty"`
+
+	// GracePeriodSeconds How long after a missed ping before the heartbeat is considered late, in seconds. If zero, it transitions directly to failing.
+	//
+	// Example: 0
+	GracePeriodSeconds *int64 `json:"grace_period_seconds,omitempty"`
+
+	// IntervalSeconds How often a ping is expected, in seconds.
+	//
+	// Example: 60
+	IntervalSeconds int64 `json:"interval_seconds"`
+}
+
+// AlertSourceHeartbeatOptionsPayloadV3 Example: {"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60}
+type AlertSourceHeartbeatOptionsPayloadV3 struct {
 	// FailureThreshold Number of consecutive missed pings before an alert fires.
 	//
 	// Example: 1
@@ -8548,12 +9568,115 @@ type AlertSourceHeartbeatOptionsV2 struct {
 	PingUrl string `json:"ping_url"`
 }
 
+// AlertSourceHeartbeatOptionsV3 Example: {"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"}
+type AlertSourceHeartbeatOptionsV3 struct {
+	// FailureThreshold Number of consecutive missed pings before an alert fires.
+	//
+	// Example: 1
+	FailureThreshold int64 `json:"failure_threshold"`
+
+	// GracePeriodSeconds How long after a missed ping before the heartbeat is considered late, in seconds. If zero, it transitions directly to failing.
+	//
+	// Example: 0
+	GracePeriodSeconds int64 `json:"grace_period_seconds"`
+
+	// IntervalSeconds How often a ping is expected, in seconds.
+	//
+	// Example: 60
+	IntervalSeconds int64 `json:"interval_seconds"`
+
+	// PingUrl The URL to POST to in order to send a heartbeat ping.
+	//
+	// Example: https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping
+	PingUrl string `json:"ping_url"`
+}
+
 // AlertSourceJiraOptionsV2 Example: {"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]}
 type AlertSourceJiraOptionsV2 struct {
 	// ProjectIds Which projects in Jira should this alert source watch for new issues? IDs can either be IDs of the projects in Jira, or ID of catalog entries in the 'Jira Project' catalog type.
 	//
 	// Example: ["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]
 	ProjectIds []string `json:"project_ids"`
+}
+
+// AlertSourceJiraOptionsV3 Example: {"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]}
+type AlertSourceJiraOptionsV3 struct {
+	// ProjectIds Which projects in Jira should this alert source watch for new issues? IDs can either be IDs of the projects in Jira, or ID of catalog entries in the 'Jira Project' catalog type.
+	//
+	// Example: ["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]
+	ProjectIds []string `json:"project_ids"`
+}
+
+// AlertSourceUpdatePayloadV3 Example: {"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+type AlertSourceUpdatePayloadV3 struct {
+	// Annotations Annotations that track metadata about this alert source
+	//
+	// Example: {"incident.io/terraform/version":"version-of-terraform"}
+	Annotations *map[string]string `json:"annotations,omitempty"`
+
+	// AutoResolveIncidentAlerts Whether to resolve alerts when their incident resolves
+	//
+	// Example: true
+	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
+
+	// AutoResolveTimeoutMinutes How long to wait before automatically resolving alerts from this source
+	//
+	// Example: 60
+	AutoResolveTimeoutMinutes *int64 `json:"auto_resolve_timeout_minutes,omitempty"`
+
+	// Description Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Description *EngineParamBindingPayloadV3 `json:"description,omitempty"`
+
+	// Disabled Set true to pause monitoring, false to resume it. Only valid for source types that support being disabled, currently heartbeats. Omit to leave the current state alone.
+	//
+	// Example: false
+	Disabled *bool `json:"disabled,omitempty"`
+
+	// EmailOptions Example: {"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"}
+	EmailOptions *AlertSourceEmailOptionsPayloadV3 `json:"email_options,omitempty"`
+
+	// ExpectedVersion The version this write is based on, from a previous read. If the source has moved on since, the write is rejected rather than silently dropping whatever landed in between. When absent, the write applies on top of whatever the current version is.
+	//
+	// Example: 4
+	ExpectedVersion *int64 `json:"expected_version,omitempty"`
+
+	// Expressions The expressions used by this source's own bindings
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
+
+	// HeartbeatOptions Example: {"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60}
+	HeartbeatOptions *AlertSourceHeartbeatOptionsPayloadV3 `json:"heartbeat_options,omitempty"`
+
+	// HttpCustomOptions Example: {"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"}
+	HttpCustomOptions *AlertSourceHTTPCustomOptionsV3 `json:"http_custom_options,omitempty"`
+
+	// IsPrivate Whether alerts from this source are private
+	//
+	// Example: false
+	IsPrivate bool `json:"is_private"`
+
+	// JiraOptions Example: {"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]}
+	JiraOptions *AlertSourceJiraOptionsV3 `json:"jira_options,omitempty"`
+
+	// Name The name of this alert source, for the user's reference
+	//
+	// Example: My alert source
+	Name string `json:"name"`
+
+	// OwningTeamIds IDs of the teams that own this alert source
+	//
+	// Example: ["01G0J1EXE7AXZ2C93K61WBPYEH"]
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
+	// Priority Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Priority *EngineParamBindingPayloadV3 `json:"priority,omitempty"`
+
+	// Title Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Title *EngineParamBindingPayloadV3 `json:"title,omitempty"`
+
+	// VisibleToTeams Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	VisibleToTeams *EngineParamBindingPayloadV3 `json:"visible_to_teams,omitempty"`
 }
 
 // AlertSourceV2 Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}
@@ -8619,6 +9742,168 @@ type AlertSourceV2 struct {
 // Example: alertmanager
 type AlertSourceV2SourceType string
 
+// AlertSourceV3 Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+type AlertSourceV3 struct {
+	// AlertEventsUrl The URL to send alert events to
+	//
+	// Example: https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0
+	AlertEventsUrl *string `json:"alert_events_url,omitempty"`
+
+	// AutoResolveIncidentAlerts Whether to resolve alerts when their incident resolves
+	//
+	// Example: true
+	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
+
+	// AutoResolveTimeoutMinutes How long to wait before automatically resolving alerts from this source
+	//
+	// Example: 60
+	AutoResolveTimeoutMinutes *int64 `json:"auto_resolve_timeout_minutes,omitempty"`
+
+	// Description Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Description *EngineParamBindingPayloadV3 `json:"description,omitempty"`
+
+	// Disabled Whether monitoring is paused for this source. Only returned for source types that support being disabled.
+	//
+	// Example: false
+	Disabled *bool `json:"disabled,omitempty"`
+
+	// EmailOptions Example: {"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"}
+	EmailOptions *AlertSourceEmailOptionsV3 `json:"email_options,omitempty"`
+
+	// Expressions The expressions used by this source's own bindings
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions []ExpressionPayloadV3 `json:"expressions"`
+
+	// HeartbeatOptions Example: {"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"}
+	HeartbeatOptions *AlertSourceHeartbeatOptionsV3 `json:"heartbeat_options,omitempty"`
+
+	// HttpCustomOptions Example: {"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"}
+	HttpCustomOptions *AlertSourceHTTPCustomOptionsV3 `json:"http_custom_options,omitempty"`
+
+	// Id Unique identifier for this alert source
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// IsPrivate Whether alerts from this source are private
+	//
+	// Example: false
+	IsPrivate bool `json:"is_private"`
+
+	// JiraOptions Example: {"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]}
+	JiraOptions *AlertSourceJiraOptionsV3 `json:"jira_options,omitempty"`
+
+	// Name The name of this alert source, for the user's reference
+	//
+	// Example: My alert source
+	Name string `json:"name"`
+
+	// OwningTeamIds IDs of the teams that own this alert source
+	//
+	// Example: ["01G0J1EXE7AXZ2C93K61WBPYEH"]
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
+	// Priority Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Priority *EngineParamBindingPayloadV3 `json:"priority,omitempty"`
+
+	// SecretToken The token to use when sending alerts to this source. Only returned to callers with permission to update the source.
+	//
+	// Example: incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0
+	SecretToken *string `json:"secret_token,omitempty"`
+
+	// SourceType Type of alert source
+	//
+	// Example: alertmanager
+	SourceType AlertSourceV3SourceType `json:"source_type"`
+
+	// Title Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Title *EngineParamBindingPayloadV3 `json:"title,omitempty"`
+
+	// Version The source's current version, which increments on every write. Pass it back as expected_version to reject a write built from a stale read.
+	//
+	// Example: 4
+	Version int64 `json:"version"`
+
+	// VisibleToTeams Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	VisibleToTeams *EngineParamBindingPayloadV3 `json:"visible_to_teams,omitempty"`
+}
+
+// AlertSourceV3SourceType Type of alert source
+//
+// Example: alertmanager
+type AlertSourceV3SourceType string
+
+// AlertSourceValidatePayloadV3 Example: {"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"is_private":false,"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+type AlertSourceValidatePayloadV3 struct {
+	// Description Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Description *EngineParamBindingPayloadV3 `json:"description,omitempty"`
+
+	// Expressions The expressions used by this source's own bindings
+	//
+	// Example: [{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}]
+	Expressions *[]ExpressionPayloadV3 `json:"expressions,omitempty"`
+
+	// IsPrivate Whether alerts from this source are private
+	//
+	// Example: false
+	IsPrivate *bool `json:"is_private,omitempty"`
+
+	// OwningTeamIds IDs of the teams that own this alert source
+	//
+	// Example: ["01G0J1EXE7AXZ2C93K61WBPYEH"]
+	OwningTeamIds *[]string `json:"owning_team_ids,omitempty"`
+
+	// Priority Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Priority *EngineParamBindingPayloadV3 `json:"priority,omitempty"`
+
+	// SourceType Type of alert source
+	//
+	// Example: alertmanager
+	SourceType AlertSourceValidatePayloadV3SourceType `json:"source_type"`
+
+	// Title Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	Title *EngineParamBindingPayloadV3 `json:"title,omitempty"`
+
+	// VisibleToTeams Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}
+	VisibleToTeams *EngineParamBindingPayloadV3 `json:"visible_to_teams,omitempty"`
+}
+
+// AlertSourceValidatePayloadV3SourceType Type of alert source
+//
+// Example: alertmanager
+type AlertSourceValidatePayloadV3SourceType string
+
+// AlertSourceValidateWarningV3 Example: {"detail":"description references expressions[\"Team\"], which this alert source can't resolve. Available references are: payload, title, expressions[\"Service\"].","path":"description","summary":"Unknown reference \"expressions[\\\"Team\\\"]\""}
+type AlertSourceValidateWarningV3 struct {
+	// Detail The full explanation, including what could have been meant instead
+	//
+	// Example: description references expressions["Team"], which this alert source can't resolve. Available references are: payload, title, expressions["Service"].
+	Detail string `json:"detail"`
+
+	// Path The part of the payload this is about, so a client can point at the value that caused it
+	//
+	// Example: description
+	Path string `json:"path"`
+
+	// Summary A single line naming the problem
+	//
+	// Example: Unknown reference "expressions[\"Team\"]"
+	Summary string `json:"summary"`
+}
+
+// AlertSourcesCreateAttributePayloadV3 Example: {"alert_source_attribute":{"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}
+type AlertSourcesCreateAttributePayloadV3 struct {
+	// AlertSourceAttribute Example: {"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
+	AlertSourceAttribute AlertSourceAttributeCreatePayloadV3 `json:"alert_source_attribute"`
+}
+
+// AlertSourcesCreateAttributeResultV3 Example: {"alert_source_attribute":{"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}
+type AlertSourcesCreateAttributeResultV3 struct {
+	// AlertSourceAttribute Example: {"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
+	AlertSourceAttribute AlertSourceAttributeV3 `json:"alert_source_attribute"`
+}
+
 // AlertSourcesCreatePayloadV2 Example: {"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}],"description":{"literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"is_private":false,"title":{"literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
 type AlertSourcesCreatePayloadV2 struct {
 	// AutoResolveIncidentAlerts Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true. Only use in conjunction with auto_resolve_timeout_minutes.
@@ -8667,10 +9952,28 @@ type AlertSourcesCreatePayloadV2 struct {
 // Example: alertmanager
 type AlertSourcesCreatePayloadV2SourceType string
 
+// AlertSourcesCreatePayloadV3 Example: {"alert_source":{"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+type AlertSourcesCreatePayloadV3 struct {
+	// AlertSource Example: {"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	AlertSource AlertSourceCreatePayloadV3 `json:"alert_source"`
+}
+
 // AlertSourcesCreateResultV2 Example: {"alert_source":{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}}
 type AlertSourcesCreateResultV2 struct {
 	// AlertSource Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}
 	AlertSource AlertSourceV2 `json:"alert_source"`
+}
+
+// AlertSourcesCreateResultV3 Example: {"alert_source":{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+type AlertSourcesCreateResultV3 struct {
+	// AlertSource Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	AlertSource AlertSourceV3 `json:"alert_source"`
+}
+
+// AlertSourcesListAttributesResultV3 Example: {"alert_source_attributes":[{"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}]}
+type AlertSourcesListAttributesResultV3 struct {
+	// AlertSourceAttributes Example: [{"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}]
+	AlertSourceAttributes []AlertSourceAttributeV3 `json:"alert_source_attributes"`
 }
 
 // AlertSourcesListResultV2 Example: {"alert_sources":[{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}]}
@@ -8679,10 +9982,40 @@ type AlertSourcesListResultV2 struct {
 	AlertSources []AlertSourceV2 `json:"alert_sources"`
 }
 
+// AlertSourcesListResultV3 Example: {"alert_sources":[{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}]}
+type AlertSourcesListResultV3 struct {
+	// AlertSources Example: [{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}]
+	AlertSources []AlertSourceV3 `json:"alert_sources"`
+}
+
+// AlertSourcesShowAttributeResultV3 Example: {"alert_source_attribute":{"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}
+type AlertSourcesShowAttributeResultV3 struct {
+	// AlertSourceAttribute Example: {"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
+	AlertSourceAttribute AlertSourceAttributeV3 `json:"alert_source_attribute"`
+}
+
 // AlertSourcesShowResultV2 Example: {"alert_source":{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}}
 type AlertSourcesShowResultV2 struct {
 	// AlertSource Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}
 	AlertSource AlertSourceV2 `json:"alert_source"`
+}
+
+// AlertSourcesShowResultV3 Example: {"alert_source":{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+type AlertSourcesShowResultV3 struct {
+	// AlertSource Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	AlertSource AlertSourceV3 `json:"alert_source"`
+}
+
+// AlertSourcesUpdateAttributePayloadV3 Example: {"alert_source_attribute":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}
+type AlertSourcesUpdateAttributePayloadV3 struct {
+	// AlertSourceAttribute Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
+	AlertSourceAttribute AlertSourceAttributeUpdatePayloadV3 `json:"alert_source_attribute"`
+}
+
+// AlertSourcesUpdateAttributeResultV3 Example: {"alert_source_attribute":{"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}
+type AlertSourcesUpdateAttributeResultV3 struct {
+	// AlertSourceAttribute Example: {"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","alert_source_id":"01FCNDV6P870EA6S7TK1DSYDG0","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
+	AlertSourceAttribute AlertSourceAttributeV3 `json:"alert_source_attribute"`
 }
 
 // AlertSourcesUpdatePayloadV2 Example: {"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}],"description":{"literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"is_private":false,"title":{"literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
@@ -8728,10 +10061,28 @@ type AlertSourcesUpdatePayloadV2 struct {
 	Template AlertTemplatePayloadV2 `json:"template"`
 }
 
+// AlertSourcesUpdatePayloadV3 Example: {"alert_source":{"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+type AlertSourcesUpdatePayloadV3 struct {
+	// AlertSource Example: {"annotations":{"incident.io/terraform/version":"version-of-terraform"},"auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expected_version":4,"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	AlertSource AlertSourceUpdatePayloadV3 `json:"alert_source"`
+}
+
 // AlertSourcesUpdateResultV2 Example: {"alert_source":{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}}
 type AlertSourcesUpdateResultV2 struct {
 	// AlertSource Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66","auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01GW2G3V0S59R238FAHPDS1R66","jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"secret_token":"some-secret-token","source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"description":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"is_private":false,"title":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}}
 	AlertSource AlertSourceV2 `json:"alert_source"`
+}
+
+// AlertSourcesUpdateResultV3 Example: {"alert_source":{"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+type AlertSourcesUpdateResultV3 struct {
+	// AlertSource Example: {"alert_events_url":"https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0","auto_resolve_incident_alerts":true,"auto_resolve_timeout_minutes":60,"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"disabled":false,"email_options":{"email_address":"lawrence@example.com","redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60,"ping_url":"https://api.incident.io/v2/heartbeat/01GW2G3V0S59R238FAHPDS1R66/ping"},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || '',\n  sourceURL: $.url || $.link || '',\n  metadata: { team: $.team, severity: $.severity }\n}"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","is_private":false,"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"My alert source","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"secret_token":"incident_io_alert_source_token_01FCNDV6P870EA6S7TK1DSYDG0","source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"version":4,"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	AlertSource AlertSourceV3 `json:"alert_source"`
+}
+
+// AlertSourcesValidateAttributePayloadV3 Example: {"alert_source_attribute":{"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}
+type AlertSourcesValidateAttributePayloadV3 struct {
+	// AlertSourceAttribute Example: {"alert_attribute_id":"01GW2G3V0S59R238FAHPDS1R66","array_value":[{"literal":"SEV123","reference":"incident.severity"}],"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
+	AlertSourceAttribute AlertSourceAttributeValidatePayloadV3 `json:"alert_source_attribute"`
 }
 
 // AlertSourcesValidatePayloadV2 Example: {"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}],"description":{"literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"is_private":false,"title":{"literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
@@ -8754,6 +10105,20 @@ type AlertSourcesValidatePayloadV2 struct {
 //
 // Example: alertmanager
 type AlertSourcesValidatePayloadV2SourceType string
+
+// AlertSourcesValidatePayloadV3 Example: {"alert_source":{"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"is_private":false,"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
+type AlertSourcesValidatePayloadV3 struct {
+	// AlertSource Example: {"description":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"alert.priority"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"is_private":false,"owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"priority":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"source_type":"alertmanager","title":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
+	AlertSource AlertSourceValidatePayloadV3 `json:"alert_source"`
+}
+
+// AlertSourcesValidateResultV3 Example: {"warnings":[{"detail":"description references expressions[\"Team\"], which this alert source can't resolve. Available references are: payload, title, expressions[\"Service\"].","path":"description","summary":"Unknown reference \"expressions[\\\"Team\\\"]\""}]}
+type AlertSourcesValidateResultV3 struct {
+	// Warnings Anything suspect about this config that isn't severe enough to reject it. Empty when there's nothing to say.
+	//
+	// Example: [{"detail":"description references expressions[\"Team\"], which this alert source can't resolve. Available references are: payload, title, expressions[\"Service\"].","path":"description","summary":"Unknown reference \"expressions[\\\"Team\\\"]\""}]
+	Warnings []AlertSourceValidateWarningV3 `json:"warnings"`
+}
 
 // AlertTemplateAttributeBindingPayloadV2 Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
 type AlertTemplateAttributeBindingPayloadV2 struct {
@@ -12970,7 +14335,7 @@ type FollowUpsConnectExternalIssueResultV2 struct {
 	FollowUp FollowUpV2 `json:"follow_up"`
 }
 
-// FollowUpsCreatePayloadV2 Example: {"assignee_id":"01FCNDV6P870EA6S7TK1DSYDG0","assignee_team_id":"01FCNDV6P870EA6S7TK1DSYDG0","description":"Call the fire brigade","external_issue_reference_id":"01FCNDV6P870EA6S7TK1DSYDG0","follow_up_category_id":"01GNW4BAQ7XRMFF6FHKNXDFPRW","follow_up_priority_option_id":"01GNW4BAQ7XRMFF6FHKNXDFPRW","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","labels":["bug","urgent"],"title":"Add alerting on replica lag"}
+// FollowUpsCreatePayloadV2 Example: {"assignee_id":"01FCNDV6P870EA6S7TK1DSYDG0","assignee_team_id":"01FCNDV6P870EA6S7TK1DSYDG0","description":"Call the fire brigade","external_issue_reference_id":"01FCNDV6P870EA6S7TK1DSYDG0","follow_up_category_id":"01GNW4BAQ7XRMFF6FHKNXDFPRW","follow_up_priority_option_id":"01GNW4BAQ7XRMFF6FHKNXDFPRW","incident_id":"01FCNDV6P870EA6S7TK1DSYD5H","labels":["bug","urgent"],"title":"Add alerting on replica lag"}
 type FollowUpsCreatePayloadV2 struct {
 	// AssigneeId ID of the user this follow-up is assigned to
 	//
@@ -13004,7 +14369,7 @@ type FollowUpsCreatePayloadV2 struct {
 
 	// IncidentId Unique identifier of the incident the follow-up belongs to
 	//
-	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	// Example: 01FCNDV6P870EA6S7TK1DSYD5H
 	IncidentId string `json:"incident_id"`
 
 	// Labels Labels associated with this follow-up
@@ -13301,11 +14666,11 @@ type IncidentAttachmentV1 struct {
 	Resource ExternalResourceV1 `json:"resource"`
 }
 
-// IncidentAttachmentsCreatePayloadV1 Example: {"incident_id":"01FDAG4SAP5TYPT98WGR2N7W91","resource":{"emoji":"rocket","external_id":"123","resource_type":"pager_duty_incident","title":"Impact tracking spreadsheet","url":"https://github.com/company/repo/pull/123"}}
+// IncidentAttachmentsCreatePayloadV1 Example: {"incident_id":"01FCNDV6P870EA6S7TK1DSYD5H","resource":{"emoji":"rocket","external_id":"123","resource_type":"pager_duty_incident","title":"Impact tracking spreadsheet","url":"https://github.com/company/repo/pull/123"}}
 type IncidentAttachmentsCreatePayloadV1 struct {
 	// IncidentId ID of the incident to add an attachment to
 	//
-	// Example: 01FDAG4SAP5TYPT98WGR2N7W91
+	// Example: 01FCNDV6P870EA6S7TK1DSYD5H
 	IncidentId string `json:"incident_id"`
 
 	// Resource Example: {"emoji":"rocket","external_id":"123","resource_type":"pager_duty_incident","title":"Impact tracking spreadsheet","url":"https://github.com/company/repo/pull/123"}
@@ -13472,9 +14837,11 @@ type IncidentMembershipV1 struct {
 	User UserV1 `json:"user"`
 }
 
-// IncidentMembershipsCreatePayloadV1 Example: {"incident_id":"01ET65M7ZADYFCKD4K1AE2QNMC","user_id":"01FCQSP07Z74QMMYPDDGQB9FTG"}
+// IncidentMembershipsCreatePayloadV1 Example: {"incident_id":"01FCNDV6P870EA6S7TK1DSYD5H","user_id":"01FCQSP07Z74QMMYPDDGQB9FTG"}
 type IncidentMembershipsCreatePayloadV1 struct {
-	// IncidentId Example: 01ET65M7ZADYFCKD4K1AE2QNMC
+	// IncidentId The incident to make the user a member of
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYD5H
 	IncidentId string `json:"incident_id"`
 
 	// UserId Example: 01FCQSP07Z74QMMYPDDGQB9FTG
@@ -14109,9 +15476,9 @@ type IncidentTeamMembershipV1 struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-// IncidentTeamMembershipsCreatePayloadV1 Example: {"incident_id":"01ET65M7ZADYFCKD4K1AE2QNMC","team_id":"01FCQSP07Z74QMMYPDDGQB9FTG"}
+// IncidentTeamMembershipsCreatePayloadV1 Example: {"incident_id":"01FCNDV6P870EA6S7TK1DSYD5H","team_id":"01FCQSP07Z74QMMYPDDGQB9FTG"}
 type IncidentTeamMembershipsCreatePayloadV1 struct {
-	// IncidentId Example: 01ET65M7ZADYFCKD4K1AE2QNMC
+	// IncidentId Example: 01FCNDV6P870EA6S7TK1DSYD5H
 	IncidentId string `json:"incident_id"`
 
 	// TeamId Example: 01FCQSP07Z74QMMYPDDGQB9FTG
@@ -15750,7 +17117,7 @@ type PostmortemDocumentV1Status string
 // Example: in_app
 type PostmortemDocumentV1Type string
 
-// PostmortemDocumentsAttachPayloadV1 Example: {"document_provider":"notion","incident_id":"01GBA8J19SMXQWPJMX3P2ESCVG","permalink":"https://www.notion.so/INC-123-database-is-sad"}
+// PostmortemDocumentsAttachPayloadV1 Example: {"document_provider":"notion","incident_id":"01FCNDV6P870EA6S7TK1DSYD5H","permalink":"https://www.notion.so/INC-123-database-is-sad"}
 type PostmortemDocumentsAttachPayloadV1 struct {
 	// DocumentProvider The provider hosting the document. Set this when it can't be inferred from the permalink so the link renders correctly.
 	//
@@ -15759,7 +17126,7 @@ type PostmortemDocumentsAttachPayloadV1 struct {
 
 	// IncidentId The unique identifier of the incident to attach the post-mortem document to
 	//
-	// Example: 01GBA8J19SMXQWPJMX3P2ESCVG
+	// Example: 01FCNDV6P870EA6S7TK1DSYD5H
 	IncidentId string `json:"incident_id"`
 
 	// Permalink A URL pointing to the externally-hosted post-mortem document
@@ -15902,6 +17269,39 @@ type ReturnsMetaV3 struct {
 	//
 	// Example: IncidentStatus
 	Type string `json:"type"`
+}
+
+// RichTextParseMarkdownPayloadV1 Example: {"feature_set":"rich","markdown":"**Alert**: {{description | truncate: 100}}"}
+type RichTextParseMarkdownPayloadV1 struct {
+	// FeatureSet The feature set of the field this document is destined for. Content the feature set doesn't permit is dropped, and reported in dropped_content.
+	//
+	// Example: rich
+	FeatureSet RichTextParseMarkdownPayloadV1FeatureSet `json:"feature_set"`
+
+	// Markdown The markdown to parse. Template variables written as {{ name }} become variable placeholders, and support the omit_if_unset and truncate filters.
+	//
+	// Example: **Alert**: {{description | truncate: 100}}
+	Markdown string `json:"markdown"`
+}
+
+// RichTextParseMarkdownPayloadV1FeatureSet The feature set of the field this document is destined for. Content the feature set doesn't permit is dropped, and reported in dropped_content.
+//
+// Example: rich
+type RichTextParseMarkdownPayloadV1FeatureSet string
+
+// RichTextParseMarkdownResultV1 Example: {"document":{"feature_set":"plain_single_line","markdown":"**Alert**: something went wrong","schema_version":"v1.0.0","text_node":{"content":[{"content":[{"text":"Payments are failing","type":"text"}],"type":"paragraph"}],"type":"doc"}},"dropped_content":["abc123"]}
+type RichTextParseMarkdownResultV1 struct {
+	// Document A rich text document, as stored by rich text fields.
+	//
+	// text_node is the document tree; markdown is its markdown equivalent.
+	//
+	// Example: {"feature_set":"plain_single_line","markdown":"**Alert**: something went wrong","schema_version":"v1.0.0","text_node":{"content":[{"content":[{"text":"Payments are failing","type":"text"}],"type":"paragraph"}],"type":"doc"}}
+	Document TextDocumentV1 `json:"document"`
+
+	// DroppedContent Node and mark types dropped because the feature set doesn't permit them. Empty when nothing was dropped.
+	//
+	// Example: ["abc123"]
+	DroppedContent []string `json:"dropped_content"`
 }
 
 // ScheduleConfigCreatePayloadV2 Example: {"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"My Rotation","scheduling_mode":"fair","users":[{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
@@ -18747,6 +20147,38 @@ type TelemetryUpdateDataSourceResultV2 struct {
 	DataSource TelemetryDataSourceV2 `json:"data_source"`
 }
 
+// TextDocumentV1 A rich text document, as stored by rich text fields.
+//
+// text_node is the document tree; markdown is its markdown equivalent.
+//
+// Example: {"feature_set":"plain_single_line","markdown":"**Alert**: something went wrong","schema_version":"v1.0.0","text_node":{"content":[{"content":[{"text":"Payments are failing","type":"text"}],"type":"paragraph"}],"type":"doc"}}
+type TextDocumentV1 struct {
+	// FeatureSet The feature set the document has been fitted to
+	//
+	// Example: plain_single_line
+	FeatureSet *TextDocumentV1FeatureSet `json:"feature_set,omitempty"`
+
+	// Markdown The markdown equivalent of the document
+	//
+	// Example: **Alert**: something went wrong
+	Markdown string `json:"markdown"`
+
+	// SchemaVersion The version of the document schema
+	//
+	// Example: v1.0.0
+	SchemaVersion *string `json:"schema_version,omitempty"`
+
+	// TextNode The document as a rich text AST
+	//
+	// Example: {"content":[{"content":[{"text":"Payments are failing","type":"text"}],"type":"paragraph"}],"type":"doc"}
+	TextNode map[string]interface{} `json:"text_node"`
+}
+
+// TextDocumentV1FeatureSet The feature set the document has been fitted to
+//
+// Example: plain_single_line
+type TextDocumentV1FeatureSet string
+
 // TriggerSlimV2 Example: {"label":"Incident Updated","name":"incident.updated"}
 type TriggerSlimV2 struct {
 	// Label Human readable identifier for this trigger
@@ -20570,6 +22002,12 @@ type AlertRoutesV3ListParams struct {
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
+// AlertSourcesV3DestroyAttributeParams defines parameters for AlertSourcesV3DestroyAttribute.
+type AlertSourcesV3DestroyAttributeParams struct {
+	// ExpectedVersion The source version this delete is based on, from a previous read. When absent, the delete applies on top of whatever the current version is.
+	ExpectedVersion *int64 `form:"expected_version,omitempty" json:"expected_version,omitempty"`
+}
+
 // CatalogV3ListEntriesParams defines parameters for CatalogV3ListEntries.
 type CatalogV3ListEntriesParams struct {
 	// CatalogTypeId ID of this catalog type
@@ -20701,6 +22139,9 @@ type PostmortemDocumentsV1AttachJSONRequestBody = PostmortemDocumentsAttachPaylo
 
 // PostmortemDocumentsV1UpdateStatusJSONRequestBody defines body for PostmortemDocumentsV1UpdateStatus for application/json ContentType.
 type PostmortemDocumentsV1UpdateStatusJSONRequestBody = PostmortemDocumentsUpdateStatusPayloadV1
+
+// RichTextV1ParseMarkdownJSONRequestBody defines body for RichTextV1ParseMarkdown for application/json ContentType.
+type RichTextV1ParseMarkdownJSONRequestBody = RichTextParseMarkdownPayloadV1
 
 // SeveritiesV1CreateJSONRequestBody defines body for SeveritiesV1Create for application/json ContentType.
 type SeveritiesV1CreateJSONRequestBody = SeveritiesCreatePayloadV1
@@ -20885,6 +22326,24 @@ type AlertRoutesV3CreateJSONRequestBody = AlertRoutesCreatePayloadV3
 
 // AlertRoutesV3UpdateJSONRequestBody defines body for AlertRoutesV3Update for application/json ContentType.
 type AlertRoutesV3UpdateJSONRequestBody = AlertRoutesUpdatePayloadV3
+
+// AlertSourcesV3CreateJSONRequestBody defines body for AlertSourcesV3Create for application/json ContentType.
+type AlertSourcesV3CreateJSONRequestBody = AlertSourcesCreatePayloadV3
+
+// AlertSourcesV3ValidateJSONRequestBody defines body for AlertSourcesV3Validate for application/json ContentType.
+type AlertSourcesV3ValidateJSONRequestBody = AlertSourcesValidatePayloadV3
+
+// AlertSourcesV3CreateAttributeJSONRequestBody defines body for AlertSourcesV3CreateAttribute for application/json ContentType.
+type AlertSourcesV3CreateAttributeJSONRequestBody = AlertSourcesCreateAttributePayloadV3
+
+// AlertSourcesV3ValidateAttributeJSONRequestBody defines body for AlertSourcesV3ValidateAttribute for application/json ContentType.
+type AlertSourcesV3ValidateAttributeJSONRequestBody = AlertSourcesValidateAttributePayloadV3
+
+// AlertSourcesV3UpdateAttributeJSONRequestBody defines body for AlertSourcesV3UpdateAttribute for application/json ContentType.
+type AlertSourcesV3UpdateAttributeJSONRequestBody = AlertSourcesUpdateAttributePayloadV3
+
+// AlertSourcesV3UpdateJSONRequestBody defines body for AlertSourcesV3Update for application/json ContentType.
+type AlertSourcesV3UpdateJSONRequestBody = AlertSourcesUpdatePayloadV3
 
 // CatalogV3CreateEntryJSONRequestBody defines body for CatalogV3CreateEntry for application/json ContentType.
 type CatalogV3CreateEntryJSONRequestBody = CatalogCreateEntryPayloadV3
@@ -21790,6 +23249,24 @@ type ClientInterface interface {
 	//
 	// Corresponds with GET /v1/postmortem_documents/{id}/content (the `PostmortemDocumentsV1ShowContent` operationId).
 	PostmortemDocumentsV1ShowContent(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RichTextV1ParseMarkdownWithBody ParseMarkdown Rich Text V1
+	//
+	// Parse markdown into a rich text document.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/rich_text/actions/parse_markdown (the `RichTextV1ParseMarkdown` operationId).
+	RichTextV1ParseMarkdownWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RichTextV1ParseMarkdown ParseMarkdown Rich Text V1
+	//
+	// Parse markdown into a rich text document.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/rich_text/actions/parse_markdown (the `RichTextV1ParseMarkdown` operationId).
+	RichTextV1ParseMarkdown(ctx context.Context, body RichTextV1ParseMarkdownJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// SeveritiesV1List List Severities V1
 	//
@@ -24173,6 +25650,198 @@ type ClientInterface interface {
 	// Corresponds with PUT /v3/alert_routes/{id} (the `AlertRoutesV3Update` operationId).
 	AlertRoutesV3Update(ctx context.Context, id string, body AlertRoutesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// AlertSourcesV3List List Alert Sources V3
+	//
+	// List configured alert sources, without their attributes.
+	//
+	// Corresponds with GET /v3/alert_sources (the `AlertSourcesV3List` operationId).
+	AlertSourcesV3List(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3CreateWithBody Create Alert Sources V3
+	//
+	// Create a new alert source. It starts with no attributes bound, which are added separately.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/alert_sources (the `AlertSourcesV3Create` operationId).
+	AlertSourcesV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3Create Create Alert Sources V3
+	//
+	// Create a new alert source. It starts with no attributes bound, which are added separately.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/alert_sources (the `AlertSourcesV3Create` operationId).
+	AlertSourcesV3Create(ctx context.Context, body AlertSourcesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3ValidateWithBody Validate Alert Sources V3
+	//
+	// Check whether an alert source's config is valid, without creating or updating anything.
+	//
+	// This validates in the same way a create or update would: expressions are compiled and checked
+	// against your alert schema and catalog. Values that are only known once an alert source exists
+	// are not validated.
+	//
+	// An invalid config is an error. A config that is valid but probably not what you meant comes
+	// back as a warning on a successful response, so a client can show it without blocking.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/alert_sources/actions/validate (the `AlertSourcesV3Validate` operationId).
+	AlertSourcesV3ValidateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3Validate Validate Alert Sources V3
+	//
+	// Check whether an alert source's config is valid, without creating or updating anything.
+	//
+	// This validates in the same way a create or update would: expressions are compiled and checked
+	// against your alert schema and catalog. Values that are only known once an alert source exists
+	// are not validated.
+	//
+	// An invalid config is an error. A config that is valid but probably not what you meant comes
+	// back as a warning on a successful response, so a client can show it without blocking.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/alert_sources/actions/validate (the `AlertSourcesV3Validate` operationId).
+	AlertSourcesV3Validate(ctx context.Context, body AlertSourcesV3ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3ListAttributes ListAttributes Alert Sources V3
+	//
+	// List the attributes bound on an alert source.
+	//
+	// Corresponds with GET /v3/alert_sources/{alert_source_id}/attributes (the `AlertSourcesV3ListAttributes` operationId).
+	AlertSourcesV3ListAttributes(ctx context.Context, alertSourceId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3CreateAttributeWithBody CreateAttribute Alert Sources V3
+	//
+	// Bind an attribute on an alert source.
+	//
+	// This is a create, not an upsert: binding an attribute that is already bound returns a conflict
+	// rather than replacing what is there.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes (the `AlertSourcesV3CreateAttribute` operationId).
+	AlertSourcesV3CreateAttributeWithBody(ctx context.Context, alertSourceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3CreateAttribute CreateAttribute Alert Sources V3
+	//
+	// Bind an attribute on an alert source.
+	//
+	// This is a create, not an upsert: binding an attribute that is already bound returns a conflict
+	// rather than replacing what is there.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes (the `AlertSourcesV3CreateAttribute` operationId).
+	AlertSourcesV3CreateAttribute(ctx context.Context, alertSourceId string, body AlertSourcesV3CreateAttributeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3ValidateAttributeWithBody ValidateAttribute Alert Sources V3
+	//
+	// Check whether a binding would be accepted on this alert source, without writing it.
+	//
+	// The binding is validated in the source as it stands today: merge strategy against the attribute's
+	// type, values and expressions against the scope the source's type provides, and references against
+	// your alert schema and catalog. Whether the attribute is already bound makes no difference, so the
+	// same request answers for a new binding and a change to an existing one.
+	//
+	// An expression this binding references has to already exist on the source, or be sent with the
+	// binding. One you have yet to write is rejected.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes/actions/validate (the `AlertSourcesV3ValidateAttribute` operationId).
+	AlertSourcesV3ValidateAttributeWithBody(ctx context.Context, alertSourceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3ValidateAttribute ValidateAttribute Alert Sources V3
+	//
+	// Check whether a binding would be accepted on this alert source, without writing it.
+	//
+	// The binding is validated in the source as it stands today: merge strategy against the attribute's
+	// type, values and expressions against the scope the source's type provides, and references against
+	// your alert schema and catalog. Whether the attribute is already bound makes no difference, so the
+	// same request answers for a new binding and a change to an existing one.
+	//
+	// An expression this binding references has to already exist on the source, or be sent with the
+	// binding. One you have yet to write is rejected.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes/actions/validate (the `AlertSourcesV3ValidateAttribute` operationId).
+	AlertSourcesV3ValidateAttribute(ctx context.Context, alertSourceId string, body AlertSourcesV3ValidateAttributeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3DestroyAttribute DestroyAttribute Alert Sources V3
+	//
+	// Unbind an attribute from an alert source, along with the expressions only it used.
+	//
+	// Corresponds with DELETE /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3DestroyAttribute` operationId).
+	AlertSourcesV3DestroyAttribute(ctx context.Context, alertSourceId string, alertAttributeId string, params *AlertSourcesV3DestroyAttributeParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3ShowAttribute ShowAttribute Alert Sources V3
+	//
+	// Get a single attribute binding.
+	//
+	// Corresponds with GET /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3ShowAttribute` operationId).
+	AlertSourcesV3ShowAttribute(ctx context.Context, alertSourceId string, alertAttributeId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3UpdateAttributeWithBody UpdateAttribute Alert Sources V3
+	//
+	// Change what an attribute is bound to, leaving the rest of the source alone.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3UpdateAttribute` operationId).
+	AlertSourcesV3UpdateAttributeWithBody(ctx context.Context, alertSourceId string, alertAttributeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3UpdateAttribute UpdateAttribute Alert Sources V3
+	//
+	// Change what an attribute is bound to, leaving the rest of the source alone.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3UpdateAttribute` operationId).
+	AlertSourcesV3UpdateAttribute(ctx context.Context, alertSourceId string, alertAttributeId string, body AlertSourcesV3UpdateAttributeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3Destroy Destroy Alert Sources V3
+	//
+	// Delete an alert source, along with all of its attribute bindings.
+	//
+	// Corresponds with DELETE /v3/alert_sources/{id} (the `AlertSourcesV3Destroy` operationId).
+	AlertSourcesV3Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3Show Show Alert Sources V3
+	//
+	// Get a single alert source, without its attributes.
+	//
+	// Corresponds with GET /v3/alert_sources/{id} (the `AlertSourcesV3Show` operationId).
+	AlertSourcesV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3UpdateWithBody Update Alert Sources V3
+	//
+	// Update an alert source's own config, leaving its attribute bindings untouched.
+	//
+	// This payload carries no attributes by design. If it did, updating the source would wipe every
+	// binding a client manages separately.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v3/alert_sources/{id} (the `AlertSourcesV3Update` operationId).
+	AlertSourcesV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertSourcesV3Update Update Alert Sources V3
+	//
+	// Update an alert source's own config, leaving its attribute bindings untouched.
+	//
+	// This payload carries no attributes by design. If it did, updating the source would wipe every
+	// binding a client manages separately.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v3/alert_sources/{id} (the `AlertSourcesV3Update` operationId).
+	AlertSourcesV3Update(ctx context.Context, id string, body AlertSourcesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// CatalogV3ListEntries ListEntries Catalog V3
 	//
 	// List entries for a catalog type.
@@ -26149,6 +27818,44 @@ func (c *Client) PostmortemDocumentsV1UpdateStatus(ctx context.Context, id strin
 // Corresponds with GET /v1/postmortem_documents/{id}/content (the `PostmortemDocumentsV1ShowContent` operationId).
 func (c *Client) PostmortemDocumentsV1ShowContent(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPostmortemDocumentsV1ShowContentRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// RichTextV1ParseMarkdownWithBody ParseMarkdown Rich Text V1
+//
+// Parse markdown into a rich text document.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/rich_text/actions/parse_markdown (the `RichTextV1ParseMarkdown` operationId).
+func (c *Client) RichTextV1ParseMarkdownWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRichTextV1ParseMarkdownRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// RichTextV1ParseMarkdown ParseMarkdown Rich Text V1
+//
+// Parse markdown into a rich text document.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/rich_text/actions/parse_markdown (the `RichTextV1ParseMarkdown` operationId).
+func (c *Client) RichTextV1ParseMarkdown(ctx context.Context, body RichTextV1ParseMarkdownJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRichTextV1ParseMarkdownRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -30591,6 +32298,378 @@ func (c *Client) AlertRoutesV3Update(ctx context.Context, id string, body AlertR
 	return c.Client.Do(req)
 }
 
+// AlertSourcesV3List List Alert Sources V3
+//
+// List configured alert sources, without their attributes.
+//
+// Corresponds with GET /v3/alert_sources (the `AlertSourcesV3List` operationId).
+func (c *Client) AlertSourcesV3List(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3ListRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3CreateWithBody Create Alert Sources V3
+//
+// Create a new alert source. It starts with no attributes bound, which are added separately.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/alert_sources (the `AlertSourcesV3Create` operationId).
+func (c *Client) AlertSourcesV3CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3Create Create Alert Sources V3
+//
+// Create a new alert source. It starts with no attributes bound, which are added separately.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/alert_sources (the `AlertSourcesV3Create` operationId).
+func (c *Client) AlertSourcesV3Create(ctx context.Context, body AlertSourcesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3ValidateWithBody Validate Alert Sources V3
+//
+// Check whether an alert source's config is valid, without creating or updating anything.
+//
+// This validates in the same way a create or update would: expressions are compiled and checked
+// against your alert schema and catalog. Values that are only known once an alert source exists
+// are not validated.
+//
+// An invalid config is an error. A config that is valid but probably not what you meant comes
+// back as a warning on a successful response, so a client can show it without blocking.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/alert_sources/actions/validate (the `AlertSourcesV3Validate` operationId).
+func (c *Client) AlertSourcesV3ValidateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3ValidateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3Validate Validate Alert Sources V3
+//
+// Check whether an alert source's config is valid, without creating or updating anything.
+//
+// This validates in the same way a create or update would: expressions are compiled and checked
+// against your alert schema and catalog. Values that are only known once an alert source exists
+// are not validated.
+//
+// An invalid config is an error. A config that is valid but probably not what you meant comes
+// back as a warning on a successful response, so a client can show it without blocking.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/alert_sources/actions/validate (the `AlertSourcesV3Validate` operationId).
+func (c *Client) AlertSourcesV3Validate(ctx context.Context, body AlertSourcesV3ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3ValidateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3ListAttributes ListAttributes Alert Sources V3
+//
+// List the attributes bound on an alert source.
+//
+// Corresponds with GET /v3/alert_sources/{alert_source_id}/attributes (the `AlertSourcesV3ListAttributes` operationId).
+func (c *Client) AlertSourcesV3ListAttributes(ctx context.Context, alertSourceId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3ListAttributesRequest(c.Server, alertSourceId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3CreateAttributeWithBody CreateAttribute Alert Sources V3
+//
+// Bind an attribute on an alert source.
+//
+// This is a create, not an upsert: binding an attribute that is already bound returns a conflict
+// rather than replacing what is there.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes (the `AlertSourcesV3CreateAttribute` operationId).
+func (c *Client) AlertSourcesV3CreateAttributeWithBody(ctx context.Context, alertSourceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3CreateAttributeRequestWithBody(c.Server, alertSourceId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3CreateAttribute CreateAttribute Alert Sources V3
+//
+// Bind an attribute on an alert source.
+//
+// This is a create, not an upsert: binding an attribute that is already bound returns a conflict
+// rather than replacing what is there.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes (the `AlertSourcesV3CreateAttribute` operationId).
+func (c *Client) AlertSourcesV3CreateAttribute(ctx context.Context, alertSourceId string, body AlertSourcesV3CreateAttributeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3CreateAttributeRequest(c.Server, alertSourceId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3ValidateAttributeWithBody ValidateAttribute Alert Sources V3
+//
+// Check whether a binding would be accepted on this alert source, without writing it.
+//
+// The binding is validated in the source as it stands today: merge strategy against the attribute's
+// type, values and expressions against the scope the source's type provides, and references against
+// your alert schema and catalog. Whether the attribute is already bound makes no difference, so the
+// same request answers for a new binding and a change to an existing one.
+//
+// An expression this binding references has to already exist on the source, or be sent with the
+// binding. One you have yet to write is rejected.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes/actions/validate (the `AlertSourcesV3ValidateAttribute` operationId).
+func (c *Client) AlertSourcesV3ValidateAttributeWithBody(ctx context.Context, alertSourceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3ValidateAttributeRequestWithBody(c.Server, alertSourceId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3ValidateAttribute ValidateAttribute Alert Sources V3
+//
+// Check whether a binding would be accepted on this alert source, without writing it.
+//
+// The binding is validated in the source as it stands today: merge strategy against the attribute's
+// type, values and expressions against the scope the source's type provides, and references against
+// your alert schema and catalog. Whether the attribute is already bound makes no difference, so the
+// same request answers for a new binding and a change to an existing one.
+//
+// An expression this binding references has to already exist on the source, or be sent with the
+// binding. One you have yet to write is rejected.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes/actions/validate (the `AlertSourcesV3ValidateAttribute` operationId).
+func (c *Client) AlertSourcesV3ValidateAttribute(ctx context.Context, alertSourceId string, body AlertSourcesV3ValidateAttributeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3ValidateAttributeRequest(c.Server, alertSourceId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3DestroyAttribute DestroyAttribute Alert Sources V3
+//
+// Unbind an attribute from an alert source, along with the expressions only it used.
+//
+// Corresponds with DELETE /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3DestroyAttribute` operationId).
+func (c *Client) AlertSourcesV3DestroyAttribute(ctx context.Context, alertSourceId string, alertAttributeId string, params *AlertSourcesV3DestroyAttributeParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3DestroyAttributeRequest(c.Server, alertSourceId, alertAttributeId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3ShowAttribute ShowAttribute Alert Sources V3
+//
+// Get a single attribute binding.
+//
+// Corresponds with GET /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3ShowAttribute` operationId).
+func (c *Client) AlertSourcesV3ShowAttribute(ctx context.Context, alertSourceId string, alertAttributeId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3ShowAttributeRequest(c.Server, alertSourceId, alertAttributeId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3UpdateAttributeWithBody UpdateAttribute Alert Sources V3
+//
+// Change what an attribute is bound to, leaving the rest of the source alone.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3UpdateAttribute` operationId).
+func (c *Client) AlertSourcesV3UpdateAttributeWithBody(ctx context.Context, alertSourceId string, alertAttributeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3UpdateAttributeRequestWithBody(c.Server, alertSourceId, alertAttributeId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3UpdateAttribute UpdateAttribute Alert Sources V3
+//
+// Change what an attribute is bound to, leaving the rest of the source alone.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3UpdateAttribute` operationId).
+func (c *Client) AlertSourcesV3UpdateAttribute(ctx context.Context, alertSourceId string, alertAttributeId string, body AlertSourcesV3UpdateAttributeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3UpdateAttributeRequest(c.Server, alertSourceId, alertAttributeId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3Destroy Destroy Alert Sources V3
+//
+// Delete an alert source, along with all of its attribute bindings.
+//
+// Corresponds with DELETE /v3/alert_sources/{id} (the `AlertSourcesV3Destroy` operationId).
+func (c *Client) AlertSourcesV3Destroy(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3DestroyRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3Show Show Alert Sources V3
+//
+// Get a single alert source, without its attributes.
+//
+// Corresponds with GET /v3/alert_sources/{id} (the `AlertSourcesV3Show` operationId).
+func (c *Client) AlertSourcesV3Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3UpdateWithBody Update Alert Sources V3
+//
+// Update an alert source's own config, leaving its attribute bindings untouched.
+//
+// This payload carries no attributes by design. If it did, updating the source would wipe every
+// binding a client manages separately.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v3/alert_sources/{id} (the `AlertSourcesV3Update` operationId).
+func (c *Client) AlertSourcesV3UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertSourcesV3Update Update Alert Sources V3
+//
+// Update an alert source's own config, leaving its attribute bindings untouched.
+//
+// This payload carries no attributes by design. If it did, updating the source would wipe every
+// binding a client manages separately.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v3/alert_sources/{id} (the `AlertSourcesV3Update` operationId).
+func (c *Client) AlertSourcesV3Update(ctx context.Context, id string, body AlertSourcesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertSourcesV3UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // CatalogV3ListEntries ListEntries Catalog V3
 //
 // List entries for a catalog type.
@@ -33922,6 +36001,46 @@ func NewPostmortemDocumentsV1ShowContentRequest(server string, id string) (*http
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewRichTextV1ParseMarkdownRequest calls the generic RichTextV1ParseMarkdown builder with application/json body
+func NewRichTextV1ParseMarkdownRequest(server string, body RichTextV1ParseMarkdownJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewRichTextV1ParseMarkdownRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewRichTextV1ParseMarkdownRequestWithBody constructs an http.Request for the RichTextV1ParseMarkdown method, with any body, and a specified content type
+func NewRichTextV1ParseMarkdownRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/rich_text/actions/parse_markdown")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -41203,6 +43322,519 @@ func NewAlertRoutesV3UpdateRequestWithBody(server string, id string, contentType
 	return req, nil
 }
 
+// NewAlertSourcesV3ListRequest constructs an http.Request for the AlertSourcesV3List method
+func NewAlertSourcesV3ListRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_sources")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertSourcesV3CreateRequest calls the generic AlertSourcesV3Create builder with application/json body
+func NewAlertSourcesV3CreateRequest(server string, body AlertSourcesV3CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertSourcesV3CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewAlertSourcesV3CreateRequestWithBody constructs an http.Request for the AlertSourcesV3Create method, with any body, and a specified content type
+func NewAlertSourcesV3CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_sources")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAlertSourcesV3ValidateRequest calls the generic AlertSourcesV3Validate builder with application/json body
+func NewAlertSourcesV3ValidateRequest(server string, body AlertSourcesV3ValidateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertSourcesV3ValidateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewAlertSourcesV3ValidateRequestWithBody constructs an http.Request for the AlertSourcesV3Validate method, with any body, and a specified content type
+func NewAlertSourcesV3ValidateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_sources/actions/validate")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAlertSourcesV3ListAttributesRequest constructs an http.Request for the AlertSourcesV3ListAttributes method
+func NewAlertSourcesV3ListAttributesRequest(server string, alertSourceId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "alert_source_id", alertSourceId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_sources/%s/attributes", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertSourcesV3CreateAttributeRequest calls the generic AlertSourcesV3CreateAttribute builder with application/json body
+func NewAlertSourcesV3CreateAttributeRequest(server string, alertSourceId string, body AlertSourcesV3CreateAttributeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertSourcesV3CreateAttributeRequestWithBody(server, alertSourceId, "application/json", bodyReader)
+}
+
+// NewAlertSourcesV3CreateAttributeRequestWithBody constructs an http.Request for the AlertSourcesV3CreateAttribute method, with any body, and a specified content type
+func NewAlertSourcesV3CreateAttributeRequestWithBody(server string, alertSourceId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "alert_source_id", alertSourceId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_sources/%s/attributes", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAlertSourcesV3ValidateAttributeRequest calls the generic AlertSourcesV3ValidateAttribute builder with application/json body
+func NewAlertSourcesV3ValidateAttributeRequest(server string, alertSourceId string, body AlertSourcesV3ValidateAttributeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertSourcesV3ValidateAttributeRequestWithBody(server, alertSourceId, "application/json", bodyReader)
+}
+
+// NewAlertSourcesV3ValidateAttributeRequestWithBody constructs an http.Request for the AlertSourcesV3ValidateAttribute method, with any body, and a specified content type
+func NewAlertSourcesV3ValidateAttributeRequestWithBody(server string, alertSourceId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "alert_source_id", alertSourceId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_sources/%s/attributes/actions/validate", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAlertSourcesV3DestroyAttributeRequest constructs an http.Request for the AlertSourcesV3DestroyAttribute method
+func NewAlertSourcesV3DestroyAttributeRequest(server string, alertSourceId string, alertAttributeId string, params *AlertSourcesV3DestroyAttributeParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "alert_source_id", alertSourceId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "alert_attribute_id", alertAttributeId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_sources/%s/attributes/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.ExpectedVersion != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "expected_version", *params.ExpectedVersion, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertSourcesV3ShowAttributeRequest constructs an http.Request for the AlertSourcesV3ShowAttribute method
+func NewAlertSourcesV3ShowAttributeRequest(server string, alertSourceId string, alertAttributeId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "alert_source_id", alertSourceId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "alert_attribute_id", alertAttributeId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_sources/%s/attributes/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertSourcesV3UpdateAttributeRequest calls the generic AlertSourcesV3UpdateAttribute builder with application/json body
+func NewAlertSourcesV3UpdateAttributeRequest(server string, alertSourceId string, alertAttributeId string, body AlertSourcesV3UpdateAttributeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertSourcesV3UpdateAttributeRequestWithBody(server, alertSourceId, alertAttributeId, "application/json", bodyReader)
+}
+
+// NewAlertSourcesV3UpdateAttributeRequestWithBody constructs an http.Request for the AlertSourcesV3UpdateAttribute method, with any body, and a specified content type
+func NewAlertSourcesV3UpdateAttributeRequestWithBody(server string, alertSourceId string, alertAttributeId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "alert_source_id", alertSourceId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "alert_attribute_id", alertAttributeId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_sources/%s/attributes/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAlertSourcesV3DestroyRequest constructs an http.Request for the AlertSourcesV3Destroy method
+func NewAlertSourcesV3DestroyRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_sources/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertSourcesV3ShowRequest constructs an http.Request for the AlertSourcesV3Show method
+func NewAlertSourcesV3ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_sources/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAlertSourcesV3UpdateRequest calls the generic AlertSourcesV3Update builder with application/json body
+func NewAlertSourcesV3UpdateRequest(server string, id string, body AlertSourcesV3UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertSourcesV3UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewAlertSourcesV3UpdateRequestWithBody constructs an http.Request for the AlertSourcesV3Update method, with any body, and a specified content type
+func NewAlertSourcesV3UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v3/alert_sources/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewCatalogV3ListEntriesRequest constructs an http.Request for the CatalogV3ListEntries method
 func NewCatalogV3ListEntriesRequest(server string, params *CatalogV3ListEntriesParams) (*http.Request, error) {
 	var err error
@@ -43307,6 +45939,24 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with GET /v1/postmortem_documents/{id}/content (the `PostmortemDocumentsV1ShowContent` operationId).
 	PostmortemDocumentsV1ShowContentWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*PostmortemDocumentsV1ShowContentResponse, error)
+
+	// RichTextV1ParseMarkdownWithBodyWithResponse ParseMarkdown Rich Text V1
+	//
+	// Parse markdown into a rich text document.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/rich_text/actions/parse_markdown (the `RichTextV1ParseMarkdown` operationId).
+	RichTextV1ParseMarkdownWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RichTextV1ParseMarkdownResponse, error)
+
+	// RichTextV1ParseMarkdownWithResponse ParseMarkdown Rich Text V1
+	//
+	// Parse markdown into a rich text document.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/rich_text/actions/parse_markdown (the `RichTextV1ParseMarkdown` operationId).
+	RichTextV1ParseMarkdownWithResponse(ctx context.Context, body RichTextV1ParseMarkdownJSONRequestBody, reqEditors ...RequestEditorFn) (*RichTextV1ParseMarkdownResponse, error)
 
 	// SeveritiesV1ListWithResponse List Severities V1
 	//
@@ -45871,6 +48521,210 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with PUT /v3/alert_routes/{id} (the `AlertRoutesV3Update` operationId).
 	AlertRoutesV3UpdateWithResponse(ctx context.Context, id string, body AlertRoutesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertRoutesV3UpdateResponse, error)
+
+	// AlertSourcesV3ListWithResponse List Alert Sources V3
+	//
+	// List configured alert sources, without their attributes.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/alert_sources (the `AlertSourcesV3List` operationId).
+	AlertSourcesV3ListWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*AlertSourcesV3ListResponse, error)
+
+	// AlertSourcesV3CreateWithBodyWithResponse Create Alert Sources V3
+	//
+	// Create a new alert source. It starts with no attributes bound, which are added separately.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/alert_sources (the `AlertSourcesV3Create` operationId).
+	AlertSourcesV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV3CreateResponse, error)
+
+	// AlertSourcesV3CreateWithResponse Create Alert Sources V3
+	//
+	// Create a new alert source. It starts with no attributes bound, which are added separately.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/alert_sources (the `AlertSourcesV3Create` operationId).
+	AlertSourcesV3CreateWithResponse(ctx context.Context, body AlertSourcesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3CreateResponse, error)
+
+	// AlertSourcesV3ValidateWithBodyWithResponse Validate Alert Sources V3
+	//
+	// Check whether an alert source's config is valid, without creating or updating anything.
+	//
+	// This validates in the same way a create or update would: expressions are compiled and checked
+	// against your alert schema and catalog. Values that are only known once an alert source exists
+	// are not validated.
+	//
+	// An invalid config is an error. A config that is valid but probably not what you meant comes
+	// back as a warning on a successful response, so a client can show it without blocking.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/alert_sources/actions/validate (the `AlertSourcesV3Validate` operationId).
+	AlertSourcesV3ValidateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV3ValidateResponse, error)
+
+	// AlertSourcesV3ValidateWithResponse Validate Alert Sources V3
+	//
+	// Check whether an alert source's config is valid, without creating or updating anything.
+	//
+	// This validates in the same way a create or update would: expressions are compiled and checked
+	// against your alert schema and catalog. Values that are only known once an alert source exists
+	// are not validated.
+	//
+	// An invalid config is an error. A config that is valid but probably not what you meant comes
+	// back as a warning on a successful response, so a client can show it without blocking.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/alert_sources/actions/validate (the `AlertSourcesV3Validate` operationId).
+	AlertSourcesV3ValidateWithResponse(ctx context.Context, body AlertSourcesV3ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3ValidateResponse, error)
+
+	// AlertSourcesV3ListAttributesWithResponse ListAttributes Alert Sources V3
+	//
+	// List the attributes bound on an alert source.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/alert_sources/{alert_source_id}/attributes (the `AlertSourcesV3ListAttributes` operationId).
+	AlertSourcesV3ListAttributesWithResponse(ctx context.Context, alertSourceId string, reqEditors ...RequestEditorFn) (*AlertSourcesV3ListAttributesResponse, error)
+
+	// AlertSourcesV3CreateAttributeWithBodyWithResponse CreateAttribute Alert Sources V3
+	//
+	// Bind an attribute on an alert source.
+	//
+	// This is a create, not an upsert: binding an attribute that is already bound returns a conflict
+	// rather than replacing what is there.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes (the `AlertSourcesV3CreateAttribute` operationId).
+	AlertSourcesV3CreateAttributeWithBodyWithResponse(ctx context.Context, alertSourceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV3CreateAttributeResponse, error)
+
+	// AlertSourcesV3CreateAttributeWithResponse CreateAttribute Alert Sources V3
+	//
+	// Bind an attribute on an alert source.
+	//
+	// This is a create, not an upsert: binding an attribute that is already bound returns a conflict
+	// rather than replacing what is there.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes (the `AlertSourcesV3CreateAttribute` operationId).
+	AlertSourcesV3CreateAttributeWithResponse(ctx context.Context, alertSourceId string, body AlertSourcesV3CreateAttributeJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3CreateAttributeResponse, error)
+
+	// AlertSourcesV3ValidateAttributeWithBodyWithResponse ValidateAttribute Alert Sources V3
+	//
+	// Check whether a binding would be accepted on this alert source, without writing it.
+	//
+	// The binding is validated in the source as it stands today: merge strategy against the attribute's
+	// type, values and expressions against the scope the source's type provides, and references against
+	// your alert schema and catalog. Whether the attribute is already bound makes no difference, so the
+	// same request answers for a new binding and a change to an existing one.
+	//
+	// An expression this binding references has to already exist on the source, or be sent with the
+	// binding. One you have yet to write is rejected.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes/actions/validate (the `AlertSourcesV3ValidateAttribute` operationId).
+	AlertSourcesV3ValidateAttributeWithBodyWithResponse(ctx context.Context, alertSourceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV3ValidateAttributeResponse, error)
+
+	// AlertSourcesV3ValidateAttributeWithResponse ValidateAttribute Alert Sources V3
+	//
+	// Check whether a binding would be accepted on this alert source, without writing it.
+	//
+	// The binding is validated in the source as it stands today: merge strategy against the attribute's
+	// type, values and expressions against the scope the source's type provides, and references against
+	// your alert schema and catalog. Whether the attribute is already bound makes no difference, so the
+	// same request answers for a new binding and a change to an existing one.
+	//
+	// An expression this binding references has to already exist on the source, or be sent with the
+	// binding. One you have yet to write is rejected.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes/actions/validate (the `AlertSourcesV3ValidateAttribute` operationId).
+	AlertSourcesV3ValidateAttributeWithResponse(ctx context.Context, alertSourceId string, body AlertSourcesV3ValidateAttributeJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3ValidateAttributeResponse, error)
+
+	// AlertSourcesV3DestroyAttributeWithResponse DestroyAttribute Alert Sources V3
+	//
+	// Unbind an attribute from an alert source, along with the expressions only it used.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3DestroyAttribute` operationId).
+	AlertSourcesV3DestroyAttributeWithResponse(ctx context.Context, alertSourceId string, alertAttributeId string, params *AlertSourcesV3DestroyAttributeParams, reqEditors ...RequestEditorFn) (*AlertSourcesV3DestroyAttributeResponse, error)
+
+	// AlertSourcesV3ShowAttributeWithResponse ShowAttribute Alert Sources V3
+	//
+	// Get a single attribute binding.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3ShowAttribute` operationId).
+	AlertSourcesV3ShowAttributeWithResponse(ctx context.Context, alertSourceId string, alertAttributeId string, reqEditors ...RequestEditorFn) (*AlertSourcesV3ShowAttributeResponse, error)
+
+	// AlertSourcesV3UpdateAttributeWithBodyWithResponse UpdateAttribute Alert Sources V3
+	//
+	// Change what an attribute is bound to, leaving the rest of the source alone.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3UpdateAttribute` operationId).
+	AlertSourcesV3UpdateAttributeWithBodyWithResponse(ctx context.Context, alertSourceId string, alertAttributeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV3UpdateAttributeResponse, error)
+
+	// AlertSourcesV3UpdateAttributeWithResponse UpdateAttribute Alert Sources V3
+	//
+	// Change what an attribute is bound to, leaving the rest of the source alone.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3UpdateAttribute` operationId).
+	AlertSourcesV3UpdateAttributeWithResponse(ctx context.Context, alertSourceId string, alertAttributeId string, body AlertSourcesV3UpdateAttributeJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3UpdateAttributeResponse, error)
+
+	// AlertSourcesV3DestroyWithResponse Destroy Alert Sources V3
+	//
+	// Delete an alert source, along with all of its attribute bindings.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v3/alert_sources/{id} (the `AlertSourcesV3Destroy` operationId).
+	AlertSourcesV3DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertSourcesV3DestroyResponse, error)
+
+	// AlertSourcesV3ShowWithResponse Show Alert Sources V3
+	//
+	// Get a single alert source, without its attributes.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v3/alert_sources/{id} (the `AlertSourcesV3Show` operationId).
+	AlertSourcesV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertSourcesV3ShowResponse, error)
+
+	// AlertSourcesV3UpdateWithBodyWithResponse Update Alert Sources V3
+	//
+	// Update an alert source's own config, leaving its attribute bindings untouched.
+	//
+	// This payload carries no attributes by design. If it did, updating the source would wipe every
+	// binding a client manages separately.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/alert_sources/{id} (the `AlertSourcesV3Update` operationId).
+	AlertSourcesV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV3UpdateResponse, error)
+
+	// AlertSourcesV3UpdateWithResponse Update Alert Sources V3
+	//
+	// Update an alert source's own config, leaving its attribute bindings untouched.
+	//
+	// This payload carries no attributes by design. If it did, updating the source would wipe every
+	// binding a client manages separately.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v3/alert_sources/{id} (the `AlertSourcesV3Update` operationId).
+	AlertSourcesV3UpdateWithResponse(ctx context.Context, id string, body AlertSourcesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3UpdateResponse, error)
 
 	// CatalogV3ListEntriesWithResponse ListEntries Catalog V3
 	//
@@ -48654,6 +51508,47 @@ func (r PostmortemDocumentsV1ShowContentResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r PostmortemDocumentsV1ShowContentResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type RichTextV1ParseMarkdownResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *RichTextParseMarkdownResultV1
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r RichTextV1ParseMarkdownResponse) GetJSON200() *RichTextParseMarkdownResultV1 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r RichTextV1ParseMarkdownResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r RichTextV1ParseMarkdownResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RichTextV1ParseMarkdownResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r RichTextV1ParseMarkdownResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -54615,6 +57510,477 @@ func (r AlertRoutesV3UpdateResponse) ContentType() string {
 	return ""
 }
 
+type AlertSourcesV3ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertSourcesListResultV3
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertSourcesV3ListResponse) GetJSON200() *AlertSourcesListResultV3 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertSourcesV3ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertSourcesV3ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertSourcesV3ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertSourcesV3ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertSourcesV3CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *AlertSourcesCreateResultV3
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r AlertSourcesV3CreateResponse) GetJSON201() *AlertSourcesCreateResultV3 {
+	return r.JSON201
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertSourcesV3CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertSourcesV3CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertSourcesV3CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertSourcesV3CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertSourcesV3ValidateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertSourcesValidateResultV3
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertSourcesV3ValidateResponse) GetJSON200() *AlertSourcesValidateResultV3 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertSourcesV3ValidateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertSourcesV3ValidateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertSourcesV3ValidateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertSourcesV3ValidateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertSourcesV3ListAttributesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertSourcesListAttributesResultV3
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertSourcesV3ListAttributesResponse) GetJSON200() *AlertSourcesListAttributesResultV3 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertSourcesV3ListAttributesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertSourcesV3ListAttributesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertSourcesV3ListAttributesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertSourcesV3ListAttributesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertSourcesV3CreateAttributeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *AlertSourcesCreateAttributeResultV3
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r AlertSourcesV3CreateAttributeResponse) GetJSON201() *AlertSourcesCreateAttributeResultV3 {
+	return r.JSON201
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertSourcesV3CreateAttributeResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertSourcesV3CreateAttributeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertSourcesV3CreateAttributeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertSourcesV3CreateAttributeResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertSourcesV3ValidateAttributeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertSourcesV3ValidateAttributeResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertSourcesV3ValidateAttributeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertSourcesV3ValidateAttributeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertSourcesV3ValidateAttributeResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertSourcesV3DestroyAttributeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertSourcesV3DestroyAttributeResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertSourcesV3DestroyAttributeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertSourcesV3DestroyAttributeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertSourcesV3DestroyAttributeResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertSourcesV3ShowAttributeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertSourcesShowAttributeResultV3
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertSourcesV3ShowAttributeResponse) GetJSON200() *AlertSourcesShowAttributeResultV3 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertSourcesV3ShowAttributeResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertSourcesV3ShowAttributeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertSourcesV3ShowAttributeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertSourcesV3ShowAttributeResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertSourcesV3UpdateAttributeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertSourcesUpdateAttributeResultV3
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertSourcesV3UpdateAttributeResponse) GetJSON200() *AlertSourcesUpdateAttributeResultV3 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertSourcesV3UpdateAttributeResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertSourcesV3UpdateAttributeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertSourcesV3UpdateAttributeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertSourcesV3UpdateAttributeResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertSourcesV3DestroyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertSourcesV3DestroyResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertSourcesV3DestroyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertSourcesV3DestroyResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertSourcesV3DestroyResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertSourcesV3ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertSourcesShowResultV3
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertSourcesV3ShowResponse) GetJSON200() *AlertSourcesShowResultV3 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertSourcesV3ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertSourcesV3ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertSourcesV3ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertSourcesV3ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertSourcesV3UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertSourcesUpdateResultV3
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertSourcesV3UpdateResponse) GetJSON200() *AlertSourcesUpdateResultV3 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertSourcesV3UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertSourcesV3UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertSourcesV3UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertSourcesV3UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type CatalogV3ListEntriesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -57013,6 +60379,36 @@ func (c *ClientWithResponses) PostmortemDocumentsV1ShowContentWithResponse(ctx c
 		return nil, err
 	}
 	return ParsePostmortemDocumentsV1ShowContentResponse(rsp)
+}
+
+// RichTextV1ParseMarkdownWithBodyWithResponse ParseMarkdown Rich Text V1
+//
+// Parse markdown into a rich text document.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/rich_text/actions/parse_markdown (the `RichTextV1ParseMarkdown` operationId).
+func (c *ClientWithResponses) RichTextV1ParseMarkdownWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RichTextV1ParseMarkdownResponse, error) {
+	rsp, err := c.RichTextV1ParseMarkdownWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRichTextV1ParseMarkdownResponse(rsp)
+}
+
+// RichTextV1ParseMarkdownWithResponse ParseMarkdown Rich Text V1
+//
+// Parse markdown into a rich text document.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/rich_text/actions/parse_markdown (the `RichTextV1ParseMarkdown` operationId).
+func (c *ClientWithResponses) RichTextV1ParseMarkdownWithResponse(ctx context.Context, body RichTextV1ParseMarkdownJSONRequestBody, reqEditors ...RequestEditorFn) (*RichTextV1ParseMarkdownResponse, error) {
+	rsp, err := c.RichTextV1ParseMarkdown(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRichTextV1ParseMarkdownResponse(rsp)
 }
 
 // SeveritiesV1ListWithResponse List Severities V1
@@ -60813,6 +64209,318 @@ func (c *ClientWithResponses) AlertRoutesV3UpdateWithResponse(ctx context.Contex
 	return ParseAlertRoutesV3UpdateResponse(rsp)
 }
 
+// AlertSourcesV3ListWithResponse List Alert Sources V3
+//
+// List configured alert sources, without their attributes.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/alert_sources (the `AlertSourcesV3List` operationId).
+func (c *ClientWithResponses) AlertSourcesV3ListWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*AlertSourcesV3ListResponse, error) {
+	rsp, err := c.AlertSourcesV3List(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3ListResponse(rsp)
+}
+
+// AlertSourcesV3CreateWithBodyWithResponse Create Alert Sources V3
+//
+// Create a new alert source. It starts with no attributes bound, which are added separately.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/alert_sources (the `AlertSourcesV3Create` operationId).
+func (c *ClientWithResponses) AlertSourcesV3CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV3CreateResponse, error) {
+	rsp, err := c.AlertSourcesV3CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3CreateResponse(rsp)
+}
+
+// AlertSourcesV3CreateWithResponse Create Alert Sources V3
+//
+// Create a new alert source. It starts with no attributes bound, which are added separately.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/alert_sources (the `AlertSourcesV3Create` operationId).
+func (c *ClientWithResponses) AlertSourcesV3CreateWithResponse(ctx context.Context, body AlertSourcesV3CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3CreateResponse, error) {
+	rsp, err := c.AlertSourcesV3Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3CreateResponse(rsp)
+}
+
+// AlertSourcesV3ValidateWithBodyWithResponse Validate Alert Sources V3
+//
+// Check whether an alert source's config is valid, without creating or updating anything.
+//
+// This validates in the same way a create or update would: expressions are compiled and checked
+// against your alert schema and catalog. Values that are only known once an alert source exists
+// are not validated.
+//
+// An invalid config is an error. A config that is valid but probably not what you meant comes
+// back as a warning on a successful response, so a client can show it without blocking.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/alert_sources/actions/validate (the `AlertSourcesV3Validate` operationId).
+func (c *ClientWithResponses) AlertSourcesV3ValidateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV3ValidateResponse, error) {
+	rsp, err := c.AlertSourcesV3ValidateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3ValidateResponse(rsp)
+}
+
+// AlertSourcesV3ValidateWithResponse Validate Alert Sources V3
+//
+// Check whether an alert source's config is valid, without creating or updating anything.
+//
+// This validates in the same way a create or update would: expressions are compiled and checked
+// against your alert schema and catalog. Values that are only known once an alert source exists
+// are not validated.
+//
+// An invalid config is an error. A config that is valid but probably not what you meant comes
+// back as a warning on a successful response, so a client can show it without blocking.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/alert_sources/actions/validate (the `AlertSourcesV3Validate` operationId).
+func (c *ClientWithResponses) AlertSourcesV3ValidateWithResponse(ctx context.Context, body AlertSourcesV3ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3ValidateResponse, error) {
+	rsp, err := c.AlertSourcesV3Validate(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3ValidateResponse(rsp)
+}
+
+// AlertSourcesV3ListAttributesWithResponse ListAttributes Alert Sources V3
+//
+// List the attributes bound on an alert source.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/alert_sources/{alert_source_id}/attributes (the `AlertSourcesV3ListAttributes` operationId).
+func (c *ClientWithResponses) AlertSourcesV3ListAttributesWithResponse(ctx context.Context, alertSourceId string, reqEditors ...RequestEditorFn) (*AlertSourcesV3ListAttributesResponse, error) {
+	rsp, err := c.AlertSourcesV3ListAttributes(ctx, alertSourceId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3ListAttributesResponse(rsp)
+}
+
+// AlertSourcesV3CreateAttributeWithBodyWithResponse CreateAttribute Alert Sources V3
+//
+// Bind an attribute on an alert source.
+//
+// This is a create, not an upsert: binding an attribute that is already bound returns a conflict
+// rather than replacing what is there.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes (the `AlertSourcesV3CreateAttribute` operationId).
+func (c *ClientWithResponses) AlertSourcesV3CreateAttributeWithBodyWithResponse(ctx context.Context, alertSourceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV3CreateAttributeResponse, error) {
+	rsp, err := c.AlertSourcesV3CreateAttributeWithBody(ctx, alertSourceId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3CreateAttributeResponse(rsp)
+}
+
+// AlertSourcesV3CreateAttributeWithResponse CreateAttribute Alert Sources V3
+//
+// Bind an attribute on an alert source.
+//
+// This is a create, not an upsert: binding an attribute that is already bound returns a conflict
+// rather than replacing what is there.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes (the `AlertSourcesV3CreateAttribute` operationId).
+func (c *ClientWithResponses) AlertSourcesV3CreateAttributeWithResponse(ctx context.Context, alertSourceId string, body AlertSourcesV3CreateAttributeJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3CreateAttributeResponse, error) {
+	rsp, err := c.AlertSourcesV3CreateAttribute(ctx, alertSourceId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3CreateAttributeResponse(rsp)
+}
+
+// AlertSourcesV3ValidateAttributeWithBodyWithResponse ValidateAttribute Alert Sources V3
+//
+// Check whether a binding would be accepted on this alert source, without writing it.
+//
+// The binding is validated in the source as it stands today: merge strategy against the attribute's
+// type, values and expressions against the scope the source's type provides, and references against
+// your alert schema and catalog. Whether the attribute is already bound makes no difference, so the
+// same request answers for a new binding and a change to an existing one.
+//
+// An expression this binding references has to already exist on the source, or be sent with the
+// binding. One you have yet to write is rejected.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes/actions/validate (the `AlertSourcesV3ValidateAttribute` operationId).
+func (c *ClientWithResponses) AlertSourcesV3ValidateAttributeWithBodyWithResponse(ctx context.Context, alertSourceId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV3ValidateAttributeResponse, error) {
+	rsp, err := c.AlertSourcesV3ValidateAttributeWithBody(ctx, alertSourceId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3ValidateAttributeResponse(rsp)
+}
+
+// AlertSourcesV3ValidateAttributeWithResponse ValidateAttribute Alert Sources V3
+//
+// Check whether a binding would be accepted on this alert source, without writing it.
+//
+// The binding is validated in the source as it stands today: merge strategy against the attribute's
+// type, values and expressions against the scope the source's type provides, and references against
+// your alert schema and catalog. Whether the attribute is already bound makes no difference, so the
+// same request answers for a new binding and a change to an existing one.
+//
+// An expression this binding references has to already exist on the source, or be sent with the
+// binding. One you have yet to write is rejected.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v3/alert_sources/{alert_source_id}/attributes/actions/validate (the `AlertSourcesV3ValidateAttribute` operationId).
+func (c *ClientWithResponses) AlertSourcesV3ValidateAttributeWithResponse(ctx context.Context, alertSourceId string, body AlertSourcesV3ValidateAttributeJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3ValidateAttributeResponse, error) {
+	rsp, err := c.AlertSourcesV3ValidateAttribute(ctx, alertSourceId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3ValidateAttributeResponse(rsp)
+}
+
+// AlertSourcesV3DestroyAttributeWithResponse DestroyAttribute Alert Sources V3
+//
+// Unbind an attribute from an alert source, along with the expressions only it used.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3DestroyAttribute` operationId).
+func (c *ClientWithResponses) AlertSourcesV3DestroyAttributeWithResponse(ctx context.Context, alertSourceId string, alertAttributeId string, params *AlertSourcesV3DestroyAttributeParams, reqEditors ...RequestEditorFn) (*AlertSourcesV3DestroyAttributeResponse, error) {
+	rsp, err := c.AlertSourcesV3DestroyAttribute(ctx, alertSourceId, alertAttributeId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3DestroyAttributeResponse(rsp)
+}
+
+// AlertSourcesV3ShowAttributeWithResponse ShowAttribute Alert Sources V3
+//
+// Get a single attribute binding.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3ShowAttribute` operationId).
+func (c *ClientWithResponses) AlertSourcesV3ShowAttributeWithResponse(ctx context.Context, alertSourceId string, alertAttributeId string, reqEditors ...RequestEditorFn) (*AlertSourcesV3ShowAttributeResponse, error) {
+	rsp, err := c.AlertSourcesV3ShowAttribute(ctx, alertSourceId, alertAttributeId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3ShowAttributeResponse(rsp)
+}
+
+// AlertSourcesV3UpdateAttributeWithBodyWithResponse UpdateAttribute Alert Sources V3
+//
+// Change what an attribute is bound to, leaving the rest of the source alone.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3UpdateAttribute` operationId).
+func (c *ClientWithResponses) AlertSourcesV3UpdateAttributeWithBodyWithResponse(ctx context.Context, alertSourceId string, alertAttributeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV3UpdateAttributeResponse, error) {
+	rsp, err := c.AlertSourcesV3UpdateAttributeWithBody(ctx, alertSourceId, alertAttributeId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3UpdateAttributeResponse(rsp)
+}
+
+// AlertSourcesV3UpdateAttributeWithResponse UpdateAttribute Alert Sources V3
+//
+// Change what an attribute is bound to, leaving the rest of the source alone.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/alert_sources/{alert_source_id}/attributes/{alert_attribute_id} (the `AlertSourcesV3UpdateAttribute` operationId).
+func (c *ClientWithResponses) AlertSourcesV3UpdateAttributeWithResponse(ctx context.Context, alertSourceId string, alertAttributeId string, body AlertSourcesV3UpdateAttributeJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3UpdateAttributeResponse, error) {
+	rsp, err := c.AlertSourcesV3UpdateAttribute(ctx, alertSourceId, alertAttributeId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3UpdateAttributeResponse(rsp)
+}
+
+// AlertSourcesV3DestroyWithResponse Destroy Alert Sources V3
+//
+// Delete an alert source, along with all of its attribute bindings.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v3/alert_sources/{id} (the `AlertSourcesV3Destroy` operationId).
+func (c *ClientWithResponses) AlertSourcesV3DestroyWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertSourcesV3DestroyResponse, error) {
+	rsp, err := c.AlertSourcesV3Destroy(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3DestroyResponse(rsp)
+}
+
+// AlertSourcesV3ShowWithResponse Show Alert Sources V3
+//
+// Get a single alert source, without its attributes.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v3/alert_sources/{id} (the `AlertSourcesV3Show` operationId).
+func (c *ClientWithResponses) AlertSourcesV3ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertSourcesV3ShowResponse, error) {
+	rsp, err := c.AlertSourcesV3Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3ShowResponse(rsp)
+}
+
+// AlertSourcesV3UpdateWithBodyWithResponse Update Alert Sources V3
+//
+// Update an alert source's own config, leaving its attribute bindings untouched.
+//
+// This payload carries no attributes by design. If it did, updating the source would wipe every
+// binding a client manages separately.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/alert_sources/{id} (the `AlertSourcesV3Update` operationId).
+func (c *ClientWithResponses) AlertSourcesV3UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertSourcesV3UpdateResponse, error) {
+	rsp, err := c.AlertSourcesV3UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3UpdateResponse(rsp)
+}
+
+// AlertSourcesV3UpdateWithResponse Update Alert Sources V3
+//
+// Update an alert source's own config, leaving its attribute bindings untouched.
+//
+// This payload carries no attributes by design. If it did, updating the source would wipe every
+// binding a client manages separately.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v3/alert_sources/{id} (the `AlertSourcesV3Update` operationId).
+func (c *ClientWithResponses) AlertSourcesV3UpdateWithResponse(ctx context.Context, id string, body AlertSourcesV3UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV3UpdateResponse, error) {
+	rsp, err := c.AlertSourcesV3Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertSourcesV3UpdateResponse(rsp)
+}
+
 // CatalogV3ListEntriesWithResponse ListEntries Catalog V3
 //
 // List entries for a catalog type.
@@ -62882,6 +66590,32 @@ func ParsePostmortemDocumentsV1ShowContentResponse(rsp *http.Response) (*Postmor
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest PostmortemDocumentsShowContentResultV1
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRichTextV1ParseMarkdownResponse parses an HTTP response from a RichTextV1ParseMarkdownWithResponse call
+func ParseRichTextV1ParseMarkdownResponse(rsp *http.Response) (*RichTextV1ParseMarkdownResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RichTextV1ParseMarkdownResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RichTextParseMarkdownResultV1
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -66539,6 +70273,288 @@ func ParseAlertRoutesV3UpdateResponse(rsp *http.Response) (*AlertRoutesV3UpdateR
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest AlertRoutesUpdateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertSourcesV3ListResponse parses an HTTP response from a AlertSourcesV3ListWithResponse call
+func ParseAlertSourcesV3ListResponse(rsp *http.Response) (*AlertSourcesV3ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertSourcesV3ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertSourcesListResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertSourcesV3CreateResponse parses an HTTP response from a AlertSourcesV3CreateWithResponse call
+func ParseAlertSourcesV3CreateResponse(rsp *http.Response) (*AlertSourcesV3CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertSourcesV3CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest AlertSourcesCreateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertSourcesV3ValidateResponse parses an HTTP response from a AlertSourcesV3ValidateWithResponse call
+func ParseAlertSourcesV3ValidateResponse(rsp *http.Response) (*AlertSourcesV3ValidateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertSourcesV3ValidateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertSourcesValidateResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertSourcesV3ListAttributesResponse parses an HTTP response from a AlertSourcesV3ListAttributesWithResponse call
+func ParseAlertSourcesV3ListAttributesResponse(rsp *http.Response) (*AlertSourcesV3ListAttributesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertSourcesV3ListAttributesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertSourcesListAttributesResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertSourcesV3CreateAttributeResponse parses an HTTP response from a AlertSourcesV3CreateAttributeWithResponse call
+func ParseAlertSourcesV3CreateAttributeResponse(rsp *http.Response) (*AlertSourcesV3CreateAttributeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertSourcesV3CreateAttributeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest AlertSourcesCreateAttributeResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertSourcesV3ValidateAttributeResponse parses an HTTP response from a AlertSourcesV3ValidateAttributeWithResponse call
+func ParseAlertSourcesV3ValidateAttributeResponse(rsp *http.Response) (*AlertSourcesV3ValidateAttributeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertSourcesV3ValidateAttributeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseAlertSourcesV3DestroyAttributeResponse parses an HTTP response from a AlertSourcesV3DestroyAttributeWithResponse call
+func ParseAlertSourcesV3DestroyAttributeResponse(rsp *http.Response) (*AlertSourcesV3DestroyAttributeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertSourcesV3DestroyAttributeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseAlertSourcesV3ShowAttributeResponse parses an HTTP response from a AlertSourcesV3ShowAttributeWithResponse call
+func ParseAlertSourcesV3ShowAttributeResponse(rsp *http.Response) (*AlertSourcesV3ShowAttributeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertSourcesV3ShowAttributeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertSourcesShowAttributeResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertSourcesV3UpdateAttributeResponse parses an HTTP response from a AlertSourcesV3UpdateAttributeWithResponse call
+func ParseAlertSourcesV3UpdateAttributeResponse(rsp *http.Response) (*AlertSourcesV3UpdateAttributeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertSourcesV3UpdateAttributeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertSourcesUpdateAttributeResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertSourcesV3DestroyResponse parses an HTTP response from a AlertSourcesV3DestroyWithResponse call
+func ParseAlertSourcesV3DestroyResponse(rsp *http.Response) (*AlertSourcesV3DestroyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertSourcesV3DestroyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseAlertSourcesV3ShowResponse parses an HTTP response from a AlertSourcesV3ShowWithResponse call
+func ParseAlertSourcesV3ShowResponse(rsp *http.Response) (*AlertSourcesV3ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertSourcesV3ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertSourcesShowResultV3
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertSourcesV3UpdateResponse parses an HTTP response from a AlertSourcesV3UpdateWithResponse call
+func ParseAlertSourcesV3UpdateResponse(rsp *http.Response) (*AlertSourcesV3UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertSourcesV3UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertSourcesUpdateResultV3
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

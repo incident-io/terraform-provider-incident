@@ -1,0 +1,534 @@
+[
+  {
+    "name": "dashboard-authored varSpec carrying label and missing",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "varSpec",
+              "attrs": { "label": "Payload → Description", "missing": false, "name": "description" }
+            }
+          ]
+        }
+      ]
+    },
+    "expressible": true,
+    "template": "{{description}}"
+  },
+  {
+    "name": "omitIfUnset false is equivalent to the attr being absent",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "varSpec", "attrs": { "name": "description", "omitIfUnset": false } }
+          ]
+        }
+      ]
+    },
+    "expressible": true,
+    "template": "{{description}}"
+  },
+  {
+    "name": "truncateTo null is equivalent to the attr being absent",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "varSpec", "attrs": { "name": "description", "truncateTo": null } }
+          ]
+        }
+      ]
+    },
+    "expressible": true,
+    "template": "{{description}}"
+  },
+  {
+    "name": "every dashboard default present at once still collapses",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "varSpec",
+              "attrs": {
+                "label": "Description",
+                "missing": false,
+                "name": "description",
+                "omitIfUnset": false,
+                "truncateTo": null
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "expressible": true,
+    "template": "{{description}}"
+  },
+  {
+    "name": "label and missing are dropped but real filters are kept",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "varSpec",
+              "attrs": {
+                "label": "Payload → Description",
+                "missing": true,
+                "name": "description",
+                "omitIfUnset": true,
+                "truncateTo": 50
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "expressible": true,
+    "template": "{{description | truncate: 50 | omit_if_unset}}"
+  },
+  {
+    "name": "paragraph with an explicit empty content array",
+    "document": { "type": "doc", "content": [{ "type": "paragraph", "content": [] }] },
+    "expressible": true,
+    "template": ""
+  },
+  {
+    "name": "two paragraphs emit exactly one blank line between them",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "text", "text": "first" }] },
+        { "type": "paragraph", "content": [{ "type": "text", "text": "second" }] }
+      ]
+    },
+    "expressible": true,
+    "template": "first\n\nsecond"
+  },
+  {
+    "name": "bold mark on text",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [{ "type": "text", "text": "urgent", "marks": [{ "type": "bold" }] }]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "marks have no template syntax"
+  },
+  {
+    "name": "italic mark on text",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [{ "type": "text", "text": "urgent", "marks": [{ "type": "italic" }] }]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "marks have no template syntax"
+  },
+  {
+    "name": "link mark on text",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "runbook",
+              "marks": [{ "type": "link", "attrs": { "href": "https://example.com" } }]
+            }
+          ]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "marks have no template syntax"
+  },
+  {
+    "name": "mark on a varSpec",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "varSpec",
+              "attrs": { "name": "description" },
+              "marks": [{ "type": "bold" }]
+            }
+          ]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "VarSpec carries a Marks field, so a bolded pill is reachable and would lose its mark"
+  },
+  {
+    "name": "user mention",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "user",
+              "attrs": { "name": "Rory", "user_id": "01ABC", "slack_user_id": "U01ABC" }
+            }
+          ]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "carries IDs, and the grammar has no mention syntax"
+  },
+  {
+    "name": "slack channel mention",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "slackChannel",
+              "attrs": { "name": "incidents", "slack_channel_id": "C01ABC" }
+            }
+          ]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "carries IDs, and the grammar has no mention syntax"
+  },
+  {
+    "name": "slack user group mention",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "slackUserGroup",
+              "attrs": { "name": "oncall", "slack_user_group_id": "S01ABC" }
+            }
+          ]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "carries IDs, and the grammar has no mention syntax"
+  },
+  {
+    "name": "catalog entry mention",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "catalogEntry",
+              "attrs": {
+                "name": "Payments",
+                "catalog_entry_id": "01ABC",
+                "catalog_type_id": "01DEF",
+                "href": null
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "carries IDs, and the grammar has no mention syntax"
+  },
+  {
+    "name": "emoji node",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "emoji", "attrs": { "name": "rotating_light", "unicode": "🚨" } }
+          ]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "no shortcode syntax in the grammar; a literal emoji is a text node instead"
+  },
+  {
+    "name": "timestamp node",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "timestamp",
+              "attrs": { "value_str": "2026-08-11T00:00:00Z", "format": "full" }
+            }
+          ]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "unsupported inline node"
+  },
+  {
+    "name": "text containing an opening brace pair",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [{ "type": "text", "text": "literally {{description}}" }]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "there is no escape syntax, so emitting this would re-parse as a variable"
+  },
+  {
+    "name": "varSpec with an attr outside the known set",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "varSpec", "attrs": { "name": "description", "expression": "01ABC" } }
+          ]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "unknown attr would be silently dropped"
+  },
+  {
+    "name": "heading block",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "heading",
+          "attrs": { "level": 1 },
+          "content": [{ "type": "text", "text": "Outage" }]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "non-paragraph block"
+  },
+  {
+    "name": "list block",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "list",
+          "attrs": { "type": "bullet", "start": 1 },
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                { "type": "paragraph", "content": [{ "type": "text", "text": "one" }] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "non-paragraph block"
+  },
+  {
+    "name": "blockquote block",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "blockquote",
+          "attrs": { "cite": null },
+          "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "quoted" }] }]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "non-paragraph block"
+  },
+  {
+    "name": "code block",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "codeBlock", "content": [{ "type": "text", "text": "kubectl get pods" }] }
+      ]
+    },
+    "expressible": false,
+    "reason": "non-paragraph block"
+  },
+  {
+    "name": "horizontal rule block",
+    "document": { "type": "doc", "content": [{ "type": "horizontalRule" }] },
+    "expressible": false,
+    "reason": "non-paragraph block"
+  },
+  {
+    "name": "image block",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "image", "attrs": { "src": "https://example.com/a.png", "alt": "", "title": "" } }
+      ]
+    },
+    "expressible": false,
+    "reason": "non-paragraph block"
+  },
+  {
+    "name": "table block",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "table",
+          "attrs": { "layout": "default" },
+          "content": [
+            {
+              "type": "tableRow",
+              "content": [
+                {
+                  "type": "tableHeaderCell",
+                  "attrs": { "colspan": 1, "rowspan": 1, "colwidth": null, "background": null },
+                  "content": [
+                    { "type": "paragraph", "content": [{ "type": "text", "text": "Service" }] }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "non-paragraph block"
+  },
+  {
+    "name": "root node is not a doc",
+    "document": { "type": "paragraph", "content": [{ "type": "text", "text": "Payments alert" }] },
+    "expressible": false,
+    "reason": "root must be a doc node"
+  },
+  {
+    "name": "adjacent lineBreaks",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "text", "text": "first" },
+            { "type": "lineBreak" },
+            { "type": "lineBreak" },
+            { "type": "text", "text": "second" }
+          ]
+        }
+      ]
+    },
+    "expressible": false,
+    "reason": "would emit two newlines, which re-parse as a paragraph break rather than two line breaks"
+  },
+  {
+    "name": "text node containing a newline",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "text", "text": "first\nsecond" }] }
+      ]
+    },
+    "expressible": false,
+    "reason": "would emit a bare newline, which re-parses into a lineBreak node and a second text node"
+  },
+  {
+    "name": "empty paragraph between two others",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "text", "text": "first" }] },
+        { "type": "paragraph" },
+        { "type": "paragraph", "content": [{ "type": "text", "text": "second" }] }
+      ]
+    },
+    "expressible": false,
+    "reason": "would emit four newlines, which collapse to one paragraph break on re-parse, losing the empty paragraph"
+  },
+  {
+    "name": "doc with an empty content array",
+    "document": { "type": "doc", "content": [] },
+    "expressible": false,
+    "reason": "no blocks is malformed per the schema, and calling it an empty template would diff forever against the stored AST"
+  },
+  {
+    "name": "doc with no content at all",
+    "document": { "type": "doc" },
+    "expressible": false,
+    "reason": "as for an empty content array"
+  },
+  {
+    "name": "current richtext envelope rather than a bare document",
+    "document": {
+      "schema_version": "1.0.0",
+      "feature_set": "rich",
+      "markdown": "Payments alert",
+      "text_node": {
+        "type": "doc",
+        "content": [
+          { "type": "paragraph", "content": [{ "type": "text", "text": "Payments alert" }] }
+        ]
+      }
+    },
+    "expressible": false,
+    "reason": "envelope shape: root is not a doc node"
+  },
+  {
+    "name": "legacy envelope rather than a bare document",
+    "document": {
+      "value_markdown": "Payments alert",
+      "root": {
+        "type": "doc",
+        "content": [
+          { "type": "paragraph", "content": [{ "type": "text", "text": "Payments alert" }] }
+        ]
+      }
+    },
+    "expressible": false,
+    "reason": "envelope shape: root is not a doc node"
+  }
+]

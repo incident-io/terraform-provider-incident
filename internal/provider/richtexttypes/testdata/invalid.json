@@ -1,0 +1,72 @@
+[
+  {
+    "name": "unclosed braces",
+    "template": "{{description",
+    "error": "unclosed_variable"
+  },
+  {
+    "name": "unclosed braces after a valid variable",
+    "template": "{{title}} and {{description",
+    "error": "unclosed_variable"
+  },
+  {
+    "name": "unclosed braces with a filter",
+    "template": "{{description | truncate: 100",
+    "error": "unclosed_variable"
+  },
+  {
+    "name": "unknown filter",
+    "template": "{{description | upcase}}",
+    "error": "unknown_filter"
+  },
+  {
+    "name": "truncate with a zero argument",
+    "template": "{{description | truncate: 0}}",
+    "error": "invalid_filter_argument"
+  },
+  {
+    "name": "truncate with a negative argument",
+    "template": "{{description | truncate: -5}}",
+    "error": "invalid_filter_argument"
+  },
+  {
+    "name": "truncate with a non-numeric argument",
+    "template": "{{description | truncate: abc}}",
+    "error": "invalid_filter_argument"
+  },
+  {
+    "name": "truncate with no argument",
+    "template": "{{description | truncate}}",
+    "error": "invalid_filter_argument"
+  },
+  {
+    "name": "omit_if_unset with an argument",
+    "template": "{{description | omit_if_unset: 5}}",
+    "error": "invalid_filter_argument"
+  },
+  {
+    "name": "omit_if_unset with a trailing colon",
+    "template": "{{description | omit_if_unset:}}",
+    "error": "invalid_filter_argument"
+  },
+  {
+    "name": "empty variable name",
+    "template": "{{}}",
+    "error": "empty_variable_name"
+  },
+  {
+    "name": "whitespace-only variable name",
+    "template": "{{   }}",
+    "error": "empty_variable_name"
+  },
+  {
+    "name": "empty variable name with a filter",
+    "template": "{{ | truncate: 100}}",
+    "error": "empty_variable_name"
+  },
+  {
+    "name": "nested braces",
+    "template": "{{a {{b}} c}}",
+    "error": "nested_variable"
+  }
+]
