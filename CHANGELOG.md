@@ -1,5 +1,13 @@
 ## Unreleased
 
+- Fix `incident_alert_route` wrongly requiring the deprecated v2 attributes
+  (`incident_template`, `incident_config.auto_decline_enabled` /
+  `grouping_window_seconds` / `defer_time_seconds`) when the resource is driven
+  by `for_each`/`count`, or when `grouping_config` otherwise derives from an
+  unknown value. `ValidateConfig` selects the v2/v3 schema mode from the
+  top-level `grouping_config` block; it now skips the mode-specific checks when
+  that value is unknown at plan time instead of assuming the v2 schema.
+
 ## v6.1.0
 
 - Add optional `retry_config` to `incident_escalation_path` levels, allowing you

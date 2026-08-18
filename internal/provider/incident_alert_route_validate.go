@@ -97,6 +97,22 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 	}
 
 	groupingBase := path.Root("grouping_config")
+
+	// The schema mode (v2 vs v3) is selected by whether the top-level
+	// grouping_config block is set. When it is unknown — e.g. sourced from
+	// each.value under for_each/count, or from a variable — we can't tell which
+	// mode the user is targeting, so we skip the mode-specific requiredness and
+	// mutual-exclusion checks rather than guessing. Guessing v2 (which objectSet
+	// does, treating unknown the same as null) wrongly demands the v2-only fields
+	// (incident_template, incident_config.auto_decline_enabled / grouping_window_seconds
+	// / defer_time_seconds) of a config that is actually v3, and vice versa. The
+	// concrete value is validated once the instance is expanded and known.
+	// Expression validation below is mode-independent and still runs.
+	var groupingObj types.Object
+	if d := req.Config.GetAttribute(ctx, groupingBase, &groupingObj); !d.HasError() && groupingObj.IsUnknown() {
+		r.validateExpressions(ctx, req, resp)
+		return
+	}
 	isV3 := objectSet(groupingBase)
 
 	escalationBase := path.Root("escalation_config")
