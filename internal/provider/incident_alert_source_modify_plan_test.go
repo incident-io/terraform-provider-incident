@@ -204,8 +204,17 @@ func nullFilledObject(t *testing.T, attrType tftypes.Type) tftypes.Value {
 	return tftypes.NewValue(objType, attributes)
 }
 
-// modifyAlertSourcePlan runs ModifyPlan against the fake API. A nil plan is a destroy.
+// modifyAlertSourcePlan runs ModifyPlan against the fake API, as a create: no prior state.
+// A nil plan is a destroy.
 func modifyAlertSourcePlan(t *testing.T, api *fakeValidateAPI, plan *tftypes.Value) resource.ModifyPlanResponse {
+	t.Helper()
+
+	return modifyAlertSourcePlanWithState(t, api, plan, tftypes.NewValue(alertSourceSchemaType(t), nil))
+}
+
+// modifyAlertSourcePlanWithState runs ModifyPlan against a resource that already exists,
+// for the cases that turn on how the plan differs from its state.
+func modifyAlertSourcePlanWithState(t *testing.T, api *fakeValidateAPI, plan *tftypes.Value, state tftypes.Value) resource.ModifyPlanResponse {
 	t.Helper()
 
 	var schemaResp resource.SchemaResponse
@@ -220,7 +229,8 @@ func modifyAlertSourcePlan(t *testing.T, api *fakeValidateAPI, plan *tftypes.Val
 
 	var resp resource.ModifyPlanResponse
 	r.ModifyPlan(t.Context(), resource.ModifyPlanRequest{
-		Plan: tfsdk.Plan{Schema: schemaResp.Schema, Raw: planRaw},
+		Plan:  tfsdk.Plan{Schema: schemaResp.Schema, Raw: planRaw},
+		State: tfsdk.State{Schema: schemaResp.Schema, Raw: state},
 	}, &resp)
 
 	return resp
@@ -323,6 +333,22 @@ func TestAlertSourceModifyPlanOmitsUnknownOwningTeamIDs(t *testing.T) {
 	}
 	if got := *api.lastPayload.OwningTeamIds; !slices.Equal(got, []string{"01TEAM"}) {
 		t.Errorf("expected only the known team ID to be sent, got %v", got)
+	}
+}
+
+// A plan that matches state changes nothing, so there is no apply to fail — and checking
+// anyway would cost a request per alert source on every plan.
+func TestAlertSourceModifyPlanSkipsUnchangedSource(t *testing.T) {
+	api := &fakeValidateAPI{}
+	plan := alertSourcePlan(t, false)
+
+	resp := modifyAlertSourcePlanWithState(t, api, &plan, plan)
+
+	if resp.Diagnostics.HasError() || resp.Diagnostics.WarningsCount() > 0 {
+		t.Errorf("expected no diagnostics, got %+v", resp.Diagnostics)
+	}
+	if api.requests != 0 {
+		t.Errorf("expected no request for an unchanged source, got %d", api.requests)
 	}
 }
 

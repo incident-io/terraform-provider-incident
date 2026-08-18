@@ -272,6 +272,12 @@ func (r *IncidentAlertSourceResource) ModifyPlan(ctx context.Context, req resour
 		return
 	}
 
+	// A source the plan doesn't change isn't going to be applied, so there is nothing to
+	// warn about — and checking every source on every plan is a request each.
+	if req.Plan.Raw.Equal(req.State.Raw) {
+		return
+	}
+
 	// An expression pointing at, say, a catalog type this same apply creates is unknown
 	// until it exists. Validating around the gaps would report errors the apply won't hit,
 	// so leave those configs alone.
