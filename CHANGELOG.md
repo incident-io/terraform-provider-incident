@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v6.1.2
+
 - Check an `incident_alert_source`'s template at plan time. A reference that doesn't resolve, or a merge strategy the attribute doesn't support, now fails the plan. Previously it failed part way through an apply, after other resources had been created. Templates whose values aren't known until apply are left alone, and when the check can't run the plan warns rather than failing.
 
 ## v6.1.1
