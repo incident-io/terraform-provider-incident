@@ -161,7 +161,7 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 func selectUserByEmail(users []client.UserWithRolesV2) (*client.UserWithRolesV2, error) {
 	switch len(users) {
 	case 0:
-		return nil, fmt.Errorf("User not found")
+		return nil, fmt.Errorf("user not found")
 	case 1:
 		return &users[0], nil
 	}
@@ -174,7 +174,7 @@ func selectUserByEmail(users []client.UserWithRolesV2) (*client.UserWithRolesV2,
 	}
 
 	return nil, fmt.Errorf(
-		"Multiple users found (%d matches, %d of them active) — refine the lookup by using id or slack_user_id instead",
+		"multiple users found (%d matches, %d of them active) — refine the lookup by using id or slack_user_id instead",
 		len(users), len(active),
 	)
 }
