@@ -12,6 +12,11 @@
 ## v6.1.2
 
 - Check an `incident_alert_source`'s template at plan time. A reference that doesn't resolve, or a merge strategy the attribute doesn't support, now fails the plan. Previously it failed part way through an apply, after other resources had been created. Templates whose values aren't known until apply are left alone, and when the check can't run the plan warns rather than failing.
+- `incident_user` lookups by `email` now resolve to the single active user when
+  several users share that email, rather than failing with "Multiple users
+  found". Duplicate accounts (e.g. a deactivated leftover from a user merge
+  alongside a live SSO account) no longer break an apply. Lookups still error
+  when several matching users are active, or when none are.
 
 ## v6.1.1
 
