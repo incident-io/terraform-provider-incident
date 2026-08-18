@@ -376,6 +376,8 @@ func lastAttributeName(steps *tftypes.AttributePath) (string, bool) {
 	return string(name), ok
 }
 
+// owningTeamIDsPayload drops unknown elements, which only a plan has: sending them would
+// send "" as a team ID, which the API reads as a team the caller has no permission on.
 func owningTeamIDsPayload(configured types.Set) *[]string {
 	if configured.IsNull() || configured.IsUnknown() {
 		return nil
@@ -383,7 +385,7 @@ func owningTeamIDsPayload(configured types.Set) *[]string {
 
 	teamIDs := []string{}
 	for _, elem := range configured.Elements() {
-		if str, ok := elem.(types.String); ok {
+		if str, ok := elem.(types.String); ok && !str.IsUnknown() {
 			teamIDs = append(teamIDs, str.ValueString())
 		}
 	}

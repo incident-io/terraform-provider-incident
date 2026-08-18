@@ -1,8 +1,10 @@
 package provider
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -23,6 +25,9 @@ type fakeValidateAPI struct {
 	body   string
 
 	requests int
+	// lastPayload is what the provider sent, for cases that care about the request rather
+	// than the response.
+	lastPayload client.AlertSourcesValidatePayloadV2
 }
 
 func (f *fakeValidateAPI) start(t *testing.T) *client.ClientWithResponses {
@@ -31,6 +36,11 @@ func (f *fakeValidateAPI) start(t *testing.T) *client.ClientWithResponses {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/v2/alert_sources/actions/validate", func(w http.ResponseWriter, r *http.Request) {
 		f.requests++
+
+		f.lastPayload = client.AlertSourcesValidatePayloadV2{}
+		if err := json.NewDecoder(r.Body).Decode(&f.lastPayload); err != nil {
+			t.Errorf("decoding the validate payload: %v", err)
+		}
 
 		status := f.status
 		if status == 0 {
@@ -134,6 +144,25 @@ func alertSourcePlanWithBinding(t *testing.T) tftypes.Value {
 	}
 	attributes["source_type"] = tftypes.NewValue(tftypes.String, "http")
 	attributes["template"] = tftypes.NewValue(templateType, template)
+
+	return tftypes.NewValue(objType, attributes)
+}
+
+// alertSourcePlanWithOwningTeamIDs builds a plan owned by one team that exists and one the
+// same apply creates, which Terraform plans as a known set holding an unknown element.
+func alertSourcePlanWithOwningTeamIDs(t *testing.T) tftypes.Value {
+	t.Helper()
+
+	objType := alertSourceSchemaType(t)
+
+	attributes := map[string]tftypes.Value{}
+	if err := alertSourcePlan(t, false).As(&attributes); err != nil {
+		t.Fatalf("reading the plan back: %v", err)
+	}
+	attributes["owning_team_ids"] = tftypes.NewValue(objType.AttributeTypes["owning_team_ids"], []tftypes.Value{
+		tftypes.NewValue(tftypes.String, "01TEAM"),
+		tftypes.NewValue(tftypes.String, tftypes.UnknownValue),
+	})
 
 	return tftypes.NewValue(objType, attributes)
 }
@@ -271,6 +300,29 @@ func TestAlertSourceModifyPlanValidatesWhenOnlyComputedValuesAreUnknown(t *testi
 	}
 	if api.requests != 1 {
 		t.Errorf("expected the template to be checked, got %d requests", api.requests)
+	}
+}
+
+// owning_team_ids only gates permission on the validate endpoint, so an unknown team ID is
+// no reason to skip the check. Sending it as "" would be, though: the API reads that as a
+// team the caller has no permission on, and the plan would warn about a config that is fine.
+func TestAlertSourceModifyPlanOmitsUnknownOwningTeamIDs(t *testing.T) {
+	api := &fakeValidateAPI{}
+	plan := alertSourcePlanWithOwningTeamIDs(t)
+
+	resp := modifyAlertSourcePlan(t, api, &plan)
+
+	if resp.Diagnostics.HasError() || resp.Diagnostics.WarningsCount() > 0 {
+		t.Errorf("expected no diagnostics, got %+v", resp.Diagnostics)
+	}
+	if api.requests != 1 {
+		t.Fatalf("expected the template to be checked, got %d requests", api.requests)
+	}
+	if api.lastPayload.OwningTeamIds == nil {
+		t.Fatal("expected the known team ID to be sent")
+	}
+	if got := *api.lastPayload.OwningTeamIds; !slices.Equal(got, []string{"01TEAM"}) {
+		t.Errorf("expected only the known team ID to be sent, got %v", got)
 	}
 }
 
