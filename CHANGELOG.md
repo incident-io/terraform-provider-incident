@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v6.1.1
+
 - Fix `incident_alert_route` wrongly requiring deprecated v2 attributes
   (`incident_template` etc.) when the resource is driven by `for_each`/`count`.
 
