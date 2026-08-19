@@ -1,0 +1,300 @@
+[
+  {
+    "name": "bare variable",
+    "template": "{{description}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [{ "type": "varSpec", "attrs": { "name": "description" } }]
+        }
+      ]
+    }
+  },
+  {
+    "name": "text then variable",
+    "template": "🚨 {{description}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "text", "text": "🚨 " },
+            { "type": "varSpec", "attrs": { "name": "description" } }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "variable, text, variable",
+    "template": "{{title}} — {{description}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "varSpec", "attrs": { "name": "title" } },
+            { "type": "text", "text": " — " },
+            { "type": "varSpec", "attrs": { "name": "description" } }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "adjacent variables produce no empty text node between them",
+    "template": "{{title}}{{description}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "varSpec", "attrs": { "name": "title" } },
+            { "type": "varSpec", "attrs": { "name": "description" } }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "truncate filter",
+    "template": "{{description | truncate: 100}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "varSpec", "attrs": { "name": "description", "truncateTo": 100 } }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "omit_if_unset filter",
+    "template": "{{description | omit_if_unset}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "varSpec", "attrs": { "name": "description", "omitIfUnset": true } }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "both filters in canonical order",
+    "template": "{{description | truncate: 100 | omit_if_unset}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "varSpec",
+              "attrs": { "name": "description", "omitIfUnset": true, "truncateTo": 100 }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "plain text only",
+    "template": "Payments alert",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "text", "text": "Payments alert" }] }
+      ]
+    }
+  },
+  {
+    "name": "empty template is a doc holding one empty paragraph",
+    "template": "",
+    "document": { "type": "doc", "content": [{ "type": "paragraph" }] }
+  },
+  {
+    "name": "whitespace inside braces normalises away",
+    "template": "{{ description }}",
+    "canonical": "{{description}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [{ "type": "varSpec", "attrs": { "name": "description" } }]
+        }
+      ]
+    }
+  },
+  {
+    "name": "missing whitespace around filter separators normalises",
+    "template": "{{description|truncate:100}}",
+    "canonical": "{{description | truncate: 100}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "varSpec", "attrs": { "name": "description", "truncateTo": 100 } }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "filter order normalises to truncate before omit_if_unset",
+    "template": "{{description | omit_if_unset | truncate: 100}}",
+    "canonical": "{{description | truncate: 100 | omit_if_unset}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "varSpec",
+              "attrs": { "name": "description", "omitIfUnset": true, "truncateTo": 100 }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "single newline becomes a lineBreak",
+    "template": "first\nsecond",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "text", "text": "first" },
+            { "type": "lineBreak" },
+            { "type": "text", "text": "second" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "double newline becomes a paragraph break",
+    "template": "first\n\nsecond",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "text", "text": "first" }] },
+        { "type": "paragraph", "content": [{ "type": "text", "text": "second" }] }
+      ]
+    }
+  },
+  {
+    "name": "three or more newlines collapse to exactly two",
+    "template": "first\n\n\nsecond",
+    "canonical": "first\n\nsecond",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "text", "text": "first" }] },
+        { "type": "paragraph", "content": [{ "type": "text", "text": "second" }] }
+      ]
+    }
+  },
+  {
+    "name": "variables either side of a paragraph break",
+    "template": "{{title}}\n\n{{description}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "varSpec", "attrs": { "name": "title" } }] },
+        {
+          "type": "paragraph",
+          "content": [{ "type": "varSpec", "attrs": { "name": "description" } }]
+        }
+      ]
+    }
+  },
+  {
+    "name": "scanning is non-greedy across two variables",
+    "template": "{{a}} and {{b}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "varSpec", "attrs": { "name": "a" } },
+            { "type": "text", "text": " and " },
+            { "type": "varSpec", "attrs": { "name": "b" } }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "dotted name is kept verbatim, with no rewriting",
+    "template": "{{payload.alert.name}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [{ "type": "varSpec", "attrs": { "name": "payload.alert.name" } }]
+        }
+      ]
+    }
+  },
+  {
+    "name": "a lone brace is literal text",
+    "template": "{ not a variable }",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "text", "text": "{ not a variable }" }] }
+      ]
+    }
+  },
+  {
+    "name": "unmatched closing braces are literal text",
+    "template": "100}} of capacity",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "text", "text": "100}} of capacity" }] }
+      ]
+    }
+  },
+  {
+    "name": "a leading brace is part of the name",
+    "template": "{{{a}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "varSpec", "attrs": { "name": "{a" } }] }
+      ]
+    }
+  },
+  {
+    "name": "a lone closing brace is part of the name",
+    "template": "{{a}b}}",
+    "document": {
+      "type": "doc",
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "varSpec", "attrs": { "name": "a}b" } }] }
+      ]
+    }
+  }
+]
