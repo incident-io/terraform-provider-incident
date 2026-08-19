@@ -160,15 +160,13 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 // selectUserByEmail picks the user a config means when an email lookup returns
 // more than one match.
 //
-// We list with include_inactive so a deactivated user still resolves, which
-// means an email can legitimately match several rows: e.g. an old deactivated
-// account plus the live SSO one, or a duplicate that was merged and later had
-// its PII scrubbed. In that case there is normally exactly one active user, and
-// that's unambiguously the one the config wants — so return it rather than
-// failing the apply.
+// We list with include_inactive, and duplicate rows are common: a SAML or SCIM
+// identity and a chat identity for the same person land on separate rows, and
+// consolidating them deactivates the loser rather than deleting it. Where
+// exactly one match is still active, that's the one the config wants.
 //
-// We only fail when the ambiguity is real: several active users share the
-// email, or every match is inactive (nothing to sensibly prefer).
+// Note is_active is false for users who were invited but never logged in, not
+// just for deactivated ones.
 func selectUserByEmail(users []client.UserWithRolesV2) (*client.UserWithRolesV2, error) {
 	switch len(users) {
 	case 0:
