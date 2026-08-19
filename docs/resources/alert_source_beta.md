@@ -168,7 +168,7 @@ resource "incident_alert_source_beta" "security_scanner" {
 - `alert_events_url` (String) The URL to send alert events to
 - `email_address` (String) Email address this alert source receives alerts to
 - `id` (String) Unique identifier for this alert source
-- `secret_token` (String) The token to use when sending alerts to this source. Only returned to callers with permission to update the source.
+- `secret_token` (String, Sensitive) The token to use when sending alerts to this source. Only returned to callers with permission to update the source.
 - `version` (Number) The source's current version, which increments on every write. Pass it back as expected_version to reject a write built from a stale read.
 
 <a id="nestedatt--description"></a>

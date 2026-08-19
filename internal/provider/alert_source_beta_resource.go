@@ -131,9 +131,17 @@ compatible, so pin the provider version if that matters to you.
 			},
 			"secret_token": schema.StringAttribute{
 				Computed: true,
-				// Deliberately not marked sensitive, matching the V2 resource: it is no more
-				// sensitive than the rest of the state, and hiding it from CLI output makes
-				// setting up a new source harder than it needs to be.
+				// This token authenticates anyone sending events to the alert source, so
+				// it is more sensitive than the rest of the resource and should not be
+				// printed in plan output, which often ends up in CI logs.
+				//
+				// It is still stored in plain text in state, as all Terraform values are.
+				// To read it during setup, wrap it in nonsensitive():
+				//
+				//   output "secret_token" {
+				//     value = nonsensitive(incident_alert_source_beta.example.secret_token)
+				//   }
+				Sensitive:           true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV3", "secret_token"),
 				PlanModifiers: []planmodifier.String{
 					// Including null: most source types have no token, so the plain modifier
