@@ -514,8 +514,8 @@
         ]
       }
     },
-    "expressible": false,
-    "reason": "envelope shape: root is not a doc node"
+    "expressible": true,
+    "template": "Payments alert"
   },
   {
     "name": "legacy envelope rather than a bare document",
@@ -528,7 +528,7 @@
         ]
       }
     },
-    "expressible": false,
-    "reason": "envelope shape: root is not a doc node"
+    "expressible": true,
+    "template": "Payments alert"
   }
 ]

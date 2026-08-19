@@ -20,6 +20,11 @@ const (
 	plainParagraph    = `{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Payments alert"}]}]}`
 	mentionDocument   = `{"type":"doc","content":[{"type":"paragraph","content":[{"type":"user","attrs":{"id":"01USER"}}]}]}`
 	legacyEnvelope    = `{"root":{"type":"doc","content":[]},"value_markdown":"Payments alert"}`
+
+	// What the dashboard's template editor actually stores: the tree wrapped in
+	// {text_node, schema_version}, carrying the display attrs an editor load rewrites.
+	// Sources built there are the common case.
+	dashboardEnvelope = `{"schema_version":"v1.0.0","text_node":` + dashboardVariable + `}`
 )
 
 // The whole point of the custom type: a raw-AST config and a {{ }} config must both
@@ -33,6 +38,10 @@ func TestStringSemanticEquals(t *testing.T) {
 		{"a template and the document it produces", "{{description}}", bareVariable, true},
 		{"a template and a dashboard-authored document", "{{description}}", dashboardVariable, true},
 		{"a document and an equivalent dashboard-authored one", bareVariable, dashboardVariable, true},
+		// Without unwrapping the envelope these compare unequal, which is a diff on the first
+		// plan after importing a source built in the dashboard.
+		{"a template and the enveloped document the dashboard stores", "{{description}}", dashboardEnvelope, true},
+		{"an enveloped document and its bare equivalent", dashboardEnvelope, bareVariable, true},
 		{"two spellings of the same template", "{{description}}", "{{ description }}", true},
 		{"the same document with keys in a different order", bareVariable, `{"content":[{"content":[{"attrs":{"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`, true},
 		{"two different templates", "{{description}}", "{{title}}", false},
@@ -146,6 +155,8 @@ func TestLiteral(t *testing.T) {
 		{"plain text", NewTemplatedTextValue("Payments alert"), lo.ToPtr(plainParagraph)},
 		// The bytes a config wrote must be the bytes stored, or it diffs.
 		{"a raw document", NewTemplatedTextValue(dashboardVariable), lo.ToPtr(dashboardVariable)},
+		// Including an envelope: we read through one, but we never rewrite what a config sends.
+		{"a raw enveloped document", NewTemplatedTextValue(dashboardEnvelope), lo.ToPtr(dashboardEnvelope)},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			got, err := tc.value.Literal()
@@ -186,8 +197,11 @@ func TestNewTemplatedTextFromLiteral(t *testing.T) {
 		{"plain text in a paragraph", plainParagraph, "Payments alert"},
 		// A mention carries an ID the grammar has no syntax for, so a template would delete it.
 		{"a document no template can spell", mentionDocument, mentionDocument},
-		// Never written by us, but stored by older writers.
-		{"a legacy envelope", legacyEnvelope, legacyEnvelope},
+		// Read through the envelope, so an imported source's state holds the template rather
+		// than a wall of AST.
+		{"an enveloped document the dashboard stored", dashboardEnvelope, "{{description}}"},
+		// An envelope is no guarantee of expressibility: this one wraps a doc with no blocks.
+		{"a legacy envelope around an empty document", legacyEnvelope, legacyEnvelope},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			if got := NewTemplatedTextFromLiteral(tc.literal).ValueString(); got != tc.want {

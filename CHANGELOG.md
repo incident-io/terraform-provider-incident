@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Fix a permanent diff after importing an `incident_alert_source_beta` that was created in the dashboard. Its `title` and `description` read back as raw JSON rather than the equivalent `{{ }}` template, so every plan showed a change on fields that hadn't changed.
+
 ## v6.2.0
 
 - Add beta support for splitting an alert source from the attributes it populates, as `incident_alert_source_beta` and `incident_alert_source_attribute_beta` resources. `incident_alert_source_beta` manages just the source itself (name, type, title, description, priority, options); each attribute binding is its own `incident_alert_source_attribute_beta` resource with its own lifecycle, so filling in one more attribute doesn't mean rewriting every other attribute on the same source. These resources are beta: their schemas may change in ways that aren't backwards compatible while we settle the design. The existing `incident_alert_source` resource is unchanged and not deprecated.

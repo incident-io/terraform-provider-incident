@@ -17,5 +17,9 @@ Each file is a top-level JSON array. Every entry has a `name`, used as the test 
 - `error` is a stable slug, not message text: `unclosed_variable`, `unknown_filter`,
   `invalid_filter_argument`, `empty_variable_name`, `nested_variable`. Each implementation words its
   own diagnostics.
-- `document` is the bare ProseMirror doc (`{"type": "doc", …}`), matching what
-  `template.description.literal` actually holds. Key order is presentational — compare canonically.
+- `document` is usually the bare ProseMirror doc (`{"type": "doc", …}`), which is the shape we
+  *emit*. It is not the only shape `literal` holds: the dashboard's template editor writes the
+  `{schema_version, text_node}` envelope, and older rows carry the legacy
+  `{root, value_markdown}` one. Both appear here, and both collapse — an
+  implementation that only accepts the bare doc gives an imported source a permanent plan diff.
+  Key order is presentational — compare canonically.
