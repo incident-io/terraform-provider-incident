@@ -92,6 +92,17 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
 			return
 		}
+		// Picking the active user is a guess at what the config meant.
+		if len(result.JSON200.Users) > 1 {
+			resp.Diagnostics.AddWarning(
+				"Ambiguous user lookup",
+				fmt.Sprintf(
+					"%d users match the email %q. Terraform picked the only active one: %s (id %s). "+
+						"Set id or slack_user_id to choose the user yourself.",
+					len(result.JSON200.Users), data.Email.ValueString(), match.Name, match.Id,
+				),
+			)
+		}
 		user = match
 	} else if !data.SlackUserID.IsNull() {
 		result, err := i.client.UsersV2ListWithResponse(ctx, &client.UsersV2ListParams{

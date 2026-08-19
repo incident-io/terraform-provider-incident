@@ -40,7 +40,7 @@ func TestSelectUserByEmail(t *testing.T) {
 			// The reported bug (PR-497): a deactivated duplicate left over from
 			// a merge broke the lookup for the live SSO account.
 			name:   "one active alongside deactivated duplicates",
-			users:  []client.UserWithRolesV2{user("deactivated", false), user("live", true), user("scrubbed", false)},
+			users:  []client.UserWithRolesV2{user("deactivated-slack", false), user("live", true), user("deactivated-saml", false)},
 			wantID: "live",
 		},
 		{

@@ -15,7 +15,9 @@
 - `incident_user` lookups by `email` now resolve to the single active user when
   several users share that email, rather than failing with "Multiple users
   found". Duplicate accounts (e.g. a deactivated leftover from a user merge
-  alongside a live SSO account) no longer break an apply. Lookups still error
+  alongside a live SSO account) no longer break an apply. The plan warns when a
+  lookup resolves this way, and names the user it picked. Set `id` or
+  `slack_user_id` to choose the user yourself. Lookups still error
   when several matching users are active, or when none are.
 
 ## v6.1.1
