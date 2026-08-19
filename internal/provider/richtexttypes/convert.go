@@ -265,11 +265,43 @@ func FromDocument(doc json.RawMessage) (string, bool) {
 	return template, true
 }
 
+// wireEnvelope captures the two wrapped shapes a stored literal can carry alongside the
+// bare node: the current {schema_version, text_node} envelope the dashboard's template
+// editor writes, and the legacy {root, value_markdown} one. Both wrap the same tree under
+// a different key.
+type wireEnvelope struct {
+	TextNode   *json.RawMessage `json:"text_node"`
+	LegacyRoot *json.RawMessage `json:"root"`
+}
+
+// unwrapDocument returns the bare ProseMirror node the rest of this file works on, peeling
+// off whichever envelope wraps it. A bare node, an envelope with neither key, and anything
+// that isn't JSON all pass through for the caller's own parse to judge.
+//
+// Both callers need it or neither does: emitDocument alone would produce a template that
+// FromDocument then compares against a still-enveloped original and rejects, and normalise
+// alone would leave the AST in state after an import.
+func unwrapDocument(doc json.RawMessage) json.RawMessage {
+	var envelope wireEnvelope
+	if err := json.Unmarshal(doc, &envelope); err != nil {
+		return doc
+	}
+
+	switch {
+	case envelope.TextNode != nil:
+		return *envelope.TextNode
+	case envelope.LegacyRoot != nil:
+		return *envelope.LegacyRoot
+	default:
+		return doc
+	}
+}
+
 // emitDocument renders a document to template form if its shape allows it. Callers want
 // FromDocument, which additionally proves the result round-trips.
 func emitDocument(doc json.RawMessage) (string, bool) {
 	var root wireNode
-	if err := json.Unmarshal(doc, &root); err != nil || root.Type != nodeDoc {
+	if err := json.Unmarshal(unwrapDocument(doc), &root); err != nil || root.Type != nodeDoc {
 		return "", false
 	}
 
@@ -405,14 +437,20 @@ func isDocument(s string) bool {
 }
 
 // normalise canonicalises either form to a comparable AST, so a template and the stored
-// document it corresponds to compare equal.
+// document it corresponds to compare equal. Unwrapping first is what makes that hold for a
+// dashboard-authored document, which arrives enveloped while a template only ever compiles
+// to a bare node.
+//
+// The result never leaves this package — it feeds semantic equality and FromDocument's
+// round-trip check — so dropping the envelope's schema_version here changes only which
+// values compare equal, never what we send or store.
 func normalise(s string) (json.RawMessage, error) {
 	if !isDocument(s) {
 		return ToDocument(s)
 	}
 
 	var tree any
-	if err := json.Unmarshal([]byte(s), &tree); err != nil {
+	if err := json.Unmarshal(unwrapDocument(json.RawMessage(s)), &tree); err != nil {
 		return nil, err
 	}
 
