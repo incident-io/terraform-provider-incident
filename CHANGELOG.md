@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v6.2.1
+
 - Fix a permanent diff after importing an `incident_alert_source_beta` that was created in the dashboard. Its `title` and `description` read back as raw JSON rather than the equivalent `{{ }}` template, so every plan showed a change on fields that hadn't changed.
 
 ## v6.2.0
