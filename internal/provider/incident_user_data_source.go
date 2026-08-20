@@ -87,14 +87,23 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
 			return
 		}
-		if len(result.JSON200.Users) == 0 {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "User not found"))
-			return
-		} else if len(result.JSON200.Users) > 1 {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", "Multiple users found"))
+		match, err := selectUserByEmail(result.JSON200.Users)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read user, got error: %s", err))
 			return
 		}
-		user = &result.JSON200.Users[0]
+		// Picking the active user is a guess at what the config meant.
+		if len(result.JSON200.Users) > 1 {
+			resp.Diagnostics.AddWarning(
+				"Ambiguous user lookup",
+				fmt.Sprintf(
+					"%d users match the email %q. Terraform picked the only active one: %s (id %s). "+
+						"Set id or slack_user_id to choose the user yourself.",
+					len(result.JSON200.Users), data.Email.ValueString(), match.Name, match.Id,
+				),
+			)
+		}
+		user = match
 	} else if !data.SlackUserID.IsNull() {
 		result, err := i.client.UsersV2ListWithResponse(ctx, &client.UsersV2ListParams{
 			SlackUserId:     data.SlackUserID.ValueStringPointer(),
@@ -146,6 +155,37 @@ func (i *IncidentUserDataSource) Read(ctx context.Context, req datasource.ReadRe
 
 	modelResp := i.buildModel(*user)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
+}
+
+// selectUserByEmail picks the user a config means when an email lookup returns
+// more than one match.
+//
+// We list with include_inactive, and duplicate rows are common: a SAML or SCIM
+// identity and a chat identity for the same person land on separate rows, and
+// consolidating them deactivates the loser rather than deleting it. Where
+// exactly one match is still active, that's the one the config wants.
+//
+// Note is_active is false for users who were invited but never logged in, not
+// just for deactivated ones.
+func selectUserByEmail(users []client.UserWithRolesV2) (*client.UserWithRolesV2, error) {
+	switch len(users) {
+	case 0:
+		return nil, fmt.Errorf("user not found")
+	case 1:
+		return &users[0], nil
+	}
+
+	active := lo.Filter(users, func(user client.UserWithRolesV2, _ int) bool {
+		return user.IsActive
+	})
+	if len(active) == 1 {
+		return &active[0], nil
+	}
+
+	return nil, fmt.Errorf(
+		"multiple users found (%d matches, %d of them active) — refine the lookup by using id or slack_user_id instead",
+		len(users), len(active),
+	)
 }
 
 func (i *IncidentUserDataSource) buildModel(userType client.UserWithRolesV2) *IncidentUserDataSourceModel {
