@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v6.3.0
+
 - `incident_user` lookups by `email` now resolve to the single active user when
   several users share that email, instead of failing with "Multiple users
   found". A deactivated leftover from a user merge alongside a live SSO account
