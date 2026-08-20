@@ -294,6 +294,12 @@ func (r *IncidentMaintenanceWindowResource) Update(ctx context.Context, req reso
 		IncidentId:               payload.IncidentID,
 	})
 	if err != nil {
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			tflog.Warn(ctx, fmt.Sprintf("Maintenance window with ID %s not found during update: removing from state.", data.ID.ValueString()))
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update maintenance window, got error: %s", err))
 		return
 	}
@@ -311,6 +317,11 @@ func (r *IncidentMaintenanceWindowResource) Delete(ctx context.Context, req reso
 
 	_, err := r.client.MaintenanceWindowsV1DeleteWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
+		httpErr := client.HTTPError{}
+		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+			// Resource already deleted externally, nothing to do
+			return
+		}
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete maintenance window, got error: %s", err))
 		return
 	}
