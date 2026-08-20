@@ -1,5 +1,13 @@
 ## Unreleased
 
+- `incident_user` lookups by `email` now resolve to the single active user when
+  several users share that email, instead of failing with "Multiple users
+  found". A deactivated leftover from a user merge alongside a live SSO account
+  no longer breaks an apply. The plan warns when a lookup resolves this way, and
+  names the user it picked. Set `id` or `slack_user_id` to choose the user
+  yourself. Lookups still fail when several matches are active, or when none
+  are. A user who was invited but never logged in counts as inactive.
+
 ## v6.2.1
 
 - Fix a permanent diff after importing an `incident_alert_source_beta` that was created in the dashboard. Its `title` and `description` read back as raw JSON rather than the equivalent `{{ }}` template, so every plan showed a change on fields that hadn't changed.
@@ -12,13 +20,6 @@
 ## v6.1.2
 
 - Check an `incident_alert_source`'s template at plan time. A reference that doesn't resolve, or a merge strategy the attribute doesn't support, now fails the plan. Previously it failed part way through an apply, after other resources had been created. Templates whose values aren't known until apply are left alone, and when the check can't run the plan warns rather than failing.
-- `incident_user` lookups by `email` now resolve to the single active user when
-  several users share that email, instead of failing with "Multiple users
-  found". A deactivated leftover from a user merge alongside a live SSO account
-  no longer breaks an apply. The plan warns when a lookup resolves this way, and
-  names the user it picked. Set `id` or `slack_user_id` to choose the user
-  yourself. Lookups still fail when several matches are active, or when none
-  are. A user who was invited but never logged in counts as inactive.
 
 ## v6.1.1
 
