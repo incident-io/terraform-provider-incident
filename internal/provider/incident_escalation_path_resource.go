@@ -633,32 +633,26 @@ func addEscalationPathValidateWarnings(result *client.EscalationsV2ValidatePathR
 
 // escalationPathValidateSettled reports whether every value the validate payload could
 // carry is known, other than the computed leaves the API fills in regardless.
+//
+// It walks the whole plan value in one pass rather than per-attribute: escalationPathLeafIsSafeUnknown
+// disambiguates a node's own "id" from a target's "id" by looking at the grandparent
+// attribute name ("path"/"then_path"/"else_path" vs "targets"), which only works when
+// every step's AttributePath is rooted at the plan object - walking a sub-value directly
+// would silently drop that leading step and misclassify a brand new node's id as unsafe.
 func escalationPathValidateSettled(plan tftypes.Value) bool {
-	var attributes map[string]tftypes.Value
-	if err := plan.As(&attributes); err != nil {
-		return false
-	}
-
 	settled := true
-	for _, key := range []string{"path", "working_hours", "team_ids", "repeat_config"} {
-		value, ok := attributes[key]
-		if !ok {
-			continue
+	err := tftypes.Walk(plan, func(steps *tftypes.AttributePath, v tftypes.Value) (bool, error) {
+		if v.IsKnown() {
+			return true, nil
 		}
-
-		err := tftypes.Walk(value, func(steps *tftypes.AttributePath, v tftypes.Value) (bool, error) {
-			if v.IsKnown() {
-				return true, nil
-			}
-			if escalationPathLeafIsSafeUnknown(steps) {
-				return false, nil
-			}
-			settled = false
+		if escalationPathLeafIsSafeUnknown(steps) {
 			return false, nil
-		})
-		if err != nil {
-			return false
 		}
+		settled = false
+		return false, nil
+	})
+	if err != nil {
+		return false
 	}
 
 	return settled
