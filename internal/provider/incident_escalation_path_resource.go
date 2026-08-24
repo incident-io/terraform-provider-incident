@@ -4,7 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/http"
 	"reflect"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -17,6 +19,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/oklog/ulid/v2"
 	"github.com/samber/lo"
@@ -30,6 +33,7 @@ var (
 	_ resource.Resource                   = &IncidentEscalationPathResource{}
 	_ resource.ResourceWithImportState    = &IncidentEscalationPathResource{}
 	_ resource.ResourceWithValidateConfig = &IncidentEscalationPathResource{}
+	_ resource.ResourceWithModifyPlan     = &IncidentEscalationPathResource{}
 )
 
 type IncidentEscalationPathResource struct {
@@ -499,6 +503,167 @@ func (r *IncidentEscalationPathResource) ValidateConfig(ctx context.Context, req
 	validateEscalationPathNodes(ctx, data.Path, pathSchemaDepth, &resp.Diagnostics)
 }
 
+// escalationPathValidateTimeout bounds the plan-time validate call. Long enough that a
+// slow-but-working API still answers, short enough that an unhealthy one costs a plan
+// seconds rather than minutes. A var so tests don't have to wait it out.
+var escalationPathValidateTimeout = 10 * time.Second
+
+// escalationPathLeafIsSafeUnknown reports whether an unknown value at this path is one the
+// validate payload doesn't need settled: a path node's own "id" (Computed+Optional; we
+// generate one in toPathPayload when it's empty) and a target's "schedule_mode"
+// (Optional+Computed with no static default; the API fills it in regardless). A target's
+// own "id" is Required, user-supplied data that may reference another resource this same
+// apply creates, so that one is NOT safe - an unknown there means we skip the check rather
+// than validate around the gap.
+func escalationPathLeafIsSafeUnknown(steps *tftypes.AttributePath) bool {
+	all := steps.Steps()
+	if len(all) == 0 {
+		return false
+	}
+
+	name, ok := all[len(all)-1].(tftypes.AttributeName)
+	if !ok {
+		return false
+	}
+
+	switch string(name) {
+	case "schedule_mode":
+		return true
+	case "id":
+		if len(all) == 1 {
+			// The resource's own id: Computed only, always unknown on create, and not part
+			// of the validate payload at all.
+			return true
+		}
+		if len(all) < 3 {
+			return false
+		}
+		if _, ok := all[len(all)-2].(tftypes.ElementKeyInt); !ok {
+			return false
+		}
+		parent, ok := all[len(all)-3].(tftypes.AttributeName)
+		return ok && (string(parent) == "path" || string(parent) == "then_path" || string(parent) == "else_path")
+	default:
+		return false
+	}
+}
+
+// ModifyPlan asks the API whether the planned escalation path would be accepted, so a
+// config the API would reject - such as a target missing a required selected_rota_id -
+// surfaces in the plan instead of part way through an apply.
+//
+// It can't live in ValidateConfig, which `terraform validate` also calls: that runs the
+// provider without configuring it, so there's no client to ask with.
+func (r *IncidentEscalationPathResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	// A destroy plans no escalation path, and an unconfigured provider has no client.
+	if r.client == nil || req.Plan.Raw.IsNull() {
+		return
+	}
+
+	// A path the plan doesn't change isn't going to be applied, so there's nothing to warn
+	// about - and checking every escalation path on every plan is a request each.
+	if req.Plan.Raw.Equal(req.State.Raw) {
+		return
+	}
+
+	// A target or condition pointing at something this same apply creates is unknown until
+	// it exists. Validating around the gaps would report errors the apply won't hit, so
+	// leave those configs alone.
+	if !escalationPathValidateSettled(req.Plan.Raw) {
+		return
+	}
+
+	var data *IncidentEscalationPathResourceModel
+	if req.Plan.Get(ctx, &data).HasError() || data == nil {
+		return
+	}
+
+	// A decode failure here means a value the model's concrete types can't represent, not
+	// that the config is bad - give up on validating rather than failing the plan over a
+	// config the API may well accept.
+	var localDiags diag.Diagnostics
+	workingHours, teamIDs, repeatConfig, pathPayload := r.toEscalationPathPayload(ctx, data, &localDiags)
+	if localDiags.HasError() {
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(ctx, escalationPathValidateTimeout)
+	defer cancel()
+
+	result, err := r.client.EscalationsV2ValidatePathWithResponse(ctx, client.EscalationsV2ValidatePathJSONRequestBody{
+		Path:         pathPayload,
+		WorkingHours: workingHours,
+		TeamIds:      teamIDs,
+		RepeatConfig: repeatConfig,
+	})
+	if err == nil {
+		addEscalationPathValidateWarnings(result, &resp.Diagnostics)
+		return
+	}
+
+	// 422 is the API rejecting this config, which is the whole point.
+	var httpErr client.HTTPError
+	if errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusUnprocessableEntity {
+		resp.Diagnostics.AddError("Invalid escalation path", httpErr.Error())
+		return
+	}
+
+	// Anything else means the check didn't run, not that the config is bad: the endpoint
+	// isn't deployed yet, the API is down, the request timed out. Warn, because failing here
+	// would break plans over a config that may be perfectly good.
+	resp.Diagnostics.AddWarning(
+		"Could not validate the escalation path",
+		fmt.Sprintf("The escalation path was not checked, and may still be rejected when you apply: %s", err),
+	)
+}
+
+// addEscalationPathValidateWarnings reports what the API found suspect without rejecting,
+// such as an if_else branch with no nodes in it. The API's path is a dotted/indexed
+// location into the payload (e.g. "path.0.if_else.then_path") rather than a schema
+// attribute path, so these surface as plan-level warnings rather than attribute ones.
+func addEscalationPathValidateWarnings(result *client.EscalationsV2ValidatePathResponse, diags *diag.Diagnostics) {
+	if result == nil || result.JSON200 == nil {
+		return
+	}
+
+	for _, warning := range result.JSON200.Warnings {
+		diags.AddWarning(warning.Summary, fmt.Sprintf("%s (at %s)", warning.Detail, warning.Path))
+	}
+}
+
+// escalationPathValidateSettled reports whether every value the validate payload could
+// carry is known, other than the computed leaves the API fills in regardless.
+func escalationPathValidateSettled(plan tftypes.Value) bool {
+	var attributes map[string]tftypes.Value
+	if err := plan.As(&attributes); err != nil {
+		return false
+	}
+
+	settled := true
+	for _, key := range []string{"path", "working_hours", "team_ids", "repeat_config"} {
+		value, ok := attributes[key]
+		if !ok {
+			continue
+		}
+
+		err := tftypes.Walk(value, func(steps *tftypes.AttributePath, v tftypes.Value) (bool, error) {
+			if v.IsKnown() {
+				return true, nil
+			}
+			if escalationPathLeafIsSafeUnknown(steps) {
+				return false, nil
+			}
+			settled = false
+			return false, nil
+		})
+		if err != nil {
+			return false
+		}
+	}
+
+	return settled
+}
+
 // decodeNodes decodes a types.List of escalation path node objects into the
 // Go model structs. It returns nil if the list is null or unknown.
 //
@@ -649,44 +814,42 @@ func validateEscalationPathTarget(target IncidentEscalationPathTarget, diags *di
 	}
 }
 
-func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var data *IncidentEscalationPathResourceModel
-	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	var workingHours *[]client.WeekdayIntervalConfigV2
+// toEscalationPathPayload builds the working hours, team IDs, repeat config, and node
+// path shared by the create, update, and validate requests.
+func (r *IncidentEscalationPathResource) toEscalationPathPayload(ctx context.Context, data *IncidentEscalationPathResourceModel, diags *diag.Diagnostics) (
+	workingHours *[]client.WeekdayIntervalConfigV2,
+	teamIDs *[]string,
+	repeatConfig *client.EscalationPathRepeatConfigV2,
+	pathPayload []client.EscalationPathNodePayloadV2,
+) {
 	if !data.WorkingHours.IsNull() && !data.WorkingHours.IsUnknown() {
 		var whModels []models.IncidentWeekdayIntervalConfig
-		resp.Diagnostics.Append(data.WorkingHours.ElementsAs(ctx, &whModels, false)...)
-		if resp.Diagnostics.HasError() {
+		diags.Append(data.WorkingHours.ElementsAs(ctx, &whModels, false)...)
+		if diags.HasError() {
 			return
 		}
 		if len(whModels) > 0 {
-			workingHours = &[]client.WeekdayIntervalConfigV2{}
-			for _, wh := range whModels {
-				*workingHours = append(*workingHours, wh.ToClientV2(ctx, &resp.Diagnostics))
+			wh := make([]client.WeekdayIntervalConfigV2, 0, len(whModels))
+			for _, w := range whModels {
+				wh = append(wh, w.ToClientV2(ctx, diags))
 			}
+			workingHours = &wh
 		}
 	}
 
-	var teamIDs *[]string
 	if !data.TeamIDs.IsUnknown() && !data.TeamIDs.IsNull() {
 		ids := []string{}
-		diags := data.TeamIDs.ElementsAs(ctx, &ids, false)
+		diags.Append(data.TeamIDs.ElementsAs(ctx, &ids, false)...)
 		if diags.HasError() {
-			resp.Diagnostics.Append(diags...)
 			return
 		}
 		teamIDs = &ids
 	}
 
-	var repeatConfig *client.EscalationPathRepeatConfigV2
 	if !data.RepeatConfig.IsNull() && !data.RepeatConfig.IsUnknown() {
 		var rc IncidentEscalationPathRepeatConfig
-		resp.Diagnostics.Append(data.RepeatConfig.As(ctx, &rc, basetypes.ObjectAsOptions{})...)
-		if resp.Diagnostics.HasError() {
+		diags.Append(data.RepeatConfig.As(ctx, &rc, basetypes.ObjectAsOptions{})...)
+		if diags.HasError() {
 			return
 		}
 		repeatConfig = &client.EscalationPathRepeatConfigV2{
@@ -695,7 +858,19 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 		}
 	}
 
-	pathPayload := r.toPathPayload(ctx, data.Path, &resp.Diagnostics)
+	pathPayload = r.toPathPayload(ctx, data.Path, diags)
+
+	return
+}
+
+func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data *IncidentEscalationPathResourceModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	workingHours, teamIDs, repeatConfig, pathPayload := r.toEscalationPathPayload(ctx, data, &resp.Diagnostics)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -766,46 +941,7 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 		return
 	}
 
-	var workingHours *[]client.WeekdayIntervalConfigV2
-	if !data.WorkingHours.IsNull() && !data.WorkingHours.IsUnknown() {
-		var whModels []models.IncidentWeekdayIntervalConfig
-		resp.Diagnostics.Append(data.WorkingHours.ElementsAs(ctx, &whModels, false)...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
-		if len(whModels) > 0 {
-			workingHours = &[]client.WeekdayIntervalConfigV2{}
-			for _, wh := range whModels {
-				*workingHours = append(*workingHours, wh.ToClientV2(ctx, &resp.Diagnostics))
-			}
-		}
-	}
-
-	var teamIDs *[]string
-	if !data.TeamIDs.IsUnknown() && !data.TeamIDs.IsNull() {
-		ids := []string{}
-		diags := data.TeamIDs.ElementsAs(ctx, &ids, false)
-		if diags.HasError() {
-			resp.Diagnostics.Append(diags...)
-			return
-		}
-		teamIDs = &ids
-	}
-
-	var repeatConfig *client.EscalationPathRepeatConfigV2
-	if !data.RepeatConfig.IsNull() && !data.RepeatConfig.IsUnknown() {
-		var rc IncidentEscalationPathRepeatConfig
-		resp.Diagnostics.Append(data.RepeatConfig.As(ctx, &rc, basetypes.ObjectAsOptions{})...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
-		repeatConfig = &client.EscalationPathRepeatConfigV2{
-			RepeatAfterSeconds:    int32(rc.RepeatAfterSeconds.ValueInt64()),
-			DelayRepeatOnActivity: rc.DelayRepeatOnActivity.ValueBool(),
-		}
-	}
-
-	pathPayload := r.toPathPayload(ctx, data.Path, &resp.Diagnostics)
+	workingHours, teamIDs, repeatConfig, pathPayload := r.toEscalationPathPayload(ctx, data, &resp.Diagnostics)
 	if resp.Diagnostics.HasError() {
 		return
 	}

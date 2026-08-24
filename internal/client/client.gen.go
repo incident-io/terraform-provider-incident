@@ -27,6 +27,7 @@ const (
 	APIKeyRoleV1NameCatalogViewer                       APIKeyRoleV1Name = "catalog_viewer"
 	APIKeyRoleV1NameEscalationCreator                   APIKeyRoleV1Name = "escalation_creator"
 	APIKeyRoleV1NameGlobalAccess                        APIKeyRoleV1Name = "global_access"
+	APIKeyRoleV1NameHeartbeatsPing                      APIKeyRoleV1Name = "heartbeats_ping"
 	APIKeyRoleV1NameIncidentCreator                     APIKeyRoleV1Name = "incident_creator"
 	APIKeyRoleV1NameIncidentEditor                      APIKeyRoleV1Name = "incident_editor"
 	APIKeyRoleV1NameIncidentMembershipsEditor           APIKeyRoleV1Name = "incident_memberships_editor"
@@ -71,6 +72,8 @@ func (e APIKeyRoleV1Name) Valid() bool {
 	case APIKeyRoleV1NameEscalationCreator:
 		return true
 	case APIKeyRoleV1NameGlobalAccess:
+		return true
+	case APIKeyRoleV1NameHeartbeatsPing:
 		return true
 	case APIKeyRoleV1NameIncidentCreator:
 		return true
@@ -134,6 +137,7 @@ const (
 	APIKeyTeamRoleV1NameApiKeysManage           APIKeyTeamRoleV1Name = "api_keys_manage"
 	APIKeyTeamRoleV1NameCatalogEditor           APIKeyTeamRoleV1Name = "catalog_editor"
 	APIKeyTeamRoleV1NameEscalationCreator       APIKeyTeamRoleV1Name = "escalation_creator"
+	APIKeyTeamRoleV1NameHeartbeatsPing          APIKeyTeamRoleV1Name = "heartbeats_ping"
 	APIKeyTeamRoleV1NameOnCallEditor            APIKeyTeamRoleV1Name = "on_call_editor"
 	APIKeyTeamRoleV1NamePrivateWorkflowsEditor  APIKeyTeamRoleV1Name = "private_workflows_editor"
 	APIKeyTeamRoleV1NameScheduleOverridesEditor APIKeyTeamRoleV1Name = "schedule_overrides_editor"
@@ -152,6 +156,8 @@ func (e APIKeyTeamRoleV1Name) Valid() bool {
 	case APIKeyTeamRoleV1NameCatalogEditor:
 		return true
 	case APIKeyTeamRoleV1NameEscalationCreator:
+		return true
+	case APIKeyTeamRoleV1NameHeartbeatsPing:
 		return true
 	case APIKeyTeamRoleV1NameOnCallEditor:
 		return true
@@ -183,6 +189,7 @@ const (
 	APIKeysCreatePayloadV1RoleNamesCatalogViewer                       APIKeysCreatePayloadV1RoleNames = "catalog_viewer"
 	APIKeysCreatePayloadV1RoleNamesEscalationCreator                   APIKeysCreatePayloadV1RoleNames = "escalation_creator"
 	APIKeysCreatePayloadV1RoleNamesGlobalAccess                        APIKeysCreatePayloadV1RoleNames = "global_access"
+	APIKeysCreatePayloadV1RoleNamesHeartbeatsPing                      APIKeysCreatePayloadV1RoleNames = "heartbeats_ping"
 	APIKeysCreatePayloadV1RoleNamesIncidentCreator                     APIKeysCreatePayloadV1RoleNames = "incident_creator"
 	APIKeysCreatePayloadV1RoleNamesIncidentEditor                      APIKeysCreatePayloadV1RoleNames = "incident_editor"
 	APIKeysCreatePayloadV1RoleNamesIncidentMembershipsEditor           APIKeysCreatePayloadV1RoleNames = "incident_memberships_editor"
@@ -227,6 +234,8 @@ func (e APIKeysCreatePayloadV1RoleNames) Valid() bool {
 	case APIKeysCreatePayloadV1RoleNamesEscalationCreator:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesGlobalAccess:
+		return true
+	case APIKeysCreatePayloadV1RoleNamesHeartbeatsPing:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesIncidentCreator:
 		return true
@@ -290,6 +299,7 @@ const (
 	APIKeysCreatePayloadV1TeamRoleNamesApiKeysManage           APIKeysCreatePayloadV1TeamRoleNames = "api_keys_manage"
 	APIKeysCreatePayloadV1TeamRoleNamesCatalogEditor           APIKeysCreatePayloadV1TeamRoleNames = "catalog_editor"
 	APIKeysCreatePayloadV1TeamRoleNamesEscalationCreator       APIKeysCreatePayloadV1TeamRoleNames = "escalation_creator"
+	APIKeysCreatePayloadV1TeamRoleNamesHeartbeatsPing          APIKeysCreatePayloadV1TeamRoleNames = "heartbeats_ping"
 	APIKeysCreatePayloadV1TeamRoleNamesOnCallEditor            APIKeysCreatePayloadV1TeamRoleNames = "on_call_editor"
 	APIKeysCreatePayloadV1TeamRoleNamesPrivateWorkflowsEditor  APIKeysCreatePayloadV1TeamRoleNames = "private_workflows_editor"
 	APIKeysCreatePayloadV1TeamRoleNamesScheduleOverridesEditor APIKeysCreatePayloadV1TeamRoleNames = "schedule_overrides_editor"
@@ -308,6 +318,8 @@ func (e APIKeysCreatePayloadV1TeamRoleNames) Valid() bool {
 	case APIKeysCreatePayloadV1TeamRoleNamesCatalogEditor:
 		return true
 	case APIKeysCreatePayloadV1TeamRoleNamesEscalationCreator:
+		return true
+	case APIKeysCreatePayloadV1TeamRoleNamesHeartbeatsPing:
 		return true
 	case APIKeysCreatePayloadV1TeamRoleNamesOnCallEditor:
 		return true
@@ -339,6 +351,7 @@ const (
 	APIKeysUpdatePayloadV1RoleNamesCatalogViewer                       APIKeysUpdatePayloadV1RoleNames = "catalog_viewer"
 	APIKeysUpdatePayloadV1RoleNamesEscalationCreator                   APIKeysUpdatePayloadV1RoleNames = "escalation_creator"
 	APIKeysUpdatePayloadV1RoleNamesGlobalAccess                        APIKeysUpdatePayloadV1RoleNames = "global_access"
+	APIKeysUpdatePayloadV1RoleNamesHeartbeatsPing                      APIKeysUpdatePayloadV1RoleNames = "heartbeats_ping"
 	APIKeysUpdatePayloadV1RoleNamesIncidentCreator                     APIKeysUpdatePayloadV1RoleNames = "incident_creator"
 	APIKeysUpdatePayloadV1RoleNamesIncidentEditor                      APIKeysUpdatePayloadV1RoleNames = "incident_editor"
 	APIKeysUpdatePayloadV1RoleNamesIncidentMembershipsEditor           APIKeysUpdatePayloadV1RoleNames = "incident_memberships_editor"
@@ -383,6 +396,8 @@ func (e APIKeysUpdatePayloadV1RoleNames) Valid() bool {
 	case APIKeysUpdatePayloadV1RoleNamesEscalationCreator:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesGlobalAccess:
+		return true
+	case APIKeysUpdatePayloadV1RoleNamesHeartbeatsPing:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesIncidentCreator:
 		return true
@@ -446,6 +461,7 @@ const (
 	APIKeysUpdatePayloadV1TeamRoleNamesApiKeysManage           APIKeysUpdatePayloadV1TeamRoleNames = "api_keys_manage"
 	APIKeysUpdatePayloadV1TeamRoleNamesCatalogEditor           APIKeysUpdatePayloadV1TeamRoleNames = "catalog_editor"
 	APIKeysUpdatePayloadV1TeamRoleNamesEscalationCreator       APIKeysUpdatePayloadV1TeamRoleNames = "escalation_creator"
+	APIKeysUpdatePayloadV1TeamRoleNamesHeartbeatsPing          APIKeysUpdatePayloadV1TeamRoleNames = "heartbeats_ping"
 	APIKeysUpdatePayloadV1TeamRoleNamesOnCallEditor            APIKeysUpdatePayloadV1TeamRoleNames = "on_call_editor"
 	APIKeysUpdatePayloadV1TeamRoleNamesPrivateWorkflowsEditor  APIKeysUpdatePayloadV1TeamRoleNames = "private_workflows_editor"
 	APIKeysUpdatePayloadV1TeamRoleNamesScheduleOverridesEditor APIKeysUpdatePayloadV1TeamRoleNames = "schedule_overrides_editor"
@@ -464,6 +480,8 @@ func (e APIKeysUpdatePayloadV1TeamRoleNames) Valid() bool {
 	case APIKeysUpdatePayloadV1TeamRoleNamesCatalogEditor:
 		return true
 	case APIKeysUpdatePayloadV1TeamRoleNamesEscalationCreator:
+		return true
+	case APIKeysUpdatePayloadV1TeamRoleNamesHeartbeatsPing:
 		return true
 	case APIKeysUpdatePayloadV1TeamRoleNamesOnCallEditor:
 		return true
@@ -3620,18 +3638,21 @@ func (e EscalationPathNodeNotifyChannelV2TimeToAckIntervalCondition) Valid() boo
 
 // Defines values for EscalationPathNodePayloadV2Type.
 const (
-	EscalationPathNodePayloadV2TypeDelay         EscalationPathNodePayloadV2Type = "delay"
-	EscalationPathNodePayloadV2TypeIfElse        EscalationPathNodePayloadV2Type = "if_else"
-	EscalationPathNodePayloadV2TypeLevel         EscalationPathNodePayloadV2Type = "level"
-	EscalationPathNodePayloadV2TypeNotifyChannel EscalationPathNodePayloadV2Type = "notify_channel"
-	EscalationPathNodePayloadV2TypeRepeat        EscalationPathNodePayloadV2Type = "repeat"
-	EscalationPathNodePayloadV2TypeVoicemail     EscalationPathNodePayloadV2Type = "voicemail"
+	EscalationPathNodePayloadV2TypeDelay          EscalationPathNodePayloadV2Type = "delay"
+	EscalationPathNodePayloadV2TypeEscalationPath EscalationPathNodePayloadV2Type = "escalation_path"
+	EscalationPathNodePayloadV2TypeIfElse         EscalationPathNodePayloadV2Type = "if_else"
+	EscalationPathNodePayloadV2TypeLevel          EscalationPathNodePayloadV2Type = "level"
+	EscalationPathNodePayloadV2TypeNotifyChannel  EscalationPathNodePayloadV2Type = "notify_channel"
+	EscalationPathNodePayloadV2TypeRepeat         EscalationPathNodePayloadV2Type = "repeat"
+	EscalationPathNodePayloadV2TypeVoicemail      EscalationPathNodePayloadV2Type = "voicemail"
 )
 
 // Valid indicates whether the value is a known member of the EscalationPathNodePayloadV2Type enum.
 func (e EscalationPathNodePayloadV2Type) Valid() bool {
 	switch e {
 	case EscalationPathNodePayloadV2TypeDelay:
+		return true
+	case EscalationPathNodePayloadV2TypeEscalationPath:
 		return true
 	case EscalationPathNodePayloadV2TypeIfElse:
 		return true
@@ -3650,18 +3671,21 @@ func (e EscalationPathNodePayloadV2Type) Valid() bool {
 
 // Defines values for EscalationPathNodeV2Type.
 const (
-	EscalationPathNodeV2TypeDelay         EscalationPathNodeV2Type = "delay"
-	EscalationPathNodeV2TypeIfElse        EscalationPathNodeV2Type = "if_else"
-	EscalationPathNodeV2TypeLevel         EscalationPathNodeV2Type = "level"
-	EscalationPathNodeV2TypeNotifyChannel EscalationPathNodeV2Type = "notify_channel"
-	EscalationPathNodeV2TypeRepeat        EscalationPathNodeV2Type = "repeat"
-	EscalationPathNodeV2TypeVoicemail     EscalationPathNodeV2Type = "voicemail"
+	EscalationPathNodeV2TypeDelay          EscalationPathNodeV2Type = "delay"
+	EscalationPathNodeV2TypeEscalationPath EscalationPathNodeV2Type = "escalation_path"
+	EscalationPathNodeV2TypeIfElse         EscalationPathNodeV2Type = "if_else"
+	EscalationPathNodeV2TypeLevel          EscalationPathNodeV2Type = "level"
+	EscalationPathNodeV2TypeNotifyChannel  EscalationPathNodeV2Type = "notify_channel"
+	EscalationPathNodeV2TypeRepeat         EscalationPathNodeV2Type = "repeat"
+	EscalationPathNodeV2TypeVoicemail      EscalationPathNodeV2Type = "voicemail"
 )
 
 // Valid indicates whether the value is a known member of the EscalationPathNodeV2Type enum.
 func (e EscalationPathNodeV2Type) Valid() bool {
 	switch e {
 	case EscalationPathNodeV2TypeDelay:
+		return true
+	case EscalationPathNodeV2TypeEscalationPath:
 		return true
 	case EscalationPathNodeV2TypeIfElse:
 		return true
@@ -4311,6 +4335,7 @@ const (
 	IdentityV1RolesCatalogViewer                       IdentityV1Roles = "catalog_viewer"
 	IdentityV1RolesEscalationCreator                   IdentityV1Roles = "escalation_creator"
 	IdentityV1RolesGlobalAccess                        IdentityV1Roles = "global_access"
+	IdentityV1RolesHeartbeatsPing                      IdentityV1Roles = "heartbeats_ping"
 	IdentityV1RolesIncidentCreator                     IdentityV1Roles = "incident_creator"
 	IdentityV1RolesIncidentEditor                      IdentityV1Roles = "incident_editor"
 	IdentityV1RolesIncidentMembershipsEditor           IdentityV1Roles = "incident_memberships_editor"
@@ -4355,6 +4380,8 @@ func (e IdentityV1Roles) Valid() bool {
 	case IdentityV1RolesEscalationCreator:
 		return true
 	case IdentityV1RolesGlobalAccess:
+		return true
+	case IdentityV1RolesHeartbeatsPing:
 		return true
 	case IdentityV1RolesIncidentCreator:
 		return true
@@ -4418,6 +4445,7 @@ const (
 	IdentityV1TeamRolesApiKeysManage           IdentityV1TeamRoles = "api_keys_manage"
 	IdentityV1TeamRolesCatalogEditor           IdentityV1TeamRoles = "catalog_editor"
 	IdentityV1TeamRolesEscalationCreator       IdentityV1TeamRoles = "escalation_creator"
+	IdentityV1TeamRolesHeartbeatsPing          IdentityV1TeamRoles = "heartbeats_ping"
 	IdentityV1TeamRolesOnCallEditor            IdentityV1TeamRoles = "on_call_editor"
 	IdentityV1TeamRolesPrivateWorkflowsEditor  IdentityV1TeamRoles = "private_workflows_editor"
 	IdentityV1TeamRolesScheduleOverridesEditor IdentityV1TeamRoles = "schedule_overrides_editor"
@@ -4436,6 +4464,8 @@ func (e IdentityV1TeamRoles) Valid() bool {
 	case IdentityV1TeamRolesCatalogEditor:
 		return true
 	case IdentityV1TeamRolesEscalationCreator:
+		return true
+	case IdentityV1TeamRolesHeartbeatsPing:
 		return true
 	case IdentityV1TeamRolesOnCallEditor:
 		return true
@@ -13020,7 +13050,15 @@ type EscalationPathNodeDelayV2 struct {
 // Example: active
 type EscalationPathNodeDelayV2DelayIntervalCondition string
 
-// EscalationPathNodeIfElsePayloadV2 Example: {"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
+// EscalationPathNodeEscalationPathV2 Example: {"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type EscalationPathNodeEscalationPathV2 struct {
+	// EscalationPathId The ID of the escalation path to reassign to
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	EscalationPathId string `json:"escalation_path_id"`
+}
+
+// EscalationPathNodeIfElsePayloadV2 Example: {"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
 type EscalationPathNodeIfElsePayloadV2 struct {
 	// Conditions The condition that defines which branch to take
 	//
@@ -13029,16 +13067,16 @@ type EscalationPathNodeIfElsePayloadV2 struct {
 
 	// ElsePath The nodes that form the levels if our condition is not met
 	//
-	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
 	ElsePath []EscalationPathNodePayloadV2 `json:"else_path"`
 
 	// ThenPath The nodes that form the levels if our condition is met
 	//
-	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
 	ThenPath []EscalationPathNodePayloadV2 `json:"then_path"`
 }
 
-// EscalationPathNodeIfElseV2 Example: {"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
+// EscalationPathNodeIfElseV2 Example: {"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
 type EscalationPathNodeIfElseV2 struct {
 	// Conditions The condition that defines which branch to take
 	//
@@ -13047,12 +13085,12 @@ type EscalationPathNodeIfElseV2 struct {
 
 	// ElsePath The nodes that form the levels if our condition is not met
 	//
-	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
 	ElsePath []EscalationPathNodeV2 `json:"else_path"`
 
 	// ThenPath The nodes that form the levels if our condition is met
 	//
-	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
 	ThenPath []EscalationPathNodeV2 `json:"then_path"`
 }
 
@@ -13128,10 +13166,13 @@ type EscalationPathNodeNotifyChannelV2 struct {
 // Example: active
 type EscalationPathNodeNotifyChannelV2TimeToAckIntervalCondition string
 
-// EscalationPathNodePayloadV2 Example: {"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}
+// EscalationPathNodePayloadV2 Example: {"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}
 type EscalationPathNodePayloadV2 struct {
 	// Delay Example: {"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
 	Delay *EscalationPathNodeDelayV2 `json:"delay,omitempty"`
+
+	// EscalationPath Example: {"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	EscalationPath *EscalationPathNodeEscalationPathV2 `json:"escalation_path,omitempty"`
 
 	// Id An ID for this node, unique within the escalation path.
 	//
@@ -13140,7 +13181,7 @@ type EscalationPathNodePayloadV2 struct {
 	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
 	Id string `json:"id"`
 
-	// IfElse Example: {"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
+	// IfElse Example: {"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
 	IfElse *EscalationPathNodeIfElsePayloadV2 `json:"if_else,omitempty"`
 
 	// Level Example: {"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
@@ -13158,6 +13199,7 @@ type EscalationPathNodePayloadV2 struct {
 	// * if_else: Branch the escalation based on a set of conditions.
 	// * repeat: Go back to a previous node and repeat the logic from there.
 	// * delay: Pause the escalation for a configured duration before advancing to the next node.
+	// * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 	// * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 	//
 	// Example: if_else
@@ -13170,6 +13212,7 @@ type EscalationPathNodePayloadV2 struct {
 // * if_else: Branch the escalation based on a set of conditions.
 // * repeat: Go back to a previous node and repeat the logic from there.
 // * delay: Pause the escalation for a configured duration before advancing to the next node.
+// * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 // * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 //
 // Example: if_else
@@ -13188,10 +13231,13 @@ type EscalationPathNodeRepeatV2 struct {
 	ToNode string `json:"to_node"`
 }
 
-// EscalationPathNodeV2 Example: {"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}
+// EscalationPathNodeV2 Example: {"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}
 type EscalationPathNodeV2 struct {
 	// Delay Example: {"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
 	Delay *EscalationPathNodeDelayV2 `json:"delay,omitempty"`
+
+	// EscalationPath Example: {"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	EscalationPath *EscalationPathNodeEscalationPathV2 `json:"escalation_path,omitempty"`
 
 	// Id An ID for this node, unique within the escalation path.
 	//
@@ -13200,7 +13246,7 @@ type EscalationPathNodeV2 struct {
 	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
 	Id string `json:"id"`
 
-	// IfElse Example: {"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
+	// IfElse Example: {"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"then_path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]}
 	IfElse *EscalationPathNodeIfElseV2 `json:"if_else,omitempty"`
 
 	// Level Example: {"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
@@ -13218,6 +13264,7 @@ type EscalationPathNodeV2 struct {
 	// * if_else: Branch the escalation based on a set of conditions.
 	// * repeat: Go back to a previous node and repeat the logic from there.
 	// * delay: Pause the escalation for a configured duration before advancing to the next node.
+	// * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 	// * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 	//
 	// Example: if_else
@@ -13230,6 +13277,7 @@ type EscalationPathNodeV2 struct {
 // * if_else: Branch the escalation based on a set of conditions.
 // * repeat: Go back to a previous node and repeat the logic from there.
 // * delay: Pause the escalation for a configured duration before advancing to the next node.
+// * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 // * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 //
 // Example: if_else
@@ -13317,7 +13365,7 @@ type EscalationPathTargetV2Type string
 // Example: high
 type EscalationPathTargetV2Urgency string
 
-// EscalationPathV2 Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+// EscalationPathV2 Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 type EscalationPathV2 struct {
 	// CurrentResponders Users who are currently on-call for this escalation path
 	//
@@ -13336,7 +13384,7 @@ type EscalationPathV2 struct {
 
 	// Path The nodes that form the levels and branches of this escalation path.
 	//
-	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
 	Path []EscalationPathNodeV2 `json:"path"`
 
 	// RepeatConfig Example: {"delay_repeat_on_activity":false,"repeat_after_seconds":1800}
@@ -13353,6 +13401,24 @@ type EscalationPathV2 struct {
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
 
+// EscalationPathValidateWarningV2 Example: {"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}
+type EscalationPathValidateWarningV2 struct {
+	// Detail The full explanation of what this means for the escalation
+	//
+	// Example: When the condition matches, escalation stops here instead of continuing.
+	Detail string `json:"detail"`
+
+	// Path The part of the payload this is about, so a client can point at the value that caused it
+	//
+	// Example: path.0.if_else.then_path
+	Path string `json:"path"`
+
+	// Summary A single line naming the problem
+	//
+	// Example: if_else has an empty "then" branch
+	Summary string `json:"summary"`
+}
+
 // EscalationPriorityV2 The priority associated with this escalation.
 //
 // Example: {"name":"P1"}
@@ -13363,7 +13429,7 @@ type EscalationPriorityV2 struct {
 	Name string `json:"name"`
 }
 
-// EscalationV2 Example: {"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}
+// EscalationV2 Example: {"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}
 type EscalationV2 struct {
 	// CreatedAt When this escalation was created
 	//
@@ -13374,6 +13440,11 @@ type EscalationV2 struct {
 	//
 	// Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
 	Creator EscalationCreatorV2 `json:"creator"`
+
+	// Description Additional detail provided with this escalation. When it isn't set explicitly, this is taken from the alert description or the incident summary, and is empty when neither applies.
+	//
+	// Example: Database CPU has been above 90% for 5 minutes
+	Description string `json:"description"`
 
 	// EscalationPathId Unique identifier of the escalation path that the escalation was created from
 	//
@@ -13434,13 +13505,13 @@ type EscalationsCreateExternalEscalationPathPayloadV2 struct {
 	ExternalEscalationPathId string `json:"external_escalation_path_id"`
 }
 
-// EscalationsCreateExternalEscalationPathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+// EscalationsCreateExternalEscalationPathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationsCreateExternalEscalationPathResultV2 struct {
-	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
-// EscalationsCreatePathPayloadV2 Example: {"name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+// EscalationsCreatePathPayloadV2 Example: {"name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 type EscalationsCreatePathPayloadV2 struct {
 	// Name The name of this escalation path, for the user's reference.
 	//
@@ -13449,7 +13520,7 @@ type EscalationsCreatePathPayloadV2 struct {
 
 	// Path The nodes that form the levels and branches of this escalation path.
 	//
-	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
 	Path []EscalationPathNodePayloadV2 `json:"path"`
 
 	// RepeatConfig Example: {"delay_repeat_on_activity":false,"repeat_after_seconds":1800}
@@ -13466,9 +13537,9 @@ type EscalationsCreatePathPayloadV2 struct {
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
 
-// EscalationsCreatePathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+// EscalationsCreatePathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationsCreatePathResultV2 struct {
-	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
@@ -13505,9 +13576,9 @@ type EscalationsCreatePayloadV2 struct {
 	UserIds *[]string `json:"user_ids,omitempty"`
 }
 
-// EscalationsCreateResultV2 Example: {"escalation":{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}}
+// EscalationsCreateResultV2 Example: {"escalation":{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}}
 type EscalationsCreateResultV2 struct {
-	// Escalation Example: {"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}
+	// Escalation Example: {"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Escalation EscalationV2 `json:"escalation"`
 }
 
@@ -13520,37 +13591,37 @@ type EscalationsListExternalEscalationPathsResultV2 struct {
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
-// EscalationsListPathsResultV2 Example: {"escalation_paths":[{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+// EscalationsListPathsResultV2 Example: {"escalation_paths":[{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
 type EscalationsListPathsResultV2 struct {
-	// EscalationPaths Example: [{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}]
+	// EscalationPaths Example: [{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}]
 	EscalationPaths []EscalationPathV2 `json:"escalation_paths"`
 
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
-// EscalationsListResultV2 Example: {"escalations":[{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+// EscalationsListResultV2 Example: {"escalations":[{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
 type EscalationsListResultV2 struct {
-	// Escalations Example: [{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}]
+	// Escalations Example: [{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}]
 	Escalations []EscalationV2 `json:"escalations"`
 
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
-// EscalationsShowPathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+// EscalationsShowPathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationsShowPathResultV2 struct {
-	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
 }
 
-// EscalationsShowResultV2 Example: {"escalation":{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}}
+// EscalationsShowResultV2 Example: {"escalation":{"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}}
 type EscalationsShowResultV2 struct {
-	// Escalation Example: {"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}
+	// Escalation Example: {"created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Database CPU has been above 90% for 5 minutes","escalation_path_id":"01G0J1EXE7AXZ2C93K61WBPYEH","events":[{"channels":[{"microsoft_teams_channel_id":"abc123","microsoft_teams_team_id":"abc123","slack_channel_id":"abc123","slack_team_id":"abc123"}],"event":"entered_grace_period","id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2021-08-17T13:28:57.801578Z","urgency":"high","users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","priority":{"name":"P1"},"related_alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"related_incidents":[{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}],"status":"pending","title":"Database CPU is high","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Escalation EscalationV2 `json:"escalation"`
 }
 
-// EscalationsUpdatePathPayloadV2 Example: {"name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+// EscalationsUpdatePathPayloadV2 Example: {"name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 type EscalationsUpdatePathPayloadV2 struct {
 	// Name The name of this escalation path, for the user's reference.
 	//
@@ -13559,7 +13630,7 @@ type EscalationsUpdatePathPayloadV2 struct {
 
 	// Path The nodes that form the levels and branches of this escalation path.
 	//
-	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
 	Path []EscalationPathNodePayloadV2 `json:"path"`
 
 	// RepeatConfig Example: {"delay_repeat_on_activity":false,"repeat_after_seconds":1800}
@@ -13576,10 +13647,39 @@ type EscalationsUpdatePathPayloadV2 struct {
 	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
 }
 
-// EscalationsUpdatePathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
+// EscalationsUpdatePathResultV2 Example: {"escalation_path":{"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}}
 type EscalationsUpdatePathResultV2 struct {
-	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+	// EscalationPath Example: {"current_responders":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Urgent Support","path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
 	EscalationPath EscalationPathV2 `json:"escalation_path"`
+}
+
+// EscalationsValidatePathPayloadV2 Example: {"path":[{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}],"repeat_config":{"delay_repeat_on_activity":false,"repeat_after_seconds":1800},"team_ids":["01JPQA75EPNEES4479P16P4XAB"],"working_hours":[{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]}
+type EscalationsValidatePathPayloadV2 struct {
+	// Path The nodes that form the levels and branches of this escalation path.
+	//
+	// Example: [{"delay":{"delay_interval_condition":"active","delay_seconds":300,"delay_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_path":{"escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"id":"01FCNDV6P870EA6S7TK1DSYDG0","if_else":{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}],"else_path":[{}],"then_path":[{}]},"level":{"ack_mode":"all","retry_config":{"attempts":3,"interval_seconds":300},"round_robin_config":{"enabled":false,"rotate_after_seconds":120},"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"notify_channel":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}],"time_to_ack_interval_condition":"active","time_to_ack_seconds":1800,"time_to_ack_weekday_interval_config_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"repeat":{"repeat_times":3,"to_node":"01FCNDV6P870EA6S7TK1DSYDG0"},"type":"if_else"}]
+	Path []EscalationPathNodePayloadV2 `json:"path"`
+
+	// RepeatConfig Example: {"delay_repeat_on_activity":false,"repeat_after_seconds":1800}
+	RepeatConfig *EscalationPathRepeatConfigV2 `json:"repeat_config,omitempty"`
+
+	// TeamIds IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
+	//
+	// Example: ["01JPQA75EPNEES4479P16P4XAB"]
+	TeamIds *[]string `json:"team_ids,omitempty"`
+
+	// WorkingHours The working hours for this escalation path.
+	//
+	// Example: [{"id":"abc123","name":"abc123","timezone":"abc123","weekday_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]
+	WorkingHours *[]WeekdayIntervalConfigV2 `json:"working_hours,omitempty"`
+}
+
+// EscalationsValidatePathResultV2 Example: {"warnings":[{"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}]}
+type EscalationsValidatePathResultV2 struct {
+	// Warnings Anything suspect about this config that isn't severe enough to reject it. Empty when there's nothing to say.
+	//
+	// Example: [{"detail":"When the condition matches, escalation stops here instead of continuing.","path":"path.0.if_else.then_path","summary":"if_else has an empty \"then\" branch"}]
+	Warnings []EscalationPathValidateWarningV2 `json:"warnings"`
 }
 
 // ExpressionBranchPayloadV2 Example: {"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}
@@ -18752,6 +18852,38 @@ type SchedulesShowScheduleSyncRuleResultV2 struct {
 	ScheduleSyncRule ScheduleSyncRuleV2 `json:"schedule_sync_rule"`
 }
 
+// SchedulesUpdateOverridePayloadV2 Example: {"end_at":"2021-08-17T14:00:00.000000Z","layer_id":"01G0J1EXE7AXZ2C93K61WBPYNH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:00:00.000000Z","user":{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}}
+type SchedulesUpdateOverridePayloadV2 struct {
+	// EndAt End time of the override
+	//
+	// Example: 2021-08-17T14:00:00.000000Z
+	EndAt time.Time `json:"end_at"`
+
+	// LayerId The layer this override applies to
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYNH
+	LayerId string `json:"layer_id"`
+
+	// RotationId The rotation this override applies to
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	RotationId string `json:"rotation_id"`
+
+	// StartAt Start time of the override
+	//
+	// Example: 2021-08-17T13:00:00.000000Z
+	StartAt time.Time `json:"start_at"`
+
+	// User Example: {"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}
+	User UserReferencePayloadV2 `json:"user"`
+}
+
+// SchedulesUpdateOverrideResultV2 Example: {"override":{"created_at":"2021-08-17T13:28:57.801578Z","end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}}
+type SchedulesUpdateOverrideResultV2 struct {
+	// Override Example: {"created_at":"2021-08-17T13:28:57.801578Z","end_at":"2021-08-17T13:28:57.801578Z","id":"01G0J1EXE7AXZ2C93K61WBPYEH","layer_id":"01G0J1EXE7AXZ2C93K61WBPYEH","rotation_id":"01G0J1EXE7AXZ2C93K61WBPYEH","schedule_id":"01G0J1EXE7AXZ2C93K61WBPYEH","start_at":"2021-08-17T13:28:57.801578Z","updated_at":"2021-08-17T13:28:57.801578Z","user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}}
+	Override ScheduleOverrideV2 `json:"override"`
+}
+
 // SchedulesUpdatePayloadV2 Example: {"schedule":{"annotations":{"incident.io/terraform/version":"version-of-terraform"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"My Rotation","scheduling_mode":"fair","users":[{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"holidays_public_config":{"country_codes":["abc123"]},"name":"Primary On-call Schedule","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"America/Los_Angeles"}}
 type SchedulesUpdatePayloadV2 struct {
 	// Schedule Example: {"annotations":{"incident.io/terraform/version":"version-of-terraform"},"config":{"rotations":[{"effective_from":"2021-08-17T13:28:57.801578Z","handover_start_at":"2021-08-17T13:28:57.801578Z","handovers":[{"interval":1,"interval_type":"hourly"}],"id":"01G0J1EXE7AXZ2C93K61WBPYEH","layers":[{"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Layer 1"}],"name":"My Rotation","scheduling_mode":"fair","users":[{"email":"bob@example.com","id":"01G0J1EXE7AXZ2C93K61WBPYEH","slack_user_id":"USER123"}],"working_interval":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}],"working_intervals":[{"end_time":"17:00","start_time":"09:00","weekday":"monday"}]}]},"holidays_public_config":{"country_codes":["abc123"]},"name":"Primary On-call Schedule","team_ids":["01JPQA75EPNEES4479P16P4XAB"],"timezone":"America/Los_Angeles"}
@@ -21689,6 +21821,9 @@ type EscalationsV2ListParams struct {
 	// Alert Filter on the alert that created an escalation. Accepted operators are 'one_of' and 'not_in'.
 	Alert *map[string][]string `form:"alert,omitempty" json:"alert,omitempty"`
 
+	// Incident Filter on the incident that the escalation is connected to. Accepted operators are 'one_of' and 'not_in'.
+	Incident *map[string][]string `form:"incident,omitempty" json:"incident,omitempty"`
+
 	// CreatedAt Filter on the created_at timestamp of the escalation. Accepted operators are 'gte', 'lte' and 'date_range'.
 	CreatedAt *map[string][]string `form:"created_at,omitempty" json:"created_at,omitempty"`
 
@@ -22213,6 +22348,9 @@ type CustomFieldsV2UpdateJSONRequestBody = CustomFieldsUpdatePayloadV2
 // EscalationsV2CreatePathJSONRequestBody defines body for EscalationsV2CreatePath for application/json ContentType.
 type EscalationsV2CreatePathJSONRequestBody = EscalationsCreatePathPayloadV2
 
+// EscalationsV2ValidatePathJSONRequestBody defines body for EscalationsV2ValidatePath for application/json ContentType.
+type EscalationsV2ValidatePathJSONRequestBody = EscalationsValidatePathPayloadV2
+
 // EscalationsV2CreateExternalEscalationPathJSONRequestBody defines body for EscalationsV2CreateExternalEscalationPath for application/json ContentType.
 type EscalationsV2CreateExternalEscalationPathJSONRequestBody = EscalationsCreateExternalEscalationPathPayloadV2
 
@@ -22251,6 +22389,9 @@ type ManagedResourcesV2CreateManagedResourceJSONRequestBody = ManagedResourcesCr
 
 // SchedulesV2CreateOverrideJSONRequestBody defines body for SchedulesV2CreateOverride for application/json ContentType.
 type SchedulesV2CreateOverrideJSONRequestBody = SchedulesCreateOverridePayloadV2
+
+// SchedulesV2UpdateOverrideJSONRequestBody defines body for SchedulesV2UpdateOverride for application/json ContentType.
+type SchedulesV2UpdateOverrideJSONRequestBody = SchedulesUpdateOverridePayloadV2
 
 // ScheduleSyncTargetsV2CreateJSONRequestBody defines body for ScheduleSyncTargetsV2Create for application/json ContentType.
 type ScheduleSyncTargetsV2CreateJSONRequestBody = ScheduleSyncTargetsCreatePayloadV2
@@ -24035,6 +24176,32 @@ type ClientInterface interface {
 	// Corresponds with POST /v2/escalation_paths (the `EscalationsV2CreatePath` operationId).
 	EscalationsV2CreatePath(ctx context.Context, body EscalationsV2CreatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// EscalationsV2ValidatePathWithBody ValidatePath Escalations V2
+	//
+	// Check whether an escalation path's config is valid, without creating or updating anything.
+	//
+	// This runs the same checks creating or updating a path would, so a config this accepts is
+	// one those endpoints will accept. A config that's valid but has no practical effect comes
+	// back as a warning on a successful response. A client can show it without blocking.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/escalation_paths/actions/validate (the `EscalationsV2ValidatePath` operationId).
+	EscalationsV2ValidatePathWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EscalationsV2ValidatePath ValidatePath Escalations V2
+	//
+	// Check whether an escalation path's config is valid, without creating or updating anything.
+	//
+	// This runs the same checks creating or updating a path would, so a config this accepts is
+	// one those endpoints will accept. A config that's valid but has no practical effect comes
+	// back as a warning on a successful response. A client can show it without blocking.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/escalation_paths/actions/validate (the `EscalationsV2ValidatePath` operationId).
+	EscalationsV2ValidatePath(ctx context.Context, body EscalationsV2ValidatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// EscalationsV2ListExternalEscalationPaths ListExternalEscalationPaths Escalations V2
 	//
 	// List external escalation paths available for import from connected providers.
@@ -24152,6 +24319,22 @@ type ClientInterface interface {
 	// 		curl --get 'https://api.incident.io/v2/escalations' \
 	// 			--data 'alert[one_of]=ABC'
 	//
+	// ### By incident
+	//
+	// Find all escalations related to incident with id=ABC:
+	//
+	// 		curl --get 'https://api.incident.io/v2/escalations' \
+	// 			--data 'incident[one_of]=ABC'
+	//
+	// An escalation is related to an incident if it is linked to that incident directly, if it is
+	// attached to one of the incident's alerts, or if it triggered one of those alerts (which is
+	// what happens when someone pages by calling in, and that call raises the alert).
+	//
+	// To find everything that is not related to an incident, use "not_in":
+	//
+	// 		curl --get 'https://api.incident.io/v2/escalations' \
+	// 			--data 'incident[not_in]=ABC'
+	//
 	// ### By created_at and updated_at
 	// Find all escalations that follow specified date parameters for created_at and updated_at fields.
 	// Possible values are "gte" (greater than or equal to), "lte" (less than or equal to), and
@@ -24188,6 +24371,11 @@ type ClientInterface interface {
 	// in your internal developer platform). To escalate based on automated alerts, we
 	// recommend sending events to an alert source instead.
 	//
+	// If your API key's permissions are scoped to teams, you can only escalate via an
+	// escalation path that one of those teams owns. Escalating directly to user_ids
+	// needs the permission at the account level, because an escalation aimed at a
+	// person has no owning team.
+	//
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /v2/escalations (the `EscalationsV2Create` operationId).
@@ -24211,6 +24399,11 @@ type ClientInterface interface {
 	// interactive use cases (for example someone clicking a "escalate to team" button
 	// in your internal developer platform). To escalate based on automated alerts, we
 	// recommend sending events to an alert source instead.
+	//
+	// If your API key's permissions are scoped to teams, you can only escalate via an
+	// escalation path that one of those teams owns. Escalating directly to user_ids
+	// needs the permission at the account level, because an escalation aimed at a
+	// person has no owning team.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -24815,6 +25008,49 @@ type ClientInterface interface {
 	//
 	// Corresponds with POST /v2/schedule_overrides (the `SchedulesV2CreateOverride` operationId).
 	SchedulesV2CreateOverride(ctx context.Context, body SchedulesV2CreateOverrideJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2DestroyOverride DestroyOverride Schedules V2
+	//
+	// Delete a schedule override, restoring whoever the rotations put on-call for that window.
+	//
+	// Deleting an override that has already been deleted succeeds, so it is safe to retry.
+	//
+	// Corresponds with DELETE /v2/schedule_overrides/{id} (the `SchedulesV2DestroyOverride` operationId).
+	SchedulesV2DestroyOverride(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2UpdateOverrideWithBody UpdateOverride Schedules V2
+	//
+	// Update a schedule override, moving its window or the rotation and layer it sits on.
+	//
+	// An override cannot be reassigned: send the user it already has, and delete and recreate
+	// it to put someone else on call for that window.
+	//
+	// Overrides on a layer cannot overlap, so widening one over its neighbour's window takes
+	// that time over. The neighbour is deleted, and any of its time left outside the new
+	// window comes back as new overrides with new IDs, so other override IDs on this layer
+	// may stop resolving — list the schedule's overrides again to pick up the replacements.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v2/schedule_overrides/{id} (the `SchedulesV2UpdateOverride` operationId).
+	SchedulesV2UpdateOverrideWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SchedulesV2UpdateOverride UpdateOverride Schedules V2
+	//
+	// Update a schedule override, moving its window or the rotation and layer it sits on.
+	//
+	// An override cannot be reassigned: send the user it already has, and delete and recreate
+	// it to put someone else on call for that window.
+	//
+	// Overrides on a layer cannot overlap, so widening one over its neighbour's window takes
+	// that time over. The neighbour is deleted, and any of its time left outside the new
+	// window comes back as new overrides with new IDs, so other override IDs on this layer
+	// may stop resolving — list the schedule's overrides again to pick up the replacements.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v2/schedule_overrides/{id} (the `SchedulesV2UpdateOverride` operationId).
+	SchedulesV2UpdateOverride(ctx context.Context, id string, body SchedulesV2UpdateOverrideJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ScheduleSyncTargetsV2List List Schedule Sync Targets V2
 	//
@@ -29335,6 +29571,52 @@ func (c *Client) EscalationsV2CreatePath(ctx context.Context, body EscalationsV2
 	return c.Client.Do(req)
 }
 
+// EscalationsV2ValidatePathWithBody ValidatePath Escalations V2
+//
+// Check whether an escalation path's config is valid, without creating or updating anything.
+//
+// This runs the same checks creating or updating a path would, so a config this accepts is
+// one those endpoints will accept. A config that's valid but has no practical effect comes
+// back as a warning on a successful response. A client can show it without blocking.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/escalation_paths/actions/validate (the `EscalationsV2ValidatePath` operationId).
+func (c *Client) EscalationsV2ValidatePathWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2ValidatePathRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// EscalationsV2ValidatePath ValidatePath Escalations V2
+//
+// Check whether an escalation path's config is valid, without creating or updating anything.
+//
+// This runs the same checks creating or updating a path would, so a config this accepts is
+// one those endpoints will accept. A config that's valid but has no practical effect comes
+// back as a warning on a successful response. A client can show it without blocking.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/escalation_paths/actions/validate (the `EscalationsV2ValidatePath` operationId).
+func (c *Client) EscalationsV2ValidatePath(ctx context.Context, body EscalationsV2ValidatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEscalationsV2ValidatePathRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // EscalationsV2ListExternalEscalationPaths ListExternalEscalationPaths Escalations V2
 //
 // List external escalation paths available for import from connected providers.
@@ -29522,6 +29804,22 @@ func (c *Client) EscalationsV2UpdatePath(ctx context.Context, id string, body Es
 //	curl --get 'https://api.incident.io/v2/escalations' \
 //		--data 'alert[one_of]=ABC'
 //
+// ### By incident
+//
+// Find all escalations related to incident with id=ABC:
+//
+//	curl --get 'https://api.incident.io/v2/escalations' \
+//		--data 'incident[one_of]=ABC'
+//
+// An escalation is related to an incident if it is linked to that incident directly, if it is
+// attached to one of the incident's alerts, or if it triggered one of those alerts (which is
+// what happens when someone pages by calling in, and that call raises the alert).
+//
+// To find everything that is not related to an incident, use "not_in":
+//
+//	curl --get 'https://api.incident.io/v2/escalations' \
+//		--data 'incident[not_in]=ABC'
+//
 // ### By created_at and updated_at
 // Find all escalations that follow specified date parameters for created_at and updated_at fields.
 // Possible values are "gte" (greater than or equal to), "lte" (less than or equal to), and
@@ -29568,6 +29866,11 @@ func (c *Client) EscalationsV2List(ctx context.Context, params *EscalationsV2Lis
 // in your internal developer platform). To escalate based on automated alerts, we
 // recommend sending events to an alert source instead.
 //
+// If your API key's permissions are scoped to teams, you can only escalate via an
+// escalation path that one of those teams owns. Escalating directly to user_ids
+// needs the permission at the account level, because an escalation aimed at a
+// person has no owning team.
+//
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /v2/escalations (the `EscalationsV2Create` operationId).
@@ -29601,6 +29904,11 @@ func (c *Client) EscalationsV2CreateWithBody(ctx context.Context, contentType st
 // interactive use cases (for example someone clicking a "escalate to team" button
 // in your internal developer platform). To escalate based on automated alerts, we
 // recommend sending events to an alert source instead.
+//
+// If your API key's permissions are scoped to teams, you can only escalate via an
+// escalation path that one of those teams owns. Escalating directly to user_ids
+// needs the permission at the account level, because an escalation aimed at a
+// person has no owning team.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -30604,6 +30912,79 @@ func (c *Client) SchedulesV2CreateOverrideWithBody(ctx context.Context, contentT
 // Corresponds with POST /v2/schedule_overrides (the `SchedulesV2CreateOverride` operationId).
 func (c *Client) SchedulesV2CreateOverride(ctx context.Context, body SchedulesV2CreateOverrideJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSchedulesV2CreateOverrideRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// SchedulesV2DestroyOverride DestroyOverride Schedules V2
+//
+// Delete a schedule override, restoring whoever the rotations put on-call for that window.
+//
+// Deleting an override that has already been deleted succeeds, so it is safe to retry.
+//
+// Corresponds with DELETE /v2/schedule_overrides/{id} (the `SchedulesV2DestroyOverride` operationId).
+func (c *Client) SchedulesV2DestroyOverride(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2DestroyOverrideRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// SchedulesV2UpdateOverrideWithBody UpdateOverride Schedules V2
+//
+// Update a schedule override, moving its window or the rotation and layer it sits on.
+//
+// An override cannot be reassigned: send the user it already has, and delete and recreate
+// it to put someone else on call for that window.
+//
+// Overrides on a layer cannot overlap, so widening one over its neighbour's window takes
+// that time over. The neighbour is deleted, and any of its time left outside the new
+// window comes back as new overrides with new IDs, so other override IDs on this layer
+// may stop resolving — list the schedule's overrides again to pick up the replacements.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v2/schedule_overrides/{id} (the `SchedulesV2UpdateOverride` operationId).
+func (c *Client) SchedulesV2UpdateOverrideWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2UpdateOverrideRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// SchedulesV2UpdateOverride UpdateOverride Schedules V2
+//
+// Update a schedule override, moving its window or the rotation and layer it sits on.
+//
+// An override cannot be reassigned: send the user it already has, and delete and recreate
+// it to put someone else on call for that window.
+//
+// Overrides on a layer cannot overlap, so widening one over its neighbour's window takes
+// that time over. The neighbour is deleted, and any of its time left outside the new
+// window comes back as new overrides with new IDs, so other override IDs on this layer
+// may stop resolving — list the schedule's overrides again to pick up the replacements.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v2/schedule_overrides/{id} (the `SchedulesV2UpdateOverride` operationId).
+func (c *Client) SchedulesV2UpdateOverride(ctx context.Context, id string, body SchedulesV2UpdateOverrideJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSchedulesV2UpdateOverrideRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -38358,6 +38739,46 @@ func NewEscalationsV2CreatePathRequestWithBody(server string, contentType string
 	return req, nil
 }
 
+// NewEscalationsV2ValidatePathRequest calls the generic EscalationsV2ValidatePath builder with application/json body
+func NewEscalationsV2ValidatePathRequest(server string, body EscalationsV2ValidatePathJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewEscalationsV2ValidatePathRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewEscalationsV2ValidatePathRequestWithBody constructs an http.Request for the EscalationsV2ValidatePath method, with any body, and a specified content type
+func NewEscalationsV2ValidatePathRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/escalation_paths/actions/validate")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewEscalationsV2ListExternalEscalationPathsRequest constructs an http.Request for the EscalationsV2ListExternalEscalationPaths method
 func NewEscalationsV2ListExternalEscalationPathsRequest(server string, params *EscalationsV2ListExternalEscalationPathsParams) (*http.Request, error) {
 	var err error
@@ -38694,6 +39115,18 @@ func NewEscalationsV2ListRequest(server string, params *EscalationsV2ListParams)
 		if params.Alert != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "alert", *params.Alert, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "object", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Incident != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "incident", *params.Incident, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "object", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -40409,6 +40842,87 @@ func NewSchedulesV2CreateOverrideRequestWithBody(server string, contentType stri
 	}
 
 	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewSchedulesV2DestroyOverrideRequest constructs an http.Request for the SchedulesV2DestroyOverride method
+func NewSchedulesV2DestroyOverrideRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedule_overrides/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSchedulesV2UpdateOverrideRequest calls the generic SchedulesV2UpdateOverride builder with application/json body
+func NewSchedulesV2UpdateOverrideRequest(server string, id string, body SchedulesV2UpdateOverrideJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSchedulesV2UpdateOverrideRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewSchedulesV2UpdateOverrideRequestWithBody constructs an http.Request for the SchedulesV2UpdateOverride method, with any body, and a specified content type
+func NewSchedulesV2UpdateOverrideRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/schedule_overrides/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -46789,6 +47303,32 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with POST /v2/escalation_paths (the `EscalationsV2CreatePath` operationId).
 	EscalationsV2CreatePathWithResponse(ctx context.Context, body EscalationsV2CreatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2CreatePathResponse, error)
 
+	// EscalationsV2ValidatePathWithBodyWithResponse ValidatePath Escalations V2
+	//
+	// Check whether an escalation path's config is valid, without creating or updating anything.
+	//
+	// This runs the same checks creating or updating a path would, so a config this accepts is
+	// one those endpoints will accept. A config that's valid but has no practical effect comes
+	// back as a warning on a successful response. A client can show it without blocking.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/escalation_paths/actions/validate (the `EscalationsV2ValidatePath` operationId).
+	EscalationsV2ValidatePathWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2ValidatePathResponse, error)
+
+	// EscalationsV2ValidatePathWithResponse ValidatePath Escalations V2
+	//
+	// Check whether an escalation path's config is valid, without creating or updating anything.
+	//
+	// This runs the same checks creating or updating a path would, so a config this accepts is
+	// one those endpoints will accept. A config that's valid but has no practical effect comes
+	// back as a warning on a successful response. A client can show it without blocking.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/escalation_paths/actions/validate (the `EscalationsV2ValidatePath` operationId).
+	EscalationsV2ValidatePathWithResponse(ctx context.Context, body EscalationsV2ValidatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2ValidatePathResponse, error)
+
 	// EscalationsV2ListExternalEscalationPathsWithResponse ListExternalEscalationPaths Escalations V2
 	//
 	// List external escalation paths available for import from connected providers.
@@ -46912,6 +47452,22 @@ type ClientWithResponsesInterface interface {
 	// 		curl --get 'https://api.incident.io/v2/escalations' \
 	// 			--data 'alert[one_of]=ABC'
 	//
+	// ### By incident
+	//
+	// Find all escalations related to incident with id=ABC:
+	//
+	// 		curl --get 'https://api.incident.io/v2/escalations' \
+	// 			--data 'incident[one_of]=ABC'
+	//
+	// An escalation is related to an incident if it is linked to that incident directly, if it is
+	// attached to one of the incident's alerts, or if it triggered one of those alerts (which is
+	// what happens when someone pages by calling in, and that call raises the alert).
+	//
+	// To find everything that is not related to an incident, use "not_in":
+	//
+	// 		curl --get 'https://api.incident.io/v2/escalations' \
+	// 			--data 'incident[not_in]=ABC'
+	//
 	// ### By created_at and updated_at
 	// Find all escalations that follow specified date parameters for created_at and updated_at fields.
 	// Possible values are "gte" (greater than or equal to), "lte" (less than or equal to), and
@@ -46950,6 +47506,11 @@ type ClientWithResponsesInterface interface {
 	// in your internal developer platform). To escalate based on automated alerts, we
 	// recommend sending events to an alert source instead.
 	//
+	// If your API key's permissions are scoped to teams, you can only escalate via an
+	// escalation path that one of those teams owns. Escalating directly to user_ids
+	// needs the permission at the account level, because an escalation aimed at a
+	// person has no owning team.
+	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /v2/escalations (the `EscalationsV2Create` operationId).
@@ -46973,6 +47534,11 @@ type ClientWithResponsesInterface interface {
 	// interactive use cases (for example someone clicking a "escalate to team" button
 	// in your internal developer platform). To escalate based on automated alerts, we
 	// recommend sending events to an alert source instead.
+	//
+	// If your API key's permissions are scoped to teams, you can only escalate via an
+	// escalation path that one of those teams owns. Escalating directly to user_ids
+	// needs the permission at the account level, because an escalation aimed at a
+	// person has no owning team.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -47617,6 +48183,51 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with POST /v2/schedule_overrides (the `SchedulesV2CreateOverride` operationId).
 	SchedulesV2CreateOverrideWithResponse(ctx context.Context, body SchedulesV2CreateOverrideJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2CreateOverrideResponse, error)
+
+	// SchedulesV2DestroyOverrideWithResponse DestroyOverride Schedules V2
+	//
+	// Delete a schedule override, restoring whoever the rotations put on-call for that window.
+	//
+	// Deleting an override that has already been deleted succeeds, so it is safe to retry.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v2/schedule_overrides/{id} (the `SchedulesV2DestroyOverride` operationId).
+	SchedulesV2DestroyOverrideWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV2DestroyOverrideResponse, error)
+
+	// SchedulesV2UpdateOverrideWithBodyWithResponse UpdateOverride Schedules V2
+	//
+	// Update a schedule override, moving its window or the rotation and layer it sits on.
+	//
+	// An override cannot be reassigned: send the user it already has, and delete and recreate
+	// it to put someone else on call for that window.
+	//
+	// Overrides on a layer cannot overlap, so widening one over its neighbour's window takes
+	// that time over. The neighbour is deleted, and any of its time left outside the new
+	// window comes back as new overrides with new IDs, so other override IDs on this layer
+	// may stop resolving — list the schedule's overrides again to pick up the replacements.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/schedule_overrides/{id} (the `SchedulesV2UpdateOverride` operationId).
+	SchedulesV2UpdateOverrideWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateOverrideResponse, error)
+
+	// SchedulesV2UpdateOverrideWithResponse UpdateOverride Schedules V2
+	//
+	// Update a schedule override, moving its window or the rotation and layer it sits on.
+	//
+	// An override cannot be reassigned: send the user it already has, and delete and recreate
+	// it to put someone else on call for that window.
+	//
+	// Overrides on a layer cannot overlap, so widening one over its neighbour's window takes
+	// that time over. The neighbour is deleted, and any of its time left outside the new
+	// window comes back as new overrides with new IDs, so other override IDs on this layer
+	// may stop resolving — list the schedule's overrides again to pick up the replacements.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/schedule_overrides/{id} (the `SchedulesV2UpdateOverride` operationId).
+	SchedulesV2UpdateOverrideWithResponse(ctx context.Context, id string, body SchedulesV2UpdateOverrideJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateOverrideResponse, error)
 
 	// ScheduleSyncTargetsV2ListWithResponse List Schedule Sync Targets V2
 	//
@@ -53624,6 +54235,47 @@ func (r EscalationsV2CreatePathResponse) ContentType() string {
 	return ""
 }
 
+type EscalationsV2ValidatePathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *EscalationsValidatePathResultV2
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r EscalationsV2ValidatePathResponse) GetJSON200() *EscalationsValidatePathResultV2 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r EscalationsV2ValidatePathResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r EscalationsV2ValidatePathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EscalationsV2ValidatePathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r EscalationsV2ValidatePathResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type EscalationsV2ListExternalEscalationPathsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -55100,6 +55752,81 @@ func (r SchedulesV2CreateOverrideResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r SchedulesV2CreateOverrideResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type SchedulesV2DestroyOverrideResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r SchedulesV2DestroyOverrideResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2DestroyOverrideResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2DestroyOverrideResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r SchedulesV2DestroyOverrideResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type SchedulesV2UpdateOverrideResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *SchedulesUpdateOverrideResultV2
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r SchedulesV2UpdateOverrideResponse) GetJSON200() *SchedulesUpdateOverrideResultV2 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r SchedulesV2UpdateOverrideResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r SchedulesV2UpdateOverrideResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SchedulesV2UpdateOverrideResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r SchedulesV2UpdateOverrideResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -61668,6 +62395,44 @@ func (c *ClientWithResponses) EscalationsV2CreatePathWithResponse(ctx context.Co
 	return ParseEscalationsV2CreatePathResponse(rsp)
 }
 
+// EscalationsV2ValidatePathWithBodyWithResponse ValidatePath Escalations V2
+//
+// Check whether an escalation path's config is valid, without creating or updating anything.
+//
+// This runs the same checks creating or updating a path would, so a config this accepts is
+// one those endpoints will accept. A config that's valid but has no practical effect comes
+// back as a warning on a successful response. A client can show it without blocking.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/escalation_paths/actions/validate (the `EscalationsV2ValidatePath` operationId).
+func (c *ClientWithResponses) EscalationsV2ValidatePathWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*EscalationsV2ValidatePathResponse, error) {
+	rsp, err := c.EscalationsV2ValidatePathWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2ValidatePathResponse(rsp)
+}
+
+// EscalationsV2ValidatePathWithResponse ValidatePath Escalations V2
+//
+// Check whether an escalation path's config is valid, without creating or updating anything.
+//
+// This runs the same checks creating or updating a path would, so a config this accepts is
+// one those endpoints will accept. A config that's valid but has no practical effect comes
+// back as a warning on a successful response. A client can show it without blocking.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/escalation_paths/actions/validate (the `EscalationsV2ValidatePath` operationId).
+func (c *ClientWithResponses) EscalationsV2ValidatePathWithResponse(ctx context.Context, body EscalationsV2ValidatePathJSONRequestBody, reqEditors ...RequestEditorFn) (*EscalationsV2ValidatePathResponse, error) {
+	rsp, err := c.EscalationsV2ValidatePath(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEscalationsV2ValidatePathResponse(rsp)
+}
+
 // EscalationsV2ListExternalEscalationPathsWithResponse ListExternalEscalationPaths Escalations V2
 //
 // List external escalation paths available for import from connected providers.
@@ -61833,6 +62598,22 @@ func (c *ClientWithResponses) EscalationsV2UpdatePathWithResponse(ctx context.Co
 //	curl --get 'https://api.incident.io/v2/escalations' \
 //		--data 'alert[one_of]=ABC'
 //
+// ### By incident
+//
+// Find all escalations related to incident with id=ABC:
+//
+//	curl --get 'https://api.incident.io/v2/escalations' \
+//		--data 'incident[one_of]=ABC'
+//
+// An escalation is related to an incident if it is linked to that incident directly, if it is
+// attached to one of the incident's alerts, or if it triggered one of those alerts (which is
+// what happens when someone pages by calling in, and that call raises the alert).
+//
+// To find everything that is not related to an incident, use "not_in":
+//
+//	curl --get 'https://api.incident.io/v2/escalations' \
+//		--data 'incident[not_in]=ABC'
+//
 // ### By created_at and updated_at
 // Find all escalations that follow specified date parameters for created_at and updated_at fields.
 // Possible values are "gte" (greater than or equal to), "lte" (less than or equal to), and
@@ -61877,6 +62658,11 @@ func (c *ClientWithResponses) EscalationsV2ListWithResponse(ctx context.Context,
 // in your internal developer platform). To escalate based on automated alerts, we
 // recommend sending events to an alert source instead.
 //
+// If your API key's permissions are scoped to teams, you can only escalate via an
+// escalation path that one of those teams owns. Escalating directly to user_ids
+// needs the permission at the account level, because an escalation aimed at a
+// person has no owning team.
+//
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /v2/escalations (the `EscalationsV2Create` operationId).
@@ -61906,6 +62692,11 @@ func (c *ClientWithResponses) EscalationsV2CreateWithBodyWithResponse(ctx contex
 // interactive use cases (for example someone clicking a "escalate to team" button
 // in your internal developer platform). To escalate based on automated alerts, we
 // recommend sending events to an alert source instead.
+//
+// If your API key's permissions are scoped to teams, you can only escalate via an
+// escalation path that one of those teams owns. Escalating directly to user_ids
+// needs the permission at the account level, because an escalation aimed at a
+// person has no owning team.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -62793,6 +63584,69 @@ func (c *ClientWithResponses) SchedulesV2CreateOverrideWithResponse(ctx context.
 		return nil, err
 	}
 	return ParseSchedulesV2CreateOverrideResponse(rsp)
+}
+
+// SchedulesV2DestroyOverrideWithResponse DestroyOverride Schedules V2
+//
+// Delete a schedule override, restoring whoever the rotations put on-call for that window.
+//
+// Deleting an override that has already been deleted succeeds, so it is safe to retry.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v2/schedule_overrides/{id} (the `SchedulesV2DestroyOverride` operationId).
+func (c *ClientWithResponses) SchedulesV2DestroyOverrideWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*SchedulesV2DestroyOverrideResponse, error) {
+	rsp, err := c.SchedulesV2DestroyOverride(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2DestroyOverrideResponse(rsp)
+}
+
+// SchedulesV2UpdateOverrideWithBodyWithResponse UpdateOverride Schedules V2
+//
+// Update a schedule override, moving its window or the rotation and layer it sits on.
+//
+// An override cannot be reassigned: send the user it already has, and delete and recreate
+// it to put someone else on call for that window.
+//
+// Overrides on a layer cannot overlap, so widening one over its neighbour's window takes
+// that time over. The neighbour is deleted, and any of its time left outside the new
+// window comes back as new overrides with new IDs, so other override IDs on this layer
+// may stop resolving — list the schedule's overrides again to pick up the replacements.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/schedule_overrides/{id} (the `SchedulesV2UpdateOverride` operationId).
+func (c *ClientWithResponses) SchedulesV2UpdateOverrideWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateOverrideResponse, error) {
+	rsp, err := c.SchedulesV2UpdateOverrideWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2UpdateOverrideResponse(rsp)
+}
+
+// SchedulesV2UpdateOverrideWithResponse UpdateOverride Schedules V2
+//
+// Update a schedule override, moving its window or the rotation and layer it sits on.
+//
+// An override cannot be reassigned: send the user it already has, and delete and recreate
+// it to put someone else on call for that window.
+//
+// Overrides on a layer cannot overlap, so widening one over its neighbour's window takes
+// that time over. The neighbour is deleted, and any of its time left outside the new
+// window comes back as new overrides with new IDs, so other override IDs on this layer
+// may stop resolving — list the schedule's overrides again to pick up the replacements.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/schedule_overrides/{id} (the `SchedulesV2UpdateOverride` operationId).
+func (c *ClientWithResponses) SchedulesV2UpdateOverrideWithResponse(ctx context.Context, id string, body SchedulesV2UpdateOverrideJSONRequestBody, reqEditors ...RequestEditorFn) (*SchedulesV2UpdateOverrideResponse, error) {
+	rsp, err := c.SchedulesV2UpdateOverride(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSchedulesV2UpdateOverrideResponse(rsp)
 }
 
 // ScheduleSyncTargetsV2ListWithResponse List Schedule Sync Targets V2
@@ -67888,6 +68742,32 @@ func ParseEscalationsV2CreatePathResponse(rsp *http.Response) (*EscalationsV2Cre
 	return response, nil
 }
 
+// ParseEscalationsV2ValidatePathResponse parses an HTTP response from a EscalationsV2ValidatePathWithResponse call
+func ParseEscalationsV2ValidatePathResponse(rsp *http.Response) (*EscalationsV2ValidatePathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EscalationsV2ValidatePathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EscalationsValidatePathResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseEscalationsV2ListExternalEscalationPathsResponse parses an HTTP response from a EscalationsV2ListExternalEscalationPathsWithResponse call
 func ParseEscalationsV2ListExternalEscalationPathsResponse(rsp *http.Response) (*EscalationsV2ListExternalEscalationPathsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -68797,6 +69677,48 @@ func ParseSchedulesV2CreateOverrideResponse(rsp *http.Response) (*SchedulesV2Cre
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2DestroyOverrideResponse parses an HTTP response from a SchedulesV2DestroyOverrideWithResponse call
+func ParseSchedulesV2DestroyOverrideResponse(rsp *http.Response) (*SchedulesV2DestroyOverrideResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2DestroyOverrideResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseSchedulesV2UpdateOverrideResponse parses an HTTP response from a SchedulesV2UpdateOverrideWithResponse call
+func ParseSchedulesV2UpdateOverrideResponse(rsp *http.Response) (*SchedulesV2UpdateOverrideResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SchedulesV2UpdateOverrideResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SchedulesUpdateOverrideResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	}
 

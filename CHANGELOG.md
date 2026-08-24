@@ -1,5 +1,7 @@
 ## Unreleased
 
+- `incident_escalation_path` now validates its planned config against the API at plan time, so a config the API would reject - such as a target missing a required `selected_rota_id` - fails the plan with the API's own message instead of failing part way through an apply. A path that's valid but has no practical effect, like an `if_else` branch with no nodes, comes back as a plan warning rather than an error.
+
 ## v6.3.0
 
 - `incident_user` lookups by `email` now resolve to the single active user when
