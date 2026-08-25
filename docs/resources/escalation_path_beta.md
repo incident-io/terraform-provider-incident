@@ -21,11 +21,6 @@ description: |-
   incident_escalation_path is not deprecated, and there is no need to move anything yet. The
   two resources manage the same escalation paths through the same API, so don't point both at
   one path: they'd each plan to undo the other's changes.
-  One limitation to know about. incident_escalation_path takes raw engine conditions on a
-  branch, where this resource takes a branch.if block modelling the two things an escalation
-  can be tested on. A path whose branch tests something else — or tests more than one thing at
-  once — has no branch.if to read back into, so importing or reading it fails with an error
-  naming what it found. Keep using incident_escalation_path for those.
 ---
 
 # incident_escalation_path_beta (Resource)
@@ -56,12 +51,6 @@ compatible, so pin the provider version if that matters to you.
 `incident_escalation_path` is not deprecated, and there is no need to move anything yet. The
 two resources manage the same escalation paths through the same API, so don't point both at
 one path: they'd each plan to undo the other's changes.
-
-One limitation to know about. `incident_escalation_path` takes raw engine `conditions` on a
-branch, where this resource takes a `branch.if` block modelling the two things an escalation
-can be tested on. A path whose branch tests something else — or tests more than one thing at
-once — has no `branch.if` to read back into, so importing or reading it fails with an error
-naming what it found. Keep using `incident_escalation_path` for those.
 
 ## Example Usage
 
