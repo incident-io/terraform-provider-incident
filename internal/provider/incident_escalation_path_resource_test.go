@@ -682,6 +682,49 @@ func TestAccIncidentEscalationPathSelectedRotaIDValidation(t *testing.T) {
 	})
 }
 
+// TestAccIncidentEscalationPathTargetValidation exercises the plan-time validate call
+// itself: a target referencing a user ID that doesn't exist isn't something this provider
+// checks locally (unlike the schedule_mode/selected_rota_id pairing above, which is a
+// ValidateConfig diagnostic and never reaches the API), so a rejection here only happens
+// once ModifyPlan calls the API's validate endpoint. PlanOnly proves it fails during plan,
+// before Terraform would otherwise create anything.
+func TestAccIncidentEscalationPathTargetValidation(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config:      testAccIncidentEscalationPathResourceConfigNonexistentUser(),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile(`does not exist`),
+			},
+		},
+	})
+}
+
+func testAccIncidentEscalationPathResourceConfigNonexistentUser() string {
+	return `
+resource "incident_escalation_path" "invalid_target" {
+  name = "invalid-target"
+
+  path = [
+    {
+      type = "level"
+      level = {
+        targets = [{
+          type    = "user"
+          id      = "01HKZWAAAAAAAAAAAAAAAAAAA1"
+          urgency = "high"
+        }]
+        time_to_ack_seconds = 300
+      }
+    }
+  ]
+
+  team_ids = []
+}`
+}
+
 func testAccIncidentEscalationPathResourceConfigMissingSelectedRotaID() string {
 	return `
 resource "incident_escalation_path" "invalid_missing_rota" {

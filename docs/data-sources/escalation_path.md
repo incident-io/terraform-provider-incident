@@ -46,6 +46,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--delay"></a>
@@ -123,6 +124,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--delay"></a>
@@ -200,6 +202,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--delay"></a>
@@ -277,6 +280,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -354,6 +358,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -430,6 +435,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -537,6 +543,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -723,6 +730,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -799,6 +807,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -906,6 +915,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -1170,6 +1180,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -1247,6 +1258,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -1323,6 +1335,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -1430,6 +1443,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -1616,6 +1630,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -1692,6 +1707,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -1799,6 +1815,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -2141,6 +2158,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--delay"></a>
@@ -2218,6 +2236,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -2295,6 +2314,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -2371,6 +2391,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -2478,6 +2499,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -2664,6 +2686,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -2740,6 +2763,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -2847,6 +2871,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -3111,6 +3136,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -3188,6 +3214,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -3264,6 +3291,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -3371,6 +3399,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -3557,6 +3586,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -3633,6 +3663,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -3740,6 +3771,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -4160,6 +4192,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--delay"></a>
@@ -4237,6 +4270,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--delay"></a>
@@ -4314,6 +4348,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -4391,6 +4426,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -4467,6 +4503,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -4574,6 +4611,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -4760,6 +4798,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -4836,6 +4875,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -4943,6 +4983,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -5207,6 +5248,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -5284,6 +5326,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -5360,6 +5403,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -5467,6 +5511,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -5653,6 +5698,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -5729,6 +5775,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -5836,6 +5883,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -6178,6 +6226,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--delay"></a>
@@ -6255,6 +6304,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -6332,6 +6382,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -6408,6 +6459,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -6515,6 +6567,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -6701,6 +6754,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -6777,6 +6831,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -6884,6 +6939,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -7148,6 +7204,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -7225,6 +7282,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -7301,6 +7359,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
@@ -7408,6 +7467,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
@@ -7594,6 +7654,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
@@ -7670,6 +7731,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
@@ -7777,6 +7839,7 @@ This allows you to reference the node in other nodes, such as when configuring a
 * if_else: Branch the escalation based on a set of conditions.
 * repeat: Go back to a previous node and repeat the logic from there.
 * delay: Pause the escalation for a configured duration before advancing to the next node.
+* escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
