@@ -64,7 +64,7 @@ func (r *IncidentScheduleSyncRuleResource) Schema(ctx context.Context, req resou
 			},
 			"sync_type": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleSyncRuleV2", "sync_type") + "\n\nValid values: `all_users`, `on_call`.",
+				MarkdownDescription: apischema.Docstring("ScheduleSyncRuleV2", "sync_type") + "\n\nValid values: `all_users`, `next_on_call`, `on_call`.",
 			},
 			"rotation_id": schema.StringAttribute{
 				Optional:            true,

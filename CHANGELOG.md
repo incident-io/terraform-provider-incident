@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Document `next_on_call` on `incident_schedule_sync_rule`: the resource example now shows syncing a Slack user group with the people on the next upcoming shift, and the schema lists it as a valid `sync_type`.
+
 ## v6.4.0
 
 - Add `incident_escalation_path_beta`, which writes an escalation path as a flat map of named sequences, with no limit on how deeply it branches. This resource is beta: its schema may change in ways that aren't backwards compatible while we settle the design. `incident_escalation_path` is unchanged and not deprecated - don't point both at the same escalation path, as each would plan to undo the other's changes.
