@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v6.4.1
+
 - Document `next_on_call` on `incident_schedule_sync_rule`: the resource example now shows syncing a Slack user group with the people on the next upcoming shift, and the schema lists it as a valid `sync_type`.
 - Correct the documented description of `auto_resolve_incident_alerts` on `incident_alert_source` and `incident_alert_source_beta`. It controls whether alerts from the source keep counting down to auto-resolve while they're attached to an incident, and has no effect without `auto_resolve_timeout_minutes`.
 
