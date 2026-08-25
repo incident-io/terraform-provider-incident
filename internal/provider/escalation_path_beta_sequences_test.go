@@ -44,7 +44,7 @@ func branchNode(then, els string) escalationPathBetaNode {
 	return escalationPathBetaNode{
 		ID: types.StringNull(),
 		Branch: &escalationPathBetaBranch{
-			If:   workingHoursIf("UK"),
+			If:   workingHoursIf(),
 			Then: types.StringValue(then),
 			Else: elseKey,
 		},

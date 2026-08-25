@@ -15,10 +15,11 @@ import (
 	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
 )
 
-// workingHoursIf is the branch condition the tests reach for by default.
-func workingHoursIf(id string) *escalationPathBetaBranchIf {
+// workingHoursIf is the branch condition the tests reach for by default. The id matches the
+// working hours the sequence fixtures declare, so a branch built from it resolves.
+func workingHoursIf() *escalationPathBetaBranchIf {
 	return &escalationPathBetaBranchIf{
-		WorkingHoursActive: types.StringValue(id),
+		WorkingHoursActive: types.StringValue("UK"),
 		PriorityOneOf:      types.SetNull(types.StringType),
 	}
 }
@@ -68,7 +69,7 @@ func TestEscalationPathBetaBranchIfToPayload(t *testing.T) {
 
 	t.Run("builds the working hours condition from an id", func(t *testing.T) {
 		var diags diag.Diagnostics
-		got := workingHoursIf("UK").toPayload(ctx, &diags)
+		got := workingHoursIf().toPayload(ctx, &diags)
 
 		if diags.HasError() {
 			t.Fatalf("unexpected errors: %+v", diags)
@@ -146,7 +147,7 @@ func TestEscalationPathBetaBranchIfToPayload(t *testing.T) {
 
 	t.Run("refuses to drop one of two tests", func(t *testing.T) {
 		var diags diag.Diagnostics
-		both := workingHoursIf("UK")
+		both := workingHoursIf()
 		both.PriorityOneOf = priorityIf(t, "01AAA").PriorityOneOf
 
 		if got := both.toPayload(ctx, &diags); len(got) != 0 {
@@ -163,7 +164,7 @@ func TestEscalationPathBetaBranchIfFromAPI(t *testing.T) {
 
 	t.Run("round-trips working hours", func(t *testing.T) {
 		var diags diag.Diagnostics
-		want := workingHoursIf("UK")
+		want := workingHoursIf()
 		got := escalationPathBetaBranchIfFromAPI(ctx, apiConditions(want.toPayload(ctx, &diags)), &diags)
 
 		if diags.HasError() {
@@ -285,7 +286,7 @@ func TestValidateSequenceConditions(t *testing.T) {
 	}{
 		{
 			name:         "a branch on working hours the path declares",
-			branchIf:     workingHoursIf("UK"),
+			branchIf:     workingHoursIf(),
 			workingHours: []string{"UK"},
 		},
 		{
@@ -294,7 +295,7 @@ func TestValidateSequenceConditions(t *testing.T) {
 		},
 		{
 			name:      "a branch on working hours the path doesn't declare",
-			branchIf:  workingHoursIf("UK"),
+			branchIf:  workingHoursIf(),
 			wantError: `no working hours with the id "UK"`,
 		},
 		{

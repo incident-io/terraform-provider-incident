@@ -80,8 +80,14 @@ func TestEscalationPathNodeBlocksSharedWithGA(t *testing.T) {
 
 	// level differs in one attribute only: the GA resource defaults ack_mode to "all",
 	// which the beta resource defaults to "first".
-	gaLevel := ga["level"].(schema.SingleNestedAttribute)
-	betaLevel := beta["level"].(schema.SingleNestedAttribute)
+	gaLevel, ok := ga["level"].(schema.SingleNestedAttribute)
+	if !ok {
+		t.Fatal("level is not a single nested attribute on incident_escalation_path")
+	}
+	betaLevel, ok := beta["level"].(schema.SingleNestedAttribute)
+	if !ok {
+		t.Fatal("level is not a single nested attribute on incident_escalation_path_beta")
+	}
 	for attr := range gaLevel.Attributes {
 		if _, ok := betaLevel.Attributes[attr]; !ok {
 			t.Errorf("level.%s is on incident_escalation_path but not incident_escalation_path_beta", attr)
