@@ -6,6 +6,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -301,6 +302,38 @@ func TestValidateSequences(t *testing.T) {
 			}
 			t.Errorf("no error mentioned %q, got %+v", tc.wantError, diags.Errors())
 		})
+	}
+}
+
+// TestValidateSequencesSkipsUnknownNodes covers a sequence whose whole nodes list is a value
+// another resource computes — `nodes = local.from_a_resource`. decodeSequences reads an
+// unknown list as no nodes at all, so without a guard every check below it sees an empty
+// sequence and an escalation path that reaches nothing.
+func TestValidateSequencesSkipsUnknownNodes(t *testing.T) {
+	ctx := context.Background()
+
+	nodeType := types.ObjectType{AttrTypes: escalationPathBetaNodeAttrTypes()}
+	sequenceType := types.ObjectType{AttrTypes: map[string]attr.Type{
+		"nodes": types.ListType{ElemType: nodeType},
+	}}
+
+	sequences, d := types.MapValue(sequenceType, map[string]attr.Value{
+		"main": types.ObjectValueMust(sequenceType.AttrTypes, map[string]attr.Value{
+			"nodes": types.ListUnknown(nodeType),
+		}),
+	})
+	if d.HasError() {
+		t.Fatalf("building sequences map: %+v", d)
+	}
+
+	var diags diag.Diagnostics
+	validateSequences(ctx, &escalationPathBetaModel{
+		Start:     types.StringValue("main"),
+		Sequences: sequences,
+	}, &diags)
+
+	if diags.HasError() {
+		t.Fatalf("expected no errors for a sequence whose nodes aren't computed yet, got %+v", diags.Errors())
 	}
 }
 

@@ -374,6 +374,13 @@ func validateSequences(ctx context.Context, data *escalationPathBetaModel, diags
 		return
 	}
 
+	// Same for one sequence's nodes. decodeSequences reads a list another resource computes
+	// as no nodes at all, which every check below would then report as an empty sequence,
+	// and as an escalation path whose other sequences nothing reaches.
+	if hasUnknownSequenceNodes(ctx, data.Sequences, diags) || diags.HasError() {
+		return
+	}
+
 	sequences := decodeSequences(ctx, data.Sequences, diags)
 	if diags.HasError() {
 		return
@@ -391,6 +398,25 @@ func validateSequences(ctx context.Context, data *escalationPathBetaModel, diags
 	validateSequenceReferences(sequences, nodeIDs, diags)
 	validateSequenceTree(start, sequences, diags)
 	validateSequenceLoops(start, sequences, diags)
+}
+
+// hasUnknownSequenceNodes reports whether any sequence's whole nodes list is still unknown.
+// This can't be read off the decoded sequences, which is the point: decodeSequences turns an
+// unknown list into no nodes, so by then it looks like a sequence the author left empty.
+func hasUnknownSequenceNodes(ctx context.Context, sequences types.Map, diags *diag.Diagnostics) bool {
+	var decoded map[string]escalationPathBetaSequence
+	diags.Append(sequences.ElementsAs(ctx, &decoded, false)...)
+	if diags.HasError() {
+		return false
+	}
+
+	for _, sequence := range decoded {
+		if sequence.Nodes.IsUnknown() {
+			return true
+		}
+	}
+
+	return false
 }
 
 // hasUnknownSequenceReference reports whether any name the checks resolve against is still
