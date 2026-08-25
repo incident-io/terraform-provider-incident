@@ -51,6 +51,7 @@ const (
 	APIKeyRoleV1NameSecuritySettingsEditor              APIKeyRoleV1Name = "security_settings_editor"
 	APIKeyRoleV1NameStatusPagePublisher                 APIKeyRoleV1Name = "status_page_publisher"
 	APIKeyRoleV1NameTeamMembershipsManage               APIKeyRoleV1Name = "team_memberships_manage"
+	APIKeyRoleV1NameTelemetryQueryRestricted            APIKeyRoleV1Name = "telemetry_query_restricted"
 	APIKeyRoleV1NameViewer                              APIKeyRoleV1Name = "viewer"
 	APIKeyRoleV1NameWorkflowsEditor                     APIKeyRoleV1Name = "workflows_editor"
 	APIKeyRoleV1NameWorkflowsViewer                     APIKeyRoleV1Name = "workflows_viewer"
@@ -121,6 +122,8 @@ func (e APIKeyRoleV1Name) Valid() bool {
 		return true
 	case APIKeyRoleV1NameTeamMembershipsManage:
 		return true
+	case APIKeyRoleV1NameTelemetryQueryRestricted:
+		return true
 	case APIKeyRoleV1NameViewer:
 		return true
 	case APIKeyRoleV1NameWorkflowsEditor:
@@ -134,18 +137,19 @@ func (e APIKeyRoleV1Name) Valid() bool {
 
 // Defines values for APIKeyTeamRoleV1Name.
 const (
-	APIKeyTeamRoleV1NameApiKeysManage           APIKeyTeamRoleV1Name = "api_keys_manage"
-	APIKeyTeamRoleV1NameCatalogEditor           APIKeyTeamRoleV1Name = "catalog_editor"
-	APIKeyTeamRoleV1NameEscalationCreator       APIKeyTeamRoleV1Name = "escalation_creator"
-	APIKeyTeamRoleV1NameHeartbeatsPing          APIKeyTeamRoleV1Name = "heartbeats_ping"
-	APIKeyTeamRoleV1NameOnCallEditor            APIKeyTeamRoleV1Name = "on_call_editor"
-	APIKeyTeamRoleV1NamePrivateWorkflowsEditor  APIKeyTeamRoleV1Name = "private_workflows_editor"
-	APIKeyTeamRoleV1NameScheduleOverridesEditor APIKeyTeamRoleV1Name = "schedule_overrides_editor"
-	APIKeyTeamRoleV1NameSchedulesEditor         APIKeyTeamRoleV1Name = "schedules_editor"
-	APIKeyTeamRoleV1NameSchedulesReader         APIKeyTeamRoleV1Name = "schedules_reader"
-	APIKeyTeamRoleV1NameSecretsManage           APIKeyTeamRoleV1Name = "secrets_manage"
-	APIKeyTeamRoleV1NameSecretsUse              APIKeyTeamRoleV1Name = "secrets_use"
-	APIKeyTeamRoleV1NameWorkflowsEditor         APIKeyTeamRoleV1Name = "workflows_editor"
+	APIKeyTeamRoleV1NameApiKeysManage            APIKeyTeamRoleV1Name = "api_keys_manage"
+	APIKeyTeamRoleV1NameCatalogEditor            APIKeyTeamRoleV1Name = "catalog_editor"
+	APIKeyTeamRoleV1NameEscalationCreator        APIKeyTeamRoleV1Name = "escalation_creator"
+	APIKeyTeamRoleV1NameHeartbeatsPing           APIKeyTeamRoleV1Name = "heartbeats_ping"
+	APIKeyTeamRoleV1NameOnCallEditor             APIKeyTeamRoleV1Name = "on_call_editor"
+	APIKeyTeamRoleV1NamePrivateWorkflowsEditor   APIKeyTeamRoleV1Name = "private_workflows_editor"
+	APIKeyTeamRoleV1NameScheduleOverridesEditor  APIKeyTeamRoleV1Name = "schedule_overrides_editor"
+	APIKeyTeamRoleV1NameSchedulesEditor          APIKeyTeamRoleV1Name = "schedules_editor"
+	APIKeyTeamRoleV1NameSchedulesReader          APIKeyTeamRoleV1Name = "schedules_reader"
+	APIKeyTeamRoleV1NameSecretsManage            APIKeyTeamRoleV1Name = "secrets_manage"
+	APIKeyTeamRoleV1NameSecretsUse               APIKeyTeamRoleV1Name = "secrets_use"
+	APIKeyTeamRoleV1NameTelemetryQueryRestricted APIKeyTeamRoleV1Name = "telemetry_query_restricted"
+	APIKeyTeamRoleV1NameWorkflowsEditor          APIKeyTeamRoleV1Name = "workflows_editor"
 )
 
 // Valid indicates whether the value is a known member of the APIKeyTeamRoleV1Name enum.
@@ -172,6 +176,8 @@ func (e APIKeyTeamRoleV1Name) Valid() bool {
 	case APIKeyTeamRoleV1NameSecretsManage:
 		return true
 	case APIKeyTeamRoleV1NameSecretsUse:
+		return true
+	case APIKeyTeamRoleV1NameTelemetryQueryRestricted:
 		return true
 	case APIKeyTeamRoleV1NameWorkflowsEditor:
 		return true
@@ -213,6 +219,7 @@ const (
 	APIKeysCreatePayloadV1RoleNamesSecuritySettingsEditor              APIKeysCreatePayloadV1RoleNames = "security_settings_editor"
 	APIKeysCreatePayloadV1RoleNamesStatusPagePublisher                 APIKeysCreatePayloadV1RoleNames = "status_page_publisher"
 	APIKeysCreatePayloadV1RoleNamesTeamMembershipsManage               APIKeysCreatePayloadV1RoleNames = "team_memberships_manage"
+	APIKeysCreatePayloadV1RoleNamesTelemetryQueryRestricted            APIKeysCreatePayloadV1RoleNames = "telemetry_query_restricted"
 	APIKeysCreatePayloadV1RoleNamesViewer                              APIKeysCreatePayloadV1RoleNames = "viewer"
 	APIKeysCreatePayloadV1RoleNamesWorkflowsEditor                     APIKeysCreatePayloadV1RoleNames = "workflows_editor"
 	APIKeysCreatePayloadV1RoleNamesWorkflowsViewer                     APIKeysCreatePayloadV1RoleNames = "workflows_viewer"
@@ -283,6 +290,8 @@ func (e APIKeysCreatePayloadV1RoleNames) Valid() bool {
 		return true
 	case APIKeysCreatePayloadV1RoleNamesTeamMembershipsManage:
 		return true
+	case APIKeysCreatePayloadV1RoleNamesTelemetryQueryRestricted:
+		return true
 	case APIKeysCreatePayloadV1RoleNamesViewer:
 		return true
 	case APIKeysCreatePayloadV1RoleNamesWorkflowsEditor:
@@ -296,18 +305,19 @@ func (e APIKeysCreatePayloadV1RoleNames) Valid() bool {
 
 // Defines values for APIKeysCreatePayloadV1TeamRoleNames.
 const (
-	APIKeysCreatePayloadV1TeamRoleNamesApiKeysManage           APIKeysCreatePayloadV1TeamRoleNames = "api_keys_manage"
-	APIKeysCreatePayloadV1TeamRoleNamesCatalogEditor           APIKeysCreatePayloadV1TeamRoleNames = "catalog_editor"
-	APIKeysCreatePayloadV1TeamRoleNamesEscalationCreator       APIKeysCreatePayloadV1TeamRoleNames = "escalation_creator"
-	APIKeysCreatePayloadV1TeamRoleNamesHeartbeatsPing          APIKeysCreatePayloadV1TeamRoleNames = "heartbeats_ping"
-	APIKeysCreatePayloadV1TeamRoleNamesOnCallEditor            APIKeysCreatePayloadV1TeamRoleNames = "on_call_editor"
-	APIKeysCreatePayloadV1TeamRoleNamesPrivateWorkflowsEditor  APIKeysCreatePayloadV1TeamRoleNames = "private_workflows_editor"
-	APIKeysCreatePayloadV1TeamRoleNamesScheduleOverridesEditor APIKeysCreatePayloadV1TeamRoleNames = "schedule_overrides_editor"
-	APIKeysCreatePayloadV1TeamRoleNamesSchedulesEditor         APIKeysCreatePayloadV1TeamRoleNames = "schedules_editor"
-	APIKeysCreatePayloadV1TeamRoleNamesSchedulesReader         APIKeysCreatePayloadV1TeamRoleNames = "schedules_reader"
-	APIKeysCreatePayloadV1TeamRoleNamesSecretsManage           APIKeysCreatePayloadV1TeamRoleNames = "secrets_manage"
-	APIKeysCreatePayloadV1TeamRoleNamesSecretsUse              APIKeysCreatePayloadV1TeamRoleNames = "secrets_use"
-	APIKeysCreatePayloadV1TeamRoleNamesWorkflowsEditor         APIKeysCreatePayloadV1TeamRoleNames = "workflows_editor"
+	APIKeysCreatePayloadV1TeamRoleNamesApiKeysManage            APIKeysCreatePayloadV1TeamRoleNames = "api_keys_manage"
+	APIKeysCreatePayloadV1TeamRoleNamesCatalogEditor            APIKeysCreatePayloadV1TeamRoleNames = "catalog_editor"
+	APIKeysCreatePayloadV1TeamRoleNamesEscalationCreator        APIKeysCreatePayloadV1TeamRoleNames = "escalation_creator"
+	APIKeysCreatePayloadV1TeamRoleNamesHeartbeatsPing           APIKeysCreatePayloadV1TeamRoleNames = "heartbeats_ping"
+	APIKeysCreatePayloadV1TeamRoleNamesOnCallEditor             APIKeysCreatePayloadV1TeamRoleNames = "on_call_editor"
+	APIKeysCreatePayloadV1TeamRoleNamesPrivateWorkflowsEditor   APIKeysCreatePayloadV1TeamRoleNames = "private_workflows_editor"
+	APIKeysCreatePayloadV1TeamRoleNamesScheduleOverridesEditor  APIKeysCreatePayloadV1TeamRoleNames = "schedule_overrides_editor"
+	APIKeysCreatePayloadV1TeamRoleNamesSchedulesEditor          APIKeysCreatePayloadV1TeamRoleNames = "schedules_editor"
+	APIKeysCreatePayloadV1TeamRoleNamesSchedulesReader          APIKeysCreatePayloadV1TeamRoleNames = "schedules_reader"
+	APIKeysCreatePayloadV1TeamRoleNamesSecretsManage            APIKeysCreatePayloadV1TeamRoleNames = "secrets_manage"
+	APIKeysCreatePayloadV1TeamRoleNamesSecretsUse               APIKeysCreatePayloadV1TeamRoleNames = "secrets_use"
+	APIKeysCreatePayloadV1TeamRoleNamesTelemetryQueryRestricted APIKeysCreatePayloadV1TeamRoleNames = "telemetry_query_restricted"
+	APIKeysCreatePayloadV1TeamRoleNamesWorkflowsEditor          APIKeysCreatePayloadV1TeamRoleNames = "workflows_editor"
 )
 
 // Valid indicates whether the value is a known member of the APIKeysCreatePayloadV1TeamRoleNames enum.
@@ -334,6 +344,8 @@ func (e APIKeysCreatePayloadV1TeamRoleNames) Valid() bool {
 	case APIKeysCreatePayloadV1TeamRoleNamesSecretsManage:
 		return true
 	case APIKeysCreatePayloadV1TeamRoleNamesSecretsUse:
+		return true
+	case APIKeysCreatePayloadV1TeamRoleNamesTelemetryQueryRestricted:
 		return true
 	case APIKeysCreatePayloadV1TeamRoleNamesWorkflowsEditor:
 		return true
@@ -375,6 +387,7 @@ const (
 	APIKeysUpdatePayloadV1RoleNamesSecuritySettingsEditor              APIKeysUpdatePayloadV1RoleNames = "security_settings_editor"
 	APIKeysUpdatePayloadV1RoleNamesStatusPagePublisher                 APIKeysUpdatePayloadV1RoleNames = "status_page_publisher"
 	APIKeysUpdatePayloadV1RoleNamesTeamMembershipsManage               APIKeysUpdatePayloadV1RoleNames = "team_memberships_manage"
+	APIKeysUpdatePayloadV1RoleNamesTelemetryQueryRestricted            APIKeysUpdatePayloadV1RoleNames = "telemetry_query_restricted"
 	APIKeysUpdatePayloadV1RoleNamesViewer                              APIKeysUpdatePayloadV1RoleNames = "viewer"
 	APIKeysUpdatePayloadV1RoleNamesWorkflowsEditor                     APIKeysUpdatePayloadV1RoleNames = "workflows_editor"
 	APIKeysUpdatePayloadV1RoleNamesWorkflowsViewer                     APIKeysUpdatePayloadV1RoleNames = "workflows_viewer"
@@ -445,6 +458,8 @@ func (e APIKeysUpdatePayloadV1RoleNames) Valid() bool {
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesTeamMembershipsManage:
 		return true
+	case APIKeysUpdatePayloadV1RoleNamesTelemetryQueryRestricted:
+		return true
 	case APIKeysUpdatePayloadV1RoleNamesViewer:
 		return true
 	case APIKeysUpdatePayloadV1RoleNamesWorkflowsEditor:
@@ -458,18 +473,19 @@ func (e APIKeysUpdatePayloadV1RoleNames) Valid() bool {
 
 // Defines values for APIKeysUpdatePayloadV1TeamRoleNames.
 const (
-	APIKeysUpdatePayloadV1TeamRoleNamesApiKeysManage           APIKeysUpdatePayloadV1TeamRoleNames = "api_keys_manage"
-	APIKeysUpdatePayloadV1TeamRoleNamesCatalogEditor           APIKeysUpdatePayloadV1TeamRoleNames = "catalog_editor"
-	APIKeysUpdatePayloadV1TeamRoleNamesEscalationCreator       APIKeysUpdatePayloadV1TeamRoleNames = "escalation_creator"
-	APIKeysUpdatePayloadV1TeamRoleNamesHeartbeatsPing          APIKeysUpdatePayloadV1TeamRoleNames = "heartbeats_ping"
-	APIKeysUpdatePayloadV1TeamRoleNamesOnCallEditor            APIKeysUpdatePayloadV1TeamRoleNames = "on_call_editor"
-	APIKeysUpdatePayloadV1TeamRoleNamesPrivateWorkflowsEditor  APIKeysUpdatePayloadV1TeamRoleNames = "private_workflows_editor"
-	APIKeysUpdatePayloadV1TeamRoleNamesScheduleOverridesEditor APIKeysUpdatePayloadV1TeamRoleNames = "schedule_overrides_editor"
-	APIKeysUpdatePayloadV1TeamRoleNamesSchedulesEditor         APIKeysUpdatePayloadV1TeamRoleNames = "schedules_editor"
-	APIKeysUpdatePayloadV1TeamRoleNamesSchedulesReader         APIKeysUpdatePayloadV1TeamRoleNames = "schedules_reader"
-	APIKeysUpdatePayloadV1TeamRoleNamesSecretsManage           APIKeysUpdatePayloadV1TeamRoleNames = "secrets_manage"
-	APIKeysUpdatePayloadV1TeamRoleNamesSecretsUse              APIKeysUpdatePayloadV1TeamRoleNames = "secrets_use"
-	APIKeysUpdatePayloadV1TeamRoleNamesWorkflowsEditor         APIKeysUpdatePayloadV1TeamRoleNames = "workflows_editor"
+	APIKeysUpdatePayloadV1TeamRoleNamesApiKeysManage            APIKeysUpdatePayloadV1TeamRoleNames = "api_keys_manage"
+	APIKeysUpdatePayloadV1TeamRoleNamesCatalogEditor            APIKeysUpdatePayloadV1TeamRoleNames = "catalog_editor"
+	APIKeysUpdatePayloadV1TeamRoleNamesEscalationCreator        APIKeysUpdatePayloadV1TeamRoleNames = "escalation_creator"
+	APIKeysUpdatePayloadV1TeamRoleNamesHeartbeatsPing           APIKeysUpdatePayloadV1TeamRoleNames = "heartbeats_ping"
+	APIKeysUpdatePayloadV1TeamRoleNamesOnCallEditor             APIKeysUpdatePayloadV1TeamRoleNames = "on_call_editor"
+	APIKeysUpdatePayloadV1TeamRoleNamesPrivateWorkflowsEditor   APIKeysUpdatePayloadV1TeamRoleNames = "private_workflows_editor"
+	APIKeysUpdatePayloadV1TeamRoleNamesScheduleOverridesEditor  APIKeysUpdatePayloadV1TeamRoleNames = "schedule_overrides_editor"
+	APIKeysUpdatePayloadV1TeamRoleNamesSchedulesEditor          APIKeysUpdatePayloadV1TeamRoleNames = "schedules_editor"
+	APIKeysUpdatePayloadV1TeamRoleNamesSchedulesReader          APIKeysUpdatePayloadV1TeamRoleNames = "schedules_reader"
+	APIKeysUpdatePayloadV1TeamRoleNamesSecretsManage            APIKeysUpdatePayloadV1TeamRoleNames = "secrets_manage"
+	APIKeysUpdatePayloadV1TeamRoleNamesSecretsUse               APIKeysUpdatePayloadV1TeamRoleNames = "secrets_use"
+	APIKeysUpdatePayloadV1TeamRoleNamesTelemetryQueryRestricted APIKeysUpdatePayloadV1TeamRoleNames = "telemetry_query_restricted"
+	APIKeysUpdatePayloadV1TeamRoleNamesWorkflowsEditor          APIKeysUpdatePayloadV1TeamRoleNames = "workflows_editor"
 )
 
 // Valid indicates whether the value is a known member of the APIKeysUpdatePayloadV1TeamRoleNames enum.
@@ -496,6 +512,8 @@ func (e APIKeysUpdatePayloadV1TeamRoleNames) Valid() bool {
 	case APIKeysUpdatePayloadV1TeamRoleNamesSecretsManage:
 		return true
 	case APIKeysUpdatePayloadV1TeamRoleNamesSecretsUse:
+		return true
+	case APIKeysUpdatePayloadV1TeamRoleNamesTelemetryQueryRestricted:
 		return true
 	case APIKeysUpdatePayloadV1TeamRoleNamesWorkflowsEditor:
 		return true
@@ -4359,6 +4377,7 @@ const (
 	IdentityV1RolesSecuritySettingsEditor              IdentityV1Roles = "security_settings_editor"
 	IdentityV1RolesStatusPagePublisher                 IdentityV1Roles = "status_page_publisher"
 	IdentityV1RolesTeamMembershipsManage               IdentityV1Roles = "team_memberships_manage"
+	IdentityV1RolesTelemetryQueryRestricted            IdentityV1Roles = "telemetry_query_restricted"
 	IdentityV1RolesViewer                              IdentityV1Roles = "viewer"
 	IdentityV1RolesWorkflowsEditor                     IdentityV1Roles = "workflows_editor"
 	IdentityV1RolesWorkflowsViewer                     IdentityV1Roles = "workflows_viewer"
@@ -4429,6 +4448,8 @@ func (e IdentityV1Roles) Valid() bool {
 		return true
 	case IdentityV1RolesTeamMembershipsManage:
 		return true
+	case IdentityV1RolesTelemetryQueryRestricted:
+		return true
 	case IdentityV1RolesViewer:
 		return true
 	case IdentityV1RolesWorkflowsEditor:
@@ -4442,18 +4463,19 @@ func (e IdentityV1Roles) Valid() bool {
 
 // Defines values for IdentityV1TeamRoles.
 const (
-	IdentityV1TeamRolesApiKeysManage           IdentityV1TeamRoles = "api_keys_manage"
-	IdentityV1TeamRolesCatalogEditor           IdentityV1TeamRoles = "catalog_editor"
-	IdentityV1TeamRolesEscalationCreator       IdentityV1TeamRoles = "escalation_creator"
-	IdentityV1TeamRolesHeartbeatsPing          IdentityV1TeamRoles = "heartbeats_ping"
-	IdentityV1TeamRolesOnCallEditor            IdentityV1TeamRoles = "on_call_editor"
-	IdentityV1TeamRolesPrivateWorkflowsEditor  IdentityV1TeamRoles = "private_workflows_editor"
-	IdentityV1TeamRolesScheduleOverridesEditor IdentityV1TeamRoles = "schedule_overrides_editor"
-	IdentityV1TeamRolesSchedulesEditor         IdentityV1TeamRoles = "schedules_editor"
-	IdentityV1TeamRolesSchedulesReader         IdentityV1TeamRoles = "schedules_reader"
-	IdentityV1TeamRolesSecretsManage           IdentityV1TeamRoles = "secrets_manage"
-	IdentityV1TeamRolesSecretsUse              IdentityV1TeamRoles = "secrets_use"
-	IdentityV1TeamRolesWorkflowsEditor         IdentityV1TeamRoles = "workflows_editor"
+	IdentityV1TeamRolesApiKeysManage            IdentityV1TeamRoles = "api_keys_manage"
+	IdentityV1TeamRolesCatalogEditor            IdentityV1TeamRoles = "catalog_editor"
+	IdentityV1TeamRolesEscalationCreator        IdentityV1TeamRoles = "escalation_creator"
+	IdentityV1TeamRolesHeartbeatsPing           IdentityV1TeamRoles = "heartbeats_ping"
+	IdentityV1TeamRolesOnCallEditor             IdentityV1TeamRoles = "on_call_editor"
+	IdentityV1TeamRolesPrivateWorkflowsEditor   IdentityV1TeamRoles = "private_workflows_editor"
+	IdentityV1TeamRolesScheduleOverridesEditor  IdentityV1TeamRoles = "schedule_overrides_editor"
+	IdentityV1TeamRolesSchedulesEditor          IdentityV1TeamRoles = "schedules_editor"
+	IdentityV1TeamRolesSchedulesReader          IdentityV1TeamRoles = "schedules_reader"
+	IdentityV1TeamRolesSecretsManage            IdentityV1TeamRoles = "secrets_manage"
+	IdentityV1TeamRolesSecretsUse               IdentityV1TeamRoles = "secrets_use"
+	IdentityV1TeamRolesTelemetryQueryRestricted IdentityV1TeamRoles = "telemetry_query_restricted"
+	IdentityV1TeamRolesWorkflowsEditor          IdentityV1TeamRoles = "workflows_editor"
 )
 
 // Valid indicates whether the value is a known member of the IdentityV1TeamRoles enum.
@@ -4480,6 +4502,8 @@ func (e IdentityV1TeamRoles) Valid() bool {
 	case IdentityV1TeamRolesSecretsManage:
 		return true
 	case IdentityV1TeamRolesSecretsUse:
+		return true
+	case IdentityV1TeamRolesTelemetryQueryRestricted:
 		return true
 	case IdentityV1TeamRolesWorkflowsEditor:
 		return true
@@ -9334,7 +9358,7 @@ type AlertSourceCreatePayloadV3 struct {
 	// Example: {"incident.io/terraform/version":"version-of-terraform"}
 	Annotations *map[string]string `json:"annotations,omitempty"`
 
-	// AutoResolveIncidentAlerts Whether to resolve alerts when their incident resolves
+	// AutoResolveIncidentAlerts Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 	//
 	// Example: true
 	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
@@ -9644,7 +9668,7 @@ type AlertSourceUpdatePayloadV3 struct {
 	// Example: {"incident.io/terraform/version":"version-of-terraform"}
 	Annotations *map[string]string `json:"annotations,omitempty"`
 
-	// AutoResolveIncidentAlerts Whether to resolve alerts when their incident resolves
+	// AutoResolveIncidentAlerts Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 	//
 	// Example: true
 	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
@@ -9716,7 +9740,7 @@ type AlertSourceV2 struct {
 	// Example: https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66
 	AlertEventsUrl *string `json:"alert_events_url,omitempty"`
 
-	// AutoResolveIncidentAlerts Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true. Only use in conjunction with auto_resolve_timeout_minutes.
+	// AutoResolveIncidentAlerts Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 	//
 	// Example: false
 	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
@@ -9779,7 +9803,7 @@ type AlertSourceV3 struct {
 	// Example: https://api.incident.io/v2/alert_events/http/01FCNDV6P870EA6S7TK1DSYDG0
 	AlertEventsUrl *string `json:"alert_events_url,omitempty"`
 
-	// AutoResolveIncidentAlerts Whether to resolve alerts when their incident resolves
+	// AutoResolveIncidentAlerts Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 	//
 	// Example: true
 	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
@@ -9936,7 +9960,7 @@ type AlertSourcesCreateAttributeResultV3 struct {
 
 // AlertSourcesCreatePayloadV2 Example: {"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"source_type":"alertmanager","template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}],"description":{"literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"is_private":false,"title":{"literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
 type AlertSourcesCreatePayloadV2 struct {
-	// AutoResolveIncidentAlerts Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true. Only use in conjunction with auto_resolve_timeout_minutes.
+	// AutoResolveIncidentAlerts Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 	//
 	// Example: false
 	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
@@ -10050,7 +10074,7 @@ type AlertSourcesUpdateAttributeResultV3 struct {
 
 // AlertSourcesUpdatePayloadV2 Example: {"auto_resolve_incident_alerts":false,"auto_resolve_timeout_minutes":1,"disabled":false,"email_options":{"redactions":["credit_card_numbers"],"transform_expression":"return {\n  title: $.subject,\n  description: $.text,\n  status: $.subject.startsWith('[RESOLVED]') ? 'resolved' : 'firing',\n  deduplication_key: $.header_message_id,\n}"},"heartbeat_options":{"failure_threshold":1,"grace_period_seconds":0,"interval_seconds":60},"http_custom_options":{"deduplication_key_path":"$.alert_id","transform_expression":"return {\n  title: $.title || $.name || 'Unknown Alert',\n  status: $.status === 'resolved' ? 'resolved' : 'firing',\n  description: $.description || $.message || ”,\n  sourceURL: $.url || $.link || ”,\n  metadata: { team: $.team, severity: $.severity }\n}"},"jira_options":{"project_ids":["01GBSQF3FHF7FWZQNWGHAVQ804","10043"]},"name":"Production Web Dashboard Alerts","owning_team_ids":["01G0J1EXE7AXZ2C93K61WBPYEH"],"template":{"attributes":[{"alert_attribute_id":"abc123","binding":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}}],"description":{"literal":"SEV123","reference":"incident.severity"},"expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"is_private":false,"title":{"literal":"SEV123","reference":"incident.severity"},"visible_to_teams":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}}
 type AlertSourcesUpdatePayloadV2 struct {
-	// AutoResolveIncidentAlerts Whether to auto-resolve incident alerts when the alert auto-resolves. Defaults to true. Only use in conjunction with auto_resolve_timeout_minutes.
+	// AutoResolveIncidentAlerts Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 	//
 	// Example: false
 	AutoResolveIncidentAlerts *bool `json:"auto_resolve_incident_alerts,omitempty"`
