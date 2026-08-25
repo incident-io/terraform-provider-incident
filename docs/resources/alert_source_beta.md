@@ -149,7 +149,7 @@ resource "incident_alert_source_beta" "security_scanner" {
 
 ### Optional
 
-- `auto_resolve_incident_alerts` (Boolean) Whether to resolve alerts when their incident resolves
+- `auto_resolve_incident_alerts` (Boolean) Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
 - `auto_resolve_timeout_minutes` (Number) How long to wait before automatically resolving alerts from this source
 - `description` (Attributes) (see [below for nested schema](#nestedatt--description))
 - `email_options` (Attributes) (see [below for nested schema](#nestedatt--email_options))
