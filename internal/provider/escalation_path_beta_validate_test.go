@@ -244,6 +244,18 @@ func TestValidateSequences(t *testing.T) {
 			wantError: "sets level and loop",
 		},
 		{
+			// What a node says about itself doesn't depend on any name resolving, so an
+			// unknown reference elsewhere mustn't stop us checking it. unflattenSequences
+			// matches one block and ignores the rest, so missing this drops one on apply.
+			name:  "a node sets two type blocks while another sequence isn't computed yet",
+			start: "main",
+			sequences: map[string][]escalationPathBetaNode{
+				"main":   {unknownBranchNode()},
+				"urgent": {twoBlockNode(t)},
+			},
+			wantError: "sets level and loop",
+		},
+		{
 			name:  "a node sets none of them",
 			start: "main",
 			sequences: map[string][]escalationPathBetaNode{

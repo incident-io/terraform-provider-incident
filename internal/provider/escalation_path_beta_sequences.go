@@ -370,7 +370,7 @@ func chooseSequenceKey(nodes []client.EscalationPathNodeV2, priorKey, fallbackKe
 func validateSequences(ctx context.Context, data *escalationPathBetaModel, diags *diag.Diagnostics) {
 	// A value another resource computes isn't there to check yet, and validating around the
 	// gap reports problems an apply won't hit.
-	if data.Sequences.IsNull() || data.Sequences.IsUnknown() || data.Start.IsUnknown() {
+	if data.Sequences.IsNull() || data.Sequences.IsUnknown() {
 		return
 	}
 
@@ -386,15 +386,19 @@ func validateSequences(ctx context.Context, data *escalationPathBetaModel, diags
 		return
 	}
 
-	// Same again for a name another resource computes. Every check below reads these
-	// through ValueString, where an unknown is indistinguishable from an empty string, so
-	// carrying on reports problems an apply won't hit.
-	if hasUnknownSequenceReference(sequences) {
+	// What a node says about itself resolves against nothing, so these run even with a name
+	// elsewhere still outstanding. Skipping them would let a node setting two type blocks
+	// reach unflattenSequences, which matches one and silently drops the other.
+	nodeIDs := validateSequenceNodes(sequences, diags)
+
+	// The checks below resolve names against each other, and read them through ValueString,
+	// where an unknown is indistinguishable from an empty string. Running them with one
+	// outstanding reports problems an apply won't hit.
+	if data.Start.IsUnknown() || hasUnknownSequenceReference(sequences) {
 		return
 	}
 
 	start := data.Start.ValueString()
-	nodeIDs := validateSequenceNodes(sequences, diags)
 	validateSequenceReferences(sequences, nodeIDs, diags)
 	validateSequenceTree(start, sequences, diags)
 	validateSequenceLoops(start, sequences, diags)
