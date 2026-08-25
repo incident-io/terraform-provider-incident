@@ -16,7 +16,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -141,38 +140,15 @@ func targetListType() types.ListType {
 // when depth > 0, matching the schema.
 func nodeAttrTypes(depth int) map[string]attr.Type {
 	attrs := map[string]attr.Type{
-		"id":   types.StringType,
-		"type": types.StringType,
-		"level": types.ObjectType{AttrTypes: map[string]attr.Type{
-			"targets": targetListType(),
-			"round_robin_config": types.ObjectType{AttrTypes: map[string]attr.Type{
-				"enabled":              types.BoolType,
-				"rotate_after_seconds": types.Int64Type,
-			}},
-			"retry_config": types.ObjectType{AttrTypes: map[string]attr.Type{
-				"attempts":         types.Int64Type,
-				"interval_seconds": types.Int64Type,
-			}},
-			"time_to_ack_seconds":                    types.Int64Type,
-			"time_to_ack_interval_condition":         types.StringType,
-			"time_to_ack_weekday_interval_config_id": types.StringType,
-			"ack_mode":                               types.StringType,
-		}},
+		"id":    types.StringType,
+		"type":  types.StringType,
+		"level": types.ObjectType{AttrTypes: levelAttrTypes()},
 		"repeat": types.ObjectType{AttrTypes: map[string]attr.Type{
 			"repeat_times": types.Int64Type,
 			"to_node":      types.StringType,
 		}},
-		"notify_channel": types.ObjectType{AttrTypes: map[string]attr.Type{
-			"targets":                                targetListType(),
-			"time_to_ack_seconds":                    types.Int64Type,
-			"time_to_ack_interval_condition":         types.StringType,
-			"time_to_ack_weekday_interval_config_id": types.StringType,
-		}},
-		"delay": types.ObjectType{AttrTypes: map[string]attr.Type{
-			"delay_seconds":                    types.Int64Type,
-			"delay_interval_condition":         types.StringType,
-			"delay_weekday_interval_config_id": types.StringType,
-		}},
+		"notify_channel": types.ObjectType{AttrTypes: notifyChannelAttrTypes()},
+		"delay":          types.ObjectType{AttrTypes: delayAttrTypes()},
 	}
 
 	if depth > 0 {
@@ -282,88 +258,7 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "type"),
 				Required:            true,
 			},
-			"level": schema.SingleNestedAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "level"),
-				Optional:            true,
-				Attributes: map[string]schema.Attribute{
-					"targets": schema.ListNestedAttribute{
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeLevelV2", "targets"),
-						Required:            true,
-						NestedObject: schema.NestedAttributeObject{
-							Attributes: map[string]schema.Attribute{
-								"id": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "id"),
-									Required:            true,
-								},
-								"type": schema.StringAttribute{
-									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "type"),
-									Required:            true,
-								},
-								"urgency": schema.StringAttribute{
-									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "urgency"),
-									Required:            true,
-								},
-								"schedule_mode": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "schedule_mode"),
-									Optional:            true,
-									Computed:            true,
-								},
-								"selected_rota_id": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "selected_rota_id"),
-									Optional:            true,
-								},
-							},
-						},
-					},
-					"round_robin_config": schema.SingleNestedAttribute{
-						Optional: true,
-						Attributes: map[string]schema.Attribute{
-							"enabled": schema.BoolAttribute{
-								MarkdownDescription: apischema.Docstring("EscalationPathRoundRobinConfigV2", "enabled"),
-								Required:            true,
-							},
-							"rotate_after_seconds": schema.Int64Attribute{
-								MarkdownDescription: apischema.Docstring("EscalationPathRoundRobinConfigV2", "rotate_after_seconds"),
-								Optional:            true,
-							},
-						},
-					},
-					"retry_config": schema.SingleNestedAttribute{
-						Optional: true,
-						Attributes: map[string]schema.Attribute{
-							"attempts": schema.Int64Attribute{
-								MarkdownDescription: apischema.Docstring("EscalationPathRetryConfigV2", "attempts"),
-								Required:            true,
-							},
-							"interval_seconds": schema.Int64Attribute{
-								MarkdownDescription: apischema.Docstring("EscalationPathRetryConfigV2", "interval_seconds"),
-								Required:            true,
-							},
-						},
-					},
-					"time_to_ack_seconds": schema.Int64Attribute{
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeLevelV2", "time_to_ack_seconds"),
-						Optional:            true,
-					},
-					"time_to_ack_interval_condition": schema.StringAttribute{
-						MarkdownDescription: apischema.Docstring(
-							"EscalationPathNodeLevelV2", "time_to_ack_interval_condition"),
-						Optional: true,
-					},
-					"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
-						MarkdownDescription: apischema.Docstring(
-							"EscalationPathNodeLevelV2", "time_to_ack_weekday_interval_config_id"),
-						Optional: true,
-					},
-					"ack_mode": schema.StringAttribute{
-						MarkdownDescription: apischema.Docstring(
-							"EscalationPathNodeLevelV2", "ack_mode"),
-						Optional: true,
-						Computed: true,
-						Default:  stringdefault.StaticString("all"),
-					},
-				},
-			},
+			"level": escalationPathLevelAttribute("all"),
 			"repeat": schema.SingleNestedAttribute{
 				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "repeat"),
 				Optional:            true,
@@ -378,75 +273,8 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 					},
 				},
 			},
-			"notify_channel": schema.SingleNestedAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "notify_channel"),
-				Optional:            true,
-				Attributes: map[string]schema.Attribute{
-					"targets": schema.ListNestedAttribute{
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeNotifyChannelV2", "targets"),
-						Required:            true,
-						NestedObject: schema.NestedAttributeObject{
-							Attributes: map[string]schema.Attribute{
-								"id": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "id"),
-									Required:            true,
-								},
-								"type": schema.StringAttribute{
-									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "type"),
-									Required:            true,
-								},
-								"urgency": schema.StringAttribute{
-									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "urgency"),
-									Required:            true,
-								},
-								"schedule_mode": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "schedule_mode"),
-									Optional:            true,
-									Computed:            true,
-								},
-								"selected_rota_id": schema.StringAttribute{
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "selected_rota_id"),
-									Optional:            true,
-								},
-							},
-						},
-					},
-					"time_to_ack_seconds": schema.Int64Attribute{
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeNotifyChannelV2", "time_to_ack_seconds"),
-						Optional:            true,
-					},
-					"time_to_ack_interval_condition": schema.StringAttribute{
-						MarkdownDescription: apischema.Docstring(
-							"EscalationPathNodeNotifyChannelV2", "time_to_ack_interval_condition"),
-						Optional: true,
-					},
-					"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
-						MarkdownDescription: apischema.Docstring(
-							"EscalationPathNodeNotifyChannelV2", "time_to_ack_weekday_interval_config_id"),
-						Optional: true,
-					},
-				},
-			},
-			"delay": schema.SingleNestedAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "delay"),
-				Optional:            true,
-				Attributes: map[string]schema.Attribute{
-					"delay_seconds": schema.Int64Attribute{
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeDelayV2", "delay_seconds"),
-						Optional:            true,
-					},
-					"delay_interval_condition": schema.StringAttribute{
-						MarkdownDescription: apischema.Docstring(
-							"EscalationPathNodeDelayV2", "delay_interval_condition"),
-						Optional: true,
-					},
-					"delay_weekday_interval_config_id": schema.StringAttribute{
-						MarkdownDescription: apischema.Docstring(
-							"EscalationPathNodeDelayV2", "delay_weekday_interval_config_id"),
-						Optional: true,
-					},
-				},
-			},
+			"notify_channel": escalationPathNotifyChannelAttribute(),
+			"delay":          escalationPathDelayAttribute(),
 		},
 	}
 
@@ -816,40 +644,11 @@ func (r *IncidentEscalationPathResource) toEscalationPathPayload(ctx context.Con
 	repeatConfig *client.EscalationPathRepeatConfigV2,
 	pathPayload []client.EscalationPathNodePayloadV2,
 ) {
-	if !data.WorkingHours.IsNull() && !data.WorkingHours.IsUnknown() {
-		var whModels []models.IncidentWeekdayIntervalConfig
-		diags.Append(data.WorkingHours.ElementsAs(ctx, &whModels, false)...)
-		if diags.HasError() {
-			return
-		}
-		if len(whModels) > 0 {
-			wh := make([]client.WeekdayIntervalConfigV2, 0, len(whModels))
-			for _, w := range whModels {
-				wh = append(wh, w.ToClientV2(ctx, diags))
-			}
-			workingHours = &wh
-		}
-	}
-
-	if !data.TeamIDs.IsUnknown() && !data.TeamIDs.IsNull() {
-		ids := []string{}
-		diags.Append(data.TeamIDs.ElementsAs(ctx, &ids, false)...)
-		if diags.HasError() {
-			return
-		}
-		teamIDs = &ids
-	}
-
-	if !data.RepeatConfig.IsNull() && !data.RepeatConfig.IsUnknown() {
-		var rc IncidentEscalationPathRepeatConfig
-		diags.Append(data.RepeatConfig.As(ctx, &rc, basetypes.ObjectAsOptions{})...)
-		if diags.HasError() {
-			return
-		}
-		repeatConfig = &client.EscalationPathRepeatConfigV2{
-			RepeatAfterSeconds:    int32(rc.RepeatAfterSeconds.ValueInt64()),
-			DelayRepeatOnActivity: rc.DelayRepeatOnActivity.ValueBool(),
-		}
+	workingHours = escalationPathWorkingHoursToPayload(ctx, data.WorkingHours, diags)
+	teamIDs = escalationPathTeamIDsToPayload(ctx, data.TeamIDs, diags)
+	repeatConfig = escalationPathRepeatConfigToPayload(ctx, data.RepeatConfig, diags)
+	if diags.HasError() {
+		return
 	}
 
 	pathPayload = r.toPathPayload(ctx, data.Path, diags)
@@ -986,53 +785,13 @@ func (r *IncidentEscalationPathResource) ImportState(ctx context.Context, req re
 }
 
 func (r *IncidentEscalationPathResource) buildModel(ctx context.Context, ep client.EscalationPathV2, diags *diag.Diagnostics) *IncidentEscalationPathResourceModel {
-	workingHoursType := types.ObjectType{AttrTypes: models.WeekdayIntervalConfigAttrTypes()}
-	workingHours := types.ListNull(workingHoursType)
-	if ep.WorkingHours != nil {
-		whModels := lo.Map(*ep.WorkingHours, func(wh client.WeekdayIntervalConfigV2, _ int) models.IncidentWeekdayIntervalConfig {
-			return models.IncidentWeekdayIntervalConfig{}.FromClientV2(ctx, wh, diags)
-		})
-		list, d := types.ListValueFrom(ctx, workingHoursType, whModels)
-		diags.Append(d...)
-		workingHours = list
-	}
-
-	var teamIDsSet types.Set
-	if ep.TeamIds != nil {
-		if len(ep.TeamIds) > 0 {
-			elements := make([]attr.Value, len(ep.TeamIds))
-			for i, id := range ep.TeamIds {
-				elements[i] = types.StringValue(id)
-			}
-			teamIDsSet = types.SetValueMust(types.StringType, elements)
-		} else {
-			teamIDsSet = types.SetValueMust(types.StringType, []attr.Value{})
-		}
-	} else {
-		teamIDsSet = types.SetNull(types.StringType)
-	}
-
-	repeatConfigAttrTypes := map[string]attr.Type{
-		"repeat_after_seconds":     types.Int64Type,
-		"delay_repeat_on_activity": types.BoolType,
-	}
-	var repeatConfigObj types.Object
-	if ep.RepeatConfig != nil {
-		repeatConfigObj = types.ObjectValueMust(repeatConfigAttrTypes, map[string]attr.Value{
-			"repeat_after_seconds":     types.Int64Value(int64(ep.RepeatConfig.RepeatAfterSeconds)),
-			"delay_repeat_on_activity": types.BoolValue(ep.RepeatConfig.DelayRepeatOnActivity),
-		})
-	} else {
-		repeatConfigObj = types.ObjectNull(repeatConfigAttrTypes)
-	}
-
 	return &IncidentEscalationPathResourceModel{
 		ID:           types.StringValue(ep.Id),
 		Name:         types.StringValue(ep.Name),
 		Path:         r.toPathModel(ctx, ep.Path, pathSchemaDepth, diags),
-		WorkingHours: workingHours,
-		RepeatConfig: repeatConfigObj,
-		TeamIDs:      teamIDsSet,
+		WorkingHours: escalationPathWorkingHoursFromAPI(ctx, ep.WorkingHours, diags),
+		RepeatConfig: escalationPathRepeatConfigFromAPI(ep.RepeatConfig),
+		TeamIDs:      escalationPathTeamIDsFromAPI(ep.TeamIds),
 	}
 }
 
@@ -1088,65 +847,9 @@ func (r *IncidentEscalationPathResource) toPathModel(ctx context.Context, nodes 
 				ElsePath: r.toPathModel(ctx, node.IfElse.ElsePath, depth-1, diags),
 			}
 		}
-		if node.Level != nil {
-			elem.Level = &IncidentEscalationPathNodeLevel{
-				Targets: targetsFromAPI(ctx, node.Level.Targets, diags),
-			}
-			if value := node.Level.RoundRobinConfig; value != nil {
-				var rotateAfterSeconds basetypes.Int64Value
-				if value.RotateAfterSeconds != nil {
-					rotateAfterSeconds = types.Int64Value(*value.RotateAfterSeconds)
-				}
-				elem.Level.RoundRobinConfig = &IncidentEscalationRoundRobinConfig{
-					Enabled:            types.BoolValue(value.Enabled),
-					RotateAfterSeconds: rotateAfterSeconds,
-				}
-			}
-			if value := node.Level.RetryConfig; value != nil {
-				elem.Level.RetryConfig = &IncidentEscalationRetryConfig{
-					Attempts:        types.Int64Value(value.Attempts),
-					IntervalSeconds: types.Int64Value(value.IntervalSeconds),
-				}
-			}
-			if value := node.Level.TimeToAckSeconds; value != nil {
-				elem.Level.TimeToAckSeconds = types.Int64Value(*value)
-			}
-			if value := node.Level.TimeToAckIntervalCondition; value != nil {
-				elem.Level.TimeToAckIntervalCondition = types.StringValue(string(*value))
-			}
-			if value := node.Level.TimeToAckWeekdayIntervalConfigId; value != nil && *value != "" {
-				elem.Level.TimeToAckWeekdayIntervalConfigID = types.StringValue(*value)
-			}
-			if value := node.Level.AckMode; value != nil {
-				elem.Level.AckMode = types.StringValue(string(*value))
-			}
-		}
-		if node.NotifyChannel != nil {
-			elem.NotifyChannel = &IncidentEscalationPathNodeNotifyChannel{
-				Targets: targetsFromAPI(ctx, node.NotifyChannel.Targets, diags),
-			}
-			if value := node.NotifyChannel.TimeToAckSeconds; value != nil {
-				elem.NotifyChannel.TimeToAckSeconds = types.Int64Value(*value)
-			}
-			if value := node.NotifyChannel.TimeToAckIntervalCondition; value != nil {
-				elem.NotifyChannel.TimeToAckIntervalCondition = types.StringValue(string(*value))
-			}
-			if value := node.NotifyChannel.TimeToAckWeekdayIntervalConfigId; value != nil && *value != "" {
-				elem.NotifyChannel.TimeToAckWeekdayIntervalConfigID = types.StringValue(*value)
-			}
-		}
-		if node.Delay != nil {
-			elem.Delay = &IncidentEscalationPathNodeDelay{}
-			if value := node.Delay.DelaySeconds; value != nil {
-				elem.Delay.DelaySeconds = types.Int64Value(*value)
-			}
-			if value := node.Delay.DelayIntervalCondition; value != nil {
-				elem.Delay.DelayIntervalCondition = types.StringValue(string(*value))
-			}
-			if value := node.Delay.DelayWeekdayIntervalConfigId; value != nil && *value != "" {
-				elem.Delay.DelayWeekdayIntervalConfigID = types.StringValue(*value)
-			}
-		}
+		elem.Level = levelFromAPI(ctx, node.Level, diags)
+		elem.NotifyChannel = notifyChannelFromAPI(ctx, node.NotifyChannel, diags)
+		elem.Delay = delayFromAPI(node.Delay)
 		if node.Repeat != nil {
 			elem.Repeat = &IncidentEscalationPathNodeRepeat{
 				RepeatTimes: types.Int64Value(node.Repeat.RepeatTimes),
@@ -1252,69 +955,9 @@ func (r *IncidentEscalationPathResource) toPathPayload(ctx context.Context, path
 				ElsePath:   r.toPathPayload(ctx, node.IfElse.ElsePath, diags),
 			}
 		}
-		if !reflect.ValueOf(node.Level).IsZero() {
-			var intervalCondition *client.EscalationPathNodeLevelV2TimeToAckIntervalCondition
-			if value := node.Level.TimeToAckIntervalCondition.ValueStringPointer(); value != nil {
-				intervalCondition = lo.ToPtr(client.EscalationPathNodeLevelV2TimeToAckIntervalCondition(*value))
-			}
-
-			elem.Level = &client.EscalationPathNodeLevelV2{
-				Targets:                    targetsToPayload(ctx, node.Level.Targets, diags),
-				TimeToAckIntervalCondition: intervalCondition,
-				TimeToAckSeconds: node.Level.
-					TimeToAckSeconds.ValueInt64Pointer(),
-				TimeToAckWeekdayIntervalConfigId: node.Level.
-					TimeToAckWeekdayIntervalConfigID.ValueStringPointer(),
-			}
-
-			if node.Level.RoundRobinConfig != nil {
-				elem.Level.RoundRobinConfig = &client.EscalationPathRoundRobinConfigV2{
-					Enabled:            node.Level.RoundRobinConfig.Enabled.ValueBool(),
-					RotateAfterSeconds: node.Level.RoundRobinConfig.RotateAfterSeconds.ValueInt64Pointer(),
-				}
-			}
-
-			if node.Level.RetryConfig != nil {
-				elem.Level.RetryConfig = &client.EscalationPathRetryConfigV2{
-					Attempts:        node.Level.RetryConfig.Attempts.ValueInt64(),
-					IntervalSeconds: node.Level.RetryConfig.IntervalSeconds.ValueInt64(),
-				}
-			}
-
-			if !node.Level.AckMode.IsNull() {
-				val := node.Level.AckMode.ValueString()
-
-				ptr := client.EscalationPathNodeLevelV2AckMode(val)
-				elem.Level.AckMode = &ptr
-			}
-		}
-		if !reflect.ValueOf(node.NotifyChannel).IsZero() {
-			var intervalCondition *client.EscalationPathNodeNotifyChannelV2TimeToAckIntervalCondition
-			if value := node.NotifyChannel.TimeToAckIntervalCondition.ValueStringPointer(); value != nil {
-				intervalCondition = lo.ToPtr(client.EscalationPathNodeNotifyChannelV2TimeToAckIntervalCondition(*value))
-			}
-
-			elem.NotifyChannel = &client.EscalationPathNodeNotifyChannelV2{
-				Targets:                    targetsToPayload(ctx, node.NotifyChannel.Targets, diags),
-				TimeToAckIntervalCondition: intervalCondition,
-				TimeToAckSeconds: node.NotifyChannel.
-					TimeToAckSeconds.ValueInt64Pointer(),
-				TimeToAckWeekdayIntervalConfigId: node.NotifyChannel.
-					TimeToAckWeekdayIntervalConfigID.ValueStringPointer(),
-			}
-		}
-		if !reflect.ValueOf(node.Delay).IsZero() {
-			var intervalCondition *client.EscalationPathNodeDelayV2DelayIntervalCondition
-			if value := node.Delay.DelayIntervalCondition.ValueStringPointer(); value != nil {
-				intervalCondition = lo.ToPtr(client.EscalationPathNodeDelayV2DelayIntervalCondition(*value))
-			}
-
-			elem.Delay = &client.EscalationPathNodeDelayV2{
-				DelayIntervalCondition:       intervalCondition,
-				DelaySeconds:                 node.Delay.DelaySeconds.ValueInt64Pointer(),
-				DelayWeekdayIntervalConfigId: node.Delay.DelayWeekdayIntervalConfigID.ValueStringPointer(),
-			}
-		}
+		elem.Level = levelToPayload(ctx, node.Level, diags)
+		elem.NotifyChannel = notifyChannelToPayload(ctx, node.NotifyChannel, diags)
+		elem.Delay = delayToPayload(node.Delay)
 		if !reflect.ValueOf(node.Repeat).IsZero() {
 			elem.Repeat = &client.EscalationPathNodeRepeatV2{
 				RepeatTimes: node.Repeat.RepeatTimes.ValueInt64(),
