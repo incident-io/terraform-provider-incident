@@ -1,7 +1,8 @@
 ## Unreleased
 
-- Add beta support for writing an escalation path as a flat map of named sequences, as the `incident_escalation_path_beta` resource. `incident_escalation_path` nests a branch's nodes inside it as `if_else.then_path` and `if_else.else_path`, and Terraform schemas can't recurse indefinitely, so that resource stops at five levels of branching. The new resource has a `branch` name the sequence to continue down rather than hold its nodes, so every sequence sits at the same depth and there's no nesting limit. It also swaps `repeat` for a `loop` that names the node to go back to, and replaces the raw engine `conditions` on a branch with a `branch.if` block holding one attribute per thing an escalation can be tested on. This resource is beta: its schema may change in ways that aren't backwards compatible while we settle the design. The existing `incident_escalation_path` resource is unchanged and not deprecated - don't point both at the same escalation path, as each would plan to undo the other's changes.
-- `incident_escalation_path` and `incident_escalation_path_beta` now share one definition of the `level`, `notify_channel` and `delay` blocks, so a field added to one appears on both. `incident_escalation_path`'s schema is unchanged by this.
+## v6.4.0
+
+- Add `incident_escalation_path_beta`, which writes an escalation path as a flat map of named sequences, with no limit on how deeply it branches. This resource is beta: its schema may change in ways that aren't backwards compatible while we settle the design. `incident_escalation_path` is unchanged and not deprecated - don't point both at the same escalation path, as each would plan to undo the other's changes.
 - `incident_escalation_path` now validates its planned config against the API at plan time, so a config the API would reject - such as a target missing a required `selected_rota_id` - fails the plan with the API's own message instead of failing part way through an apply. A path that's valid but has no practical effect, like an `if_else` branch with no nodes, comes back as a plan warning rather than an error.
 
 ## v6.3.0
