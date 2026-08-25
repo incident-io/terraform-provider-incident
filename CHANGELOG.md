@@ -1,5 +1,10 @@
 ## Unreleased
 
+- `incident_escalation_path` levels now default `ack_mode` to `first`, not `all`. An ack by
+  one responder cancels the other escalations on the same level. Set `ack_mode = "all"` to
+  keep the old behaviour. This is a breaking change: a path that does not set `ack_mode`
+  shows a diff on the next plan, and applying that diff changes how the level behaves.
+
 ## v6.3.0
 
 - `incident_user` lookups by `email` now resolve to the single active user when
