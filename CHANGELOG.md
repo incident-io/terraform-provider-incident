@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Add the `cast` operation to `expressions` on `incident_alert_route`, `incident_alert_source` and `incident_workflow`. An expression exported from the dashboard that casts a value could not be applied: the provider had no `cast` attribute, so it sent the operation with no options and the API rejected it with `expressions.N.operations.M.cast: Must be provided`. Write it as `cast = { returns = { type = "...", array = false } }`. The API doesn't echo cast options back on reads, so we rebuild them from the operation's own returns, which hold the same values.
 - Add support for `form_fields` on `incident_workflow`, letting you define the fields shown to a user when they manually trigger a workflow. The value a user provides is available in the workflow scope under `workflow_form.<key>`. Each form field has a `key`, `title`, `type`, `array` and `required` setting, plus an optional `description` and a computed `id`. Form fields only apply to manual triggers. Either `form_fields = []` or omitting the attribute clears any existing fields.
 
 ## v6.4.1

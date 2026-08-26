@@ -233,6 +233,7 @@ Required:
 Optional:
 
 - `branches` (Attributes) An operation type that allows for a value to be set conditionally by a series of logical branches (see [below for nested schema](#nestedatt--expressions--operations--branches))
+- `cast` (Attributes) An operation type that converts a value into another type. Only valid on values that can be represented as text. The returned `array` follows the value being cast, so it must match the cardinality of the previous operation (see [below for nested schema](#nestedatt--expressions--operations--cast))
 - `filter` (Attributes) An operation type that allows values to be filtered out by conditions (see [below for nested schema](#nestedatt--expressions--operations--filter))
 - `navigate` (Attributes) An operation type that allows attributes of a type to be accessed by reference (see [below for nested schema](#nestedatt--expressions--operations--navigate))
 - `parse` (Attributes) An operation type that allows a value to parsed from within a JSON object (see [below for nested schema](#nestedatt--expressions--operations--parse))
@@ -328,6 +329,23 @@ Optional:
 
 <a id="nestedatt--expressions--operations--branches--returns"></a>
 ### Nested Schema for `expressions.operations.branches.returns`
+
+Required:
+
+- `array` (Boolean) Whether the return value should be single or multi-value
+- `type` (String) Expected return type of this expression (what to try casting the result to)
+
+
+
+<a id="nestedatt--expressions--operations--cast"></a>
+### Nested Schema for `expressions.operations.cast`
+
+Required:
+
+- `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--expressions--operations--cast--returns))
+
+<a id="nestedatt--expressions--operations--cast--returns"></a>
+### Nested Schema for `expressions.operations.cast.returns`
 
 Required:
 

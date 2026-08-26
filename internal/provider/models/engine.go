@@ -264,6 +264,7 @@ type IncidentEngineElseBranch struct {
 
 type IncidentEngineExpressionOperation struct {
 	Branches *IncidentEngineExpressionBranchesOpts `tfsdk:"branches"`
+	Cast     *IncidentEngineExpressionCastOpts     `tfsdk:"cast"`
 	Filter   *IncidentEngineExpressionFilterOpts   `tfsdk:"filter"`
 	Navigate *IncidentEngineExpressionNavigateOpts `tfsdk:"navigate"`
 	Parse    *IncidentEngineExpressionParseOpts    `tfsdk:"parse"`
@@ -282,6 +283,16 @@ func (IncidentEngineExpressionOperation) FromAPI(operations []client.ExpressionO
 			operation.Branches = &IncidentEngineExpressionBranchesOpts{
 				Branches: IncidentEngineBranches{}.fromAPI(o.Branches.Branches),
 				Returns:  IncidentEngineReturnsMeta{}.fromAPI(o.Branches.Returns),
+			}
+		}
+		// Cast is the one operation whose options aren't echoed back on the response type:
+		// the API omits them and exposes the cast target as the operation's own returns
+		// instead. Those are the same values the payload carries (the server serialises
+		// cast.returns from the operation result), so we rebuild the block from them rather
+		// than dropping the operation's config on read.
+		if o.OperationType == client.ExpressionOperationV2OperationTypeCast {
+			operation.Cast = &IncidentEngineExpressionCastOpts{
+				Returns: IncidentEngineReturnsMeta{}.fromAPI(o.Returns),
 			}
 		}
 		if o.Filter != nil {
@@ -339,6 +350,10 @@ func (IncidentEngineReturnsMeta) fromAPI(returns client.ReturnsMetaV2) IncidentE
 		Array: types.BoolValue(returns.Array),
 		Type:  types.StringValue(returns.Type),
 	}
+}
+
+type IncidentEngineExpressionCastOpts struct {
+	Returns IncidentEngineReturnsMeta `tfsdk:"returns"`
 }
 
 type IncidentEngineExpressionFilterOpts struct {
@@ -501,6 +516,13 @@ func ExpressionsAttribute() schema.SetNestedAttribute {
 									"returns": ReturnsAttribute(),
 								},
 							},
+							"cast": schema.SingleNestedAttribute{
+								MarkdownDescription: "An operation type that converts a value into another type. Only valid on values that can be represented as text. The returned `array` follows the value being cast, so it must match the cardinality of the previous operation",
+								Optional:            true,
+								Attributes: map[string]schema.Attribute{
+									"returns": ReturnsAttribute(),
+								},
+							},
 							"filter": schema.SingleNestedAttribute{
 								MarkdownDescription: "An operation type that allows values to be filtered out by conditions",
 								Optional:            true,
@@ -637,6 +659,11 @@ func (operations IncidentEngineExpressionOperations) toPayload() []client.Expres
 			operation.Branches = &client.ExpressionBranchesOptsPayloadV2{
 				Branches: o.Branches.Branches.toPayload(),
 				Returns:  o.Branches.Returns.toPayload(),
+			}
+		}
+		if o.Cast != nil {
+			operation.Cast = &client.ExpressionCastOptsPayloadV2{
+				Returns: o.Cast.Returns.toPayload(),
 			}
 		}
 		if o.Filter != nil {
