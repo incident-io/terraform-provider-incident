@@ -166,12 +166,13 @@ func TestUnflattenSequences(t *testing.T) {
 func apiNodes(payload []client.EscalationPathNodePayloadV2) []client.EscalationPathNodeV2 {
 	return lo.Map(payload, func(node client.EscalationPathNodePayloadV2, _ int) client.EscalationPathNodeV2 {
 		out := client.EscalationPathNodeV2{
-			Id:            node.Id,
-			Type:          client.EscalationPathNodeV2Type(node.Type),
-			Level:         node.Level,
-			NotifyChannel: node.NotifyChannel,
-			Delay:         node.Delay,
-			Repeat:        node.Repeat,
+			Id:             node.Id,
+			Type:           client.EscalationPathNodeV2Type(node.Type),
+			Level:          node.Level,
+			NotifyChannel:  node.NotifyChannel,
+			Delay:          node.Delay,
+			EscalationPath: node.EscalationPath,
+			Repeat:         node.Repeat,
 		}
 		if node.IfElse != nil {
 			out.IfElse = &client.EscalationPathNodeIfElseV2{

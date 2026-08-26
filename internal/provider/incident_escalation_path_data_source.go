@@ -328,6 +328,20 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 					},
 				},
 			},
+			// This must stay in step with nodeAttrTypes: the data source reuses the
+			// resource's buildModel, so a block missing here fails State.Set for every
+			// escalation path read, not just the ones holding a reassignment.
+			"escalation_path": schema.SingleNestedAttribute{
+				Computed: true,
+				MarkdownDescription: "Reassign the escalation to another escalation path, " +
+					"continuing from that path's first node.",
+				Attributes: map[string]schema.Attribute{
+					"escalation_path_id": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeEscalationPathV2", "escalation_path_id"),
+					},
+				},
+			},
 		},
 	}
 

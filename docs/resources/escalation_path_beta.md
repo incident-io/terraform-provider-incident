@@ -61,6 +61,25 @@ data "incident_user" "on_call" {
   email = "on-call@example.com"
 }
 
+# A last resort path, which the path below hands over to out of hours.
+resource "incident_escalation_path" "fallback" {
+  name = "Fallback"
+
+  path = [
+    {
+      type = "level"
+      level = {
+        targets = [{
+          type    = "user"
+          id      = data.incident_user.on_call.id
+          urgency = "high"
+        }]
+        time_to_ack_seconds = 300
+      }
+    }
+  ]
+}
+
 # The same escalation path as the incident_escalation_path example, written as a
 # flat map of sequences: if in working hours, page with high urgency; otherwise
 # page with low urgency.
@@ -129,6 +148,13 @@ resource "incident_escalation_path_beta" "urgent_support" {
             }]
             time_to_ack_seconds = 300
           }
+        },
+        # Nobody picked it up out of hours, so hand the escalation over to
+        # another path, continuing from that path's first node.
+        {
+          escalation_path = {
+            escalation_path_id = incident_escalation_path.fallback.id
+          }
         }
       ]
     }
@@ -184,6 +210,7 @@ Optional:
 
 - `branch` (Attributes) Send the escalation down one of two sequences, depending on what `if` tests. A branch must be the last node in its sequence. (see [below for nested schema](#nestedatt--sequences--nodes--branch))
 - `delay` (Attributes) (see [below for nested schema](#nestedatt--sequences--nodes--delay))
+- `escalation_path` (Attributes) Reassign the escalation to another escalation path, continuing from that path's first node. (see [below for nested schema](#nestedatt--sequences--nodes--escalation_path))
 - `id` (String) An id for this node, unique within the escalation path, so a `loop` can name it. Leave it unset unless something loops back here: we derive one from the node's position, which keeps it stable across applies.
 - `level` (Attributes) (see [below for nested schema](#nestedatt--sequences--nodes--level))
 - `loop` (Attributes) Go back to an earlier node and run from there again. (see [below for nested schema](#nestedatt--sequences--nodes--loop))
@@ -219,6 +246,14 @@ Optional:
 - `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
+
+<a id="nestedatt--sequences--nodes--escalation_path"></a>
+### Nested Schema for `sequences.nodes.escalation_path`
+
+Required:
+
+- `escalation_path_id` (String) The ID of the escalation path to reassign to
 
 
 <a id="nestedatt--sequences--nodes--level"></a>

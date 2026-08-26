@@ -50,13 +50,14 @@ type IncidentEscalationPathResourceModel struct {
 }
 
 type IncidentEscalationPathNode struct {
-	ID            types.String                             `tfsdk:"id"`
-	Type          types.String                             `tfsdk:"type"`
-	Delay         *IncidentEscalationPathNodeDelay         `tfsdk:"delay"`
-	IfElse        *IncidentEscalationPathNodeIfElse        `tfsdk:"if_else"`
-	Level         *IncidentEscalationPathNodeLevel         `tfsdk:"level"`
-	Repeat        *IncidentEscalationPathNodeRepeat        `tfsdk:"repeat"`
-	NotifyChannel *IncidentEscalationPathNodeNotifyChannel `tfsdk:"notify_channel"`
+	ID             types.String                              `tfsdk:"id"`
+	Type           types.String                              `tfsdk:"type"`
+	Delay          *IncidentEscalationPathNodeDelay          `tfsdk:"delay"`
+	EscalationPath *IncidentEscalationPathNodeEscalationPath `tfsdk:"escalation_path"`
+	IfElse         *IncidentEscalationPathNodeIfElse         `tfsdk:"if_else"`
+	Level          *IncidentEscalationPathNodeLevel          `tfsdk:"level"`
+	Repeat         *IncidentEscalationPathNodeRepeat         `tfsdk:"repeat"`
+	NotifyChannel  *IncidentEscalationPathNodeNotifyChannel  `tfsdk:"notify_channel"`
 }
 
 type IncidentEscalationPathNodeIfElse struct {
@@ -87,6 +88,10 @@ type IncidentEscalationPathNodeDelay struct {
 	DelayIntervalCondition       types.String `tfsdk:"delay_interval_condition"`
 	DelaySeconds                 types.Int64  `tfsdk:"delay_seconds"`
 	DelayWeekdayIntervalConfigID types.String `tfsdk:"delay_weekday_interval_config_id"`
+}
+
+type IncidentEscalationPathNodeEscalationPath struct {
+	EscalationPathID types.String `tfsdk:"escalation_path_id"`
 }
 
 type IncidentEscalationPathNodeRepeat struct {
@@ -147,8 +152,9 @@ func nodeAttrTypes(depth int) map[string]attr.Type {
 			"repeat_times": types.Int64Type,
 			"to_node":      types.StringType,
 		}},
-		"notify_channel": types.ObjectType{AttrTypes: notifyChannelAttrTypes()},
-		"delay":          types.ObjectType{AttrTypes: delayAttrTypes()},
+		"notify_channel":  types.ObjectType{AttrTypes: notifyChannelAttrTypes()},
+		"delay":           types.ObjectType{AttrTypes: delayAttrTypes()},
+		"escalation_path": types.ObjectType{AttrTypes: escalationPathAttrTypes()},
 	}
 
 	if depth > 0 {
@@ -273,8 +279,9 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 					},
 				},
 			},
-			"notify_channel": escalationPathNotifyChannelAttribute(),
-			"delay":          escalationPathDelayAttribute(),
+			"notify_channel":  escalationPathNotifyChannelAttribute(),
+			"delay":           escalationPathDelayAttribute(),
+			"escalation_path": escalationPathEscalationPathAttribute(),
 		},
 	}
 
@@ -544,6 +551,10 @@ func objectToNode(ctx context.Context, obj types.Object, diags *diag.Diagnostics
 	if decodeObject("delay", &delay) {
 		node.Delay = &delay
 	}
+	var escalationPath IncidentEscalationPathNodeEscalationPath
+	if decodeObject("escalation_path", &escalationPath) {
+		node.EscalationPath = &escalationPath
+	}
 	var repeat IncidentEscalationPathNodeRepeat
 	if decodeObject("repeat", &repeat) {
 		node.Repeat = &repeat
@@ -593,6 +604,7 @@ func validateEscalationPathNodes(ctx context.Context, nodeList types.List, depth
 			))
 			continue
 		}
+		validateEscalationPathNodeEscalationPath(node, diags)
 		if node.Level != nil {
 			for _, target := range decodeTargets(ctx, node.Level.Targets, diags) {
 				validateEscalationPathTarget(target, diags)
@@ -607,6 +619,34 @@ func validateEscalationPathNodes(ctx context.Context, nodeList types.List, depth
 			validateEscalationPathNodes(ctx, node.IfElse.ThenPath, depth-1, diags)
 			validateEscalationPathNodes(ctx, node.IfElse.ElsePath, depth-1, diags)
 		}
+	}
+}
+
+// validateEscalationPathNodeEscalationPath checks that a node's type and its
+// escalation_path block agree.
+//
+// Nothing else does: the type attribute has no enum validator, and a node's blocks are all
+// optional, so a reassignment node missing its block reaches the API as "type:
+// escalation_path" with no config and comes back as an opaque payload error. Catching it
+// here names the problem while the author is still looking at the plan.
+func validateEscalationPathNodeEscalationPath(node IncidentEscalationPathNode, diags *diag.Diagnostics) {
+	nodeType := node.Type
+	if nodeType.IsUnknown() || nodeType.IsNull() {
+		return
+	}
+
+	isReassignment := nodeType.ValueString() == string(client.EscalationPathNodeV2TypeEscalationPath)
+	switch {
+	case isReassignment && node.EscalationPath == nil:
+		diags.Append(diag.NewErrorDiagnostic(
+			"Missing escalation_path block",
+			"A node with type \"escalation_path\" must set an escalation_path block naming the path to reassign to.",
+		))
+	case !isReassignment && node.EscalationPath != nil:
+		diags.Append(diag.NewErrorDiagnostic(
+			"Unexpected escalation_path block",
+			fmt.Sprintf("A node with type %q must not set an escalation_path block; it is only valid on a node with type \"escalation_path\".", nodeType.ValueString()),
+		))
 	}
 }
 
@@ -850,6 +890,7 @@ func (r *IncidentEscalationPathResource) toPathModel(ctx context.Context, nodes 
 		elem.Level = levelFromAPI(ctx, node.Level, diags)
 		elem.NotifyChannel = notifyChannelFromAPI(ctx, node.NotifyChannel, diags)
 		elem.Delay = delayFromAPI(node.Delay)
+		elem.EscalationPath = escalationPathFromAPI(node.EscalationPath)
 		if node.Repeat != nil {
 			elem.Repeat = &IncidentEscalationPathNodeRepeat{
 				RepeatTimes: types.Int64Value(node.Repeat.RepeatTimes),
@@ -903,6 +944,7 @@ func nodeToObject(ctx context.Context, node IncidentEscalationPathNode, depth in
 	setObject("level", node.Level == nil, node.Level)
 	setObject("notify_channel", node.NotifyChannel == nil, node.NotifyChannel)
 	setObject("delay", node.Delay == nil, node.Delay)
+	setObject("escalation_path", node.EscalationPath == nil, node.EscalationPath)
 	setObject("repeat", node.Repeat == nil, node.Repeat)
 	if depth > 0 {
 		setObject("if_else", node.IfElse == nil, node.IfElse)
@@ -958,6 +1000,7 @@ func (r *IncidentEscalationPathResource) toPathPayload(ctx context.Context, path
 		elem.Level = levelToPayload(ctx, node.Level, diags)
 		elem.NotifyChannel = notifyChannelToPayload(ctx, node.NotifyChannel, diags)
 		elem.Delay = delayToPayload(node.Delay)
+		elem.EscalationPath = escalationPathToPayload(node.EscalationPath)
 		if !reflect.ValueOf(node.Repeat).IsZero() {
 			elem.Repeat = &client.EscalationPathNodeRepeatV2{
 				RepeatTimes: node.Repeat.RepeatTimes.ValueInt64(),

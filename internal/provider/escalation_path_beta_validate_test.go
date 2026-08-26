@@ -261,7 +261,7 @@ func TestValidateSequences(t *testing.T) {
 			sequences: map[string][]escalationPathBetaNode{
 				"main": {{ID: types.StringValue("does-nothing")}},
 			},
-			wantError: "sets none of level, notify_channel, delay, branch or loop",
+			wantError: "sets none of level, notify_channel, delay, escalation_path, branch or loop",
 		},
 		{
 			// The naming can't be checked until the resource it comes from exists, and
