@@ -240,6 +240,7 @@ Read-Only:
 Read-Only:
 
 - `branches` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches))
+- `cast` (Attributes) The cast target of this operation, set when the operation type is `cast` (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--cast))
 - `filter` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter))
 - `navigate` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--navigate))
 - `operation_type` (String) The type of the operation
@@ -336,6 +337,23 @@ Read-Only:
 
 <a id="nestedatt--alert_sources--template--expressions--operations--branches--returns"></a>
 ### Nested Schema for `alert_sources.template.expressions.operations.branches.returns`
+
+Read-Only:
+
+- `array` (Boolean) Whether the return value should be single or multi-value
+- `type` (String) Expected return type of this expression (what to try casting the result to)
+
+
+
+<a id="nestedatt--alert_sources--template--expressions--operations--cast"></a>
+### Nested Schema for `alert_sources.template.expressions.operations.cast`
+
+Read-Only:
+
+- `returns` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--cast--returns))
+
+<a id="nestedatt--alert_sources--template--expressions--operations--cast--returns"></a>
+### Nested Schema for `alert_sources.template.expressions.operations.cast.returns`
 
 Read-Only:
 

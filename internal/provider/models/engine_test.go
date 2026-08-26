@@ -299,3 +299,54 @@ func TestIncidentEngineParamBinding_IsEmpty(t *testing.T) {
 		ArrayValue: []IncidentEngineParamBindingValue{{Reference: types.StringValue("incident")}},
 	}.IsEmpty(), "a populated array_value is not empty")
 }
+
+// TestIncidentEngineExpressionOperation_CastRoundTrip covers the cast operation,
+// which the dashboard exports but the provider used to drop: without the cast
+// options the API rejects the payload with
+// "expressions.N.operations.M.cast: Must be provided".
+func TestIncidentEngineExpressionOperation_CastRoundTrip(t *testing.T) {
+	operations := IncidentEngineExpressionOperations{
+		{
+			OperationType: types.StringValue("cast"),
+			Cast: &IncidentEngineExpressionCastOpts{
+				Returns: IncidentEngineReturnsMeta{
+					Array: types.BoolValue(false),
+					Type:  types.StringValue("CatalogEntry[\"01ABC\"]"),
+				},
+			},
+		},
+	}
+
+	payload := operations.toPayload()
+	require.Len(t, payload, 1)
+	require.NotNil(t, payload[0].Cast, "cast options must reach the API")
+	assert.Equal(t, "CatalogEntry[\"01ABC\"]", payload[0].Cast.Returns.Type)
+	assert.False(t, payload[0].Cast.Returns.Array)
+
+	// The API doesn't echo cast options back: it reports the cast target as the
+	// operation's own returns, so that's what we rebuild the block from.
+	applied := IncidentEngineExpressionOperation{}.FromAPI([]client.ExpressionOperationV2{
+		{
+			OperationType: client.ExpressionOperationV2OperationTypeCast,
+			Returns:       client.ReturnsMetaV2{Array: false, Type: "CatalogEntry[\"01ABC\"]"},
+		},
+	})
+
+	assert.Equal(t, operations, IncidentEngineExpressionOperations(applied))
+}
+
+// TestIncidentEngineExpressionOperation_FromAPINonCast asserts we only synthesise
+// a cast block for cast operations: every other operation carries returns too, and
+// a spurious block would diff against config forever.
+func TestIncidentEngineExpressionOperation_FromAPINonCast(t *testing.T) {
+	applied := IncidentEngineExpressionOperation{}.FromAPI([]client.ExpressionOperationV2{
+		{
+			OperationType: client.ExpressionOperationV2OperationTypeNavigate,
+			Navigate:      &client.ExpressionNavigateOptsV2{Reference: "catalog_attribute[\"01ABC\"]"},
+			Returns:       client.ReturnsMetaV2{Array: true, Type: "CatalogEntry[\"01DEF\"]"},
+		},
+	})
+
+	require.Len(t, applied, 1)
+	assert.Nil(t, applied[0].Cast)
+}

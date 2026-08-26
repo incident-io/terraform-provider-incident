@@ -154,6 +154,13 @@ func ExpressionsDataSourceAttribute() schema.SetNestedAttribute {
 									"returns": ReturnsDataSourceAttribute(),
 								},
 							},
+							"cast": schema.SingleNestedAttribute{
+								MarkdownDescription: "The cast target of this operation, set when the operation type is `cast`",
+								Computed:            true,
+								Attributes: map[string]schema.Attribute{
+									"returns": ReturnsDataSourceAttribute(),
+								},
+							},
 							"filter": schema.SingleNestedAttribute{
 								MarkdownDescription: apischema.Docstring("ExpressionOperationV2", "filter"),
 								Computed:            true,
