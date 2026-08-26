@@ -1,3 +1,15 @@
+# Teams are catalog entries, so an owning team is resolved through the catalog
+# rather than by pasting in its ID. The identifier is matched against entry
+# names, external IDs and aliases, so the team's name is enough.
+data "incident_catalog_type" "team" {
+  name = "Team"
+}
+
+data "incident_catalog_entry" "platform" {
+  catalog_type_id = data.incident_catalog_type.team.id
+  identifier      = "Platform"
+}
+
 # This is a workflow that automatically assigns the incident lead role to the user who acked an escalation.
 resource "incident_workflow" "autoassign_incident_lead" {
   name    = "Auto-assign incident leader"
@@ -47,6 +59,11 @@ resource "incident_workflow" "autoassign_incident_lead" {
   once_for = [
     # "Incident"
     "incident",
+  ]
+  # Teams that own this workflow. It's a set, so more than one team can own a
+  # workflow and the order doesn't matter.
+  owning_team_ids = [
+    data.incident_catalog_entry.platform.id,
   ]
   include_private_incidents = false
   continue_on_step_error    = false

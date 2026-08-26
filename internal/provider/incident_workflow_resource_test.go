@@ -380,6 +380,111 @@ resource "incident_workflow" "example" {
 	})
 }
 
+// TestAccIncidentWorkflowResourceOwningTeamFromCatalog covers the pattern the resource
+// example uses: teams are catalog entries, so the owning team is resolved through the
+// catalog by name rather than by pasting in an ID that differs between workspaces.
+func TestAccIncidentWorkflowResourceOwningTeamFromCatalog(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentWorkflowResourceConfigOwningTeamFromCatalog(),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					// The name lookup resolves to the team we provisioned...
+					resource.TestCheckResourceAttrPair(
+						"data.incident_catalog_entry.owner_team", "id",
+						"incident_catalog_entry.owner_team", "id"),
+					// ...and that is what the workflow ends up owned by.
+					resource.TestCheckResourceAttr("incident_workflow.example", "owning_team_ids.#", "1"),
+					resource.TestCheckResourceAttrPair(
+						"incident_workflow.example", "owning_team_ids.0",
+						"data.incident_catalog_entry.owner_team", "id"),
+				),
+			},
+			// The owning team survives an import round-trip.
+			{
+				ResourceName:      "incident_workflow.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+// testAccIncidentWorkflowResourceConfigOwningTeamFromCatalog renders a workflow owned by a
+// team that is looked up by name, mirroring examples/resources/incident_workflow/resource.tf.
+//
+// The data source needs depends_on: its config is fully known at plan time, so without it
+// Terraform would read the entry before the resource above has created it, and the lookup
+// would fail with a not-found.
+func testAccIncidentWorkflowResourceConfigOwningTeamFromCatalog() string {
+	return testRunTemplate("incident_workflow_owning_team_from_catalog", `
+data "incident_catalog_type" "team" {
+  name = {{ quote .TeamTypeName }}
+}
+
+resource "incident_catalog_entry" "owner_team" {
+  catalog_type_id  = data.incident_catalog_type.team.id
+  external_id      = {{ quote .TeamExternalID }}
+  name             = {{ quote .TeamName }}
+  attribute_values = []
+}
+
+data "incident_catalog_entry" "owner_team" {
+  catalog_type_id = data.incident_catalog_type.team.id
+  identifier      = {{ quote .TeamName }}
+
+  depends_on = [incident_catalog_entry.owner_team]
+}
+
+resource "incident_workflow" "example" {
+  name    = {{ quote .WorkflowName }}
+  trigger = "incident.updated"
+  condition_groups = [
+    {
+      conditions = [
+        {
+          subject        = "incident.status.category"
+          operation      = "one_of"
+          param_bindings = [{ array_value = [{ literal = "open" }] }]
+        }
+      ]
+    }
+  ]
+  steps = [
+    {
+      id   = "01HXVEA7Y0VWQBJB4F2X8WNRW6"
+      name = "incident.create_follow_ups"
+      param_bindings = [
+        { value = { reference = "incident" } },
+        { array_value = [{ literal = "Write postmortem" }] },
+        {}
+      ]
+    }
+  ]
+  expressions               = []
+  once_for                  = ["incident"]
+  owning_team_ids           = [data.incident_catalog_entry.owner_team.id]
+  include_private_incidents = false
+  continue_on_step_error    = false
+  runs_on_incidents         = "newly_created"
+  runs_on_incident_modes    = ["standard"]
+  state                     = "draft"
+}
+`, struct {
+		TeamTypeName   string
+		TeamName       string
+		TeamExternalID string
+		WorkflowName   string
+	}{
+		TeamTypeName:   teamTypeName(),
+		TeamName:       StableSuffix("Terraform Workflow Owning Team Lookup"),
+		TeamExternalID: StableSuffix("tf-workflow-owning-team-lookup"),
+		WorkflowName:   StableSuffix("Owning team from catalog workflow"),
+	})
+}
+
 // TestAccIncidentWorkflowResourceFormFields checks that form_fields round-trips on a
 // manually triggered workflow: unset reads back as absent, fields are applied and
 // re-read (with a server-generated id), and both `[]` and omitting the attribute
