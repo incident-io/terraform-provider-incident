@@ -57,6 +57,20 @@ type IncidentWorkflowResourceModel struct {
 	RunsOnIncidents           types.String                         `tfsdk:"runs_on_incidents"`
 	RunsOnIncidentModes       types.Set                            `tfsdk:"runs_on_incident_modes"`
 	State                     types.String                         `tfsdk:"state"`
+	FormFields                []IncidentWorkflowFormField          `tfsdk:"form_fields"`
+}
+
+// IncidentWorkflowFormField represents a form field presented to the user when
+// a workflow with a manual trigger is triggered by hand. The value they provide
+// is made available in the workflow scope under the field's key.
+type IncidentWorkflowFormField struct {
+	ID          types.String `tfsdk:"id"`
+	Key         types.String `tfsdk:"key"`
+	Title       types.String `tfsdk:"title"`
+	Type        types.String `tfsdk:"type"`
+	Description types.String `tfsdk:"description"`
+	Array       types.Bool   `tfsdk:"array"`
+	Required    types.Bool   `tfsdk:"required"`
 }
 
 type IncidentWorkflowStep struct {
@@ -184,6 +198,49 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				MarkdownDescription: EnumValuesDescription("WorkflowV2", "state"),
 				Required:            true,
 			},
+			"form_fields": schema.ListNestedAttribute{
+				MarkdownDescription: apischema.Docstring("WorkflowV2", "form_fields") +
+					"\n\nThe order of the list is the order the fields appear in the form. " +
+					"Either `form_fields = []` or omitting the attribute clears any existing fields.",
+				Optional: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"id": schema.StringAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "id"),
+							Computed:            true,
+							PlanModifiers: []planmodifier.String{
+								// Correlates by key, not list position: see
+								// formFieldIDPlanModifier.
+								formFieldIDPlanModifier{},
+							},
+						},
+						"key": schema.StringAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "key"),
+							Required:            true,
+						},
+						"title": schema.StringAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "title"),
+							Required:            true,
+						},
+						"type": schema.StringAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "type"),
+							Required:            true,
+						},
+						"description": schema.StringAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "description"),
+							Optional:            true,
+						},
+						"array": schema.BoolAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "array"),
+							Required:            true,
+						},
+						"required": schema.BoolAttribute{
+							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "required"),
+							Required:            true,
+						},
+					},
+				},
+			},
 		},
 	}
 }
@@ -221,6 +278,7 @@ func (r *IncidentWorkflowResource) Create(ctx context.Context, req resource.Crea
 		OwningTeamIds:       toOwningTeamIDs(data.OwningTeamIDs),
 		ContinueOnStepError: data.ContinueOnStepError.ValueBool(),
 		State:               lo.ToPtr(client.WorkflowsCreateWorkflowPayloadV2State(data.State.ValueString())),
+		FormFields:          toPayloadFormFields(data.FormFields),
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
@@ -302,6 +360,7 @@ func (r *IncidentWorkflowResource) Update(ctx context.Context, req resource.Upda
 		OwningTeamIds:       toOwningTeamIDs(data.OwningTeamIDs),
 		ContinueOnStepError: data.ContinueOnStepError.ValueBool(),
 		State:               lo.ToPtr(client.WorkflowsUpdateWorkflowPayloadV2State(data.State.ValueString())),
+		FormFields:          toPayloadFormFields(data.FormFields),
 		Annotations: &map[string]string{
 			"incident.io/terraform/version": r.terraformVersion,
 		},
@@ -422,15 +481,26 @@ func toOwningTeamIDs(set types.Set) *[]string {
 	return &teamIDs
 }
 
-// ValidateConfig blocks an unrecognised private_incident_scope, or an include_private_incidents
-// that contradicts it. The bool is true whenever the scope touches private incidents (all or
-// owning_teams), false for none; the API accepts both when they agree, so only disagreement errors.
+// ValidateConfig runs every check the config has to pass. Each one judges its own
+// diagnostics rather than the shared response, so one bad attribute doesn't hide
+// another and send someone round the loop twice for one plan's worth of mistakes.
 func (r *IncidentWorkflowResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	r.validateFormFieldKeys(ctx, req, resp)
+	r.validatePrivateIncidentScope(ctx, req, resp)
+}
+
+// validatePrivateIncidentScope blocks an unrecognised private_incident_scope, or an
+// include_private_incidents that contradicts it. The bool is true whenever the scope touches
+// private incidents (all or owning_teams), false for none; the API accepts both when they
+// agree, so only disagreement errors.
+func (r *IncidentWorkflowResource) validatePrivateIncidentScope(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	var includePrivate types.Bool
 	var scope types.String
-	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("include_private_incidents"), &includePrivate)...)
-	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("private_incident_scope"), &scope)...)
-	if resp.Diagnostics.HasError() {
+	diags := diag.Diagnostics{}
+	diags.Append(req.Config.GetAttribute(ctx, path.Root("include_private_incidents"), &includePrivate)...)
+	diags.Append(req.Config.GetAttribute(ctx, path.Root("private_incident_scope"), &scope)...)
+	resp.Diagnostics.Append(diags...)
+	if diags.HasError() {
 		return
 	}
 
@@ -454,6 +524,73 @@ func (r *IncidentWorkflowResource) ValidateConfig(ctx context.Context, req resou
 			))
 		}
 	}
+}
+
+// validateFormFieldKeys rejects two form fields sharing a key. A key has to be
+// unique for `workflow_form.<key>` to mean anything, and it's also how we
+// correlate a field with its prior id (see formFieldIDPlanModifier), so a
+// duplicate would hand the same id to two fields. Unknown keys are skipped
+// rather than compared, since they can't be told apart until apply.
+func (r *IncidentWorkflowResource) validateFormFieldKeys(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var fields []IncidentWorkflowFormField
+	diags := req.Config.GetAttribute(ctx, path.Root("form_fields"), &fields)
+	resp.Diagnostics.Append(diags...)
+	if diags.HasError() {
+		return
+	}
+
+	seen := map[string]bool{}
+	for _, field := range fields {
+		if field.Key.IsNull() || field.Key.IsUnknown() {
+			continue
+		}
+
+		key := field.Key.ValueString()
+		if seen[key] {
+			resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+				"Duplicate form_fields key",
+				fmt.Sprintf("Two form fields share the key %q. Each form field needs its own key, because that's how its value is referenced in the workflow scope as workflow_form.%s.", key, key),
+			))
+			return
+		}
+		seen[key] = true
+	}
+}
+
+// toPayloadFormFields builds the form_fields payload.
+//
+// The list is always sent, even when the attribute is unset. form_fields is part
+// of the workflow's own definition, like steps and condition_groups, so config is
+// the source of truth: a workflow whose config doesn't mention form fields should
+// end up without any. Omitting the key from the body instead would leave whatever
+// fields the workflow already had in place, which both strands them outside
+// Terraform's control and hands back a state that contradicts a plan of null —
+// failing the apply with "Provider produced inconsistent result after apply".
+func toPayloadFormFields(fields []IncidentWorkflowFormField) *[]client.WorkflowFormFieldPayloadV2 {
+	out := []client.WorkflowFormFieldPayloadV2{}
+	for _, field := range fields {
+		// A field we haven't applied yet has an unknown id, and one the plan
+		// modifier reset has a null id: both mean "create a new field", which the
+		// API expects us to signal by leaving id out. ValueStringPointer returns a
+		// pointer to "" for an unknown value, which omitempty still encodes as
+		// `"id": ""`, so pick the pointer out by hand.
+		var id *string
+		if !field.ID.IsNull() && !field.ID.IsUnknown() {
+			id = field.ID.ValueStringPointer()
+		}
+
+		out = append(out, client.WorkflowFormFieldPayloadV2{
+			Id:          id,
+			Key:         field.Key.ValueString(),
+			Title:       field.Title.ValueString(),
+			Type:        field.Type.ValueString(),
+			Array:       field.Array.ValueBoolPointer(),
+			Required:    field.Required.ValueBoolPointer(),
+			Description: field.Description.ValueStringPointer(),
+		})
+	}
+
+	return &out
 }
 
 func toPayloadSteps(steps []IncidentWorkflowStep) []client.StepConfigPayloadV2 {
