@@ -720,7 +720,7 @@ func TestAccIncidentWorkflowResourceFormFieldIDsFollowKeys(t *testing.T) {
 func testAccIncidentWorkflowConfigFormFields(formFields string) string {
 	return testRunTemplate("incident_workflow_form_fields", `
 resource "incident_workflow" "example" {
-  name    = "Form fields workflow"
+  name    = {{ stableSuffix "Form fields workflow" | quote }}
   trigger = "manual"
   condition_groups = []
   steps = [
