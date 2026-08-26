@@ -135,6 +135,17 @@ func TestWorkflowFormFieldKeysValidateConfig(t *testing.T) {
 		}
 	})
 
+	// GetAttribute into []IncidentWorkflowFormField fails when the whole list is
+	// unknown (a variable, or another resource). That conversion error must not
+	// be reported as a config problem — the list isn't known enough to check yet.
+	t.Run("an entirely unknown form_fields is skipped", func(t *testing.T) {
+		unknown := tftypes.NewValue(tftypes.List{ElementType: formFieldObjectType}, tftypes.UnknownValue)
+		resp := validateWorkflowFormFields(t, unknown)
+		if resp.Diagnostics.HasError() {
+			t.Errorf("unexpected diagnostics: %+v", resp.Diagnostics)
+		}
+	})
+
 	// Each check judges its own diagnostics, so a duplicate key doesn't mask an
 	// unrelated mistake elsewhere in the config.
 	t.Run("a duplicate key and a bad scope both report", func(t *testing.T) {

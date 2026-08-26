@@ -530,11 +530,13 @@ func (r *IncidentWorkflowResource) validatePrivateIncidentScope(ctx context.Cont
 // unique for `workflow_form.<key>` to mean anything, and it's also how we
 // correlate a field with its prior id (see formFieldIDPlanModifier), so a
 // duplicate would hand the same id to two fields. Unknown keys are skipped
-// rather than compared, since they can't be told apart until apply.
+// rather than compared, since they can't be told apart until apply. An entirely
+// unknown form_fields (a variable, or another resource) fails conversion into
+// the slice, and that failure is skipped rather than reported — the list isn't
+// known enough to check yet, and Terraform re-runs validation once it is.
 func (r *IncidentWorkflowResource) validateFormFieldKeys(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	var fields []IncidentWorkflowFormField
 	diags := req.Config.GetAttribute(ctx, path.Root("form_fields"), &fields)
-	resp.Diagnostics.Append(diags...)
 	if diags.HasError() {
 		return
 	}
