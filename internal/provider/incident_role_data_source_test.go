@@ -2,6 +2,7 @@ package provider
 
 import (
 	"bytes"
+	"regexp"
 	"testing"
 	"text/template"
 
@@ -35,7 +36,35 @@ func TestAccIncidentRoleDataSource(t *testing.T) {
 						"data.incident_incident_role.by_id", "instructions", defaultIncidentRole.Instructions),
 					resource.TestCheckResourceAttr(
 						"data.incident_incident_role.by_id", "shortform", defaultIncidentRole.Shortform),
+					resource.TestCheckResourceAttrPair(
+						"data.incident_incident_role.by_name", "id", "incident_incident_role.example", "id"),
+					resource.TestCheckResourceAttr(
+						"data.incident_incident_role.by_name", "description", defaultIncidentRole.Description),
+					resource.TestCheckResourceAttr(
+						"data.incident_incident_role.by_name", "instructions", defaultIncidentRole.Instructions),
+					resource.TestCheckResourceAttr(
+						"data.incident_incident_role.by_name", "shortform", defaultIncidentRole.Shortform),
 				),
+			},
+		},
+	})
+}
+
+// Both lookup attributes are Optional and Computed, so setting both has to be
+// rejected explicitly rather than by the schema.
+func TestAccIncidentRoleDataSourceAmbiguousLookup(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+data "incident_incident_role" "both" {
+  id   = "01HPYFHF7NA1TDPY9WQNPPP1XT"
+  name = "Incident Lead"
+}
+`,
+				ExpectError: regexp.MustCompile("Ambiguous lookup"),
 			},
 		},
 	})
@@ -50,6 +79,9 @@ resource "incident_incident_role" "example" {
 }
 data "incident_incident_role" "by_id" {
   id         = incident_incident_role.example.id
+}
+data "incident_incident_role" "by_name" {
+  name       = incident_incident_role.example.name
 }
 `))
 

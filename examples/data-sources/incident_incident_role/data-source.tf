@@ -10,3 +10,10 @@ resource "incident_incident_role" "comms" {
 data "incident_incident_role" "comms" {
   id = incident_incident_role.comms.id
 }
+
+# Or look one up by name, which avoids pinning an ID that differs between
+# workspaces. This is how you get hold of the roles incident.io creates for you,
+# such as Incident Lead.
+data "incident_incident_role" "incident_lead" {
+  name = "Incident Lead"
+}

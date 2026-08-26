@@ -28,6 +28,13 @@ data "incident_catalog_entry" "platform" {
   identifier      = "Platform"
 }
 
+# Look the incident lead role up by name, rather than pinning its ID into the
+# workflow below. The ID differs between workspaces, so a name keeps the config
+# portable.
+data "incident_incident_role" "incident_lead" {
+  name = "Incident Lead"
+}
+
 # This is a workflow that automatically assigns the incident lead role to the user who acked an escalation.
 resource "incident_workflow" "autoassign_incident_lead" {
   name    = "Auto-assign incident leader"
@@ -62,7 +69,7 @@ resource "incident_workflow" "autoassign_incident_lead" {
         {
           value = {
             # "Incident Lead"
-            literal = "01HB0ZG24MPVF28Z5NF18DQT84" # This is the ID of the incident lead role in our workspace
+            literal = data.incident_incident_role.incident_lead.id
           }
         },
         {

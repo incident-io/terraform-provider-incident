@@ -4,6 +4,8 @@
 
 - Expose `rank` on the `incident_status` data source. Statuses are ordered in the dashboard by this value, and the API already returns it; lookups by `id` or `name` now include it so you can sort or compare statuses without a second call.
 
+- `incident_incident_role` can now be looked up by `name` as well as by `id`, so you no longer have to pin a role ID that differs between workspaces. Set exactly one of the two; setting both is rejected at plan time. The `incident_workflow` example now uses this to resolve the incident lead role instead of hardcoding its ID.
+
 ## v6.8.0
 
 - Add `rate_limit_sharding` to `incident_alert_source` and `incident_alert_source_beta`, which splits a source's ingest rate limit into per-value buckets instead of applying one limit to the whole source. Set `rate_limit_sharding = { rate_limit_shard_key_path = "$.metadata.team" }` to give each distinct value at that JSON path its own allowance, so one noisy sender can't exhaust the source for everyone else. Remove the block to go back to a single limit. Not every source type supports it - the ones we fetch from over an API rather than receive a payload from don't - and a path set on one of those is rejected at plan time.
