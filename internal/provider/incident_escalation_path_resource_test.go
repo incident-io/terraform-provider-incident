@@ -9,6 +9,7 @@ import (
 	"text/template"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 )
 
 func TestAccIncidentEscalationPathResource(t *testing.T) {
@@ -920,4 +921,135 @@ resource "incident_escalation_path" "unknown_values" {
   team_ids = [incident_catalog_entry.terraform_unknown_values.id]
 }
 `, teamTypeName(), name, name, StableSuffix("tf-acceptance-test-unknown-values"))
+}
+
+// TestAccIncidentEscalationPathReassignment covers the two things the model round-trip
+// tests can't: that a second plan over an unchanged config is a no-op, and that an
+// imported path matches the config it was written from. Both turn on the read, which is
+// where a reassignment node used to come back with an empty block and take the next apply
+// down with it.
+//
+// The node needs feature-escalation-path-reassignment enabled for the organisation the API
+// key belongs to. That's a server-side flag with no provider-side equivalent, so like the
+// other tests for org-gated features this skips unless it's been asked for explicitly.
+func TestAccIncidentEscalationPathReassignment(t *testing.T) {
+	if os.Getenv("TF_ACC_ESCALATION_PATH_REASSIGNMENT") == "" {
+		t.Skip("TF_ACC_ESCALATION_PATH_REASSIGNMENT is not set: skipping test that needs the escalation path reassignment feature enabled")
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			// Create a path whose last node hands the escalation to another path, and read
+			// it back.
+			{
+				Config: testAccIncidentEscalationPathResourceConfigWithReassignment(
+					StableSuffix("EP reassignment"),
+				),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_escalation_path.reassigning", "path.1.type", "escalation_path"),
+					resource.TestCheckResourceAttrPair(
+						"incident_escalation_path.reassigning", "path.1.escalation_path.escalation_path_id",
+						"incident_escalation_path.fallback", "id"),
+				),
+				// The drift check: a node that reads back empty plans a change here, which
+				// is what the old behaviour did on every apply after the first.
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
+				},
+			},
+			{
+				ResourceName:      "incident_escalation_path.reassigning",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+func testAccIncidentEscalationPathResourceConfigWithReassignment(name string) string {
+	return fmt.Sprintf(`
+data "incident_catalog_type" "team" {
+  name = %[1]q
+}
+
+resource "incident_catalog_entry" "terraform_reassignment" {
+  catalog_type_id    = data.incident_catalog_type.team.id
+  external_id        = %[4]q
+  name               = %[4]q
+  attribute_values   = []
+  managed_attributes = []
+}
+
+resource "incident_schedule" "reassignment" {
+  name     = %[2]q
+  timezone = "Europe/London"
+  rotations = [{
+    id   = "primary"
+    name = "Primary"
+    versions = [{
+      handover_start_at = "2024-05-01T12:00:00Z"
+      users             = []
+      layers = [{
+        id   = "primary"
+        name = "Primary"
+      }]
+      handovers = [{
+        interval_type = "daily"
+        interval      = 1
+      }]
+    }]
+  }]
+  team_ids = [incident_catalog_entry.terraform_reassignment.id]
+}
+
+# The path the reassignment hands over to. It continues from this path's first node.
+resource "incident_escalation_path" "fallback" {
+  name = "%[3]s fallback"
+
+  path = [
+    {
+      type = "level"
+      level = {
+        targets = [{
+          type    = "schedule"
+          id      = incident_schedule.reassignment.id
+          urgency = "high"
+        }]
+        time_to_ack_seconds = 300
+      }
+    }
+  ]
+
+  team_ids = [incident_catalog_entry.terraform_reassignment.id]
+}
+
+resource "incident_escalation_path" "reassigning" {
+  name = %[3]q
+
+  path = [
+    {
+      type = "level"
+      level = {
+        targets = [{
+          type    = "schedule"
+          id      = incident_schedule.reassignment.id
+          urgency = "low"
+        }]
+        time_to_ack_seconds = 300
+      }
+    },
+    {
+      type = "escalation_path"
+      escalation_path = {
+        escalation_path_id = incident_escalation_path.fallback.id
+      }
+    }
+  ]
+
+  team_ids = [incident_catalog_entry.terraform_reassignment.id]
+}
+`, teamTypeName(), name, name, StableSuffix("tf-acceptance-test-reassignment"))
 }

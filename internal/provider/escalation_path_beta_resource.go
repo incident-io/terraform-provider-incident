@@ -202,8 +202,9 @@ one path: they'd each plan to undo the other's changes.`,
 }
 
 // escalationPathBetaNodeSchema returns the schema for a single node. The level,
-// notify_channel and delay blocks are shared with incident_escalation_path; branch and
-// loop are this resource's own, and reference other nodes by name rather than nesting.
+// notify_channel, delay and escalation_path blocks are shared with incident_escalation_path;
+// branch and loop are this resource's own, and reference other nodes by name rather than
+// nesting.
 func escalationPathBetaNodeSchema() schema.NestedAttributeObject {
 	return schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
