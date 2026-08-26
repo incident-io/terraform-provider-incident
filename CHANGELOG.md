@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add the `escalation_path` node type to `incident_escalation_path` and `incident_escalation_path_beta`, letting a node hand the escalation over to another escalation path, which continues from that path's first node. Write it as `type = "escalation_path"` with `escalation_path = { escalation_path_id = ... }`. Before this the node couldn't be managed from Terraform: on `incident_escalation_path` the plan was clean and the apply failed with an error about a missing sub-object rather than anything naming the node, and a path that already held a reassignment node - added in the dashboard, or by someone else - read back empty, so the next apply tried to write it back with nothing in it and broke on a node the config's author never touched. `incident_escalation_path_beta` refused the read outright, saying the node couldn't be represented.
+
 ## v6.5.0
 
 - Add the `cast` operation to `expressions` on `incident_alert_route`, `incident_alert_source` and `incident_workflow`. An expression exported from the dashboard that casts a value could not be applied: the provider had no `cast` attribute, so it sent the operation with no options and the API rejected it with `expressions.N.operations.M.cast: Must be provided`. Write it as `cast = { returns = { type = "...", array = false } }`.
