@@ -45,15 +45,15 @@ The order of the list is the order the fields appear in the form. (see [below fo
 - `include_private_escalations` (Boolean) Whether to include private escalations
 - `include_private_incidents` (Boolean, Deprecated) DEPRECATED: use `private_incident_scope` instead. `true` when the workflow runs on private incidents (a `private_incident_scope` of `all` or `owning_teams`), `false` when the scope is `none`.
 - `name` (String) Name provided by the user when creating the workflow
-- `once_for` (List of String) This workflow will run 'once for' a list of references
+- `once_for` (List of String) This workflow will run 'once for' a list of references. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. The references you can use come from the scope the trigger builds, which the workflow builder lists once you've chosen one.
 - `owning_team_ids` (Set of String) IDs of the teams that own this workflow
 - `private_incident_scope` (String) Which private incidents this workflow acts on: every private incident (all), those an owning team can see (owning_teams), or none. Possible values are: `all`, `owning_teams`, `none`.
-- `runs_on_incident_modes` (Set of String) Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents.
+- `runs_on_incident_modes` (Set of String) Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents. Possible values are: `standard`, `test`, `retrospective`.
 - `runs_on_incidents` (String) Which incidents should the workflow be applied to?. Possible values are: `newly_created`, `newly_created_and_active`.
 - `shortform` (String) The shortform used to trigger this workflow (only applicable for manual triggers)
 - `state` (String) What state this workflow is in. Possible values are: `active`, `disabled`, `draft`, `error`.
 - `steps` (Attributes List) Steps that are executed as part of the workflow (see [below for nested schema](#nestedatt--steps))
-- `trigger` (String) Unique name of the trigger
+- `trigger` (String) Unique name of the trigger. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Pick a trigger in the dashboard's workflow builder and use Export to Terraform to see its name.
 
 <a id="nestedatt--condition_groups"></a>
 ### Nested Schema for `condition_groups`
@@ -67,7 +67,7 @@ Read-Only:
 
 Read-Only:
 
-- `operation` (String)
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings))
 - `subject` (String)
 
@@ -164,7 +164,7 @@ Read-Only:
 - `cast` (Attributes) The cast target of this operation, set when the operation type is `cast` (see [below for nested schema](#nestedatt--expressions--operations--cast))
 - `filter` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--filter))
 - `navigate` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--navigate))
-- `operation_type` (String) The type of the operation
+- `operation_type` (String) The type of the operation. Possible values are: `navigate`, `filter`, `concatenate`, `count`, `min`, `max`, `sum`, `random`, `first`, `parse`, `branches`, `cast`.
 - `parse` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--parse))
 
 <a id="nestedatt--expressions--operations--branches"></a>
@@ -195,7 +195,7 @@ Read-Only:
 
 Read-Only:
 
-- `operation` (String)
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings))
 - `subject` (String)
 
@@ -262,7 +262,7 @@ Read-Only:
 Read-Only:
 
 - `array` (Boolean) Whether the return value should be single or multi-value
-- `type` (String) Expected return type of this expression (what to try casting the result to)
+- `type` (String) Expected return type of this expression (what to try casting the result to). This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Engine types include your own configuration - a custom field's type is identified by its ID - so build the expression in the dashboard and export it to get the right value.
 
 
 
@@ -279,7 +279,7 @@ Read-Only:
 Read-Only:
 
 - `array` (Boolean) Whether the return value should be single or multi-value
-- `type` (String) Expected return type of this expression (what to try casting the result to)
+- `type` (String) Expected return type of this expression (what to try casting the result to). This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Engine types include your own configuration - a custom field's type is identified by its ID - so build the expression in the dashboard and export it to get the right value.
 
 
 
@@ -302,7 +302,7 @@ Read-Only:
 
 Read-Only:
 
-- `operation` (String)
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings))
 - `subject` (String)
 
@@ -358,7 +358,7 @@ Read-Only:
 Read-Only:
 
 - `array` (Boolean) Whether the return value should be single or multi-value
-- `type` (String) Expected return type of this expression (what to try casting the result to)
+- `type` (String) Expected return type of this expression (what to try casting the result to). This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Engine types include your own configuration - a custom field's type is identified by its ID - so build the expression in the dashboard and export it to get the right value.
 
 
 

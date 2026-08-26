@@ -115,7 +115,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				Optional:            true,
 			},
 			"trigger": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("TriggerSlimV2", "name"),
+				MarkdownDescription: DynamicValuesDescription("TriggerSlimV2", "name", models.WhereToFindTriggers),
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
@@ -142,7 +142,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 			},
 			"expressions": models.ExpressionsAttribute(),
 			"once_for": schema.ListAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowV2", "once_for"),
+				MarkdownDescription: DynamicValuesDescription("WorkflowV2", "once_for", models.WhereToFindOnceFor),
 				Required:            true,
 				ElementType:         types.StringType,
 			},
@@ -190,7 +190,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 				Required:            true,
 			},
 			"runs_on_incident_modes": schema.SetAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowV2", "runs_on_incident_modes"),
+				MarkdownDescription: EnumValuesDescription("WorkflowV2", "runs_on_incident_modes"),
 				Required:            true,
 				ElementType:         types.StringType,
 			},
@@ -223,7 +223,7 @@ We'd generally recommend building workflows in our [web dashboard](https://app.i
 							Required:            true,
 						},
 						"type": schema.StringAttribute{
-							MarkdownDescription: apischema.Docstring("WorkflowFormFieldV2", "type"),
+							MarkdownDescription: DynamicValuesDescription("WorkflowFormFieldV2", "type", models.WhereToFindFormFieldTypes),
 							Required:            true,
 						},
 						"description": schema.StringAttribute{

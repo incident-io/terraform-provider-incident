@@ -1,38 +1,28 @@
 package provider
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/incident-io/terraform-provider-incident/internal/apischema"
 )
 
-// EnumValuesDescription reuses the documentation string from the API schema, and then appends the possible values of the enum.
+// EnumValuesDescription documents an attribute whose values are a fixed enum in the API
+// schema. See apischema.EnumValuesDescription.
 func EnumValuesDescription(definitionName string, propertyName string) string {
-	enumValues := []string{}
-	for _, enum := range apischema.Property(definitionName, propertyName).Value.Enum {
-		enumAsString, _ := enum.(string)
-		enumValues = append(enumValues, "`"+enumAsString+"`")
-	}
-
-	return fmt.Sprintf("%s. Possible values are: %s.", apischema.Docstring(definitionName, propertyName), strings.Join(enumValues, ", "))
+	return apischema.EnumValuesDescription(definitionName, propertyName)
 }
 
-// enumValues returns the values the API schema allows for a property, in the order it
-// lists them. Validation that reads the enum from here can't fall behind the API and
-// start rejecting a value it has since started accepting.
-func enumValues(definitionName string, propertyName string) []string {
-	values := []string{}
-	for _, enum := range apischema.Property(definitionName, propertyName).Value.Enum {
-		if enumAsString, ok := enum.(string); ok {
-			values = append(values, enumAsString)
-		}
-	}
+// DynamicValuesDescription documents an attribute whose values aren't a fixed enum. See
+// apischema.DynamicValuesDescription.
+func DynamicValuesDescription(definitionName string, propertyName string, whereToLook string) string {
+	return apischema.DynamicValuesDescription(definitionName, propertyName, whereToLook)
+}
 
-	return values
+// enumValues returns the values the API schema allows for a property. See
+// apischema.EnumValues.
+func enumValues(definitionName string, propertyName string) []string {
+	return apischema.EnumValues(definitionName, propertyName)
 }
 
 // knownString returns the value of a string attribute, and false when it's missing, null

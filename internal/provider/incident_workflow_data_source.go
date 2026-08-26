@@ -74,7 +74,7 @@ func (d *IncidentWorkflowDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 			},
 			"trigger": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("TriggerSlimV2", "name"),
+				MarkdownDescription: DynamicValuesDescription("TriggerSlimV2", "name", models.WhereToFindTriggers),
 				Computed:            true,
 			},
 			"condition_groups": models.ConditionGroupsDataSourceAttribute(),
@@ -98,7 +98,7 @@ func (d *IncidentWorkflowDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"expressions": models.ExpressionsDataSourceAttribute(),
 			"once_for": schema.ListAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowV2", "once_for"),
+				MarkdownDescription: DynamicValuesDescription("WorkflowV2", "once_for", models.WhereToFindOnceFor),
 				Computed:            true,
 				ElementType:         types.StringType,
 			},
@@ -143,7 +143,7 @@ func (d *IncidentWorkflowDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 			},
 			"runs_on_incident_modes": schema.SetAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowV2", "runs_on_incident_modes"),
+				MarkdownDescription: EnumValuesDescription("WorkflowV2", "runs_on_incident_modes"),
 				Computed:            true,
 				ElementType:         types.StringType,
 			},

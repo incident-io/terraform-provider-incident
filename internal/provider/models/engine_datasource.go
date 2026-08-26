@@ -57,7 +57,7 @@ func ConditionsDataSourceAttribute() schema.ListNestedAttribute {
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: map[string]schema.Attribute{
 				"operation": schema.StringAttribute{
-					MarkdownDescription: apischema.Docstring("ConditionV2", "operation"),
+					MarkdownDescription: apischema.DescribeDynamicValues("The logical operation to be applied", WhereToFindOperations),
 					Computed:            true,
 				},
 				"param_bindings": ParamBindingsDataSourceAttribute(),
@@ -92,7 +92,7 @@ func ReturnsDataSourceAttribute() schema.SingleNestedAttribute {
 				Computed:            true,
 			},
 			"type": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("ReturnsMetaV2", "type"),
+				MarkdownDescription: apischema.DynamicValuesDescription("ReturnsMetaV2", "type", WhereToFindReturnTypes),
 				Computed:            true,
 			},
 		},
@@ -179,7 +179,7 @@ func ExpressionsDataSourceAttribute() schema.SetNestedAttribute {
 								},
 							},
 							"operation_type": schema.StringAttribute{
-								MarkdownDescription: apischema.Docstring("ExpressionOperationV2", "operation_type"),
+								MarkdownDescription: apischema.EnumValuesDescription("ExpressionOperationV2", "operation_type"),
 								Computed:            true,
 							},
 							"parse": schema.SingleNestedAttribute{

@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Document the values workflow parameters accept. `runs_on_incident_modes` and `operation_type` are fixed enums and now list their values (`standard`/`test`/`retrospective`, and the twelve expression operation types). `trigger`, `once_for`, condition `operation`, expression return `type` and form field `type` aren't fixed sets - they come from a registry we add to, or from your own configuration - so instead of a list that would go stale, they now say so and point at where to find the current values. This matters most for LLM-generated config, which otherwise has to guess.
 - Add the `incident_workflow` data source, which reads an existing workflow by `id`. It returns the workflow's full definition - `steps`, `expressions`, `condition_groups`, `form_fields`, `once_for` and `delay` included - not just its name and trigger, so you can reference the pieces of a workflow built in the dashboard from elsewhere in your config without importing it as a resource.
 
 ## v6.6.0

@@ -250,7 +250,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -343,7 +343,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -436,7 +436,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -529,7 +529,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -622,7 +622,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -1078,7 +1078,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -1627,7 +1627,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -1720,7 +1720,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -2176,7 +2176,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -2818,7 +2818,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -2911,7 +2911,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -3004,7 +3004,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -3460,7 +3460,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -4009,7 +4009,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -4102,7 +4102,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -4558,7 +4558,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -5293,7 +5293,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -5386,7 +5386,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -5479,7 +5479,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -5572,7 +5572,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -6028,7 +6028,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -6577,7 +6577,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -6670,7 +6670,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -7126,7 +7126,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -7768,7 +7768,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -7861,7 +7861,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -7954,7 +7954,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -8410,7 +8410,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -8959,7 +8959,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -9052,7 +9052,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -9508,7 +9508,7 @@ Optional:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 

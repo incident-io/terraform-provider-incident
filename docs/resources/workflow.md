@@ -140,12 +140,12 @@ resource "incident_workflow" "page_execs" {
 - `continue_on_step_error` (Boolean) Whether to continue executing the workflow if a step fails
 - `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
 - `name` (String) Name provided by the user when creating the workflow
-- `once_for` (List of String) This workflow will run 'once for' a list of references
-- `runs_on_incident_modes` (Set of String) Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents.
+- `once_for` (List of String) This workflow will run 'once for' a list of references. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. The references you can use come from the scope the trigger builds, which the workflow builder lists once you've chosen one.
+- `runs_on_incident_modes` (Set of String) Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents. Possible values are: `standard`, `test`, `retrospective`.
 - `runs_on_incidents` (String) Which incidents should the workflow be applied to?. Possible values are: `newly_created`, `newly_created_and_active`.
 - `state` (String) What state this workflow is in. Possible values are: `active`, `disabled`, `draft`, `error`.
 - `steps` (Attributes List) Steps that are executed as part of the workflow (see [below for nested schema](#nestedatt--steps))
-- `trigger` (String) Unique name of the trigger
+- `trigger` (String) Unique name of the trigger. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Pick a trigger in the dashboard's workflow builder and use Export to Terraform to see its name.
 
 ### Optional
 
@@ -176,7 +176,7 @@ Required:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -228,7 +228,7 @@ Optional:
 
 Required:
 
-- `operation_type` (String) Indicates which operation type to execute
+- `operation_type` (String) The type of the operation. Possible values are: `navigate`, `filter`, `concatenate`, `count`, `min`, `max`, `sum`, `random`, `first`, `parse`, `branches`, `cast`.
 
 Optional:
 
@@ -266,7 +266,7 @@ Required:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -333,7 +333,7 @@ Optional:
 Required:
 
 - `array` (Boolean) Whether the return value should be single or multi-value
-- `type` (String) Expected return type of this expression (what to try casting the result to)
+- `type` (String) Expected return type of this expression (what to try casting the result to). This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Engine types include your own configuration - a custom field's type is identified by its ID - so build the expression in the dashboard and export it to get the right value.
 
 
 
@@ -350,7 +350,7 @@ Required:
 Required:
 
 - `array` (Boolean) Whether the return value should be single or multi-value
-- `type` (String) Expected return type of this expression (what to try casting the result to)
+- `type` (String) Expected return type of this expression (what to try casting the result to). This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Engine types include your own configuration - a custom field's type is identified by its ID - so build the expression in the dashboard and export it to get the right value.
 
 
 
@@ -373,7 +373,7 @@ Required:
 
 Required:
 
-- `operation` (String) The logical operation to be applied
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings))
 - `subject` (String) The subject of the condition, on which the operation is applied
 
@@ -429,7 +429,7 @@ Required:
 Required:
 
 - `array` (Boolean) Whether the return value should be single or multi-value
-- `type` (String) Expected return type of this expression (what to try casting the result to)
+- `type` (String) Expected return type of this expression (what to try casting the result to). This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Engine types include your own configuration - a custom field's type is identified by its ID - so build the expression in the dashboard and export it to get the right value.
 
 
 
@@ -529,7 +529,7 @@ Required:
 - `key` (String) The key used to reference this field in the workflow scope
 - `required` (Boolean) Whether this field must be filled in when running the workflow
 - `title` (String) Human readable title shown in the form
-- `type` (String) The engine resource type of this field
+- `type` (String) The engine resource type of this field. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Form field types are engine types, which include your own configuration, so build the form in the dashboard and export it to get the right value.
 
 Optional:
 

@@ -243,7 +243,7 @@ Read-Only:
 - `cast` (Attributes) The cast target of this operation, set when the operation type is `cast` (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--cast))
 - `filter` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter))
 - `navigate` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--navigate))
-- `operation_type` (String) The type of the operation
+- `operation_type` (String) The type of the operation. Possible values are: `navigate`, `filter`, `concatenate`, `count`, `min`, `max`, `sum`, `random`, `first`, `parse`, `branches`, `cast`.
 - `parse` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--parse))
 
 <a id="nestedatt--alert_sources--template--expressions--operations--branches"></a>
@@ -274,7 +274,7 @@ Read-Only:
 
 Read-Only:
 
-- `operation` (String)
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings))
 - `subject` (String)
 
@@ -341,7 +341,7 @@ Read-Only:
 Read-Only:
 
 - `array` (Boolean) Whether the return value should be single or multi-value
-- `type` (String) Expected return type of this expression (what to try casting the result to)
+- `type` (String) Expected return type of this expression (what to try casting the result to). This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Engine types include your own configuration - a custom field's type is identified by its ID - so build the expression in the dashboard and export it to get the right value.
 
 
 
@@ -358,7 +358,7 @@ Read-Only:
 Read-Only:
 
 - `array` (Boolean) Whether the return value should be single or multi-value
-- `type` (String) Expected return type of this expression (what to try casting the result to)
+- `type` (String) Expected return type of this expression (what to try casting the result to). This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Engine types include your own configuration - a custom field's type is identified by its ID - so build the expression in the dashboard and export it to get the right value.
 
 
 
@@ -381,7 +381,7 @@ Read-Only:
 
 Read-Only:
 
-- `operation` (String)
+- `operation` (String) The logical operation to be applied. This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Which operations apply depends on the type of the subject you're comparing, so a string and a timestamp offer different ones. The dashboard lists the valid ones for a subject as you build the condition.
 - `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings))
 - `subject` (String)
 
@@ -437,7 +437,7 @@ Read-Only:
 Read-Only:
 
 - `array` (Boolean) Whether the return value should be single or multi-value
-- `type` (String) Expected return type of this expression (what to try casting the result to)
+- `type` (String) Expected return type of this expression (what to try casting the result to). This isn't a fixed list - it depends on your configuration and grows over time, so don't treat a value that isn't listed here as unsupported. Engine types include your own configuration - a custom field's type is identified by its ID - so build the expression in the dashboard and export it to get the right value.
 
 
 
