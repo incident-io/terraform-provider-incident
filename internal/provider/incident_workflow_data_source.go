@@ -206,6 +206,10 @@ func (d *IncidentWorkflowDataSource) Read(ctx context.Context, req datasource.Re
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read workflow, got error: %s", err))
 		return
 	}
+	if result.JSON200 == nil {
+		resp.Diagnostics.AddError("Unable to read workflow", fmt.Sprintf("unexpected response: %s", result.Status()))
+		return
+	}
 
 	// Reuse the resource's buildModel for consistency. There's no prior state to
 	// reconcile against in a data source, so pass nil: we want whatever the API has.
