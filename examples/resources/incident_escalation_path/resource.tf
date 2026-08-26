@@ -104,3 +104,48 @@ resource "incident_escalation_path" "urgent_support" {
   # Teams that use this escalation path
   team_ids = ["01FCNDV6P870EA6S7TK1DSYD00", "01FCNDV6P870EA6S7TK1DSYD01"]
 }
+
+# A last resort path, which the path below hands over to.
+resource "incident_escalation_path" "fallback" {
+  name = "Fallback"
+
+  path = [
+    {
+      type = "level"
+      level = {
+        targets = [{
+          type    = "schedule"
+          id      = incident_schedule.primary_on_call.id
+          urgency = "high"
+        }]
+        time_to_ack_seconds = 300
+      }
+    }
+  ]
+}
+
+# If nobody acknowledges here, reassign the escalation to the fallback path. It
+# continues from that path's first node rather than ending unacknowledged.
+resource "incident_escalation_path" "with_reassignment" {
+  name = "Support, with a fallback"
+
+  path = [
+    {
+      type = "level"
+      level = {
+        targets = [{
+          type    = "schedule"
+          id      = incident_schedule.primary_on_call.id
+          urgency = "low"
+        }]
+        time_to_ack_seconds = 300
+      }
+    },
+    {
+      type = "escalation_path"
+      escalation_path = {
+        escalation_path_id = incident_escalation_path.fallback.id
+      }
+    }
+  ]
+}

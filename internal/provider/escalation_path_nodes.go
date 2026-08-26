@@ -59,6 +59,14 @@ func delayAttrTypes() map[string]attr.Type {
 	}
 }
 
+// escalationPathAttrTypes returns the attribute types for an escalation_path node's
+// block.
+func escalationPathAttrTypes() map[string]attr.Type {
+	return map[string]attr.Type{
+		"escalation_path_id": types.StringType,
+	}
+}
+
 // escalationPathTargetsAttribute returns the targets list attribute. docType names the
 // API type the docstring is pulled from, which differs between level and notify_channel.
 func escalationPathTargetsAttribute(docType string) schema.ListNestedAttribute {
@@ -196,6 +204,26 @@ func escalationPathDelayAttribute() schema.SingleNestedAttribute {
 				MarkdownDescription: apischema.Docstring(
 					"EscalationPathNodeDelayV2", "delay_weekday_interval_config_id"),
 				Optional: true,
+			},
+		},
+	}
+}
+
+// escalationPathEscalationPathAttribute returns the escalation_path block's schema.
+//
+// The sub-object carries no description of its own in the API schema, so unlike its
+// sibling blocks there's no apischema.Docstring worth reading: what the node does is
+// documented on the node's type enum instead, and this repeats it.
+func escalationPathEscalationPathAttribute() schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		MarkdownDescription: "Reassign the escalation to another escalation path, " +
+			"continuing from that path's first node.",
+		Optional: true,
+		Attributes: map[string]schema.Attribute{
+			"escalation_path_id": schema.StringAttribute{
+				MarkdownDescription: apischema.Docstring(
+					"EscalationPathNodeEscalationPathV2", "escalation_path_id"),
+				Required: true,
 			},
 		},
 	}
@@ -360,6 +388,30 @@ func delayToPayload(delay *IncidentEscalationPathNodeDelay) *client.EscalationPa
 		DelayIntervalCondition:       intervalCondition,
 		DelaySeconds:                 delay.DelaySeconds.ValueInt64Pointer(),
 		DelayWeekdayIntervalConfigId: delay.DelayWeekdayIntervalConfigID.ValueStringPointer(),
+	}
+}
+
+// escalationPathFromAPI builds the escalation_path block's model from the API node, or
+// nil when the node isn't a reassignment.
+func escalationPathFromAPI(escalationPath *client.EscalationPathNodeEscalationPathV2) *IncidentEscalationPathNodeEscalationPath {
+	if escalationPath == nil {
+		return nil
+	}
+
+	return &IncidentEscalationPathNodeEscalationPath{
+		EscalationPathID: types.StringValue(escalationPath.EscalationPathId),
+	}
+}
+
+// escalationPathToPayload builds the escalation_path node's payload, or nil when the node
+// isn't a reassignment.
+func escalationPathToPayload(escalationPath *IncidentEscalationPathNodeEscalationPath) *client.EscalationPathNodeEscalationPathV2 {
+	if escalationPath == nil {
+		return nil
+	}
+
+	return &client.EscalationPathNodeEscalationPathV2{
+		EscalationPathId: escalationPath.EscalationPathID.ValueString(),
 	}
 }
 

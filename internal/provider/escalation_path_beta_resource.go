@@ -56,12 +56,13 @@ type escalationPathBetaSequence struct {
 // validateSequenceNodes enforces, and which one it is takes the place of the type
 // discriminator the API carries.
 type escalationPathBetaNode struct {
-	ID            types.String                             `tfsdk:"id"`
-	Level         *IncidentEscalationPathNodeLevel         `tfsdk:"level"`
-	NotifyChannel *IncidentEscalationPathNodeNotifyChannel `tfsdk:"notify_channel"`
-	Delay         *IncidentEscalationPathNodeDelay         `tfsdk:"delay"`
-	Branch        *escalationPathBetaBranch                `tfsdk:"branch"`
-	Loop          *escalationPathBetaLoop                  `tfsdk:"loop"`
+	ID             types.String                              `tfsdk:"id"`
+	Level          *IncidentEscalationPathNodeLevel          `tfsdk:"level"`
+	NotifyChannel  *IncidentEscalationPathNodeNotifyChannel  `tfsdk:"notify_channel"`
+	Delay          *IncidentEscalationPathNodeDelay          `tfsdk:"delay"`
+	EscalationPath *IncidentEscalationPathNodeEscalationPath `tfsdk:"escalation_path"`
+	Branch         *escalationPathBetaBranch                 `tfsdk:"branch"`
+	Loop           *escalationPathBetaLoop                   `tfsdk:"loop"`
 }
 
 // escalationPathBetaBranch sends the escalation down one of two sequences. It replaces
@@ -85,10 +86,11 @@ type escalationPathBetaLoop struct {
 // than holding them, so the type is the same at every depth.
 func escalationPathBetaNodeAttrTypes() map[string]attr.Type {
 	return map[string]attr.Type{
-		"id":             types.StringType,
-		"level":          types.ObjectType{AttrTypes: levelAttrTypes()},
-		"notify_channel": types.ObjectType{AttrTypes: notifyChannelAttrTypes()},
-		"delay":          types.ObjectType{AttrTypes: delayAttrTypes()},
+		"id":              types.StringType,
+		"level":           types.ObjectType{AttrTypes: levelAttrTypes()},
+		"notify_channel":  types.ObjectType{AttrTypes: notifyChannelAttrTypes()},
+		"delay":           types.ObjectType{AttrTypes: delayAttrTypes()},
+		"escalation_path": types.ObjectType{AttrTypes: escalationPathAttrTypes()},
 		"branch": types.ObjectType{AttrTypes: map[string]attr.Type{
 			"if":   types.ObjectType{AttrTypes: escalationPathBetaBranchIfAttrTypes()},
 			"then": types.StringType,
@@ -200,8 +202,9 @@ one path: they'd each plan to undo the other's changes.`,
 }
 
 // escalationPathBetaNodeSchema returns the schema for a single node. The level,
-// notify_channel and delay blocks are shared with incident_escalation_path; branch and
-// loop are this resource's own, and reference other nodes by name rather than nesting.
+// notify_channel, delay and escalation_path blocks are shared with incident_escalation_path;
+// branch and loop are this resource's own, and reference other nodes by name rather than
+// nesting.
 func escalationPathBetaNodeSchema() schema.NestedAttributeObject {
 	return schema.NestedAttributeObject{
 		Attributes: map[string]schema.Attribute{
@@ -211,9 +214,10 @@ func escalationPathBetaNodeSchema() schema.NestedAttributeObject {
 				Optional: true,
 			},
 
-			"level":          escalationPathLevelAttribute("first"),
-			"notify_channel": escalationPathNotifyChannelAttribute(),
-			"delay":          escalationPathDelayAttribute(),
+			"level":           escalationPathLevelAttribute("first"),
+			"notify_channel":  escalationPathNotifyChannelAttribute(),
+			"delay":           escalationPathDelayAttribute(),
+			"escalation_path": escalationPathEscalationPathAttribute(),
 
 			"branch": schema.SingleNestedAttribute{
 				MarkdownDescription: "Send the escalation down one of two sequences, depending on what `if` tests. A branch must be the last node in its sequence.",

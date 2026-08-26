@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add support for the `escalation_path` node type on `incident_escalation_path` and `incident_escalation_path_beta`. A node can now hand the escalation over to another escalation path, which continues from that path's first node - useful for a shared last-resort path, or for routing out of hours to a different team. Write it as `type = "escalation_path"` with `escalation_path = { escalation_path_id = ... }`. Paths that already use a reassignment node, such as one built in the dashboard, can now be imported and managed alongside the rest of your config.
+
 ## v6.5.0
 
 - Add the `cast` operation to `expressions` on `incident_alert_route`, `incident_alert_source` and `incident_workflow`. An expression exported from the dashboard that casts a value could not be applied: the provider had no `cast` attribute, so it sent the operation with no options and the API rejected it with `expressions.N.operations.M.cast: Must be provided`. Write it as `cast = { returns = { type = "...", array = false } }`.

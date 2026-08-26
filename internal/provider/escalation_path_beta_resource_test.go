@@ -54,14 +54,15 @@ func TestEscalationPathBetaNodeAttrTypesMatchSchema(t *testing.T) {
 	}
 }
 
-// TestEscalationPathNodeBlocksSharedWithGA checks the level, notify_channel and delay blocks
-// really are one definition: both resources build them from the same helpers, so the beta
-// resource picking up a new field on one of them shouldn't need a second edit.
+// TestEscalationPathNodeBlocksSharedWithGA checks the level, notify_channel, delay and
+// escalation_path blocks really are one definition: both resources build them from the same
+// helpers, so the beta resource picking up a new field on one of them shouldn't need a
+// second edit.
 func TestEscalationPathNodeBlocksSharedWithGA(t *testing.T) {
 	ga := (&IncidentEscalationPathResource{}).getPathSchema(1).Attributes
 	beta := escalationPathBetaNodeSchema().Attributes
 
-	for _, name := range []string{"notify_channel", "delay"} {
+	for _, name := range []string{"notify_channel", "delay", "escalation_path"} {
 		gaBlock, ok := ga[name].(schema.SingleNestedAttribute)
 		if !ok {
 			t.Fatalf("%s is not a single nested attribute on incident_escalation_path", name)

@@ -78,6 +78,9 @@ func (n escalationPathBetaNode) blockNames() []string {
 	if n.Delay != nil {
 		names = append(names, "delay")
 	}
+	if n.EscalationPath != nil {
+		names = append(names, "escalation_path")
+	}
 	if n.Branch != nil {
 		names = append(names, "branch")
 	}
@@ -189,10 +192,14 @@ func unflattenSequence(ctx context.Context, key string, sequences map[string][]e
 			payload.Type = client.EscalationPathNodePayloadV2TypeDelay
 			payload.Delay = delayToPayload(node.Delay)
 
+		case node.EscalationPath != nil:
+			payload.Type = client.EscalationPathNodePayloadV2TypeEscalationPath
+			payload.EscalationPath = escalationPathToPayload(node.EscalationPath)
+
 		default:
 			diags.AddError(
 				"Empty escalation path node",
-				fmt.Sprintf("Node %d of sequence %q sets none of level, notify_channel, delay, branch or loop.", index, key),
+				fmt.Sprintf("Node %d of sequence %q sets none of level, notify_channel, delay, escalation_path, branch or loop.", index, key),
 			)
 			continue
 		}
@@ -314,6 +321,9 @@ func flattenSequence(ctx context.Context, nodes []client.EscalationPathNodeV2, p
 
 		case node.Delay != nil:
 			converted.Delay = delayFromAPI(node.Delay)
+
+		case node.EscalationPath != nil:
+			converted.EscalationPath = escalationPathFromAPI(node.EscalationPath)
 
 		default:
 			diags.AddError(
@@ -574,13 +584,13 @@ func validateSequenceNodes(sequences map[string][]escalationPathBetaNode, diags 
 				diags.AddAttributeError(
 					nodePath,
 					"Empty node",
-					fmt.Sprintf("Node %d of sequence %q sets none of level, notify_channel, delay, branch or loop. Give it something to do, or remove it.", index, key),
+					fmt.Sprintf("Node %d of sequence %q sets none of level, notify_channel, delay, escalation_path, branch or loop. Give it something to do, or remove it.", index, key),
 				)
 			default:
 				diags.AddAttributeError(
 					nodePath,
 					"Node does more than one thing",
-					fmt.Sprintf("Node %d of sequence %q sets %s. A node must set exactly one of level, notify_channel, delay, branch or loop; split it into one node each.", index, key, strings.Join(blocks, " and ")),
+					fmt.Sprintf("Node %d of sequence %q sets %s. A node must set exactly one of level, notify_channel, delay, escalation_path, branch or loop; split it into one node each.", index, key, strings.Join(blocks, " and ")),
 				)
 			}
 

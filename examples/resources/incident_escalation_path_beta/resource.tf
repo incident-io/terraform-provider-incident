@@ -4,6 +4,25 @@ data "incident_user" "on_call" {
   email = "on-call@example.com"
 }
 
+# A last resort path, which the path below hands over to out of hours.
+resource "incident_escalation_path" "fallback" {
+  name = "Fallback"
+
+  path = [
+    {
+      type = "level"
+      level = {
+        targets = [{
+          type    = "user"
+          id      = data.incident_user.on_call.id
+          urgency = "high"
+        }]
+        time_to_ack_seconds = 300
+      }
+    }
+  ]
+}
+
 # The same escalation path as the incident_escalation_path example, written as a
 # flat map of sequences: if in working hours, page with high urgency; otherwise
 # page with low urgency.
@@ -71,6 +90,13 @@ resource "incident_escalation_path_beta" "urgent_support" {
               urgency = "low"
             }]
             time_to_ack_seconds = 300
+          }
+        },
+        # Nobody picked it up out of hours, so hand the escalation over to
+        # another path, continuing from that path's first node.
+        {
+          escalation_path = {
+            escalation_path_id = incident_escalation_path.fallback.id
           }
         }
       ]

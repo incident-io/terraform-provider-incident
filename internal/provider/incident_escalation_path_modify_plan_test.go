@@ -384,3 +384,83 @@ func TestEscalationPathModifyPlanSkipsDestroy(t *testing.T) {
 		t.Errorf("expected no request for a destroy, got %d", api.requests)
 	}
 }
+
+// escalationPathReassignmentPlan builds a plan for one escalation_path node, so a test can
+// watch what the provider sends the validate endpoint for a reassignment. It's the closest
+// we get to exercising the node without a stack that has the feature enabled: the fake API
+// accepts what a flagged-off one would reject, leaving the provider's own conversion as
+// the only thing under test.
+func escalationPathReassignmentPlan(t *testing.T, targetPathID string) tftypes.Value {
+	t.Helper()
+
+	objType := escalationPathSchemaType(t)
+
+	pathType, ok := objType.AttributeTypes["path"].(tftypes.List)
+	if !ok {
+		t.Fatal("expected path to be a list")
+	}
+	nodeType, ok := pathType.ElementType.(tftypes.Object)
+	if !ok {
+		t.Fatal("expected path elements to be objects")
+	}
+	blockType, ok := nodeType.AttributeTypes["escalation_path"].(tftypes.Object)
+	if !ok {
+		t.Fatal("expected escalation_path to be an object")
+	}
+
+	blockAttributes := map[string]tftypes.Value{}
+	if err := nullFilledObject(t, blockType).As(&blockAttributes); err != nil {
+		t.Fatalf("reading escalation_path back: %v", err)
+	}
+	blockAttributes["escalation_path_id"] = tftypes.NewValue(tftypes.String, targetPathID)
+
+	nodeAttributes := map[string]tftypes.Value{}
+	if err := nullFilledObject(t, nodeType).As(&nodeAttributes); err != nil {
+		t.Fatalf("reading node back: %v", err)
+	}
+	nodeAttributes["type"] = tftypes.NewValue(tftypes.String, "escalation_path")
+	nodeAttributes["escalation_path"] = tftypes.NewValue(blockType, blockAttributes)
+	node := tftypes.NewValue(nodeType, nodeAttributes)
+
+	attributes := map[string]tftypes.Value{}
+	for name, attrType := range objType.AttributeTypes {
+		attributes[name] = tftypes.NewValue(attrType, nil)
+	}
+	attributes["name"] = tftypes.NewValue(tftypes.String, "Reassigning path")
+	attributes["path"] = tftypes.NewValue(pathType, []tftypes.Value{node})
+
+	return tftypes.NewValue(objType, attributes)
+}
+
+// TestEscalationPathModifyPlanSendsReassignment reads the payload a plan puts on the wire,
+// which is the half of the round trip the model tests can't see: the schema, the object
+// decode and toPathPayload all have to agree before the block reaches the API at all. A
+// reassignment arriving with a nil block is the failure this node type exists to fix, and
+// from outside the provider it looks identical to a clean plan.
+func TestEscalationPathModifyPlanSendsReassignment(t *testing.T) {
+	api := &fakeEscalationPathValidateAPI{}
+	plan := escalationPathReassignmentPlan(t, "01TARGET")
+
+	resp := modifyEscalationPathPlan(t, api, &plan)
+
+	if resp.Diagnostics.HasError() {
+		t.Fatalf("unexpected errors: %+v", resp.Diagnostics)
+	}
+	if api.requests != 1 {
+		t.Fatalf("expected 1 validate request, got %d", api.requests)
+	}
+	if len(api.lastPayload.Path) != 1 {
+		t.Fatalf("expected 1 node in the payload, got %d", len(api.lastPayload.Path))
+	}
+
+	node := api.lastPayload.Path[0]
+	if node.Type != client.EscalationPathNodePayloadV2TypeEscalationPath {
+		t.Errorf("got type %q, want escalation_path", node.Type)
+	}
+	if node.EscalationPath == nil {
+		t.Fatal("the node reached the API without its escalation_path block")
+	}
+	if got := node.EscalationPath.EscalationPathId; got != "01TARGET" {
+		t.Errorf("got escalation_path_id %q, want 01TARGET", got)
+	}
+}
