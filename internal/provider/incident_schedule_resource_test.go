@@ -2,6 +2,7 @@ package provider
 
 import (
 	"fmt"
+	"os"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -635,4 +636,147 @@ func testAccIncidentScheduleResourceConfig(override *client.ScheduleV2) string {
 	terraformText := generateScheduleTerraform(model.Name, &model)
 
 	return terraformText
+}
+
+// A config can write a timestamp as any valid RFC3339 string, and the dashboard's
+// Terraform export writes them with millisecond precision, but the API returns
+// every timestamp as UTC at second precision. Rotations and their versions are
+// both sets, which Terraform correlates by raw value, so storing what the API
+// returned rather than the literal the config asked for failed the post-apply
+// consistency check on a schedule nothing had changed - and then planned that
+// same change on every run.
+//
+// Both steps fail without that fix: the first on create, the second on the update
+// that adds a version, which is how people hit it in practice. The test needs no
+// explicit assertion of the round trip beyond the literals below, as the harness
+// plans after each apply and fails on a plan that isn't empty.
+func TestAccIncidentScheduleResourceNonCanonicalTimestamps(t *testing.T) {
+	var (
+		name = StableSuffix("non-canonical-timestamps")
+		// The same moment, written the two ways that broke: milliseconds, and an
+		// offset that isn't UTC.
+		firstHandoverStartAt  = "2024-05-01T12:00:00.000Z"
+		secondEffectiveFrom   = "2027-03-01T09:00:00+02:00"
+		secondHandoverStartAt = "2027-03-01T09:00:00+02:00"
+	)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentScheduleTimestampConfig(name, firstHandoverStartAt, "", ""),
+				Check: testValueExistsInSet(
+					"incident_schedule.timestamps",
+					"rotations.*.versions.*.handover_start_at", firstHandoverStartAt,
+				),
+			},
+			// Schedule a change by adding a version, the way the reports we've had
+			// arrived at this.
+			{
+				Config: testAccIncidentScheduleTimestampConfig(
+					name, firstHandoverStartAt, secondEffectiveFrom, secondHandoverStartAt),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					testValueExistsInSet(
+						"incident_schedule.timestamps",
+						"rotations.*.versions.*.handover_start_at", firstHandoverStartAt,
+					),
+					testValueExistsInSet(
+						"incident_schedule.timestamps",
+						"rotations.*.versions.*.effective_from", secondEffectiveFrom,
+					),
+				),
+			},
+		},
+	})
+}
+
+// Versions of a rotation share an id in the API and we group them back together
+// by id when reading a schedule, so spelling them as separate rotations can't
+// round trip. That has to be an error while planning, because it applies quite
+// happily and only shows up afterwards.
+func TestAccIncidentScheduleResourceDuplicateRotationID(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: fmt.Sprintf(`
+resource "incident_schedule" "duplicate_rotation_id" {
+  name     = %q
+  timezone = "Europe/London"
+
+  rotations = [
+    %s,
+    %s,
+  ]
+}`,
+					StableSuffix("duplicate-rotation-id"),
+					testAccIncidentScheduleRotationBlock("weekdays", "2024-05-01T12:00:00Z", ""),
+					testAccIncidentScheduleRotationBlock("weekdays", "2024-05-08T12:00:00Z", "2027-03-01T09:00:00Z"),
+				),
+				ExpectError: regexp.MustCompile("Duplicate rotation ID"),
+			},
+		},
+	})
+}
+
+// testAccIncidentScheduleTimestampConfig builds a schedule with one rotation,
+// holding a second version only when given one.
+func testAccIncidentScheduleTimestampConfig(name, handoverStartAt, effectiveFrom, secondHandoverStartAt string) string {
+	versions := testAccIncidentScheduleVersionBlock(handoverStartAt, "")
+	if effectiveFrom != "" {
+		versions += ",\n        " + testAccIncidentScheduleVersionBlock(secondHandoverStartAt, effectiveFrom)
+	}
+
+	return fmt.Sprintf(`
+resource "incident_schedule" "timestamps" {
+  name     = %q
+  timezone = "Europe/London"
+
+  rotations = [
+    {
+      id   = "weekdays"
+      name = "Weekdays"
+      versions = [
+        %s,
+      ]
+    },
+  ]
+}`, name, versions)
+}
+
+func testAccIncidentScheduleRotationBlock(id, handoverStartAt, effectiveFrom string) string {
+	return fmt.Sprintf(`{
+      id   = %q
+      name = "Weekdays"
+      versions = [
+        %s,
+      ]
+    }`, id, testAccIncidentScheduleVersionBlock(handoverStartAt, effectiveFrom))
+}
+
+// testAccIncidentScheduleVersionBlock writes a rotation version, using
+// INCIDENT_TEST_USER_ID for its line-up where the environment names a user: the
+// reports we've had all came from rotations that have people in them, and an
+// empty rotation exercises less of the read path.
+func testAccIncidentScheduleVersionBlock(handoverStartAt, effectiveFrom string) string {
+	users := "[]"
+	if userID := os.Getenv("INCIDENT_TEST_USER_ID"); userID != "" {
+		users = fmt.Sprintf("[%q]", userID)
+	}
+
+	version := fmt.Sprintf(`{
+          handover_start_at = %q
+          users             = %s
+          layers            = [{ id = "weekdays-one", name = "Layer 1" }]
+          handovers         = [{ interval = 1, interval_type = "weekly" }]`, handoverStartAt, users)
+
+	if effectiveFrom != "" {
+		version += fmt.Sprintf(`
+          effective_from    = %q`, effectiveFrom)
+	}
+
+	return version + `
+        }`
 }
