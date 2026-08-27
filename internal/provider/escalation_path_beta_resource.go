@@ -34,8 +34,9 @@ func NewEscalationPathBetaResource() resource.Resource {
 }
 
 type escalationPathBetaResource struct {
-	client           *client.ClientWithResponses
-	terraformVersion string
+	client                *client.ClientWithResponses
+	terraformVersion      string
+	markImportedAsManaged bool
 }
 
 type escalationPathBetaModel struct {
@@ -269,6 +270,7 @@ func (r *escalationPathBetaResource) Configure(_ context.Context, req resource.C
 
 	r.client = data.Client
 	r.terraformVersion = data.TerraformVersion
+	r.markImportedAsManaged = data.MarkImportedAsManaged
 }
 
 func (r *escalationPathBetaResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
@@ -528,7 +530,7 @@ func (r *escalationPathBetaResource) Delete(ctx context.Context, req resource.De
 }
 
 func (r *escalationPathBetaResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	claimResource(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion)
+	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion, r.markImportedAsManaged)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 

@@ -40,6 +40,13 @@ reproduce there. Pin to v5.x if you need to stay on an older CLI.
 ```terraform
 provider "incident" {
   api_key = "<api-key>" # https://app.incident.io/settings/api-keys
+
+  # Terraform imports resources during `plan`, and importing a resource claims it as
+  # managed by Terraform. If your plans run somewhere they must not change anything -
+  # on a pull request, say - turn that claim off. Resources imported this way are
+  # claimed by the first apply that changes them instead.
+  #
+  # mark_imported_resources_as_managed = false
 }
 ```
 
@@ -50,3 +57,4 @@ provider "incident" {
 
 - `api_key` (String, Sensitive) API key for incident.io (https://app.incident.io/settings/api-keys). Sourced from the `INCIDENT_API_KEY` environment variable, if set.
 - `endpoint` (String) URL of the incident.io API
+- `mark_imported_resources_as_managed` (Boolean) Whether importing a resource claims it as managed by Terraform, which is what stops people editing it in the incident.io dashboard. Defaults to `true`. Terraform runs imports during `plan` rather than apply, so this claim is a write to your account during an operation you may expect to be read-only: set this to `false` if plans must leave your account untouched. Creating or updating a resource claims it regardless of this setting, so a resource imported with this off is claimed by the first apply that changes it. It stays editable in the dashboard until then, and indefinitely if its configuration already matches the account and so never produces a change to apply.
