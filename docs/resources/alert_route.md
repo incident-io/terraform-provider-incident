@@ -468,7 +468,7 @@ Optional:
 
 Required:
 
-- `mode` (String) When a subsequent alert joins an existing group, when should we escalate again?. Possible values are: `on_priority_increase`, `on_each_new_alert`.
+- `mode` (String) When a subsequent alert joins an existing group, when should we escalate again? Possible values are: `on_priority_increase`, `on_each_new_alert`.
 
 Optional:
 
@@ -495,7 +495,7 @@ Optional:
 
 Required:
 
-- `operation_type` (String) Indicates which operation type to execute
+- `operation_type` (String) Indicates which operation type to execute. Possible values are: `navigate`, `filter`, `concatenate`, `count`, `min`, `max`, `sum`, `random`, `first`, `parse`, `branches`, `cast`.
 
 Optional:
 
@@ -1194,7 +1194,7 @@ Optional:
 
 - `grouping_keys` (Attributes Set) Which attributes should this alert route use to group alerts? Only set when grouping is enabled. (see [below for nested schema](#nestedatt--grouping_config--default--grouping_keys))
 - `window_seconds` (Number) How long the grouping window is, in seconds. Must be between 60 (1 minute) and 172800 (48 hours). Only set when grouping is enabled.
-- `window_type` (String) Controls how the grouping window behaves. 'rolling' keeps the window open for window_seconds after the most recent alert, so the group stays open as long as alerts keep arriving. 'fixed' opens the window when the first alert arrives and always closes window_seconds later, regardless of any subsequent alerts. Only set when grouping is enabled.. Possible values are: `rolling`, `fixed`.
+- `window_type` (String) Controls how the grouping window behaves. 'rolling' keeps the window open for window_seconds after the most recent alert, so the group stays open as long as alerts keep arriving. 'fixed' opens the window when the first alert arrives and always closes window_seconds later, regardless of any subsequent alerts. Only set when grouping is enabled. Possible values are: `rolling`, `fixed`.
 
 <a id="nestedatt--grouping_config--default--grouping_keys"></a>
 ### Nested Schema for `grouping_config.default.grouping_keys`

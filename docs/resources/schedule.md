@@ -185,7 +185,7 @@ Required:
 
 - `end_time` (String)
 - `start_time` (String)
-- `weekday` (String)
+- `weekday` (String) Weekdays for use with a schedule. Possible values are: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`.
 
 
 

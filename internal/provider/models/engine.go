@@ -540,8 +540,10 @@ func ExpressionsAttribute() schema.SetNestedAttribute {
 								},
 							},
 							"operation_type": schema.StringAttribute{
-								MarkdownDescription: "Indicates which operation type to execute",
-								Required:            true,
+								MarkdownDescription: apischema.DescribeEnumValues(
+									"Indicates which operation type to execute",
+									"ExpressionOperationV2", "operation_type"),
+								Required: true,
 							},
 							"parse": schema.SingleNestedAttribute{
 								MarkdownDescription: "An operation type that allows a value to parsed from within a JSON object",

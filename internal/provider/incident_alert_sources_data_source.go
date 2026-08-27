@@ -138,8 +138,10 @@ func (d *IncidentAlertSourcesDataSource) Schema(ctx context.Context, req datasou
 		MarkdownDescription: apischema.TagDocstring("Alert Sources V2"),
 		Attributes: map[string]schema.Attribute{
 			"source_type": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter alert sources by source type (e.g., 'webhook', 'email', 'jira'). If provided, only alert sources of this type will be returned.",
+				Optional: true,
+				MarkdownDescription: DescribeEnumValues(
+					"Filter alert sources by source type. If provided, only alert sources of this type will be returned",
+					"AlertSourceV2", "source_type"),
 			},
 			"alert_sources": schema.ListNestedAttribute{
 				Computed:            true,
@@ -156,7 +158,7 @@ func (d *IncidentAlertSourcesDataSource) Schema(ctx context.Context, req datasou
 						},
 						"source_type": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: apischema.Docstring("AlertSourceV2", "source_type"),
+							MarkdownDescription: EnumValuesDescription("AlertSourceV2", "source_type"),
 						},
 						"secret_token": schema.StringAttribute{
 							Computed:            true,
@@ -209,7 +211,7 @@ func (d *IncidentAlertSourcesDataSource) Schema(ctx context.Context, req datasou
 													},
 													"merge_strategy": schema.StringAttribute{
 														Computed:            true,
-														MarkdownDescription: "Merge strategy for this attribute when alert updates",
+														MarkdownDescription: EnumValuesDescription("AlertTemplateAttributeBindingV2", "merge_strategy"),
 													},
 												},
 											},

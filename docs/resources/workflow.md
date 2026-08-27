@@ -158,8 +158,8 @@ resource "incident_workflow" "page_execs" {
 - `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
 - `name` (String) Name provided by the user when creating the workflow
 - `once_for` (List of String) This workflow will run 'once for' a list of references
-- `runs_on_incident_modes` (Set of String) Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents.
-- `runs_on_incidents` (String) Which incidents should the workflow be applied to?. Possible values are: `newly_created`, `newly_created_and_active`.
+- `runs_on_incident_modes` (Set of String) Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents. Possible values are: `standard`, `test`, `retrospective`.
+- `runs_on_incidents` (String) Which incidents should the workflow be applied to? Possible values are: `newly_created`, `newly_created_and_active`.
 - `state` (String) What state this workflow is in. Possible values are: `active`, `disabled`, `draft`, `error`.
 - `steps` (Attributes List) Steps that are executed as part of the workflow (see [below for nested schema](#nestedatt--steps))
 - `trigger` (String) Unique name of the trigger
@@ -245,7 +245,7 @@ Optional:
 
 Required:
 
-- `operation_type` (String) Indicates which operation type to execute
+- `operation_type` (String) Indicates which operation type to execute. Possible values are: `navigate`, `filter`, `concatenate`, `count`, `min`, `max`, `sum`, `random`, `first`, `parse`, `branches`, `cast`.
 
 Optional:
 

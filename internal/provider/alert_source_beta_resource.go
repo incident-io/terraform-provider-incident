@@ -124,7 +124,7 @@ compatible, so pin the provider version if that matters to you.
 			},
 			"source_type": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceV3", "source_type"),
+				MarkdownDescription: EnumValuesDescription("AlertSourceV3", "source_type"),
 				PlanModifiers: []planmodifier.String{
 					// A source's type is fixed once it exists.
 					stringplanmodifier.RequiresReplace(),

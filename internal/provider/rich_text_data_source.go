@@ -52,7 +52,7 @@ func (d *richTextDataSource) Schema(_ context.Context, _ datasource.SchemaReques
 			// Unvalidated: the API owns this list, and a copy here would drift.
 			"feature_set": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: apischema.Docstring("RichTextParseMarkdownPayloadV1", "feature_set"),
+				MarkdownDescription: EnumValuesDescription("RichTextParseMarkdownPayloadV1", "feature_set"),
 			},
 			"json": schema.StringAttribute{
 				Computed: true,

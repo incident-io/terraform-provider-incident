@@ -145,7 +145,7 @@ resource "incident_alert_source_beta" "security_scanner" {
 ### Required
 
 - `name` (String) The name of this alert source, for the user's reference
-- `source_type` (String) Type of alert source
+- `source_type` (String) Type of alert source. Possible values are: `alertmanager`, `app_optics`, `azure_monitor`, `big_panda`, `bugsnag`, `checkly`, `chronosphere`, `cloudwatch`, `cloudflare`, `coralogix`, `cronitor`, `crowdstrike_falcon`, `dash0`, `datadog`, `dynatrace`, `elasticsearch`, `email`, `expel`, `github_issue`, `google_cloud`, `grafana`, `heartbeat`, `http`, `http_custom`, `honeycomb`, `incoming_calls`, `jira`, `jsm`, `monte_carlo`, `nagios`, `new_relic`, `opsgenie`, `prtg`, `pager_duty`, `panther`, `pingdom`, `runscope`, `sns`, `sentry`, `sentry_metric`, `service_now`, `splunk`, `status_cake`, `status_page_views`, `sumo_logic`, `uptime`, `vercel`, `wiz`, `zendesk`.
 
 ### Optional
 
@@ -185,7 +185,7 @@ Optional:
 
 Required:
 
-- `redactions` (Set of String) Which PII types to automatically redact from incoming email content before storage
+- `redactions` (Set of String) Which PII types to automatically redact from incoming email content before storage. Possible values are: `credit_card_numbers`, `us_social_security_numbers`, `phone_numbers`.
 
 Optional:
 

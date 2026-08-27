@@ -179,7 +179,7 @@ func ExpressionsDataSourceAttribute() schema.SetNestedAttribute {
 								},
 							},
 							"operation_type": schema.StringAttribute{
-								MarkdownDescription: apischema.Docstring("ExpressionOperationV2", "operation_type"),
+								MarkdownDescription: apischema.EnumValuesDescription("ExpressionOperationV2", "operation_type"),
 								Computed:            true,
 							},
 							"parse": schema.SingleNestedAttribute{

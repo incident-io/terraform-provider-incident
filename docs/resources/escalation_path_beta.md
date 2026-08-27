@@ -243,7 +243,7 @@ Optional:
 
 Optional:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -265,10 +265,10 @@ Required:
 
 Optional:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--sequences--nodes--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--sequences--nodes--level--round_robin_config))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -283,7 +283,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
 
 
@@ -327,7 +327,7 @@ Required:
 
 Optional:
 
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -342,7 +342,7 @@ Required:
 
 Optional:
 
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
 
 
@@ -375,7 +375,7 @@ Required:
 
 - `end_time` (String) End time of the interval, in 24hr format
 - `start_time` (String) Start time of the interval, in 24hr format
-- `weekday` (String) Weekdays for use within a schedule or escalation path
+- `weekday` (String) Weekdays for use within a schedule or escalation path. Possible values are: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`.
 
 ## Import
 

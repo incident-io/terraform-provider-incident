@@ -421,7 +421,7 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 			},
 			"source_type": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "source_type"),
+				MarkdownDescription: EnumValuesDescription("AlertSourceV2", "source_type"),
 				PlanModifiers: []planmodifier.String{
 					// This cannot be changed once the source is set up.
 					stringplanmodifier.RequiresReplace(),
@@ -577,7 +577,7 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 					"redactions": schema.SetAttribute{
 						Required:            true,
 						ElementType:         types.StringType,
-						MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsPayloadV2", "redactions"),
+						MarkdownDescription: EnumValuesDescription("AlertSourceEmailOptionsPayloadV2", "redactions"),
 					},
 				},
 			},

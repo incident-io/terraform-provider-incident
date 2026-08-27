@@ -143,7 +143,7 @@ func (d *IncidentWorkflowDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 			},
 			"runs_on_incident_modes": schema.SetAttribute{
-				MarkdownDescription: apischema.Docstring("WorkflowV2", "runs_on_incident_modes"),
+				MarkdownDescription: EnumValuesDescription("WorkflowV2", "runs_on_incident_modes"),
 				Computed:            true,
 				ElementType:         types.StringType,
 			},

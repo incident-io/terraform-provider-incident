@@ -119,7 +119,7 @@ func (d *IncidentIncidentTypesDataSource) Schema(ctx context.Context, req dataso
 						},
 						"create_in_triage": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: apischema.Docstring("IncidentTypeV1", "create_in_triage"),
+							MarkdownDescription: EnumValuesDescription("IncidentTypeV1", "create_in_triage"),
 						},
 						"is_default": schema.BoolAttribute{
 							Computed:            true,

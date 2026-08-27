@@ -77,9 +77,7 @@ resource "incident_schedule_sync_rule" "platform_oncall_with_manager" {
 
 - `schedule_id` (String) The schedule this rule belongs to
 - `schedule_sync_target_id` (String) The sync target ID this rule links to
-- `sync_type` (String) Which schedule members sync to the user group
-
-Valid values: `all_users`, `next_on_call`, `on_call`.
+- `sync_type` (String) Which schedule members sync to the user group. Possible values are: `on_call`, `all_users`, `next_on_call`.
 
 ### Optional
 

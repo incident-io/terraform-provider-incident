@@ -130,7 +130,7 @@ func (d *IncidentEscalationPathDataSource) Schema(ctx context.Context, req datas
 									},
 									"weekday": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: apischema.Docstring("WeekdayIntervalV2", "weekday"),
+										MarkdownDescription: EnumValuesDescription("WeekdayIntervalV2", "weekday"),
 									},
 								},
 							},
@@ -172,7 +172,7 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 			},
 			"type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "type"),
+				MarkdownDescription: EnumValuesDescription("EscalationPathNodeV2", "type"),
 			},
 			"level": schema.SingleNestedAttribute{
 				Computed:            true,
@@ -189,15 +189,15 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 								},
 								"type": schema.StringAttribute{
 									Computed:            true,
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "type"),
+									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "type"),
 								},
 								"urgency": schema.StringAttribute{
 									Computed:            true,
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "urgency"),
+									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "urgency"),
 								},
 								"schedule_mode": schema.StringAttribute{
 									Computed:            true,
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "schedule_mode"),
+									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "schedule_mode"),
 								},
 								"selected_rota_id": schema.StringAttribute{
 									Computed:            true,
@@ -238,7 +238,7 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 					},
 					"time_to_ack_interval_condition": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeLevelV2", "time_to_ack_interval_condition"),
+						MarkdownDescription: EnumValuesDescription("EscalationPathNodeLevelV2", "time_to_ack_interval_condition"),
 					},
 					"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
 						Computed:            true,
@@ -246,7 +246,7 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 					},
 					"ack_mode": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeLevelV2", "ack_mode"),
+						MarkdownDescription: EnumValuesDescription("EscalationPathNodeLevelV2", "ack_mode"),
 					},
 				},
 			},
@@ -279,15 +279,15 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 								},
 								"type": schema.StringAttribute{
 									Computed:            true,
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "type"),
+									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "type"),
 								},
 								"urgency": schema.StringAttribute{
 									Computed:            true,
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "urgency"),
+									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "urgency"),
 								},
 								"schedule_mode": schema.StringAttribute{
 									Computed:            true,
-									MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "schedule_mode"),
+									MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "schedule_mode"),
 								},
 								"selected_rota_id": schema.StringAttribute{
 									Computed:            true,
@@ -302,7 +302,7 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 					},
 					"time_to_ack_interval_condition": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeNotifyChannelV2", "time_to_ack_interval_condition"),
+						MarkdownDescription: EnumValuesDescription("EscalationPathNodeNotifyChannelV2", "time_to_ack_interval_condition"),
 					},
 					"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
 						Computed:            true,
@@ -320,7 +320,7 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 					},
 					"delay_interval_condition": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: apischema.Docstring("EscalationPathNodeDelayV2", "delay_interval_condition"),
+						MarkdownDescription: EnumValuesDescription("EscalationPathNodeDelayV2", "delay_interval_condition"),
 					},
 					"delay_weekday_interval_config_id": schema.StringAttribute{
 						Computed:            true,

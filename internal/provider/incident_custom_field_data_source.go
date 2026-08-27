@@ -34,7 +34,7 @@ func (i *IncidentCustomFieldDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 			},
 			"field_type": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("CustomFieldV2", "field_type"),
+				MarkdownDescription: EnumValuesDescription("CustomFieldV2", "field_type"),
 				Computed:            true,
 			},
 			"name": schema.StringAttribute{

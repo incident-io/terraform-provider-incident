@@ -88,7 +88,7 @@ func escalationPathTargetsAttribute(docType string) schema.ListNestedAttribute {
 					Required:            true,
 				},
 				"schedule_mode": schema.StringAttribute{
-					MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "schedule_mode"),
+					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "schedule_mode"),
 					Optional:            true,
 					Computed:            true,
 				},
@@ -140,7 +140,7 @@ func escalationPathLevelAttribute(ackModeDefault string) schema.SingleNestedAttr
 				Optional:            true,
 			},
 			"time_to_ack_interval_condition": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring(
+				MarkdownDescription: EnumValuesDescription(
 					"EscalationPathNodeLevelV2", "time_to_ack_interval_condition"),
 				Optional: true,
 			},
@@ -150,7 +150,7 @@ func escalationPathLevelAttribute(ackModeDefault string) schema.SingleNestedAttr
 				Optional: true,
 			},
 			"ack_mode": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring(
+				MarkdownDescription: EnumValuesDescription(
 					"EscalationPathNodeLevelV2", "ack_mode"),
 				Optional: true,
 				Computed: true,
@@ -172,7 +172,7 @@ func escalationPathNotifyChannelAttribute() schema.SingleNestedAttribute {
 				Optional:            true,
 			},
 			"time_to_ack_interval_condition": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring(
+				MarkdownDescription: EnumValuesDescription(
 					"EscalationPathNodeNotifyChannelV2", "time_to_ack_interval_condition"),
 				Optional: true,
 			},
@@ -196,7 +196,7 @@ func escalationPathDelayAttribute() schema.SingleNestedAttribute {
 				Optional:            true,
 			},
 			"delay_interval_condition": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring(
+				MarkdownDescription: EnumValuesDescription(
 					"EscalationPathNodeDelayV2", "delay_interval_condition"),
 				Optional: true,
 			},
