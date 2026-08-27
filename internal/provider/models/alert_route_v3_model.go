@@ -394,7 +394,17 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 	// it null. We don't fall back to the prior plan/state, so disabling incident
 	// creation (including out-of-band) clears the template rather than leaving a
 	// stale one in state.
-	if apiModel.IncidentConfig.Template != nil {
+	//
+	// `template` is optional and not computed, but the API returns a
+	// fully-populated default (every binding present but empty, severity merge
+	// strategy defaulted to first-wins) whenever incident creation is enabled,
+	// even when we sent none. Writing that default into state for a config that
+	// omitted the template breaks the apply with "produced an unexpected new
+	// value: .incident_config.template: was null, but now cty.ObjectVal(...)",
+	// so mirror the planned shape and keep it null. With no plan (import) we
+	// take whatever the API gives us.
+	planOmittedTemplate := plan != nil && planTemplate == nil
+	if apiModel.IncidentConfig.Template != nil && !planOmittedTemplate {
 		result.IncidentConfig.Template = incidentTemplateFromAPIV3(apiModel.IncidentConfig.Template, planTemplate)
 	}
 
