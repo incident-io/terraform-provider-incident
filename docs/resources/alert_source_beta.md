@@ -160,6 +160,7 @@ resource "incident_alert_source_beta" "security_scanner" {
 - `named_expression` (Block List) An expression this resource owns, addressed by name. (see [below for nested schema](#nestedblock--named_expression))
 - `owning_team_ids` (Set of String) IDs of the teams that own this alert source
 - `priority` (Attributes) (see [below for nested schema](#nestedatt--priority))
+- `rate_limit_sharding` (Attributes) Controls how this source's ingest rate limit is split into buckets. (see [below for nested schema](#nestedatt--rate_limit_sharding))
 - `title` (Attributes) (see [below for nested schema](#nestedatt--title))
 - `visible_to_teams` (Attributes) (see [below for nested schema](#nestedatt--visible_to_teams))
 
@@ -1096,6 +1097,14 @@ Optional:
 - `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
 - `reference` (String) A reference into the scope, such as `payload.team`.
 
+
+
+<a id="nestedatt--rate_limit_sharding"></a>
+### Nested Schema for `rate_limit_sharding`
+
+Required:
+
+- `rate_limit_shard_key_path` (String) JSON path to a value that splits this source's rate limit into per-value buckets. Empty applies one limit to the whole source.
 
 
 <a id="nestedatt--title"></a>
