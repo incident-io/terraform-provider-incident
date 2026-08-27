@@ -1104,7 +1104,7 @@ Optional:
 
 Required:
 
-- `rate_limit_shard_key_path` (String) JSON path to a value that splits this source's rate limit into per-value buckets. Empty applies one limit to the whole source.
+- `rate_limit_shard_key_path` (String) JSON path to a value that splits this source's rate limit into per-value buckets.
 
 
 <a id="nestedatt--title"></a>

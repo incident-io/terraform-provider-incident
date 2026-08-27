@@ -985,6 +985,7 @@ const (
 	AlertSourceCreatePayloadV3SourceTypeHoneycomb         AlertSourceCreatePayloadV3SourceType = "honeycomb"
 	AlertSourceCreatePayloadV3SourceTypeHttp              AlertSourceCreatePayloadV3SourceType = "http"
 	AlertSourceCreatePayloadV3SourceTypeHttpCustom        AlertSourceCreatePayloadV3SourceType = "http_custom"
+	AlertSourceCreatePayloadV3SourceTypeIcinga2           AlertSourceCreatePayloadV3SourceType = "icinga2"
 	AlertSourceCreatePayloadV3SourceTypeIncomingCalls     AlertSourceCreatePayloadV3SourceType = "incoming_calls"
 	AlertSourceCreatePayloadV3SourceTypeJira              AlertSourceCreatePayloadV3SourceType = "jira"
 	AlertSourceCreatePayloadV3SourceTypeJsm               AlertSourceCreatePayloadV3SourceType = "jsm"
@@ -1065,6 +1066,8 @@ func (e AlertSourceCreatePayloadV3SourceType) Valid() bool {
 	case AlertSourceCreatePayloadV3SourceTypeHttp:
 		return true
 	case AlertSourceCreatePayloadV3SourceTypeHttpCustom:
+		return true
+	case AlertSourceCreatePayloadV3SourceTypeIcinga2:
 		return true
 	case AlertSourceCreatePayloadV3SourceTypeIncomingCalls:
 		return true
@@ -1231,6 +1234,7 @@ const (
 	AlertSourceV2SourceTypeHoneycomb         AlertSourceV2SourceType = "honeycomb"
 	AlertSourceV2SourceTypeHttp              AlertSourceV2SourceType = "http"
 	AlertSourceV2SourceTypeHttpCustom        AlertSourceV2SourceType = "http_custom"
+	AlertSourceV2SourceTypeIcinga2           AlertSourceV2SourceType = "icinga2"
 	AlertSourceV2SourceTypeIncomingCalls     AlertSourceV2SourceType = "incoming_calls"
 	AlertSourceV2SourceTypeJira              AlertSourceV2SourceType = "jira"
 	AlertSourceV2SourceTypeJsm               AlertSourceV2SourceType = "jsm"
@@ -1311,6 +1315,8 @@ func (e AlertSourceV2SourceType) Valid() bool {
 	case AlertSourceV2SourceTypeHttp:
 		return true
 	case AlertSourceV2SourceTypeHttpCustom:
+		return true
+	case AlertSourceV2SourceTypeIcinga2:
 		return true
 	case AlertSourceV2SourceTypeIncomingCalls:
 		return true
@@ -1393,6 +1399,7 @@ const (
 	AlertSourceV3SourceTypeHoneycomb         AlertSourceV3SourceType = "honeycomb"
 	AlertSourceV3SourceTypeHttp              AlertSourceV3SourceType = "http"
 	AlertSourceV3SourceTypeHttpCustom        AlertSourceV3SourceType = "http_custom"
+	AlertSourceV3SourceTypeIcinga2           AlertSourceV3SourceType = "icinga2"
 	AlertSourceV3SourceTypeIncomingCalls     AlertSourceV3SourceType = "incoming_calls"
 	AlertSourceV3SourceTypeJira              AlertSourceV3SourceType = "jira"
 	AlertSourceV3SourceTypeJsm               AlertSourceV3SourceType = "jsm"
@@ -1473,6 +1480,8 @@ func (e AlertSourceV3SourceType) Valid() bool {
 	case AlertSourceV3SourceTypeHttp:
 		return true
 	case AlertSourceV3SourceTypeHttpCustom:
+		return true
+	case AlertSourceV3SourceTypeIcinga2:
 		return true
 	case AlertSourceV3SourceTypeIncomingCalls:
 		return true
@@ -1555,6 +1564,7 @@ const (
 	AlertSourceValidatePayloadV3SourceTypeHoneycomb         AlertSourceValidatePayloadV3SourceType = "honeycomb"
 	AlertSourceValidatePayloadV3SourceTypeHttp              AlertSourceValidatePayloadV3SourceType = "http"
 	AlertSourceValidatePayloadV3SourceTypeHttpCustom        AlertSourceValidatePayloadV3SourceType = "http_custom"
+	AlertSourceValidatePayloadV3SourceTypeIcinga2           AlertSourceValidatePayloadV3SourceType = "icinga2"
 	AlertSourceValidatePayloadV3SourceTypeIncomingCalls     AlertSourceValidatePayloadV3SourceType = "incoming_calls"
 	AlertSourceValidatePayloadV3SourceTypeJira              AlertSourceValidatePayloadV3SourceType = "jira"
 	AlertSourceValidatePayloadV3SourceTypeJsm               AlertSourceValidatePayloadV3SourceType = "jsm"
@@ -1635,6 +1645,8 @@ func (e AlertSourceValidatePayloadV3SourceType) Valid() bool {
 	case AlertSourceValidatePayloadV3SourceTypeHttp:
 		return true
 	case AlertSourceValidatePayloadV3SourceTypeHttpCustom:
+		return true
+	case AlertSourceValidatePayloadV3SourceTypeIcinga2:
 		return true
 	case AlertSourceValidatePayloadV3SourceTypeIncomingCalls:
 		return true
@@ -1717,6 +1729,7 @@ const (
 	AlertSourcesCreatePayloadV2SourceTypeHoneycomb         AlertSourcesCreatePayloadV2SourceType = "honeycomb"
 	AlertSourcesCreatePayloadV2SourceTypeHttp              AlertSourcesCreatePayloadV2SourceType = "http"
 	AlertSourcesCreatePayloadV2SourceTypeHttpCustom        AlertSourcesCreatePayloadV2SourceType = "http_custom"
+	AlertSourcesCreatePayloadV2SourceTypeIcinga2           AlertSourcesCreatePayloadV2SourceType = "icinga2"
 	AlertSourcesCreatePayloadV2SourceTypeIncomingCalls     AlertSourcesCreatePayloadV2SourceType = "incoming_calls"
 	AlertSourcesCreatePayloadV2SourceTypeJira              AlertSourcesCreatePayloadV2SourceType = "jira"
 	AlertSourcesCreatePayloadV2SourceTypeJsm               AlertSourcesCreatePayloadV2SourceType = "jsm"
@@ -1797,6 +1810,8 @@ func (e AlertSourcesCreatePayloadV2SourceType) Valid() bool {
 	case AlertSourcesCreatePayloadV2SourceTypeHttp:
 		return true
 	case AlertSourcesCreatePayloadV2SourceTypeHttpCustom:
+		return true
+	case AlertSourcesCreatePayloadV2SourceTypeIcinga2:
 		return true
 	case AlertSourcesCreatePayloadV2SourceTypeIncomingCalls:
 		return true
@@ -1879,6 +1894,7 @@ const (
 	AlertSourcesValidatePayloadV2SourceTypeHoneycomb         AlertSourcesValidatePayloadV2SourceType = "honeycomb"
 	AlertSourcesValidatePayloadV2SourceTypeHttp              AlertSourcesValidatePayloadV2SourceType = "http"
 	AlertSourcesValidatePayloadV2SourceTypeHttpCustom        AlertSourcesValidatePayloadV2SourceType = "http_custom"
+	AlertSourcesValidatePayloadV2SourceTypeIcinga2           AlertSourcesValidatePayloadV2SourceType = "icinga2"
 	AlertSourcesValidatePayloadV2SourceTypeIncomingCalls     AlertSourcesValidatePayloadV2SourceType = "incoming_calls"
 	AlertSourcesValidatePayloadV2SourceTypeJira              AlertSourcesValidatePayloadV2SourceType = "jira"
 	AlertSourcesValidatePayloadV2SourceTypeJsm               AlertSourcesValidatePayloadV2SourceType = "jsm"
@@ -1959,6 +1975,8 @@ func (e AlertSourcesValidatePayloadV2SourceType) Valid() bool {
 	case AlertSourcesValidatePayloadV2SourceTypeHttp:
 		return true
 	case AlertSourcesValidatePayloadV2SourceTypeHttpCustom:
+		return true
+	case AlertSourcesValidatePayloadV2SourceTypeIcinga2:
 		return true
 	case AlertSourcesValidatePayloadV2SourceTypeIncomingCalls:
 		return true
@@ -9794,7 +9812,7 @@ type AlertSourceJiraOptionsV3 struct {
 //
 // Example: {"rate_limit_shard_key_path":"$.priority"}
 type AlertSourceRateLimitShardingV2 struct {
-	// RateLimitShardKeyPath JSON path to a value that splits this source's rate limit into per-value buckets. Empty applies one limit to the whole source.
+	// RateLimitShardKeyPath JSON path to a value that splits this source's rate limit into per-value buckets.
 	//
 	// Example: $.priority
 	RateLimitShardKeyPath string `json:"rate_limit_shard_key_path"`
@@ -9804,7 +9822,7 @@ type AlertSourceRateLimitShardingV2 struct {
 //
 // Example: {"rate_limit_shard_key_path":"$.priority"}
 type AlertSourceRateLimitShardingV3 struct {
-	// RateLimitShardKeyPath JSON path to a value that splits this source's rate limit into per-value buckets. Empty applies one limit to the whole source.
+	// RateLimitShardKeyPath JSON path to a value that splits this source's rate limit into per-value buckets.
 	//
 	// Example: $.priority
 	RateLimitShardKeyPath string `json:"rate_limit_shard_key_path"`
