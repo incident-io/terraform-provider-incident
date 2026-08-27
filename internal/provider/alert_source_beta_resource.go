@@ -36,8 +36,9 @@ func NewAlertSourceBetaResource() resource.Resource {
 }
 
 type alertSourceBetaResource struct {
-	client           *client.ClientWithResponses
-	terraformVersion string
+	client                *client.ClientWithResponses
+	terraformVersion      string
+	markImportedAsManaged bool
 }
 
 // alertSourceExpressions stores names as written: only this source's attributes, which share a
@@ -232,6 +233,7 @@ func (r *alertSourceBetaResource) Configure(_ context.Context, req resource.Conf
 	}
 	r.client = data.Client
 	r.terraformVersion = data.TerraformVersion
+	r.markImportedAsManaged = data.MarkImportedAsManaged
 }
 
 // ValidateConfig runs the checks the schema can't express, so they land at plan time against a
@@ -718,7 +720,7 @@ func (r *alertSourceBetaResource) Delete(ctx context.Context, req resource.Delet
 func (r *alertSourceBetaResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	// Create and Update carry the Terraform annotation in their payload, but an import writes
 	// nothing, so claim the source here instead.
-	claimResource(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource, r.terraformVersion)
+	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource, r.terraformVersion, r.markImportedAsManaged)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 

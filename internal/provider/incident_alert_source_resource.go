@@ -32,8 +32,9 @@ var (
 )
 
 type IncidentAlertSourceResource struct {
-	client           *client.ClientWithResponses
-	terraformVersion string
+	client                *client.ClientWithResponses
+	terraformVersion      string
+	markImportedAsManaged bool
 }
 
 // ValidateConfig checks that jira_options is only set when the source type is
@@ -631,6 +632,7 @@ func (r *IncidentAlertSourceResource) Configure(ctx context.Context, req resourc
 
 	r.client = client.Client
 	r.terraformVersion = client.TerraformVersion
+	r.markImportedAsManaged = client.MarkImportedAsManaged
 }
 
 func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -845,6 +847,6 @@ func (r *IncidentAlertSourceResource) Delete(ctx context.Context, req resource.D
 }
 
 func (r *IncidentAlertSourceResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	claimResource(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource, r.terraformVersion)
+	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource, r.terraformVersion, r.markImportedAsManaged)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

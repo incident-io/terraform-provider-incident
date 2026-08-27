@@ -35,8 +35,9 @@ func NewIncidentScheduleBetaResource() resource.Resource {
 }
 
 type IncidentScheduleBetaResource struct {
-	client           *client.ClientWithResponses
-	terraformVersion string
+	client                *client.ClientWithResponses
+	terraformVersion      string
+	markImportedAsManaged bool
 }
 
 // IncidentScheduleBetaModel is the Terraform state/plan shape for the resource.
@@ -169,6 +170,7 @@ func (r *IncidentScheduleBetaResource) Configure(_ context.Context, req resource
 	}
 	r.client = data.Client
 	r.terraformVersion = data.TerraformVersion
+	r.markImportedAsManaged = data.MarkImportedAsManaged
 }
 
 // ValidateConfig checks what it can without calling the API, so `terraform
@@ -406,7 +408,7 @@ func (r *IncidentScheduleBetaResource) Delete(ctx context.Context, req resource.
 func (r *IncidentScheduleBetaResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	// Create and Update carry the Terraform annotation in their payload, but an
 	// import writes nothing, so claim the schedule here instead.
-	claimResource(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule, r.terraformVersion)
+	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule, r.terraformVersion, r.markImportedAsManaged)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 

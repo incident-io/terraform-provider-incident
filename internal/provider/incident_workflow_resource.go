@@ -30,8 +30,9 @@ var (
 var privateIncidentScopes = []string{"all", "owning_teams", "none"}
 
 type IncidentWorkflowResource struct {
-	client           *client.ClientWithResponses
-	terraformVersion string
+	client                *client.ClientWithResponses
+	terraformVersion      string
+	markImportedAsManaged bool
 }
 
 func NewIncidentWorkflowResource() resource.Resource {
@@ -443,7 +444,7 @@ func (r *IncidentWorkflowResource) Delete(ctx context.Context, req resource.Dele
 }
 
 func (r *IncidentWorkflowResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	claimResource(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow, r.terraformVersion)
+	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow, r.terraformVersion, r.markImportedAsManaged)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
@@ -464,6 +465,7 @@ func (r *IncidentWorkflowResource) Configure(ctx context.Context, req resource.C
 
 	r.client = client.Client
 	r.terraformVersion = client.TerraformVersion
+	r.markImportedAsManaged = client.MarkImportedAsManaged
 }
 
 func toOwningTeamIDs(set types.Set) *[]string {

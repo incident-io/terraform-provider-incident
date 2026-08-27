@@ -23,13 +23,18 @@ type IncidentProvider struct {
 }
 
 type IncidentProviderModel struct {
-	Endpoint types.String `tfsdk:"endpoint"`
-	APIKey   types.String `tfsdk:"api_key"`
+	Endpoint                       types.String `tfsdk:"endpoint"`
+	APIKey                         types.String `tfsdk:"api_key"`
+	MarkImportedResourcesAsManaged types.Bool   `tfsdk:"mark_imported_resources_as_managed"`
 }
 
 type IncidentProviderData struct {
 	Client           *client.ClientWithResponses
 	TerraformVersion string
+	// MarkImportedAsManaged is the resolved value of the provider's
+	// mark_imported_resources_as_managed attribute, defaulting to true when it
+	// isn't set.
+	MarkImportedAsManaged bool
 }
 
 func New(version string) func() provider.Provider {
@@ -76,6 +81,10 @@ reproduce there. Pin to v5.x if you need to stay on an older CLI.
 				Optional:            true,
 				Sensitive:           true,
 			},
+			"mark_imported_resources_as_managed": schema.BoolAttribute{
+				MarkdownDescription: "Whether importing a resource claims it as managed by Terraform, which is what stops people editing it in the incident.io dashboard. Defaults to `true`. Terraform runs imports during `plan` rather than apply, so this claim is a write to your account during an operation you may expect to be read-only: set this to `false` if plans must leave your account untouched. Creating or updating a resource claims it regardless of this setting, so a resource imported with this off is claimed by the first apply that changes it. It stays editable in the dashboard until then, and indefinitely if its configuration already matches the account and so never produces a change to apply.",
+				Optional:            true,
+			},
 		},
 	}
 }
@@ -104,6 +113,13 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 		apiKey = data.APIKey.ValueString()
 	}
 
+	// Unset means claim on import, which is how the provider behaved before this
+	// was configurable.
+	markImportedAsManaged := true
+	if !data.MarkImportedResourcesAsManaged.IsNull() && !data.MarkImportedResourcesAsManaged.IsUnknown() {
+		markImportedAsManaged = data.MarkImportedResourcesAsManaged.ValueBool()
+	}
+
 	c, err := client.New(ctx, apiKey, endpoint, p.version)
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -114,12 +130,14 @@ func (p *IncidentProvider) Configure(ctx context.Context, req provider.Configure
 	}
 
 	resp.DataSourceData = &IncidentProviderData{
-		Client:           c,
-		TerraformVersion: req.TerraformVersion,
+		Client:                c,
+		TerraformVersion:      req.TerraformVersion,
+		MarkImportedAsManaged: markImportedAsManaged,
 	}
 	resp.ResourceData = &IncidentProviderData{
-		Client:           c,
-		TerraformVersion: req.TerraformVersion,
+		Client:                c,
+		TerraformVersion:      req.TerraformVersion,
+		MarkImportedAsManaged: markImportedAsManaged,
 	}
 }
 
