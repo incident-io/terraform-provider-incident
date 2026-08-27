@@ -50,12 +50,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--delay"></a>
 ### Nested Schema for `path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -137,12 +139,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -224,12 +228,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -311,12 +317,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -398,12 +406,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -484,12 +494,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -507,11 +519,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -539,10 +551,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -552,7 +564,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -562,10 +574,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -601,12 +613,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -624,11 +638,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -656,10 +670,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -669,7 +683,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -679,10 +693,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -702,11 +716,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -734,10 +748,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -747,7 +761,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -757,10 +771,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -797,12 +811,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -883,12 +899,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -906,11 +924,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -938,10 +956,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -951,7 +969,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -961,10 +979,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1000,12 +1018,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -1023,11 +1043,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1055,10 +1075,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1068,7 +1088,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1078,10 +1098,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1101,11 +1121,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1133,10 +1153,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1146,7 +1166,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1156,10 +1176,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1179,11 +1199,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1211,10 +1231,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1224,7 +1244,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1234,10 +1254,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1274,12 +1294,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -1361,12 +1383,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -1447,12 +1471,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -1470,11 +1496,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1502,10 +1528,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1515,7 +1541,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1525,10 +1551,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1564,12 +1590,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -1587,11 +1615,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1619,10 +1647,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1632,7 +1660,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1642,10 +1670,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1665,11 +1693,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1697,10 +1725,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1710,7 +1738,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1720,10 +1748,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1760,12 +1788,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -1846,12 +1876,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -1869,11 +1901,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1901,10 +1933,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1914,7 +1946,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -1924,10 +1956,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -1963,12 +1995,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -1986,11 +2020,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2018,10 +2052,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2031,7 +2065,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2041,10 +2075,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2064,11 +2098,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2096,10 +2130,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2109,7 +2143,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2119,10 +2153,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2142,11 +2176,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2174,10 +2208,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2187,7 +2221,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2197,10 +2231,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2220,11 +2254,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2252,10 +2286,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2265,7 +2299,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2275,10 +2309,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2315,12 +2349,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -2402,12 +2438,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -2489,12 +2527,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -2575,12 +2615,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -2598,11 +2640,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2630,10 +2672,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2643,7 +2685,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2653,10 +2695,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2692,12 +2734,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -2715,11 +2759,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2747,10 +2791,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2760,7 +2804,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2770,10 +2814,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2793,11 +2837,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2825,10 +2869,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2838,7 +2882,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -2848,10 +2892,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -2888,12 +2932,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -2974,12 +3020,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -2997,11 +3045,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3029,10 +3077,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3042,7 +3090,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3052,10 +3100,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3091,12 +3139,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -3114,11 +3164,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3146,10 +3196,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3159,7 +3209,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3169,10 +3219,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3192,11 +3242,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3224,10 +3274,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3237,7 +3287,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3247,10 +3297,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3270,11 +3320,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3302,10 +3352,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3315,7 +3365,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3325,10 +3375,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3365,12 +3415,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -3452,12 +3504,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -3538,12 +3592,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -3561,11 +3617,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3593,10 +3649,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3606,7 +3662,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3616,10 +3672,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3655,12 +3711,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -3678,11 +3736,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3710,10 +3768,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3723,7 +3781,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3733,10 +3791,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3756,11 +3814,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3788,10 +3846,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3801,7 +3859,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3811,10 +3869,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -3851,12 +3909,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -3937,12 +3997,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -3960,11 +4022,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -3992,10 +4054,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4005,7 +4067,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4015,10 +4077,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4054,12 +4116,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -4077,11 +4141,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4109,10 +4173,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4122,7 +4186,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4132,10 +4196,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4155,11 +4219,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4187,10 +4251,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4200,7 +4264,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4210,10 +4274,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4233,11 +4297,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4265,10 +4329,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4278,7 +4342,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4288,10 +4352,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4311,11 +4375,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4343,10 +4407,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4356,7 +4420,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4366,10 +4430,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4389,11 +4453,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4421,10 +4485,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4434,7 +4498,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4444,10 +4508,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4484,12 +4548,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -4571,12 +4637,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -4658,12 +4726,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -4745,12 +4815,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -4831,12 +4903,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -4854,11 +4928,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4886,10 +4960,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4899,7 +4973,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -4909,10 +4983,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -4948,12 +5022,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -4971,11 +5047,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5003,10 +5079,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5016,7 +5092,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5026,10 +5102,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5049,11 +5125,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5081,10 +5157,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5094,7 +5170,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5104,10 +5180,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5144,12 +5220,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -5230,12 +5308,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -5253,11 +5333,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5285,10 +5365,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5298,7 +5378,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5308,10 +5388,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5347,12 +5427,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -5370,11 +5452,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5402,10 +5484,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5415,7 +5497,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5425,10 +5507,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5448,11 +5530,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5480,10 +5562,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5493,7 +5575,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5503,10 +5585,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5526,11 +5608,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5558,10 +5640,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5571,7 +5653,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5581,10 +5663,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5621,12 +5703,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -5708,12 +5792,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -5794,12 +5880,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -5817,11 +5905,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5849,10 +5937,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5862,7 +5950,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5872,10 +5960,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5911,12 +5999,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -5934,11 +6024,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5966,10 +6056,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -5979,7 +6069,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -5989,10 +6079,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6012,11 +6102,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6044,10 +6134,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6057,7 +6147,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6067,10 +6157,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6107,12 +6197,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -6193,12 +6285,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -6216,11 +6310,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6248,10 +6342,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6261,7 +6355,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6271,10 +6365,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6310,12 +6404,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -6333,11 +6429,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6365,10 +6461,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6378,7 +6474,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6388,10 +6484,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6411,11 +6507,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6443,10 +6539,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6456,7 +6552,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6466,10 +6562,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6489,11 +6585,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6521,10 +6617,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6534,7 +6630,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6544,10 +6640,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6567,11 +6663,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6599,10 +6695,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6612,7 +6708,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6622,10 +6718,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6662,12 +6758,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -6749,12 +6847,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -6836,12 +6936,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -6922,12 +7024,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -6945,11 +7049,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -6977,10 +7081,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -6990,7 +7094,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7000,10 +7104,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7039,12 +7143,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -7062,11 +7168,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7094,10 +7200,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7107,7 +7213,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7117,10 +7223,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7140,11 +7246,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7172,10 +7278,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7185,7 +7291,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7195,10 +7301,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7235,12 +7341,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -7321,12 +7429,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -7344,11 +7454,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7376,10 +7486,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7389,7 +7499,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7399,10 +7509,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7438,12 +7548,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -7461,11 +7573,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7493,10 +7605,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7506,7 +7618,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7516,10 +7628,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7539,11 +7651,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7571,10 +7683,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7584,7 +7696,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7594,10 +7706,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7617,11 +7729,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7649,10 +7761,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7662,7 +7774,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7672,10 +7784,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7712,12 +7824,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -7799,12 +7913,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -7885,12 +8001,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -7908,11 +8026,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7940,10 +8058,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -7953,7 +8071,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -7963,10 +8081,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8002,12 +8120,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -8025,11 +8145,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8057,10 +8177,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8070,7 +8190,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8080,10 +8200,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8103,11 +8223,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8135,10 +8255,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8148,7 +8268,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8158,10 +8278,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8198,12 +8318,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -8284,12 +8406,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -8307,11 +8431,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8339,10 +8463,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8352,7 +8476,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8362,10 +8486,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8401,12 +8525,14 @@ This allows you to reference the node in other nodes, such as when configuring a
 * escalation_path: Reassign the escalation to another escalation path, continuing from that path's first node.
 * voicemail: Send an inbound caller to voicemail. Only valid inside a call route's path.
 
+Possible values are: `if_else`, `repeat`, `level`, `notify_channel`, `delay`, `voicemail`, `escalation_path`.
+
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--delay"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.delay`
 
 Read-Only:
 
-- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
 - `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
 
@@ -8424,11 +8550,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8456,10 +8582,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8469,7 +8595,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8479,10 +8605,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8502,11 +8628,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8534,10 +8660,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8547,7 +8673,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8557,10 +8683,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8580,11 +8706,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8612,10 +8738,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8625,7 +8751,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8635,10 +8761,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8658,11 +8784,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8690,10 +8816,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8703,7 +8829,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8713,10 +8839,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8736,11 +8862,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8768,10 +8894,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8781,7 +8907,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--if_else--then_path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8791,10 +8917,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8814,11 +8940,11 @@ Read-Only:
 
 Read-Only:
 
-- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
 - `retry_config` (Attributes) (see [below for nested schema](#nestedatt--path--level--retry_config))
 - `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--path--level--round_robin_config))
 - `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--path--level--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8846,10 +8972,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8859,7 +8985,7 @@ Read-Only:
 Read-Only:
 
 - `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--path--notify_channel--targets))
-- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
 - `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
 - `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
 
@@ -8869,10 +8995,10 @@ Read-Only:
 Read-Only:
 
 - `id` (String) Uniquely identifies an entity of this type
-- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
 - `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
-- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User
-- `urgency` (String) The urgency of this escalation path target
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
 
 
 
@@ -8912,4 +9038,4 @@ Read-Only:
 
 - `end_time` (String) End time of the interval, in 24hr format
 - `start_time` (String) Start time of the interval, in 24hr format
-- `weekday` (String) Weekdays for use within a schedule or escalation path
+- `weekday` (String) Weekdays for use within a schedule or escalation path. Possible values are: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`.

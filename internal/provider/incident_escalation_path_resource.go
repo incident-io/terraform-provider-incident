@@ -261,7 +261,7 @@ func (r *IncidentEscalationPathResource) getPathSchema(depth int) schema.NestedA
 				},
 			},
 			"type": schema.StringAttribute{
-				MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "type"),
+				MarkdownDescription: EnumValuesDescription("EscalationPathNodeV2", "type"),
 				Required:            true,
 			},
 			"level": escalationPathLevelAttribute("all"),

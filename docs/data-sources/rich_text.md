@@ -44,7 +44,7 @@ output "dropped_content" {
 
 ### Required
 
-- `feature_set` (String) The feature set of the field this document is destined for. Content the feature set doesn't permit is dropped, and reported in dropped_content.
+- `feature_set` (String) The feature set of the field this document is destined for. Content the feature set doesn't permit is dropped, and reported in dropped_content. Possible values are: `plain_single_line`, `plain_single_line_with_secrets`, `plain_multi_line`, `mrkdwn`, `rich`, `rich_with_images`, `slack_rich_text`, `slack_rich_text_with_headings`, `basic`, `basic_no_links`, `jira`.
 - `markdown` (String) The markdown to parse. Template variables written as {{ name }} become variable placeholders, and support the omit_if_unset and truncate filters.
 
 ### Read-Only

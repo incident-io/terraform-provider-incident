@@ -178,7 +178,7 @@ resource "incident_schedule_rotation_beta" "business_hours" {
 - `concurrent_shifts` (Number) How many shifts run at the same time, which is how many people are on call at once. Defaults to 1, one person on call at a time. Reducing this stops scheduling the last of them, and stops any overrides on those shifts from applying.
 - `rank` (Number) Where this rotation sits in the schedule's running order, lowest first. Unset when it has never been ordered.
 - `rollout` (String) How a change to this rotation is introduced: `immediate` replaces the line-up now and can change who is on call this minute, `after_current_shift` lets the shift on call finish first, and `after_full_rotation` waits for everyone to have taken a turn. Leave it out to replace the line-up straight away. Creating a rotation ignores it, as there's no shift to protect yet.
-- `scheduling_mode` (String) How users are allocated across shifts of differing length. One of fair, sequential. Omit it to leave us to pick. For an even rotation the two behave identically — see the resource description for when they diverge.
+- `scheduling_mode` (String) How users are allocated across shifts of differing length. Possible values are: `fair`, `sequential`. Omit it to leave us to pick. For an even rotation the two behave identically — see the resource description for when they diverge.
 - `working_intervals` (Attributes List) If set, restricts on-call to these weekday intervals. Omit it to keep the rotation on call around the clock. An empty list is not valid, and is rejected at plan time — it would leave a rotation nobody is ever on call for. (see [below for nested schema](#nestedatt--working_intervals))
 
 ### Read-Only
@@ -192,7 +192,7 @@ resource "incident_schedule_rotation_beta" "business_hours" {
 Required:
 
 - `interval` (Number) How many of the interval type to wait between handovers.
-- `interval_type` (String) One of hourly, daily or weekly.
+- `interval_type` (String) How often a handover occurs. Possible values are: `hourly`, `daily`, `weekly`.
 
 
 <a id="nestedatt--working_intervals"></a>
@@ -202,7 +202,7 @@ Required:
 
 - `end_time` (String) Time of day this window closes, as HH:MM.
 - `start_time` (String) Time of day this window opens, as HH:MM.
-- `weekday` (String) Day of the week, lowercase, e.g. monday.
+- `weekday` (String) Day of the week, lowercase. Possible values are: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`.
 
 ## Import
 

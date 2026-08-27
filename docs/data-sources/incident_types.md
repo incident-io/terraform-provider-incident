@@ -42,7 +42,7 @@ output "incident_type_names" {
 
 Read-Only:
 
-- `create_in_triage` (String) Whether incidents of this must always, or can optionally, be created in triage
+- `create_in_triage` (String) Whether incidents of this must always, or can optionally, be created in triage. Possible values are: `always`, `optional`.
 - `description` (String) What is this incident type for?
 - `id` (String) Unique identifier for this Incident Type
 - `is_default` (Boolean) The default Incident Type is used when no other type is explicitly specified

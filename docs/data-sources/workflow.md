@@ -48,8 +48,8 @@ The order of the list is the order the fields appear in the form. (see [below fo
 - `once_for` (List of String) This workflow will run 'once for' a list of references
 - `owning_team_ids` (Set of String) IDs of the teams that own this workflow
 - `private_incident_scope` (String) Which private incidents this workflow acts on: every private incident (all), those an owning team can see (owning_teams), or none. Possible values are: `all`, `owning_teams`, `none`.
-- `runs_on_incident_modes` (Set of String) Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents.
-- `runs_on_incidents` (String) Which incidents should the workflow be applied to?. Possible values are: `newly_created`, `newly_created_and_active`.
+- `runs_on_incident_modes` (Set of String) Which incident modes should this workflow run on? By default, workflows only run on standard incidents, but can also be configured to run on test and retrospective incidents. Possible values are: `standard`, `test`, `retrospective`.
+- `runs_on_incidents` (String) Which incidents should the workflow be applied to? Possible values are: `newly_created`, `newly_created_and_active`.
 - `shortform` (String) The shortform used to trigger this workflow (only applicable for manual triggers)
 - `state` (String) What state this workflow is in. Possible values are: `active`, `disabled`, `draft`, `error`.
 - `steps` (Attributes List) Steps that are executed as part of the workflow (see [below for nested schema](#nestedatt--steps))
@@ -164,7 +164,7 @@ Read-Only:
 - `cast` (Attributes) The cast target of this operation, set when the operation type is `cast` (see [below for nested schema](#nestedatt--expressions--operations--cast))
 - `filter` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--filter))
 - `navigate` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--navigate))
-- `operation_type` (String) The type of the operation
+- `operation_type` (String) The type of the operation. Possible values are: `navigate`, `filter`, `concatenate`, `count`, `min`, `max`, `sum`, `random`, `first`, `parse`, `branches`, `cast`.
 - `parse` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--parse))
 
 <a id="nestedatt--expressions--operations--branches"></a>

@@ -100,7 +100,7 @@ func emailOptionsAttribute() schema.Attribute {
 			"redactions": schema.SetAttribute{
 				Required:            true,
 				ElementType:         types.StringType,
-				MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsPayloadV3", "redactions"),
+				MarkdownDescription: EnumValuesDescription("AlertSourceEmailOptionsPayloadV3", "redactions"),
 			},
 		},
 	}

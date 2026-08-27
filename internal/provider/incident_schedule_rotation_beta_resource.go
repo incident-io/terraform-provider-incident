@@ -170,7 +170,7 @@ See ` + "`incident_schedule_beta`" + ` for how the two differ and how to migrate
 						},
 						"interval_type": schema.StringAttribute{
 							Required:            true,
-							MarkdownDescription: "One of hourly, daily or weekly.",
+							MarkdownDescription: EnumValuesDescription("ScheduleRotationHandoverV2", "interval_type"),
 						},
 					},
 				},
@@ -201,8 +201,10 @@ See ` + "`incident_schedule_beta`" + ` for how the two differ and how to migrate
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"weekday": schema.StringAttribute{
-							Required:            true,
-							MarkdownDescription: "Day of the week, lowercase, e.g. monday.",
+							Required: true,
+							MarkdownDescription: DescribeEnumValues(
+								"Day of the week, lowercase",
+								"ScheduleRotationWorkingIntervalCreatePayloadV2", "weekday"),
 						},
 						"start_time": schema.StringAttribute{
 							Required:            true,
@@ -228,10 +230,9 @@ See ` + "`incident_schedule_beta`" + ` for how the two differ and how to migrate
 			// the mode it falls back to is a domain default the wire never mentions.
 			"scheduling_mode": schema.StringAttribute{
 				Optional: true,
-				MarkdownDescription: apischema.Docstring("ScheduleRotationV3", "scheduling_mode") +
-					fmt.Sprintf(". One of %s. Omit it to leave us to pick. For an even rotation "+
-						"the two behave identically — see the resource description for when they diverge.",
-						strings.Join(scheduleRotationSchedulingModes, ", ")),
+				MarkdownDescription: EnumValuesDescription("ScheduleRotationV3", "scheduling_mode") +
+					" Omit it to leave us to pick. For an even rotation the two behave " +
+					"identically — see the resource description for when they diverge.",
 			},
 			// Only read on an edit, and never returned to us, so it stays exactly what
 			// the config says rather than being adopted from the rotation.

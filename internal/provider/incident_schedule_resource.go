@@ -120,6 +120,8 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 													Required: true,
 												},
 												"weekday": schema.StringAttribute{
+													MarkdownDescription: EnumValuesDescription(
+														"ScheduleRotationWorkingIntervalCreatePayloadV2", "weekday"),
 													Required: true,
 												},
 											},

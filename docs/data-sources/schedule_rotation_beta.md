@@ -69,7 +69,7 @@ resource "incident_escalation_path" "platform" {
 - `first_interval_starts_at` (String) When the first handover interval starts being counted from, which fixes the time of day and day of week shifts change hands. The dashboard calls this the handover time.
 - `handovers` (Attributes List) The cadence shifts hand over on, applied in turn (see [below for nested schema](#nestedatt--handovers))
 - `rank` (Number) Where this rotation sits in the schedule's running order, lowest first. Unset when it has never been ordered.
-- `scheduling_mode` (String) How users are allocated across shifts of differing length
+- `scheduling_mode` (String) How users are allocated across shifts of differing length. Possible values are: `fair`, `sequential`.
 - `users` (List of String) IDs of the people in the rotation, in the order they take shifts.
 - `working_intervals` (Attributes List) Weekday intervals the rotation is on call for, if it's restricted to any. (see [below for nested schema](#nestedatt--working_intervals))
 
@@ -79,7 +79,7 @@ resource "incident_escalation_path" "platform" {
 Read-Only:
 
 - `interval` (Number) How many of the interval type to wait between handovers.
-- `interval_type` (String) One of hourly, daily or weekly.
+- `interval_type` (String) How often a handover occurs. Possible values are: `hourly`, `daily`, `weekly`.
 
 
 <a id="nestedatt--working_intervals"></a>
@@ -89,4 +89,4 @@ Read-Only:
 
 - `end_time` (String) Time of day this window closes, as HH:MM.
 - `start_time` (String) Time of day this window opens, as HH:MM.
-- `weekday` (String) Day of the week, lowercase, e.g. monday.
+- `weekday` (String) Day of the week, lowercase. Possible values are: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`.

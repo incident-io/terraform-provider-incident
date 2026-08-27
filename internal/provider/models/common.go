@@ -129,7 +129,7 @@ func (IncidentWeekdayInterval) Attributes() map[string]schema.Attribute {
 			Required:            true,
 		},
 		"weekday": schema.StringAttribute{
-			MarkdownDescription: apischema.Docstring("WeekdayIntervalV2", "weekday"),
+			MarkdownDescription: apischema.EnumValuesDescription("WeekdayIntervalV2", "weekday"),
 			Required:            true,
 		},
 	}

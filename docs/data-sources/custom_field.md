@@ -23,7 +23,7 @@ This data source provides information about a custom field.
 
 - `catalog_type_id` (String) For catalog fields, the ID of the associated catalog type
 - `description` (String) Description of the custom field
-- `field_type` (String) Type of custom field
+- `field_type` (String) Type of custom field. Possible values are: `single_select`, `multi_select`, `text`, `link`, `numeric`.
 - `filter_by` (Attributes) (see [below for nested schema](#nestedatt--filter_by))
 - `group_by_catalog_attribute_id` (String) For catalog fields, the ID of the attribute used to group catalog entries (if applicable)
 - `helptext_catalog_attribute_id` (String) Which catalog attribute provides helptext for the options

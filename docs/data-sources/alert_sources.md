@@ -102,7 +102,7 @@ output "alert_source_lookup" {
 
 ### Optional
 
-- `source_type` (String) Filter alert sources by source type (e.g., 'webhook', 'email', 'jira'). If provided, only alert sources of this type will be returned.
+- `source_type` (String) Filter alert sources by source type. If provided, only alert sources of this type will be returned. Possible values are: `alertmanager`, `app_optics`, `azure_monitor`, `big_panda`, `bugsnag`, `checkly`, `chronosphere`, `cloudwatch`, `cloudflare`, `coralogix`, `cronitor`, `crowdstrike_falcon`, `dash0`, `datadog`, `dynatrace`, `elasticsearch`, `email`, `expel`, `github_issue`, `google_cloud`, `grafana`, `heartbeat`, `http`, `http_custom`, `honeycomb`, `incoming_calls`, `jira`, `jsm`, `monte_carlo`, `nagios`, `new_relic`, `opsgenie`, `prtg`, `pager_duty`, `panther`, `pingdom`, `runscope`, `sns`, `sentry`, `sentry_metric`, `service_now`, `splunk`, `status_cake`, `status_page_views`, `sumo_logic`, `uptime`, `vercel`, `wiz`, `zendesk`.
 
 ### Read-Only
 
@@ -119,7 +119,7 @@ Read-Only:
 - `jira_options` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--jira_options))
 - `name` (String) Unique name of the alert source
 - `secret_token` (String, Sensitive) Secret token used to authenticate this source, if applicable. If applicable, this is the token that must be included in either the query string or the 'Authorization' header when sending events to this alert source.
-- `source_type` (String) Type of alert source
+- `source_type` (String) Type of alert source. Possible values are: `alertmanager`, `app_optics`, `azure_monitor`, `big_panda`, `bugsnag`, `checkly`, `chronosphere`, `cloudwatch`, `cloudflare`, `coralogix`, `cronitor`, `crowdstrike_falcon`, `dash0`, `datadog`, `dynatrace`, `elasticsearch`, `email`, `expel`, `github_issue`, `google_cloud`, `grafana`, `heartbeat`, `http`, `http_custom`, `honeycomb`, `incoming_calls`, `jira`, `jsm`, `monte_carlo`, `nagios`, `new_relic`, `opsgenie`, `prtg`, `pager_duty`, `panther`, `pingdom`, `runscope`, `sns`, `sentry`, `sentry_metric`, `service_now`, `splunk`, `status_cake`, `status_page_views`, `sumo_logic`, `uptime`, `vercel`, `wiz`, `zendesk`.
 - `template` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template))
 
 <a id="nestedatt--alert_sources--jira_options"></a>
@@ -156,7 +156,7 @@ Read-Only:
 Read-Only:
 
 - `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_sources--template--attributes--binding--array_value))
-- `merge_strategy` (String) Merge strategy for this attribute when alert updates
+- `merge_strategy` (String) Merge strategy for this attribute when alert updates. Possible values are: `first_wins`, `last_wins`, `append`, `max`, `min`.
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--alert_sources--template--attributes--binding--value))
 
 <a id="nestedatt--alert_sources--template--attributes--binding--array_value"></a>
@@ -243,7 +243,7 @@ Read-Only:
 - `cast` (Attributes) The cast target of this operation, set when the operation type is `cast` (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--cast))
 - `filter` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter))
 - `navigate` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--navigate))
-- `operation_type` (String) The type of the operation
+- `operation_type` (String) The type of the operation. Possible values are: `navigate`, `filter`, `concatenate`, `count`, `min`, `max`, `sum`, `random`, `first`, `parse`, `branches`, `cast`.
 - `parse` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--parse))
 
 <a id="nestedatt--alert_sources--template--expressions--operations--branches"></a>

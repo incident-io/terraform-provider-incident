@@ -86,7 +86,7 @@ func (d *IncidentScheduleRotationBetaDataSource) Schema(_ context.Context, _ dat
 						},
 						"interval_type": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "One of hourly, daily or weekly.",
+							MarkdownDescription: EnumValuesDescription("ScheduleRotationHandoverV2", "interval_type"),
 						},
 					},
 				},
@@ -106,8 +106,10 @@ func (d *IncidentScheduleRotationBetaDataSource) Schema(_ context.Context, _ dat
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"weekday": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: "Day of the week, lowercase, e.g. monday.",
+							Computed: true,
+							MarkdownDescription: DescribeEnumValues(
+								"Day of the week, lowercase",
+								"ScheduleRotationWorkingIntervalV2", "weekday"),
 						},
 						"start_time": schema.StringAttribute{
 							Computed:            true,
@@ -126,7 +128,7 @@ func (d *IncidentScheduleRotationBetaDataSource) Schema(_ context.Context, _ dat
 			},
 			"scheduling_mode": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleRotationV3", "scheduling_mode"),
+				MarkdownDescription: EnumValuesDescription("ScheduleRotationV3", "scheduling_mode"),
 			},
 			"effective_from": schema.StringAttribute{
 				Computed:            true,
