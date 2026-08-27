@@ -52,6 +52,10 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 		return
 	}
 
+	// Ahead of the source-type checks below, each of which can return early.
+	req.Config.GetAttribute(ctx, path.Root("rate_limit_sharding"), &data.RateLimitSharding)
+	data.RateLimitSharding.Validate(&resp.Diagnostics)
+
 	req.Config.GetAttribute(ctx, path.Root("source_type"), &data.SourceType)
 	req.Config.GetAttribute(ctx, path.Root("jira_options"), &data.JiraOptions)
 	if data.JiraOptions != nil && data.SourceType.ValueString() != "jira" {
@@ -648,6 +652,11 @@ func (r *IncidentAlertSourceResource) Configure(ctx context.Context, req resourc
 func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data models.AlertSourceResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+
+	// Re-checked here because a path from a variable is unknown at plan time, so ValidateConfig
+	// has nothing to judge.
+	data.RateLimitSharding.Validate(&resp.Diagnostics)
+
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -768,6 +777,9 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var data models.AlertSourceResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+
+	data.RateLimitSharding.Validate(&resp.Diagnostics)
+
 	if resp.Diagnostics.HasError() {
 		return
 	}

@@ -2,6 +2,8 @@ package models
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
 
@@ -313,6 +315,30 @@ func (sharding *AlertSourceRateLimitShardingModel) ToPayload() *client.AlertSour
 	return &client.AlertSourceRateLimitShardingV2{
 		RateLimitShardKeyPath: sharding.RateLimitShardKeyPath.ValueString(),
 	}
+}
+
+// Validate rejects an empty shard key path once the value is known. Storing one leaves the plan
+// claiming a block that FromAPI reads back as absent, which Terraform aborts on as an inconsistent
+// result after apply — naming nothing that points at the cause.
+//
+// The generated description says an empty path applies one limit to the whole source, which holds
+// for the API but cannot be expressed here, so the config has to drop the block instead. Unknown
+// is skipped: ValueString reads it as empty, and a path from a variable is only known at apply.
+func (sharding *AlertSourceRateLimitShardingModel) Validate(diags *diag.Diagnostics) {
+	if sharding == nil {
+		return
+	}
+
+	keyPath := sharding.RateLimitShardKeyPath
+	if keyPath.IsNull() || keyPath.IsUnknown() || keyPath.ValueString() != "" {
+		return
+	}
+
+	diags.AddAttributeError(
+		path.Root("rate_limit_sharding").AtName("rate_limit_shard_key_path"),
+		"Empty shard key path",
+		"Give a JSON path to shard on, or remove the rate_limit_sharding block to apply one limit to the whole source.",
+	)
 }
 
 // ToUpdatePayload sends an empty path where the config has no block, so removing the block stops
