@@ -595,6 +595,16 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 					},
 				},
 			},
+			"rate_limit_sharding": schema.SingleNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV2", "rate_limit_sharding"),
+				Attributes: map[string]schema.Attribute{
+					"rate_limit_shard_key_path": schema.StringAttribute{
+						Required:            true,
+						MarkdownDescription: apischema.Docstring("AlertSourceRateLimitShardingV2", "rate_limit_shard_key_path"),
+					},
+				},
+			},
 			"auto_resolve_timeout_minutes": schema.Int64Attribute{
 				Optional:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV2", "auto_resolve_timeout_minutes"),
@@ -653,6 +663,7 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
 			EmailOptions:      data.EmailOptions.ToPayload(),
 			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
+			RateLimitSharding: data.RateLimitSharding.ToPayload(),
 			OwningTeamIds:     owningTeamIDs,
 		}
 
@@ -781,6 +792,10 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
 			EmailOptions:      data.EmailOptions.ToPayload(),
 			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
+			// Always sent, as an empty path when the config has no block: the API reads an
+			// omission as "leave the stored path alone", so removing the block would never clear
+			// it.
+			RateLimitSharding: data.RateLimitSharding.ToUpdatePayload(),
 			OwningTeamIds:     owningTeamIDs,
 		}
 

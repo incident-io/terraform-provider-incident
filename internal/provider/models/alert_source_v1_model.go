@@ -21,6 +21,7 @@ type AlertSourceResourceModel struct {
 	EmailAddress              types.String                       `tfsdk:"email_address"`
 	EmailOptions              *AlertSourceEmailOptionsModel      `tfsdk:"email_options"`
 	HTTPCustomOptions         *AlertSourceHTTPCustomOptionsModel `tfsdk:"http_custom_options"`
+	RateLimitSharding         *AlertSourceRateLimitShardingModel `tfsdk:"rate_limit_sharding"`
 	OwningTeamIDs             types.Set                          `tfsdk:"owning_team_ids"`
 	AutoResolveTimeoutMinutes types.Int64                        `tfsdk:"auto_resolve_timeout_minutes"`
 	AutoResolveIncidentAlerts types.Bool                         `tfsdk:"auto_resolve_incident_alerts"`
@@ -66,6 +67,7 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 		EmailAddress:              types.StringPointerValue(emailAddress),
 		EmailOptions:              AlertSourceEmailOptionsModel{}.FromAPI(source.EmailOptions),
 		HTTPCustomOptions:         AlertSourceHTTPCustomOptionsModel{}.FromAPI(source.HttpCustomOptions),
+		RateLimitSharding:         AlertSourceRateLimitShardingModel{}.FromAPI(source.RateLimitSharding),
 		OwningTeamIDs:             owningTeamIDs,
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
 		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),
@@ -282,6 +284,46 @@ func (opts *AlertSourceHTTPCustomOptionsModel) ToPayload() *client.AlertSourceHT
 		TransformExpression:  opts.TransformExpression.ValueString(),
 		DeduplicationKeyPath: opts.DeduplicationKeyPath.ValueString(),
 	}
+}
+
+// Not per-source-type, unlike the options blocks around it: most source types accept it, and
+// which ones is decided server-side, so the provider carries no list.
+type AlertSourceRateLimitShardingModel struct {
+	RateLimitShardKeyPath types.String `tfsdk:"rate_limit_shard_key_path"`
+}
+
+// FromAPI maps an absent object to a nil block, matching what the config spells. The empty-path
+// guard is defensive: the API omits the object rather than sending one back empty, but reading
+// that as a block would diff against a config that never set one.
+func (AlertSourceRateLimitShardingModel) FromAPI(sharding *client.AlertSourceRateLimitShardingV2) *AlertSourceRateLimitShardingModel {
+	if sharding == nil || sharding.RateLimitShardKeyPath == "" {
+		return nil
+	}
+
+	return &AlertSourceRateLimitShardingModel{
+		RateLimitShardKeyPath: types.StringValue(sharding.RateLimitShardKeyPath),
+	}
+}
+
+func (sharding *AlertSourceRateLimitShardingModel) ToPayload() *client.AlertSourceRateLimitShardingV2 {
+	if sharding == nil {
+		return nil
+	}
+
+	return &client.AlertSourceRateLimitShardingV2{
+		RateLimitShardKeyPath: sharding.RateLimitShardKeyPath.ValueString(),
+	}
+}
+
+// ToUpdatePayload sends an empty path where the config has no block, so removing the block stops
+// the source sharding. Omitting it tells the API to leave the stored path alone, which would make
+// the value unclearable from HCL.
+func (sharding *AlertSourceRateLimitShardingModel) ToUpdatePayload() *client.AlertSourceRateLimitShardingV2 {
+	if sharding != nil {
+		return sharding.ToPayload()
+	}
+
+	return &client.AlertSourceRateLimitShardingV2{RateLimitShardKeyPath: ""}
 }
 
 type AlertSourceEmailOptionsModel struct {

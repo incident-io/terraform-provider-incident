@@ -1,6 +1,8 @@
 package provider
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -37,6 +39,12 @@ type alertSourceEmailOptions struct {
 type alertSourceHTTPCustomOptions struct {
 	TransformExpression  types.String `tfsdk:"transform_expression"`
 	DeduplicationKeyPath types.String `tfsdk:"deduplication_key_path"`
+}
+
+// Not per-source-type, unlike everything else here: most source types accept it, and which ones
+// is decided server-side, so the provider carries no list.
+type alertSourceRateLimitSharding struct {
+	RateLimitShardKeyPath types.String `tfsdk:"rate_limit_shard_key_path"`
 }
 
 func jiraOptionsAttribute() schema.Attribute {
@@ -121,6 +129,43 @@ func httpCustomOptionsAttribute() schema.Attribute {
 			},
 		},
 	}
+}
+
+func rateLimitShardingAttribute() schema.Attribute {
+	return schema.SingleNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: apischema.Docstring("AlertSourceV3", "rate_limit_sharding"),
+		Attributes: map[string]schema.Attribute{
+			"rate_limit_shard_key_path": schema.StringAttribute{
+				Required:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceRateLimitShardingV3", "rate_limit_shard_key_path"),
+			},
+		},
+	}
+}
+
+// validateRateLimitSharding rejects an empty shard key path once the value is known. Storing one
+// leaves the plan claiming a block the read omits, which Terraform aborts on as an inconsistent
+// result after apply — naming nothing that points at the cause.
+//
+// Called from ValidateConfig and from both writes, because a literal is known at plan time but a
+// path from a variable or another resource is only known at apply. Unknown is skipped: ValueString
+// reads it as empty, which would reject a config that turns out fine.
+func validateRateLimitSharding(sharding *alertSourceRateLimitSharding, diags *diag.Diagnostics) {
+	if sharding == nil {
+		return
+	}
+
+	keyPath := sharding.RateLimitShardKeyPath
+	if keyPath.IsNull() || keyPath.IsUnknown() || keyPath.ValueString() != "" {
+		return
+	}
+
+	diags.AddAttributeError(
+		path.Root("rate_limit_sharding").AtName("rate_limit_shard_key_path"),
+		"Empty shard key path",
+		"Give a JSON path to shard on, or remove the rate_limit_sharding block to apply one limit to the whole source.",
+	)
 }
 
 func (o *alertSourceJiraOptions) toPayload() *client.AlertSourceJiraOptionsV3 {
@@ -240,5 +285,42 @@ func httpCustomOptionsFromAPI(options *client.AlertSourceHTTPCustomOptionsV3) *a
 	return &alertSourceHTTPCustomOptions{
 		TransformExpression:  types.StringValue(options.TransformExpression),
 		DeduplicationKeyPath: types.StringValue(options.DeduplicationKeyPath),
+	}
+}
+
+func (o *alertSourceRateLimitSharding) toPayload() *client.AlertSourceRateLimitShardingV3 {
+	if o == nil {
+		return nil
+	}
+
+	return &client.AlertSourceRateLimitShardingV3{
+		RateLimitShardKeyPath: o.RateLimitShardKeyPath.ValueString(),
+	}
+}
+
+// rateLimitShardingUpdatePayload sends an empty path where the config has no block, so removing
+// the block stops the source sharding. Omitting it tells the API to leave the stored path alone,
+// which would make the value unclearable from HCL.
+//
+// Safe for every source type, including those that cannot shard: the write path only rejects a
+// non-empty path, and accepts an empty one as the no-op it is.
+func rateLimitShardingUpdatePayload(sharding *alertSourceRateLimitSharding) *client.AlertSourceRateLimitShardingV3 {
+	if sharding != nil {
+		return sharding.toPayload()
+	}
+
+	return &client.AlertSourceRateLimitShardingV3{RateLimitShardKeyPath: ""}
+}
+
+// rateLimitShardingFromAPI maps an absent object to a nil block, matching what the config spells.
+// The empty-path guard is defensive: the API omits the object rather than sending one back empty,
+// but reading that as a block would diff against a config that never set one.
+func rateLimitShardingFromAPI(sharding *client.AlertSourceRateLimitShardingV3) *alertSourceRateLimitSharding {
+	if sharding == nil || sharding.RateLimitShardKeyPath == "" {
+		return nil
+	}
+
+	return &alertSourceRateLimitSharding{
+		RateLimitShardKeyPath: types.StringValue(sharding.RateLimitShardKeyPath),
 	}
 }

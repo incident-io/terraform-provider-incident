@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add `rate_limit_sharding` to `incident_alert_source` and `incident_alert_source_beta`, which splits a source's ingest rate limit into per-value buckets instead of applying one limit to the whole source. Set `rate_limit_sharding = { rate_limit_shard_key_path = "$.metadata.team" }` to give each distinct value at that JSON path its own allowance, so one noisy sender can't exhaust the source for everyone else. Remove the block to go back to a single limit. Not every source type supports it - the ones we fetch from over an API rather than receive a payload from don't - and a path set on one of those is rejected at plan time.
+
 ## v6.7.0
 
 - List the values every enum attribute accepts in the registry docs. Attributes backed by a fixed set of values in the API - `source_type` on `incident_alert_source`, `type` and `schedule_mode` on `incident_escalation_path` targets, `weekday`, `interval_type`, `merge_strategy`, `operation_type` and a couple of dozen others - now end their description with `Possible values are: ...`, taken from the API schema so the list can't go stale. Previously most of them read as a bare `(String)` with no hint of what to write, leaving you (or an LLM writing your config) to guess, and the few that did list values did it in hand-maintained prose that had already drifted from the API.
