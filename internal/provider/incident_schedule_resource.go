@@ -24,8 +24,9 @@ import (
 )
 
 var (
-	_ resource.Resource                = &IncidentScheduleResource{}
-	_ resource.ResourceWithImportState = &IncidentScheduleResource{}
+	_ resource.Resource                   = &IncidentScheduleResource{}
+	_ resource.ResourceWithImportState    = &IncidentScheduleResource{}
+	_ resource.ResourceWithValidateConfig = &IncidentScheduleResource{}
 )
 
 type IncidentScheduleResource struct {
@@ -186,6 +187,44 @@ func (r *IncidentScheduleResource) Configure(ctx context.Context, req resource.C
 	r.client = client.Client
 	r.terraformVersion = client.TerraformVersion
 	r.markImportedAsManaged = client.MarkImportedAsManaged
+}
+
+// ValidateConfig rejects two rotations sharing an id, which cannot round-trip.
+//
+// Versions of a rotation are separate entries sharing an id in the API, and we
+// group them back together by id when we read a schedule. So a config that
+// spells versions as separate `rotations` entries applies, but reads back as one
+// rotation holding every version — which fails Terraform's post-apply
+// consistency check and then plans a change on every run. Catching it here says
+// so at plan time, rather than after the write has already landed.
+func (r *IncidentScheduleResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var rotations []models.RotationV2
+	// Values that aren't known yet can't be converted into the model, and aren't
+	// something we can check: leave those to apply time.
+	if diags := req.Config.GetAttribute(ctx, path.Root("rotations"), &rotations); diags.HasError() {
+		return
+	}
+
+	seen := map[string]bool{}
+	for _, rotation := range rotations {
+		if rotation.ID.IsNull() || rotation.ID.IsUnknown() {
+			continue
+		}
+
+		id := rotation.ID.ValueString()
+		if seen[id] {
+			resp.Diagnostics.AddAttributeError(
+				path.Root("rotations"),
+				"Duplicate rotation ID",
+				fmt.Sprintf(
+					"Two rotations share the id %q. Each rotation must appear once, with its "+
+						"versions listed in that rotation's `versions` attribute, as scheduling a "+
+						"change means adding a version rather than another rotation.", id),
+			)
+			return
+		}
+		seen[id] = true
+	}
 }
 
 func readScheduleResource(ctx context.Context, getMethod func(ctx context.Context, target interface{}) diag.Diagnostics) (*models.IncidentScheduleResourceModelV2, diag.Diagnostics) {
@@ -474,6 +513,66 @@ func buildEffectiveFrom(diagnostics diag.Diagnostics, effectiveFrom types.String
 	return &effectiveFromParsed
 }
 
+// rotationVersionKey identifies a rotation version by the rotation it belongs to
+// and the moment it takes effect. The API requires a rotation's versions to have
+// distinct effective_from values, so this survives a round trip even though the
+// versions arrive unordered.
+func rotationVersionKey(rotationID string, effectiveFrom *time.Time) string {
+	if effectiveFrom == nil {
+		return rotationID
+	}
+
+	return rotationID + "|" + effectiveFrom.UTC().Format(time.RFC3339Nano)
+}
+
+// plannedVersionsByKey indexes the rotation versions we were given, which is the
+// plan when we're writing and the prior state when we're reading.
+func plannedVersionsByKey(plan *models.IncidentScheduleResourceModelV2) map[string]models.RotationVersionV2 {
+	planned := map[string]models.RotationVersionV2{}
+	if plan == nil {
+		return planned
+	}
+
+	for _, rotation := range plan.Rotations {
+		for _, version := range rotation.Versions {
+			var effectiveFrom *time.Time
+			if !version.EffectiveFrom.IsNull() && !version.EffectiveFrom.IsUnknown() {
+				parsed, err := time.Parse(time.RFC3339, version.EffectiveFrom.ValueString())
+				if err != nil {
+					continue // caught by the schema validator
+				}
+				effectiveFrom = &parsed
+			}
+
+			planned[rotationVersionKey(rotation.ID.ValueString(), effectiveFrom)] = version
+		}
+	}
+
+	return planned
+}
+
+// keepPlannedTimestamp returns the literal the config used for a timestamp, as
+// long as it means the same moment the API gave back.
+//
+// The API re-renders timestamps as UTC at second precision, so a config that
+// writes the same moment another way reads back as a different string: with
+// milliseconds ("2025-06-01T12:00:00.000Z", which is what the dashboard's
+// Terraform export emits) or in a non-UTC offset ("2026-04-10T19:00:00-04:00").
+// Rotations and their versions are both sets, and Terraform correlates set
+// elements by raw value with no semantic equality applied inside them, so that
+// difference is enough to fail the post-apply consistency check ("planned set
+// element ... does not correlate with any element in actual") on a schedule
+// where nothing has actually changed.
+func keepPlannedTimestamp(planned types.String, actual time.Time) types.String {
+	if !planned.IsNull() && !planned.IsUnknown() {
+		if plannedTime, err := time.Parse(time.RFC3339, planned.ValueString()); err == nil && plannedTime.Equal(actual) {
+			return planned
+		}
+	}
+
+	return types.StringValue(actual.Format(time.RFC3339))
+}
+
 // buildModel converts a schedule from the API to a resource model
 // this involves taking schedule rotations, grouping them by ID,
 // extracting the shared data, and then building the nested structure.
@@ -481,6 +580,8 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2, plan *
 	rotationsGroupedByID := lo.GroupBy(schedule.Config.Rotations, func(rotation client.ScheduleRotationV2) string {
 		return rotation.Id
 	})
+
+	plannedVersions := plannedVersionsByKey(plan)
 
 	type RotationName struct {
 		ID   string
@@ -569,15 +670,14 @@ func (r *IncidentScheduleResource) buildModel(schedule client.ScheduleV2, plan *
 						})
 					}
 
-					var effectiveFrom types.String
+					planned := plannedVersions[rotationVersionKey(rotation.Id, rotation.EffectiveFrom)]
+
+					effectiveFrom := types.StringNull()
 					if rotation.EffectiveFrom != nil {
-						effectiveFromValue := rotation.EffectiveFrom.Format(time.RFC3339)
-						effectiveFrom = types.StringValue(effectiveFromValue)
-					} else {
-						effectiveFrom = types.StringNull()
+						effectiveFrom = keepPlannedTimestamp(planned.EffectiveFrom, *rotation.EffectiveFrom)
 					}
 
-					handoverStartAt := types.StringValue(rotation.HandoverStartAt.Format(time.RFC3339))
+					handoverStartAt := keepPlannedTimestamp(planned.HandoverStartAt, rotation.HandoverStartAt)
 
 					return models.RotationVersionV2{
 						EffectiveFrom:    effectiveFrom,
