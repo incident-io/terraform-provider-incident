@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Document `owning_team_ids` on `incident_workflow`: the resource example now shows a workflow owned by a team, with the team's ID resolved through the catalog by name rather than hardcoded. Teams are catalog entries, so this is a `incident_catalog_type` lookup for the Team type plus an `incident_catalog_entry` lookup for the team itself.
 - Add the `incident_workflow` data source, which reads an existing workflow by `id`. It returns the workflow's full definition - `steps`, `expressions`, `condition_groups`, `form_fields`, `once_for` and `delay` included - not just its name and trigger, so you can reference the pieces of a workflow built in the dashboard from elsewhere in your config without importing it as a resource.
 - Add the `incident_status` data source, which looks up an existing incident status by `id` or by `name`. This lets you reference the statuses incident.io manages for you, such as Triage or Closed, which can't be created as an `incident_status` resource.
 
