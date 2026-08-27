@@ -29,8 +29,9 @@ var (
 )
 
 type IncidentScheduleResource struct {
-	client           *client.ClientWithResponses
-	terraformVersion string
+	client                *client.ClientWithResponses
+	terraformVersion      string
+	markImportedAsManaged bool
 }
 
 func NewIncidentScheduleResource() resource.Resource {
@@ -182,6 +183,7 @@ func (r *IncidentScheduleResource) Configure(ctx context.Context, req resource.C
 
 	r.client = client.Client
 	r.terraformVersion = client.TerraformVersion
+	r.markImportedAsManaged = client.MarkImportedAsManaged
 }
 
 func readScheduleResource(ctx context.Context, getMethod func(ctx context.Context, target interface{}) diag.Diagnostics) (*models.IncidentScheduleResourceModelV2, diag.Diagnostics) {
@@ -338,7 +340,7 @@ func (r *IncidentScheduleResource) Delete(ctx context.Context, req resource.Dele
 }
 
 func (r *IncidentScheduleResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	claimResource(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule, r.terraformVersion)
+	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule, r.terraformVersion, r.markImportedAsManaged)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 

@@ -36,8 +36,9 @@ var (
 )
 
 type IncidentEscalationPathResource struct {
-	client           *client.ClientWithResponses
-	terraformVersion string
+	client                *client.ClientWithResponses
+	terraformVersion      string
+	markImportedAsManaged bool
 }
 
 type IncidentEscalationPathResourceModel struct {
@@ -326,6 +327,7 @@ func (r *IncidentEscalationPathResource) Configure(ctx context.Context, req reso
 
 	r.client = client.Client
 	r.terraformVersion = client.TerraformVersion
+	r.markImportedAsManaged = client.MarkImportedAsManaged
 }
 
 func (r *IncidentEscalationPathResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
@@ -820,7 +822,7 @@ func (r *IncidentEscalationPathResource) Delete(ctx context.Context, req resourc
 }
 
 func (r *IncidentEscalationPathResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	claimResource(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion)
+	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion, r.markImportedAsManaged)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 

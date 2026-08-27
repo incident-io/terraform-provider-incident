@@ -50,8 +50,9 @@ const (
 )
 
 type IncidentAlertRouteResource struct {
-	client           *client.ClientWithResponses
-	terraformVersion string
+	client                *client.ClientWithResponses
+	terraformVersion      string
+	markImportedAsManaged bool
 }
 
 func NewIncidentAlertRouteResource() resource.Resource {
@@ -482,6 +483,7 @@ func (r *IncidentAlertRouteResource) Configure(ctx context.Context, req resource
 
 	r.client = client.Client
 	r.terraformVersion = client.TerraformVersion
+	r.markImportedAsManaged = client.MarkImportedAsManaged
 }
 
 func (r *IncidentAlertRouteResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -676,7 +678,7 @@ func (r *IncidentAlertRouteResource) ImportState(ctx context.Context, req resour
 	// state via the matching API so the subsequent refresh dispatches correctly.
 	id := req.ID
 
-	claimResource(ctx, r.client, id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion)
+	claimResourceOnImport(ctx, r.client, id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute, r.terraformVersion, r.markImportedAsManaged)
 	if resp.Diagnostics.HasError() {
 		return
 	}

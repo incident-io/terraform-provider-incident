@@ -25,8 +25,9 @@ var (
 )
 
 type IncidentScheduleSyncRuleResource struct {
-	client           *client.ClientWithResponses
-	terraformVersion string
+	client                *client.ClientWithResponses
+	terraformVersion      string
+	markImportedAsManaged bool
 }
 
 func NewIncidentScheduleSyncRuleResource() resource.Resource {
@@ -100,6 +101,7 @@ func (r *IncidentScheduleSyncRuleResource) Configure(ctx context.Context, req re
 
 	r.client = client.Client
 	r.terraformVersion = client.TerraformVersion
+	r.markImportedAsManaged = client.MarkImportedAsManaged
 }
 
 func (r *IncidentScheduleSyncRuleResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -273,7 +275,7 @@ func (r *IncidentScheduleSyncRuleResource) ImportState(ctx context.Context, req 
 		return
 	}
 
-	claimResource(ctx, r.client, ruleID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncRule, r.terraformVersion)
+	claimResourceOnImport(ctx, r.client, ruleID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncRule, r.terraformVersion, r.markImportedAsManaged)
 	if resp.Diagnostics.HasError() {
 		return
 	}
