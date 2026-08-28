@@ -94,7 +94,7 @@ func validateWorkflowFormFields(t *testing.T, formFields tftypes.Value, override
 }
 
 // TestWorkflowFormFieldKeysValidateConfig covers rejecting two form fields that
-// share a key. A key has to be unique for workflow_form.<key> to resolve, and
+// share a key. A key has to be unique for form.<key> to resolve, and
 // it's how a field is correlated with its prior id (see formFieldIDPlanModifier),
 // so a duplicate would hand the same id to two fields.
 func TestWorkflowFormFieldKeysValidateConfig(t *testing.T) {

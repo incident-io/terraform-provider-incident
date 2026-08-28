@@ -529,7 +529,7 @@ func (r *IncidentWorkflowResource) validatePrivateIncidentScope(ctx context.Cont
 }
 
 // validateFormFieldKeys rejects two form fields sharing a key. A key has to be
-// unique for `workflow_form.<key>` to mean anything, and it's also how we
+// unique for `form.<key>` to mean anything, and it's also how we
 // correlate a field with its prior id (see formFieldIDPlanModifier), so a
 // duplicate would hand the same id to two fields. Unknown keys are skipped
 // rather than compared, since they can't be told apart until apply. An entirely
@@ -553,7 +553,7 @@ func (r *IncidentWorkflowResource) validateFormFieldKeys(ctx context.Context, re
 		if seen[key] {
 			resp.Diagnostics.Append(diag.NewErrorDiagnostic(
 				"Duplicate form_fields key",
-				fmt.Sprintf("Two form fields share the key %q. Each form field needs its own key, because that's how its value is referenced in the workflow scope as workflow_form.%s.", key, key),
+				fmt.Sprintf("Two form fields share the key %q. Each form field needs its own key, because that's how its value is referenced in the workflow scope as form.%s.", key, key),
 			))
 			return
 		}

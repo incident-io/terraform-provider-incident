@@ -895,3 +895,102 @@ resource "incident_workflow" "example" {
 }
 `, nil)
 }
+
+// TestAccIncidentWorkflowResourceFormFieldsInStepExample covers the pattern the form
+// submission example uses: a manual workflow whose steps bind the values its form
+// collects.
+//
+// The tests above cover form_fields as an attribute - ordering, computed ids, clearing -
+// but none of them bind a field into a step, which is the half that was wrong in the
+// example this PR fixes. Binding is where the types have to line up: an array parameter
+// takes array_value even when one reference fills it, a scalar parameter takes value, and
+// the reference has to name a field that BuildScope actually put in scope.
+//
+// The message goes through the rich text data source, so this also covers a parsed
+// document reaching a TemplatedText parameter intact.
+func TestAccIncidentWorkflowResourceFormFieldsInStepExample(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentWorkflowResourceConfigFormFieldsInStep(),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "form_fields.0.key", "reason"),
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "form_fields.1.key", "execs"),
+					// The recipients are the array-valued form field, bound as an array
+					// even though a single reference supplies every element.
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example",
+						"steps.0.param_bindings.0.array_value.0.reference", "form.execs"),
+					// The message is the document the data source parsed, not a string.
+					resource.TestCheckResourceAttrPair(
+						"incident_workflow.example", "steps.0.param_bindings.1.value.literal",
+						"data.incident_rich_text.exec_page", "json"),
+				),
+			},
+			// The document survives an import round-trip: rich text is stored as a
+			// literal and compared semantically, so this is where re-encoding on read
+			// would show up.
+			{
+				ResourceName:      "incident_workflow.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+// testAccIncidentWorkflowResourceConfigFormFieldsInStep mirrors the form submission
+// example. slack.send_message is only eligible where Slack is the primary comms platform,
+// which the integration workspace is.
+func testAccIncidentWorkflowResourceConfigFormFieldsInStep() string {
+	return testRunTemplate("incident_workflow_form_fields_in_step", `
+data "incident_rich_text" "exec_page" {
+  markdown    = "**Exec page for {{ "{{ incident.name }}" }}**\n\n{{ "{{ form.reason }}" }}"
+  feature_set = "mrkdwn"
+}
+
+resource "incident_workflow" "example" {
+  name        = {{ stableSuffix "Form fields in step workflow" | quote }}
+  trigger     = "manual"
+  expressions = []
+  condition_groups = []
+  steps = [
+    {
+      id   = "01KG1326KD7DT1Z785SYVXXP98"
+      name = "slack.send_message"
+      param_bindings = [
+        { array_value = [{ reference = "form.execs" }] },
+        { value = { literal = data.incident_rich_text.exec_page.json } },
+        {}
+      ]
+    }
+  ]
+  form_fields = [
+    {
+      key      = "reason"
+      title    = "Reason for paging"
+      type     = "String"
+      array    = false
+      required = true
+    },
+    {
+      key      = "execs"
+      title    = "Who should we page?"
+      type     = "User"
+      array    = true
+      required = true
+    }
+  ]
+  once_for               = ["incident"]
+  private_incident_scope = "none"
+  continue_on_step_error = false
+  runs_on_incidents      = "newly_created_and_active"
+  runs_on_incident_modes = ["standard"]
+  state                  = "draft"
+}
+`, nil)
+}

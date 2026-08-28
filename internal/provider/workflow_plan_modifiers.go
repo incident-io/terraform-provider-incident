@@ -20,7 +20,7 @@ import (
 // incident_catalog_entries avoids this by keying its nested collection on a
 // stable external id (a MapNestedAttribute), but form fields have to stay
 // ordered, so we correlate on `key` instead. It's unique within a workflow and
-// is the identifier users already reference as workflow_form.<key>.
+// is the identifier users already reference as form.<key>.
 
 // formFieldIDForKey finds the prior form field with the given key and returns
 // its id. found is false when no prior field has that key (a newly added field,
