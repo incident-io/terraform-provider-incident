@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v6.8.0
+
 - Add `rate_limit_sharding` to `incident_alert_source` and `incident_alert_source_beta`, which splits a source's ingest rate limit into per-value buckets instead of applying one limit to the whole source. Set `rate_limit_sharding = { rate_limit_shard_key_path = "$.metadata.team" }` to give each distinct value at that JSON path its own allowance, so one noisy sender can't exhaust the source for everyone else. Remove the block to go back to a single limit. Not every source type supports it - the ones we fetch from over an API rather than receive a payload from don't - and a path set on one of those is rejected at plan time.
 
 ## v6.7.1
