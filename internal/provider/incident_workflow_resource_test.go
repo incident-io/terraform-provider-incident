@@ -785,3 +785,113 @@ resource "incident_workflow" "example" {
 }
 `, struct{ Privacy string }{Privacy: privacy})
 }
+
+// TestAccIncidentWorkflowResourceStatusChangedExample covers the pattern the status
+// example in examples/resources/incident_workflow/resource.tf uses: a workflow triggered
+// by a status change, conditioning on a status resolved through the incident_status data
+// source rather than a pasted ID, and binding a step parameter to a reference the trigger
+// puts in scope.
+//
+// Applying is most of the assertion. Creating a workflow type-checks it server-side
+// (Create -> UpdateVersion -> BuildWorkflow -> TypeCheck, in core), which is the only
+// thing that checks the trigger exists, that `user-who-changed-the-status` is in its
+// scope, and that each binding matches the type and arity of the parameter it fills.
+// terraform validate can't see any of that, so an example is only really checked here.
+func TestAccIncidentWorkflowResourceStatusChangedExample(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentWorkflowResourceConfigStatusChanged(),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "trigger", "incident.status-changed"),
+					// The condition holds the status the data source found, not a literal ID.
+					resource.TestCheckResourceAttrPair(
+						"incident_workflow.example",
+						"condition_groups.0.conditions.0.param_bindings.0.array_value.0.literal",
+						"data.incident_status.trigger_status", "id"),
+					// One binding per parameter the step declares, including the optional
+					// ones left empty: a short list only survives where the step has an
+					// Upgrade hook padding that exact length.
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "steps.0.param_bindings.#", "6"),
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "steps.0.param_bindings.2.value.reference",
+						"user-who-changed-the-status"),
+				),
+			},
+			// The bindings, empty ones included, survive an import round-trip.
+			{
+				ResourceName:      "incident_workflow.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+// testAccIncidentWorkflowResourceConfigStatusChanged mirrors the status example, with one
+// difference: the example conditions on Closed, which incident.io manages and so can't be
+// created here, and looking up whatever the test account happens to call its closed status
+// would make this depend on that account's configuration. The test provisions a status of
+// its own instead - live being one of the two categories that are configurable - and looks
+// that up by name.
+//
+// The lookup reads `incident_status.trigger_status.name` rather than repeating the name as
+// a literal, so it can't run before the status exists. A data source whose config is fully
+// known at plan time is read during plan, which is what the owning-team test needs
+// depends_on for.
+func testAccIncidentWorkflowResourceConfigStatusChanged() string {
+	return testRunTemplate("incident_workflow_status_changed", `
+resource "incident_status" "trigger_status" {
+  name        = {{ stableSuffix "Mitigated" | quote }}
+  description = "The incident is mitigated, and we're writing it up"
+  category    = "live"
+}
+
+data "incident_status" "trigger_status" {
+  name = incident_status.trigger_status.name
+}
+
+resource "incident_workflow" "example" {
+  name        = {{ stableSuffix "Status changed workflow" | quote }}
+  trigger     = "incident.status-changed"
+  expressions = []
+  condition_groups = [
+    {
+      conditions = [
+        {
+          subject   = "incident.status"
+          operation = "one_of"
+          param_bindings = [
+            { array_value = [{ literal = data.incident_status.trigger_status.id }] }
+          ]
+        }
+      ]
+    }
+  ]
+  steps = [
+    {
+      id   = "01KT8B9QQH67GF9S6SW4A7DNEX"
+      name = "incident.create_follow_ups"
+      param_bindings = [
+        { value = { reference = "incident" } },
+        { array_value = [{ literal = "Write the postmortem" }] },
+        { value = { reference = "user-who-changed-the-status" } },
+        {},
+        {},
+        {}
+      ]
+    }
+  ]
+  once_for               = ["incident"]
+  private_incident_scope = "none"
+  continue_on_step_error = false
+  runs_on_incidents      = "newly_created_and_active"
+  runs_on_incident_modes = ["standard"]
+  state                  = "draft"
+}
+`, nil)
+}
