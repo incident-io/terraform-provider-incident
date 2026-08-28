@@ -65,9 +65,9 @@ resource "incident_workflow" "autoassign_incident_lead" {
   owning_team_ids = [
     data.incident_catalog_entry.platform.id,
   ]
-  include_private_incidents = false
-  continue_on_step_error    = false
-  runs_on_incidents         = "newly_created_and_active"
+  private_incident_scope = "none"
+  continue_on_step_error = false
+  runs_on_incidents      = "newly_created_and_active"
   runs_on_incident_modes = [
     "standard",
   ]
