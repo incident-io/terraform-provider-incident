@@ -52,6 +52,10 @@ func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req re
 		return
 	}
 
+	// Ahead of the source-type checks below, each of which can return early.
+	req.Config.GetAttribute(ctx, path.Root("rate_limit_sharding"), &data.RateLimitSharding)
+	data.RateLimitSharding.Validate(&resp.Diagnostics)
+
 	req.Config.GetAttribute(ctx, path.Root("source_type"), &data.SourceType)
 	req.Config.GetAttribute(ctx, path.Root("jira_options"), &data.JiraOptions)
 	if data.JiraOptions != nil && data.SourceType.ValueString() != "jira" {
@@ -595,6 +599,16 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 					},
 				},
 			},
+			"rate_limit_sharding": schema.SingleNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV2", "rate_limit_sharding"),
+				Attributes: map[string]schema.Attribute{
+					"rate_limit_shard_key_path": schema.StringAttribute{
+						Required:            true,
+						MarkdownDescription: apischema.Docstring("AlertSourceRateLimitShardingV2", "rate_limit_shard_key_path"),
+					},
+				},
+			},
 			"auto_resolve_timeout_minutes": schema.Int64Attribute{
 				Optional:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV2", "auto_resolve_timeout_minutes"),
@@ -638,6 +652,11 @@ func (r *IncidentAlertSourceResource) Configure(ctx context.Context, req resourc
 func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data models.AlertSourceResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+
+	// Re-checked here because a path from a variable is unknown at plan time, so ValidateConfig
+	// has nothing to judge.
+	data.RateLimitSharding.Validate(&resp.Diagnostics)
+
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -653,6 +672,7 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
 			EmailOptions:      data.EmailOptions.ToPayload(),
 			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
+			RateLimitSharding: data.RateLimitSharding.ToPayload(),
 			OwningTeamIds:     owningTeamIDs,
 		}
 
@@ -757,6 +777,9 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var data models.AlertSourceResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+
+	data.RateLimitSharding.Validate(&resp.Diagnostics)
+
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -781,6 +804,10 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
 			EmailOptions:      data.EmailOptions.ToPayload(),
 			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
+			// Always sent, as an empty path when the config has no block: the API reads an
+			// omission as "leave the stored path alone", so removing the block would never clear
+			// it.
+			RateLimitSharding: data.RateLimitSharding.ToUpdatePayload(),
 			OwningTeamIds:     owningTeamIDs,
 		}
 

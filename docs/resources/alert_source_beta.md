@@ -145,7 +145,7 @@ resource "incident_alert_source_beta" "security_scanner" {
 ### Required
 
 - `name` (String) The name of this alert source, for the user's reference
-- `source_type` (String) Type of alert source. Possible values are: `alertmanager`, `app_optics`, `azure_monitor`, `big_panda`, `bugsnag`, `checkly`, `chronosphere`, `cloudwatch`, `cloudflare`, `coralogix`, `cronitor`, `crowdstrike_falcon`, `dash0`, `datadog`, `dynatrace`, `elasticsearch`, `email`, `expel`, `github_issue`, `google_cloud`, `grafana`, `heartbeat`, `http`, `http_custom`, `honeycomb`, `incoming_calls`, `jira`, `jsm`, `monte_carlo`, `nagios`, `new_relic`, `opsgenie`, `prtg`, `pager_duty`, `panther`, `pingdom`, `runscope`, `sns`, `sentry`, `sentry_metric`, `service_now`, `splunk`, `status_cake`, `status_page_views`, `sumo_logic`, `uptime`, `vercel`, `wiz`, `zendesk`.
+- `source_type` (String) Type of alert source. Possible values are: `alertmanager`, `app_optics`, `azure_monitor`, `azure_devops`, `big_panda`, `bugsnag`, `checkly`, `chronosphere`, `cloudwatch`, `cloudflare`, `coralogix`, `cronitor`, `crowdstrike_falcon`, `dash0`, `datadog`, `dynatrace`, `elasticsearch`, `email`, `expel`, `github_issue`, `google_cloud`, `grafana`, `heartbeat`, `http`, `http_custom`, `honeycomb`, `icinga2`, `incoming_calls`, `jira`, `jsm`, `monte_carlo`, `nagios`, `new_relic`, `opsgenie`, `prtg`, `pager_duty`, `panther`, `pingdom`, `runscope`, `sns`, `sentry`, `sentry_metric`, `service_now`, `splunk`, `status_cake`, `status_page_views`, `sumo_logic`, `uptime`, `vercel`, `wiz`, `zendesk`.
 
 ### Optional
 
@@ -160,6 +160,7 @@ resource "incident_alert_source_beta" "security_scanner" {
 - `named_expression` (Block List) An expression this resource owns, addressed by name. (see [below for nested schema](#nestedblock--named_expression))
 - `owning_team_ids` (Set of String) IDs of the teams that own this alert source
 - `priority` (Attributes) (see [below for nested schema](#nestedatt--priority))
+- `rate_limit_sharding` (Attributes) Controls how this source's ingest rate limit is split into buckets. (see [below for nested schema](#nestedatt--rate_limit_sharding))
 - `title` (Attributes) (see [below for nested schema](#nestedatt--title))
 - `visible_to_teams` (Attributes) (see [below for nested schema](#nestedatt--visible_to_teams))
 
@@ -1096,6 +1097,14 @@ Optional:
 - `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
 - `reference` (String) A reference into the scope, such as `payload.team`.
 
+
+
+<a id="nestedatt--rate_limit_sharding"></a>
+### Nested Schema for `rate_limit_sharding`
+
+Required:
+
+- `rate_limit_shard_key_path` (String) JSON path to a value that splits this source's rate limit into per-value buckets.
 
 
 <a id="nestedatt--title"></a>

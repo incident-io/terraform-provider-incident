@@ -133,7 +133,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 ### Required
 
 - `name` (String) Unique name of the alert source
-- `source_type` (String) Type of alert source. Possible values are: `alertmanager`, `app_optics`, `azure_monitor`, `big_panda`, `bugsnag`, `checkly`, `chronosphere`, `cloudwatch`, `cloudflare`, `coralogix`, `cronitor`, `crowdstrike_falcon`, `dash0`, `datadog`, `dynatrace`, `elasticsearch`, `email`, `expel`, `github_issue`, `google_cloud`, `grafana`, `heartbeat`, `http`, `http_custom`, `honeycomb`, `incoming_calls`, `jira`, `jsm`, `monte_carlo`, `nagios`, `new_relic`, `opsgenie`, `prtg`, `pager_duty`, `panther`, `pingdom`, `runscope`, `sns`, `sentry`, `sentry_metric`, `service_now`, `splunk`, `status_cake`, `status_page_views`, `sumo_logic`, `uptime`, `vercel`, `wiz`, `zendesk`.
+- `source_type` (String) Type of alert source. Possible values are: `alertmanager`, `app_optics`, `azure_monitor`, `azure_devops`, `big_panda`, `bugsnag`, `checkly`, `chronosphere`, `cloudwatch`, `cloudflare`, `coralogix`, `cronitor`, `crowdstrike_falcon`, `dash0`, `datadog`, `dynatrace`, `elasticsearch`, `email`, `expel`, `github_issue`, `google_cloud`, `grafana`, `heartbeat`, `http`, `http_custom`, `honeycomb`, `icinga2`, `incoming_calls`, `jira`, `jsm`, `monte_carlo`, `nagios`, `new_relic`, `opsgenie`, `prtg`, `pager_duty`, `panther`, `pingdom`, `runscope`, `sns`, `sentry`, `sentry_metric`, `service_now`, `splunk`, `status_cake`, `status_page_views`, `sumo_logic`, `uptime`, `vercel`, `wiz`, `zendesk`.
 - `template` (Attributes) (see [below for nested schema](#nestedatt--template))
 
 ### Optional
@@ -146,6 +146,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 - `http_custom_options` (Attributes) (see [below for nested schema](#nestedatt--http_custom_options))
 - `jira_options` (Attributes) (see [below for nested schema](#nestedatt--jira_options))
 - `owning_team_ids` (Set of String) IDs of teams that own this alert source
+- `rate_limit_sharding` (Attributes) Controls how this source's ingest rate limit is split into buckets. (see [below for nested schema](#nestedatt--rate_limit_sharding))
 
 ### Read-Only
 
@@ -556,6 +557,14 @@ Required:
 Optional:
 
 - `project_ids` (List of String) Which projects in Jira should this alert source watch for new issues? IDs can either be IDs of the projects in Jira, or ID of catalog entries in the 'Jira Project' catalog type.
+
+
+<a id="nestedatt--rate_limit_sharding"></a>
+### Nested Schema for `rate_limit_sharding`
+
+Required:
+
+- `rate_limit_shard_key_path` (String) JSON path to a value that splits this source's rate limit into per-value buckets.
 
 ## Import
 
