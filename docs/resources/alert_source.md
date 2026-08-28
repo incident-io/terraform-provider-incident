@@ -240,6 +240,7 @@ Optional:
 
 - `branches` (Attributes) An operation type that allows for a value to be set conditionally by a series of logical branches (see [below for nested schema](#nestedatt--template--expressions--operations--branches))
 - `cast` (Attributes) An operation type that converts a value into another type. Only valid on values that can be represented as text. The returned `array` follows the value being cast, so it must match the cardinality of the previous operation (see [below for nested schema](#nestedatt--template--expressions--operations--cast))
+- `concatenate` (Attributes) An operation type that adds the values behind another reference to the current value, keeping each value once. There is no delimiter, despite the name (see [below for nested schema](#nestedatt--template--expressions--operations--concatenate))
 - `filter` (Attributes) An operation type that allows values to be filtered out by conditions (see [below for nested schema](#nestedatt--template--expressions--operations--filter))
 - `navigate` (Attributes) An operation type that allows attributes of a type to be accessed by reference (see [below for nested schema](#nestedatt--template--expressions--operations--navigate))
 - `parse` (Attributes) An operation type that allows a value to parsed from within a JSON object (see [below for nested schema](#nestedatt--template--expressions--operations--parse))
@@ -358,6 +359,14 @@ Required:
 - `array` (Boolean) Whether the return value should be single or multi-value
 - `type` (String) Expected return type of this expression (what to try casting the result to)
 
+
+
+<a id="nestedatt--template--expressions--operations--concatenate"></a>
+### Nested Schema for `template.expressions.operations.concatenate`
+
+Required:
+
+- `reference` (String) The reference within the scope to concatenate with
 
 
 <a id="nestedatt--template--expressions--operations--filter"></a>

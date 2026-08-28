@@ -241,6 +241,7 @@ Read-Only:
 
 - `branches` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches))
 - `cast` (Attributes) The cast target of this operation, set when the operation type is `cast` (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--cast))
+- `concatenate` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--concatenate))
 - `filter` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter))
 - `navigate` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--navigate))
 - `operation_type` (String) The type of the operation. Possible values are: `navigate`, `filter`, `concatenate`, `count`, `min`, `max`, `sum`, `random`, `first`, `parse`, `branches`, `cast`.
@@ -360,6 +361,14 @@ Read-Only:
 - `array` (Boolean) Whether the return value should be single or multi-value
 - `type` (String) Expected return type of this expression (what to try casting the result to)
 
+
+
+<a id="nestedatt--alert_sources--template--expressions--operations--concatenate"></a>
+### Nested Schema for `alert_sources.template.expressions.operations.concatenate`
+
+Read-Only:
+
+- `reference` (String) The reference within the scope to concatenate with
 
 
 <a id="nestedatt--alert_sources--template--expressions--operations--filter"></a>

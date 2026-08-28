@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add `concatenate` to expression operations, which adds the values behind another reference to the current value. Configs using it previously failed to apply.
+
 - Expose `rank` on the `incident_status` data source. Statuses are ordered in the dashboard by this value, and the API already returns it; lookups by `id` or `name` now include it so you can sort or compare statuses without a second call.
 
 ## v6.8.0

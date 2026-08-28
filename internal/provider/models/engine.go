@@ -263,11 +263,12 @@ type IncidentEngineElseBranch struct {
 }
 
 type IncidentEngineExpressionOperation struct {
-	Branches *IncidentEngineExpressionBranchesOpts `tfsdk:"branches"`
-	Cast     *IncidentEngineExpressionCastOpts     `tfsdk:"cast"`
-	Filter   *IncidentEngineExpressionFilterOpts   `tfsdk:"filter"`
-	Navigate *IncidentEngineExpressionNavigateOpts `tfsdk:"navigate"`
-	Parse    *IncidentEngineExpressionParseOpts    `tfsdk:"parse"`
+	Branches    *IncidentEngineExpressionBranchesOpts    `tfsdk:"branches"`
+	Cast        *IncidentEngineExpressionCastOpts        `tfsdk:"cast"`
+	Concatenate *IncidentEngineExpressionConcatenateOpts `tfsdk:"concatenate"`
+	Filter      *IncidentEngineExpressionFilterOpts      `tfsdk:"filter"`
+	Navigate    *IncidentEngineExpressionNavigateOpts    `tfsdk:"navigate"`
+	Parse       *IncidentEngineExpressionParseOpts       `tfsdk:"parse"`
 
 	OperationType types.String `tfsdk:"operation_type"`
 }
@@ -285,14 +286,20 @@ func (IncidentEngineExpressionOperation) FromAPI(operations []client.ExpressionO
 				Returns:  IncidentEngineReturnsMeta{}.fromAPI(o.Branches.Returns),
 			}
 		}
-		// Cast is the one operation whose options aren't echoed back on the response type:
-		// the API omits them and exposes the cast target as the operation's own returns
-		// instead. Those are the same values the payload carries (the server serialises
-		// cast.returns from the operation result), so we rebuild the block from them rather
-		// than dropping the operation's config on read.
-		if o.OperationType == client.ExpressionOperationV2OperationTypeCast {
+		if o.Cast != nil {
+			operation.Cast = &IncidentEngineExpressionCastOpts{
+				Returns: IncidentEngineReturnsMeta{}.fromAPI(o.Cast.Returns),
+			}
+		} else if o.OperationType == client.ExpressionOperationV2OperationTypeCast {
+			// Older API versions omit cast's options and expose the target as the
+			// operation's own returns instead, which holds the same values.
 			operation.Cast = &IncidentEngineExpressionCastOpts{
 				Returns: IncidentEngineReturnsMeta{}.fromAPI(o.Returns),
+			}
+		}
+		if o.Concatenate != nil {
+			operation.Concatenate = &IncidentEngineExpressionConcatenateOpts{
+				Reference: types.StringValue(o.Concatenate.Reference),
 			}
 		}
 		if o.Filter != nil {
@@ -354,6 +361,10 @@ func (IncidentEngineReturnsMeta) fromAPI(returns client.ReturnsMetaV2) IncidentE
 
 type IncidentEngineExpressionCastOpts struct {
 	Returns IncidentEngineReturnsMeta `tfsdk:"returns"`
+}
+
+type IncidentEngineExpressionConcatenateOpts struct {
+	Reference types.String `tfsdk:"reference"`
 }
 
 type IncidentEngineExpressionFilterOpts struct {
@@ -523,6 +534,16 @@ func ExpressionsAttribute() schema.SetNestedAttribute {
 									"returns": ReturnsAttribute(),
 								},
 							},
+							"concatenate": schema.SingleNestedAttribute{
+								MarkdownDescription: "An operation type that adds the values behind another reference to the current value, keeping each value once. There is no delimiter, despite the name",
+								Optional:            true,
+								Attributes: map[string]schema.Attribute{
+									"reference": schema.StringAttribute{
+										MarkdownDescription: apischema.Docstring("ExpressionConcatenateOptsV2", "reference"),
+										Required:            true,
+									},
+								},
+							},
 							"filter": schema.SingleNestedAttribute{
 								MarkdownDescription: "An operation type that allows values to be filtered out by conditions",
 								Optional:            true,
@@ -666,6 +687,11 @@ func (operations IncidentEngineExpressionOperations) toPayload() []client.Expres
 		if o.Cast != nil {
 			operation.Cast = &client.ExpressionCastOptsPayloadV2{
 				Returns: o.Cast.Returns.toPayload(),
+			}
+		}
+		if o.Concatenate != nil {
+			operation.Concatenate = &client.ExpressionConcatenateOptsPayloadV2{
+				Reference: o.Concatenate.Reference.ValueString(),
 			}
 		}
 		if o.Filter != nil {
