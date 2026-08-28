@@ -2,7 +2,9 @@ package provider
 
 import (
 	"bytes"
+	"context"
 	"fmt"
+	"os"
 	"reflect"
 	"regexp"
 	"testing"
@@ -11,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/samber/lo"
+
+	"github.com/incident-io/terraform-provider-incident/internal/client"
 )
 
 func TestAccIncidentWorkflowResource(t *testing.T) {
@@ -993,4 +997,194 @@ resource "incident_workflow" "example" {
   state                  = "draft"
 }
 `, nil)
+}
+
+// TestAccIncidentWorkflowResourceInviteUserExample covers the invite example, including
+// the data source lookups it recommends over pasting IDs.
+//
+// The interesting part is arity and typing: slack.invite_user takes an incident, then two
+// optional arrays holding different resource types - users, and catalog entries of the
+// managed Slack User Group type. A config that puts a group in the users array, or drops a
+// binding for an optional parameter, is only caught when the workflow is created.
+//
+// The two values the example looks up are specific to an account, so rather than hardcode
+// them the test asks the API what this one has, the way channelID does for Slack channels.
+func TestAccIncidentWorkflowResourceInviteUserExample(t *testing.T) {
+	// The lookups below run before resource.Test, so honour TF_ACC ourselves rather than
+	// calling the API during a unit test run, then initialise testClient.
+	if os.Getenv("TF_ACC") == "" {
+		t.Skip("TF_ACC not set, skipping acceptance test")
+	}
+	testAccPreCheck(t)
+
+	email := testAccUniqueActiveUserEmail(t)
+	groupTypeName, groupIdentifier := testAccSlackUserGroup(t)
+	if groupIdentifier == "" {
+		t.Logf("no Slack user group in the catalog, leaving the group binding empty")
+	}
+
+	checks := []resource.TestCheckFunc{
+		resource.TestCheckResourceAttr(
+			"incident_workflow.example", "steps.0.name", "slack.invite_user"),
+		// Three bindings, one per parameter the step declares.
+		resource.TestCheckResourceAttr(
+			"incident_workflow.example", "steps.0.param_bindings.#", "3"),
+		// The user the example invites is the one the data source found by email.
+		resource.TestCheckResourceAttrPair(
+			"incident_workflow.example", "steps.0.param_bindings.1.array_value.0.literal",
+			"data.incident_user.security_lead", "id"),
+	}
+	if groupIdentifier != "" {
+		checks = append(checks,
+			// Groups bind as catalog entries, so this is the entry's ID rather than a
+			// Slack group ID.
+			resource.TestCheckResourceAttrPair(
+				"incident_workflow.example", "steps.0.param_bindings.2.array_value.0.literal",
+				"data.incident_catalog_entry.security_responders", "id"),
+		)
+	}
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentWorkflowResourceConfigInviteUser(email, groupTypeName, groupIdentifier),
+				Check:  resource.ComposeAggregateTestCheckFunc(checks...),
+			},
+			{
+				ResourceName:      "incident_workflow.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+// testAccUniqueActiveUserEmail returns the email of an active user in the test account, for
+// examples that resolve people with the incident_user data source.
+//
+// It skips duplicated emails: the data source rejects a lookup matching more than one
+// active user, which is a property of the account rather than anything the example does.
+func testAccUniqueActiveUserEmail(t *testing.T) string {
+	users, err := testClient.UsersV2ListWithResponse(context.Background(), &client.UsersV2ListParams{
+		PageSize: lo.ToPtr(int64(250)),
+	})
+	if err != nil {
+		t.Fatalf("listing users: %s", err)
+	}
+	if users.JSON200 == nil {
+		t.Fatalf("listing users: %s", string(users.Body))
+	}
+
+	count := map[string]int{}
+	for _, user := range users.JSON200.Users {
+		if user.IsActive && user.Email != nil {
+			count[*user.Email]++
+		}
+	}
+	for _, user := range users.JSON200.Users {
+		if user.IsActive && user.Email != nil && *user.Email != "" && count[*user.Email] == 1 {
+			return *user.Email
+		}
+	}
+
+	t.Skip("no active user with a unique email in the test account")
+	return ""
+}
+
+// testAccSlackUserGroup returns the catalog type's name and one entry identifier for Slack
+// user groups, or empty strings when the account has none.
+//
+// The type is managed by incident.io and synced from Slack, so unlike the catalog entries
+// other tests create, this one can't be provisioned here: an account with no user groups
+// gets the rest of the coverage and an empty group binding.
+func testAccSlackUserGroup(t *testing.T) (string, string) {
+	types, err := testClient.CatalogV3ListTypesWithResponse(context.Background())
+	if err != nil {
+		t.Fatalf("listing catalog types: %s", err)
+	}
+	if types.JSON200 == nil {
+		t.Fatalf("listing catalog types: %s", string(types.Body))
+	}
+
+	catalogType, found := lo.Find(types.JSON200.CatalogTypes, func(catalogType client.CatalogTypeV3) bool {
+		return catalogType.TypeName == "SlackUserGroup"
+	})
+	if !found {
+		return "", ""
+	}
+
+	entries, err := testClient.CatalogV3ListEntriesWithResponse(context.Background(), &client.CatalogV3ListEntriesParams{
+		CatalogTypeId: catalogType.Id,
+		PageSize:      1,
+	})
+	if err != nil {
+		t.Fatalf("listing catalog entries: %s", err)
+	}
+	if entries.JSON200 == nil || len(entries.JSON200.CatalogEntries) == 0 {
+		return catalogType.Name, ""
+	}
+
+	return catalogType.Name, entries.JSON200.CatalogEntries[0].Name
+}
+
+// testAccIncidentWorkflowResourceConfigInviteUser mirrors the invite example: the person
+// resolved by email, the Slack user group resolved through the catalog, and both bound to
+// the arrays slack.invite_user declares.
+func testAccIncidentWorkflowResourceConfigInviteUser(email, groupTypeName, groupIdentifier string) string {
+	return testRunTemplate("incident_workflow_invite_user", `
+data "incident_user" "security_lead" {
+  email = {{ quote .Email }}
+}
+
+{{ if .GroupIdentifier }}
+data "incident_catalog_type" "slack_user_group" {
+  name = {{ quote .GroupTypeName }}
+}
+
+data "incident_catalog_entry" "security_responders" {
+  catalog_type_id = data.incident_catalog_type.slack_user_group.id
+  identifier      = {{ quote .GroupIdentifier }}
+}
+{{ end }}
+
+resource "incident_workflow" "example" {
+  name        = {{ stableSuffix "Invite responders workflow" | quote }}
+  trigger     = "incident.updated"
+  expressions = []
+  condition_groups = [
+    {
+      conditions = [
+        {
+          subject        = "incident.status.category"
+          operation      = "one_of"
+          param_bindings = [{ array_value = [{ literal = "active" }] }]
+        }
+      ]
+    }
+  ]
+  steps = [
+    {
+      id   = "01KFD47KKJS93YXR3W53MQSFVC"
+      name = "slack.invite_user"
+      param_bindings = [
+        { value = { reference = "incident" } },
+        { array_value = [{ literal = data.incident_user.security_lead.id }] },
+        {{ if .GroupIdentifier }}{ array_value = [{ literal = data.incident_catalog_entry.security_responders.id }] }{{ else }}{}{{ end }}
+      ]
+    }
+  ]
+  once_for               = ["incident"]
+  private_incident_scope = "none"
+  continue_on_step_error = false
+  runs_on_incidents      = "newly_created_and_active"
+  runs_on_incident_modes = ["standard"]
+  state                  = "draft"
+}
+`, struct {
+		Email           string
+		GroupTypeName   string
+		GroupIdentifier string
+	}{Email: email, GroupTypeName: groupTypeName, GroupIdentifier: groupIdentifier})
 }
