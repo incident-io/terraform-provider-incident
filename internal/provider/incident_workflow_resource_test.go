@@ -1286,3 +1286,162 @@ resource "incident_workflow" "example" {
 }
 `, struct{ ChannelID string }{ChannelID: channelID(false)})
 }
+
+// TestAccIncidentWorkflowResourceConditionGroupsExample covers the CSM subscription
+// example: two condition groups, one of them holding two conditions, and a condition whose
+// subject addresses a custom field by the ID a data source found.
+//
+// The grouping is the thing worth protecting. Conditions AND within a group and groups OR
+// with each other, so writing the same three conditions as one group would match nothing -
+// and nothing would fail, because a workflow that never matches is still a valid workflow.
+// A round-trip assertion on the shape is the only thing that keeps it honest.
+func TestAccIncidentWorkflowResourceConditionGroupsExample(t *testing.T) {
+	// The lookup below runs before resource.Test, so honour TF_ACC ourselves rather than
+	// calling the API during a unit test run, then initialise testClient.
+	if os.Getenv("TF_ACC") == "" {
+		t.Skip("TF_ACC not set, skipping acceptance test")
+	}
+	testAccPreCheck(t)
+
+	email := testAccUniqueActiveUserEmail(t)
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentWorkflowResourceConfigConditionGroups(email),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					// Two groups, ORed, the second holding the two ANDed conditions.
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "condition_groups.#", "2"),
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "condition_groups.0.conditions.#", "1"),
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "condition_groups.1.conditions.#", "2"),
+					// The custom field condition matches the option the data source
+					// resolved, and addresses the field by the ID it found.
+					resource.TestCheckResourceAttrPair(
+						"incident_workflow.example",
+						"condition_groups.1.conditions.1.param_bindings.0.array_value.0.literal",
+						"data.incident_custom_field_option.all_customers", "id"),
+					resource.TestCheckResourceAttrPair(
+						"incident_workflow.example",
+						"steps.0.param_bindings.1.array_value.0.literal",
+						"data.incident_user.csm_lead", "id"),
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "steps.0.name",
+						"incident.subscribe_user_to_incident"),
+				),
+			},
+			// Both groups survive an import round-trip, in the order they were written.
+			{
+				ResourceName:      "incident_workflow.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+// testAccIncidentWorkflowResourceConfigConditionGroups mirrors the CSM subscription
+// example, with the account-specific values resolved rather than hardcoded.
+//
+// The example's custom field, its option and the person it subscribes all come from data
+// sources, as they do here - the field and option created by this config first, and the
+// user found by email. It subscribes one person where the example lists two, an array of
+// one binding the same way.
+//
+// Severities are the exception: they have no data source, so the example pastes IDs and
+// says to reference an incident_severity resource if you manage yours in Terraform. That
+// is what the test does, which makes it a check on the escape hatch the example points at.
+func testAccIncidentWorkflowResourceConfigConditionGroups(email string) string {
+	return testRunTemplate("incident_workflow_condition_groups", `
+resource "incident_severity" "critical" {
+  name        = {{ stableSuffix "Critical" | quote }}
+  description = "Everything is on fire"
+}
+
+resource "incident_severity" "major" {
+  name        = {{ stableSuffix "Major" | quote }}
+  description = "Something important is broken"
+}
+
+resource "incident_custom_field" "affected_customers" {
+  name        = {{ stableSuffix "Affected customers" | quote }}
+  description = "Who is affected by this incident?"
+  field_type  = "single_select"
+}
+
+resource "incident_custom_field_option" "all_customers" {
+  custom_field_id = incident_custom_field.affected_customers.id
+  value           = "All customers"
+}
+
+data "incident_custom_field" "affected_customers" {
+  name = incident_custom_field.affected_customers.name
+}
+
+data "incident_custom_field_option" "all_customers" {
+  custom_field_id = data.incident_custom_field.affected_customers.id
+  value           = incident_custom_field_option.all_customers.value
+}
+
+data "incident_user" "csm_lead" {
+  email = {{ quote .Email }}
+}
+
+resource "incident_workflow" "example" {
+  name        = {{ stableSuffix "Condition groups workflow" | quote }}
+  trigger     = "incident.updated"
+  expressions = []
+  condition_groups = [
+    {
+      conditions = [
+        {
+          subject   = "incident.severity"
+          operation = "one_of"
+          param_bindings = [
+            { array_value = [{ literal = incident_severity.critical.id }] }
+          ]
+        }
+      ]
+    },
+    {
+      conditions = [
+        {
+          subject   = "incident.severity"
+          operation = "one_of"
+          param_bindings = [
+            { array_value = [{ literal = incident_severity.major.id }] }
+          ]
+        },
+        {
+          subject   = "incident.custom_field[\"${data.incident_custom_field.affected_customers.id}\"]"
+          operation = "one_of"
+          param_bindings = [
+            { array_value = [{ literal = data.incident_custom_field_option.all_customers.id }] }
+          ]
+        }
+      ]
+    }
+  ]
+  steps = [
+    {
+      id   = "01KDEMWQCS30P3GHAVNG9VGKWS"
+      name = "incident.subscribe_user_to_incident"
+      param_bindings = [
+        { value = { reference = "incident" } },
+        { array_value = [{ literal = data.incident_user.csm_lead.id }] }
+      ]
+    }
+  ]
+  once_for               = ["incident"]
+  private_incident_scope = "none"
+  continue_on_step_error = false
+  runs_on_incidents      = "newly_created_and_active"
+  runs_on_incident_modes = ["standard"]
+  state                  = "draft"
+}
+`, struct{ Email string }{Email: email})
+}
