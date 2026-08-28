@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v6.7.1
+
 - Fix `Provider produced inconsistent result after apply` on `incident_schedule` when a rotation version's `effective_from` or `handover_start_at` is written as anything other than a UTC timestamp at second precision. The API re-renders timestamps its own way, and the provider stored what came back, so a config saying `2025-06-01T12:00:00.000Z` (which is what the dashboard's Terraform export writes) or `2026-04-10T19:00:00-04:00` read back as a different string for the same moment. Rotations and their versions are sets, which Terraform correlates by raw value, so that was enough to fail the post-apply consistency check with `planned set element ... does not correlate with any element in actual` - leaving the change applied in incident.io but absent from state, and a plan that never settled. The provider now keeps the timestamp exactly as your config writes it whenever it means the same moment as the one the API returns.
 - Reject two `incident_schedule` rotations sharing an `id` at plan time. Versions of a rotation are entries sharing an `id` in the API, and the provider groups them back together by `id` when it reads a schedule, so a config that spells versions as separate `rotations` entries applied but read back as one rotation holding every version - failing the same post-apply consistency check, then planning a change on every run. The error now says so during `plan`, and points at listing the versions under the rotation's `versions` attribute.
 
