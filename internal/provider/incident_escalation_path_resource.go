@@ -733,7 +733,7 @@ func (r *IncidentEscalationPathResource) Create(ctx context.Context, req resourc
 	claimResource(ctx, r.client, result.JSON201.EscalationPath.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion)
 
 	tflog.Trace(ctx, fmt.Sprintf("created an escalation path resource with id=%s", result.JSON201.EscalationPath.Id))
-	data = r.buildModel(ctx, result.JSON201.EscalationPath, &resp.Diagnostics)
+	data = r.buildModel(ctx, result.JSON201.EscalationPath, data, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -765,7 +765,7 @@ func (r *IncidentEscalationPathResource) Read(ctx context.Context, req resource.
 		return
 	}
 
-	data = r.buildModel(ctx, result.JSON200.EscalationPath, &resp.Diagnostics)
+	data = r.buildModel(ctx, result.JSON200.EscalationPath, data, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -803,7 +803,7 @@ func (r *IncidentEscalationPathResource) Update(ctx context.Context, req resourc
 
 	claimResource(ctx, r.client, result.JSON200.EscalationPath.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath, r.terraformVersion)
 
-	data = r.buildModel(ctx, result.JSON200.EscalationPath, &resp.Diagnostics)
+	data = r.buildModel(ctx, result.JSON200.EscalationPath, data, &resp.Diagnostics)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -826,11 +826,18 @@ func (r *IncidentEscalationPathResource) ImportState(ctx context.Context, req re
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *IncidentEscalationPathResource) buildModel(ctx context.Context, ep client.EscalationPathV2, diags *diag.Diagnostics) *IncidentEscalationPathResourceModel {
+// buildModel converts the API response into the model. prior is the plan (create/update) or the
+// prior state (read), and nil on import; it lets a condition keep the spelling the config used.
+func (r *IncidentEscalationPathResource) buildModel(ctx context.Context, ep client.EscalationPathV2, prior *IncidentEscalationPathResourceModel, diags *diag.Diagnostics) *IncidentEscalationPathResourceModel {
+	priorPath := types.ListNull(types.ObjectType{AttrTypes: nodeAttrTypes(pathSchemaDepth)})
+	if prior != nil {
+		priorPath = prior.Path
+	}
+
 	return &IncidentEscalationPathResourceModel{
 		ID:           types.StringValue(ep.Id),
 		Name:         types.StringValue(ep.Name),
-		Path:         r.toPathModel(ctx, ep.Path, pathSchemaDepth, diags),
+		Path:         r.toPathModel(ctx, ep.Path, priorPath, pathSchemaDepth, diags),
 		WorkingHours: escalationPathWorkingHoursFromAPI(ctx, ep.WorkingHours, diags),
 		RepeatConfig: escalationPathRepeatConfigFromAPI(ep.RepeatConfig),
 		TeamIDs:      escalationPathTeamIDsFromAPI(ep.TeamIds),
@@ -865,28 +872,73 @@ func targetsFromAPI(ctx context.Context, targets []client.EscalationPathTargetV2
 	return list
 }
 
-func (r *IncidentEscalationPathResource) toPathModel(ctx context.Context, nodes []client.EscalationPathNodeV2, depth int, diags *diag.Diagnostics) types.List {
+// priorPathNodes decodes the prior state back into nodes. Only conditions need the prior, and
+// they live under if_else, which the schema drops at depth 0 — where the struct's own if_else
+// field would fail the decode anyway (see nodeToObject).
+func priorPathNodes(ctx context.Context, prior types.List, depth int) []IncidentEscalationPathNode {
+	if depth == 0 || prior.IsNull() || prior.IsUnknown() {
+		return nil
+	}
+
+	nodes := []IncidentEscalationPathNode{}
+	if prior.ElementsAs(ctx, &nodes, false).HasError() {
+		return nil
+	}
+
+	return nodes
+}
+
+// priorNodeFor matches by ID, falling back to position for a node whose ID the API has only just
+// minted and the plan therefore left unknown.
+func priorNodeFor(priorNodes []IncidentEscalationPathNode, id string, idx int) (IncidentEscalationPathNode, bool) {
+	for _, node := range priorNodes {
+		if node.ID.ValueString() == id {
+			return node, true
+		}
+	}
+
+	if idx < len(priorNodes) {
+		return priorNodes[idx], true
+	}
+
+	return IncidentEscalationPathNode{}, false
+}
+
+func (r *IncidentEscalationPathResource) toPathModel(ctx context.Context, nodes []client.EscalationPathNodeV2, prior types.List, depth int, diags *diag.Diagnostics) types.List {
 	elemType := types.ObjectType{AttrTypes: nodeAttrTypes(depth)}
+	priorNodes := priorPathNodes(ctx, prior, depth)
+	emptyPath := types.ListNull(types.ObjectType{AttrTypes: nodeAttrTypes(depth - 1)})
 
 	out := []IncidentEscalationPathNode{}
-	for _, node := range nodes {
+	for idx, node := range nodes {
+		priorNode, hasPrior := priorNodeFor(priorNodes, node.Id, idx)
+
 		elem := IncidentEscalationPathNode{
 			ID:   types.StringValue(node.Id),
 			Type: types.StringValue(string(node.Type)),
 		}
 		if node.IfElse != nil {
+			conditions := lo.Map(node.IfElse.Conditions, func(cond client.ConditionV2, _ int) models.IncidentEngineCondition {
+				return models.IncidentEngineCondition{
+					Subject:   types.StringValue(cond.Subject.Reference),
+					Operation: types.StringValue(cond.Operation.Value),
+					ParamBindings: lo.Map(cond.ParamBindings, func(pb client.EngineParamBindingV2, _ int) models.IncidentEngineParamBinding {
+						return models.IncidentEngineParamBinding{}.FromAPI(pb)
+					}),
+				}
+			})
+
+			priorThenPath, priorElsePath := emptyPath, emptyPath
+			if hasPrior && priorNode.IfElse != nil {
+				models.IncidentEngineConditions(conditions).
+					ReconcileSpelling(priorNode.IfElse.Conditions)
+				priorThenPath, priorElsePath = priorNode.IfElse.ThenPath, priorNode.IfElse.ElsePath
+			}
+
 			elem.IfElse = &IncidentEscalationPathNodeIfElse{
-				Conditions: lo.Map(node.IfElse.Conditions, func(cond client.ConditionV2, _ int) models.IncidentEngineCondition {
-					return models.IncidentEngineCondition{
-						Subject:   types.StringValue(cond.Subject.Reference),
-						Operation: types.StringValue(cond.Operation.Value),
-						ParamBindings: lo.Map(cond.ParamBindings, func(pb client.EngineParamBindingV2, _ int) models.IncidentEngineParamBinding {
-							return models.IncidentEngineParamBinding{}.FromAPI(pb)
-						}),
-					}
-				}),
-				ThenPath: r.toPathModel(ctx, node.IfElse.ThenPath, depth-1, diags),
-				ElsePath: r.toPathModel(ctx, node.IfElse.ElsePath, depth-1, diags),
+				Conditions: conditions,
+				ThenPath:   r.toPathModel(ctx, node.IfElse.ThenPath, priorThenPath, depth-1, diags),
+				ElsePath:   r.toPathModel(ctx, node.IfElse.ElsePath, priorElsePath, depth-1, diags),
 			}
 		}
 		elem.Level = levelFromAPI(ctx, node.Level, diags)

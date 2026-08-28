@@ -73,8 +73,8 @@ func (r *IncidentWorkflowResource) buildModel(ctx context.Context, workflow clie
 	}
 
 	if prior != nil {
-		model.ConditionGroups.ReconcileOperations(prior.ConditionGroups)
-		model.Expressions.ReconcileOperations(prior.Expressions)
+		model.ConditionGroups.ReconcileSpelling(prior.ConditionGroups)
+		model.Expressions.ReconcileSpelling(prior.Expressions)
 		model.FormFields = reconcileFormFields(prior.FormFields, model.FormFields)
 	}
 
@@ -162,17 +162,19 @@ func buildSteps(steps []client.StepConfigV2, prior *IncidentWorkflowResourceMode
 	out := []IncidentWorkflowStep{}
 
 	// Keyed by step ID so we survive reordering. Unseen steps keep all their bindings.
-	priorBindingCounts := map[string]int{}
+	priorSteps := map[string]IncidentWorkflowStep{}
 	if prior != nil {
 		for _, step := range prior.Steps {
-			priorBindingCounts[step.ID.ValueString()] = len(step.ParamBindings)
+			priorSteps[step.ID.ValueString()] = step
 		}
 	}
 
 	for _, s := range steps {
 		paramBindings := models.IncidentEngineParamBindings{}.FromAPI(s.ParamBindings)
-		if priorLen, ok := priorBindingCounts[s.Id]; ok {
-			paramBindings = paramBindings.TrimAppendedEmpty(priorLen)
+		if priorStep, ok := priorSteps[s.Id]; ok {
+			paramBindings = paramBindings.
+				TrimAppendedEmpty(len(priorStep.ParamBindings)).
+				ReconcileSpelling(priorStep.ParamBindings)
 		}
 
 		out = append(out, IncidentWorkflowStep{

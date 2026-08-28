@@ -212,7 +212,11 @@ Read-Only:
 Read-Only:
 
 - `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--else_branch--result--array_value))
+- `expression_ref` (String)
 - `value` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--else_branch--result--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--alert_sources--template--expressions--else_branch--result--array_value"></a>
 ### Nested Schema for `alert_sources.template.expressions.else_branch.result.array_value`
@@ -285,7 +289,11 @@ Read-Only:
 Read-Only:
 
 - `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value))
+- `expression_ref` (String)
 - `value` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `alert_sources.template.expressions.operations.branches.branches.condition_groups.conditions.param_bindings.array_value`
@@ -314,7 +322,11 @@ Read-Only:
 Read-Only:
 
 - `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--result--array_value))
+- `expression_ref` (String)
 - `value` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--branches--branches--result--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--alert_sources--template--expressions--operations--branches--branches--result--array_value"></a>
 ### Nested Schema for `alert_sources.template.expressions.operations.branches.branches.result.array_value`
@@ -400,7 +412,11 @@ Read-Only:
 Read-Only:
 
 - `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value))
+- `expression_ref` (String)
 - `value` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--alert_sources--template--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `alert_sources.template.expressions.operations.filter.condition_groups.conditions.param_bindings.array_value`
@@ -467,7 +483,11 @@ Read-Only:
 Read-Only:
 
 - `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--alert_sources--template--visible_to_teams--array_value))
+- `expression_ref` (String)
 - `value` (Attributes) (see [below for nested schema](#nestedatt--alert_sources--template--visible_to_teams--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--alert_sources--template--visible_to_teams--array_value"></a>
 ### Nested Schema for `alert_sources.template.visible_to_teams.array_value`

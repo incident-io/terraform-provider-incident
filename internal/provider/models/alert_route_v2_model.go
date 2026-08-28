@@ -64,7 +64,7 @@ func reconcileAlertSourceOperations(applied, plan []AlertRouteAlertSourceModel) 
 
 	for i := range applied {
 		if planned, ok := planByAlertSourceID[applied[i].AlertSourceID.ValueString()]; ok {
-			applied[i].ConditionGroups.ReconcileOperations(planned.ConditionGroups)
+			applied[i].ConditionGroups.ReconcileSpelling(planned.ConditionGroups)
 		}
 	}
 }
@@ -80,9 +80,62 @@ type AlertRouteChannelConfigModel struct {
 func reconcileChannelConfigOperations(applied, plan []AlertRouteChannelConfigModel) {
 	for i := range applied {
 		if i < len(plan) {
-			applied[i].ConditionGroups.ReconcileOperations(plan[i].ConditionGroups)
+			applied[i].ConditionGroups.ReconcileSpelling(plan[i].ConditionGroups)
+			reconcileChannelTargetSpelling(applied[i].SlackTargets, plan[i].SlackTargets)
+			reconcileChannelTargetSpelling(applied[i].MsTeamsTargets, plan[i].MsTeamsTargets)
 		}
 	}
+}
+
+func reconcileChannelTargetSpelling(applied, plan *AlertRouteChannelTargetModel) {
+	if applied == nil || plan == nil {
+		return
+	}
+
+	applied.Binding = ReconcileBindingSpelling(applied.Binding, plan.Binding)
+}
+
+// reconcileEscalationConfigSpelling falls back to position: escalation targets are a list.
+func reconcileEscalationConfigSpelling(applied, plan *AlertRouteEscalationConfigModel) {
+	if applied == nil || plan == nil {
+		return
+	}
+
+	for i := range applied.EscalationTargets {
+		if i >= len(plan.EscalationTargets) {
+			break
+		}
+
+		target, planned := &applied.EscalationTargets[i], plan.EscalationTargets[i]
+		target.EscalationPaths = ReconcileBindingSpelling(target.EscalationPaths, planned.EscalationPaths)
+		target.Users = ReconcileBindingSpelling(target.Users, planned.Users)
+	}
+}
+
+// reconcileCustomFieldSpelling correlates by ID, not position: custom_fields is a set.
+func reconcileCustomFieldSpelling(applied, plan []AlertRouteCustomFieldModel) {
+	planByCustomFieldID := map[string]AlertRouteCustomFieldModel{}
+	for _, field := range plan {
+		planByCustomFieldID[field.CustomFieldID.ValueString()] = field
+	}
+
+	for i := range applied {
+		if planned, ok := planByCustomFieldID[applied[i].CustomFieldID.ValueString()]; ok {
+			applied[i].Binding = ReconcileBindingSpelling(applied[i].Binding, planned.Binding)
+		}
+	}
+}
+
+func reconcileIncidentTemplateSpelling(applied, plan *AlertRouteIncidentTemplateModel) {
+	if applied == nil || plan == nil {
+		return
+	}
+
+	applied.IncidentMode = ReconcileBindingSpelling(applied.IncidentMode, plan.IncidentMode)
+	applied.IncidentType = ReconcileBindingSpelling(applied.IncidentType, plan.IncidentType)
+	applied.StartInTriage = ReconcileBindingSpelling(applied.StartInTriage, plan.StartInTriage)
+	applied.Workspace = ReconcileBindingSpelling(applied.Workspace, plan.Workspace)
+	reconcileCustomFieldSpelling(applied.CustomFields, plan.CustomFields)
 }
 
 type AlertRouteChannelTargetModel struct {
@@ -243,32 +296,12 @@ type AlertRouteSeverityModel struct {
 	Binding       *IncidentEngineParamBinding `tfsdk:"binding"`
 }
 
-// SeverityBindingAttrTypes returns the attribute types for the severity binding nested object.
-func SeverityBindingAttrTypes() map[string]attr.Type {
-	return map[string]attr.Type{
-		"array_value": types.ListType{
-			ElemType: types.ObjectType{
-				AttrTypes: map[string]attr.Type{
-					"literal":   jsontypes.NormalizedJSONOrStringType{},
-					"reference": types.StringType,
-				},
-			},
-		},
-		"value": types.ObjectType{
-			AttrTypes: map[string]attr.Type{
-				"literal":   jsontypes.NormalizedJSONOrStringType{},
-				"reference": types.StringType,
-			},
-		},
-	}
-}
-
 // SeverityAttrTypes returns the attribute types for the severity object.
 func SeverityAttrTypes() map[string]attr.Type {
 	return map[string]attr.Type{
 		"merge_strategy": types.StringType,
 		"binding": types.ObjectType{
-			AttrTypes: SeverityBindingAttrTypes(),
+			AttrTypes: ParamBindingAttrTypes(),
 		},
 	}
 }
@@ -278,94 +311,27 @@ func SeverityObjectNull() types.Object {
 	return types.ObjectNull(SeverityAttrTypes())
 }
 
-// SeverityFromAPI converts an API severity response to a types.Object.
-// If planSeverity is provided and is null, we preserve the null to avoid drift
-// when the user hasn't configured severity but the API returns defaults.
-func SeverityFromAPI(severity *client.AlertRouteSeverityBindingV2) types.Object {
+// SeverityFromAPI converts an API severity response to a types.Object. plan is the planned
+// severity, so the binding can keep the spelling the config used.
+func SeverityFromAPI(severity *client.AlertRouteSeverityBindingV2, plan types.Object) types.Object {
 	if severity == nil {
 		return SeverityObjectNull()
 	}
 
-	// Build the binding object
-	var bindingObj types.Object
+	binding := types.ObjectNull(ParamBindingAttrTypes())
 	if severity.Binding != nil {
-		binding := IncidentEngineParamBinding{}.FromAPI(*severity.Binding)
-
-		// Build array_value list
-		var arrayValueList types.List
-		if len(binding.ArrayValue) > 0 {
-			arrayValues := make([]attr.Value, len(binding.ArrayValue))
-			for i, v := range binding.ArrayValue {
-				valueObj, _ := types.ObjectValue(
-					map[string]attr.Type{
-						"literal":   jsontypes.NormalizedJSONOrStringType{},
-						"reference": types.StringType,
-					},
-					map[string]attr.Value{
-						"literal":   v.Literal,
-						"reference": v.Reference,
-					},
-				)
-				arrayValues[i] = valueObj
-			}
-			arrayValueList, _ = types.ListValue(
-				types.ObjectType{
-					AttrTypes: map[string]attr.Type{
-						"literal":   jsontypes.NormalizedJSONOrStringType{},
-						"reference": types.StringType,
-					},
-				},
-				arrayValues,
-			)
-		} else {
-			arrayValueList = types.ListNull(types.ObjectType{
-				AttrTypes: map[string]attr.Type{
-					"literal":   jsontypes.NormalizedJSONOrStringType{},
-					"reference": types.StringType,
-				},
-			})
+		applied := IncidentEngineParamBinding{}.FromAPI(*severity.Binding)
+		if !plan.IsNull() && !plan.IsUnknown() {
+			prior := ParamBindingFromObject(plan.Attributes()["binding"])
+			applied = applied.ReconcileSpelling(prior)
 		}
-
-		// Build value object
-		var valueObj types.Object
-		if binding.Value != nil {
-			valueObj, _ = types.ObjectValue(
-				map[string]attr.Type{
-					"literal":   jsontypes.NormalizedJSONOrStringType{},
-					"reference": types.StringType,
-				},
-				map[string]attr.Value{
-					"literal":   binding.Value.Literal,
-					"reference": binding.Value.Reference,
-				},
-			)
-		} else {
-			valueObj = types.ObjectNull(map[string]attr.Type{
-				"literal":   jsontypes.NormalizedJSONOrStringType{},
-				"reference": types.StringType,
-			})
-		}
-
-		bindingObj, _ = types.ObjectValue(
-			SeverityBindingAttrTypes(),
-			map[string]attr.Value{
-				"array_value": arrayValueList,
-				"value":       valueObj,
-			},
-		)
-	} else {
-		bindingObj = types.ObjectNull(SeverityBindingAttrTypes())
+		binding = applied.ToObject()
 	}
 
-	severityObj, _ := types.ObjectValue(
-		SeverityAttrTypes(),
-		map[string]attr.Value{
-			"merge_strategy": types.StringValue(string(severity.MergeStrategy)),
-			"binding":        bindingObj,
-		},
-	)
-
-	return severityObj
+	return types.ObjectValueMust(SeverityAttrTypes(), map[string]attr.Value{
+		"merge_strategy": types.StringValue(string(severity.MergeStrategy)),
+		"binding":        binding,
+	})
 }
 
 // SeverityToPayload extracts severity data from types.Object and converts to API payload.
@@ -604,7 +570,11 @@ func (AlertRouteResourceModel) FromAPIV2WithPlan(apiModel client.AlertRouteV2, p
 
 	result.IncidentTemplate.Summary = &summaryBinding
 
-	result.IncidentTemplate.Severity = SeverityFromAPI(apiModel.IncidentTemplate.Severity)
+	planSeverity := SeverityObjectNull()
+	if plan != nil && plan.IncidentTemplate != nil {
+		planSeverity = plan.IncidentTemplate.Severity
+	}
+	result.IncidentTemplate.Severity = SeverityFromAPI(apiModel.IncidentTemplate.Severity, planSeverity)
 
 	if apiModel.IncidentTemplate.IncidentMode != nil && apiModel.IncidentTemplate.IncidentMode.Binding != nil {
 		binding := IncidentEngineParamBinding{}.FromAPI(*apiModel.IncidentTemplate.IncidentMode.Binding)
@@ -675,13 +645,16 @@ func (AlertRouteResourceModel) FromAPIV2WithPlan(apiModel client.AlertRouteV2, p
 	}
 
 	if plan != nil {
-		result.ConditionGroups.ReconcileOperations(plan.ConditionGroups)
+		result.ConditionGroups.ReconcileSpelling(plan.ConditionGroups)
 		reconcileAlertSourceOperations(result.AlertSources, plan.AlertSources)
 		reconcileChannelConfigOperations(result.ChannelConfig, plan.ChannelConfig)
 		if result.IncidentConfig != nil && plan.IncidentConfig != nil {
-			result.IncidentConfig.ConditionGroups.ReconcileOperations(plan.IncidentConfig.ConditionGroups)
+			result.IncidentConfig.ConditionGroups.ReconcileSpelling(plan.IncidentConfig.ConditionGroups)
 		}
-		result.Expressions.ReconcileOperations(plan.Expressions)
+		result.Expressions.ReconcileSpelling(plan.Expressions)
+		result.MessageTemplate = ReconcileBindingSpelling(result.MessageTemplate, plan.MessageTemplate)
+		reconcileEscalationConfigSpelling(result.EscalationConfig, plan.EscalationConfig)
+		reconcileIncidentTemplateSpelling(result.IncidentTemplate, plan.IncidentTemplate)
 	}
 
 	return result

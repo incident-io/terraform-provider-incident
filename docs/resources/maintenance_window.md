@@ -98,7 +98,11 @@ Required:
 Optional:
 
 - `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--alert_condition_groups--conditions--param_bindings--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--alert_condition_groups--conditions--param_bindings--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
 
 <a id="nestedatt--alert_condition_groups--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `alert_condition_groups.conditions.param_bindings.array_value`
@@ -135,7 +139,11 @@ Optional:
 Optional:
 
 - `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--escalation_targets--escalation_paths--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--escalation_targets--escalation_paths--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
 
 <a id="nestedatt--escalation_targets--escalation_paths--array_value"></a>
 ### Nested Schema for `escalation_targets.escalation_paths.array_value`
@@ -162,7 +170,11 @@ Optional:
 Optional:
 
 - `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--escalation_targets--users--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--escalation_targets--users--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
 
 <a id="nestedatt--escalation_targets--users--array_value"></a>
 ### Nested Schema for `escalation_targets.users.array_value`

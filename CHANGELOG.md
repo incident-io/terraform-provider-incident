@@ -1,9 +1,9 @@
 ## Unreleased
 
+- Add `value_literal`, `value_reference`, `expression_ref` and `values` as shorthands for a param binding's value, wherever bindings appear. `param_bindings = [{ value = { reference = "incident.url" } }]` becomes `param_bindings = [{ value_reference = "incident.url" }]`; `value` and `array_value` keep working, and setting more than one form is rejected at plan time.
 - Add `concatenate` to expression operations, which adds the values behind another reference to the current value. Configs using it previously failed to apply.
-
+- Fix `Provider produced inconsistent result after apply` on `incident_alert_source` when a template expression uses an operation alias such as `one_of`. The API returns the canonical name, and the provider stored that instead of what the config wrote.
 - Expose `rank` on the `incident_status` data source. Statuses are ordered in the dashboard by this value, and the API already returns it; lookups by `id` or `name` now include it so you can sort or compare statuses without a second call.
-
 - `incident_incident_role` can now be looked up by `name` as well as by `id`, so you no longer have to pin a role ID that differs between workspaces. Set exactly one of the two; setting both is rejected at plan time. The `incident_workflow` example now uses this to resolve the incident lead role instead of hardcoding its ID.
 
 ## v6.8.0
