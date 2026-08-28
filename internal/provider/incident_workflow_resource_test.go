@@ -1188,3 +1188,101 @@ resource "incident_workflow" "example" {
 		GroupIdentifier string
 	}{Email: email, GroupTypeName: groupTypeName, GroupIdentifier: groupIdentifier})
 }
+
+// TestAccIncidentWorkflowResourceSlackPostMessageExample covers the example that posts to
+// a Slack channel.
+//
+// Three things here are only checked when the workflow is saved. The channel binding is
+// validated against Slack itself (StepSlackPostMessage.Validate), so a channel the bot
+// can't see fails at apply rather than at run time. The message is a document rather than
+// a string, and has to arrive at the TemplatedText parameter intact. And the step declares
+// four parameters, two of them optional, so the bindings have to line up positionally.
+func TestAccIncidentWorkflowResourceSlackPostMessageExample(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentWorkflowResourceConfigSlackPostMessage(),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "trigger", "incident.update_shared"),
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "steps.0.name", "slack.post_message"),
+					// Four bindings: channel, message, the threaded message left empty,
+					// and the timezone.
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "steps.0.param_bindings.#", "4"),
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "steps.0.param_bindings.0.value.literal",
+						channelID(false)),
+					// The message is the document the data source parsed.
+					resource.TestCheckResourceAttrPair(
+						"incident_workflow.example", "steps.0.param_bindings.1.value.literal",
+						"data.incident_rich_text.leadership_update", "json"),
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "steps.0.param_bindings.3.value.literal",
+						"Europe/London"),
+					// Empty on purpose: every update should post, so there's nothing to
+					// deduplicate on.
+					resource.TestCheckResourceAttr(
+						"incident_workflow.example", "once_for.#", "0"),
+				),
+			},
+			// The document survives an import round-trip. Rich text is stored as a literal
+			// and compared semantically, so a re-encode on read shows up here.
+			{
+				ResourceName:      "incident_workflow.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+// testAccIncidentWorkflowResourceConfigSlackPostMessage mirrors the Slack channel example.
+// The one difference is the channel: the example hardcodes an illustrative ID, because
+// Slack channels have no data source, and the test uses the same channel the alert route
+// tests post to, which exists in the integration workspace.
+//
+// The message keeps every variable the example interpolates, so the references it teaches
+// are exercised against the scope incident.update_shared actually builds.
+func testAccIncidentWorkflowResourceConfigSlackPostMessage() string {
+	return testRunTemplate("incident_workflow_slack_post_message", `
+data "incident_rich_text" "leadership_update" {
+  markdown    = <<-EOT
+    **{{ "{{ incident.name }}" }}** — update from {{ "{{ update.author }}" }}
+
+    {{ "{{ update.message }}" }}
+
+    Now at {{ "{{ update.to_status }}" }}, severity {{ "{{ update.to_severity }}" }}.
+  EOT
+  feature_set = "mrkdwn"
+}
+
+resource "incident_workflow" "example" {
+  name             = {{ stableSuffix "Share updates workflow" | quote }}
+  trigger          = "incident.update_shared"
+  expressions      = []
+  condition_groups = []
+  steps = [
+    {
+      id   = "01K5TSNDBF7KBZY9AFDKYXJM3M"
+      name = "slack.post_message"
+      param_bindings = [
+        { value = { literal = {{ quote .ChannelID }} } },
+        { value = { literal = data.incident_rich_text.leadership_update.json } },
+        {},
+        { value = { literal = "Europe/London" } }
+      ]
+    }
+  ]
+  once_for               = []
+  private_incident_scope = "none"
+  continue_on_step_error = false
+  runs_on_incidents      = "newly_created_and_active"
+  runs_on_incident_modes = ["standard"]
+  state                  = "draft"
+}
+`, struct{ ChannelID string }{ChannelID: channelID(false)})
+}
