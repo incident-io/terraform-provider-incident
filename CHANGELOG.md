@@ -1,4 +1,4 @@
-## Unreleased
+## v6.9.0
 
 - Add `value_literal`, `value_reference`, `expression_ref` and `values` as shorthands for a param binding's value, wherever bindings appear. `param_bindings = [{ value = { reference = "incident.url" } }]` becomes `param_bindings = [{ value_reference = "incident.url" }]`; `value` and `array_value` keep working, and setting more than one form is rejected at plan time.
 - Add `concatenate` to expression operations, which adds the values behind another reference to the current value. Configs using it previously failed to apply.
