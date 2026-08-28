@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
-	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
 // The alert route schema has two Optional+Computed attributes that belong to

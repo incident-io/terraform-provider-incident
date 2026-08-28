@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/samber/lo"
 
-	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
 // scheduleV2PlanWith builds a plan holding a single rotation version that uses

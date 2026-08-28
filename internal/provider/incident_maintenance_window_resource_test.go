@@ -14,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
 func testAccMaintenanceWindowLeadUserID(t *testing.T) string {

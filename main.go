@@ -10,7 +10,7 @@ import (
 	"net/http/pprof"
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
-	"github.com/incident-io/terraform-provider-incident/internal/provider"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider"
 )
 
 // Format terraform and generate docs:

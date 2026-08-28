@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/samber/lo"
 
-	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/jsontypes"
 )
 
 const (

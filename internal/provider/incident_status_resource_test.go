@@ -7,7 +7,7 @@ import (
 	"text/template"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
 func TestAccIncidentStatusResource(t *testing.T) {

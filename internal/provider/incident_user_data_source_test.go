@@ -3,7 +3,7 @@ package provider
 import (
 	"testing"
 
-	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
 // TestSelectUserByEmail covers picking a user when an email lookup matches more
