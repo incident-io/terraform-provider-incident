@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
 
-	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
 // The API stores an escalation path as a tree: a branch node holds its two child paths

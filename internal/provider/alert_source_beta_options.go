@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
 
-	"github.com/incident-io/terraform-provider-incident/internal/apischema"
-	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
 // Per-source-type options, shaped the same way the V2 resource shapes them so a config moving

@@ -8,9 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/incident-io/terraform-provider-incident/internal/apischema"
-	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
 var (

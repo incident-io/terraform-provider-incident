@@ -4,7 +4,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
-	"github.com/incident-io/terraform-provider-incident/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
 )
 
 // EnumValuesDescription documents an attribute whose values are a fixed enum in the API

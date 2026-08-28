@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
 // TestIsAPINotYetAvailable covers the detector that drives the import

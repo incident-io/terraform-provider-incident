@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/jsontypes"
 )
 
 func TestToDocument(t *testing.T) {

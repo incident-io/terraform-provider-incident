@@ -22,7 +22,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/samber/lo"
 
-	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/jsontypes"
 )
 
 // TemplatedText holds either a "{{ }}" template or a raw JSON document, and compares the

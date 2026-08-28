@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
 // claimResourceOnImport claims a resource as it enters Terraform state via an

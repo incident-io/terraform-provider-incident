@@ -11,8 +11,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
 
-	"github.com/incident-io/terraform-provider-incident/internal/client"
-	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
 // workingHoursIf is the branch condition the tests reach for by default. The id matches the

@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 
-	"github.com/incident-io/terraform-provider-incident/internal/provider/models"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
 // alertSourceBetaSchemaType is the resource's schema as a tftypes.Object, so the config the

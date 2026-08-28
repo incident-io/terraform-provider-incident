@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/samber/lo"
 
-	"github.com/incident-io/terraform-provider-incident/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
 // TestAlertRouteV3RoundTrip exercises the FromAPIV3 -> ToCreatePayloadV3 path,

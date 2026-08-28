@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/incident-io/terraform-provider-incident/internal/provider/jsontypes"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/jsontypes"
 )
 
 // Error slugs, shared with the product's own template parser via the testdata fixtures: they
