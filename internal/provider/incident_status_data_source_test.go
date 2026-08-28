@@ -26,12 +26,16 @@ func TestAccIncidentStatusDataSource(t *testing.T) {
 						"data.incident_status.by_id", "description", defaultStatus.Description),
 					resource.TestCheckResourceAttr(
 						"data.incident_status.by_id", "category", string(defaultStatus.Category)),
+					resource.TestCheckResourceAttrSet(
+						"data.incident_status.by_id", "rank"),
 					resource.TestCheckResourceAttrPair(
 						"data.incident_status.by_name", "id", "incident_status.example", "id"),
 					resource.TestCheckResourceAttr(
 						"data.incident_status.by_name", "description", defaultStatus.Description),
 					resource.TestCheckResourceAttr(
 						"data.incident_status.by_name", "category", string(defaultStatus.Category)),
+					resource.TestCheckResourceAttrPair(
+						"data.incident_status.by_name", "rank", "data.incident_status.by_id", "rank"),
 				),
 			},
 		},

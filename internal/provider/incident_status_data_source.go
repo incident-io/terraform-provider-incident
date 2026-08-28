@@ -32,6 +32,7 @@ type IncidentStatusDataSourceModel struct {
 	Name        types.String `tfsdk:"name"`
 	Description types.String `tfsdk:"description"`
 	Category    types.String `tfsdk:"category"`
+	Rank        types.Int64  `tfsdk:"rank"`
 }
 
 func (d *IncidentStatusDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -79,6 +80,10 @@ func (d *IncidentStatusDataSource) Schema(ctx context.Context, req datasource.Sc
 			},
 			"category": schema.StringAttribute{
 				MarkdownDescription: EnumValuesDescription("IncidentStatusV1", "category"),
+				Computed:            true,
+			},
+			"rank": schema.Int64Attribute{
+				MarkdownDescription: apischema.Docstring("IncidentStatusV1", "rank"),
 				Computed:            true,
 			},
 		},
@@ -170,6 +175,7 @@ func (d *IncidentStatusDataSource) Read(ctx context.Context, req datasource.Read
 		Name:        types.StringValue(status.Name),
 		Description: types.StringValue(status.Description),
 		Category:    types.StringValue(string(status.Category)),
+		Rank:        types.Int64Value(status.Rank),
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
