@@ -161,6 +161,16 @@ func ExpressionsDataSourceAttribute() schema.SetNestedAttribute {
 									"returns": ReturnsDataSourceAttribute(),
 								},
 							},
+							"concatenate": schema.SingleNestedAttribute{
+								MarkdownDescription: apischema.Docstring("ExpressionOperationV2", "concatenate"),
+								Computed:            true,
+								Attributes: map[string]schema.Attribute{
+									"reference": schema.StringAttribute{
+										MarkdownDescription: apischema.Docstring("ExpressionConcatenateOptsV2", "reference"),
+										Computed:            true,
+									},
+								},
+							},
 							"filter": schema.SingleNestedAttribute{
 								MarkdownDescription: apischema.Docstring("ExpressionOperationV2", "filter"),
 								Computed:            true,

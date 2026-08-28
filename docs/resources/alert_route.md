@@ -501,6 +501,7 @@ Optional:
 
 - `branches` (Attributes) An operation type that allows for a value to be set conditionally by a series of logical branches (see [below for nested schema](#nestedatt--expressions--operations--branches))
 - `cast` (Attributes) An operation type that converts a value into another type. Only valid on values that can be represented as text. The returned `array` follows the value being cast, so it must match the cardinality of the previous operation (see [below for nested schema](#nestedatt--expressions--operations--cast))
+- `concatenate` (Attributes) An operation type that adds the values behind another reference to the current value, keeping each value once. There is no delimiter, despite the name (see [below for nested schema](#nestedatt--expressions--operations--concatenate))
 - `filter` (Attributes) An operation type that allows values to be filtered out by conditions (see [below for nested schema](#nestedatt--expressions--operations--filter))
 - `navigate` (Attributes) An operation type that allows attributes of a type to be accessed by reference (see [below for nested schema](#nestedatt--expressions--operations--navigate))
 - `parse` (Attributes) An operation type that allows a value to parsed from within a JSON object (see [below for nested schema](#nestedatt--expressions--operations--parse))
@@ -619,6 +620,14 @@ Required:
 - `array` (Boolean) Whether the return value should be single or multi-value
 - `type` (String) Expected return type of this expression (what to try casting the result to)
 
+
+
+<a id="nestedatt--expressions--operations--concatenate"></a>
+### Nested Schema for `expressions.operations.concatenate`
+
+Required:
+
+- `reference` (String) The reference within the scope to concatenate with
 
 
 <a id="nestedatt--expressions--operations--filter"></a>
@@ -760,7 +769,7 @@ Deprecated: set grouping keys via `grouping_config.default.grouping_keys` instea
 - `grouping_window_seconds` (Number, Deprecated) How large should the grouping window be?
 
 Deprecated: set the grouping window via `grouping_config.default.window_seconds` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md
-- `template` (Attributes) Only used with `grouping_config`. (see [below for nested schema](#nestedatt--incident_config--template))
+- `template` (Attributes) The template an alert route applies to the incidents it creates. Disabling incident creation clears it. Only used with `grouping_config`. (see [below for nested schema](#nestedatt--incident_config--template))
 
 <a id="nestedatt--incident_config--condition_groups"></a>
 ### Nested Schema for `incident_config.condition_groups`
