@@ -80,6 +80,8 @@ type alertSourceBetaModel struct {
 	EmailOptions      *alertSourceEmailOptions      `tfsdk:"email_options"`
 	HTTPCustomOptions *alertSourceHTTPCustomOptions `tfsdk:"http_custom_options"`
 
+	RateLimitSharding *alertSourceRateLimitSharding `tfsdk:"rate_limit_sharding"`
+
 	AutoResolveTimeoutMinutes types.Int64 `tfsdk:"auto_resolve_timeout_minutes"`
 	AutoResolveIncidentAlerts types.Bool  `tfsdk:"auto_resolve_incident_alerts"`
 
@@ -194,6 +196,7 @@ compatible, so pin the provider version if that matters to you.
 			"heartbeat_options":   heartbeatOptionsAttribute(),
 			"email_options":       emailOptionsAttribute(),
 			"http_custom_options": httpCustomOptionsAttribute(),
+			"rate_limit_sharding": rateLimitShardingAttribute(),
 
 			"auto_resolve_timeout_minutes": schema.Int64Attribute{
 				Optional:            true,
@@ -262,6 +265,8 @@ func (r *alertSourceBetaResource) ValidateConfig(ctx context.Context, req resour
 			"List at least one project to watch for new issues.",
 		)
 	}
+
+	validateRateLimitSharding(data.RateLimitSharding, &resp.Diagnostics)
 
 	models.ValidateExpressions(
 		alertSourceExpressions, nil, path.Empty(),
@@ -472,6 +477,10 @@ func (r *alertSourceBetaResource) ModifyPlan(ctx context.Context, req resource.M
 			Priority:       bindings.priority,
 			VisibleToTeams: bindings.visibleToTeams,
 			Expressions:    &expressions,
+
+			// Carried so the source-type capability check runs at plan time rather than
+			// surfacing as a 422 half way through an apply.
+			RateLimitSharding: data.RateLimitSharding.toPayload(),
 		},
 	})
 	if err == nil {
@@ -533,6 +542,7 @@ var alertSourceBetaValidatedAttributes = []string{
 	"priority",
 	"visible_to_teams",
 	"named_expression",
+	"rate_limit_sharding",
 }
 
 // alertSourceBetaValidateSettled reports whether every value the check would send is
@@ -581,10 +591,15 @@ func (r *alertSourceBetaResource) Create(ctx context.Context, req resource.Creat
 		HeartbeatOptions:  data.HeartbeatOptions.toPayload(),
 		EmailOptions:      data.EmailOptions.toPayload(),
 		HttpCustomOptions: data.HTTPCustomOptions.toPayload(),
+		RateLimitSharding: data.RateLimitSharding.toPayload(),
 
 		Annotations: r.annotations(),
 	}
 	r.applyAutoResolve(&data, &payload.AutoResolveTimeoutMinutes, &payload.AutoResolveIncidentAlerts)
+
+	// Re-checked here because a path from a variable is unknown at plan time, so ValidateConfig
+	// has nothing to judge.
+	validateRateLimitSharding(data.RateLimitSharding, &resp.Diagnostics)
 
 	if resp.Diagnostics.HasError() {
 		return
@@ -667,6 +682,7 @@ func (r *alertSourceBetaResource) Update(ctx context.Context, req resource.Updat
 		HeartbeatOptions:  plan.HeartbeatOptions.toPayload(),
 		EmailOptions:      emailOptionsUpdatePayload(plan.EmailOptions, plan.SourceType),
 		HttpCustomOptions: plan.HTTPCustomOptions.toPayload(),
+		RateLimitSharding: rateLimitShardingUpdatePayload(plan.RateLimitSharding),
 
 		// No expected_version, deliberately: a version covers the whole source, and each
 		// attribute is its own resource writing the same one. Removing an attribute in the
@@ -684,6 +700,8 @@ func (r *alertSourceBetaResource) Update(ctx context.Context, req resource.Updat
 		Annotations: r.annotations(),
 	}
 	r.applyAutoResolve(&plan, &payload.AutoResolveTimeoutMinutes, &payload.AutoResolveIncidentAlerts)
+
+	validateRateLimitSharding(plan.RateLimitSharding, &resp.Diagnostics)
 
 	if resp.Diagnostics.HasError() {
 		return
@@ -878,6 +896,7 @@ func alertSourceBetaFromAPI(
 		HeartbeatOptions:  heartbeatOptionsFromAPI(source.HeartbeatOptions),
 		EmailOptions:      emailOptionsFromAPI(source.EmailOptions),
 		HTTPCustomOptions: httpCustomOptionsFromAPI(source.HttpCustomOptions),
+		RateLimitSharding: rateLimitShardingFromAPI(source.RateLimitSharding),
 
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
 		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),

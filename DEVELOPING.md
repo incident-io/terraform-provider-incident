@@ -35,6 +35,11 @@ cp ../core/server/lib/openapi/public-schema-v3-including-secret-endpoints.json i
 
 And then run `go generate ./internal/client`
 
+Adding or changing a resource attribute also changes the generated docs, and CI fails on any
+diff, so run `make generate` too.
+
+That needs `terraform` on your PATH — `mise use -g terraform@latest`, or the brew install below.
+
 ## Running tests
 
 The best way to develop against this provider is to write tests.

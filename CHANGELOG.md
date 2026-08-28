@@ -1,6 +1,13 @@
 ## Unreleased
 
 - Expose `rank` on the `incident_status` data source. Statuses are ordered in the dashboard by this value, and the API already returns it; lookups by `id` or `name` now include it so you can sort or compare statuses without a second call.
+
+## v6.8.0
+
+- Add `rate_limit_sharding` to `incident_alert_source` and `incident_alert_source_beta`, which splits a source's ingest rate limit into per-value buckets instead of applying one limit to the whole source. Set `rate_limit_sharding = { rate_limit_shard_key_path = "$.metadata.team" }` to give each distinct value at that JSON path its own allowance, so one noisy sender can't exhaust the source for everyone else. Remove the block to go back to a single limit. Not every source type supports it - the ones we fetch from over an API rather than receive a payload from don't - and a path set on one of those is rejected at plan time.
+
+## v6.7.1
+
 - Fix `Provider produced inconsistent result after apply` on `incident_schedule` when a rotation version's `effective_from` or `handover_start_at` is written as anything other than a UTC timestamp at second precision. The API re-renders timestamps its own way, and the provider stored what came back, so a config saying `2025-06-01T12:00:00.000Z` (which is what the dashboard's Terraform export writes) or `2026-04-10T19:00:00-04:00` read back as a different string for the same moment. Rotations and their versions are sets, which Terraform correlates by raw value, so that was enough to fail the post-apply consistency check with `planned set element ... does not correlate with any element in actual` - leaving the change applied in incident.io but absent from state, and a plan that never settled. The provider now keeps the timestamp exactly as your config writes it whenever it means the same moment as the one the API returns.
 - Reject two `incident_schedule` rotations sharing an `id` at plan time. Versions of a rotation are entries sharing an `id` in the API, and the provider groups them back together by `id` when it reads a schedule, so a config that spells versions as separate `rotations` entries applied but read back as one rotation holding every version - failing the same post-apply consistency check, then planning a change on every run. The error now says so during `plan`, and points at listing the versions under the rotation's `versions` attribute.
 
