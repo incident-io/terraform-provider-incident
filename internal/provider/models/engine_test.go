@@ -145,9 +145,9 @@ func TestIncidentEngineParamBindings_TrimAppendedEmpty(t *testing.T) {
 	}
 }
 
-// TestIncidentEngineConditionGroups_ReconcileOperations covers ONC-12602: restore
+// TestIncidentEngineConditionGroups_ReconcileSpelling covers ONC-12602: restore
 // the planned value for a known alias, leave everything else alone.
-func TestIncidentEngineConditionGroups_ReconcileOperations(t *testing.T) {
+func TestIncidentEngineConditionGroups_ReconcileSpelling(t *testing.T) {
 	condition := func(subject, operation string) IncidentEngineCondition {
 		return IncidentEngineCondition{
 			Subject:   types.StringValue(subject),
@@ -205,17 +205,17 @@ func TestIncidentEngineConditionGroups_ReconcileOperations(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			tc.applied.ReconcileOperations(tc.plan)
+			tc.applied.ReconcileSpelling(tc.plan)
 			got := tc.applied[0].Conditions[0].Operation.ValueString()
 			assert.Equal(t, tc.want, got)
 		})
 	}
 }
 
-// TestIncidentEngineConditionGroups_ReconcileOperationsMismatchedLengths asserts
+// TestIncidentEngineConditionGroups_ReconcileSpellingMismatchedLengths asserts
 // reconciliation is safe when the plan and read-back have different numbers of
 // groups or conditions.
-func TestIncidentEngineConditionGroups_ReconcileOperationsMismatchedLengths(t *testing.T) {
+func TestIncidentEngineConditionGroups_ReconcileSpellingMismatchedLengths(t *testing.T) {
 	applied := IncidentEngineConditionGroups{
 		{Conditions: IncidentEngineConditions{
 			{Subject: types.StringValue("alert.attributes.01ABC"), Operation: types.StringValue("contains_one_of")},
@@ -228,19 +228,19 @@ func TestIncidentEngineConditionGroups_ReconcileOperationsMismatchedLengths(t *t
 		}},
 	}
 
-	assert.NotPanics(t, func() { applied.ReconcileOperations(plan) })
+	assert.NotPanics(t, func() { applied.ReconcileSpelling(plan) })
 	assert.Equal(t, "one_of", applied[0].Conditions[0].Operation.ValueString())
 	// The second condition has no planned counterpart, so it is left as-is.
 	assert.Equal(t, "contains_one_of", applied[0].Conditions[1].Operation.ValueString())
 
 	// A nil plan must be a no-op rather than a panic.
-	assert.NotPanics(t, func() { applied.ReconcileOperations(nil) })
+	assert.NotPanics(t, func() { applied.ReconcileSpelling(nil) })
 }
 
-// TestIncidentEngineExpressions_ReconcileOperationsCorrelatesByReference asserts
+// TestIncidentEngineExpressions_ReconcileSpellingCorrelatesByReference asserts
 // filter conditions still reconcile when the API returns expressions in a
 // different order to the plan.
-func TestIncidentEngineExpressions_ReconcileOperationsCorrelatesByReference(t *testing.T) {
+func TestIncidentEngineExpressions_ReconcileSpellingCorrelatesByReference(t *testing.T) {
 	expression := func(reference, operation string) IncidentEngineExpression {
 		return IncidentEngineExpression{
 			Reference: types.StringValue(reference),
@@ -275,16 +275,16 @@ func TestIncidentEngineExpressions_ReconcileOperationsCorrelatesByReference(t *t
 		expression("first", "one_of"),
 	}
 
-	applied.ReconcileOperations(plan)
+	applied.ReconcileSpelling(plan)
 
 	assert.Equal(t, "one_of", operationOf(applied[0]), "first expression reconciled")
 	assert.Equal(t, "one_of", operationOf(applied[1]), "second expression reconciled")
 
 	// An unplanned expression is left alone, and a nil plan must not panic.
 	unplanned := IncidentEngineExpressions{expression("third", "contains_one_of")}
-	assert.NotPanics(t, func() { unplanned.ReconcileOperations(plan) })
+	assert.NotPanics(t, func() { unplanned.ReconcileSpelling(plan) })
 	assert.Equal(t, "contains_one_of", operationOf(unplanned[0]))
-	assert.NotPanics(t, func() { unplanned.ReconcileOperations(nil) })
+	assert.NotPanics(t, func() { unplanned.ReconcileSpelling(nil) })
 }
 
 func TestIncidentEngineParamBinding_IsEmpty(t *testing.T) {

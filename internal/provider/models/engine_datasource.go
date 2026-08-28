@@ -37,6 +37,24 @@ func ParamBindingDataSourceAttributes() map[string]schema.Attribute {
 			Computed:            true,
 			Attributes:          ParamBindingValueDataSourceAttributes(),
 		},
+
+		// The shorthands are spellings a config chooses, so a data source never reports one —
+		// they read as null. They are declared because the model is shared with the resources,
+		// and a model field with no matching attribute fails the object conversion.
+		"value_literal": schema.StringAttribute{
+			CustomType: jsontypes.NormalizedJSONOrStringType{},
+			Computed:   true,
+		},
+		"value_reference": schema.StringAttribute{
+			Computed: true,
+		},
+		"expression_ref": schema.StringAttribute{
+			Computed: true,
+		},
+		"values": schema.ListAttribute{
+			ElementType: jsontypes.NormalizedJSONOrStringType{},
+			Computed:    true,
+		},
 	}
 }
 

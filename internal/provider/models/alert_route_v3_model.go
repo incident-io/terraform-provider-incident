@@ -122,9 +122,19 @@ type AlertRouteV3ChannelConfigModel struct {
 func reconcileDestinationOperations(applied, plan []AlertRouteV3ChannelConfigModel) {
 	for i := range applied {
 		if i < len(plan) {
-			applied[i].ConditionGroups.ReconcileOperations(plan[i].ConditionGroups)
+			applied[i].ConditionGroups.ReconcileSpelling(plan[i].ConditionGroups)
+			reconcileV3ChannelTargetSpelling(applied[i].SlackTargets, plan[i].SlackTargets)
+			reconcileV3ChannelTargetSpelling(applied[i].MsTeamsTargets, plan[i].MsTeamsTargets)
 		}
 	}
+}
+
+func reconcileV3ChannelTargetSpelling(applied, plan *AlertRouteV3ChannelTargetModel) {
+	if applied == nil || plan == nil {
+		return
+	}
+
+	applied.Binding = ReconcileBindingSpelling(applied.Binding, plan.Binding)
 }
 
 type AlertRouteV3ChannelTargetModel struct {
@@ -187,12 +197,12 @@ func expressionsToV3Payload(expressions IncidentEngineExpressions) []client.Expr
 
 // severityFromAPIV3 reuses the v2 severity reconciliation logic by converting
 // the v3 severity binding (structurally identical) to its v2 form.
-func severityFromAPIV3(severity *client.AlertRouteSeverityBindingV3) types.Object {
+func severityFromAPIV3(severity *client.AlertRouteSeverityBindingV3, plan types.Object) types.Object {
 	if severity == nil {
 		return SeverityObjectNull()
 	}
 
-	return SeverityFromAPI(convertEngineType[*client.AlertRouteSeverityBindingV2](severity))
+	return SeverityFromAPI(convertEngineType[*client.AlertRouteSeverityBindingV2](severity), plan)
 }
 
 func severityToPayloadV3(ctx context.Context, severityObj types.Object) *client.AlertRouteSeverityBindingPayloadV3 {
@@ -399,15 +409,19 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 	}
 
 	if plan != nil {
-		result.ConditionGroups.ReconcileOperations(plan.ConditionGroups)
+		result.ConditionGroups.ReconcileSpelling(plan.ConditionGroups)
 		reconcileAlertSourceOperations(result.AlertSources, plan.AlertSources)
 		if plan.MessageConfig != nil {
 			reconcileDestinationOperations(result.MessageConfig.Destinations, plan.MessageConfig.Destinations)
 		}
 		if result.IncidentConfig != nil && plan.IncidentConfig != nil {
-			result.IncidentConfig.ConditionGroups.ReconcileOperations(plan.IncidentConfig.ConditionGroups)
+			result.IncidentConfig.ConditionGroups.ReconcileSpelling(plan.IncidentConfig.ConditionGroups)
 		}
-		result.Expressions.ReconcileOperations(plan.Expressions)
+		result.Expressions.ReconcileSpelling(plan.Expressions)
+		if result.MessageConfig != nil && plan.MessageConfig != nil {
+			result.MessageConfig.Template = ReconcileBindingSpelling(result.MessageConfig.Template, plan.MessageConfig.Template)
+		}
+		reconcileEscalationConfigSpelling(result.EscalationConfig, plan.EscalationConfig)
 	}
 
 	return result
@@ -462,7 +476,11 @@ func incidentTemplateFromAPIV3(apiTemplate *client.AlertRouteIncidentTemplateV3,
 	}
 	template.Summary = &summaryBinding
 
-	template.Severity = severityFromAPIV3(apiTemplate.Severity)
+	planSeverity := SeverityObjectNull()
+	if plan != nil {
+		planSeverity = plan.Severity
+	}
+	template.Severity = severityFromAPIV3(apiTemplate.Severity, planSeverity)
 
 	if apiTemplate.IncidentMode != nil && apiTemplate.IncidentMode.Binding != nil {
 		binding := paramBindingFromV3(*apiTemplate.IncidentMode.Binding)
@@ -519,6 +537,13 @@ func incidentTemplateFromAPIV3(apiTemplate *client.AlertRouteIncidentTemplateV3,
 	// nil so an omitted optional stays null and doesn't produce drift.
 	if len(template.CustomFields) == 0 && plan != nil && plan.CustomFields != nil {
 		template.CustomFields = []AlertRouteCustomFieldModel{}
+	}
+
+	if plan != nil {
+		template.IncidentMode = ReconcileBindingSpelling(template.IncidentMode, plan.IncidentMode)
+		template.IncidentType = ReconcileBindingSpelling(template.IncidentType, plan.IncidentType)
+		template.StartInTriage = ReconcileBindingSpelling(template.StartInTriage, plan.StartInTriage)
+		reconcileCustomFieldSpelling(template.CustomFields, plan.CustomFields)
 	}
 
 	return template

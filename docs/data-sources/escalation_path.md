@@ -93,8 +93,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.conditions.param_bindings.array_value`
@@ -182,8 +186,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -271,8 +279,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -360,8 +372,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -449,8 +465,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -854,8 +874,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -1337,8 +1361,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -1426,8 +1454,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -1831,8 +1863,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -2392,8 +2428,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -2481,8 +2521,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -2570,8 +2614,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -2975,8 +3023,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -3458,8 +3510,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -3547,8 +3603,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -3952,8 +4012,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -4591,8 +4655,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -4680,8 +4748,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -4769,8 +4841,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -4858,8 +4934,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -5263,8 +5343,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -5746,8 +5830,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -5835,8 +5923,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -6240,8 +6332,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -6801,8 +6897,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -6890,8 +6990,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -6979,8 +7083,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -7384,8 +7492,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -7867,8 +7979,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.conditions.param_bindings.array_value`
@@ -7956,8 +8072,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--else_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.else_path.if_else.conditions.param_bindings.array_value`
@@ -8361,8 +8481,12 @@ Read-Only:
 
 Read-Only:
 
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value))
+- `expression_ref` (String)
+- `value` (Attributes) (see [below for nested schema](#nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--then_path--if_else--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.then_path.if_else.conditions.param_bindings.array_value`

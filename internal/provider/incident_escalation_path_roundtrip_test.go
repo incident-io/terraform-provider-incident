@@ -92,7 +92,7 @@ func TestEscalationPathRoundTrip(t *testing.T) {
 	}
 
 	var diags diag.Diagnostics
-	model := r.buildModel(ctx, ep, &diags)
+	model := r.buildModel(ctx, ep, nil, &diags)
 	if diags.HasError() {
 		t.Fatalf("buildModel produced errors: %#v", diags)
 	}
@@ -182,7 +182,7 @@ func TestEscalationPathRetryConfigRoundTrip(t *testing.T) {
 	}
 
 	var diags diag.Diagnostics
-	model := r.buildModel(ctx, ep, &diags)
+	model := r.buildModel(ctx, ep, nil, &diags)
 	if diags.HasError() {
 		t.Fatalf("buildModel produced errors: %#v", diags)
 	}

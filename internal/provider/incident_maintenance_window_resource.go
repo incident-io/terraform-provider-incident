@@ -469,7 +469,17 @@ func (r *IncidentMaintenanceWindowResource) buildModel(mw client.MaintenanceWind
 	model.IncidentID = types.StringPointerValue(mw.IncidentId)
 
 	if prior != nil {
-		model.AlertConditionGroups.ReconcileOperations(prior.AlertConditionGroups)
+		model.AlertConditionGroups.ReconcileSpelling(prior.AlertConditionGroups)
+
+		for i := range model.EscalationTargets {
+			if i >= len(prior.EscalationTargets) {
+				break
+			}
+
+			target, priorTarget := &model.EscalationTargets[i], prior.EscalationTargets[i]
+			target.EscalationPaths = models.ReconcileBindingSpelling(target.EscalationPaths, priorTarget.EscalationPaths)
+			target.Users = models.ReconcileBindingSpelling(target.Users, priorTarget.Users)
+		}
 	}
 
 	return model

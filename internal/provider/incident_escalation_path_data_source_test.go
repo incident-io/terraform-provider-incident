@@ -2,11 +2,98 @@ package provider
 
 import (
 	"bytes"
+	"context"
 	"testing"
 	"text/template"
 
+	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/samber/lo"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
+
+// TestIncidentEscalationPathDataSourceSchemaMatchesModel guards the seam between the data source
+// schema and IncidentEscalationPathResourceModel, the same way the workflow data source's test
+// does: Read reuses the resource's buildModel, so an attribute the schema forgets fails every
+// escalation path read rather than only the paths using it.
+func TestIncidentEscalationPathDataSourceSchemaMatchesModel(t *testing.T) {
+	ctx := context.Background()
+
+	resp := &datasource.SchemaResponse{}
+	(&IncidentEscalationPathDataSource{}).Schema(ctx, datasource.SchemaRequest{}, resp)
+	require.False(t, resp.Diagnostics.HasError(), "schema: %s", resp.Diagnostics)
+
+	// Everything the API can hand back, so a nested attribute missing from the schema shows up
+	// as an error rather than an untouched null.
+	ep := client.EscalationPathV2{
+		Id:      "01M0TAR6EMNDC7BVA45RZDE5KM",
+		Name:    "Paged by severity",
+		TeamIds: []string{"01G0J1EXE7AXZ2C93K61WBPYEH"},
+		Path: []client.EscalationPathNodeV2{
+			{
+				Id:   "start",
+				Type: client.EscalationPathNodeV2TypeIfElse,
+				IfElse: &client.EscalationPathNodeIfElseV2{
+					Conditions: []client.ConditionV2{
+						{
+							Subject:   client.ConditionSubjectV2{Reference: "incident.severity"},
+							Operation: client.ConditionOperationV2{Value: "one_of"},
+							ParamBindings: []client.EngineParamBindingV2{
+								{ArrayValue: &[]client.EngineParamBindingValueV2{{Literal: lo.ToPtr("high")}}},
+								{Value: &client.EngineParamBindingValueV2{Reference: lo.ToPtr("incident.severity")}},
+							},
+						},
+					},
+					ThenPath: []client.EscalationPathNodeV2{{
+						Id:   "then-level",
+						Type: client.EscalationPathNodeV2TypeLevel,
+						Level: &client.EscalationPathNodeLevelV2{
+							Targets: []client.EscalationPathTargetV2{{
+								Id:      "01G0J1EXE7AXZ2C93K61WBPYEH",
+								Type:    client.EscalationPathTargetV2TypeSchedule,
+								Urgency: client.EscalationPathTargetV2UrgencyHigh,
+							}},
+							TimeToAckSeconds: lo.ToPtr(int64(300)),
+						},
+					}},
+					ElsePath: []client.EscalationPathNodeV2{{
+						Id:    "else-delay",
+						Type:  client.EscalationPathNodeV2TypeDelay,
+						Delay: &client.EscalationPathNodeDelayV2{DelaySeconds: lo.ToPtr(int64(120))},
+					}},
+				},
+			},
+		},
+		WorkingHours: &[]client.WeekdayIntervalConfigV2{{
+			Id:       "UK",
+			Name:     "UK",
+			Timezone: "Europe/London",
+			WeekdayIntervals: []client.WeekdayIntervalV2{
+				{StartTime: "09:00", EndTime: "17:00", Weekday: client.WeekdayIntervalV2WeekdayMonday},
+			},
+		}},
+		RepeatConfig: &client.EscalationPathRepeatConfigV2{
+			RepeatAfterSeconds:    300,
+			DelayRepeatOnActivity: true,
+		},
+	}
+
+	var diags diag.Diagnostics
+	model := (&IncidentEscalationPathResource{}).buildModel(ctx, ep, nil, &diags)
+	require.False(t, diags.HasError(), "buildModel: %s", diags)
+
+	state := tfsdk.State{
+		Schema: resp.Schema,
+		Raw:    tftypes.NewValue(resp.Schema.Type().TerraformType(ctx), nil),
+	}
+	assert.False(t, state.Set(ctx, model).HasError(), "setting state from the resource model")
+}
 
 func TestAccIncidentEscalationPathDataSource(t *testing.T) {
 	resource.Test(t, resource.TestCase{

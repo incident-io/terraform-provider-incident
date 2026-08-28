@@ -30,6 +30,12 @@ type AlertSourceResourceModel struct {
 }
 
 func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSourceResourceModel {
+	return AlertSourceResourceModel{}.FromAPIWithPlan(source, nil)
+}
+
+// FromAPIWithPlan is FromAPI with the planned value to hand, so the template's expressions and
+// bindings keep the spelling the config used. plan is nil on import.
+func (AlertSourceResourceModel) FromAPIWithPlan(source client.AlertSourceV2, plan *AlertSourceResourceModel) AlertSourceResourceModel {
 	var emailAddress *string
 	if source.EmailOptions != nil {
 		emailAddress = &source.EmailOptions.EmailAddress
@@ -50,7 +56,7 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 		owningTeamIDs, _ = types.SetValue(types.StringType, teamIDValues)
 	}
 
-	return AlertSourceResourceModel{
+	result := AlertSourceResourceModel{
 		ID:             types.StringValue(source.Id),
 		Name:           types.StringValue(source.Name),
 		SourceType:     types.StringValue(string(source.SourceType)),
@@ -74,6 +80,14 @@ func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSource
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
 		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),
 	}
+
+	if plan != nil && plan.Template != nil {
+		result.Template.Expressions.ReconcileSpelling(plan.Template.Expressions)
+		result.Template.VisibleToTeams = ReconcileBindingSpelling(
+			result.Template.VisibleToTeams, plan.Template.VisibleToTeams)
+	}
+
+	return result
 }
 
 type AlertTemplateModel struct {

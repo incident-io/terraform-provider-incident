@@ -11,7 +11,7 @@ import (
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
-	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/jsontypes"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
 var (
@@ -360,44 +360,14 @@ func (d *IncidentEscalationPathDataSource) getPathSchema(depth int) schema.Neste
 								Computed:            true,
 								MarkdownDescription: "The logical operation to be applied",
 							},
+							// Shared with the resources, because this data source builds its model
+							// with the resource's buildModel: a shorter attribute list here fails
+							// the read with a value conversion error.
 							"param_bindings": schema.ListNestedAttribute{
 								Computed:            true,
 								MarkdownDescription: apischema.Docstring("ConditionV2", "param_bindings"),
 								NestedObject: schema.NestedAttributeObject{
-									Attributes: map[string]schema.Attribute{
-										"array_value": schema.ListNestedAttribute{
-											Computed:            true,
-											MarkdownDescription: "The array of literal or reference parameter values",
-											NestedObject: schema.NestedAttributeObject{
-												Attributes: map[string]schema.Attribute{
-													"literal": schema.StringAttribute{
-														CustomType:          jsontypes.NormalizedJSONOrStringType{},
-														Computed:            true,
-														MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "literal"),
-													},
-													"reference": schema.StringAttribute{
-														Computed:            true,
-														MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "reference"),
-													},
-												},
-											},
-										},
-										"value": schema.SingleNestedAttribute{
-											Computed:            true,
-											MarkdownDescription: "The literal or reference parameter value",
-											Attributes: map[string]schema.Attribute{
-												"literal": schema.StringAttribute{
-													CustomType:          jsontypes.NormalizedJSONOrStringType{},
-													Computed:            true,
-													MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "literal"),
-												},
-												"reference": schema.StringAttribute{
-													Computed:            true,
-													MarkdownDescription: apischema.Docstring("EngineParamBindingValueV2", "reference"),
-												},
-											},
-										},
-									},
+									Attributes: models.ParamBindingDataSourceAttributes(),
 								},
 							},
 							"subject": schema.StringAttribute{
@@ -491,7 +461,7 @@ func (d *IncidentEscalationPathDataSource) Read(ctx context.Context, req datasou
 
 	// Reuse the resource's buildModel function for consistency
 	resource := &IncidentEscalationPathResource{}
-	modelResp := resource.buildModel(ctx, *escalationPath, &resp.Diagnostics)
+	modelResp := resource.buildModel(ctx, *escalationPath, nil, &resp.Diagnostics)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
 }

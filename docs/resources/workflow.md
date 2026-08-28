@@ -654,7 +654,11 @@ Required:
 Optional:
 
 - `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
 
 <a id="nestedatt--condition_groups--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `condition_groups.conditions.param_bindings.array_value`
@@ -745,7 +749,11 @@ Required:
 Optional:
 
 - `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
 
 <a id="nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `expressions.operations.branches.branches.condition_groups.conditions.param_bindings.array_value`
@@ -774,7 +782,11 @@ Optional:
 Optional:
 
 - `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--result--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--result--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
 
 <a id="nestedatt--expressions--operations--branches--branches--result--array_value"></a>
 ### Nested Schema for `expressions.operations.branches.branches.result.array_value`
@@ -860,7 +872,11 @@ Required:
 Optional:
 
 - `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
 
 <a id="nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups.conditions.param_bindings.array_value`
@@ -924,7 +940,11 @@ Required:
 Optional:
 
 - `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--expressions--else_branch--result--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--expressions--else_branch--result--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
 
 <a id="nestedatt--expressions--else_branch--result--array_value"></a>
 ### Nested Schema for `expressions.else_branch.result.array_value`
@@ -966,7 +986,11 @@ Optional:
 Optional:
 
 - `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--steps--param_bindings--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
 - `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--steps--param_bindings--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
 
 <a id="nestedatt--steps--param_bindings--array_value"></a>
 ### Nested Schema for `steps.param_bindings.array_value`

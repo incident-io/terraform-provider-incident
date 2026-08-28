@@ -77,7 +77,11 @@ Read-Only:
 Read-Only:
 
 - `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--array_value))
+- `expression_ref` (String)
 - `value` (Attributes) (see [below for nested schema](#nestedatt--condition_groups--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--condition_groups--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `condition_groups.conditions.param_bindings.array_value`
@@ -133,7 +137,11 @@ Read-Only:
 Read-Only:
 
 - `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--expressions--else_branch--result--array_value))
+- `expression_ref` (String)
 - `value` (Attributes) (see [below for nested schema](#nestedatt--expressions--else_branch--result--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--expressions--else_branch--result--array_value"></a>
 ### Nested Schema for `expressions.else_branch.result.array_value`
@@ -206,7 +214,11 @@ Read-Only:
 Read-Only:
 
 - `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value))
+- `expression_ref` (String)
 - `value` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `expressions.operations.branches.branches.condition_groups.conditions.param_bindings.array_value`
@@ -235,7 +247,11 @@ Read-Only:
 Read-Only:
 
 - `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--result--array_value))
+- `expression_ref` (String)
 - `value` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--branches--branches--result--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--expressions--operations--branches--branches--result--array_value"></a>
 ### Nested Schema for `expressions.operations.branches.branches.result.array_value`
@@ -321,7 +337,11 @@ Read-Only:
 Read-Only:
 
 - `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value))
+- `expression_ref` (String)
 - `value` (Attributes) (see [below for nested schema](#nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value"></a>
 ### Nested Schema for `expressions.operations.filter.condition_groups.conditions.param_bindings.array_value`
@@ -403,7 +423,11 @@ Read-Only:
 Read-Only:
 
 - `array_value` (Attributes List) If array_value is set, this helps render the values (see [below for nested schema](#nestedatt--steps--param_bindings--array_value))
+- `expression_ref` (String)
 - `value` (Attributes) (see [below for nested schema](#nestedatt--steps--param_bindings--value))
+- `value_literal` (String)
+- `value_reference` (String)
+- `values` (List of String)
 
 <a id="nestedatt--steps--param_bindings--array_value"></a>
 ### Nested Schema for `steps.param_bindings.array_value`

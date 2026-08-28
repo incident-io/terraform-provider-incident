@@ -1,8 +1,12 @@
 package models
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
 
@@ -20,14 +24,123 @@ func ParamBindingValueAttrTypes() map[string]attr.Type {
 	}
 }
 
-// ParamBindingAttrTypes returns the attribute types for a param binding object.
+// ParamBindingAttrTypes returns the attribute types for a param binding object. It has to list
+// every attribute ParamBindingAttributes declares, including the shorthands: a binding built as
+// an object from a shorter list fails at apply with "struct defines fields not found in object".
 func ParamBindingAttrTypes() map[string]attr.Type {
 	return map[string]attr.Type{
 		"array_value": types.ListType{
 			ElemType: types.ObjectType{AttrTypes: ParamBindingValueAttrTypes()},
 		},
 		"value": types.ObjectType{AttrTypes: ParamBindingValueAttrTypes()},
+
+		"value_literal":   jsontypes.NormalizedJSONOrStringType{},
+		"value_reference": types.StringType,
+		"expression_ref":  types.StringType,
+		"values":          types.ListType{ElemType: jsontypes.NormalizedJSONOrStringType{}},
 	}
+}
+
+// ToObject renders a binding as an object, and ParamBindingFromObject reads one back. Alert route
+// severity holds its binding as a types.Object rather than a struct, and going through here keeps
+// the attribute list in one place.
+func (binding IncidentEngineParamBinding) ToObject() types.Object {
+	valueType := types.ObjectType{AttrTypes: ParamBindingValueAttrTypes()}
+
+	arrayValue := types.ListNull(valueType)
+	if len(binding.ArrayValue) > 0 {
+		arrayValue = types.ListValueMust(valueType, lo.Map(binding.ArrayValue,
+			func(v IncidentEngineParamBindingValue, _ int) attr.Value { return v.ToObject() }))
+	}
+
+	value := types.ObjectNull(ParamBindingValueAttrTypes())
+	if binding.Value != nil {
+		value = binding.Value.ToObject()
+	}
+
+	values := types.ListNull(jsontypes.NormalizedJSONOrStringType{})
+	if len(binding.Values) > 0 {
+		values = types.ListValueMust(jsontypes.NormalizedJSONOrStringType{}, lo.Map(binding.Values,
+			func(v jsontypes.NormalizedJSONOrString, _ int) attr.Value { return v }))
+	}
+
+	return types.ObjectValueMust(ParamBindingAttrTypes(), map[string]attr.Value{
+		"array_value":     arrayValue,
+		"value":           value,
+		"value_literal":   binding.ValueLiteral,
+		"value_reference": binding.ValueReference,
+		"expression_ref":  binding.ExpressionRef,
+		"values":          values,
+	})
+}
+
+func ParamBindingFromObject(value attr.Value) IncidentEngineParamBinding {
+	obj, ok := value.(types.Object)
+	if !ok || obj.IsNull() || obj.IsUnknown() {
+		return IncidentEngineParamBinding{}
+	}
+
+	attrs := obj.Attributes()
+	binding := IncidentEngineParamBinding{
+		ValueLiteral:   stringOrJSONAttr(attrs["value_literal"]),
+		ValueReference: stringAttr(attrs["value_reference"]),
+		ExpressionRef:  stringAttr(attrs["expression_ref"]),
+	}
+
+	if value, ok := attrs["value"].(types.Object); ok && !value.IsNull() {
+		binding.Value = lo.ToPtr(paramBindingValueFromObject(value))
+	}
+	if arrayValue, ok := attrs["array_value"].(types.List); ok {
+		for _, elem := range arrayValue.Elements() {
+			if value, ok := elem.(types.Object); ok {
+				binding.ArrayValue = append(binding.ArrayValue, paramBindingValueFromObject(value))
+			}
+		}
+	}
+	if values, ok := attrs["values"].(types.List); ok {
+		for _, elem := range values.Elements() {
+			binding.Values = append(binding.Values, stringOrJSONAttr(elem))
+		}
+	}
+
+	return binding
+}
+
+func (v IncidentEngineParamBindingValue) ToObject() types.Object {
+	return types.ObjectValueMust(ParamBindingValueAttrTypes(), map[string]attr.Value{
+		"literal":   v.Literal,
+		"reference": v.Reference,
+	})
+}
+
+func paramBindingValueFromObject(obj types.Object) IncidentEngineParamBindingValue {
+	attrs := obj.Attributes()
+
+	return IncidentEngineParamBindingValue{
+		Literal:   stringOrJSONAttr(attrs["literal"]),
+		Reference: stringAttr(attrs["reference"]),
+	}
+}
+
+// isSet reports whether a config actually gave this attribute a value.
+func isSet(value attr.Value) bool {
+	return !value.IsNull() && !value.IsUnknown()
+}
+
+func stringAttr(value attr.Value) types.String {
+	if str, ok := value.(types.String); ok {
+		return str
+	}
+
+	return types.StringNull()
+}
+
+func stringOrJSONAttr(value attr.Value) jsontypes.NormalizedJSONOrString {
+	if str, ok := value.(jsontypes.NormalizedJSONOrString); ok {
+		return str
+	}
+
+	return jsontypes.NewNormalizedJSONOrStringNull()
 }
 
 // ConditionAttrTypes returns the attribute types for a single condition object.
@@ -69,26 +182,18 @@ var serverOperationNormalisations = map[string]string{
 	"contains": "name_contains",   // CatalogEntry subjects
 }
 
-// ReconcileOperations restores the planned operation wherever the API returned
-// the canonical form of an alias we sent (ONC-12602). Condition groups are lists,
-// so we correlate positionally and require the subject to match.
-func (groups IncidentEngineConditionGroups) ReconcileOperations(plan IncidentEngineConditionGroups) {
+// ReconcileSpelling restores what the config wrote wherever the API answers with something that
+// means the same thing: the operation, where the API returned the canonical form of an alias we
+// sent (ONC-12602), and each param binding, where the API only ever reports the two long forms.
+//
+// Condition groups are lists, so we correlate positionally and require the subject to match.
+func (groups IncidentEngineConditionGroups) ReconcileSpelling(plan IncidentEngineConditionGroups) {
 	for gi := range groups {
 		if gi >= len(plan) {
 			break
 		}
-		for ci := range groups[gi].Conditions {
-			if ci >= len(plan[gi].Conditions) {
-				break
-			}
 
-			planned := plan[gi].Conditions[ci]
-			applied := groups[gi].Conditions[ci]
-			if applied.Subject.Equal(planned.Subject) &&
-				serverOperationNormalisations[planned.Operation.ValueString()] == applied.Operation.ValueString() {
-				groups[gi].Conditions[ci].Operation = planned.Operation
-			}
-		}
+		groups[gi].Conditions.ReconcileSpelling(plan[gi].Conditions)
 	}
 }
 
@@ -100,6 +205,26 @@ func (IncidentEngineConditions) FromAPI(conditions []client.ConditionV2) Inciden
 		out = append(out, IncidentEngineCondition{}.FromAPI(cond))
 	}
 	return out
+}
+
+// ReconcileSpelling correlates positionally and requires the subject to match, so a condition
+// that moved is left with whatever the API said.
+func (conditions IncidentEngineConditions) ReconcileSpelling(plan IncidentEngineConditions) {
+	for ci := range conditions {
+		if ci >= len(plan) {
+			break
+		}
+
+		planned, applied := plan[ci], conditions[ci]
+		if !applied.Subject.Equal(planned.Subject) {
+			continue
+		}
+
+		if serverOperationNormalisations[planned.Operation.ValueString()] == applied.Operation.ValueString() {
+			conditions[ci].Operation = planned.Operation
+		}
+		conditions[ci].ParamBindings = applied.ParamBindings.ReconcileSpelling(planned.ParamBindings)
+	}
 }
 
 type IncidentEngineCondition struct {
@@ -128,6 +253,77 @@ func (IncidentEngineParamBindings) FromAPI(pbs []client.EngineParamBindingV2) In
 	return out
 }
 
+// ReconcileSpelling puts back the shorthand the config used: a read only sees the stored form, so
+// `value_literal = "x"` would otherwise read back as `value = { literal = "x" }` and fail the
+// apply as an inconsistent result.
+//
+// The prior only wins while it still means what came back, so genuine drift isn't hidden.
+func (binding IncidentEngineParamBinding) ReconcileSpelling(prior IncidentEngineParamBinding) IncidentEngineParamBinding {
+	if binding.meansTheSameAs(prior) {
+		return prior
+	}
+
+	return binding
+}
+
+func (binding IncidentEngineParamBinding) meansTheSameAs(other IncidentEngineParamBinding) bool {
+	resolved, otherResolved := binding.resolved(), other.resolved()
+
+	if (resolved.Value == nil) != (otherResolved.Value == nil) {
+		return false
+	}
+	if resolved.Value != nil && !resolved.Value.meansTheSameAs(*otherResolved.Value) {
+		return false
+	}
+	if len(resolved.ArrayValue) != len(otherResolved.ArrayValue) {
+		return false
+	}
+	for idx := range resolved.ArrayValue {
+		if !resolved.ArrayValue[idx].meansTheSameAs(otherResolved.ArrayValue[idx]) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// meansTheSameAs compares literals the way NormalizedJSONOrString compares them in state, rather
+// than byte for byte. The API re-encodes a JSON literal, so a difference in key order or escaping
+// would otherwise read as a changed value and drop the shorthand the config wrote.
+func (v IncidentEngineParamBindingValue) meansTheSameAs(other IncidentEngineParamBindingValue) bool {
+	if !v.Reference.Equal(other.Reference) {
+		return false
+	}
+	if v.Literal.IsNull() != other.Literal.IsNull() || v.Literal.IsUnknown() != other.Literal.IsUnknown() {
+		return false
+	}
+
+	return jsontypes.JSONStringsEqual(v.Literal.ValueString(), other.Literal.ValueString())
+}
+
+// ReconcileBindingSpelling is ReconcileSpelling for the standalone bindings a resource holds as a
+// pointer, rather than as part of a list.
+func ReconcileBindingSpelling(applied, prior *IncidentEngineParamBinding) *IncidentEngineParamBinding {
+	if applied == nil || prior == nil {
+		return applied
+	}
+
+	return lo.ToPtr(applied.ReconcileSpelling(*prior))
+}
+
+// ReconcileSpelling correlates positionally: param bindings are a list, and the API returns them
+// in the order it was given them.
+func (pbs IncidentEngineParamBindings) ReconcileSpelling(prior IncidentEngineParamBindings) IncidentEngineParamBindings {
+	for idx := range pbs {
+		if idx >= len(prior) {
+			break
+		}
+		pbs[idx] = pbs[idx].ReconcileSpelling(prior[idx])
+	}
+
+	return pbs
+}
+
 // TrimAppendedEmpty drops trailing empty bindings the API padded onto a step that has
 // gained params, beyond the priorLen we sent. Stopping at priorLen keeps a configured
 // empty binding, which means "skip this optional param".
@@ -140,13 +336,63 @@ func (pbs IncidentEngineParamBindings) TrimAppendedEmpty(priorLen int) IncidentE
 	return out
 }
 
+// A binding has two forms the API understands, `value` and `array_value`, and four shorthands.
+// The shorthands carry no meaning of their own: ToPayload folds them onto the two real forms, and
+// a read puts back whichever spelling the config used, because Terraform compares the spelling
+// and not the meaning.
 type IncidentEngineParamBinding struct {
 	ArrayValue []IncidentEngineParamBindingValue `tfsdk:"array_value"`
 	Value      *IncidentEngineParamBindingValue  `tfsdk:"value"`
+
+	ValueLiteral   jsontypes.NormalizedJSONOrString   `tfsdk:"value_literal"`
+	ValueReference types.String                       `tfsdk:"value_reference"`
+	ExpressionRef  types.String                       `tfsdk:"expression_ref"`
+	Values         []jsontypes.NormalizedJSONOrString `tfsdk:"values"`
 }
 
 func (binding IncidentEngineParamBinding) IsEmpty() bool {
-	return binding.Value == nil && len(binding.ArrayValue) == 0
+	return binding.Value == nil && len(binding.ArrayValue) == 0 &&
+		binding.ValueLiteral.IsNull() && binding.ValueReference.IsNull() &&
+		binding.ExpressionRef.IsNull() && len(binding.Values) == 0
+}
+
+// resolved folds the shorthands onto the two forms the API understands, so a shorthand and the
+// long form it stands for are the same binding from here on.
+// An unknown shorthand counts as unset, so the value it stands for stays unknown rather than
+// becoming whatever ValueString reads off an unknown, which is the empty string.
+func (binding IncidentEngineParamBinding) resolved() IncidentEngineParamBinding {
+	switch {
+	case isSet(binding.ValueLiteral):
+		return IncidentEngineParamBinding{Value: &IncidentEngineParamBindingValue{
+			Literal:   binding.ValueLiteral,
+			Reference: types.StringNull(),
+		}}
+
+	case isSet(binding.ValueReference):
+		return IncidentEngineParamBinding{Value: &IncidentEngineParamBindingValue{
+			Literal:   jsontypes.NewNormalizedJSONOrStringNull(),
+			Reference: binding.ValueReference,
+		}}
+
+	case isSet(binding.ExpressionRef):
+		return IncidentEngineParamBinding{Value: &IncidentEngineParamBindingValue{
+			Literal:   jsontypes.NewNormalizedJSONOrStringNull(),
+			Reference: types.StringValue(ExpressionReference(binding.ExpressionRef.ValueString())),
+		}}
+
+	case len(binding.Values) > 0:
+		values := []IncidentEngineParamBindingValue{}
+		for _, literal := range binding.Values {
+			values = append(values, IncidentEngineParamBindingValue{
+				Literal:   literal,
+				Reference: types.StringNull(),
+			})
+		}
+
+		return IncidentEngineParamBinding{ArrayValue: values}
+	}
+
+	return IncidentEngineParamBinding{ArrayValue: binding.ArrayValue, Value: binding.Value}
 }
 
 func (IncidentEngineParamBinding) FromAPI(pb client.EngineParamBindingV2) IncidentEngineParamBinding {
@@ -193,7 +439,7 @@ type IncidentEngineExpressions []IncidentEngineExpression
 
 // ReconcileOperations does the same for filter and branch conditions. Expressions
 // are a set, so we correlate by reference rather than position.
-func (expressions IncidentEngineExpressions) ReconcileOperations(plan IncidentEngineExpressions) {
+func (expressions IncidentEngineExpressions) ReconcileSpelling(plan IncidentEngineExpressions) {
 	planByReference := map[string]IncidentEngineExpression{}
 	for _, expression := range plan {
 		planByReference[expression.Reference.ValueString()] = expression
@@ -205,6 +451,11 @@ func (expressions IncidentEngineExpressions) ReconcileOperations(plan IncidentEn
 			continue
 		}
 
+		if expressions[ei].ElseBranch != nil && planExpression.ElseBranch != nil {
+			expressions[ei].ElseBranch.Result = expressions[ei].ElseBranch.Result.
+				ReconcileSpelling(planExpression.ElseBranch.Result)
+		}
+
 		for oi := range expressions[ei].Operations {
 			if oi >= len(planExpression.Operations) {
 				break
@@ -214,7 +465,7 @@ func (expressions IncidentEngineExpressions) ReconcileOperations(plan IncidentEn
 			planOp := planExpression.Operations[oi]
 
 			if op.Filter != nil && planOp.Filter != nil {
-				op.Filter.ConditionGroups.ReconcileOperations(planOp.Filter.ConditionGroups)
+				op.Filter.ConditionGroups.ReconcileSpelling(planOp.Filter.ConditionGroups)
 			}
 
 			if op.Branches != nil && planOp.Branches != nil {
@@ -222,7 +473,9 @@ func (expressions IncidentEngineExpressions) ReconcileOperations(plan IncidentEn
 					if bi >= len(planOp.Branches.Branches) {
 						break
 					}
-					op.Branches.Branches[bi].ConditionGroups.ReconcileOperations(planOp.Branches.Branches[bi].ConditionGroups)
+					op.Branches.Branches[bi].ConditionGroups.ReconcileSpelling(planOp.Branches.Branches[bi].ConditionGroups)
+					op.Branches.Branches[bi].Result = op.Branches.Branches[bi].Result.
+						ReconcileSpelling(planOp.Branches.Branches[bi].Result)
 				}
 			}
 		}
@@ -410,7 +663,48 @@ func ParamBindingAttributes() map[string]schema.Attribute {
 			Optional:            true,
 			Attributes:          ParamBindingValueAttributes(),
 		},
+
+		// Shorthands for the two above. ConflictsWith keeps them exclusive wherever the binding
+		// is used, so no resource has to wire up its own check.
+		"value_literal": schema.StringAttribute{
+			CustomType:          jsontypes.NormalizedJSONOrStringType{},
+			MarkdownDescription: "A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.",
+			Optional:            true,
+			Validators:          []validator.String{stringvalidator.ConflictsWith(bindingFormsOtherThan("value_literal")...)},
+		},
+		"value_reference": schema.StringAttribute{
+			MarkdownDescription: "A reference into the scope, shorthand for `value = { reference = ... }`.",
+			Optional:            true,
+			Validators:          []validator.String{stringvalidator.ConflictsWith(bindingFormsOtherThan("value_reference")...)},
+		},
+		"expression_ref": schema.StringAttribute{
+			MarkdownDescription: "The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions[\"name\"]`.",
+			Optional:            true,
+			Validators:          []validator.String{stringvalidator.ConflictsWith(bindingFormsOtherThan("expression_ref")...)},
+		},
+		"values": schema.ListAttribute{
+			ElementType:         jsontypes.NormalizedJSONOrStringType{},
+			MarkdownDescription: "Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.",
+			Optional:            true,
+			Validators:          []validator.List{listvalidator.ConflictsWith(bindingFormsOtherThan("values")...)},
+		},
 	}
+}
+
+// bindingForms is every way of writing a binding's value. Exactly one may be set.
+var bindingForms = []string{"value", "array_value", "value_literal", "value_reference", "expression_ref", "values"}
+
+// bindingFormsOtherThan names the sibling attributes a given form conflicts with. The paths are
+// relative to the binding object, so they resolve wherever the binding is nested.
+func bindingFormsOtherThan(self string) []path.Expression {
+	out := []path.Expression{}
+	for _, form := range bindingForms {
+		if form != self {
+			out = append(out, path.MatchRelative().AtParent().AtName(form))
+		}
+	}
+
+	return out
 }
 
 func ParamBindingsAttribute() schema.ListNestedAttribute {
@@ -624,15 +918,16 @@ func (pbs IncidentEngineParamBindings) ToPayload() []client.EngineParamBindingPa
 }
 
 func (binding IncidentEngineParamBinding) ToPayload() client.EngineParamBindingPayloadV2 {
-	arrayValue := []client.EngineParamBindingValuePayloadV2{}
+	resolved := binding.resolved()
 
-	for _, v := range binding.ArrayValue {
+	arrayValue := []client.EngineParamBindingValuePayloadV2{}
+	for _, v := range resolved.ArrayValue {
 		arrayValue = append(arrayValue, v.ToPayload())
 	}
 
 	var value *client.EngineParamBindingValuePayloadV2
-	if binding.Value != nil {
-		value = lo.ToPtr(binding.Value.ToPayload())
+	if resolved.Value != nil {
+		value = lo.ToPtr(resolved.Value.ToPayload())
 	}
 
 	return client.EngineParamBindingPayloadV2{

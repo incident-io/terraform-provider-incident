@@ -702,7 +702,7 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
 	planEmailOptions := data.EmailOptions
 
-	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
+	data = models.AlertSourceResourceModel{}.FromAPIWithPlan(result.JSON200.AlertSource, &data)
 
 	// When auto_resolve_timeout_minutes isn't set, the API ignores
 	// auto_resolve_incident_alerts and won't return it. Preserve the
@@ -751,7 +751,7 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 	stateAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
 	stateEmailOptions := data.EmailOptions
 
-	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
+	data = models.AlertSourceResourceModel{}.FromAPIWithPlan(result.JSON200.AlertSource, &data)
 
 	// When auto_resolve_timeout_minutes isn't set, the API ignores
 	// auto_resolve_incident_alerts and won't return it. Preserve the
@@ -832,7 +832,7 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
 	planEmailOptions := data.EmailOptions
 
-	data = models.AlertSourceResourceModel{}.FromAPI(result.JSON200.AlertSource)
+	data = models.AlertSourceResourceModel{}.FromAPIWithPlan(result.JSON200.AlertSource, &data)
 
 	// When auto_resolve_timeout_minutes isn't set, the API ignores
 	// auto_resolve_incident_alerts and won't return it. Preserve the
