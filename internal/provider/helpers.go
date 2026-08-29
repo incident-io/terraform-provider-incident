@@ -1,7 +1,10 @@
 package provider
 
 import (
+	"strings"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
@@ -45,4 +48,15 @@ func knownInt64(value attr.Value) (int64, bool) {
 	}
 
 	return number.ValueInt64(), true
+}
+
+// diagnosticsError renders diagnostics as a single string, for the code paths that carry an
+// error rather than a diag.Diagnostics and so can't append them.
+func diagnosticsError(diags diag.Diagnostics) string {
+	messages := make([]string, 0, len(diags.Errors()))
+	for _, d := range diags.Errors() {
+		messages = append(messages, strings.TrimSpace(d.Summary()+": "+d.Detail()))
+	}
+
+	return strings.Join(messages, "; ")
 }
