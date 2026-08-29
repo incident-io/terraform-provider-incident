@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -489,8 +488,7 @@ func (r *alertSourceBetaResource) ModifyPlan(ctx context.Context, req resource.M
 	}
 
 	// 422 is the API rejecting this source, which is the whole point.
-	var httpErr client.HTTPError
-	if errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusUnprocessableEntity {
+	if httpErr, ok := apiErrorWithStatus(err, http.StatusUnprocessableEntity); ok {
 		resp.Diagnostics.AddError("Invalid alert source", httpErr.Error())
 		return
 	}

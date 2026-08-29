@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"maps"
 	"net/http"
@@ -269,8 +268,7 @@ func (r *alertSourceAttributeBetaResource) ModifyPlan(ctx context.Context, req r
 	}
 
 	// 422 is the API rejecting this binding, which is the whole point.
-	var httpErr client.HTTPError
-	if errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusUnprocessableEntity {
+	if httpErr, ok := apiErrorWithStatus(err, http.StatusUnprocessableEntity); ok {
 		resp.Diagnostics.AddError("Invalid alert source attribute", httpErr.Error())
 		return
 	}
@@ -614,12 +612,6 @@ func bindingToModel(binding *models.Binding, model *alertSourceAttributeBetaMode
 	model.Values = binding.Values
 	model.Value = binding.Value
 	model.ArrayValue = binding.ArrayValue
-}
-
-// isConflict reports whether err is an API 409.
-func isConflict(err error) bool {
-	var httpErr client.HTTPError
-	return errors.As(err, &httpErr) && httpErr.StatusCode == 409
 }
 
 // attributeIsBound reports whether the attribute is bound on the source.

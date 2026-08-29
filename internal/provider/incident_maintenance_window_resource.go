@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
@@ -250,8 +249,7 @@ func (r *IncidentMaintenanceWindowResource) Read(ctx context.Context, req resour
 
 	result, err := r.client.MaintenanceWindowsV1ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+		if isNotFound(err) {
 			tflog.Warn(ctx, fmt.Sprintf("Maintenance window with ID %s not found: removing from state.", data.ID.ValueString()))
 			resp.State.RemoveResource(ctx)
 			return

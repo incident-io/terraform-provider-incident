@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strings"
 	"sync"
@@ -303,9 +302,7 @@ func (r *IncidentCatalogTypeAttributeResource) Read(ctx context.Context, req res
 
 	result, err := r.client.CatalogV3ShowTypeWithResponse(ctx, data.CatalogTypeID.ValueString())
 	if err != nil {
-		// Check if error message contains any indication of a 404 not found
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+		if isNotFound(err) {
 			tflog.Warn(ctx, fmt.Sprintf("Catalog type with ID %s not found: removing from state.", data.CatalogTypeID.ValueString()))
 			resp.State.RemoveResource(ctx)
 			return
@@ -519,8 +516,7 @@ func (r *IncidentCatalogTypeAttributeResource) ImportState(ctx context.Context, 
 	// types.List[DynamicPseudoType] instead of types.List[String]).
 	result, err := r.client.CatalogV3ShowTypeWithResponse(ctx, catalogTypeID)
 	if err != nil {
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+		if isNotFound(err) {
 			resp.Diagnostics.AddError(
 				"Catalog Type Not Found",
 				fmt.Sprintf("No catalog type exists with ID %q. Import IDs must be in the format catalog_type_id:attribute_id.", catalogTypeID),

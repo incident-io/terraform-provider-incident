@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strings"
 
@@ -195,8 +194,7 @@ func (r *IncidentScheduleSyncTargetResource) Read(ctx context.Context, req resou
 
 	result, err := r.client.ScheduleSyncTargetsV2ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+		if isNotFound(err) {
 			tflog.Warn(ctx, fmt.Sprintf("Schedule sync target with ID %s not found: removing from state.", data.ID.ValueString()))
 			resp.State.RemoveResource(ctx)
 			return
@@ -280,8 +278,7 @@ func (r *IncidentScheduleSyncTargetResource) ImportState(ctx context.Context, re
 	// message instead of an empty import.
 	result, err := r.client.ScheduleSyncTargetsV2ShowWithResponse(ctx, targetID)
 	if err != nil {
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+		if isNotFound(err) {
 			resp.Diagnostics.AddError(
 				"Schedule Sync Target Not Found",
 				fmt.Sprintf("No sync target exists with ID %q.", targetID),

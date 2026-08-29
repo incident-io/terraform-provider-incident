@@ -711,12 +711,6 @@ func (r *IncidentAlertRouteResource) ImportState(ctx context.Context, req resour
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-// isNotFound reports whether err is a 404 from the API.
-func isNotFound(err error) bool {
-	httpErr := client.HTTPError{}
-	return errors.As(err, &httpErr) && httpErr.StatusCode == 404
-}
-
 // alertRouteAPINotYetAvailableCode is the error code the v3 alert routes API
 // returns (with a 403) for organisations that have not migrated to the new
 // alert grouping engine.
