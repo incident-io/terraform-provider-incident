@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -374,7 +373,7 @@ func (u updatePayload) toPartialEntryPayload() client.PartialEntryPayloadV3 {
 
 // buildPayloads produces a list of payloads that are used to either create or update an
 // entry depending on whether we're already tracking it in our model.
-func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) []*catalogEntryModelPayload {
+func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) ([]*catalogEntryModelPayload, error) {
 	payloads := []*catalogEntryModelPayload{}
 	for externalID, entry := range m.Entries {
 		values := map[string]client.CatalogEngineParamBindingPayloadV3{}
@@ -387,13 +386,12 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 			}
 			if !attributeValue.ArrayValue.IsNull() {
 				arrayValue := []client.CatalogEngineParamBindingValuePayloadV3{}
-				for _, element := range attributeValue.ArrayValue.Elements() {
+				for idx, element := range attributeValue.ArrayValue.Elements() {
 					elementString, ok := element.(types.String)
 					if !ok {
-						tflog.Error(ctx, "Failed to map attribute for catalog entries to string", map[string]any{
-							"element_type": fmt.Sprintf("element should have been types.String but was %T", element),
-						})
-						panic(fmt.Sprintf("element should have been types.String but was %T", element))
+						return nil, fmt.Errorf(
+							"entry %q: array_value[%d] of attribute %q should have been a string but was %T: please report this issue to the provider developers",
+							externalID, idx, attributeID, element)
 					}
 					arrayValue = append(arrayValue, client.CatalogEngineParamBindingValuePayloadV3{
 						Literal: lo.ToPtr(elementString.ValueString()),
@@ -409,10 +407,7 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 		aliases := []string{}
 		if !entry.Aliases.IsUnknown() {
 			if diags := entry.Aliases.ElementsAs(ctx, &aliases, false); diags.HasError() {
-				tflog.Error(ctx, "Failed to convert aliases", map[string]any{
-					"error": spew.Sdump(diags.Errors()),
-				})
-				panic(spew.Sdump(diags.Errors()))
+				return nil, fmt.Errorf("entry %q: unable to read aliases: %s", externalID, diagnosticsError(diags))
 			}
 		}
 		payload := &catalogEntryModelPayload{
@@ -435,7 +430,7 @@ func (m IncidentCatalogEntriesResourceModel) buildPayloads(ctx context.Context) 
 		payloads = append(payloads, payload)
 	}
 
-	return payloads
+	return payloads, nil
 }
 
 func (r *IncidentCatalogEntriesResource) getEntries(ctx context.Context, catalogTypeID string) (catalogType *client.CatalogTypeV3, entries []client.CatalogEntryV3, err error) {
@@ -542,7 +537,12 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 		toCreate []*catalogEntryModelPayload
 	)
 
-	for _, payload := range data.buildPayloads(ctx) {
+	payloads, err := data.buildPayloads(ctx)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	for _, payload := range payloads {
 		entry, alreadyExists := entriesByExternalID[*payload.Payload.ExternalId]
 		if alreadyExists && entry != nil {
 			// If we found the entry in the list of all entries, then we need to diff it and
@@ -599,10 +599,15 @@ func (r *IncidentCatalogEntriesResource) reconcile(ctx context.Context, data *In
 				return u.toPartialEntryPayload()
 			})
 
-			_, err := r.client.CatalogV3BulkUpdateEntriesWithResponse(ctx, client.CatalogBulkUpdateEntriesPayloadV3{
+			updateAttributes, err := data.buildUpdateAttributes(ctx)
+			if err != nil {
+				return nil, nil, err
+			}
+
+			_, err = r.client.CatalogV3BulkUpdateEntriesWithResponse(ctx, client.CatalogBulkUpdateEntriesPayloadV3{
 				CatalogTypeId:    data.ID.ValueString(),
 				Entries:          partialEntries,
-				UpdateAttributes: data.buildUpdateAttributes(ctx),
+				UpdateAttributes: updateAttributes,
 			})
 			if err != nil {
 				return nil, nil, errors.Wrap(err, fmt.Sprintf("unable to bulk update catalog entries (batch %d of %d)", i+1, len(batches)))
@@ -697,19 +702,15 @@ func (m *IncidentCatalogEntriesResourceModel) managedAttributesSet() (map[string
 	return managedAttrSet, true
 }
 
-func (m *IncidentCatalogEntriesResourceModel) buildUpdateAttributes(ctx context.Context) *[]string {
+func (m *IncidentCatalogEntriesResourceModel) buildUpdateAttributes(ctx context.Context) (*[]string, error) {
 	if m.ManagedAttributes.IsNull() {
-		return nil
+		return nil, nil
 	}
 
 	var managedAttributeIDs []string
-	diags := m.ManagedAttributes.ElementsAs(context.Background(), &managedAttributeIDs, false)
-	if diags.HasError() {
-		tflog.Error(ctx, "Failed to convert managed attributes", map[string]any{
-			"error": spew.Sdump(diags.Errors()),
-		})
-		panic(diags.Errors())
+	if diags := m.ManagedAttributes.ElementsAs(ctx, &managedAttributeIDs, false); diags.HasError() {
+		return nil, fmt.Errorf("unable to read managed_attributes: %s", diagnosticsError(diags))
 	}
 
-	return &managedAttributeIDs
+	return &managedAttributeIDs, nil
 }
