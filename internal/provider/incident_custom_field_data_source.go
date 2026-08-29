@@ -22,7 +22,7 @@ func NewIncidentCustomFieldDataSource() datasource.DataSource {
 }
 
 type IncidentCustomFieldDataSource struct {
-	client *client.ClientWithResponses
+	dataSourceConfigurer
 }
 
 func (i *IncidentCustomFieldDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
@@ -73,24 +73,6 @@ func (i *IncidentCustomFieldDataSource) Schema(ctx context.Context, req datasour
 			},
 		},
 	}
-}
-
-func (i *IncidentCustomFieldDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Data Source Custom Field",
-			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-
-		return
-	}
-
-	i.client = client.Client
 }
 
 func (i *IncidentCustomFieldDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {

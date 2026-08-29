@@ -41,8 +41,7 @@ func NewIncidentScheduleRotationBetaResource() resource.Resource {
 }
 
 type IncidentScheduleRotationBetaResource struct {
-	client           *client.ClientWithResponses
-	terraformVersion string
+	resourceConfigurer
 }
 
 // IncidentScheduleRotationBetaModel is the Terraform state/plan shape for the resource.
@@ -252,22 +251,6 @@ See ` + "`incident_schedule_beta`" + ` for how the two differ and how to migrate
 			},
 		},
 	}
-}
-
-func (r *IncidentScheduleRotationBetaResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-	data, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected provider data",
-			fmt.Sprintf("expected *IncidentProviderData, got %T. This is a provider bug.", req.ProviderData),
-		)
-		return
-	}
-	r.client = data.Client
-	r.terraformVersion = data.TerraformVersion
 }
 
 // handoverIntervalLimits is the largest repeat allowed for each interval type: a weekly

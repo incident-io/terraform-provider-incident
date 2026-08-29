@@ -24,7 +24,7 @@ var (
 )
 
 type IncidentSeverityResource struct {
-	client *client.ClientWithResponses
+	resourceConfigurer
 }
 
 type IncidentSeverityResourceModel struct {
@@ -68,24 +68,6 @@ func (r *IncidentSeverityResource) Schema(ctx context.Context, req resource.Sche
 			},
 		},
 	}
-}
-
-func (r *IncidentSeverityResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Resource Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-
-		return
-	}
-
-	r.client = client.Client
 }
 
 func (r *IncidentSeverityResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {

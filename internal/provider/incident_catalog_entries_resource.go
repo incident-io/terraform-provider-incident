@@ -31,7 +31,7 @@ var (
 )
 
 type IncidentCatalogEntriesResource struct {
-	client *client.ClientWithResponses
+	resourceConfigurer
 }
 
 type IncidentCatalogEntriesResourceModel struct {
@@ -164,24 +164,6 @@ This can be used to allow other attributes of a catalog entry to be managed else
 			},
 		},
 	}
-}
-
-func (r *IncidentCatalogEntriesResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Resource Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-
-		return
-	}
-
-	r.client = client.Client
 }
 
 func (r *IncidentCatalogEntriesResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {

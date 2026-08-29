@@ -160,7 +160,7 @@ func modifyRotationPlan(t *testing.T, api *fakeAPI, state tftypes.Value, plan *t
 		planRaw = *plan
 	}
 
-	r := &IncidentScheduleRotationBetaResource{client: api.start(t)}
+	r := &IncidentScheduleRotationBetaResource{resourceConfigurer: withClient(api.start(t))}
 	var resp resource.ModifyPlanResponse
 	r.ModifyPlan(context.Background(), resource.ModifyPlanRequest{
 		State: tfsdk.State{Schema: schemaResp.Schema, Raw: state},
@@ -520,7 +520,7 @@ func TestScheduleRotationModifyPlanSupersededChangeReplaced(t *testing.T) {
 	state := effectiveFrom(t, rotationValue(t, "01SCHED", 1), 90*24*time.Hour)
 	plan := effectiveFrom(t, rotationValue(t, "01OTHERSCHED", 1), 90*24*time.Hour)
 
-	r := &IncidentScheduleRotationBetaResource{client: api.start(t)}
+	r := &IncidentScheduleRotationBetaResource{resourceConfigurer: withClient(api.start(t))}
 	resp := resource.ModifyPlanResponse{RequiresReplace: path.Paths{path.Root("schedule_id")}}
 	r.ModifyPlan(context.Background(), resource.ModifyPlanRequest{
 		State: tfsdk.State{Schema: schemaResp.Schema, Raw: state},

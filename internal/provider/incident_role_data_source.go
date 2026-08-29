@@ -28,7 +28,7 @@ func (i *IncidentRoleDataSource) Metadata(_ context.Context, req datasource.Meta
 }
 
 type IncidentRoleDataSource struct {
-	client *client.ClientWithResponses
+	dataSourceConfigurer
 }
 
 type IncidentRoleDataSourceModel struct {
@@ -37,24 +37,6 @@ type IncidentRoleDataSourceModel struct {
 	Description  types.String `tfsdk:"description" json:"description"`
 	Instructions types.String `tfsdk:"instructions" json:"instructions"`
 	Shortform    types.String `tfsdk:"shortform" json:"shortform"`
-}
-
-func (i *IncidentRoleDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Data Source Role Configuration",
-			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-
-		return
-	}
-
-	i.client = client.Client
 }
 
 func (i *IncidentRoleDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {

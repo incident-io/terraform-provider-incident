@@ -145,7 +145,7 @@ func readRichText(t *testing.T, api *client.ClientWithResponses, markdown, featu
 	t.Helper()
 
 	ctx := context.Background()
-	d := &richTextDataSource{client: api}
+	d := &richTextDataSource{dataSourceConfigurer: withClientDataSource(api)}
 
 	var schemaResp datasource.SchemaResponse
 	d.Schema(ctx, datasource.SchemaRequest{}, &schemaResp)

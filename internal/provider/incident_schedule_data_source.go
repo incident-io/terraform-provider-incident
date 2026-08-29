@@ -23,7 +23,8 @@ func NewIncidentScheduleDataSource() datasource.DataSource {
 }
 
 type IncidentScheduleDataSource struct {
-	client                    *client.ClientWithResponses
+	dataSourceConfigurer
+
 	scheduleTypeID            string
 	scheduleTypeIDOnce        sync.Once
 	scheduleTypeIDLookupError error
@@ -34,23 +35,6 @@ type IncidentScheduleDataSourceModel struct {
 	Name     types.String `tfsdk:"name"`
 	Timezone types.String `tfsdk:"timezone"`
 	TeamIDs  types.Set    `tfsdk:"team_ids"`
-}
-
-func (d *IncidentScheduleDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *IncidentProviderData, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-		return
-	}
-
-	d.client = client.Client
 }
 
 func (d *IncidentScheduleDataSource) getScheduleTypeID(ctx context.Context) (string, error) {

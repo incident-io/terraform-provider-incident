@@ -25,9 +25,7 @@ var (
 )
 
 type IncidentScheduleSyncRuleResource struct {
-	client                *client.ClientWithResponses
-	terraformVersion      string
-	markImportedAsManaged bool
+	resourceConfigurer
 }
 
 func NewIncidentScheduleSyncRuleResource() resource.Resource {
@@ -83,25 +81,6 @@ func (r *IncidentScheduleSyncRuleResource) Schema(ctx context.Context, req resou
 			},
 		},
 	}
-}
-
-func (r *IncidentScheduleSyncRuleResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Resource Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-		return
-	}
-
-	r.client = client.Client
-	r.terraformVersion = client.TerraformVersion
-	r.markImportedAsManaged = client.MarkImportedAsManaged
 }
 
 func (r *IncidentScheduleSyncRuleResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
