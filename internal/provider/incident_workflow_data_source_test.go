@@ -98,7 +98,7 @@ func TestIncidentWorkflowDataSourceSchemaMatchesModel(t *testing.T) {
 		PrivateIncidentScope:      client.WorkflowV2PrivateIncidentScope("owning_teams"),
 	}
 
-	model := (&IncidentWorkflowResource{}).buildModel(ctx, workflow, nil)
+	model := (&IncidentWorkflowResource{}).buildModel(workflow, nil)
 
 	state := tfsdk.State{
 		Schema: resp.Schema,

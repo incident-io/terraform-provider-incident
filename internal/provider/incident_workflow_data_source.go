@@ -214,7 +214,7 @@ func (d *IncidentWorkflowDataSource) Read(ctx context.Context, req datasource.Re
 	// Reuse the resource's buildModel for consistency. There's no prior state to
 	// reconcile against in a data source, so pass nil: we want whatever the API has.
 	workflowResource := &IncidentWorkflowResource{}
-	model := workflowResource.buildModel(ctx, result.JSON200.Workflow, nil)
+	model := workflowResource.buildModel(result.JSON200.Workflow, nil)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, model)...)
 }
