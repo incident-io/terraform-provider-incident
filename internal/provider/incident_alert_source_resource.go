@@ -32,9 +32,7 @@ var (
 )
 
 type IncidentAlertSourceResource struct {
-	client                *client.ClientWithResponses
-	terraformVersion      string
-	markImportedAsManaged bool
+	resourceConfigurer
 }
 
 // ValidateConfig checks that jira_options is only set when the source type is
@@ -628,25 +626,6 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 			},
 		},
 	}
-}
-
-func (r *IncidentAlertSourceResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Resource Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-		return
-	}
-
-	r.client = client.Client
-	r.terraformVersion = client.TerraformVersion
-	r.markImportedAsManaged = client.MarkImportedAsManaged
 }
 
 func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {

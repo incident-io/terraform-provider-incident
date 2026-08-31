@@ -25,7 +25,7 @@ func NewIncidentAlertSourcesDataSource() datasource.DataSource {
 }
 
 type IncidentAlertSourcesDataSource struct {
-	client *client.ClientWithResponses
+	dataSourceConfigurer
 }
 
 type IncidentAlertSourcesDataSourceModel struct {
@@ -42,23 +42,6 @@ type IncidentAlertSourcesDataSourceItemModel struct {
 	Template       *models.AlertTemplateModel          `tfsdk:"template"`
 	JiraOptions    *models.AlertSourceJiraOptionsModel `tfsdk:"jira_options"`
 	EmailAddress   types.String                        `tfsdk:"email_address"`
-}
-
-func (d *IncidentAlertSourcesDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *IncidentProviderData, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-		return
-	}
-
-	d.client = client.Client
 }
 
 func (d *IncidentAlertSourcesDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {

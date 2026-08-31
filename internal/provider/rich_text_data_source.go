@@ -25,7 +25,7 @@ func NewRichTextDataSource() datasource.DataSource {
 }
 
 type richTextDataSource struct {
-	client *client.ClientWithResponses
+	dataSourceConfigurer
 }
 
 type richTextDataSourceModel struct {
@@ -66,21 +66,6 @@ func (d *richTextDataSource) Schema(_ context.Context, _ datasource.SchemaReques
 			},
 		},
 	}
-}
-
-func (d *richTextDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-	data, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected provider data",
-			fmt.Sprintf("expected *IncidentProviderData, got %T. This is a provider bug.", req.ProviderData),
-		)
-		return
-	}
-	d.client = data.Client
 }
 
 func (d *richTextDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

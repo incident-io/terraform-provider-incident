@@ -24,8 +24,7 @@ var (
 )
 
 type IncidentAlertAttributeResource struct {
-	client           *client.ClientWithResponses
-	terraformVersion string
+	resourceConfigurer
 }
 
 type IncidentAlertAttributeResourceModel struct {
@@ -79,25 +78,6 @@ func (r *IncidentAlertAttributeResource) Schema(ctx context.Context, req resourc
 			},
 		},
 	}
-}
-
-func (r *IncidentAlertAttributeResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Resource Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-
-		return
-	}
-
-	r.client = client.Client
-	r.terraformVersion = client.TerraformVersion
 }
 
 func (r *IncidentAlertAttributeResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {

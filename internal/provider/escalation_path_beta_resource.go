@@ -34,9 +34,7 @@ func NewEscalationPathBetaResource() resource.Resource {
 }
 
 type escalationPathBetaResource struct {
-	client                *client.ClientWithResponses
-	terraformVersion      string
-	markImportedAsManaged bool
+	resourceConfigurer
 }
 
 type escalationPathBetaModel struct {
@@ -252,25 +250,6 @@ func escalationPathBetaNodeSchema() schema.NestedAttributeObject {
 			},
 		},
 	}
-}
-
-func (r *escalationPathBetaResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	data, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Resource Configure Type",
-			fmt.Sprintf("Expected *IncidentProviderData, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-		return
-	}
-
-	r.client = data.Client
-	r.terraformVersion = data.TerraformVersion
-	r.markImportedAsManaged = data.MarkImportedAsManaged
 }
 
 func (r *escalationPathBetaResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {

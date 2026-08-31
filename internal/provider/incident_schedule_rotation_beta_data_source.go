@@ -31,7 +31,7 @@ func NewIncidentScheduleRotationBetaDataSource() datasource.DataSource {
 }
 
 type IncidentScheduleRotationBetaDataSource struct {
-	client *client.ClientWithResponses
+	dataSourceConfigurer
 }
 
 type IncidentScheduleRotationBetaDataSourceModel struct {
@@ -137,21 +137,6 @@ func (d *IncidentScheduleRotationBetaDataSource) Schema(_ context.Context, _ dat
 			},
 		},
 	}
-}
-
-func (d *IncidentScheduleRotationBetaDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-	data, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected provider data",
-			fmt.Sprintf("expected *IncidentProviderData, got %T. This is a provider bug.", req.ProviderData),
-		)
-		return
-	}
-	d.client = data.Client
 }
 
 // ValidateConfig rejects an ambiguous lookup at plan time. Both attributes are

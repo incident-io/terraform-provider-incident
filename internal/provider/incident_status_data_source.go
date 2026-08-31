@@ -24,7 +24,7 @@ func NewIncidentStatusDataSource() datasource.DataSource {
 }
 
 type IncidentStatusDataSource struct {
-	client *client.ClientWithResponses
+	dataSourceConfigurer
 }
 
 type IncidentStatusDataSourceModel struct {
@@ -37,24 +37,6 @@ type IncidentStatusDataSourceModel struct {
 
 func (d *IncidentStatusDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_status"
-}
-
-func (d *IncidentStatusDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *IncidentProviderData, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-
-		return
-	}
-
-	d.client = client.Client
 }
 
 func (d *IncidentStatusDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {

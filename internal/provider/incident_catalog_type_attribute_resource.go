@@ -48,7 +48,7 @@ func isSchemaOnlyMode(mode client.CatalogTypeAttributeV3Mode) bool {
 }
 
 type IncidentCatalogTypeAttributeResource struct {
-	client *client.ClientWithResponses
+	resourceConfigurer
 }
 
 type IncidentCatalogTypeAttributesResourceModel struct {
@@ -221,24 +221,6 @@ func (r *IncidentCatalogTypeAttributeResource) ValidateConfig(ctx context.Contex
 	if isSchemaOnly && isPath {
 		resp.Diagnostics.AddError("schema_only", "You cannot set schema_only on a path attribute.")
 	}
-}
-
-func (r *IncidentCatalogTypeAttributeResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Resource Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-
-		return
-	}
-
-	r.client = client.Client
 }
 
 func (r *IncidentCatalogTypeAttributeResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {

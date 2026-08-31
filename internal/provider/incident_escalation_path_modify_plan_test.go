@@ -180,7 +180,7 @@ func modifyEscalationPathPlanWithState(t *testing.T, api *fakeEscalationPathVali
 		planRaw = *plan
 	}
 
-	r := &IncidentEscalationPathResource{client: api.start(t)}
+	r := &IncidentEscalationPathResource{resourceConfigurer: withClient(api.start(t))}
 
 	var resp resource.ModifyPlanResponse
 	r.ModifyPlan(t.Context(), resource.ModifyPlanRequest{

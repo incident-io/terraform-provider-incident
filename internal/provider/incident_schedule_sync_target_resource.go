@@ -26,9 +26,7 @@ var (
 )
 
 type IncidentScheduleSyncTargetResource struct {
-	client                *client.ClientWithResponses
-	terraformVersion      string
-	markImportedAsManaged bool
+	resourceConfigurer
 }
 
 func NewIncidentScheduleSyncTargetResource() resource.Resource {
@@ -135,25 +133,6 @@ func (r *IncidentScheduleSyncTargetResource) ValidateConfig(ctx context.Context,
 				"new_slack_user_group to create a new one."))
 		return
 	}
-}
-
-func (r *IncidentScheduleSyncTargetResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Resource Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-		return
-	}
-
-	r.client = client.Client
-	r.terraformVersion = client.TerraformVersion
-	r.markImportedAsManaged = client.MarkImportedAsManaged
 }
 
 func (r *IncidentScheduleSyncTargetResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {

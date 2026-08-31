@@ -95,7 +95,7 @@ func modifyAlertSourceBetaPlanFrom(
 ) resource.ModifyPlanResponse {
 	t.Helper()
 
-	r := &alertSourceBetaResource{client: api.start(t)}
+	r := &alertSourceBetaResource{resourceConfigurer: withClient(api.start(t))}
 
 	var resp resource.ModifyPlanResponse
 	r.ModifyPlan(context.Background(), resource.ModifyPlanRequest{Plan: plan, State: state}, &resp)

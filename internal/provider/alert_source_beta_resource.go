@@ -36,9 +36,7 @@ func NewAlertSourceBetaResource() resource.Resource {
 }
 
 type alertSourceBetaResource struct {
-	client                *client.ClientWithResponses
-	terraformVersion      string
-	markImportedAsManaged bool
+	resourceConfigurer
 }
 
 // alertSourceExpressions stores names as written: only this source's attributes, which share a
@@ -220,23 +218,6 @@ compatible, so pin the provider version if that matters to you.
 			"named_expression": models.NamedExpressionBlock(),
 		},
 	}
-}
-
-func (r *alertSourceBetaResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-	data, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected provider data",
-			fmt.Sprintf("expected *IncidentProviderData, got %T. This is a provider bug.", req.ProviderData),
-		)
-		return
-	}
-	r.client = data.Client
-	r.terraformVersion = data.TerraformVersion
-	r.markImportedAsManaged = data.MarkImportedAsManaged
 }
 
 // ValidateConfig runs the checks the schema can't express, so they land at plan time against a

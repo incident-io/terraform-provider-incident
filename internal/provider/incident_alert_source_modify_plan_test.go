@@ -225,7 +225,7 @@ func modifyAlertSourcePlanWithState(t *testing.T, api *fakeValidateAPI, plan *tf
 		planRaw = *plan
 	}
 
-	r := &IncidentAlertSourceResource{client: api.start(t)}
+	r := &IncidentAlertSourceResource{resourceConfigurer: withClient(api.start(t))}
 
 	var resp resource.ModifyPlanResponse
 	r.ModifyPlan(t.Context(), resource.ModifyPlanRequest{

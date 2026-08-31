@@ -30,9 +30,7 @@ var (
 )
 
 type IncidentScheduleResource struct {
-	client                *client.ClientWithResponses
-	terraformVersion      string
-	markImportedAsManaged bool
+	resourceConfigurer
 }
 
 func NewIncidentScheduleResource() resource.Resource {
@@ -167,26 +165,6 @@ func (r *IncidentScheduleResource) Schema(ctx context.Context, req resource.Sche
 			},
 		},
 	}
-}
-
-func (r *IncidentScheduleResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Resource Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-
-		return
-	}
-
-	r.client = client.Client
-	r.terraformVersion = client.TerraformVersion
-	r.markImportedAsManaged = client.MarkImportedAsManaged
 }
 
 // ValidateConfig rejects two rotations sharing an id, which cannot round-trip.

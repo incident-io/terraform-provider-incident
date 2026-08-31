@@ -35,9 +35,7 @@ func NewIncidentScheduleBetaResource() resource.Resource {
 }
 
 type IncidentScheduleBetaResource struct {
-	client                *client.ClientWithResponses
-	terraformVersion      string
-	markImportedAsManaged bool
+	resourceConfigurer
 }
 
 // IncidentScheduleBetaModel is the Terraform state/plan shape for the resource.
@@ -154,23 +152,6 @@ shifts along with it.`,
 			},
 		},
 	}
-}
-
-func (r *IncidentScheduleBetaResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-	data, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected provider data",
-			fmt.Sprintf("expected *IncidentProviderData, got %T. This is a provider bug.", req.ProviderData),
-		)
-		return
-	}
-	r.client = data.Client
-	r.terraformVersion = data.TerraformVersion
-	r.markImportedAsManaged = data.MarkImportedAsManaged
 }
 
 // ValidateConfig checks what it can without calling the API, so `terraform

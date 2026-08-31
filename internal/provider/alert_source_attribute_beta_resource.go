@@ -38,7 +38,7 @@ func NewAlertSourceAttributeBetaResource() resource.Resource {
 }
 
 type alertSourceAttributeBetaResource struct {
-	client *client.ClientWithResponses
+	resourceConfigurer
 }
 
 // alertSourceAttributeBetaModel is one attribute of one alert source. The value spellings sit
@@ -126,21 +126,6 @@ compatible, so pin the provider version if that matters to you.
 			"named_expression": models.NamedExpressionBlock(),
 		},
 	}
-}
-
-func (r *alertSourceAttributeBetaResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-	data, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected provider data",
-			fmt.Sprintf("expected *IncidentProviderData, got %T. This is a provider bug.", req.ProviderData),
-		)
-		return
-	}
-	r.client = data.Client
 }
 
 var alertSourceAttributeMergeStrategies = enumValues("AlertSourceAttributeV3", "merge_strategy")

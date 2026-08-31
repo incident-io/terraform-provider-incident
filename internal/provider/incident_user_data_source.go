@@ -24,7 +24,7 @@ func NewIncidentUserDataSource() datasource.DataSource {
 }
 
 type IncidentUserDataSource struct {
-	client *client.ClientWithResponses
+	dataSourceConfigurer
 }
 
 type IncidentUserDataSourceModel struct {
@@ -37,24 +37,6 @@ type IncidentUserDataSourceModel struct {
 
 type IncidentUserRequest struct {
 	ID types.String `tfsdk:"id"`
-}
-
-func (i *IncidentUserDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*IncidentProviderData)
-	if !ok {
-		resp.Diagnostics.AddError(
-			"Unexpected Data Source User",
-			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
-		)
-
-		return
-	}
-
-	i.client = client.Client
 }
 
 func (i *IncidentUserDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
