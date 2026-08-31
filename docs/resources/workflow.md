@@ -13,7 +13,7 @@ This resource is used to manage Workflows.
 
 We'd generally recommend building workflows in our [web dashboard](https://app.incident.io/~/workflows), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing workflow and copy the resulting Terraform without persisting it.
 
-## Example Usage
+## Example - Assign the incident lead when an escalation is acked
 
 ```terraform
 # Teams are catalog entries, so an owning team is resolved through the catalog
@@ -98,7 +98,11 @@ resource "incident_workflow" "autoassign_incident_lead" {
   ]
   state = "draft"
 }
+```
 
+## Example - Page execs from a manual workflow, using form fields
+
+```terraform
 # Rich text fields hold a document, not a string, so build one from markdown
 # rather than writing the JSON by hand. Variables written as {{ }} become
 # references into the workflow scope when the message is sent - a plain string
@@ -184,7 +188,11 @@ resource "incident_workflow" "page_execs" {
   ]
   state = "draft"
 }
+```
 
+## Example - Create the postmortem follow-up when an incident closes
+
+```terraform
 # Statuses are managed by incident.io, so look one up by name rather than pasting
 # the ULID an export gives you: the ID differs between workspaces, the name is
 # what you see in the dashboard.
@@ -279,7 +287,11 @@ resource "incident_workflow" "postmortem_when_closed" {
   ]
   state = "draft"
 }
+```
 
+## Example - Invite the security responders to an incident
+
+```terraform
 # Users have a data source, so a config doesn't need the ULIDs an export writes
 # for them: look people up by the email address they use with incident.io.
 data "incident_user" "security_lead" {
@@ -384,7 +396,11 @@ resource "incident_workflow" "invite_security_responders" {
   ]
   state = "draft"
 }
+```
 
+## Example - Share incident updates with leadership
+
+```terraform
 # A message body is a rich text document, so build it from markdown here rather
 # than pasting the JSON an export produces. Anything the feature set can't hold
 # is dropped and listed in dropped_content, which you can output to see what
@@ -463,7 +479,11 @@ resource "incident_workflow" "share_updates_with_leadership" {
   ]
   state = "draft"
 }
+```
 
+## Example - Subscribe CSMs to customer-facing incidents
+
+```terraform
 # Custom fields and their options both have data sources, so a condition on one
 # needs no ULIDs: look the field up by name, and each option by its value.
 data "incident_custom_field" "affected_customers" {
