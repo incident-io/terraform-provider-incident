@@ -1,7 +1,6 @@
 package provider
 
 import (
-	"context"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -44,11 +43,11 @@ func TestWorkflowBuildModelReconcilesConditionOperation(t *testing.T) {
 
 	r := &IncidentWorkflowResource{}
 
-	withPrior := r.buildModel(context.Background(), workflow, prior)
+	withPrior := r.buildModel(workflow, prior)
 	assert.Equal(t, "one_of", withPrior.ConditionGroups[0].Conditions[0].Operation.ValueString(),
 		"with a plan the operation should be reconciled")
 
-	noPrior := r.buildModel(context.Background(), workflow, nil)
+	noPrior := r.buildModel(workflow, nil)
 	assert.Equal(t, "contains_one_of", noPrior.ConditionGroups[0].Conditions[0].Operation.ValueString(),
 		"with no plan the operation should stay verbatim")
 }
