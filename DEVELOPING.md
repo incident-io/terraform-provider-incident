@@ -48,7 +48,14 @@ Tests run against a real API, either the production/staging incident.io API or
 whatever you may be running locally (for incident.io staff). If you're staff,
 it's best to use a localhost endpoint for lower latency if possible.
 
-To run the tests:
+The unit tests need no credentials at all, and are the fastest way to check a
+change to the model or conversion code:
+
+```console
+$> make test
+```
+
+To run the acceptance tests:
 
 ```console
 # Run the whole suite

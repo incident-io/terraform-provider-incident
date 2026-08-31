@@ -4,6 +4,14 @@ default: testacc
 # Development
 ################################################################################
 
+# Run the unit tests: every package, with no API credentials needed. The
+# acceptance tests are gated behind TF_ACC and skip themselves without it, so
+# this covers the pure-Go suites (models, jsontypes, richtexttypes, apischema)
+# that `testacc` never reaches.
+.PHONY: test
+test:
+	go test ./... $(TESTARGS)
+
 # Run acceptance tests
 .PHONY: testacc
 testacc:
