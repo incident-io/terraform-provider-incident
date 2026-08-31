@@ -5,6 +5,36 @@ subcategory: ""
 description: |-
   View and manage alert attributes.
   Alert attributes are used to parse structured data from alerts coming in via alert sources.
+  An attribute is account-wide; what fills it in is per source
+  An alert attribute is the column, not the rule that populates it. It belongs to your whole
+  incident.io organization: its name has to be unique across the account, and every alert
+  source draws on the same set of attributes. That is deliberate — one attribute means the same
+  thing whichever source fired the alert, so an alert route spanning several sources can match
+  on it.
+  What varies per source is the binding: the rule parsing a value for this attribute out of an
+  incoming event. A source binds a given attribute at most once, and two sources can fill the
+  same attribute from completely different parts of their payloads. Write bindings either as
+  template.attributes on incident_alert_source, which declares a source and everything it
+  populates together, or as one incident_alert_source_attribute_beta resource per binding
+  against an incident_alert_source_beta source.
+  So a GCP service attribute is declared once, then bound separately by each source that sets it.
+  Declaring one attribute from several workspaces
+  If your Terraform is split across workspaces — one per environment, say — only one of them
+  should declare an attribute as a resource. The others should read it with the
+  incident_alert_attribute data source, which looks an attribute up by name:
+  data "incident_alert_attribute" "gcp_service" {
+    name = "GCP service"
+  }
+  
+  Declaring the same name in two workspaces plans cleanly in both, then fails when the second
+  applies: the attribute it means to create already exists. To bring an attribute that already
+  exists under a workspace's management instead, import it.
+  Per-environment differences belong on the binding rather than the attribute, so both
+  environments share one attribute and each parses it from its own source.
+  Reserved names
+  Title, Description and Priority collide with properties every alert already has, and are
+  rejected regardless of casing. Priority does exist as an attribute you can bind and filter on,
+  but it is read-only through the API: read it with the data source rather than declaring it.
 ---
 
 # incident_alert_attribute (Resource)
@@ -12,6 +42,46 @@ description: |-
 View and manage alert attributes.
 
 Alert attributes are used to parse structured data from alerts coming in via alert sources.
+
+## An attribute is account-wide; what fills it in is per source
+
+An alert attribute is the column, not the rule that populates it. It belongs to your whole
+incident.io organization: its `name` has to be unique across the account, and every alert
+source draws on the same set of attributes. That is deliberate — one attribute means the same
+thing whichever source fired the alert, so an alert route spanning several sources can match
+on it.
+
+What varies per source is the *binding*: the rule parsing a value for this attribute out of an
+incoming event. A source binds a given attribute at most once, and two sources can fill the
+same attribute from completely different parts of their payloads. Write bindings either as
+`template.attributes` on `incident_alert_source`, which declares a source and everything it
+populates together, or as one `incident_alert_source_attribute_beta` resource per binding
+against an `incident_alert_source_beta` source.
+
+So a `GCP service` attribute is declared once, then bound separately by each source that sets it.
+
+## Declaring one attribute from several workspaces
+
+If your Terraform is split across workspaces — one per environment, say — only one of them
+should declare an attribute as a resource. The others should read it with the
+`incident_alert_attribute` data source, which looks an attribute up by name:
+
+    data "incident_alert_attribute" "gcp_service" {
+      name = "GCP service"
+    }
+
+Declaring the same `name` in two workspaces plans cleanly in both, then fails when the second
+applies: the attribute it means to create already exists. To bring an attribute that already
+exists under a workspace's management instead, `import` it.
+
+Per-environment differences belong on the binding rather than the attribute, so both
+environments share one attribute and each parses it from its own source.
+
+## Reserved names
+
+`Title`, `Description` and `Priority` collide with properties every alert already has, and are
+rejected regardless of casing. `Priority` does exist as an attribute you can bind and filter on,
+but it is read-only through the API: read it with the data source rather than declaring it.
 
 ## Example Usage
 
@@ -31,6 +101,44 @@ resource "incident_alert_attribute" "severity" {
   array    = false
   required = false
   emoji    = "warning"
+}
+
+# An attribute is account-wide, so declare it once. What differs between environments is the
+# binding that fills it in, which belongs to an alert source.
+resource "incident_alert_attribute" "gcp_service" {
+  name  = "GCP service"
+  type  = "String"
+  array = false
+}
+
+# Staging and production each parse the same attribute out of their own source, so both
+# environments' alerts are labelled with one attribute that routes can match on.
+resource "incident_alert_source_attribute_beta" "gcp_service_staging" {
+  alert_source_id    = incident_alert_source_beta.gcp_staging.id
+  alert_attribute_id = incident_alert_attribute.gcp_service.id
+
+  value_reference = "payload.resource.labels.service_name"
+}
+
+resource "incident_alert_source_attribute_beta" "gcp_service_production" {
+  alert_source_id    = incident_alert_source_beta.gcp_production.id
+  alert_attribute_id = incident_alert_attribute.gcp_service.id
+
+  value_reference = "payload.resource.labels.service_name"
+}
+
+# Where a source lives in a different workspace to the attribute it binds, read the attribute
+# by name rather than declaring it again. Two workspaces declaring the same name will both plan
+# cleanly, and then the second one to apply will fail.
+data "incident_alert_attribute" "existing_gcp_service" {
+  name = "GCP service"
+}
+
+resource "incident_alert_source_attribute_beta" "gcp_service_other_workspace" {
+  alert_source_id    = incident_alert_source_beta.gcp_other.id
+  alert_attribute_id = data.incident_alert_attribute.existing_gcp_service.id
+
+  value_reference = "payload.resource.labels.service_name"
 }
 ```
 

@@ -86,7 +86,7 @@ resource "incident_alert_source" "cloudwatch" {
 
 ## The `team` Alert Attribute we've configured to label Alerts and route alerts to schedules
 
-data "incident_alert_attribute" "squad" {
+data "incident_alert_attribute" "team" {
   name = "Team"
 }
 
