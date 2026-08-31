@@ -1,7 +1,9 @@
 package provider
 
 import (
+	"bytes"
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -55,8 +57,29 @@ func claimResource(
 	}
 
 	_, err := apiClient.ManagedResourcesV2CreateManagedResourceWithResponse(ctx, payload)
-	if err != nil {
-		diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create managed resource, got error: %s", err))
+	if err == nil {
 		return
 	}
+
+	// The managed-resources endpoint checks escalation_paths.update without
+	// taking the escalation path's teams into account. A team-scoped key can
+	// therefore create or update an escalation path successfully, then receive
+	// this 403 while adding the secondary "managed by Terraform" metadata.
+	//
+	// Do not fail the Terraform operation after the escalation path itself has
+	// already been created, updated, or imported. Other claim failures remain
+	// errors so they are not hidden.
+	var httpErr client.HTTPError
+	if resourceType == client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath &&
+		errors.As(err, &httpErr) &&
+		httpErr.StatusCode == 403 &&
+		bytes.Contains(httpErr.Body, []byte("missing_required_scope")) {
+		diagnostics.AddWarning(
+			"Unable to mark escalation path as managed by Terraform",
+			fmt.Sprintf("The escalation path operation succeeded, but incident.io could not mark it as managed by Terraform because the API key's escalation_paths.update scope may be team-scoped. The resource will remain editable in the dashboard. Got error: %s", err),
+		)
+		return
+	}
+
+	diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create managed resource, got error: %s", err))
 }

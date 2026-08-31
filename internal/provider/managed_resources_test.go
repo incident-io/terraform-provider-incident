@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
@@ -17,8 +18,10 @@ import (
 // fakeManagedResourcesAPI counts claims, which is how these tests tell an import that
 // claimed the resource apart from one that left the account untouched.
 type fakeManagedResourcesAPI struct {
-	requests int
-	received []byte
+	requests     int
+	received     []byte
+	status       int
+	responseBody string
 }
 
 func (f *fakeManagedResourcesAPI) start(t *testing.T) *client.ClientWithResponses {
@@ -30,7 +33,14 @@ func (f *fakeManagedResourcesAPI) start(t *testing.T) *client.ClientWithResponse
 		f.received, _ = io.ReadAll(r.Body)
 
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"managed_resource":{"id":"01MANAGED","resource_type":"workflow","resource_id":"01WORKFLOW","annotations":{}}}`))
+		if f.status != 0 {
+			w.WriteHeader(f.status)
+		}
+		body := f.responseBody
+		if body == "" {
+			body = `{"managed_resource":{"id":"01MANAGED","resource_type":"workflow","resource_id":"01WORKFLOW","annotations":{}}}`
+		}
+		_, _ = w.Write([]byte(body))
 	})
 
 	server := httptest.NewServer(mux)
@@ -42,6 +52,60 @@ func (f *fakeManagedResourcesAPI) start(t *testing.T) *client.ClientWithResponse
 	}
 
 	return api
+}
+
+func TestClaimResourceTeamScopedEscalationPathPermission(t *testing.T) {
+	for _, tc := range []struct {
+		name         string
+		resourceType client.ManagedResourcesCreateManagedResourcePayloadV2ResourceType
+		status       int
+		body         string
+		wantErrors   int
+		wantWarnings int
+	}{
+		{
+			name:         "warns for a team-scoped escalation path permission",
+			resourceType: client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath,
+			status:       http.StatusForbidden,
+			body:         `{"type":"missing_required_scope","message":"Missing required scope escalation_paths.update"}`,
+			wantWarnings: 1,
+		},
+		{
+			name:         "fails for another escalation path permission error",
+			resourceType: client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath,
+			status:       http.StatusForbidden,
+			body:         `{"type":"resource_forbidden"}`,
+			wantErrors:   1,
+		},
+		{
+			name:         "fails for another resource type",
+			resourceType: client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule,
+			status:       http.StatusForbidden,
+			body:         `{"type":"missing_required_scope"}`,
+			wantErrors:   1,
+		},
+		{
+			name:         "fails for an unrelated server error",
+			resourceType: client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath,
+			status:       http.StatusInternalServerError,
+			body:         `{"type":"internal_error"}`,
+			wantErrors:   1,
+		},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			api := &fakeManagedResourcesAPI{status: tc.status, responseBody: tc.body}
+			var diagnostics diag.Diagnostics
+
+			claimResource(t.Context(), api.start(t), "01ESCALATIONPATH", &diagnostics, tc.resourceType, "1.14.0")
+
+			if got := diagnostics.ErrorsCount(); got != tc.wantErrors {
+				t.Errorf("errors = %d, want %d: %v", got, tc.wantErrors, diagnostics)
+			}
+			if got := diagnostics.WarningsCount(); got != tc.wantWarnings {
+				t.Errorf("warnings = %d, want %d: %v", got, tc.wantWarnings, diagnostics)
+			}
+		})
+	}
 }
 
 // TestImportStateMarkImportedAsManaged covers the plumbing end to end: an import with
