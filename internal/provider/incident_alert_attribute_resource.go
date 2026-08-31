@@ -46,7 +46,45 @@ func (r *IncidentAlertAttributeResource) Metadata(ctx context.Context, req resou
 
 func (r *IncidentAlertAttributeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: apischema.TagDocstring("Alert Attributes V2"),
+		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Alert Attributes V2"), `## An attribute is account-wide; what fills it in is per source
+
+An alert attribute is the column, not the rule that populates it. It belongs to your whole
+incident.io organization: its `+"`name`"+` has to be unique across the account, and every alert
+source draws on the same set of attributes. That is deliberate — one attribute means the same
+thing whichever source fired the alert, so an alert route spanning several sources can match
+on it.
+
+What varies per source is the *binding*: the rule parsing a value for this attribute out of an
+incoming event. A source binds a given attribute at most once, and two sources can fill the
+same attribute from completely different parts of their payloads. Write bindings either as
+`+"`template.attributes`"+` on `+"`incident_alert_source`"+`, which declares a source and everything it
+populates together, or as one `+"`incident_alert_source_attribute_beta`"+` resource per binding
+against an `+"`incident_alert_source_beta`"+` source.
+
+So a `+"`GCP service`"+` attribute is declared once, then bound separately by each source that sets it.
+
+## Declaring one attribute from several workspaces
+
+If your Terraform is split across workspaces — one per environment, say — only one of them
+should declare an attribute as a resource. The others should read it with the
+`+"`incident_alert_attribute`"+` data source, which looks an attribute up by name:
+
+    data "incident_alert_attribute" "gcp_service" {
+      name = "GCP service"
+    }
+
+Declaring the same `+"`name`"+` in two workspaces plans cleanly in both, then fails when the second
+applies: the attribute it means to create already exists. To bring an attribute that already
+exists under a workspace's management instead, `+"`import`"+` it.
+
+Per-environment differences belong on the binding rather than the attribute, so both
+environments share one attribute and each parses it from its own source.
+
+## Reserved names
+
+`+"`Title`"+`, `+"`Description`"+` and `+"`Priority`"+` collide with properties every alert already has, and are
+rejected regardless of casing. `+"`Priority`"+` does exist as an attribute you can bind and filter on,
+but it is read-only through the API: read it with the data source rather than declaring it.`),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
