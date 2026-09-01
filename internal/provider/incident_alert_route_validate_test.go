@@ -221,6 +221,100 @@ const arV2IncidentTemplate = `
     summary = {}
   }`
 
+// arV3IncidentTemplateRef is an incident_config.incident_template reference — a
+// param binding to a standalone template by literal ID. It is a v3-only field.
+const arV3IncidentTemplateRef = `
+    incident_template = {
+      value = {
+        literal = "01FCNDV6P870EA6S7TK1DSYDG0"
+      }
+    }`
+
+// arIncidentEnabledWithRef references a standalone template instead of nesting an
+// inline one.
+func arIncidentEnabledWithRef() string {
+	return `
+  incident_config = {
+    auto_decline_enabled = true
+    enabled              = true
+    condition_groups     = []
+` + arV3IncidentTemplateRef + `
+  }`
+}
+
+// arIncidentEnabledNoTemplate enables incident creation but sets neither the
+// inline template nor a standalone reference — the org's default template is
+// used. Both are optional, so this must validate.
+func arIncidentEnabledNoTemplate() string {
+	return `
+  incident_config = {
+    auto_decline_enabled = true
+    enabled              = true
+    condition_groups     = []
+  }`
+}
+
+// arIncidentEnabledWithTemplateAndRef sets both the inline template and the
+// standalone reference, which are mutually exclusive.
+func arIncidentEnabledWithTemplateAndRef() string {
+	return `
+  incident_config = {
+    auto_decline_enabled = true
+    enabled              = true
+    condition_groups     = []
+` + alertRouteV3IncidentTemplateBlock + arV3IncidentTemplateRef + `
+  }`
+}
+
+// arIncidentDisabledWithRef references a standalone template while incident
+// creation is off.
+func arIncidentDisabledWithRef() string {
+	return `
+  incident_config = {
+    enabled          = false
+    condition_groups = []
+` + arV3IncidentTemplateRef + `
+  }`
+}
+
+// arV2ConfigWithIncidentTemplateRef is a v2-mode config that wrongly sets the
+// v3-only incident_config.incident_template. It keeps the required top-level
+// incident_template so only the reference rule fires.
+func arV2ConfigWithIncidentTemplateRef() string {
+	return fmt.Sprintf(`
+resource "incident_alert_route" "test" {
+  name       = "validate-test"
+  enabled    = true
+  is_private = false
+
+  alert_sources = [
+    {
+      alert_source_id  = "01SRC"
+      condition_groups = []
+    }
+  ]
+  condition_groups = []
+  expressions      = []
+
+  escalation_config = {
+    auto_cancel_escalations = true
+    escalation_targets      = []
+  }
+
+  incident_config = {
+    auto_decline_enabled    = false
+    enabled                 = false
+    condition_groups        = []
+    grouping_keys           = []
+    grouping_window_seconds = 300
+    defer_time_seconds      = 0
+%[1]s
+  }
+%[2]s
+}
+`, arV3IncidentTemplateRef, arV2IncidentTemplate)
+}
+
 // TestIncidentAlertRouteResource_ValidateConfigUnknownSkipsRequired guards the
 // M1 fix: a "required" attribute whose value is unknown at plan time (here
 // grouping_config.default.window_seconds, derived from a not-yet-created
@@ -414,6 +508,26 @@ func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 			errRe:  "`incident_config.template` must not be set when",
 		},
 		{
+			name:   "v3 valid with incident_template reference",
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentEnabledWithRef()),
+		},
+		{
+			// Neither an inline template nor a standalone reference: the org's default
+			// template is used. Both are optional, so this must validate.
+			name:   "v3 valid with neither template nor incident_template",
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentEnabledNoTemplate()),
+		},
+		{
+			name:   "v3 forbids template and incident_template together",
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentEnabledWithTemplateAndRef()),
+			errRe:  "`incident_config.incident_template` can't be used together with `incident_config.template`",
+		},
+		{
+			name:   "v3 incident disabled forbids incident_template",
+			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationValid + arIncidentDisabledWithRef()),
+			errRe:  "`incident_config.incident_template` must not be set when",
+		},
+		{
 			name:   "v3 grace_period only for on_each_new_alert",
 			config: arValidateConfig(arGroupingDisabled + arMessageValid + arEscalationPriorityGrace + arIncidentEnabled()),
 			errRe:  "grace_period_seconds` can only be set when",
@@ -433,9 +547,18 @@ func TestIncidentAlertRouteResource_ValidateConfig(t *testing.T) {
 			errRe:  "message_config` can only be used when `grouping_config` is set",
 		},
 		{
+			// The v2 public API requires the top-level incident_template, so omitting
+			// it must fail at plan time rather than 422 at apply.
 			name:   "v2 requires incident_template",
 			config: arV2Config("", ""),
 			errRe:  "`incident_template` is required when `grouping_config` is not set",
+		},
+		{
+			// incident_config.incident_template is a v3-only field, so it must be
+			// rejected in v2 mode (matching the sibling incident_config.template rule).
+			name:   "v2 forbids incident_template",
+			config: arV2ConfigWithIncidentTemplateRef(),
+			errRe:  "`incident_config.incident_template` can only be used when `grouping_config` is set",
 		},
 		{
 			name: "v2 requires auto_decline_enabled",

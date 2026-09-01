@@ -408,6 +408,11 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 		result.IncidentConfig.Template = incidentTemplateFromAPIV3(apiModel.IncidentConfig.Template, planTemplate)
 	}
 
+	if apiModel.IncidentConfig.IncidentTemplate != nil {
+		binding := paramBindingFromV3(*apiModel.IncidentConfig.IncidentTemplate)
+		result.IncidentConfig.IncidentTemplate = &binding
+	}
+
 	if plan != nil {
 		result.ConditionGroups.ReconcileSpelling(plan.ConditionGroups)
 		reconcileAlertSourceOperations(result.AlertSources, plan.AlertSources)
@@ -416,6 +421,7 @@ func (AlertRouteResourceModel) FromAPIV3WithPlan(apiModel client.AlertRouteV3, p
 		}
 		if result.IncidentConfig != nil && plan.IncidentConfig != nil {
 			result.IncidentConfig.ConditionGroups.ReconcileSpelling(plan.IncidentConfig.ConditionGroups)
+			result.IncidentConfig.IncidentTemplate = ReconcileBindingSpelling(result.IncidentConfig.IncidentTemplate, plan.IncidentConfig.IncidentTemplate)
 		}
 		result.Expressions.ReconcileSpelling(plan.Expressions)
 		if result.MessageConfig != nil && plan.MessageConfig != nil {
@@ -700,6 +706,13 @@ func (m AlertRouteResourceModel) ToCreatePayloadV3() client.AlertRoutesCreatePay
 			if m.IncidentConfig.Template != nil {
 				payload.IncidentConfig.Template = m.IncidentConfig.Template.ToPayload()
 			}
+			payload.IncidentConfig.IncidentTemplate = func() *client.EngineParamBindingPayloadV3 {
+				if m.IncidentConfig.IncidentTemplate == nil {
+					return nil
+				}
+				b := paramBindingToV3Payload(*m.IncidentConfig.IncidentTemplate)
+				return &b
+			}()
 		}
 	}
 

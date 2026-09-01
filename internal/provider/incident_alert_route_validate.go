@@ -155,6 +155,13 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 				"`message_config` is required when `grouping_config` is set. "+changelogMigrationRef)
 		}
 
+		// An inline template and a reference to a standalone template are mutually
+		// exclusive: set one or the other, not both.
+		if objectSet(incidentBase.AtName("template")) && objectSet(incidentBase.AtName("incident_template")) {
+			addErr(incidentBase.AtName("incident_template"), "Invalid attribute combination",
+				"`incident_config.incident_template` can't be used together with `incident_config.template`. Set an inline template or a reference to a standalone one, not both.")
+		}
+
 		r.validateV3Gating(ctx, req, resp, boolValue, boolSet, boolMissing, setPresent, objectSet, int64Set, int64Missing)
 	} else {
 		// v3-only attributes must not be set in v2 mode.
@@ -170,10 +177,18 @@ func (r *IncidentAlertRouteResource) ValidateConfig(ctx context.Context, req res
 			addErr(incidentBase.AtName("template"), "Invalid attribute combination",
 				"`incident_config.template` can only be used when `grouping_config` is set. Set `grouping_config`, or use the deprecated top-level `incident_template` instead. "+changelogMigrationRef)
 		}
+		if objectSet(incidentBase.AtName("incident_template")) {
+			addErr(incidentBase.AtName("incident_template"), "Invalid attribute combination",
+				"`incident_config.incident_template` can only be used when `grouping_config` is set. Set `grouping_config`, or use the deprecated top-level `incident_template` instead. "+changelogMigrationRef)
+		}
 
 		// Restore the v2 required fields that the merged schema relaxed to Optional
 		// so that v3 mode can omit them. (auto_cancel_escalations and
 		// escalation_targets are Required in the schema in both modes.)
+		//
+		// The top-level incident_template stays required: the v2 public API requires
+		// it (AlertRoutesCreatePayloadV2). Only the v3 incident_config template is
+		// optional with an org-default fallback (ONC-13291); v2 was not changed.
 		if objectMissing(path.Root("incident_template")) {
 			addErr(path.Root("incident_template"), "Missing required attribute",
 				"`incident_template` is required when `grouping_config` is not set. "+changelogMigrationRef)
@@ -296,6 +311,10 @@ func (r *IncidentAlertRouteResource) validateV3Gating(
 			if objectSet(incidentBase.AtName("template")) {
 				addErr(incidentBase.AtName("template"), "Invalid attribute combination",
 					"`incident_config.template` must not be set when `incident_config.enabled` is false.")
+			}
+			if objectSet(incidentBase.AtName("incident_template")) {
+				addErr(incidentBase.AtName("incident_template"), "Invalid attribute combination",
+					"`incident_config.incident_template` must not be set when `incident_config.enabled` is false.")
 			}
 		}
 	}

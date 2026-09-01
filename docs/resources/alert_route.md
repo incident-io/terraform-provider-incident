@@ -801,6 +801,7 @@ Deprecated: set grouping keys via `grouping_config.default.grouping_keys` instea
 - `grouping_window_seconds` (Number, Deprecated) How large should the grouping window be?
 
 Deprecated: set the grouping window via `grouping_config.default.window_seconds` instead. See v5.41.0 in the CHANGELOG for migration guidance: https://github.com/incident-io/terraform-provider-incident/blob/master/CHANGELOG.md
+- `incident_template` (Attributes) (see [below for nested schema](#nestedatt--incident_config--incident_template))
 - `template` (Attributes) The template an alert route applies to the incidents it creates. Disabling incident creation clears it. Only used with `grouping_config`. (see [below for nested schema](#nestedatt--incident_config--template))
 
 <a id="nestedatt--incident_config--condition_groups"></a>
@@ -858,6 +859,37 @@ Optional:
 Required:
 
 - `reference` (String) The alert attribute ID to use as a grouping key
+
+
+<a id="nestedatt--incident_config--incident_template"></a>
+### Nested Schema for `incident_config.incident_template`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--incident_config--incident_template--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--incident_config--incident_template--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
+
+<a id="nestedatt--incident_config--incident_template--array_value"></a>
+### Nested Schema for `incident_config.incident_template.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--incident_config--incident_template--value"></a>
+### Nested Schema for `incident_config.incident_template.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
 
 
 <a id="nestedatt--incident_config--template"></a>
