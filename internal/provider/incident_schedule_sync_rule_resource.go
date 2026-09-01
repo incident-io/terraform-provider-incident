@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strings"
 
@@ -127,8 +126,7 @@ func (r *IncidentScheduleSyncRuleResource) Read(ctx context.Context, req resourc
 
 	result, err := r.client.SchedulesV2ShowScheduleSyncRuleWithResponse(ctx, data.ScheduleID.ValueString(), data.ID.ValueString())
 	if err != nil {
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+		if isNotFound(err) {
 			tflog.Warn(ctx, fmt.Sprintf("Schedule sync rule with ID %s not found: removing from state.", data.ID.ValueString()))
 			resp.State.RemoveResource(ctx)
 			return
@@ -234,8 +232,7 @@ func (r *IncidentScheduleSyncRuleResource) ImportState(ctx context.Context, req 
 	// message instead of an empty import.
 	result, err := r.client.SchedulesV2ShowScheduleSyncRuleWithResponse(ctx, scheduleID, ruleID)
 	if err != nil {
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+		if isNotFound(err) {
 			resp.Diagnostics.AddError(
 				"Schedule Sync Rule Not Found",
 				fmt.Sprintf("No sync rule with ID %q exists on schedule %q. Import IDs must be in the format schedule_id:rule_id.", ruleID, scheduleID),

@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"sort"
 
@@ -250,9 +249,7 @@ func (r *IncidentCatalogEntryResource) Read(ctx context.Context, req resource.Re
 
 	result, err := r.client.CatalogV3ShowEntryWithResponse(ctx, data.ID.ValueString(), nil)
 	if err != nil {
-		// Check if error message contains any indication of a 404 not found
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+		if isNotFound(err) {
 			tflog.Warn(ctx, fmt.Sprintf("Catalog entry with ID %s not found: removing from state.", data.ID.ValueString()))
 			resp.State.RemoveResource(ctx)
 			return

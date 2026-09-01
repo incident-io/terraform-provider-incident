@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -330,8 +329,7 @@ func (r *escalationPathBetaResource) ModifyPlan(ctx context.Context, req resourc
 	}
 
 	// 422 is the API rejecting this path, which is the whole point.
-	var httpErr client.HTTPError
-	if errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusUnprocessableEntity {
+	if httpErr, ok := apiErrorWithStatus(err, http.StatusUnprocessableEntity); ok {
 		resp.Diagnostics.AddError("Invalid escalation path", httpErr.Error())
 		return
 	}

@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -317,8 +316,7 @@ func (r *IncidentAlertSourceResource) ModifyPlan(ctx context.Context, req resour
 	}
 
 	// 422 is the API telling us this template is wrong, which is the whole point.
-	var httpErr client.HTTPError
-	if errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusUnprocessableEntity {
+	if httpErr, ok := apiErrorWithStatus(err, http.StatusUnprocessableEntity); ok {
 		resp.Diagnostics.AddAttributeError(path.Root("template"),
 			"Invalid alert source template", httpErr.Error())
 		return
@@ -715,9 +713,7 @@ func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.Rea
 
 	result, err := r.client.AlertSourcesV2ShowWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
-		// Check if error message contains any indication of a 404 not found
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+		if isNotFound(err) {
 			tflog.Warn(ctx, fmt.Sprintf("Alert source with ID %s not found: removing from state.", data.ID.ValueString()))
 			resp.State.RemoveResource(ctx)
 			return

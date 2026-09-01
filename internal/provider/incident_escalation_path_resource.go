@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"net/http"
 	"reflect"
@@ -417,8 +416,7 @@ func (r *IncidentEscalationPathResource) ModifyPlan(ctx context.Context, req res
 	}
 
 	// 422 is the API rejecting this config, which is the whole point.
-	var httpErr client.HTTPError
-	if errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusUnprocessableEntity {
+	if httpErr, ok := apiErrorWithStatus(err, http.StatusUnprocessableEntity); ok {
 		resp.Diagnostics.AddError("Invalid escalation path", httpErr.Error())
 		return
 	}
@@ -724,9 +722,7 @@ func (r *IncidentEscalationPathResource) Read(ctx context.Context, req resource.
 
 	result, err := r.client.EscalationsV2ShowPathWithResponse(ctx, data.ID.ValueString())
 	if err != nil {
-		// Check if error message contains any indication of a 404 not found
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
+		if isNotFound(err) {
 			tflog.Warn(ctx, fmt.Sprintf("Escalation path with ID %s not found: removing from state.", data.ID.ValueString()))
 			resp.State.RemoveResource(ctx)
 			return
