@@ -7,8 +7,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
@@ -62,7 +62,8 @@ type IncidentCatalogTypeAttributesResourceModel struct {
 	SchemaOnly        types.Bool   `tfsdk:"schema_only"`
 }
 
-func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.Context) client.CatalogTypeAttributePayloadV3 {
+func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.Context) (client.CatalogTypeAttributePayloadV3, diag.Diagnostics) {
+	var diags diag.Diagnostics
 	var array bool
 	if m.Array.IsUnknown() {
 		array = false
@@ -100,11 +101,9 @@ func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.C
 
 		// Do a little dance to get the path into the right format.
 		pathAsStrings := []string{}
-		if diags := m.Path.ElementsAs(ctx, &pathAsStrings, false); diags.HasError() {
-			tflog.Error(ctx, "Failed to convert paths", map[string]any{
-				"error": spew.Sdump(diags.Errors()),
-			})
-			panic(spew.Sdump(diags.Errors()))
+		if converted := m.Path.ElementsAs(ctx, &pathAsStrings, false); converted.HasError() {
+			diags.Append(converted...)
+			return client.CatalogTypeAttributePayloadV3{}, diags
 		}
 
 		path = &[]client.CatalogTypeAttributePathItemPayloadV3{}
@@ -122,7 +121,7 @@ func (m IncidentCatalogTypeAttributesResourceModel) buildAttribute(ctx context.C
 		Mode:              mode,
 		BacklinkAttribute: backlinkAttribute,
 		Path:              path,
-	}
+	}, diags
 }
 
 func NewIncidentCatalogTypeAttributesResource() resource.Resource {
@@ -230,15 +229,21 @@ func (r *IncidentCatalogTypeAttributeResource) Create(ctx context.Context, req r
 		return
 	}
 
+	attribute, diags := data.buildAttribute(ctx)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	var result *client.CatalogV3UpdateTypeSchemaResponse
 	err := r.lockFor(ctx, data.CatalogTypeID.ValueString(), func(ctx context.Context, catalogType client.CatalogTypeV3) error {
 		attributes := []client.CatalogTypeAttributePayloadV3{}
-		for _, attribute := range catalogType.Schema.Attributes {
-			attributes = append(attributes, r.attributeToPayload(attribute))
+		for _, existing := range catalogType.Schema.Attributes {
+			attributes = append(attributes, r.attributeToPayload(existing))
 		}
 
 		// Add our new attribute.
-		attributes = append(attributes, data.buildAttribute(ctx))
+		attributes = append(attributes, attribute)
 
 		var err error
 		result, err = r.client.CatalogV3UpdateTypeSchemaWithResponse(ctx, catalogType.Id, client.CatalogUpdateTypeSchemaPayloadV3{
@@ -258,7 +263,7 @@ func (r *IncidentCatalogTypeAttributeResource) Create(ctx context.Context, req r
 
 	var attributeID string
 	for _, attribute := range result.JSON200.CatalogType.Schema.Attributes {
-		if attribute.Name == data.buildAttribute(ctx).Name {
+		if attribute.Name == data.Name.ValueString() {
 			attributeID = attribute.Id
 		}
 	}
@@ -316,24 +321,30 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 		alreadyExists bool
 	)
 
+	attribute, diags := data.buildAttribute(ctx)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	var result *client.CatalogV3UpdateTypeSchemaResponse
 	err := r.lockFor(ctx, data.CatalogTypeID.ValueString(), func(ctx context.Context, catalogType client.CatalogTypeV3) error {
 		var (
 			attributes = []client.CatalogTypeAttributePayloadV3{}
 		)
 		tflog.Trace(ctx, fmt.Sprintf("Looking for attribute with id=%s", data.ID.ValueString()))
-		for _, attribute := range catalogType.Schema.Attributes {
-			if attribute.Id == data.ID.ValueString() {
+		for _, existing := range catalogType.Schema.Attributes {
+			if existing.Id == data.ID.ValueString() {
 				alreadyExists = true
-				attributes = append(attributes, data.buildAttribute(ctx))
+				attributes = append(attributes, attribute)
 			} else {
-				attributes = append(attributes, r.attributeToPayload(attribute))
+				attributes = append(attributes, r.attributeToPayload(existing))
 			}
 		}
 
 		if !alreadyExists {
 			// We weren't here, so add us to the end.
-			attributes = append(attributes, data.buildAttribute(ctx))
+			attributes = append(attributes, attribute)
 		}
 
 		tflog.Trace(ctx, fmt.Sprintf("Updating catalog type with attributes: %v", attributes))
@@ -358,7 +369,7 @@ func (r *IncidentCatalogTypeAttributeResource) Update(ctx context.Context, req r
 		attributeID = data.ID.ValueString()
 	} else {
 		for _, attribute := range result.JSON200.CatalogType.Schema.Attributes {
-			if attribute.Name == data.buildAttribute(ctx).Name {
+			if attribute.Name == data.Name.ValueString() {
 				attributeID = attribute.Id
 			}
 		}
