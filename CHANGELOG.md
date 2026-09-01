@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add the `incident_incident_timestamp` data source, which looks up an existing incident timestamp by `id` or by `name`. Timestamps can't be created from Terraform - some are set by incident.io on every incident, the rest are configured in your settings - so this is the way to get hold of one's ID, such as for a workflow that sets or reads it. Set exactly one of the two attributes; setting both is rejected at plan time.
+
 ## v6.9.0
 
 - Add `value_literal`, `value_reference`, `expression_ref` and `values` as shorthands for a param binding's value, wherever bindings appear. `param_bindings = [{ value = { reference = "incident.url" } }]` becomes `param_bindings = [{ value_reference = "incident.url" }]`; `value` and `array_value` keep working, and setting more than one form is rejected at plan time.
