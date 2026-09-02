@@ -20,10 +20,9 @@ description: |-
     binding            = { value = { reference = "expressions[\"my-priority\"]" } }
   }
   
-  A priority binding's merge_strategy can only be last_wins: an alert's priority is always
-  overwritten when the alert fires again, so no other strategy would mean anything. Leave it out and
-  the API fills it in — it reads back as last_wins either way, so there is no diff to manage.
-  Setting any other value is rejected.
+  A priority binding's merge_strategy can only be last_wins. Leave it out and the API fills
+  it in — it reads back as last_wins either way, so there is no diff to manage. Setting any other
+  value is rejected.
   Two mistakes here are worth knowing about, because both end with every alert on your default
   alert priority and neither says anything.
   The first is writing the expression and leaving out the binding. Nothing rejects it — the API
@@ -107,10 +106,9 @@ which you look up by name.
       binding            = { value = { reference = "expressions[\"my-priority\"]" } }
     }
 
-A priority binding's `merge_strategy` can only be `last_wins`: an alert's priority is always
-overwritten when the alert fires again, so no other strategy would mean anything. Leave it out and
-the API fills it in — it reads back as `last_wins` either way, so there is no diff to manage.
-Setting any other value is rejected.
+A priority binding's `merge_strategy` can only be `last_wins`. Leave it out and the API fills
+it in — it reads back as `last_wins` either way, so there is no diff to manage. Setting any other
+value is rejected.
 
 Two mistakes here are worth knowing about, because both end with every alert on your default
 alert priority and neither says anything.
@@ -245,9 +243,9 @@ resource "incident_alert_source" "cloudwatch" {
       ## returns an AlertPriority and is bound to nothing has no effect, so this entry is
       ## what makes the `cloudwatch-priority` expression below do anything at all.
       ##
-      ## A priority binding's `merge_strategy` can only be `last_wins`: an alert's
-      ## priority is always overwritten when the alert fires again. Left out here
-      ## because the API fills it in, and it reads back as `last_wins` either way.
+      ## A priority binding's `merge_strategy` can only be `last_wins`. Left out
+      ## here because the API fills it in, and it reads back as `last_wins`
+      ## either way; setting any other value is rejected.
       {
         alert_attribute_id = data.incident_alert_attribute.priority.id
         binding = {
