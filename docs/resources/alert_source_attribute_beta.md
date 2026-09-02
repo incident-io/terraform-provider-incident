@@ -1871,7 +1871,7 @@ Optional:
 
 ## Import
 
-Import is supported using the following syntax:
+Import is supported using an [`import` block](https://developer.hashicorp.com/terraform/language/import) or the [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import):
 
 The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
