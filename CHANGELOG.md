@@ -1,3 +1,7 @@
+## Unreleased
+
+- `due_date_config` is now required on an `incident_policy`'s `follow_up`, `debrief` and `post_mortem` blocks. These are the policy types that carry a due date, and the API rejects an update to one without it - so a config that omitted the block created a policy successfully and then failed on its next apply. The plan now says so instead. If you have such a config, add a `due_date_config`; the policy it created was already un-editable through the API.
+
 ## v6.11.0
 
 - Add the `incident_incident_template` resource, which manages an incident template. Incident templates determine how an incident is created from an alert, and have been split out of alert routes, where they lived previously.

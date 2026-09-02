@@ -428,12 +428,58 @@ Optional:
 
 Required:
 
+- `due_date_config` (Attributes) (see [below for nested schema](#nestedatt--debrief--due_date_config))
 - `requirements` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--debrief--requirements))
 
 Optional:
 
-- `due_date_config` (Attributes) (see [below for nested schema](#nestedatt--debrief--due_date_config))
 - `run_on_private_incidents` (Boolean) Requires the policies.run_on_private scope
+
+<a id="nestedatt--debrief--due_date_config"></a>
+### Nested Schema for `debrief.due_date_config`
+
+Required:
+
+- `calculation_type` (String) Whether to count all days or only weekdays. Possible values are: `seven_days`, `weekdays`.
+- `days` (Attributes) (see [below for nested schema](#nestedatt--debrief--due_date_config--days))
+- `incident_timestamp_id` (String) Timestamp the due date counts from
+
+Optional:
+
+- `applies_from` (String) If set, the policy only applies to resources from this timestamp onwards
+- `calculation_timezone` (String) Timezone the due date is calculated in. Only meaningful when calculation_type is weekdays.
+
+<a id="nestedatt--debrief--due_date_config--days"></a>
+### Nested Schema for `debrief.due_date_config.days`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--debrief--due_date_config--days--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--debrief--due_date_config--days--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
+
+<a id="nestedatt--debrief--due_date_config--days--array_value"></a>
+### Nested Schema for `debrief.due_date_config.days.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--debrief--due_date_config--days--value"></a>
+### Nested Schema for `debrief.due_date_config.days.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
 
 <a id="nestedatt--debrief--requirements"></a>
 ### Nested Schema for `debrief.requirements`
@@ -480,52 +526,6 @@ Optional:
 - `literal` (String) If set, this is the literal value of the step parameter
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
-
-
-
-
-<a id="nestedatt--debrief--due_date_config"></a>
-### Nested Schema for `debrief.due_date_config`
-
-Required:
-
-- `calculation_type` (String) Whether to count all days or only weekdays. Possible values are: `seven_days`, `weekdays`.
-- `days` (Attributes) (see [below for nested schema](#nestedatt--debrief--due_date_config--days))
-- `incident_timestamp_id` (String) Timestamp the due date counts from
-
-Optional:
-
-- `applies_from` (String) If set, the policy only applies to resources from this timestamp onwards
-- `calculation_timezone` (String) Timezone the due date is calculated in. Only meaningful when calculation_type is weekdays.
-
-<a id="nestedatt--debrief--due_date_config--days"></a>
-### Nested Schema for `debrief.due_date_config.days`
-
-Optional:
-
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--debrief--due_date_config--days--array_value))
-- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--debrief--due_date_config--days--value))
-- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
-- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
-- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
-
-<a id="nestedatt--debrief--due_date_config--days--array_value"></a>
-### Nested Schema for `debrief.due_date_config.days.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--debrief--due_date_config--days--value"></a>
-### Nested Schema for `debrief.due_date_config.days.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 
@@ -822,12 +822,58 @@ Optional:
 
 Required:
 
+- `due_date_config` (Attributes) (see [below for nested schema](#nestedatt--follow_up--due_date_config))
 - `requirements` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--follow_up--requirements))
 
 Optional:
 
-- `due_date_config` (Attributes) (see [below for nested schema](#nestedatt--follow_up--due_date_config))
 - `run_on_private_incidents` (Boolean) Requires the policies.run_on_private scope
+
+<a id="nestedatt--follow_up--due_date_config"></a>
+### Nested Schema for `follow_up.due_date_config`
+
+Required:
+
+- `calculation_type` (String) Whether to count all days or only weekdays. Possible values are: `seven_days`, `weekdays`.
+- `days` (Attributes) (see [below for nested schema](#nestedatt--follow_up--due_date_config--days))
+- `incident_timestamp_id` (String) Timestamp the due date counts from
+
+Optional:
+
+- `applies_from` (String) If set, the policy only applies to resources from this timestamp onwards
+- `calculation_timezone` (String) Timezone the due date is calculated in. Only meaningful when calculation_type is weekdays.
+
+<a id="nestedatt--follow_up--due_date_config--days"></a>
+### Nested Schema for `follow_up.due_date_config.days`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--follow_up--due_date_config--days--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--follow_up--due_date_config--days--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
+
+<a id="nestedatt--follow_up--due_date_config--days--array_value"></a>
+### Nested Schema for `follow_up.due_date_config.days.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--follow_up--due_date_config--days--value"></a>
+### Nested Schema for `follow_up.due_date_config.days.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
 
 <a id="nestedatt--follow_up--requirements"></a>
 ### Nested Schema for `follow_up.requirements`
@@ -878,52 +924,6 @@ Optional:
 
 
 
-<a id="nestedatt--follow_up--due_date_config"></a>
-### Nested Schema for `follow_up.due_date_config`
-
-Required:
-
-- `calculation_type` (String) Whether to count all days or only weekdays. Possible values are: `seven_days`, `weekdays`.
-- `days` (Attributes) (see [below for nested schema](#nestedatt--follow_up--due_date_config--days))
-- `incident_timestamp_id` (String) Timestamp the due date counts from
-
-Optional:
-
-- `applies_from` (String) If set, the policy only applies to resources from this timestamp onwards
-- `calculation_timezone` (String) Timezone the due date is calculated in. Only meaningful when calculation_type is weekdays.
-
-<a id="nestedatt--follow_up--due_date_config--days"></a>
-### Nested Schema for `follow_up.due_date_config.days`
-
-Optional:
-
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--follow_up--due_date_config--days--array_value))
-- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--follow_up--due_date_config--days--value))
-- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
-- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
-- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
-
-<a id="nestedatt--follow_up--due_date_config--days--array_value"></a>
-### Nested Schema for `follow_up.due_date_config.days.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--follow_up--due_date_config--days--value"></a>
-### Nested Schema for `follow_up.due_date_config.days.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-
-
 
 <a id="nestedatt--on_call_readiness"></a>
 ### Nested Schema for `on_call_readiness`
@@ -964,12 +964,58 @@ Optional:
 
 Required:
 
+- `due_date_config` (Attributes) (see [below for nested schema](#nestedatt--post_mortem--due_date_config))
 - `requirements` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--post_mortem--requirements))
 
 Optional:
 
-- `due_date_config` (Attributes) (see [below for nested schema](#nestedatt--post_mortem--due_date_config))
 - `run_on_private_incidents` (Boolean) Requires the policies.run_on_private scope
+
+<a id="nestedatt--post_mortem--due_date_config"></a>
+### Nested Schema for `post_mortem.due_date_config`
+
+Required:
+
+- `calculation_type` (String) Whether to count all days or only weekdays. Possible values are: `seven_days`, `weekdays`.
+- `days` (Attributes) (see [below for nested schema](#nestedatt--post_mortem--due_date_config--days))
+- `incident_timestamp_id` (String) Timestamp the due date counts from
+
+Optional:
+
+- `applies_from` (String) If set, the policy only applies to resources from this timestamp onwards
+- `calculation_timezone` (String) Timezone the due date is calculated in. Only meaningful when calculation_type is weekdays.
+
+<a id="nestedatt--post_mortem--due_date_config--days"></a>
+### Nested Schema for `post_mortem.due_date_config.days`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--post_mortem--due_date_config--days--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--post_mortem--due_date_config--days--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
+
+<a id="nestedatt--post_mortem--due_date_config--days--array_value"></a>
+### Nested Schema for `post_mortem.due_date_config.days.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--post_mortem--due_date_config--days--value"></a>
+### Nested Schema for `post_mortem.due_date_config.days.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
 
 <a id="nestedatt--post_mortem--requirements"></a>
 ### Nested Schema for `post_mortem.requirements`
@@ -1016,52 +1062,6 @@ Optional:
 - `literal` (String) If set, this is the literal value of the step parameter
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
-
-
-
-
-<a id="nestedatt--post_mortem--due_date_config"></a>
-### Nested Schema for `post_mortem.due_date_config`
-
-Required:
-
-- `calculation_type` (String) Whether to count all days or only weekdays. Possible values are: `seven_days`, `weekdays`.
-- `days` (Attributes) (see [below for nested schema](#nestedatt--post_mortem--due_date_config--days))
-- `incident_timestamp_id` (String) Timestamp the due date counts from
-
-Optional:
-
-- `applies_from` (String) If set, the policy only applies to resources from this timestamp onwards
-- `calculation_timezone` (String) Timezone the due date is calculated in. Only meaningful when calculation_type is weekdays.
-
-<a id="nestedatt--post_mortem--due_date_config--days"></a>
-### Nested Schema for `post_mortem.due_date_config.days`
-
-Optional:
-
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--post_mortem--due_date_config--days--array_value))
-- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--post_mortem--due_date_config--days--value))
-- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
-- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
-- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
-
-<a id="nestedatt--post_mortem--due_date_config--days--array_value"></a>
-### Nested Schema for `post_mortem.due_date_config.days.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--post_mortem--due_date_config--days--value"></a>
-### Nested Schema for `post_mortem.due_date_config.days.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
 
 
