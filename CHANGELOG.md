@@ -1,3 +1,8 @@
+## v6.11.0
+
+- Add the `incident_incident_template` resource, which manages an incident template. Incident templates determine how an incident is created from an alert, and have been split out of alert routes, where they lived previously.
+- Add `incident_config.incident_template` to `incident_alert_route`, which points a route at a standalone `incident_incident_template` instead of defining the template inline under `incident_config.template`, which is deprecated. Routes may not reference a standalone template and have an inline template simultaneously. For more information on migrating to standalone templates, read [our docs](https://docs.incident.io/alerts/incident-templates).
+
 ## v6.10.0
 
 - Add `fixed_filter` to `incident_custom_field` and its data source, which restricts a catalog-backed field's options to a set of catalog entries chosen up front, rather than following another custom field's value the way `filter_by` does. A field has one filter or the other, so setting `fixed_filter` replaces any `filter_by`, and setting both is rejected at plan time. Removing the block from a field that has one isn't supported yet - clear it in the dashboard.
