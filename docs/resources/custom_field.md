@@ -53,7 +53,45 @@ resource "incident_custom_field" "affected_teams" {
   description = "The teams that are affected by this incident."
   field_type  = "multi_select"
 }
+```
 
+## Example - Text
+
+```terraform
+# Text: a freeform text field (e.g. Customer ID).
+resource "incident_custom_field" "customer_id" {
+  name        = "Customer ID"
+  description = "The customer identifier associated with this incident."
+  field_type  = "text"
+}
+```
+
+## Example - Link
+
+```terraform
+# Link: a URL synced to Slack bookmarks on the incident channel
+# (e.g. External Status Page).
+resource "incident_custom_field" "external_status_page" {
+  name        = "External Status Page"
+  description = "Link to the external status page for this incident."
+  field_type  = "link"
+}
+```
+
+## Example - Numeric
+
+```terraform
+# Numeric: an integer or fractional number (e.g. Customers Affected).
+resource "incident_custom_field" "customers_affected" {
+  name        = "Customers Affected"
+  description = "How many customers are affected by this incident."
+  field_type  = "numeric"
+}
+```
+
+## Example - Catalog-backed with a fixed filter
+
+```terraform
 # Catalog-backed fields can offer a restricted set of options, rather than every
 # entry of their catalog type.
 resource "incident_catalog_type" "service" {
@@ -92,40 +130,6 @@ resource "incident_custom_field" "affected_tier_one_service" {
     catalog_attribute_id = incident_catalog_type_attribute.service_service_tier.id
     values               = [incident_catalog_entry.tier_one.id]
   }
-}
-```
-
-## Example - Text
-
-```terraform
-# Text: a freeform text field (e.g. Customer ID).
-resource "incident_custom_field" "customer_id" {
-  name        = "Customer ID"
-  description = "The customer identifier associated with this incident."
-  field_type  = "text"
-}
-```
-
-## Example - Link
-
-```terraform
-# Link: a URL synced to Slack bookmarks on the incident channel
-# (e.g. External Status Page).
-resource "incident_custom_field" "external_status_page" {
-  name        = "External Status Page"
-  description = "Link to the external status page for this incident."
-  field_type  = "link"
-}
-```
-
-## Example - Numeric
-
-```terraform
-# Numeric: an integer or fractional number (e.g. Customers Affected).
-resource "incident_custom_field" "customers_affected" {
-  name        = "Customers Affected"
-  description = "How many customers are affected by this incident."
-  field_type  = "numeric"
 }
 ```
 
