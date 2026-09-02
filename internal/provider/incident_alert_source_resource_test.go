@@ -1381,3 +1381,136 @@ resource "incident_alert_source" "test" {
 		TeamTypeName: teamTypeName(),
 	})
 }
+
+// TestAccAlertSourceResource_PriorityFromExpression covers setting an alert's priority from
+// an expression, which is the shape documented on the resource.
+//
+// incident_alert_source has no priority field: the V2 API carries priority as a binding on
+// the built-in Priority alert attribute, so this is the only way to set one. The existing
+// Issue342 test binds priority to a literal, which doesn't exercise a reference at all.
+//
+// It takes two expressions, because the payload is opaque JSON. An expression reaches into
+// it with parse, and a condition can only ask whether payload as a whole is set — so a
+// branches condition has to test an earlier expression's result rather than payload.severity.
+//
+// The empty-plan check is the point: priority's merge_strategy is Optional+Computed inside a
+// set, which is what made issue #342 a permanent diff, so a reference binding needs to prove
+// it reads back clean.
+func TestAccAlertSourceResource_PriorityFromExpression(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceResourceConfigPriorityFromExpression(),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
+				},
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.priority", "template.expressions.#", "2"),
+					resource.TestCheckResourceAttr("incident_alert_source.priority", "template.attributes.#", "1"),
+					resource.TestCheckResourceAttrSet("incident_alert_source.priority", "id"),
+				),
+			},
+			{
+				ResourceName:      "incident_alert_source.priority",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+func testAccAlertSourceResourceConfigPriorityFromExpression() string {
+	return testRunTemplate("incident_alert_source_priority_from_expression", `
+data "incident_alert_attribute" "priority" {
+  name = "Priority"
+}
+
+data "incident_catalog_type" "alert_priority" {
+  type_name = "AlertPriority"
+}
+
+# Indexed rather than looked up by name, because which priorities an org has is its own
+# business and this test only cares that a reference binding round-trips.
+data "incident_catalog_entries" "priorities" {
+  catalog_type_id = data.incident_catalog_type.alert_priority.id
+}
+
+resource "incident_alert_source" "priority" {
+  name        = {{ stableSuffix "priority-from-expression" | quote }}
+  source_type = "http"
+
+  template = {
+    title       = { literal = {{ quote .Title }} }
+    description = { literal = {{ quote .Description }} }
+
+    attributes = [
+      {
+        alert_attribute_id = data.incident_alert_attribute.priority.id
+        binding = {
+          value = {
+            reference = "expressions[\"severity-priority\"]"
+          }
+        }
+      },
+    ]
+
+    expressions = [
+      # Pull the severity out of the payload as a string.
+      {
+        label          = "Severity"
+        reference      = "severity"
+        root_reference = "payload"
+        operations = [{
+          operation_type = "parse"
+          parse = {
+            source = "$['severity']"
+            returns = {
+              type  = "String"
+              array = false
+            }
+          }
+        }]
+      },
+      # Then map that string onto a priority.
+      {
+        label          = "Priority"
+        reference      = "severity-priority"
+        root_reference = "."
+        operations = [{
+          operation_type = "branches"
+          branches = {
+            returns = {
+              type  = "CatalogEntry[\"AlertPriority\"]"
+              array = false
+            }
+            branches = [
+              {
+                condition_groups = [{
+                  conditions = [{
+                    subject        = "expressions[\"severity\"]"
+                    operation      = "one_of"
+                    param_bindings = [{ values = ["CRITICAL"] }]
+                  }]
+                }]
+                result = { value_literal = data.incident_catalog_entries.priorities.catalog_entries[0].id }
+              },
+            ]
+          }
+        }]
+        else_branch = {
+          result = { value_literal = data.incident_catalog_entries.priorities.catalog_entries[0].id }
+        }
+      },
+    ]
+  }
+}
+`, struct {
+		Title       string
+		Description string
+	}{
+		Title:       testAlertSourceTitle,
+		Description: testAlertSourceDescription,
+	})
+}
