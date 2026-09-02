@@ -552,6 +552,13 @@ func policyFromAPI(policy client.PolicyV2, prior *incidentPolicyResourceModel) *
 		model.VacationConflict = &incidentPolicyVacationConflict{}
 	}
 
+	// on_call_readiness assigns the user in violation, so the API fills the assignee in
+	// itself and a config cannot set one. Keyed off the type rather than off prior
+	// because it has to hold on import too, where there is no prior to compare against.
+	if model.OnCallReadiness != nil {
+		model.AssignmentRules = nil
+	}
+
 	model.reconcileSpelling(prior)
 
 	return model
@@ -568,18 +575,10 @@ func (model *incidentPolicyResourceModel) reconcileSpelling(prior *incidentPolic
 	model.ConditionGroups.ReconcileSpelling(prior.ConditionGroups)
 	model.Expressions.ReconcileSpelling(prior.Expressions)
 
-	switch {
-	// The API fills in the assignee for a type that doesn't let you configure one, so
-	// keeping it would return rules the config never asked for and fail the apply as an
-	// inconsistent result. prior is nil only on import, where there is no planned value
-	// to match and the server's is the best available.
-	case prior.AssignmentRules == nil:
-		model.AssignmentRules = nil
-
 	// Assignee bindings go through the scalar variant: the API binds them against an
 	// array param, so it stores a scalar as a one-element array and answers with the
 	// array. The due-date days binding below is scalar on both sides, so it doesn't.
-	case model.AssignmentRules != nil:
+	if model.AssignmentRules != nil && prior.AssignmentRules != nil {
 		model.AssignmentRules.Bindings = model.AssignmentRules.Bindings.
 			ReconcileScalarSpelling(prior.AssignmentRules.Bindings)
 	}

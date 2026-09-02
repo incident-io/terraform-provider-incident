@@ -9,8 +9,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/jsontypes"
 	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
@@ -192,5 +194,65 @@ func TestPolicyConfigValidators(t *testing.T) {
 	}
 	if !strings.Contains(descriptions[1], "assignment_rules") {
 		t.Errorf("Conflicting does not cover assignment_rules: %s", descriptions[1])
+	}
+}
+
+// importPrior is the state a read sees during an import: just the ID, so prior is a model
+// with every other field nil rather than a nil pointer.
+func importPrior() *incidentPolicyResourceModel {
+	return &incidentPolicyResourceModel{ID: types.StringValue("01POLICY")}
+}
+
+// TestPolicyImportKeepsAssignmentRules covers the read an import performs, which would
+// otherwise drop the assignees because the prior state carried none.
+func TestPolicyImportKeepsAssignmentRules(t *testing.T) {
+	policy := client.PolicyV2{
+		Id:         "01POLICY",
+		Name:       "Post-mortems",
+		Status:     client.PolicyV2StatusEnabled,
+		PolicyType: client.PolicyV2PolicyTypePostMortem,
+		AssignmentRules: &client.PolicyAssignmentRulesV2{
+			Bindings: []client.EngineParamBindingV2{
+				{ArrayValue: &[]client.EngineParamBindingValueV2{{Literal: lo.ToPtr("01USER")}}},
+			},
+			ReminderDueDateOffsetHours: []int64{-24},
+		},
+		PostMortem: &client.PolicyPostMortemV2{},
+	}
+
+	model := policyFromAPI(policy, importPrior())
+	if model.AssignmentRules == nil {
+		t.Fatal("assignment_rules were dropped on import")
+	}
+	if len(model.AssignmentRules.Bindings) != 1 {
+		t.Errorf("want 1 assignee binding, got %d", len(model.AssignmentRules.Bindings))
+	}
+}
+
+// TestPolicyReadDropsInventedAssignmentRules is the other half: rules the API fills in for
+// on_call_readiness must never reach state, on an import as much as on a create.
+func TestPolicyReadDropsInventedAssignmentRules(t *testing.T) {
+	policy := client.PolicyV2{
+		Id:         "01POLICY",
+		Name:       "Responders can be reached",
+		Status:     client.PolicyV2StatusEnabled,
+		PolicyType: client.PolicyV2PolicyTypeOnCallReadiness,
+		AssignmentRules: &client.PolicyAssignmentRulesV2{
+			Bindings: []client.EngineParamBindingV2{
+				{ArrayValue: &[]client.EngineParamBindingValueV2{{Literal: lo.ToPtr("01USER")}}},
+			},
+		},
+		OnCallReadiness: &client.PolicyOnCallReadinessV2{},
+	}
+
+	for name, prior := range map[string]*incidentPolicyResourceModel{
+		"import": importPrior(),
+		"create": {OnCallReadiness: &incidentPolicyOnCallReadiness{}},
+	} {
+		t.Run(name, func(t *testing.T) {
+			if model := policyFromAPI(policy, prior); model.AssignmentRules != nil {
+				t.Error("kept the assignment rules the API invented")
+			}
+		})
 	}
 }
