@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
@@ -60,6 +61,21 @@ func (i *IncidentCustomFieldDataSource) Schema(ctx context.Context, req datasour
 					"catalog_attribute_id": schema.StringAttribute{
 						MarkdownDescription: apischema.Docstring("CustomFieldFilterByOptionsV2", "catalog_attribute_id"),
 						Computed:            true,
+					},
+				},
+			},
+			"fixed_filter": schema.SingleNestedAttribute{
+				Computed:            true,
+				MarkdownDescription: customFieldFixedFilterDescription,
+				Attributes: map[string]schema.Attribute{
+					"catalog_attribute_id": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring("CustomFieldFixedFilterOptionsV2", "catalog_attribute_id"),
+						Computed:            true,
+					},
+					"values": schema.SetAttribute{
+						MarkdownDescription: apischema.Docstring("CustomFieldFixedFilterOptionsV2", "values"),
+						Computed:            true,
+						ElementType:         types.StringType,
 					},
 				},
 			},

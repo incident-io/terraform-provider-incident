@@ -5,13 +5,17 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/objectvalidator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/setvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
@@ -27,20 +31,34 @@ type IncidentCustomFieldResource struct {
 }
 
 type IncidentCustomFieldResourceModel struct {
-	ID                         types.String                             `tfsdk:"id"`
-	Name                       types.String                             `tfsdk:"name"`
-	Description                types.String                             `tfsdk:"description"`
-	FieldType                  types.String                             `tfsdk:"field_type"`
-	CatalogTypeID              types.String                             `tfsdk:"catalog_type_id"`
-	FilterBy                   *IncidentCustomFieldFilterByOptionsModel `tfsdk:"filter_by"`
-	GroupByCatalogAttributeID  types.String                             `tfsdk:"group_by_catalog_attribute_id"`
-	HelptextCatalogAttributeID types.String                             `tfsdk:"helptext_catalog_attribute_id"`
+	ID                         types.String                                `tfsdk:"id"`
+	Name                       types.String                                `tfsdk:"name"`
+	Description                types.String                                `tfsdk:"description"`
+	FieldType                  types.String                                `tfsdk:"field_type"`
+	CatalogTypeID              types.String                                `tfsdk:"catalog_type_id"`
+	FilterBy                   *IncidentCustomFieldFilterByOptionsModel    `tfsdk:"filter_by"`
+	FixedFilter                *IncidentCustomFieldFixedFilterOptionsModel `tfsdk:"fixed_filter"`
+	GroupByCatalogAttributeID  types.String                                `tfsdk:"group_by_catalog_attribute_id"`
+	HelptextCatalogAttributeID types.String                                `tfsdk:"helptext_catalog_attribute_id"`
 }
 
 type IncidentCustomFieldFilterByOptionsModel struct {
 	CustomFieldID      types.String `tfsdk:"custom_field_id"`
 	CatalogAttributeID types.String `tfsdk:"catalog_attribute_id"`
 }
+
+type IncidentCustomFieldFixedFilterOptionsModel struct {
+	CatalogAttributeID types.String   `tfsdk:"catalog_attribute_id"`
+	Values             []types.String `tfsdk:"values"`
+}
+
+// customFieldFixedFilterDescription documents the fixed_filter block. The API schema
+// references the options type without describing the attribute that holds it, so unlike
+// most of this resource there's no docstring to reuse.
+const customFieldFixedFilterDescription = "Restrict this catalog-backed field's options to catalog entries whose " +
+	"`catalog_attribute_id` attribute references one of `values`. This is the static counterpart to `filter_by`: " +
+	"rather than following whatever another custom field is set to on the incident, the filter is chosen up front " +
+	"and is the same for every incident. Mutually exclusive with `filter_by`."
 
 func NewIncidentCustomFieldResource() resource.Resource {
 	return &IncidentCustomFieldResource{}
@@ -97,6 +115,32 @@ func (r *IncidentCustomFieldResource) Schema(ctx context.Context, req resource.S
 					},
 				},
 			},
+			"fixed_filter": schema.SingleNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: customFieldFixedFilterDescription,
+				Attributes: map[string]schema.Attribute{
+					"catalog_attribute_id": schema.StringAttribute{
+						MarkdownDescription: apischema.Docstring("CustomFieldFixedFilterOptionsV2", "catalog_attribute_id"),
+						Required:            true,
+					},
+					"values": schema.SetAttribute{
+						MarkdownDescription: apischema.Docstring("CustomFieldFixedFilterOptionsV2", "values"),
+						Required:            true,
+						ElementType:         types.StringType,
+						Validators: []validator.Set{
+							// The API stores the filter attribute and its values together, and
+							// rejects an attribute with no values to filter on. Say so at plan
+							// time rather than sending a request that can't succeed.
+							setvalidator.SizeAtLeast(1),
+						},
+					},
+				},
+				Validators: []validator.Object{
+					// Both filters live on the same field in the API, so setting one clears the
+					// other: a config asking for both would silently lose one of them.
+					objectvalidator.ConflictsWith(path.MatchRoot("filter_by")),
+				},
+			},
 			"group_by_catalog_attribute_id": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CustomFieldV2", "group_by_catalog_attribute_id"),
 				Optional:            true,
@@ -131,6 +175,7 @@ func (r *IncidentCustomFieldResource) Create(ctx context.Context, req resource.C
 			CustomFieldId:      data.FilterBy.CustomFieldID.ValueString(),
 		}
 	}
+	payload.FixedFilter = data.FixedFilter.toPayload()
 
 	result, err := r.client.CustomFieldsV2CreateWithResponse(ctx, payload)
 	if err != nil {
@@ -186,6 +231,7 @@ func (r *IncidentCustomFieldResource) Update(ctx context.Context, req resource.U
 			CustomFieldId:      data.FilterBy.CustomFieldID.ValueString(),
 		}
 	}
+	payload.FixedFilter = data.FixedFilter.toPayload()
 
 	result, err := r.client.CustomFieldsV2UpdateWithResponse(ctx, data.ID.ValueString(), payload)
 	if err != nil {
@@ -233,5 +279,29 @@ func (r *IncidentCustomFieldResource) buildModel(cf client.CustomFieldV2) *Incid
 		}
 	}
 
+	if cf.FixedFilter != nil {
+		res.FixedFilter = &IncidentCustomFieldFixedFilterOptionsModel{
+			CatalogAttributeID: types.StringValue(cf.FixedFilter.CatalogAttributeId),
+			Values: lo.Map(cf.FixedFilter.Values, func(value string, _ int) types.String {
+				return types.StringValue(value)
+			}),
+		}
+	}
+
 	return res
+}
+
+// toPayload builds the API's fixed filter options, or nil when the block is absent. The
+// API takes the attribute and its values together, so both travel as one optional object.
+func (m *IncidentCustomFieldFixedFilterOptionsModel) toPayload() *client.CustomFieldFixedFilterOptionsV2 {
+	if m == nil {
+		return nil
+	}
+
+	return &client.CustomFieldFixedFilterOptionsV2{
+		CatalogAttributeId: m.CatalogAttributeID.ValueString(),
+		Values: lo.Map(m.Values, func(value types.String, _ int) string {
+			return value.ValueString()
+		}),
+	}
 }

@@ -2,6 +2,7 @@ package provider
 
 import (
 	"bytes"
+	"regexp"
 	"testing"
 	"text/template"
 
@@ -25,6 +26,8 @@ func TestAccIncidentCustomFieldResource(t *testing.T) {
 						"incident_custom_field.example", "field_type", "multi_select"),
 					resource.TestCheckNoResourceAttr(
 						"incident_custom_field.example", "filter_by"),
+					resource.TestCheckNoResourceAttr(
+						"incident_custom_field.example", "fixed_filter"),
 					resource.TestCheckNoResourceAttr(
 						"incident_custom_field.example", "group_by_catalog_attribute_id"),
 					resource.TestCheckNoResourceAttr(
@@ -60,6 +63,8 @@ func TestAccIncidentCustomFieldResource_CatalogBacked(t *testing.T) {
 						"incident_custom_field.example", "field_type", "multi_select"),
 					resource.TestCheckNoResourceAttr(
 						"incident_custom_field.example", "filter_by"),
+					resource.TestCheckNoResourceAttr(
+						"incident_custom_field.example", "fixed_filter"),
 					resource.TestCheckResourceAttrPair(
 						"incident_custom_field.example", "group_by_catalog_attribute_id",
 						"incident_catalog_type_attribute.example_string_attr", "id",
@@ -82,7 +87,55 @@ func TestAccIncidentCustomFieldResource_CatalogBacked(t *testing.T) {
 						"incident_custom_field.example", "filter_by.catalog_attribute_id",
 						"incident_catalog_type_attribute.example_catalog_attr", "id",
 					),
+					resource.TestCheckNoResourceAttr(
+						"incident_custom_field.example", "fixed_filter"),
 				),
+			},
+			// Swap the dynamic filter for a fixed one. The API stores both on the same
+			// field, so setting the fixed filter has to clear filter_by.
+			{
+				Config: testAccIncidentCustomFieldResourceConfig(customFieldTemplateParams{WithCatalogType: true, WithFixedFilter: true}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrPair(
+						"incident_custom_field.example", "fixed_filter.catalog_attribute_id",
+						"incident_catalog_type_attribute.example_catalog_attr", "id",
+					),
+					resource.TestCheckResourceAttr(
+						"incident_custom_field.example", "fixed_filter.values.#", "2"),
+					resource.TestCheckTypeSetElemAttrPair(
+						"incident_custom_field.example", "fixed_filter.values.*",
+						"incident_catalog_entry.other_first", "id",
+					),
+					resource.TestCheckTypeSetElemAttrPair(
+						"incident_custom_field.example", "fixed_filter.values.*",
+						"incident_catalog_entry.other_second", "id",
+					),
+					resource.TestCheckNoResourceAttr(
+						"incident_custom_field.example", "filter_by"),
+				),
+			},
+			// Import, to check the fixed filter round-trips through a read
+			{
+				ResourceName:      "incident_custom_field.example",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+// TestAccIncidentCustomFieldResource_BothFilters checks we reject a config asking for both
+// filters before it reaches the API, which would otherwise silently keep only one.
+func TestAccIncidentCustomFieldResource_BothFilters(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccIncidentCustomFieldResourceConfig(customFieldTemplateParams{
+					WithCatalogType: true, WithFilter: true, WithFixedFilter: true,
+				}),
+				ExpectError: regexp.MustCompile(`Invalid Attribute Combination`),
 			},
 		},
 	})
@@ -127,6 +180,22 @@ resource "incident_custom_field" "other" {
 }
 {{- end }}
 
+{{- if .WithFixedFilter }}
+resource "incident_catalog_entry" "other_first" {
+  catalog_type_id = incident_catalog_type.other.id
+  name = "First other entry"
+
+  attribute_values = []
+}
+
+resource "incident_catalog_entry" "other_second" {
+  catalog_type_id = incident_catalog_type.other.id
+  name = "Second other entry"
+
+  attribute_values = []
+}
+{{- end }}
+
 resource "incident_custom_field" "example" {
   name                          = {{ stableSuffix "Features" | quote }}
   description                   = "Features impacted by this incident"
@@ -144,12 +213,23 @@ resource "incident_custom_field" "example" {
     custom_field_id      = incident_custom_field.other.id
   }
   {{- end }}
+
+  {{- if .WithFixedFilter }}
+  fixed_filter = {
+    catalog_attribute_id = incident_catalog_type_attribute.example_catalog_attr.id
+    values = [
+      incident_catalog_entry.other_first.id,
+      incident_catalog_entry.other_second.id,
+    ]
+  }
+  {{- end }}
 }
 `))
 
 type customFieldTemplateParams struct {
 	WithCatalogType bool
 	WithFilter      bool
+	WithFixedFilter bool
 }
 
 func testAccIncidentCustomFieldResourceConfig(opts customFieldTemplateParams) string {

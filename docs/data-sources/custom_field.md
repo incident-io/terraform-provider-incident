@@ -25,6 +25,7 @@ This data source provides information about a custom field.
 - `description` (String) Description of the custom field
 - `field_type` (String) Type of custom field. Possible values are: `single_select`, `multi_select`, `text`, `link`, `numeric`.
 - `filter_by` (Attributes) (see [below for nested schema](#nestedatt--filter_by))
+- `fixed_filter` (Attributes) Restrict this catalog-backed field's options to catalog entries whose `catalog_attribute_id` attribute references one of `values`. This is the static counterpart to `filter_by`: rather than following whatever another custom field is set to on the incident, the filter is chosen up front and is the same for every incident. Mutually exclusive with `filter_by`. (see [below for nested schema](#nestedatt--fixed_filter))
 - `group_by_catalog_attribute_id` (String) For catalog fields, the ID of the attribute used to group catalog entries (if applicable)
 - `helptext_catalog_attribute_id` (String) Which catalog attribute provides helptext for the options
 - `id` (String) The custom field ID
@@ -38,3 +39,12 @@ Read-Only:
 - `custom_field_id` (String) This must be the ID of a custom field, which must have values of the same type as the attribute you are filtering by.
 
 When this filtering field is set on an incident, the options for this custom field will be filtered to only those with the attribute value that matches the value of the filtering field.
+
+
+<a id="nestedatt--fixed_filter"></a>
+### Nested Schema for `fixed_filter`
+
+Read-Only:
+
+- `catalog_attribute_id` (String) This must be an attribute of the catalog type of this custom field. It must be an attribute that points to another catalog type (so not a plain string, number, or boolean attribute).
+- `values` (Set of String) The catalog entry IDs (of the type the attribute points at) that the attribute must reference. The options for this custom field are restricted to entries matching one of these values.
