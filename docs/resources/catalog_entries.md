@@ -261,9 +261,9 @@ Optional:
 
 ## Import
 
-Import is supported using the following syntax:
+Import is supported using an [`import` block](https://developer.hashicorp.com/terraform/language/import) or the [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import):
 
-In Terraform v1.5.0 and later, the [`import` block](https://developer.hashicorp.com/terraform/language/import) can be used with the `id` attribute, for example:
+The [`import` block](https://developer.hashicorp.com/terraform/language/import) can be used with the `id` attribute, for example:
 
 ```terraform
 # Import catalog entries using the catalog_type_id

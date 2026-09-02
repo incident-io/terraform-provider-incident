@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Document resource import as an `import` block or `terraform import`, without a Terraform v1.5.0 version gate. This provider requires Terraform 1.14 and above, so that wording was leftover from tfplugindocs and implied a version we don't support.
+
 - Add the `incident_incident_timestamp` data source, which looks up an existing incident timestamp by `id` or by `name`. Timestamps can't be created from Terraform - some are set by incident.io on every incident, the rest are configured in your settings - so this is the way to get hold of one's ID, such as for a workflow that sets or reads it. Set exactly one of the two attributes; setting both is rejected at plan time.
 
 ## v6.9.0
