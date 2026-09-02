@@ -607,6 +607,15 @@ func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.S
 					},
 				},
 			},
+			// The V2 validate endpoint takes no fixed_team_id, and which attribute is the
+			// organisation's team attribute is a server-side setting the provider can't see,
+			// so both the team's existence and the clash below surface at apply rather than
+			// in the plan.
+			"fixed_team_id": schema.StringAttribute{
+				Optional: true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV2", "fixed_team_id") +
+					" While set, don't bind the organisation's team attribute in `template.attributes`: the binding is managed from this field, a binding sent in the template is ignored, and reads leave it out — so a config carrying both never settles.",
+			},
 			"auto_resolve_timeout_minutes": schema.Int64Attribute{
 				Optional:            true,
 				MarkdownDescription: apischema.Docstring("AlertSourceV2", "auto_resolve_timeout_minutes"),
@@ -652,7 +661,9 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 			EmailOptions:      data.EmailOptions.ToPayload(),
 			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
 			RateLimitSharding: data.RateLimitSharding.ToPayload(),
-			OwningTeamIds:     owningTeamIDs,
+			// Sent only when set: a source being created has no stored team to clear.
+			FixedTeamId:   data.FixedTeamID.ValueStringPointer(),
+			OwningTeamIds: owningTeamIDs,
 		}
 
 		// Only send auto-resolve fields when explicitly configured, as some
@@ -787,7 +798,11 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 			// omission as "leave the stored path alone", so removing the block would never clear
 			// it.
 			RateLimitSharding: data.RateLimitSharding.ToUpdatePayload(),
-			OwningTeamIds:     owningTeamIDs,
+			// Likewise always sent, as an empty string when the config has no value, so
+			// removing the attribute un-fixes the source instead of leaving a team no config
+			// change can clear.
+			FixedTeamId:   models.FixedTeamIDUpdatePayload(data.FixedTeamID),
+			OwningTeamIds: owningTeamIDs,
 		}
 
 		if !data.AutoResolveTimeoutMinutes.IsNull() && !data.AutoResolveTimeoutMinutes.IsUnknown() {
