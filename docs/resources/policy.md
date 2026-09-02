@@ -94,6 +94,165 @@ resource "incident_policy" "postmortems" {
 }
 ```
 
+## Example - Action follow-ups within 30 days
+
+```terraform
+# Who to chase when a follow-up is overdue.
+data "incident_user" "followups_owner" {
+  email = "engineering-manager@example.com"
+}
+
+data "incident_incident_timestamp" "followups_closed" {
+  name = "Closed at"
+}
+
+# A follow-up policy: the follow-ups left behind by an incident have to be dealt
+# with, rather than sitting open indefinitely.
+resource "incident_policy" "follow_ups" {
+  name        = "Follow-ups actioned within 30 days"
+  description = "Follow-ups from an incident shouldn't be left open once it closes."
+
+  # Empty, so the policy applies to every incident.
+  condition_groups = []
+
+  # Offsets are in whole days, so use multiples of 24 hours: a nudge the day
+  # before, and a chase the day after.
+  assignment_rules = {
+    bindings                       = [{ value_literal = data.incident_user.followups_owner.id }]
+    reminder_due_date_offset_hours = [-24, 24]
+  }
+
+  follow_up = {
+    # A follow-up is compliant once it's out of the open state — completed, or
+    # deliberately dropped.
+    requirements = [
+      {
+        conditions = [
+          {
+            subject        = "follow_up.status"
+            operation      = "not_one_of"
+            param_bindings = [{ values = ["open"] }]
+          }
+        ]
+      }
+    ]
+
+    # Required for follow-up, debrief and post-mortem policies: these types are
+    # the ones that carry a due date, and the API rejects an update without one.
+    due_date_config = {
+      incident_timestamp_id = data.incident_incident_timestamp.followups_closed.id
+      days                  = { value_literal = "30" }
+      calculation_type      = "seven_days"
+    }
+  }
+}
+```
+
+## Example - Book a debrief for major incidents
+
+```terraform
+data "incident_user" "debriefs_owner" {
+  email = "incident-manager@example.com"
+}
+
+data "incident_incident_timestamp" "debriefs_closed" {
+  name = "Closed at"
+}
+
+# A debrief policy: major incidents need a debrief booked in, not just promised.
+#
+# This one scopes itself with condition_groups rather than applying to every
+# incident, so only the incidents that warrant a debrief are held to it.
+resource "incident_policy" "debriefs" {
+  name        = "Debriefs booked for major incidents"
+  description = "Anything at major severity or above needs a debrief in the calendar."
+
+  condition_groups = [
+    {
+      conditions = [
+        {
+          subject   = "incident.severity"
+          operation = "gte"
+          # The ID of the severity to compare against, which is a literal rather
+          # than a reference.
+          param_bindings = [{ value_literal = "01FCNDV6P870EA6S7TK1DSYD5H" }]
+        }
+      ]
+    }
+  ]
+
+  assignment_rules = {
+    bindings                       = [{ value_literal = data.incident_user.debriefs_owner.id }]
+    reminder_due_date_offset_hours = [-24]
+  }
+
+  debrief = {
+    # `is_set` takes no parameters, so its bindings list is empty — but the key
+    # is still required.
+    requirements = [
+      {
+        conditions = [
+          {
+            subject        = "debrief.is_scheduled"
+            operation      = "is_set"
+            param_bindings = []
+          }
+        ]
+      }
+    ]
+
+    due_date_config = {
+      incident_timestamp_id = data.incident_incident_timestamp.debriefs_closed.id
+      days                  = { value_literal = "5" }
+      calculation_type      = "weekdays"
+    }
+  }
+}
+```
+
+## Example - Find gaps in on-call coverage
+
+```terraform
+data "incident_user" "schedule_owner" {
+  email = "on-call-manager@example.com"
+}
+
+# A schedule policy, which finds gaps in on-call coverage.
+#
+# Unlike follow-up, debrief and post-mortem policies this one takes no
+# due_date_config: a coverage gap is a violation the moment it's spotted, so
+# there is no due date to count from. It's the one type that instead supports
+# reminders measured from when the gap was detected.
+resource "incident_policy" "schedule_coverage" {
+  name        = "On-call schedules have no gaps"
+  description = "Every rotation should have someone on call at all times."
+
+  # Empty, so the policy applies to every schedule.
+  condition_groups = []
+
+  assignment_rules = {
+    bindings = [{ value_literal = data.incident_user.schedule_owner.id }]
+
+    # No due date to measure from, so this stays empty and the reminders below
+    # do the work instead.
+    reminder_due_date_offset_hours = []
+
+    # Whole days from when the gap was found: straight away, then again after
+    # two days if it's still there.
+    reminder_detected_date_offset_hours = [0, 48]
+  }
+
+  schedule = {
+    # Check that cover is contiguous, with no uncovered stretches.
+    requirement_type = "contiguous"
+
+    # Judge each rotation separately rather than the schedule as a whole, so one
+    # rotation covering for another doesn't hide a gap. Defaults to "schedule".
+    evaluation_level = "rotation"
+  }
+}
+```
+
 ## Example - Check that on-call responders can be reached
 
 ```terraform
