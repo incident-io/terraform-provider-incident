@@ -1,4 +1,4 @@
-## Unreleased
+## v6.10.0
 
 - Add `fixed_filter` to `incident_custom_field` and its data source, which restricts a catalog-backed field's options to a set of catalog entries chosen up front, rather than following another custom field's value the way `filter_by` does. A field has one filter or the other, so setting `fixed_filter` replaces any `filter_by`, and setting both is rejected at plan time. Removing the block from a field that has one isn't supported yet - clear it in the dashboard.
 - Add the `incident_policy` resource, which manages the policies that encode how your organisation should handle incidents. There is no `policy_type` to set: a policy carries exactly one config block - `follow_up`, `debrief`, `post_mortem`, `schedule`, `on_call_readiness` or `vacation_conflict` - and which one it is makes it that type, with `policy_type` computed from it. Swapping which block is set replaces the policy; editing a block in place is an ordinary update. `on_call_readiness` and `vacation_conflict` assign the user in violation, so `assignment_rules` cannot be set alongside either.
