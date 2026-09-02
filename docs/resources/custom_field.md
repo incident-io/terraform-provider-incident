@@ -30,11 +30,24 @@ Each field has a type:
 
 We may add more custom field types in the future - we'd love to hear any other types you'd like to use!
 
-## Example Usage
+## Example - Single-select
 
 ```terraform
-# Create an Affected Teams multi-select field, required always, shown at all
-# opportunities.
+# Single-select: one value from a predefined list of options (e.g. Detection Method).
+# Options are managed separately with incident_custom_field_option.
+resource "incident_custom_field" "detection_method" {
+  name        = "Detection Method"
+  description = "How this incident was detected."
+  field_type  = "single_select"
+}
+```
+
+## Example - Multi-select
+
+```terraform
+# Multi-select: like single-select, but more than one option can be picked
+# (e.g. Affected Teams). Options are managed separately with
+# incident_custom_field_option.
 resource "incident_custom_field" "affected_teams" {
   name        = "Affected Teams"
   description = "The teams that are affected by this incident."
@@ -79,6 +92,40 @@ resource "incident_custom_field" "affected_tier_one_service" {
     catalog_attribute_id = incident_catalog_type_attribute.service_service_tier.id
     values               = [incident_catalog_entry.tier_one.id]
   }
+}
+```
+
+## Example - Text
+
+```terraform
+# Text: a freeform text field (e.g. Customer ID).
+resource "incident_custom_field" "customer_id" {
+  name        = "Customer ID"
+  description = "The customer identifier associated with this incident."
+  field_type  = "text"
+}
+```
+
+## Example - Link
+
+```terraform
+# Link: a URL synced to Slack bookmarks on the incident channel
+# (e.g. External Status Page).
+resource "incident_custom_field" "external_status_page" {
+  name        = "External Status Page"
+  description = "Link to the external status page for this incident."
+  field_type  = "link"
+}
+```
+
+## Example - Numeric
+
+```terraform
+# Numeric: an integer or fractional number (e.g. Customers Affected).
+resource "incident_custom_field" "customers_affected" {
+  name        = "Customers Affected"
+  description = "How many customers are affected by this incident."
+  field_type  = "numeric"
 }
 ```
 
