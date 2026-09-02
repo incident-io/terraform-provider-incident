@@ -24,7 +24,7 @@ carries `follow_up` config, a `schedule` policy carries `schedule`
 config, and so on. A `vacation_conflict` policy has no configuration of its own and
 so carries no block.
 
-## Example Usage
+## Example - Require a post-mortem within five working days
 
 ```terraform
 # The person to chase when a post-mortem falls due. Assignees can also be a
@@ -92,12 +92,16 @@ resource "incident_policy" "postmortems" {
     }
   }
 }
+```
 
+## Example - Check that on-call responders can be reached
+
+```terraform
 # An on-call readiness policy, which checks that responders have a notification
 # method that reaches them quickly enough.
 #
 # It takes no assignment_rules: this type always assigns the user in violation,
-# and the API fills that binding in itself.
+# and the API picks that assignee itself.
 resource "incident_policy" "responders_can_be_reached" {
   name        = "Responders carry a phone"
   description = "Anyone on call needs a notification method that reaches them quickly."
@@ -120,10 +124,17 @@ resource "incident_policy" "responders_can_be_reached" {
     ]
   }
 }
+```
 
+## Example - Flag responders rota'd on while they are away
+
+```terraform
 # A vacation conflict policy, which flags responders rota'd on while they are
 # away. The type has nothing to configure, so its block is empty: it is only
 # there to say which type this is.
+#
+# Like on-call readiness, it takes no assignment_rules: the API assigns the user
+# in violation.
 resource "incident_policy" "vacation_conflicts" {
   name        = "No on-call during vacation"
   description = "Flag anyone scheduled on call while they are on leave."
