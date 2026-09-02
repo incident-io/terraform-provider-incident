@@ -1,3 +1,8 @@
+## Defines the incident template inline, under incident_config.template. This is
+## the most self-contained option: the template lives with the route and is not
+## shared with any other route. See the other examples for reusing a standalone
+## incident_incident_template, or falling back to the organisation's default.
+
 resource "incident_alert_route" "service_alerts" {
   name       = "Testing Alert Routes"
   enabled    = true
