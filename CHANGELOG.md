@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Add `fixed_filter` to `incident_custom_field` and its data source, which restricts a catalog-backed field's options to a set of catalog entries chosen up front, rather than following another custom field's value the way `filter_by` does. A field has one filter or the other, so setting `fixed_filter` replaces any `filter_by`, and setting both is rejected at plan time. Removing the block from a field that has one isn't supported yet - clear it in the dashboard.
 - Add the `incident_incident_timestamp` data source, which looks up an existing incident timestamp by `id` or by `name`. Timestamps can't be created from Terraform - some are set by incident.io on every incident, the rest are configured in your settings - so this is the way to get hold of one's ID, such as for a workflow that sets or reads it. Set exactly one of the two attributes; setting both is rejected at plan time.
 
 ## v6.9.0
