@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Cover setting an alert's priority from an expression with acceptance tests, on both `incident_alert_source` and `incident_alert_source_beta`. Neither had one: the only existing priority test bound a literal, so the reference form the docs recommend was never exercised.
 - Add the `incident_incident_timestamp` data source, which looks up an existing incident timestamp by `id` or by `name`. Timestamps can't be created from Terraform - some are set by incident.io on every incident, the rest are configured in your settings - so this is the way to get hold of one's ID, such as for a workflow that sets or reads it. Set exactly one of the two attributes; setting both is rejected at plan time.
 
 ## v6.9.0
