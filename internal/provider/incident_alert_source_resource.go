@@ -426,8 +426,10 @@ which you look up by name.
       binding            = { value = { reference = "expressions[\"my-priority\"]" } }
     }
 
-A priority binding takes no `+"`merge_strategy`"+`: an alert's priority is always overwritten when the
-alert fires again.
+A priority binding's `+"`merge_strategy`"+` can only be `+"`last_wins`"+`: an alert's priority is always
+overwritten when the alert fires again, so no other strategy would mean anything. Leave it out and
+the API fills it in — it reads back as `+"`last_wins`"+` either way, so there is no diff to manage.
+Setting any other value is rejected.
 
 Two mistakes here are worth knowing about, because both end with every alert on your default
 alert priority and neither says anything.

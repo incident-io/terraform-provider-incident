@@ -65,8 +65,9 @@ resource "incident_alert_source" "cloudwatch" {
       ## returns an AlertPriority and is bound to nothing has no effect, so this entry is
       ## what makes the `cloudwatch-priority` expression below do anything at all.
       ##
-      ## A priority binding takes no `merge_strategy`: an alert's priority is always
-      ## overwritten when the alert fires again.
+      ## A priority binding's `merge_strategy` can only be `last_wins`: an alert's
+      ## priority is always overwritten when the alert fires again. Left out here
+      ## because the API fills it in, and it reads back as `last_wins` either way.
       {
         alert_attribute_id = data.incident_alert_attribute.priority.id
         binding = {
