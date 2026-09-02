@@ -117,11 +117,26 @@ resource "incident_alert_source_attribute_beta" "severity" {
 
   expression_ref = "severity_lookup"
 
+  # The payload is opaque JSON: an expression reaches into it with a parse operation, and a
+  # condition can only ask whether payload as a whole is set. So a lookup on a payload value
+  # takes two expressions — parse the value out, then branch on the result.
+  named_expression {
+    name       = "severity"
+    start_from = "payload"
+
+    operation {
+      parse {
+        function = "$.labels.severity"
+        as       = "String"
+      }
+    }
+  }
+
   named_expression {
     name = "severity_lookup"
 
     # A branches-only expression starts from the whole scope, so its conditions reference
-    # absolute paths.
+    # absolute paths — including other expressions' results.
     start_from = "."
 
     operation {
@@ -130,7 +145,7 @@ resource "incident_alert_source_attribute_beta" "severity" {
 
         if {
           conditions = [{
-            subject   = "payload.labels.severity"
+            subject   = "expressions[\"severity\"]"
             operation = "one_of"
             params    = [{ values = ["critical", "page"] }]
           }]
@@ -139,7 +154,7 @@ resource "incident_alert_source_attribute_beta" "severity" {
 
         else_if {
           conditions = [{
-            subject   = "payload.labels.severity"
+            subject   = "expressions[\"severity\"]"
             operation = "one_of"
             params    = [{ values = ["warning"] }]
           }]
