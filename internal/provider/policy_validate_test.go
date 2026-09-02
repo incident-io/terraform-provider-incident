@@ -229,30 +229,30 @@ func TestPolicyImportKeepsAssignmentRules(t *testing.T) {
 	}
 }
 
-// TestPolicyReadDropsInventedAssignmentRules is the other half: rules the API fills in for
-// on_call_readiness must never reach state, on an import as much as on a create.
+// TestPolicyReadDropsInventedAssignmentRules is the other half: several policy types
+// assign the user in violation, and rules the API fills in for one of those must not reach
+// state when the config asked for none.
 func TestPolicyReadDropsInventedAssignmentRules(t *testing.T) {
 	policy := client.PolicyV2{
 		Id:         "01POLICY",
-		Name:       "Responders can be reached",
+		Name:       "No on-call during vacation",
 		Status:     client.PolicyV2StatusEnabled,
-		PolicyType: client.PolicyV2PolicyTypeOnCallReadiness,
+		PolicyType: client.PolicyV2PolicyTypeVacationConflict,
 		AssignmentRules: &client.PolicyAssignmentRulesV2{
 			Bindings: []client.EngineParamBindingV2{
-				{ArrayValue: &[]client.EngineParamBindingValueV2{{Literal: lo.ToPtr("01USER")}}},
+				{ArrayValue: &[]client.EngineParamBindingValueV2{{Reference: lo.ToPtr("on_call_user")}}},
 			},
 		},
-		OnCallReadiness: &client.PolicyOnCallReadinessV2{},
 	}
 
-	for name, prior := range map[string]*incidentPolicyResourceModel{
-		"import": importPrior(),
-		"create": {OnCallReadiness: &incidentPolicyOnCallReadiness{}},
-	} {
-		t.Run(name, func(t *testing.T) {
-			if model := policyFromAPI(policy, prior); model.AssignmentRules != nil {
-				t.Error("kept the assignment rules the API invented")
-			}
-		})
+	// A create plan, where policy_type is unknown rather than null: that is what keeps it
+	// apart from the import above, which keeps whatever the API sends.
+	prior := &incidentPolicyResourceModel{
+		PolicyType:       types.StringUnknown(),
+		VacationConflict: &incidentPolicyVacationConflict{},
+	}
+
+	if model := policyFromAPI(policy, prior); model.AssignmentRules != nil {
+		t.Error("kept the assignment rules the API invented")
 	}
 }

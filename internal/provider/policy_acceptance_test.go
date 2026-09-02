@@ -59,6 +59,7 @@ func TestAccIncidentPolicyPostMortem(t *testing.T) {
 				// form rather than the shorthand. The first apply puts the spelling back.
 				ImportStateVerifyIgnore: []string{
 					"assignment_rules.bindings.0.value",
+					"assignment_rules.bindings.0.array_value",
 					"post_mortem.due_date_config.days.value",
 					"post_mortem.requirements.0.conditions.0.param_bindings.0.value",
 					"post_mortem.requirements.0.conditions.0.param_bindings.0.array_value",

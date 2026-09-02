@@ -552,33 +552,40 @@ func policyFromAPI(policy client.PolicyV2, prior *incidentPolicyResourceModel) *
 		model.VacationConflict = &incidentPolicyVacationConflict{}
 	}
 
-	// on_call_readiness assigns the user in violation, so the API fills the assignee in
-	// itself and a config cannot set one. Keyed off the type rather than off prior
-	// because it has to hold on import too, where there is no prior to compare against.
-	if model.OnCallReadiness != nil {
-		model.AssignmentRules = nil
+	// An import has no configuration to reconcile against, so the API's answer stands as
+	// it comes. The first apply after an import settles any difference.
+	if prior != nil && !prior.isImport() {
+		model.reconcileWith(prior)
 	}
-
-	model.reconcileSpelling(prior)
 
 	return model
 }
 
-// reconcileSpelling puts back the shorthands the config wrote. A read only ever sees the
+// isImport reports whether this is the state a read sees during an import, which carries
+// the ID and nothing else. Every other read has a policy_type: it is Computed, so it is
+// set in state once a policy exists and unknown (not null) in a create plan.
+func (model *incidentPolicyResourceModel) isImport() bool {
+	return model.PolicyType.IsNull()
+}
+
+// reconcileWith puts back the shorthands the config wrote. A read only ever sees the
 // stored form, so without this a config written as value_literal reads back as value and
 // fails the apply as an inconsistent result.
-func (model *incidentPolicyResourceModel) reconcileSpelling(prior *incidentPolicyResourceModel) {
-	if prior == nil {
-		return
-	}
-
+func (model *incidentPolicyResourceModel) reconcileWith(prior *incidentPolicyResourceModel) {
 	model.ConditionGroups.ReconcileSpelling(prior.ConditionGroups)
 	model.Expressions.ReconcileSpelling(prior.Expressions)
+
+	switch {
+	// Several policy types assign the user in violation, and the API fills that binding
+	// in itself. Keeping it would put rules in state the config never asked for and fail
+	// the apply as an inconsistent result.
+	case prior.AssignmentRules == nil:
+		model.AssignmentRules = nil
 
 	// Assignee bindings go through the scalar variant: the API binds them against an
 	// array param, so it stores a scalar as a one-element array and answers with the
 	// array. The due-date days binding below is scalar on both sides, so it doesn't.
-	if model.AssignmentRules != nil && prior.AssignmentRules != nil {
+	case model.AssignmentRules != nil:
 		model.AssignmentRules.Bindings = model.AssignmentRules.Bindings.
 			ReconcileScalarSpelling(prior.AssignmentRules.Bindings)
 	}
