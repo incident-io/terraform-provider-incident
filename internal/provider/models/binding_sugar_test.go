@@ -234,3 +234,50 @@ func TestIsEmptyCountsTheShorthands(t *testing.T) {
 		})
 	}
 }
+
+// TestReconcileScalarBindingFoldsAOneElementArray covers what the policies API does to an
+// assignee binding: it binds against an array param, so a scalar goes in and a one-element
+// array comes back. Without this the apply fails as an inconsistent result.
+func TestReconcileScalarBindingFoldsAOneElementArray(t *testing.T) {
+	prior := IncidentEngineParamBinding{
+		ValueLiteral: literal("01USER"),
+	}
+	fromAPI := IncidentEngineParamBinding{
+		ArrayValue: []IncidentEngineParamBindingValue{
+			{
+				Literal:   literal("01USER"),
+				Reference: types.StringNull(),
+			},
+		},
+	}
+
+	got := ReconcileScalarBinding(fromAPI, prior)
+	assert.Equal(t, prior, got, "the config's scalar spelling should survive the round trip")
+
+	// Plain ReconcileSpelling cannot see these as equal, which is why the scalar variant
+	// exists: for every other endpoint a scalar and an array differ for real.
+	assert.Equal(t, fromAPI, fromAPI.ReconcileSpelling(prior))
+}
+
+// TestReconcileScalarBindingKeepsRealDrift asserts the fold is not a blanket "arrays equal
+// scalars": a different value, and an array of more than one, both stay as the API sent them.
+func TestReconcileScalarBindingKeepsRealDrift(t *testing.T) {
+	prior := IncidentEngineParamBinding{
+		ValueLiteral: literal("01USER"),
+	}
+
+	changed := IncidentEngineParamBinding{
+		ArrayValue: []IncidentEngineParamBindingValue{
+			{Literal: literal("01SOMEONE-ELSE"), Reference: types.StringNull()},
+		},
+	}
+	assert.Equal(t, changed, ReconcileScalarBinding(changed, prior))
+
+	twoValues := IncidentEngineParamBinding{
+		ArrayValue: []IncidentEngineParamBindingValue{
+			{Literal: literal("01USER"), Reference: types.StringNull()},
+			{Literal: literal("01SECOND"), Reference: types.StringNull()},
+		},
+	}
+	assert.Equal(t, twoValues, ReconcileScalarBinding(twoValues, prior))
+}
