@@ -353,6 +353,12 @@ func (r *IncidentAlertRouteResource) Schema(ctx context.Context, req resource.Sc
 						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV3", "template") + " Only used with `grouping_config`.",
 						Attributes:          incidentTemplateAttributes(false),
 					},
+					// --- v3-only: reference to a standalone incident template ---
+					"incident_template": schema.SingleNestedAttribute{
+						Optional:            true,
+						MarkdownDescription: apischema.Docstring("AlertRouteIncidentConfigV3", "incident_template"),
+						Attributes:          models.ParamBindingAttributes(),
+					},
 				},
 			},
 			// --- v2-only: incident_template (deprecated, see incident_config.template) ---

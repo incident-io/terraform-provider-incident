@@ -170,6 +170,11 @@ type AlertRouteIncidentConfigModel struct {
 	// v3-only: the incident template moves under incident_config.template. In v2
 	// mode this is null (the top-level incident_template is used instead).
 	Template *AlertRouteV3IncidentTemplateModel `tfsdk:"template"`
+
+	// v3-only: a param binding pointing at a standalone incident template (a
+	// literal template ID or an expression), used instead of the inline
+	// Template. Null in v2 mode.
+	IncidentTemplate *IncidentEngineParamBinding `tfsdk:"incident_template"`
 }
 
 type AlertRouteGroupingKey struct {

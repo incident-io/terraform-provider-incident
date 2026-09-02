@@ -416,6 +416,48 @@ func TestAlertRouteV3CustomFieldsNullVsEmpty(t *testing.T) {
 	}
 }
 
+// TestAlertRouteV3IncidentTemplateReference checks the incident_config.incident_template
+// reference (a param binding to a standalone template) is wired through FromAPI, and stays
+// null when the API returns none — so an omitted reference doesn't drift in state.
+func TestAlertRouteV3IncidentTemplateReference(t *testing.T) {
+	base := func(ref *client.EngineParamBindingV3) client.AlertRouteV3 {
+		return client.AlertRouteV3{
+			Id:              "01ABC",
+			Name:            "route",
+			ConditionGroups: []client.ConditionGroupV3{},
+			Expressions:     []client.ExpressionV3{},
+			GroupingConfig: client.AlertGroupingConfigV3{
+				Default: client.GroupingSettingsV3{Enabled: false},
+			},
+			MessageConfig: client.AlertMessageConfigV3{
+				Destinations: []client.AlertMessageDestinationV3{},
+			},
+			EscalationConfig: client.AlertRouteEscalationConfigV3{
+				EscalationTargets: []client.AlertRouteEscalationTargetV3{},
+			},
+			IncidentConfig: client.AlertRouteIncidentConfigV3{
+				Enabled:          true,
+				IncidentTemplate: ref,
+			},
+		}
+	}
+
+	// A route that references a standalone template surfaces the reference in state.
+	ref := &client.EngineParamBindingV3{
+		Value: &client.EngineParamBindingValueV3{Literal: lo.ToPtr("01TEMPLATE")},
+	}
+	got := AlertRouteResourceModel{}.FromAPIV3(base(ref))
+	if got.IncidentConfig.IncidentTemplate == nil {
+		t.Fatal("incident_template reference: expected non-nil, got nil")
+	}
+
+	// A route with no reference keeps incident_template null, so there's no drift.
+	gotNil := AlertRouteResourceModel{}.FromAPIV3(base(nil))
+	if gotNil.IncidentConfig.IncidentTemplate != nil {
+		t.Errorf("incident_template reference: expected nil when omitted, got %+v", gotNil.IncidentConfig.IncidentTemplate)
+	}
+}
+
 // TestAlertRouteV3ReconcilesConditionOperation is
 // TestAlertRouteV2ReconcilesConditionOperation for the v3 mapping.
 func TestAlertRouteV3ReconcilesConditionOperation(t *testing.T) {
