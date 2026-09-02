@@ -62,8 +62,9 @@ type alertSourceBetaModel struct {
 	AlertEventsURL types.String `tfsdk:"alert_events_url"`
 	EmailAddress   types.String `tfsdk:"email_address"`
 
-	OwningTeamIDs types.Set  `tfsdk:"owning_team_ids"`
-	IsPrivate     types.Bool `tfsdk:"is_private"`
+	OwningTeamIDs types.Set    `tfsdk:"owning_team_ids"`
+	IsPrivate     types.Bool   `tfsdk:"is_private"`
+	FixedTeamID   types.String `tfsdk:"fixed_team_id"`
 
 	Title       *models.TemplatedTextValue `tfsdk:"title"`
 	Description *models.TemplatedTextValue `tfsdk:"description"`
@@ -177,6 +178,14 @@ compatible, so pin the provider version if that matters to you.
 				Computed:            true,
 				Default:             booldefault.StaticBool(false),
 				MarkdownDescription: apischema.Docstring("AlertSourceV3", "is_private"),
+			},
+			// Whether an attribute is the organisation's team attribute is a server-side
+			// setting the provider can't see at plan time, so the clash below surfaces at
+			// apply rather than in the plan.
+			"fixed_team_id": schema.StringAttribute{
+				Optional: true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "fixed_team_id") +
+					" While set, an `incident_alert_source_attribute_beta` resource binding the organisation's team attribute is rejected at apply time: the binding is managed from this field.",
 			},
 
 			// The feature sets are the server's, from sourceconfigs.TitleParam and
@@ -462,6 +471,11 @@ func (r *alertSourceBetaResource) ModifyPlan(ctx context.Context, req resource.M
 			// Carried so the source-type capability check runs at plan time rather than
 			// surfacing as a 422 half way through an apply.
 			RateLimitSharding: data.RateLimitSharding.toPayload(),
+
+			// Likewise: a team that doesn't exist, or an organisation with no team attribute
+			// to fix into, is rejected here instead of at apply. Null means not fixed —
+			// nothing to check — so send the value only when set.
+			FixedTeamId: data.FixedTeamID.ValueStringPointer(),
 		},
 	})
 	if err == nil {
@@ -558,10 +572,12 @@ func (r *alertSourceBetaResource) Create(ctx context.Context, req resource.Creat
 	}
 
 	payload := client.AlertSourceCreatePayloadV3{
-		Name:           data.Name.ValueString(),
-		SourceType:     client.AlertSourceCreatePayloadV3SourceType(data.SourceType.ValueString()),
-		OwningTeamIds:  r.toTeamIDsPayload(ctx, data.OwningTeamIDs, &resp.Diagnostics),
-		IsPrivate:      data.IsPrivate.ValueBoolPointer(),
+		Name:          data.Name.ValueString(),
+		SourceType:    client.AlertSourceCreatePayloadV3SourceType(data.SourceType.ValueString()),
+		OwningTeamIds: r.toTeamIDsPayload(ctx, data.OwningTeamIDs, &resp.Diagnostics),
+		IsPrivate:     data.IsPrivate.ValueBoolPointer(),
+		// Sent only when set: a source being created has no stored team to clear.
+		FixedTeamId:    data.FixedTeamID.ValueStringPointer(),
 		Title:          bindings.title,
 		Description:    bindings.description,
 		Priority:       bindings.priority,
@@ -650,9 +666,12 @@ func (r *alertSourceBetaResource) Update(ctx context.Context, req resource.Updat
 	}
 
 	payload := client.AlertSourceUpdatePayloadV3{
-		Name:           plan.Name.ValueString(),
-		OwningTeamIds:  owningTeamIDs,
-		IsPrivate:      plan.IsPrivate.ValueBool(),
+		Name:          plan.Name.ValueString(),
+		OwningTeamIds: owningTeamIDs,
+		IsPrivate:     plan.IsPrivate.ValueBool(),
+		// Always sent, as an empty string when the config has no value, so removing the
+		// attribute un-fixes the source instead of leaving a team no config change can clear.
+		FixedTeamId:    models.FixedTeamIDUpdatePayload(plan.FixedTeamID),
 		Title:          bindings.title,
 		Description:    bindings.description,
 		Priority:       bindings.priority,
@@ -864,6 +883,7 @@ func alertSourceBetaFromAPI(
 
 		OwningTeamIDs: teamIDsToState(lo.FromPtr(source.OwningTeamIds), config.OwningTeamIDs),
 		IsPrivate:     types.BoolValue(source.IsPrivate),
+		FixedTeamID:   models.FixedTeamIDFromAPI(source.FixedTeamId),
 
 		Title:       templatedTextFromAPI(source.Title, "title", diags),
 		Description: templatedTextFromAPI(source.Description, "description", diags),

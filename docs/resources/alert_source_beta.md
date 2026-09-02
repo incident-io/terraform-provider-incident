@@ -153,6 +153,7 @@ resource "incident_alert_source_beta" "security_scanner" {
 - `auto_resolve_timeout_minutes` (Number) How long to wait before automatically resolving alerts from this source
 - `description` (Attributes) (see [below for nested schema](#nestedatt--description))
 - `email_options` (Attributes) (see [below for nested schema](#nestedatt--email_options))
+- `fixed_team_id` (String) When set, the team every alert from this source is attributed to. The team attribute is managed from this field: it is not returned by the attribute endpoints and cannot be bound directly. While set, an `incident_alert_source_attribute_beta` resource binding the organisation's team attribute is rejected at apply time: the binding is managed from this field.
 - `heartbeat_options` (Attributes) (see [below for nested schema](#nestedatt--heartbeat_options))
 - `http_custom_options` (Attributes) (see [below for nested schema](#nestedatt--http_custom_options))
 - `is_private` (Boolean) Whether alerts from this source are private

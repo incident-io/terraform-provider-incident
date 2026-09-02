@@ -41,7 +41,7 @@ func TestAlertSourceBetaResourceSchema(t *testing.T) {
 		"id", "name", "source_type", "secret_token", "alert_events_url", "email_address",
 		"owning_team_ids", "is_private", "title", "description", "priority", "visible_to_teams",
 		"jira_options", "heartbeat_options", "email_options", "http_custom_options",
-		"rate_limit_sharding",
+		"rate_limit_sharding", "fixed_team_id",
 		"auto_resolve_timeout_minutes", "auto_resolve_incident_alerts", "version",
 	} {
 		if _, ok := schemaResp.Schema.Attributes[name]; !ok {
