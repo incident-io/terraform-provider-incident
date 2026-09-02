@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"slices"
 	"strings"
 	"testing"
 
@@ -174,12 +175,12 @@ func TestPolicyBlocksCoverEveryPolicyType(t *testing.T) {
 	}
 }
 
-// TestPolicyConfigValidators pins the two rules the resource leans on, so removing one
-// doesn't quietly take the enforcement with it.
+// TestPolicyConfigValidators pins the rules the resource leans on, so removing one doesn't
+// quietly take the enforcement with it.
 func TestPolicyConfigValidators(t *testing.T) {
 	validators := (&incidentPolicyResource{}).ConfigValidators(context.Background())
-	if len(validators) != 2 {
-		t.Fatalf("want 2 config validators, got %d", len(validators))
+	if want := 1 + len(policyTypesWithForcedAssignee); len(validators) != want {
+		t.Fatalf("want %d config validators, got %d", want, len(validators))
 	}
 
 	descriptions := []string{}
@@ -192,8 +193,13 @@ func TestPolicyConfigValidators(t *testing.T) {
 			t.Errorf("ExactlyOneOf does not cover %q: %s", block, descriptions[0])
 		}
 	}
-	if !strings.Contains(descriptions[1], "assignment_rules") {
-		t.Errorf("Conflicting does not cover assignment_rules: %s", descriptions[1])
+
+	// Every type that picks its own assignee needs a Conflicting rule of its own.
+	for idx, block := range policyTypesWithForcedAssignee {
+		description := descriptions[idx+1]
+		if !strings.Contains(description, "assignment_rules") || !strings.Contains(description, block) {
+			t.Errorf("Conflicting does not cover %q with assignment_rules: %s", block, description)
+		}
 	}
 }
 
@@ -229,30 +235,48 @@ func TestPolicyImportKeepsAssignmentRules(t *testing.T) {
 	}
 }
 
-// TestPolicyReadDropsInventedAssignmentRules is the other half: several policy types
-// assign the user in violation, and rules the API fills in for one of those must not reach
-// state when the config asked for none.
-func TestPolicyReadDropsInventedAssignmentRules(t *testing.T) {
-	policy := client.PolicyV2{
-		Id:         "01POLICY",
-		Name:       "No on-call during vacation",
-		Status:     client.PolicyV2StatusEnabled,
-		PolicyType: client.PolicyV2PolicyTypeVacationConflict,
-		AssignmentRules: &client.PolicyAssignmentRulesV2{
-			Bindings: []client.EngineParamBindingV2{
-				{ArrayValue: &[]client.EngineParamBindingValueV2{{Reference: lo.ToPtr("on_call_user")}}},
-			},
+// TestPolicyReadDropsForcedAssignee is the other half: the types that pick their own
+// assignee must never carry one into state, whatever the read is serving. An import has no
+// prior to notice it with, so this has to hold on the type alone.
+func TestPolicyReadDropsForcedAssignee(t *testing.T) {
+	forced := &client.PolicyAssignmentRulesV2{
+		Bindings: []client.EngineParamBindingV2{
+			{ArrayValue: &[]client.EngineParamBindingValueV2{{Reference: lo.ToPtr("on_call_user")}}},
 		},
 	}
 
-	// A create plan, where policy_type is unknown rather than null: that is what keeps it
-	// apart from the import above, which keeps whatever the API sends.
-	prior := &incidentPolicyResourceModel{
-		PolicyType:       types.StringUnknown(),
-		VacationConflict: &incidentPolicyVacationConflict{},
-	}
+	for _, policyType := range policyTypesWithForcedAssignee {
+		policy := client.PolicyV2{
+			Id:              "01POLICY",
+			Name:            "Picks its own assignee",
+			Status:          client.PolicyV2StatusEnabled,
+			PolicyType:      client.PolicyV2PolicyType(policyType),
+			AssignmentRules: forced,
+		}
 
-	if model := policyFromAPI(policy, prior); model.AssignmentRules != nil {
-		t.Error("kept the assignment rules the API invented")
+		// policy_type is unknown rather than null in a create plan, which is what keeps
+		// that case apart from an import.
+		for name, prior := range map[string]*incidentPolicyResourceModel{
+			"import": importPrior(),
+			"create": {PolicyType: types.StringUnknown()},
+		} {
+			t.Run(policyType+"/"+name, func(t *testing.T) {
+				if model := policyFromAPI(policy, prior); model.AssignmentRules != nil {
+					t.Error("kept the assignee the API picked for itself")
+				}
+			})
+		}
+	}
+}
+
+// TestPolicyTypesWithForcedAssigneeAreRealTypes guards the list against a typo, which would
+// otherwise silently stop dropping the assignee for that type.
+func TestPolicyTypesWithForcedAssigneeAreRealTypes(t *testing.T) {
+	fromAPI := apischema.EnumValues("PolicyV2", "policy_type")
+
+	for _, policyType := range policyTypesWithForcedAssignee {
+		if !slices.Contains(fromAPI, policyType) {
+			t.Errorf("%q is not a policy type: %v", policyType, fromAPI)
+		}
 	}
 }

@@ -132,6 +132,11 @@ var policyBlocks = []string{
 	"follow_up", "debrief", "post_mortem", "schedule", "on_call_readiness", "vacation_conflict",
 }
 
+// policyTypesWithForcedAssignee are the types that assign the user in violation. The API
+// picks their assignee itself and replaces whatever a request sends, so a config cannot set
+// one and a read must drop what comes back.
+var policyTypesWithForcedAssignee = []string{"on_call_readiness", "vacation_conflict"}
+
 func (r *incidentPolicyResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_policy"
 }
@@ -253,7 +258,7 @@ so carries no block.
 			// Empty because the type has nothing to configure. Set it to `{}` to make a
 			// vacation-conflict policy, which keeps "exactly one block" true for every type.
 			"vacation_conflict": schema.SingleNestedAttribute{
-				MarkdownDescription: "Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object.",
+				MarkdownDescription: "Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object. The assignee is always the user in violation, so `assignment_rules` cannot be set alongside it.",
 				Optional:            true,
 				PlanModifiers:       []planmodifier.Object{policyBlockRequiresReplace()},
 				Attributes:          map[string]schema.Attribute{},
@@ -263,21 +268,24 @@ so carries no block.
 }
 
 // ConfigValidators enforces that a policy sets exactly one config block, which is what
-// determines its type, and that on-call readiness carries no assignee.
+// determines its type, and that a type picking its own assignee carries none.
 func (r *incidentPolicyResource) ConfigValidators(_ context.Context) []resource.ConfigValidator {
 	blocks := lo.Map(policyBlocks, func(block string, _ int) path.Expression {
 		return path.MatchRoot(block)
 	})
 
-	return []resource.ConfigValidator{
-		resourcevalidator.ExactlyOneOf(blocks...),
-		// The API fills the readiness assignee in itself and rejects anything else, so a
-		// config setting one could never apply.
-		resourcevalidator.Conflicting(
-			path.MatchRoot("on_call_readiness"),
+	validators := []resource.ConfigValidator{resourcevalidator.ExactlyOneOf(blocks...)}
+
+	// These types pick their own assignee, so a config setting one would be silently
+	// replaced. Say so at plan time instead.
+	for _, block := range policyTypesWithForcedAssignee {
+		validators = append(validators, resourcevalidator.Conflicting(
+			path.MatchRoot(block),
 			path.MatchRoot("assignment_rules"),
-		),
+		))
 	}
+
+	return validators
 }
 
 // policyBlockRequiresReplace replaces the policy when a block is added or removed, which
@@ -552,6 +560,12 @@ func policyFromAPI(policy client.PolicyV2, prior *incidentPolicyResourceModel) *
 		model.VacationConflict = &incidentPolicyVacationConflict{}
 	}
 
+	// Drop the assignee the API picked for itself. This keys off the type so that it holds
+	// on import too, where there is no prior to compare against.
+	if lo.Contains(policyTypesWithForcedAssignee, string(policy.PolicyType)) {
+		model.AssignmentRules = nil
+	}
+
 	// An import has no configuration to reconcile against, so the API's answer stands as
 	// it comes. The first apply after an import settles any difference.
 	if prior != nil && !prior.isImport() {
@@ -576,9 +590,10 @@ func (model *incidentPolicyResourceModel) reconcileWith(prior *incidentPolicyRes
 	model.Expressions.ReconcileSpelling(prior.Expressions)
 
 	switch {
-	// Several policy types assign the user in violation, and the API fills that binding
-	// in itself. Keeping it would put rules in state the config never asked for and fail
-	// the apply as an inconsistent result.
+	// A safety net for any other rules the API adds of its own accord: keeping them would
+	// put rules in state the config never asked for and fail the apply as an inconsistent
+	// result. The forced assignees above are dropped before this, so that they go on an
+	// import too.
 	case prior.AssignmentRules == nil:
 		model.AssignmentRules = nil
 
