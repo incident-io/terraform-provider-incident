@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add the `incident_incident_template` data source, which looks up an existing incident template by `id` or by `name`, so you can reference a template the dashboard owns — for example pointing an `incident_alert_route` at it via `incident_config.incident_template` — without pinning an ID that differs between organisations. It reports the template's `name`, `expressions`, and nested `template` config. Set exactly one of the two lookup attributes; setting both, or neither, is rejected at plan time.
+
 ## v6.11.0
 
 - Add the `incident_incident_template` resource, which manages an incident template. Incident templates determine how an incident is created from an alert, and have been split out of alert routes, where they lived previously.
