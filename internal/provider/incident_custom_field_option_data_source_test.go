@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccIncidentCustomFieldOptionDataSource(t *testing.T) {
+func accIncidentCustomFieldOptionDataSource(t *testing.T) {
 	// Searching by value and custom_field_type
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },

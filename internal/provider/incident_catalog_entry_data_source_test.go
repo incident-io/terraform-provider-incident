@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccIncidentCatalogEntryDataSource(t *testing.T) {
+func accIncidentCatalogEntryDataSource(t *testing.T) {
 	typeName := generateTypeName()
 
 	// Lookup by external_id

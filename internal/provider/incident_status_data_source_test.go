@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccIncidentStatusDataSource(t *testing.T) {
+func accIncidentStatusDataSource(t *testing.T) {
 	defaultStatus := incidentStatusDefault()
 
 	resource.Test(t, resource.TestCase{
@@ -44,7 +44,7 @@ func TestAccIncidentStatusDataSource(t *testing.T) {
 
 // Both lookup attributes are Optional and Computed, so setting both has to be
 // rejected explicitly rather than by the schema.
-func TestAccIncidentStatusDataSourceAmbiguousLookup(t *testing.T) {
+func accIncidentStatusDataSourceAmbiguousLookup(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

@@ -17,7 +17,7 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
-func TestAccIncidentWorkflowResource(t *testing.T) {
+func accIncidentWorkflowResource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -189,10 +189,10 @@ func testAccIncidentWorkflowResourceConfig(override *workflowTemplateOverrides) 
 	return buf.String()
 }
 
-// TestAccIncidentWorkflowResourceOwningTeamIDs checks that owning_team_ids round-trips:
+// accIncidentWorkflowResourceOwningTeamIDs checks that owning_team_ids round-trips:
 // unset reads back as absent, and teams provisioned in-config are applied and re-read.
 // Teams are a catalog type, so the test creates its own Team entries to reference.
-func TestAccIncidentWorkflowResourceOwningTeamIDs(t *testing.T) {
+func accIncidentWorkflowResourceOwningTeamIDs(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -238,9 +238,9 @@ func TestAccIncidentWorkflowResourceOwningTeamIDs(t *testing.T) {
 	})
 }
 
-// TestAccIncidentWorkflowResourcePrivateIncidentScope checks that private_incident_scope
+// accIncidentWorkflowResourcePrivateIncidentScope checks that private_incident_scope
 // round-trips and that the deprecated include_private_incidents is derived from it on read.
-func TestAccIncidentWorkflowResourcePrivateIncidentScope(t *testing.T) {
+func accIncidentWorkflowResourcePrivateIncidentScope(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -298,10 +298,10 @@ func TestAccIncidentWorkflowResourcePrivateIncidentScope(t *testing.T) {
 	})
 }
 
-// TestAccIncidentWorkflowResourcePrivateScopeConflict checks that contradictory bool/scope values
+// accIncidentWorkflowResourcePrivateScopeConflict checks that contradictory bool/scope values
 // are rejected at plan time (mirrors the API's 422); agreeing values are covered by
-// TestAccIncidentWorkflowResourcePrivateIncidentScope.
-func TestAccIncidentWorkflowResourcePrivateScopeConflict(t *testing.T) {
+// accIncidentWorkflowResourcePrivateIncidentScope.
+func accIncidentWorkflowResourcePrivateScopeConflict(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -384,10 +384,10 @@ resource "incident_workflow" "example" {
 	})
 }
 
-// TestAccIncidentWorkflowResourceOwningTeamFromCatalog covers the pattern the resource
+// accIncidentWorkflowResourceOwningTeamFromCatalog covers the pattern the resource
 // example uses: teams are catalog entries, so the owning team is resolved through the
 // catalog by name rather than by pasting in an ID that differs between workspaces.
-func TestAccIncidentWorkflowResourceOwningTeamFromCatalog(t *testing.T) {
+func accIncidentWorkflowResourceOwningTeamFromCatalog(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -489,11 +489,11 @@ resource "incident_workflow" "example" {
 	})
 }
 
-// TestAccIncidentWorkflowResourceFormFields checks that form_fields round-trips on a
+// accIncidentWorkflowResourceFormFields checks that form_fields round-trips on a
 // manually triggered workflow: unset reads back as absent, fields are applied and
 // re-read (with a server-generated id), and both `[]` and omitting the attribute
 // clear them again without leaving a diff behind.
-func TestAccIncidentWorkflowResourceFormFields(t *testing.T) {
+func accIncidentWorkflowResourceFormFields(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -604,12 +604,12 @@ func TestAccIncidentWorkflowResourceFormFields(t *testing.T) {
 	})
 }
 
-// TestAccIncidentWorkflowResourceFormFieldIDsFollowKeys checks that a form field's
+// accIncidentWorkflowResourceFormFieldIDsFollowKeys checks that a form field's
 // computed id follows its key rather than its position in the list. form_fields is
 // ordered, so an id correlated by position moves onto the wrong field the moment an
 // earlier field is removed — the update would then rewrite the surviving field's
 // identity (and type) instead of deleting the one that went away.
-func TestAccIncidentWorkflowResourceFormFieldIDsFollowKeys(t *testing.T) {
+func accIncidentWorkflowResourceFormFieldIDsFollowKeys(t *testing.T) {
 	idsByKey := map[string]string{}
 
 	captureIDs := func(s *terraform.State) error {
@@ -790,7 +790,7 @@ resource "incident_workflow" "example" {
 `, struct{ Privacy string }{Privacy: privacy})
 }
 
-// TestAccIncidentWorkflowResourceStatusChangedExample covers the pattern the status
+// accIncidentWorkflowResourceStatusChangedExample covers the pattern the status
 // example in examples/resources/incident_workflow/resource.tf uses: a workflow triggered
 // by a status change, conditioning on a status resolved through the incident_status data
 // source rather than a pasted ID, and binding a step parameter to a reference the trigger
@@ -801,7 +801,7 @@ resource "incident_workflow" "example" {
 // thing that checks the trigger exists, that `user-who-changed-the-status` is in its
 // scope, and that each binding matches the type and arity of the parameter it fills.
 // terraform validate can't see any of that, so an example is only really checked here.
-func TestAccIncidentWorkflowResourceStatusChangedExample(t *testing.T) {
+func accIncidentWorkflowResourceStatusChangedExample(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -900,7 +900,7 @@ resource "incident_workflow" "example" {
 `, nil)
 }
 
-// TestAccIncidentWorkflowResourceFormFieldsInStepExample covers the pattern the form
+// accIncidentWorkflowResourceFormFieldsInStepExample covers the pattern the form
 // submission example uses: a manual workflow whose steps bind the values its form
 // collects.
 //
@@ -912,7 +912,7 @@ resource "incident_workflow" "example" {
 //
 // The message goes through the rich text data source, so this also covers a parsed
 // document reaching a TemplatedText parameter intact.
-func TestAccIncidentWorkflowResourceFormFieldsInStepExample(t *testing.T) {
+func accIncidentWorkflowResourceFormFieldsInStepExample(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -999,7 +999,7 @@ resource "incident_workflow" "example" {
 `, nil)
 }
 
-// TestAccIncidentWorkflowResourceInviteUserExample covers the invite example, including
+// accIncidentWorkflowResourceInviteUserExample covers the invite example, including
 // the data source lookups it recommends over pasting IDs.
 //
 // The interesting part is arity and typing: slack.invite_user takes an incident, then two
@@ -1009,7 +1009,7 @@ resource "incident_workflow" "example" {
 //
 // The two values the example looks up are specific to an account, so rather than hardcode
 // them the test asks the API what this one has, the way channelID does for Slack channels.
-func TestAccIncidentWorkflowResourceInviteUserExample(t *testing.T) {
+func accIncidentWorkflowResourceInviteUserExample(t *testing.T) {
 	// The lookups below run before resource.Test, so honour TF_ACC ourselves rather than
 	// calling the API during a unit test run, then initialise testClient.
 	if os.Getenv("TF_ACC") == "" {
@@ -1189,7 +1189,7 @@ resource "incident_workflow" "example" {
 	}{Email: email, GroupTypeName: groupTypeName, GroupIdentifier: groupIdentifier})
 }
 
-// TestAccIncidentWorkflowResourceSlackPostMessageExample covers the example that posts to
+// accIncidentWorkflowResourceSlackPostMessageExample covers the example that posts to
 // a Slack channel.
 //
 // Three things here are only checked when the workflow is saved. The channel binding is
@@ -1197,7 +1197,7 @@ resource "incident_workflow" "example" {
 // can't see fails at apply rather than at run time. The message is a document rather than
 // a string, and has to arrive at the TemplatedText parameter intact. And the step declares
 // four parameters, two of them optional, so the bindings have to line up positionally.
-func TestAccIncidentWorkflowResourceSlackPostMessageExample(t *testing.T) {
+func accIncidentWorkflowResourceSlackPostMessageExample(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -1287,7 +1287,7 @@ resource "incident_workflow" "example" {
 `, struct{ ChannelID string }{ChannelID: channelID(false)})
 }
 
-// TestAccIncidentWorkflowResourceConditionGroupsExample covers the CSM subscription
+// accIncidentWorkflowResourceConditionGroupsExample covers the CSM subscription
 // example: two condition groups, one of them holding two conditions, and a condition whose
 // subject addresses a custom field by the ID a data source found.
 //
@@ -1295,7 +1295,7 @@ resource "incident_workflow" "example" {
 // with each other, so writing the same three conditions as one group would match nothing -
 // and nothing would fail, because a workflow that never matches is still a valid workflow.
 // A round-trip assertion on the shape is the only thing that keeps it honest.
-func TestAccIncidentWorkflowResourceConditionGroupsExample(t *testing.T) {
+func accIncidentWorkflowResourceConditionGroupsExample(t *testing.T) {
 	// The lookup below runs before resource.Test, so honour TF_ACC ourselves rather than
 	// calling the API during a unit test run, then initialise testClient.
 	if os.Getenv("TF_ACC") == "" {

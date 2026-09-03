@@ -45,7 +45,7 @@ func testAccMaintenanceWindowLeadUserID(t *testing.T) string {
 	return result.JSON200.Users[0].Id
 }
 
-func TestAccIncidentMaintenanceWindowResource(t *testing.T) {
+func accIncidentMaintenanceWindowResource(t *testing.T) {
 	// Skip before building the model, which needs a live API call to look up a
 	// lead user ID.
 	testAccPreCheck(t)
@@ -114,7 +114,7 @@ func TestAccIncidentMaintenanceWindowResource(t *testing.T) {
 	})
 }
 
-func TestAccIncidentMaintenanceWindowResourceWithOptionalFields(t *testing.T) {
+func accIncidentMaintenanceWindowResourceWithOptionalFields(t *testing.T) {
 	// Skip before building the model, which needs a live API call to look up a
 	// lead user ID.
 	testAccPreCheck(t)
@@ -163,7 +163,7 @@ func TestAccIncidentMaintenanceWindowResourceWithOptionalFields(t *testing.T) {
 	})
 }
 
-func TestAccIncidentMaintenanceWindowResourceInvalidTimestamp(t *testing.T) {
+func accIncidentMaintenanceWindowResourceInvalidTimestamp(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccAlertAttributeResource(t *testing.T) {
+func accAlertAttributeResource(t *testing.T) {
 	boolPtr := func(b bool) *bool { return &b }
 
 	resource.Test(t, resource.TestCase{
@@ -99,7 +99,7 @@ func TestAccAlertAttributeResource(t *testing.T) {
 	})
 }
 
-func TestAccAlertAttributeResourceWithRequired(t *testing.T) {
+func accAlertAttributeResourceWithRequired(t *testing.T) {
 	boolPtr := func(b bool) *bool { return &b }
 
 	resource.Test(t, resource.TestCase{

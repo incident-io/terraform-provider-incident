@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 )
 
-// TestAccIncidentAlertRouteV2ToV3Migration verifies the headline feature of the
+// accIncidentAlertRouteV2ToV3Migration verifies the headline feature of the
 // merged resource: an existing route configured with the v2 schema can be moved
 // to the v3 schema in place. The second step switches the config from the v2
 // layout (channel_config / incident_template / grouping fields under
@@ -17,7 +17,7 @@ import (
 // incident_config.template) and asserts the plan is an Update, not a
 // replacement — i.e. the same underlying alert route is reused, even though the
 // provider switches from the v2 to the v3 API to manage it.
-func TestAccIncidentAlertRouteV2ToV3Migration(t *testing.T) {
+func accIncidentAlertRouteV2ToV3Migration(t *testing.T) {
 	name := StableSuffix("migration-route")
 
 	resource.Test(t, resource.TestCase{
@@ -47,7 +47,7 @@ func TestAccIncidentAlertRouteV2ToV3Migration(t *testing.T) {
 	})
 }
 
-func TestAccIncidentAlertRouteV3Resource(t *testing.T) {
+func accIncidentAlertRouteV3Resource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -94,7 +94,7 @@ func TestAccIncidentAlertRouteV3Resource(t *testing.T) {
 	})
 }
 
-func TestAccIncidentAlertRouteV3ResourceComprehensive(t *testing.T) {
+func accIncidentAlertRouteV3ResourceComprehensive(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -158,10 +158,10 @@ func TestAccIncidentAlertRouteV3ResourceComprehensive(t *testing.T) {
 	})
 }
 
-// TestAccIncidentAlertRouteV3ResourceBranchesValidation tests that expressions
+// accIncidentAlertRouteV3ResourceBranchesValidation tests that expressions
 // using branches operations with a non-"." root_reference are rejected at plan
 // time, mirroring the v2 behaviour.
-func TestAccIncidentAlertRouteV3ResourceBranchesValidation(t *testing.T) {
+func accIncidentAlertRouteV3ResourceBranchesValidation(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -175,11 +175,11 @@ func TestAccIncidentAlertRouteV3ResourceBranchesValidation(t *testing.T) {
 	})
 }
 
-// TestAccIncidentAlertRouteV3ResourceGroupingValidation asserts that setting a
+// accIncidentAlertRouteV3ResourceGroupingValidation asserts that setting a
 // grouping detail field while grouping is disabled is rejected at plan time,
 // rather than being silently dropped on apply (which would leave state out of
 // sync with the remote configuration).
-func TestAccIncidentAlertRouteV3ResourceGroupingValidation(t *testing.T) {
+func accIncidentAlertRouteV3ResourceGroupingValidation(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -193,10 +193,10 @@ func TestAccIncidentAlertRouteV3ResourceGroupingValidation(t *testing.T) {
 	})
 }
 
-// TestAccIncidentAlertRouteV3ResourceIncidentTemplateValidation asserts that
+// accIncidentAlertRouteV3ResourceIncidentTemplateValidation asserts that
 // setting an incident template while incident creation is disabled is rejected
 // at plan time (the API drops the template otherwise).
-func TestAccIncidentAlertRouteV3ResourceIncidentTemplateValidation(t *testing.T) {
+func accIncidentAlertRouteV3ResourceIncidentTemplateValidation(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

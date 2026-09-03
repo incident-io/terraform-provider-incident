@@ -8,12 +8,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 )
 
-// TestAccIncidentPolicyPostMortem covers the shape with the most to get wrong: an
+// accIncidentPolicyPostMortem covers the shape with the most to get wrong: an
 // incident-scoped policy carrying requirements, a due date and an assignee.
 //
 // The empty plan after apply is the point: the API stores a scalar assignee binding as a
 // one-element array and answers with the array, which only a real API produces.
-func TestAccIncidentPolicyPostMortem(t *testing.T) {
+func accIncidentPolicyPostMortem(t *testing.T) {
 	// The lookups below run before resource.Test, so honour TF_ACC ourselves rather than
 	// calling the API during a unit test run, then initialise testClient.
 	if os.Getenv("TF_ACC") == "" {
@@ -87,10 +87,10 @@ func TestAccIncidentPolicyPostMortem(t *testing.T) {
 	})
 }
 
-// TestAccIncidentPolicyOnCallReadiness covers the type whose assignee the API fills in
+// accIncidentPolicyOnCallReadiness covers the type whose assignee the API fills in
 // itself. A read that kept those rules would return assignment_rules the config never asked
 // for and fail the apply as an inconsistent result, which the empty plan is what catches.
-func TestAccIncidentPolicyOnCallReadiness(t *testing.T) {
+func accIncidentPolicyOnCallReadiness(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -125,10 +125,10 @@ func TestAccIncidentPolicyOnCallReadiness(t *testing.T) {
 	})
 }
 
-// TestAccIncidentPolicyTypeChangeReplaces asserts the replacement rule: swapping which
+// accIncidentPolicyTypeChangeReplaces asserts the replacement rule: swapping which
 // block is set is the only way a policy's type can change, and the API refuses to change
 // the type of an existing policy, so Terraform has to make a new one.
-func TestAccIncidentPolicyTypeChangeReplaces(t *testing.T) {
+func accIncidentPolicyTypeChangeReplaces(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

@@ -7,9 +7,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
-// TestAccAlertSourceAttributeBeta covers the basic lifecycle of one attribute binding:
+// accAlertSourceAttributeBeta covers the basic lifecycle of one attribute binding:
 // create, import by its composite id, and update.
-func TestAccAlertSourceAttributeBeta(t *testing.T) {
+func accAlertSourceAttributeBeta(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

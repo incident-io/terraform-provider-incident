@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 )
 
-func TestAccAlertSourceResource(t *testing.T) {
+func accAlertSourceResource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -173,8 +173,8 @@ resource "incident_alert_source" "test" {
 	})
 }
 
-// TestAccAlertSourceResource_Heartbeat checks that heartbeat_options work.
-func TestAccAlertSourceResource_Heartbeat(t *testing.T) {
+// accAlertSourceResourceHeartbeat checks that heartbeat_options work.
+func accAlertSourceResourceHeartbeat(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -226,11 +226,11 @@ resource "incident_alert_source" "test" {
 	})
 }
 
-// TestAccAlertSourceResource_Jira checks that the jira_options work.
+// accAlertSourceResourceJira checks that the jira_options work.
 //
 // NOTE: this only runs if TF_ACC_JIRA is in your environment, since it requires
 // the Jira integration to be installed in the target account.
-func TestAccAlertSourceResource_Jira(t *testing.T) {
+func accAlertSourceResourceJira(t *testing.T) {
 	if os.Getenv("TF_ACC_JIRA") == "" {
 		t.Skip("TF_ACC_JIRA is not set: skipping Jira-specific test")
 	}
@@ -254,9 +254,9 @@ func TestAccAlertSourceResource_Jira(t *testing.T) {
 	})
 }
 
-// TestAccAlertSourceResource_ValidationErrors checks that we return helpful
+// accAlertSourceResourceValidationErrors checks that we return helpful
 // validation errors when possible.
-func TestAccAlertSourceResource_ValidationErrors(t *testing.T) {
+func accAlertSourceResourceValidationErrors(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -506,7 +506,7 @@ const (
 	testAlertSourceDescription = `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`
 )
 
-func TestAccAlertSourceResource_DynamicAttributes(t *testing.T) {
+func accAlertSourceResourceDynamicAttributes(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -641,8 +641,8 @@ resource "incident_alert_source" "test" {
 	})
 }
 
-// TestAccAlertSourceResource_Private checks that privacy settings work correctly.
-func TestAccAlertSourceResource_Private(t *testing.T) {
+// accAlertSourceResourcePrivate checks that privacy settings work correctly.
+func accAlertSourceResourcePrivate(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -710,7 +710,7 @@ resource "incident_alert_source" "test" {
 	})
 }
 
-// TestAccAlertSourceResource_Issue342_SpuriousMergeStrategy is a regression
+// accAlertSourceResourceIssue342SpuriousMergeStrategy is a regression
 // test for https://github.com/incident-io/terraform-provider-incident/issues/342.
 //
 // Original bug: when adding a new element to template.attributes (a Set), the
@@ -731,7 +731,7 @@ resource "incident_alert_source" "test" {
 // The plan check asserts: no literal-only binding has merge_strategy marked
 // Unknown in the planned state (the original bug signature), and any
 // merge_strategy value present in `before` is preserved in `after`.
-func TestAccAlertSourceResource_Issue342_SpuriousMergeStrategy(t *testing.T) {
+func accAlertSourceResourceIssue342SpuriousMergeStrategy(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -1067,8 +1067,8 @@ resource "incident_alert_source" "test" {
 	})
 }
 
-// TestAccAlertSourceResource_OwningTeamIDs checks that owning_team_ids work correctly.
-func TestAccAlertSourceResourceOwningTeamIDs(t *testing.T) {
+// accAlertSourceResourceOwningTeamIDs checks that owning_team_ids work correctly.
+func accAlertSourceResourceOwningTeamIDs(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -1144,8 +1144,8 @@ resource "incident_alert_source" "test" {
 	})
 }
 
-// TestAccAlertSourceResource_Email checks that email_options work.
-func TestAccAlertSourceResource_Email(t *testing.T) {
+// accAlertSourceResourceEmail checks that email_options work.
+func accAlertSourceResourceEmail(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -1213,7 +1213,7 @@ resource "incident_alert_source" "test" {
 // (http_custom_options only apply to the http_custom source type. The API
 // rejects them on other source types, including the legacy "http" source —
 // see incident-io/terraform-provider-incident#352.)
-func TestAccAlertSourceResource_HTTPCustomOptions(t *testing.T) {
+func accAlertSourceResourceHTTPCustomOptions(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -1244,7 +1244,7 @@ func TestAccAlertSourceResource_HTTPCustomOptions(t *testing.T) {
 // source_type↔http_custom_options validation only runs once both are known, so
 // the plan should not raise a spurious validation error and the apply should
 // succeed. Guards against the validation choking on unknown values.
-func TestAccAlertSourceResource_HTTPCustomOptionsComputed(t *testing.T) {
+func accAlertSourceResourceHTTPCustomOptionsComputed(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

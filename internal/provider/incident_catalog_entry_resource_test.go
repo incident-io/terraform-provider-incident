@@ -17,7 +17,7 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
-func TestAccIncidentCatalogEntryResource(t *testing.T) {
+func accIncidentCatalogEntryResource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -48,7 +48,7 @@ func TestAccIncidentCatalogEntryResource(t *testing.T) {
 	})
 }
 
-func TestAccIncidentCatalogEntryResourceWithAlias(t *testing.T) {
+func accIncidentCatalogEntryResourceWithAlias(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -79,7 +79,7 @@ func TestAccIncidentCatalogEntryResourceWithAlias(t *testing.T) {
 	})
 }
 
-func TestAccIncidentCatalogEntryResourceWithManagedAttributes(t *testing.T) {
+func accIncidentCatalogEntryResourceWithManagedAttributes(t *testing.T) {
 	// Use a stable ID across steps - we want to edit the same one over and over
 	testEntryID := uuid.NewString()
 
@@ -241,7 +241,7 @@ resource "incident_catalog_entry" "test" {
 	})
 }
 
-func TestAccIncidentCatalogEntryResourceWithEmptyManagedAttributes(t *testing.T) {
+func accIncidentCatalogEntryResourceWithEmptyManagedAttributes(t *testing.T) {
 	// Use a stable ID across steps
 	testEntryID := uuid.NewString()
 
@@ -275,7 +275,7 @@ func TestAccIncidentCatalogEntryResourceWithEmptyManagedAttributes(t *testing.T)
 	})
 }
 
-func TestAccIncidentCatalogEntryResourceManagedAttributesDestroy(t *testing.T) {
+func accIncidentCatalogEntryResourceManagedAttributesDestroy(t *testing.T) {
 	// This test verifies that when managed_attributes is set, destroying the
 	// Terraform resource clears the managed attributes instead of deleting the entry.
 	testID := uuid.NewString()

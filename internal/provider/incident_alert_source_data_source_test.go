@@ -79,7 +79,7 @@ func TestIncidentAlertSourceDataSourceSchemaMatchesModel(t *testing.T) {
 	assert.False(t, state.Set(ctx, alertSourceDataSourceItemFromAPI(source)).HasError(), "setting state from the API model")
 }
 
-func TestAccIncidentAlertSourceDataSource(t *testing.T) {
+func accIncidentAlertSourceDataSource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

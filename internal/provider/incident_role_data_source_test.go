@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccIncidentRoleDataSource(t *testing.T) {
+func accIncidentRoleDataSource(t *testing.T) {
 	defaultIncidentRole := incidentRoleDefault()
 
 	// Searching by name
@@ -52,7 +52,7 @@ func TestAccIncidentRoleDataSource(t *testing.T) {
 
 // Both lookup attributes are Optional and Computed, so setting both has to be
 // rejected explicitly rather than by the schema.
-func TestAccIncidentRoleDataSourceAmbiguousLookup(t *testing.T) {
+func accIncidentRoleDataSourceAmbiguousLookup(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

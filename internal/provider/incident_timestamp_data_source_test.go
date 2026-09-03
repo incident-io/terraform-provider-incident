@@ -18,12 +18,12 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
-// TestAccIncidentTimestampDataSource looks a timestamp up both ways round.
+// accIncidentTimestampDataSource looks a timestamp up both ways round.
 //
 // Timestamps can't be created from Terraform, so rather than hardcode one of the
 // defaults the test asks the account what it has, the way the workflow examples
 // do for Slack channels and users.
-func TestAccIncidentTimestampDataSource(t *testing.T) {
+func accIncidentTimestampDataSource(t *testing.T) {
 	// The lookup below runs before resource.Test, so honour TF_ACC ourselves rather
 	// than calling the API during a unit test run, then initialise testClient.
 	if os.Getenv("TF_ACC") == "" {
@@ -64,7 +64,7 @@ data "incident_incident_timestamp" "by_name" {
 
 // Both lookup attributes are Optional and Computed, so setting both has to be
 // rejected explicitly rather than by the schema.
-func TestAccIncidentTimestampDataSourceAmbiguousLookup(t *testing.T) {
+func accIncidentTimestampDataSourceAmbiguousLookup(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

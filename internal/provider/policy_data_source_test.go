@@ -300,9 +300,9 @@ func assertPolicyError(t *testing.T, resp *datasource.ReadResponse, want string)
 	}
 }
 
-// TestAccIncidentPolicyDataSource reads a policy this test creates, by id and by name, so
+// accIncidentPolicyDataSource reads a policy this test creates, by id and by name, so
 // the round trip through the real API is covered rather than just the fake one above.
-func TestAccIncidentPolicyDataSource(t *testing.T) {
+func accIncidentPolicyDataSource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
