@@ -17,7 +17,7 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
-func TestAccIncidentScheduleResource(t *testing.T) {
+func accIncidentScheduleResource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -99,7 +99,7 @@ func TestAccIncidentScheduleResource(t *testing.T) {
 	})
 }
 
-func TestAccIncidentScheduleResourceTimezoneUpdate(t *testing.T) {
+func accIncidentScheduleResourceTimezoneUpdate(t *testing.T) {
 
 	var scheduleID *string
 
@@ -145,7 +145,7 @@ func TestAccIncidentScheduleResourceTimezoneUpdate(t *testing.T) {
 	})
 }
 
-func TestAccIncidentScheduleResourceRotationUpdates(t *testing.T) {
+func accIncidentScheduleResourceRotationUpdates(t *testing.T) {
 	var (
 		effectiveFrom   = time.Now().Add(24 * time.Hour).UTC()
 		handoverStartAt = time.Date(2024, 4, 26, 16, 0, 0, 0, time.UTC)
@@ -294,7 +294,7 @@ func testValueExistsInSet(resourceName string, attr string, value string) resour
 	}
 }
 
-func TestAccIncidentScheduleResourceHolidayConfig(t *testing.T) {
+func accIncidentScheduleResourceHolidayConfig(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -349,7 +349,7 @@ func TestAccIncidentScheduleResourceHolidayConfig(t *testing.T) {
 	})
 }
 
-func TestAccIncidentScheduleResourceInvalidTimestamp(t *testing.T) {
+func accIncidentScheduleResourceInvalidTimestamp(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -650,7 +650,7 @@ func testAccIncidentScheduleResourceConfig(override *client.ScheduleV2) string {
 // that adds a version, which is how people hit it in practice. The test needs no
 // explicit assertion of the round trip beyond the literals below, as the harness
 // plans after each apply and fails on a plan that isn't empty.
-func TestAccIncidentScheduleResourceNonCanonicalTimestamps(t *testing.T) {
+func accIncidentScheduleResourceNonCanonicalTimestamps(t *testing.T) {
 	var (
 		name = StableSuffix("non-canonical-timestamps")
 		// The same moment, written the two ways that broke: milliseconds, and an
@@ -695,7 +695,7 @@ func TestAccIncidentScheduleResourceNonCanonicalTimestamps(t *testing.T) {
 // by id when reading a schedule, so spelling them as separate rotations can't
 // round trip. That has to be an error while planning, because it applies quite
 // happily and only shows up afterwards.
-func TestAccIncidentScheduleResourceDuplicateRotationID(t *testing.T) {
+func accIncidentScheduleResourceDuplicateRotationID(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

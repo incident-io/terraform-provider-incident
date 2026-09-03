@@ -95,7 +95,7 @@ func TestIncidentEscalationPathDataSourceSchemaMatchesModel(t *testing.T) {
 	assert.False(t, state.Set(ctx, model).HasError(), "setting state from the resource model")
 }
 
-func TestAccIncidentEscalationPathDataSource(t *testing.T) {
+func accIncidentEscalationPathDataSource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

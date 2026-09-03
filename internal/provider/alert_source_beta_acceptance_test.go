@@ -7,9 +7,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 )
 
-// TestAccAlertSourceBeta covers the basic lifecycle: create, read back unchanged,
+// accAlertSourceBeta covers the basic lifecycle: create, read back unchanged,
 // import, and update.
-func TestAccAlertSourceBeta(t *testing.T) {
+func accAlertSourceBeta(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

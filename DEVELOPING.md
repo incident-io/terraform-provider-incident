@@ -61,17 +61,24 @@ To run the acceptance tests:
 # Run the whole suite
 $> make testacc
 # Run a single test
-$> make testacc TESTARGS=-run=TestAccIncidentEscalationPathResource
+$> make testacc TESTARGS=-run=/IncidentEscalationPathResource
+# Run every test for one resource
+$> make testacc TESTARGS=-run=TestAcceptanceEscalationPaths
 ```
 
 If you're running with a debugger use `make debug` instead:
 
 ```console
 # Debug the whole suite
-$> make testacc
+$> make debug
 # Debug a single test
-$> make testacc TESTARGS=-run=TestAccIncidentEscalationPathResource
+$> make debug TESTARGS=-run=/IncidentEscalationPathResource
 ```
+
+Acceptance tests are grouped into families — one per resource — that run alongside each
+other, while the tests within a family run one at a time. That's why a single test is
+matched as a subtest with a leading `/`. See `internal/provider/families_test.go`, which
+explains the grouping and is where a new acceptance test needs adding.
 
 To run the tests with GoLand & Mise:
 

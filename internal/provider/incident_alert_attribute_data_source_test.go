@@ -11,7 +11,7 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
-func TestAccIncidentAlertAttributeDataSource(t *testing.T) {
+func accIncidentAlertAttributeDataSource(t *testing.T) {
 	defaultAlertAttribute := alertAttributeDefault()
 
 	// Searching by name

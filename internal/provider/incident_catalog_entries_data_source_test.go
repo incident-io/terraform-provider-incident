@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccIncidentCatalogEntriesDataSource(t *testing.T) {
+func accIncidentCatalogEntriesDataSource(t *testing.T) {
 	typeName := generateTypeName()
 
 	// Test basic listing
@@ -45,7 +45,7 @@ func TestAccIncidentCatalogEntriesDataSource(t *testing.T) {
 	})
 }
 
-func TestAccIncidentCatalogEntriesDataSource_WithAliases(t *testing.T) {
+func accIncidentCatalogEntriesDataSourceWithAliases(t *testing.T) {
 	typeName := generateTypeName()
 
 	resource.Test(t, resource.TestCase{
@@ -69,7 +69,7 @@ func TestAccIncidentCatalogEntriesDataSource_WithAliases(t *testing.T) {
 	})
 }
 
-func TestAccIncidentCatalogEntriesDataSource_Empty(t *testing.T) {
+func accIncidentCatalogEntriesDataSourceEmpty(t *testing.T) {
 	typeName := generateTypeName()
 
 	resource.Test(t, resource.TestCase{

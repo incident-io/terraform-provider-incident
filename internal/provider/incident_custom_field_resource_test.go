@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccIncidentCustomFieldResource(t *testing.T) {
+func accIncidentCustomFieldResource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -46,9 +46,9 @@ func TestAccIncidentCustomFieldResource(t *testing.T) {
 	})
 }
 
-// TestAccIncidentCustomFieldResource_FieldTypes covers each field_type the API
+// accIncidentCustomFieldResourceFieldTypes covers each field_type the API
 // accepts, matching the split examples in examples/resources/incident_custom_field.
-func TestAccIncidentCustomFieldResource_FieldTypes(t *testing.T) {
+func accIncidentCustomFieldResourceFieldTypes(t *testing.T) {
 	for _, fieldType := range []string{"single_select", "multi_select", "text", "link", "numeric"} {
 		t.Run(fieldType, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
@@ -78,7 +78,7 @@ func TestAccIncidentCustomFieldResource_FieldTypes(t *testing.T) {
 	}
 }
 
-func TestAccIncidentCustomFieldResource_CatalogBacked(t *testing.T) {
+func accIncidentCustomFieldResourceCatalogBacked(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -156,9 +156,9 @@ func TestAccIncidentCustomFieldResource_CatalogBacked(t *testing.T) {
 	})
 }
 
-// TestAccIncidentCustomFieldResource_BothFilters checks we reject a config asking for both
+// accIncidentCustomFieldResourceBothFilters checks we reject a config asking for both
 // filters before it reaches the API, which would otherwise silently keep only one.
-func TestAccIncidentCustomFieldResource_BothFilters(t *testing.T) {
+func accIncidentCustomFieldResourceBothFilters(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

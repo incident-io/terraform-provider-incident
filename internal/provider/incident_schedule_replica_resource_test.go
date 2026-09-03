@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
-// TestAccIncidentScheduleReplicaResource creates a schedule replica against a
+// accIncidentScheduleReplicaResource creates a schedule replica against a
 // real external provider schedule.
 //
 // This needs an external on-call integration (PagerDuty, Opsgenie, or JSM) on
@@ -18,7 +18,7 @@ import (
 //	TF_ACC_REPLICA_PROVIDER          e.g. pagerduty
 //	TF_ACC_REPLICA_PROVIDER_ID       the external schedule ID
 //	TF_ACC_REPLICA_FALLBACK_USER_ID  a user ID in that external provider
-func TestAccIncidentScheduleReplicaResource(t *testing.T) {
+func accIncidentScheduleReplicaResource(t *testing.T) {
 	if os.Getenv("TF_ACC_SCHEDULE_REPLICAS") == "" {
 		t.Skip("TF_ACC_SCHEDULE_REPLICAS is not set: skipping test that requires an external on-call integration")
 	}
@@ -70,7 +70,7 @@ func TestAccIncidentScheduleReplicaResource(t *testing.T) {
 	})
 }
 
-func TestAccIncidentScheduleReplicaResource_InvalidImportID(t *testing.T) {
+func accIncidentScheduleReplicaResourceInvalidImportID(t *testing.T) {
 	if os.Getenv("TF_ACC_SCHEDULE_REPLICAS") == "" {
 		t.Skip("TF_ACC_SCHEDULE_REPLICAS is not set: skipping test that requires an external on-call integration")
 	}

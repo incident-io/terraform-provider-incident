@@ -8,13 +8,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 )
 
-// TestAccIncidentAlertRouteOperationAlias reproduces ONC-12602 against the real
+// accIncidentAlertRouteOperationAlias reproduces ONC-12602 against the real
 // API: `one_of` on a String alert attribute is an alias the API returns as
 // `contains_one_of`. Before the fix the create step failed with "Provider
 // produced inconsistent result after apply". The second step re-applies the same
 // config to prove the refresh path holds the alias too, rather than showing a
 // permanent diff.
-func TestAccIncidentAlertRouteOperationAlias(t *testing.T) {
+func accIncidentAlertRouteOperationAlias(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

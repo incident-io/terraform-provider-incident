@@ -359,7 +359,7 @@ func assertIncidentTemplateError(t *testing.T, resp *datasource.ReadResponse, wa
 	}
 }
 
-func TestAccIncidentIncidentTemplateDataSource(t *testing.T) {
+func accIncidentIncidentTemplateDataSource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -396,7 +396,7 @@ data "incident_incident_template" "by_name" {
 	})
 }
 
-func TestAccIncidentIncidentTemplateDataSourceAmbiguousLookup(t *testing.T) {
+func accIncidentIncidentTemplateDataSourceAmbiguousLookup(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

@@ -108,10 +108,10 @@ func TestIncidentWorkflowDataSourceSchemaMatchesModel(t *testing.T) {
 	assert.False(t, diags.HasError(), "setting state from the resource model: %s", diags)
 }
 
-// TestAccIncidentWorkflowDataSource checks that the data source reads back the full
+// accIncidentWorkflowDataSource checks that the data source reads back the full
 // workflow definition, not just its metadata: the nested steps, expressions and
 // condition groups have to survive the round-trip too.
-func TestAccIncidentWorkflowDataSource(t *testing.T) {
+func accIncidentWorkflowDataSource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

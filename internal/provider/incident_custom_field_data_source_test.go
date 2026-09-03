@@ -9,7 +9,7 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
-func TestAccIncidentCustomFieldDataSource(t *testing.T) {
+func accIncidentCustomFieldDataSource(t *testing.T) {
 	defaultCF := customFieldDefault()
 
 	// Searching by name

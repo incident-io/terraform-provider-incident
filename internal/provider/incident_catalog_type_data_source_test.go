@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccIncidentCatalogTypeDataSource(t *testing.T) {
+func accIncidentCatalogTypeDataSource(t *testing.T) {
 	typeName := generateTypeName()
 
 	// Searching by name

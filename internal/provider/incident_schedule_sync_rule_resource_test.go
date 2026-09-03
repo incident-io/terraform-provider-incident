@@ -9,11 +9,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
-// TestAccIncidentScheduleSyncRuleResource tests creating and updating schedule sync rules.
+// accIncidentScheduleSyncRuleResource tests creating and updating schedule sync rules.
 //
 // NOTE: This test requires Slack usergroups:write scope, which is not available in CI.
 // Set TF_ACC_SLACK_USER_GROUPS=1 to run this test locally with a workspace that has the scope.
-func TestAccIncidentScheduleSyncRuleResource(t *testing.T) {
+func accIncidentScheduleSyncRuleResource(t *testing.T) {
 	if os.Getenv("TF_ACC_SLACK_USER_GROUPS") == "" {
 		t.Skip("TF_ACC_SLACK_USER_GROUPS is not set: skipping test that requires Slack usergroups:write scope")
 	}
@@ -50,11 +50,11 @@ func TestAccIncidentScheduleSyncRuleResource(t *testing.T) {
 	})
 }
 
-// TestAccIncidentScheduleSyncRuleResource_InvalidImportID tests that invalid import IDs are rejected.
+// accIncidentScheduleSyncRuleResourceInvalidImportID tests that invalid import IDs are rejected.
 //
 // NOTE: This test requires Slack usergroups:write scope, which is not available in CI.
 // Set TF_ACC_SLACK_USER_GROUPS=1 to run this test locally with a workspace that has the scope.
-func TestAccIncidentScheduleSyncRuleResource_InvalidImportID(t *testing.T) {
+func accIncidentScheduleSyncRuleResourceInvalidImportID(t *testing.T) {
 	if os.Getenv("TF_ACC_SLACK_USER_GROUPS") == "" {
 		t.Skip("TF_ACC_SLACK_USER_GROUPS is not set: skipping test that requires Slack usergroups:write scope")
 	}
@@ -82,14 +82,14 @@ func TestAccIncidentScheduleSyncRuleResource_InvalidImportID(t *testing.T) {
 	})
 }
 
-// TestAccIncidentScheduleSyncRuleResource_PermanentMembers tests creating and
+// accIncidentScheduleSyncRuleResourcePermanentMembers tests creating and
 // clearing permanent Slack user group members on a sync rule.
 //
 // NOTE: This test requires Slack usergroups:write scope, which is not available
 // in CI. Set TF_ACC_SLACK_USER_GROUPS=1 to run this test locally with a
 // workspace that has the scope. It also needs INCIDENT_TEST_USER_ID for an
 // active user in the test organisation.
-func TestAccIncidentScheduleSyncRuleResource_PermanentMembers(t *testing.T) {
+func accIncidentScheduleSyncRuleResourcePermanentMembers(t *testing.T) {
 	if os.Getenv("TF_ACC_SLACK_USER_GROUPS") == "" {
 		t.Skip("TF_ACC_SLACK_USER_GROUPS is not set: skipping test that requires Slack usergroups:write scope")
 	}
@@ -128,13 +128,13 @@ func TestAccIncidentScheduleSyncRuleResource_PermanentMembers(t *testing.T) {
 	})
 }
 
-// TestAccIncidentScheduleSyncRuleResource_Rotation tests creating a sync rule
+// accIncidentScheduleSyncRuleResourceRotation tests creating a sync rule
 // scoped to a single rotation.
 //
 // NOTE: This test requires Slack usergroups:write scope, which is not available
 // in CI. Set TF_ACC_SLACK_USER_GROUPS=1 to run this test locally with a
 // workspace that has the scope.
-func TestAccIncidentScheduleSyncRuleResource_Rotation(t *testing.T) {
+func accIncidentScheduleSyncRuleResourceRotation(t *testing.T) {
 	if os.Getenv("TF_ACC_SLACK_USER_GROUPS") == "" {
 		t.Skip("TF_ACC_SLACK_USER_GROUPS is not set: skipping test that requires Slack usergroups:write scope")
 	}

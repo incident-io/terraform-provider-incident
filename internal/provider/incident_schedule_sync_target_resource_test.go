@@ -7,11 +7,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-// TestAccIncidentScheduleSyncTargetResource tests creating and updating schedule sync targets.
+// accIncidentScheduleSyncTargetResource tests creating and updating schedule sync targets.
 //
 // NOTE: This test requires Slack usergroups:write scope, which is not available in CI.
 // Set TF_ACC_SLACK_USER_GROUPS=1 to run this test locally with a workspace that has the scope.
-func TestAccIncidentScheduleSyncTargetResource(t *testing.T) {
+func accIncidentScheduleSyncTargetResource(t *testing.T) {
 	if os.Getenv("TF_ACC_SLACK_USER_GROUPS") == "" {
 		t.Skip("TF_ACC_SLACK_USER_GROUPS is not set: skipping test that requires Slack usergroups:write scope")
 	}

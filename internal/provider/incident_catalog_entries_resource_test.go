@@ -15,7 +15,7 @@ import (
 	"github.com/samber/lo"
 )
 
-func TestAccIncidentCatalogEntriesResource(t *testing.T) {
+func accIncidentCatalogEntriesResource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -109,7 +109,7 @@ func TestAccIncidentCatalogEntriesResource(t *testing.T) {
 	})
 }
 
-func TestAccIncidentCatalogEntriesResourceWithManagedAttributes(t *testing.T) {
+func accIncidentCatalogEntriesResourceWithManagedAttributes(t *testing.T) {
 	// Use a stable ID across steps
 	testCatalogID := uuid.NewString()
 

@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 )
 
-func TestAccIncidentEscalationPathResource(t *testing.T) {
+func accIncidentEscalationPathResource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -107,7 +107,7 @@ func TestAccIncidentEscalationPathResource(t *testing.T) {
 	})
 }
 
-func TestAccIncidentEscalationPathTeamIDs(t *testing.T) {
+func accIncidentEscalationPathTeamIDs(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -344,7 +344,7 @@ func teamTypeName() string {
 	return "Team"
 }
 
-func TestAccIncidentEscalationPathMaxDepth(t *testing.T) {
+func accIncidentEscalationPathMaxDepth(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -360,7 +360,7 @@ func TestAccIncidentEscalationPathMaxDepth(t *testing.T) {
 	})
 }
 
-func TestAccIncidentEscalationPathExceedsMaxDepth(t *testing.T) {
+func accIncidentEscalationPathExceedsMaxDepth(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -476,7 +476,7 @@ resource "incident_escalation_path" "example" {
 `, node, StableSuffix("Deep Nesting Test Schedule"), StableSuffix("Deeply Nested Path Test"))
 }
 
-func TestAccIncidentEscalationPathSelectedRotaID(t *testing.T) {
+func accIncidentEscalationPathSelectedRotaID(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -573,7 +573,7 @@ resource "incident_escalation_path" "rota_modes" {
 `, teamTypeName(), name, name, StableSuffix("tf-acceptance-test-rota-modes"))
 }
 
-func TestAccIncidentEscalationPathRetryConfig(t *testing.T) {
+func accIncidentEscalationPathRetryConfig(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -662,7 +662,7 @@ resource "incident_escalation_path" "retries" {
 `, teamTypeName(), name, name, StableSuffix("tf-acceptance-test-retries"))
 }
 
-func TestAccIncidentEscalationPathSelectedRotaIDValidation(t *testing.T) {
+func accIncidentEscalationPathSelectedRotaIDValidation(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -683,13 +683,13 @@ func TestAccIncidentEscalationPathSelectedRotaIDValidation(t *testing.T) {
 	})
 }
 
-// TestAccIncidentEscalationPathTargetValidation exercises the plan-time validate call
+// accIncidentEscalationPathTargetValidation exercises the plan-time validate call
 // itself: a target referencing a user ID that doesn't exist isn't something this provider
 // checks locally (unlike the schedule_mode/selected_rota_id pairing above, which is a
 // ValidateConfig diagnostic and never reaches the API), so a rejection here only happens
 // once ModifyPlan calls the API's validate endpoint. PlanOnly proves it fails during plan,
 // before Terraform would otherwise create anything.
-func TestAccIncidentEscalationPathTargetValidation(t *testing.T) {
+func accIncidentEscalationPathTargetValidation(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -771,7 +771,7 @@ resource "incident_escalation_path" "invalid_unexpected_rota" {
 }`
 }
 
-// TestAccIncidentEscalationPathUnknownValues is a regression test for ONC-11917.
+// accIncidentEscalationPathUnknownValues is a regression test for ONC-11917.
 //
 // It reproduces the two configurations that previously crashed at plan time
 // with "Received unknown value, however the target type cannot handle unknown
@@ -789,7 +789,7 @@ resource "incident_escalation_path" "invalid_unexpected_rota" {
 //     so it is "known after apply".
 //
 // With the types.List-based model these plan cleanly and converge.
-func TestAccIncidentEscalationPathUnknownValues(t *testing.T) {
+func accIncidentEscalationPathUnknownValues(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -923,7 +923,7 @@ resource "incident_escalation_path" "unknown_values" {
 `, teamTypeName(), name, name, StableSuffix("tf-acceptance-test-unknown-values"))
 }
 
-// TestAccIncidentEscalationPathReassignment covers the two things the model round-trip
+// accIncidentEscalationPathReassignment covers the two things the model round-trip
 // tests can't: that a second plan over an unchanged config is a no-op, and that an
 // imported path matches the config it was written from. Both turn on the read, which is
 // where a reassignment node used to come back with an empty block and take the next apply
@@ -932,7 +932,7 @@ resource "incident_escalation_path" "unknown_values" {
 // The node needs feature-escalation-path-reassignment enabled for the organisation the API
 // key belongs to. That's a server-side flag with no provider-side equivalent, so like the
 // other tests for org-gated features this skips unless it's been asked for explicitly.
-func TestAccIncidentEscalationPathReassignment(t *testing.T) {
+func accIncidentEscalationPathReassignment(t *testing.T) {
 	if os.Getenv("TF_ACC_ESCALATION_PATH_REASSIGNMENT") == "" {
 		t.Skip("TF_ACC_ESCALATION_PATH_REASSIGNMENT is not set: skipping test that needs the escalation path reassignment feature enabled")
 	}

@@ -12,7 +12,7 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
-func TestAccIncidentSeverityResource(t *testing.T) {
+func accIncidentSeverityResource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -49,7 +49,7 @@ func TestAccIncidentSeverityResource(t *testing.T) {
 	})
 }
 
-func TestAccIncidentSeverityResourceWithoutRank(t *testing.T) {
+func accIncidentSeverityResourceWithoutRank(t *testing.T) {
 	// Verify the computed rank is set without issue.
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },

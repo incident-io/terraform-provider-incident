@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccIncidentScheduleDataSource(t *testing.T) {
+func accIncidentScheduleDataSource(t *testing.T) {
 	defaultSchedule := incidentScheduleDefault("ONC-DataSource")
 
 	resource.Test(t, resource.TestCase{

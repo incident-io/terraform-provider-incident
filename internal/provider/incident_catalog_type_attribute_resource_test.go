@@ -17,7 +17,7 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
-func TestAccIncidentCatalogTypeAttributeResource(t *testing.T) {
+func accIncidentCatalogTypeAttributeResource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -103,13 +103,13 @@ func testAccIncidentCatalogTypeAttributeImportStateIDFunc(s *terraform.State) (s
 	return "", fmt.Errorf("Couldn't find catalog_type_attribute resource")
 }
 
-// TestAccIncidentCatalogTypeAttributeResourceImportMissingAttribute is a
+// accIncidentCatalogTypeAttributeResourceImportMissingAttribute is a
 // regression test for GitHub issue #391. Importing an attribute ID that doesn't
 // exist on the catalog type used to fail with a cryptic "Value Conversion Error"
 // against `path`, because buildModel left the optional `path` list untyped
 // (types.List[DynamicPseudoType]) when the attribute wasn't found. Import now
 // returns a clear diagnostic instead.
-func TestAccIncidentCatalogTypeAttributeResourceImportMissingAttribute(t *testing.T) {
+func accIncidentCatalogTypeAttributeResourceImportMissingAttribute(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

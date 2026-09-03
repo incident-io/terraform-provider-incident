@@ -14,7 +14,7 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
-func TestAccIncidentCatalogTypeResource(t *testing.T) {
+func accIncidentCatalogTypeResource(t *testing.T) {
 	// Not setting the type name
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -124,11 +124,11 @@ func TestAccIncidentCatalogTypeResource(t *testing.T) {
 	})
 }
 
-// TestAccIncidentCatalogTypeResourceOwningTeams exercises the owning_team_ids
+// accIncidentCatalogTypeResourceOwningTeams exercises the owning_team_ids
 // attribute. It's gated on a real team catalog-entry ID being supplied via
 // TF_ACC_OWNING_TEAM_ID, so CI without one skips. The create-without-owners drift
 // case is already covered by the ImportStateVerify steps in the tests above.
-func TestAccIncidentCatalogTypeResourceOwningTeams(t *testing.T) {
+func accIncidentCatalogTypeResourceOwningTeams(t *testing.T) {
 	teamID := os.Getenv("TF_ACC_OWNING_TEAM_ID")
 	if teamID == "" {
 		t.Skip("TF_ACC_OWNING_TEAM_ID is not set: skipping owning_team_ids test")
