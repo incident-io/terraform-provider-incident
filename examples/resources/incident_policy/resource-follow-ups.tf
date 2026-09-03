@@ -18,9 +18,17 @@ resource "incident_policy" "follow_ups" {
 
   # Offsets are in whole days, so use multiples of 24 hours: a nudge the day
   # before, and a chase the day after.
+  #
+  # The two cadences add recurring reminders on top of those one-offs, repeating
+  # until the follow-up is dealt with. Which field holds the cadence is what says
+  # before or after, the way the sign of an offset above does.
   assignment_rules = {
     bindings                       = [{ value_literal = data.incident_user.followups_owner.id }]
     reminder_due_date_offset_hours = [-24, 24]
+
+    # Chase weekly in the run-up to the due date, then daily once it's overdue.
+    reminder_cadence_before = { interval = "weekly" }
+    reminder_cadence_after  = { interval = "daily" }
   }
 
   follow_up = {

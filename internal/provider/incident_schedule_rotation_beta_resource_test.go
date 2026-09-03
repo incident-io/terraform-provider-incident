@@ -57,7 +57,7 @@ func rotationFixture() client.ScheduleRotationV3 {
 		ConcurrentShifts:      1,
 		FirstIntervalStartsAt: time.Date(2024, 1, 8, 9, 0, 0, 0, time.UTC),
 		Handovers: []client.ScheduleRotationHandoverV2{
-			{Interval: 1, IntervalType: client.Weekly},
+			{Interval: 1, IntervalType: client.ScheduleRotationHandoverV2IntervalTypeWeekly},
 		},
 	}
 }
@@ -286,7 +286,7 @@ func TestScheduleRotationAnchorPhasing(t *testing.T) {
 	alternating := rotationFixture()
 	alternating.FirstIntervalStartsAt = time.Date(2026, 1, 5, 9, 0, 0, 0, time.UTC)
 	alternating.Handovers = append(alternating.Handovers,
-		client.ScheduleRotationHandoverV2{Interval: 2, IntervalType: client.Weekly})
+		client.ScheduleRotationHandoverV2{Interval: 2, IntervalType: client.ScheduleRotationHandoverV2IntervalTypeWeekly})
 
 	got := incidentScheduleRotationBetaFromAPI(alternating, IncidentScheduleRotationBetaModel{
 		FirstIntervalStartsAt: timetypes.NewRFC3339ValueMust("2024-01-08T09:00:00Z"),
