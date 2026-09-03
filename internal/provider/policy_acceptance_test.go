@@ -102,7 +102,7 @@ func TestAccIncidentPolicyOnCallReadiness(t *testing.T) {
 				},
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("incident_policy.readiness", "policy_type", "on_call_readiness"),
-					// The API assigns the user in violation, and the resource drops the
+					// The API assigns the user the finding is about, and the resource drops the
 					// rules it invents so they never reach state.
 					resource.TestCheckNoResourceAttr("incident_policy.readiness", "assignment_rules.bindings.#"),
 					resource.TestCheckResourceAttr("incident_policy.readiness",
@@ -226,8 +226,8 @@ resource "incident_policy" "readiness" {
   # Empty rather than absent: an empty list means the policy applies to everyone.
   condition_groups = []
 
-  # No assignment_rules: this type always assigns the user in violation, and the API
-  # fills the binding in itself. The Conflicting validator rejects one here.
+  # No assignment_rules: this type always assigns the user the finding is about, and
+  # the API fills the binding in itself. The Conflicting validator rejects one here.
   on_call_readiness = {
     high_urgency = [
       {

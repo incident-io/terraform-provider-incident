@@ -660,6 +660,138 @@ func (e ActionsUpdatePayloadV3Status) Valid() bool {
 	}
 }
 
+// Defines values for ActivityActionUpdatedV2NewStatus.
+const (
+	ActivityActionUpdatedV2NewStatusCompleted   ActivityActionUpdatedV2NewStatus = "completed"
+	ActivityActionUpdatedV2NewStatusDeleted     ActivityActionUpdatedV2NewStatus = "deleted"
+	ActivityActionUpdatedV2NewStatusNotDoing    ActivityActionUpdatedV2NewStatus = "not_doing"
+	ActivityActionUpdatedV2NewStatusOutstanding ActivityActionUpdatedV2NewStatus = "outstanding"
+)
+
+// Valid indicates whether the value is a known member of the ActivityActionUpdatedV2NewStatus enum.
+func (e ActivityActionUpdatedV2NewStatus) Valid() bool {
+	switch e {
+	case ActivityActionUpdatedV2NewStatusCompleted:
+		return true
+	case ActivityActionUpdatedV2NewStatusDeleted:
+		return true
+	case ActivityActionUpdatedV2NewStatusNotDoing:
+		return true
+	case ActivityActionUpdatedV2NewStatusOutstanding:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ActivityActionUpdatedV2PreviousStatus.
+const (
+	ActivityActionUpdatedV2PreviousStatusCompleted   ActivityActionUpdatedV2PreviousStatus = "completed"
+	ActivityActionUpdatedV2PreviousStatusDeleted     ActivityActionUpdatedV2PreviousStatus = "deleted"
+	ActivityActionUpdatedV2PreviousStatusNotDoing    ActivityActionUpdatedV2PreviousStatus = "not_doing"
+	ActivityActionUpdatedV2PreviousStatusOutstanding ActivityActionUpdatedV2PreviousStatus = "outstanding"
+)
+
+// Valid indicates whether the value is a known member of the ActivityActionUpdatedV2PreviousStatus enum.
+func (e ActivityActionUpdatedV2PreviousStatus) Valid() bool {
+	switch e {
+	case ActivityActionUpdatedV2PreviousStatusCompleted:
+		return true
+	case ActivityActionUpdatedV2PreviousStatusDeleted:
+		return true
+	case ActivityActionUpdatedV2PreviousStatusNotDoing:
+		return true
+	case ActivityActionUpdatedV2PreviousStatusOutstanding:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ActivityFollowUpUpdatedV2NewStatus.
+const (
+	ActivityFollowUpUpdatedV2NewStatusCompleted   ActivityFollowUpUpdatedV2NewStatus = "completed"
+	ActivityFollowUpUpdatedV2NewStatusDeleted     ActivityFollowUpUpdatedV2NewStatus = "deleted"
+	ActivityFollowUpUpdatedV2NewStatusNotDoing    ActivityFollowUpUpdatedV2NewStatus = "not_doing"
+	ActivityFollowUpUpdatedV2NewStatusOutstanding ActivityFollowUpUpdatedV2NewStatus = "outstanding"
+)
+
+// Valid indicates whether the value is a known member of the ActivityFollowUpUpdatedV2NewStatus enum.
+func (e ActivityFollowUpUpdatedV2NewStatus) Valid() bool {
+	switch e {
+	case ActivityFollowUpUpdatedV2NewStatusCompleted:
+		return true
+	case ActivityFollowUpUpdatedV2NewStatusDeleted:
+		return true
+	case ActivityFollowUpUpdatedV2NewStatusNotDoing:
+		return true
+	case ActivityFollowUpUpdatedV2NewStatusOutstanding:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ActivityFollowUpUpdatedV2PreviousStatus.
+const (
+	ActivityFollowUpUpdatedV2PreviousStatusCompleted   ActivityFollowUpUpdatedV2PreviousStatus = "completed"
+	ActivityFollowUpUpdatedV2PreviousStatusDeleted     ActivityFollowUpUpdatedV2PreviousStatus = "deleted"
+	ActivityFollowUpUpdatedV2PreviousStatusNotDoing    ActivityFollowUpUpdatedV2PreviousStatus = "not_doing"
+	ActivityFollowUpUpdatedV2PreviousStatusOutstanding ActivityFollowUpUpdatedV2PreviousStatus = "outstanding"
+)
+
+// Valid indicates whether the value is a known member of the ActivityFollowUpUpdatedV2PreviousStatus enum.
+func (e ActivityFollowUpUpdatedV2PreviousStatus) Valid() bool {
+	switch e {
+	case ActivityFollowUpUpdatedV2PreviousStatusCompleted:
+		return true
+	case ActivityFollowUpUpdatedV2PreviousStatusDeleted:
+		return true
+	case ActivityFollowUpUpdatedV2PreviousStatusNotDoing:
+		return true
+	case ActivityFollowUpUpdatedV2PreviousStatusOutstanding:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ActivityIncidentVisibilityChangedV2NewVisibility.
+const (
+	ActivityIncidentVisibilityChangedV2NewVisibilityPrivate ActivityIncidentVisibilityChangedV2NewVisibility = "private"
+	ActivityIncidentVisibilityChangedV2NewVisibilityPublic  ActivityIncidentVisibilityChangedV2NewVisibility = "public"
+)
+
+// Valid indicates whether the value is a known member of the ActivityIncidentVisibilityChangedV2NewVisibility enum.
+func (e ActivityIncidentVisibilityChangedV2NewVisibility) Valid() bool {
+	switch e {
+	case ActivityIncidentVisibilityChangedV2NewVisibilityPrivate:
+		return true
+	case ActivityIncidentVisibilityChangedV2NewVisibilityPublic:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ActivityIncidentVisibilityChangedV2PreviousVisibility.
+const (
+	ActivityIncidentVisibilityChangedV2PreviousVisibilityPrivate ActivityIncidentVisibilityChangedV2PreviousVisibility = "private"
+	ActivityIncidentVisibilityChangedV2PreviousVisibilityPublic  ActivityIncidentVisibilityChangedV2PreviousVisibility = "public"
+)
+
+// Valid indicates whether the value is a known member of the ActivityIncidentVisibilityChangedV2PreviousVisibility enum.
+func (e ActivityIncidentVisibilityChangedV2PreviousVisibility) Valid() bool {
+	switch e {
+	case ActivityIncidentVisibilityChangedV2PreviousVisibilityPrivate:
+		return true
+	case ActivityIncidentVisibilityChangedV2PreviousVisibilityPublic:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for AlertEventsCreateHTTPPayloadV2Status.
 const (
 	AlertEventsCreateHTTPPayloadV2StatusFiring   AlertEventsCreateHTTPPayloadV2Status = "firing"
@@ -4875,6 +5007,207 @@ func (e IdentityV1TeamRoles) Valid() bool {
 	}
 }
 
+// Defines values for IncidentActivityLogEntryV2Type.
+const (
+	ActionCreated                               IncidentActivityLogEntryV2Type = "action_created"
+	ActionUpdated                               IncidentActivityLogEntryV2Type = "action_updated"
+	ActionsSharedInChannel                      IncidentActivityLogEntryV2Type = "actions_shared_in_channel"
+	AlertAttachedToIncident                     IncidentActivityLogEntryV2Type = "alert_attached_to_incident"
+	AlertGroupAttachedToIncident                IncidentActivityLogEntryV2Type = "alert_group_attached_to_incident"
+	AlertGroupDetachedFromIncident              IncidentActivityLogEntryV2Type = "alert_group_detached_from_incident"
+	AtlassianStatuspageUpdate                   IncidentActivityLogEntryV2Type = "atlassian_statuspage_update"
+	CallUrlChanged                              IncidentActivityLogEntryV2Type = "call_url_changed"
+	CustomFieldValueUpdate                      IncidentActivityLogEntryV2Type = "custom_field_value_update"
+	EscalationAcknowledged                      IncidentActivityLogEntryV2Type = "escalation_acknowledged"
+	EscalationCreated                           IncidentActivityLogEntryV2Type = "escalation_created"
+	ExternalIssueCommentSynced                  IncidentActivityLogEntryV2Type = "external_issue_comment_synced"
+	FollowUpCreated                             IncidentActivityLogEntryV2Type = "follow_up_created"
+	FollowUpUpdated                             IncidentActivityLogEntryV2Type = "follow_up_updated"
+	FollowUpsSharedInChannel                    IncidentActivityLogEntryV2Type = "follow_ups_shared_in_channel"
+	Handover                                    IncidentActivityLogEntryV2Type = "handover"
+	IncidentAttachmentAdded                     IncidentActivityLogEntryV2Type = "incident_attachment_added"
+	IncidentAttachmentRemoved                   IncidentActivityLogEntryV2Type = "incident_attachment_removed"
+	IncidentCallCreated                         IncidentActivityLogEntryV2Type = "incident_call_created"
+	IncidentCallEnded                           IncidentActivityLogEntryV2Type = "incident_call_ended"
+	IncidentCallParticipantsUpdated             IncidentActivityLogEntryV2Type = "incident_call_participants_updated"
+	IncidentCallRecallBotStatusChanged          IncidentActivityLogEntryV2Type = "incident_call_recall_bot_status_changed"
+	IncidentCallStarted                         IncidentActivityLogEntryV2Type = "incident_call_started"
+	IncidentCallTranscriptCurrentTopicGenerated IncidentActivityLogEntryV2Type = "incident_call_transcript_current_topic_generated"
+	IncidentCallTranscriptKeyMomentGenerated    IncidentActivityLogEntryV2Type = "incident_call_transcript_key_moment_generated"
+	IncidentCallTranscriptMessage               IncidentActivityLogEntryV2Type = "incident_call_transcript_message"
+	IncidentCallTranscriptSummaryGenerated      IncidentActivityLogEntryV2Type = "incident_call_transcript_summary_generated"
+	IncidentChannelCreated                      IncidentActivityLogEntryV2Type = "incident_channel_created"
+	IncidentChannelJoin                         IncidentActivityLogEntryV2Type = "incident_channel_join"
+	IncidentChannelLeave                        IncidentActivityLogEntryV2Type = "incident_channel_leave"
+	IncidentEscalate                            IncidentActivityLogEntryV2Type = "incident_escalate"
+	IncidentMembershipRevoked                   IncidentActivityLogEntryV2Type = "incident_membership_revoked"
+	IncidentMerged                              IncidentActivityLogEntryV2Type = "incident_merged"
+	IncidentRename                              IncidentActivityLogEntryV2Type = "incident_rename"
+	IncidentTimestampOccurred                   IncidentActivityLogEntryV2Type = "incident_timestamp_occurred"
+	IncidentTimestampSet                        IncidentActivityLogEntryV2Type = "incident_timestamp_set"
+	IncidentTypeChanged                         IncidentActivityLogEntryV2Type = "incident_type_changed"
+	IncidentUpdate                              IncidentActivityLogEntryV2Type = "incident_update"
+	IncidentVisibilityChanged                   IncidentActivityLogEntryV2Type = "incident_visibility_changed"
+	InvestigationHypothesisUpdate               IncidentActivityLogEntryV2Type = "investigation_hypothesis_update"
+	MicrosoftTeamsAnnouncementReply             IncidentActivityLogEntryV2Type = "microsoft_teams_announcement_reply"
+	MicrosoftTeamsImage                         IncidentActivityLogEntryV2Type = "microsoft_teams_image"
+	MicrosoftTeamsMessage                       IncidentActivityLogEntryV2Type = "microsoft_teams_message"
+	MicrosoftTeamsPinnedChannelMessage          IncidentActivityLogEntryV2Type = "microsoft_teams_pinned_channel_message"
+	PagerdutyIncidentAcknowledged               IncidentActivityLogEntryV2Type = "pagerduty_incident_acknowledged"
+	PagerdutyIncidentResolved                   IncidentActivityLogEntryV2Type = "pagerduty_incident_resolved"
+	PagerdutyIncidentTriggered                  IncidentActivityLogEntryV2Type = "pagerduty_incident_triggered"
+	PostmortemChanged                           IncidentActivityLogEntryV2Type = "postmortem_changed"
+	PostmortemDocumentV2Changed                 IncidentActivityLogEntryV2Type = "postmortem_document_v2_changed"
+	RoleUpdate                                  IncidentActivityLogEntryV2Type = "role_update"
+	ScribeAdded                                 IncidentActivityLogEntryV2Type = "scribe_added"
+	ScribeRemoved                               IncidentActivityLogEntryV2Type = "scribe_removed"
+	Scrub                                       IncidentActivityLogEntryV2Type = "scrub"
+	SlackImage                                  IncidentActivityLogEntryV2Type = "slack_image"
+	SlackInferSentry                            IncidentActivityLogEntryV2Type = "slack_infer_sentry"
+	SlackMessage                                IncidentActivityLogEntryV2Type = "slack_message"
+	SlackPin                                    IncidentActivityLogEntryV2Type = "slack_pin"
+	StatusChange                                IncidentActivityLogEntryV2Type = "status_change"
+	StatusPageIncidentLinked                    IncidentActivityLogEntryV2Type = "status_page_incident_linked"
+	StatusPageIncidentUpdated                   IncidentActivityLogEntryV2Type = "status_page_incident_updated"
+	SummaryUpdate                               IncidentActivityLogEntryV2Type = "summary_update"
+	UserIntentDeclared                          IncidentActivityLogEntryV2Type = "user_intent_declared"
+	WorkflowRan                                 IncidentActivityLogEntryV2Type = "workflow_ran"
+)
+
+// Valid indicates whether the value is a known member of the IncidentActivityLogEntryV2Type enum.
+func (e IncidentActivityLogEntryV2Type) Valid() bool {
+	switch e {
+	case ActionCreated:
+		return true
+	case ActionUpdated:
+		return true
+	case ActionsSharedInChannel:
+		return true
+	case AlertAttachedToIncident:
+		return true
+	case AlertGroupAttachedToIncident:
+		return true
+	case AlertGroupDetachedFromIncident:
+		return true
+	case AtlassianStatuspageUpdate:
+		return true
+	case CallUrlChanged:
+		return true
+	case CustomFieldValueUpdate:
+		return true
+	case EscalationAcknowledged:
+		return true
+	case EscalationCreated:
+		return true
+	case ExternalIssueCommentSynced:
+		return true
+	case FollowUpCreated:
+		return true
+	case FollowUpUpdated:
+		return true
+	case FollowUpsSharedInChannel:
+		return true
+	case Handover:
+		return true
+	case IncidentAttachmentAdded:
+		return true
+	case IncidentAttachmentRemoved:
+		return true
+	case IncidentCallCreated:
+		return true
+	case IncidentCallEnded:
+		return true
+	case IncidentCallParticipantsUpdated:
+		return true
+	case IncidentCallRecallBotStatusChanged:
+		return true
+	case IncidentCallStarted:
+		return true
+	case IncidentCallTranscriptCurrentTopicGenerated:
+		return true
+	case IncidentCallTranscriptKeyMomentGenerated:
+		return true
+	case IncidentCallTranscriptMessage:
+		return true
+	case IncidentCallTranscriptSummaryGenerated:
+		return true
+	case IncidentChannelCreated:
+		return true
+	case IncidentChannelJoin:
+		return true
+	case IncidentChannelLeave:
+		return true
+	case IncidentEscalate:
+		return true
+	case IncidentMembershipRevoked:
+		return true
+	case IncidentMerged:
+		return true
+	case IncidentRename:
+		return true
+	case IncidentTimestampOccurred:
+		return true
+	case IncidentTimestampSet:
+		return true
+	case IncidentTypeChanged:
+		return true
+	case IncidentUpdate:
+		return true
+	case IncidentVisibilityChanged:
+		return true
+	case InvestigationHypothesisUpdate:
+		return true
+	case MicrosoftTeamsAnnouncementReply:
+		return true
+	case MicrosoftTeamsImage:
+		return true
+	case MicrosoftTeamsMessage:
+		return true
+	case MicrosoftTeamsPinnedChannelMessage:
+		return true
+	case PagerdutyIncidentAcknowledged:
+		return true
+	case PagerdutyIncidentResolved:
+		return true
+	case PagerdutyIncidentTriggered:
+		return true
+	case PostmortemChanged:
+		return true
+	case PostmortemDocumentV2Changed:
+		return true
+	case RoleUpdate:
+		return true
+	case ScribeAdded:
+		return true
+	case ScribeRemoved:
+		return true
+	case Scrub:
+		return true
+	case SlackImage:
+		return true
+	case SlackInferSentry:
+		return true
+	case SlackMessage:
+		return true
+	case SlackPin:
+		return true
+	case StatusChange:
+		return true
+	case StatusPageIncidentLinked:
+		return true
+	case StatusPageIncidentUpdated:
+		return true
+	case SummaryUpdate:
+		return true
+	case UserIntentDeclared:
+		return true
+	case WorkflowRan:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for IncidentAttachmentsCreatePayloadV1ResourceResourceType.
 const (
 	IncidentAttachmentsCreatePayloadV1ResourceResourceTypeArbitraryUrl                IncidentAttachmentsCreatePayloadV1ResourceResourceType = "arbitrary_url"
@@ -8729,6 +9062,373 @@ type ActionsUpdateResultV2 struct {
 type ActionsUpdateResultV3 struct {
 	// Action Example: {"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"completed_at":"2021-08-17T13:28:57.801578Z","created_at":"2021-08-17T13:28:57.801578Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Call the fire brigade","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","status":"outstanding","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Action ActionV3 `json:"action"`
+}
+
+// ActivityActionRefV2 Example: {"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+type ActivityActionRefV2 struct {
+	// ActionId The action. Fetch it from GET /v2/actions/{id}.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	ActionId string `json:"action_id"`
+
+	// Actor Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Actor ActorV2 `json:"actor"`
+}
+
+// ActivityActionUpdatedV2 Example: {"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+type ActivityActionUpdatedV2 struct {
+	// ActionId The action that changed. Fetch it from GET /v2/actions/{id}.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	ActionId string `json:"action_id"`
+
+	// NewAssignee Example: {"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}
+	NewAssignee *UserV2 `json:"new_assignee,omitempty"`
+
+	// NewStatus Status after, when the status changed
+	//
+	// Example: completed
+	NewStatus *ActivityActionUpdatedV2NewStatus `json:"new_status,omitempty"`
+
+	// PreviousAssignee Example: {"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}
+	PreviousAssignee *UserV2 `json:"previous_assignee,omitempty"`
+
+	// PreviousStatus Status before, when the status changed
+	//
+	// Example: outstanding
+	PreviousStatus *ActivityActionUpdatedV2PreviousStatus `json:"previous_status,omitempty"`
+
+	// Updater Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Updater ActorV2 `json:"updater"`
+}
+
+// ActivityActionUpdatedV2NewStatus Status after, when the status changed
+//
+// Example: completed
+type ActivityActionUpdatedV2NewStatus string
+
+// ActivityActionUpdatedV2PreviousStatus Status before, when the status changed
+//
+// Example: outstanding
+type ActivityActionUpdatedV2PreviousStatus string
+
+// ActivityAlertRefV2 Example: {"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"alert_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type ActivityAlertRefV2 struct {
+	// Actor Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Actor ActorV2 `json:"actor"`
+
+	// AlertId The alert. Fetch it from GET /v2/alerts/{id}.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	AlertId string `json:"alert_id"`
+}
+
+// ActivityCustomFieldValueUpdateV2 Example: {"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"new_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"new_values_count":4,"previous_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"previous_values_count":3,"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+type ActivityCustomFieldValueUpdateV2 struct {
+	// CustomField Example: {"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]}
+	CustomField CustomFieldTypeInfoV2 `json:"custom_field"`
+
+	// NewValues Values after the change, up to 100 of them
+	//
+	// Example: [{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]
+	NewValues *[]CustomFieldValueV2 `json:"new_values,omitempty"`
+
+	// NewValuesCount How many values there are now, which can exceed the array above
+	//
+	// Example: 4
+	NewValuesCount *int64 `json:"new_values_count,omitempty"`
+
+	// PreviousValues Values before the change, up to 100 of them
+	//
+	// Example: [{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}]
+	PreviousValues *[]CustomFieldValueV2 `json:"previous_values,omitempty"`
+
+	// PreviousValuesCount How many values there were before, which can exceed the array above
+	//
+	// Example: 3
+	PreviousValuesCount *int64 `json:"previous_values_count,omitempty"`
+
+	// Updater Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Updater ActorV2 `json:"updater"`
+}
+
+// ActivityEscalationAcknowledgedV2 Example: {"acknowledger":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type ActivityEscalationAcknowledgedV2 struct {
+	// Acknowledger Example: {"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}
+	Acknowledger *UserV2 `json:"acknowledger,omitempty"`
+
+	// EscalationId The escalation that was acknowledged
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	EscalationId string `json:"escalation_id"`
+}
+
+// ActivityEscalationCreatedV2 Example: {"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalated_to_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0","escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG1"}
+type ActivityEscalationCreatedV2 struct {
+	// Creator Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Creator ActorV2 `json:"creator"`
+
+	// EscalatedToUsers Users this escalation paged
+	//
+	// Example: [{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}]
+	EscalatedToUsers *[]UserV2 `json:"escalated_to_users,omitempty"`
+
+	// EscalationId The escalation. Fetch it from GET /v2/escalations/{id}.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	EscalationId string `json:"escalation_id"`
+
+	// EscalationPathId The escalation path used, when one was
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG1
+	EscalationPathId *string `json:"escalation_path_id,omitempty"`
+}
+
+// ActivityFollowUpRefV2 Example: {"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type ActivityFollowUpRefV2 struct {
+	// Actor Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Actor ActorV2 `json:"actor"`
+
+	// FollowUpId The follow-up. Fetch it from GET /v2/follow_ups/{id}.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	FollowUpId string `json:"follow_up_id"`
+}
+
+// ActivityFollowUpUpdatedV2 Example: {"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","new_title":"Add a payments-api rollback runbook","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","previous_title":"Add a runbook","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+type ActivityFollowUpUpdatedV2 struct {
+	// FollowUpId The follow-up that changed. Fetch it from GET /v2/follow_ups/{id}.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	FollowUpId string `json:"follow_up_id"`
+
+	// NewAssignee Example: {"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}
+	NewAssignee *UserV2 `json:"new_assignee,omitempty"`
+
+	// NewStatus Status after, when the status changed
+	//
+	// Example: completed
+	NewStatus *ActivityFollowUpUpdatedV2NewStatus `json:"new_status,omitempty"`
+
+	// NewTitle Title after, when the title changed
+	//
+	// Example: Add a payments-api rollback runbook
+	NewTitle *string `json:"new_title,omitempty"`
+
+	// PreviousAssignee Example: {"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}
+	PreviousAssignee *UserV2 `json:"previous_assignee,omitempty"`
+
+	// PreviousStatus Status before, when the status changed
+	//
+	// Example: outstanding
+	PreviousStatus *ActivityFollowUpUpdatedV2PreviousStatus `json:"previous_status,omitempty"`
+
+	// PreviousTitle Title before, when the title changed
+	//
+	// Example: Add a runbook
+	PreviousTitle *string `json:"previous_title,omitempty"`
+
+	// Updater Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Updater ActorV2 `json:"updater"`
+}
+
+// ActivityFollowUpUpdatedV2NewStatus Status after, when the status changed
+//
+// Example: completed
+type ActivityFollowUpUpdatedV2NewStatus string
+
+// ActivityFollowUpUpdatedV2PreviousStatus Status before, when the status changed
+//
+// Example: outstanding
+type ActivityFollowUpUpdatedV2PreviousStatus string
+
+// ActivityIncidentMergedV2 Example: {"incident_update_id":"01FCNDV6P870EA6S7TK1DSYDG0","merger":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"source_incident":{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}}
+type ActivityIncidentMergedV2 struct {
+	// IncidentUpdateId The incident update that carried the merge. Absent on merges recorded before December 2025.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	IncidentUpdateId *string `json:"incident_update_id,omitempty"`
+
+	// Merger Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Merger ActorV2 `json:"merger"`
+
+	// SourceIncident Incident slim is a subset of the full incident object, listing key fields.
+	//
+	// Example: {"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}
+	SourceIncident *IncidentSlimV2 `json:"source_incident,omitempty"`
+}
+
+// ActivityIncidentRenameV2 Example: {"new_name":"EU checkout failing after 14:02 deploy","previous_name":"Checkout errors","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+type ActivityIncidentRenameV2 struct {
+	// NewName The incident's name after the rename
+	//
+	// Example: EU checkout failing after 14:02 deploy
+	NewName string `json:"new_name"`
+
+	// PreviousName The incident's name before the rename
+	//
+	// Example: Checkout errors
+	PreviousName string `json:"previous_name"`
+
+	// Updater Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Updater ActorV2 `json:"updater"`
+}
+
+// ActivityIncidentTimestampSetV2 Example: {"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"new_value":"2026-09-01T13:42:00Z","previous_value":"2026-09-01T14:00:00Z","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+type ActivityIncidentTimestampSetV2 struct {
+	// IncidentTimestamp Example: {"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1}
+	IncidentTimestamp IncidentTimestampV2 `json:"incident_timestamp"`
+
+	// NewValue What it was set to
+	//
+	// Example: 2026-09-01T13:42:00Z
+	NewValue time.Time `json:"new_value"`
+
+	// PreviousValue What it was before. Absent when it was previously unset.
+	//
+	// Example: 2026-09-01T14:00:00Z
+	PreviousValue *time.Time `json:"previous_value,omitempty"`
+
+	// Updater Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Updater ActorV2 `json:"updater"`
+}
+
+// ActivityIncidentTypeChangedV2 Example: {"new_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+type ActivityIncidentTypeChangedV2 struct {
+	// NewIncidentType Example: {"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	NewIncidentType *IncidentTypeV2 `json:"new_incident_type,omitempty"`
+
+	// PreviousIncidentType Example: {"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	PreviousIncidentType *IncidentTypeV2 `json:"previous_incident_type,omitempty"`
+
+	// Updater Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Updater ActorV2 `json:"updater"`
+}
+
+// ActivityIncidentUpdateV2 Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","message":"Rolled back **payments-api** to v411, error rate recovering.","new_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"next_update_in_minutes":30,"previous_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+type ActivityIncidentUpdateV2 struct {
+	// Id ID of the incident update
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Message The update the responder wrote, in markdown
+	//
+	// Example: Rolled back **payments-api** to v411, error rate recovering.
+	Message *string `json:"message,omitempty"`
+
+	// NewSeverity Example: {"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	NewSeverity *SeverityV2 `json:"new_severity,omitempty"`
+
+	// NewStatus Example: {"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	NewStatus *IncidentStatusV2 `json:"new_status,omitempty"`
+
+	// NextUpdateInMinutes When the responder said the next update would come
+	//
+	// Example: 30
+	NextUpdateInMinutes *int64 `json:"next_update_in_minutes,omitempty"`
+
+	// PreviousSeverity Example: {"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	PreviousSeverity *SeverityV2 `json:"previous_severity,omitempty"`
+
+	// PreviousStatus Example: {"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	PreviousStatus *IncidentStatusV2 `json:"previous_status,omitempty"`
+
+	// Updater Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Updater ActorV2 `json:"updater"`
+}
+
+// ActivityIncidentVisibilityChangedV2 Example: {"new_visibility":"private","previous_visibility":"public","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+type ActivityIncidentVisibilityChangedV2 struct {
+	// NewVisibility Visibility after the change
+	//
+	// Example: private
+	NewVisibility ActivityIncidentVisibilityChangedV2NewVisibility `json:"new_visibility"`
+
+	// PreviousVisibility Visibility before the change
+	//
+	// Example: public
+	PreviousVisibility ActivityIncidentVisibilityChangedV2PreviousVisibility `json:"previous_visibility"`
+
+	// Updater Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Updater *ActorV2 `json:"updater,omitempty"`
+}
+
+// ActivityIncidentVisibilityChangedV2NewVisibility Visibility after the change
+//
+// Example: private
+type ActivityIncidentVisibilityChangedV2NewVisibility string
+
+// ActivityIncidentVisibilityChangedV2PreviousVisibility Visibility before the change
+//
+// Example: public
+type ActivityIncidentVisibilityChangedV2PreviousVisibility string
+
+// ActivityRoleUpdateV2 Example: {"new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+type ActivityRoleUpdateV2 struct {
+	// NewAssignee Example: {"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}
+	NewAssignee *UserV2 `json:"new_assignee,omitempty"`
+
+	// PreviousAssignee Example: {"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}
+	PreviousAssignee *UserV2 `json:"previous_assignee,omitempty"`
+
+	// Role Example: {"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"}
+	Role IncidentRoleV2 `json:"role"`
+
+	// Updater Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Updater ActorV2 `json:"updater"`
+}
+
+// ActivityStatusChangeV2 Example: {"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+type ActivityStatusChangeV2 struct {
+	// NewStatus Example: {"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	NewStatus IncidentStatusV2 `json:"new_status"`
+
+	// PreviousStatus Example: {"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"}
+	PreviousStatus *IncidentStatusV2 `json:"previous_status,omitempty"`
+
+	// Updater Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Updater ActorV2 `json:"updater"`
+}
+
+// ActivityStatusPageIncidentRefV2 Example: {"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+type ActivityStatusPageIncidentRefV2 struct {
+	// StatusPageIncidentId The status page incident. Fetch it from GET /v2/status_page_incidents/{status_page_incident_id}.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	StatusPageIncidentId string `json:"status_page_incident_id"`
+}
+
+// ActivitySummaryUpdateV2 Example: {"new_summary":"Checkout is failing for all EU customers since the 14:02 deploy.","previous_summary":"Checkout is failing for some customers.","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+type ActivitySummaryUpdateV2 struct {
+	// NewSummary The summary after this change, in markdown
+	//
+	// Example: Checkout is failing for all EU customers since the 14:02 deploy.
+	NewSummary *string `json:"new_summary,omitempty"`
+
+	// PreviousSummary The summary before this change, in markdown
+	//
+	// Example: Checkout is failing for some customers.
+	PreviousSummary *string `json:"previous_summary,omitempty"`
+
+	// Updater Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Updater ActorV2 `json:"updater"`
+}
+
+// ActivityWorkflowRanV2 Example: {"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"event_description":"Stopped the synthetic load test in staging.","event_title":"Load test halted"}
+type ActivityWorkflowRanV2 struct {
+	// Creator Example: {"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}
+	Creator ActorV2 `json:"creator"`
+
+	// EventDescription Description of the event the workflow added, in markdown
+	//
+	// Example: Stopped the synthetic load test in staging.
+	EventDescription *string `json:"event_description,omitempty"`
+
+	// EventTitle Title of the event the workflow added
+	//
+	// Example: Load test halted
+	EventTitle string `json:"event_title"`
 }
 
 // ActorV1 Example: {"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}}
@@ -16630,6 +17330,134 @@ type ImageV1 struct {
 	Url string `json:"url"`
 }
 
+// IncidentActivityLogContentV2 Details of an activity log entry.
+//
+// At most one key is set, and it matches the entry's type. Types not listed here carry no
+// content: the entry's type and title are all there is.
+//
+// Example: {"action_created":{"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"action_updated":{"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"alert_attached_to_incident":{"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"alert_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"custom_field_value_update":{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"new_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"new_values_count":4,"previous_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"previous_values_count":3,"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"escalation_acknowledged":{"acknowledger":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_created":{"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalated_to_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0","escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG1"},"follow_up_created":{"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"follow_up_updated":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","new_title":"Add a payments-api rollback runbook","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","previous_title":"Add a runbook","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_merged":{"incident_update_id":"01FCNDV6P870EA6S7TK1DSYDG0","merger":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"source_incident":{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}},"incident_rename":{"new_name":"EU checkout failing after 14:02 deploy","previous_name":"Checkout errors","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_timestamp_set":{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"new_value":"2026-09-01T13:42:00Z","previous_value":"2026-09-01T14:00:00Z","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_type_changed":{"new_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_update":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","message":"Rolled back **payments-api** to v411, error rate recovering.","new_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"next_update_in_minutes":30,"previous_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_visibility_changed":{"new_visibility":"private","previous_visibility":"public","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"role_update":{"new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"status_change":{"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"status_page_incident_linked":{"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"status_page_incident_updated":{"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"summary_update":{"new_summary":"Checkout is failing for all EU customers since the 14:02 deploy.","previous_summary":"Checkout is failing for some customers.","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"workflow_ran":{"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"event_description":"Stopped the synthetic load test in staging.","event_title":"Load test halted"}}
+type IncidentActivityLogContentV2 struct {
+	// ActionCreated Example: {"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+	ActionCreated *ActivityActionRefV2 `json:"action_created,omitempty"`
+
+	// ActionUpdated Example: {"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+	ActionUpdated *ActivityActionUpdatedV2 `json:"action_updated,omitempty"`
+
+	// AlertAttachedToIncident Example: {"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"alert_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	AlertAttachedToIncident *ActivityAlertRefV2 `json:"alert_attached_to_incident,omitempty"`
+
+	// CustomFieldValueUpdate Example: {"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"new_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"new_values_count":4,"previous_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"previous_values_count":3,"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+	CustomFieldValueUpdate *ActivityCustomFieldValueUpdateV2 `json:"custom_field_value_update,omitempty"`
+
+	// EscalationAcknowledged Example: {"acknowledger":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	EscalationAcknowledged *ActivityEscalationAcknowledgedV2 `json:"escalation_acknowledged,omitempty"`
+
+	// EscalationCreated Example: {"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalated_to_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0","escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG1"}
+	EscalationCreated *ActivityEscalationCreatedV2 `json:"escalation_created,omitempty"`
+
+	// FollowUpCreated Example: {"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	FollowUpCreated *ActivityFollowUpRefV2 `json:"follow_up_created,omitempty"`
+
+	// FollowUpUpdated Example: {"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","new_title":"Add a payments-api rollback runbook","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","previous_title":"Add a runbook","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+	FollowUpUpdated *ActivityFollowUpUpdatedV2 `json:"follow_up_updated,omitempty"`
+
+	// IncidentMerged Example: {"incident_update_id":"01FCNDV6P870EA6S7TK1DSYDG0","merger":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"source_incident":{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}}
+	IncidentMerged *ActivityIncidentMergedV2 `json:"incident_merged,omitempty"`
+
+	// IncidentRename Example: {"new_name":"EU checkout failing after 14:02 deploy","previous_name":"Checkout errors","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+	IncidentRename *ActivityIncidentRenameV2 `json:"incident_rename,omitempty"`
+
+	// IncidentTimestampSet Example: {"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"new_value":"2026-09-01T13:42:00Z","previous_value":"2026-09-01T14:00:00Z","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+	IncidentTimestampSet *ActivityIncidentTimestampSetV2 `json:"incident_timestamp_set,omitempty"`
+
+	// IncidentTypeChanged Example: {"new_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+	IncidentTypeChanged *ActivityIncidentTypeChangedV2 `json:"incident_type_changed,omitempty"`
+
+	// IncidentUpdate Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","message":"Rolled back **payments-api** to v411, error rate recovering.","new_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"next_update_in_minutes":30,"previous_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+	IncidentUpdate *ActivityIncidentUpdateV2 `json:"incident_update,omitempty"`
+
+	// IncidentVisibilityChanged Example: {"new_visibility":"private","previous_visibility":"public","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+	IncidentVisibilityChanged *ActivityIncidentVisibilityChangedV2 `json:"incident_visibility_changed,omitempty"`
+
+	// RoleUpdate Example: {"new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+	RoleUpdate *ActivityRoleUpdateV2 `json:"role_update,omitempty"`
+
+	// StatusChange Example: {"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+	StatusChange *ActivityStatusChangeV2 `json:"status_change,omitempty"`
+
+	// StatusPageIncidentLinked Example: {"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	StatusPageIncidentLinked *ActivityStatusPageIncidentRefV2 `json:"status_page_incident_linked,omitempty"`
+
+	// StatusPageIncidentUpdated Example: {"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+	StatusPageIncidentUpdated *ActivityStatusPageIncidentRefV2 `json:"status_page_incident_updated,omitempty"`
+
+	// SummaryUpdate Example: {"new_summary":"Checkout is failing for all EU customers since the 14:02 deploy.","previous_summary":"Checkout is failing for some customers.","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}}
+	SummaryUpdate *ActivitySummaryUpdateV2 `json:"summary_update,omitempty"`
+
+	// WorkflowRan Example: {"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"event_description":"Stopped the synthetic load test in staging.","event_title":"Load test halted"}
+	WorkflowRan *ActivityWorkflowRanV2 `json:"workflow_ran,omitempty"`
+}
+
+// IncidentActivityLogEntriesListResultV2 Example: {"incident_activity_log_entries":[{"content":{"action_created":{"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"action_updated":{"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"alert_attached_to_incident":{"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"alert_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"custom_field_value_update":{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"new_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"new_values_count":4,"previous_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"previous_values_count":3,"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"escalation_acknowledged":{"acknowledger":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_created":{"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalated_to_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0","escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG1"},"follow_up_created":{"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"follow_up_updated":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","new_title":"Add a payments-api rollback runbook","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","previous_title":"Add a runbook","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_merged":{"incident_update_id":"01FCNDV6P870EA6S7TK1DSYDG0","merger":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"source_incident":{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}},"incident_rename":{"new_name":"EU checkout failing after 14:02 deploy","previous_name":"Checkout errors","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_timestamp_set":{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"new_value":"2026-09-01T13:42:00Z","previous_value":"2026-09-01T14:00:00Z","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_type_changed":{"new_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_update":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","message":"Rolled back **payments-api** to v411, error rate recovering.","new_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"next_update_in_minutes":30,"previous_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_visibility_changed":{"new_visibility":"private","previous_visibility":"public","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"role_update":{"new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"status_change":{"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"status_page_incident_linked":{"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"status_page_incident_updated":{"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"summary_update":{"new_summary":"Checkout is failing for all EU customers since the 14:02 deploy.","previous_summary":"Checkout is failing for some customers.","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"workflow_ran":{"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"event_description":"Stopped the synthetic load test in staging.","event_title":"Load test halted"}},"created_at":"2026-09-01T15:30:01Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2026-09-01T15:30:00Z","title":"Status changed from Investigating to Monitoring","type":"incident_update"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type IncidentActivityLogEntriesListResultV2 struct {
+	// IncidentActivityLogEntries Example: [{"content":{"action_created":{"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"action_updated":{"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"alert_attached_to_incident":{"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"alert_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"custom_field_value_update":{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"new_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"new_values_count":4,"previous_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"previous_values_count":3,"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"escalation_acknowledged":{"acknowledger":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_created":{"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalated_to_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0","escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG1"},"follow_up_created":{"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"follow_up_updated":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","new_title":"Add a payments-api rollback runbook","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","previous_title":"Add a runbook","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_merged":{"incident_update_id":"01FCNDV6P870EA6S7TK1DSYDG0","merger":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"source_incident":{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}},"incident_rename":{"new_name":"EU checkout failing after 14:02 deploy","previous_name":"Checkout errors","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_timestamp_set":{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"new_value":"2026-09-01T13:42:00Z","previous_value":"2026-09-01T14:00:00Z","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_type_changed":{"new_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_update":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","message":"Rolled back **payments-api** to v411, error rate recovering.","new_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"next_update_in_minutes":30,"previous_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_visibility_changed":{"new_visibility":"private","previous_visibility":"public","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"role_update":{"new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"status_change":{"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"status_page_incident_linked":{"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"status_page_incident_updated":{"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"summary_update":{"new_summary":"Checkout is failing for all EU customers since the 14:02 deploy.","previous_summary":"Checkout is failing for some customers.","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"workflow_ran":{"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"event_description":"Stopped the synthetic load test in staging.","event_title":"Load test halted"}},"created_at":"2026-09-01T15:30:01Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2026-09-01T15:30:00Z","title":"Status changed from Investigating to Monitoring","type":"incident_update"}]
+	IncidentActivityLogEntries []IncidentActivityLogEntryV2 `json:"incident_activity_log_entries"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta *PaginationMetaResultV2 `json:"pagination_meta,omitempty"`
+}
+
+// IncidentActivityLogEntryV2 One thing that happened on an incident.
+//
+// The activity log records everything. The timeline is the narrative, made of the entries
+// someone promoted onto it and the items they wrote by hand.
+//
+// Example: {"content":{"action_created":{"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"action_updated":{"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"alert_attached_to_incident":{"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"alert_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"custom_field_value_update":{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"new_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"new_values_count":4,"previous_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"previous_values_count":3,"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"escalation_acknowledged":{"acknowledger":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_created":{"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalated_to_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0","escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG1"},"follow_up_created":{"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"follow_up_updated":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","new_title":"Add a payments-api rollback runbook","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","previous_title":"Add a runbook","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_merged":{"incident_update_id":"01FCNDV6P870EA6S7TK1DSYDG0","merger":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"source_incident":{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}},"incident_rename":{"new_name":"EU checkout failing after 14:02 deploy","previous_name":"Checkout errors","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_timestamp_set":{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"new_value":"2026-09-01T13:42:00Z","previous_value":"2026-09-01T14:00:00Z","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_type_changed":{"new_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_update":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","message":"Rolled back **payments-api** to v411, error rate recovering.","new_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"next_update_in_minutes":30,"previous_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_visibility_changed":{"new_visibility":"private","previous_visibility":"public","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"role_update":{"new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"status_change":{"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"status_page_incident_linked":{"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"status_page_incident_updated":{"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"summary_update":{"new_summary":"Checkout is failing for all EU customers since the 14:02 deploy.","previous_summary":"Checkout is failing for some customers.","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"workflow_ran":{"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"event_description":"Stopped the synthetic load test in staging.","event_title":"Load test halted"}},"created_at":"2026-09-01T15:30:01Z","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01G0J1EXE7AXZ2C93K61WBPYEH","occurred_at":"2026-09-01T15:30:00Z","title":"Status changed from Investigating to Monitoring","type":"incident_update"}
+type IncidentActivityLogEntryV2 struct {
+	// Content Details of an activity log entry.
+	//
+	// At most one key is set, and it matches the entry's type. Types not listed here carry no
+	// content: the entry's type and title are all there is.
+	//
+	// Example: {"action_created":{"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"action_updated":{"action_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"alert_attached_to_incident":{"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"alert_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"custom_field_value_update":{"custom_field":{"description":"Which team is impacted by this issue","field_type":"single_select","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Affected Team","options":[{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"}]},"new_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"new_values_count":4,"previous_values":[{"value_catalog_entry":{"aliases":["lawrence@incident.io","lawrence"],"external_id":"761722cd-d1d7-477b-ac7e-90f9e079dc33","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"value_link":"https://google.com/","value_numeric":"123.456","value_option":{"custom_field_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","sort_key":10,"value":"Product"},"value_text":"This is my text field, I hope you like it"}],"previous_values_count":3,"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"escalation_acknowledged":{"acknowledger":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"escalation_created":{"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"escalated_to_users":[{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"}],"escalation_id":"01FCNDV6P870EA6S7TK1DSYDG0","escalation_path_id":"01FCNDV6P870EA6S7TK1DSYDG1"},"follow_up_created":{"actor":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"follow_up_updated":{"follow_up_id":"01FCNDV6P870EA6S7TK1DSYDG0","new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"new_status":"completed","new_title":"Add a payments-api rollback runbook","previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_status":"outstanding","previous_title":"Add a runbook","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_merged":{"incident_update_id":"01FCNDV6P870EA6S7TK1DSYDG0","merger":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"source_incident":{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}},"incident_rename":{"new_name":"EU checkout failing after 14:02 deploy","previous_name":"Checkout errors","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_timestamp_set":{"incident_timestamp":{"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1},"new_value":"2026-09-01T13:42:00Z","previous_value":"2026-09-01T14:00:00Z","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_type_changed":{"new_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_incident_type":{"create_in_triage":"always","created_at":"2021-08-17T13:28:57.801578Z","description":"Customer facing production outages","id":"01FCNDV6P870EA6S7TK1DSYDG0","is_default":false,"name":"Production Outage","private_incidents_only":false,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_update":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","message":"Rolled back **payments-api** to v411, error rate recovering.","new_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"next_update_in_minutes":30,"previous_severity":{"created_at":"2021-08-17T13:28:57.801578Z","description":"Issues with **low impact**.","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Minor","rank":1,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"incident_visibility_changed":{"new_visibility":"private","previous_visibility":"public","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"role_update":{"new_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"previous_assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"role":{"created_at":"2021-08-17T13:28:57.801578Z","description":"The person currently coordinating the incident","id":"01FCNDV6P870EA6S7TK1DSYDG0","instructions":"Take point on the incident; Make sure people are clear on responsibilities","name":"Incident Lead","role_type":"lead","shortform":"lead","updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"status_change":{"new_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"previous_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"},"updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"status_page_incident_linked":{"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"status_page_incident_updated":{"status_page_incident_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"summary_update":{"new_summary":"Checkout is failing for all EU customers since the 14:02 deploy.","previous_summary":"Checkout is failing for some customers.","updater":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}}},"workflow_ran":{"creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"event_description":"Stopped the synthetic load test in staging.","event_title":"Load test halted"}}
+	Content *IncidentActivityLogContentV2 `json:"content,omitempty"`
+
+	// CreatedAt When we recorded the activity
+	//
+	// Example: 2026-09-01T15:30:01Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// Id Unique identifier of the activity log entry
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// IncidentId ID of the incident this happened on. When the incident has streams, listing the parent also returns entries from its streams, and this is the stream's ID for those.
+	//
+	// Example: 01G0J1EXE7AXZ2C93K61WBPYEH
+	IncidentId string `json:"incident_id"`
+
+	// OccurredAt When the activity happened. This is what the log is ordered by.
+	//
+	// Example: 2026-09-01T15:30:00Z
+	OccurredAt time.Time `json:"occurred_at"`
+
+	// Title Human-readable summary of what happened
+	//
+	// Example: Status changed from Investigating to Monitoring
+	Title string `json:"title"`
+
+	// Type What kind of activity this is. Switch on this rather than title, which is display copy we reword.
+	//
+	// Example: incident_update
+	Type IncidentActivityLogEntryV2Type `json:"type"`
+}
+
+// IncidentActivityLogEntryV2Type What kind of activity this is. Switch on this rather than title, which is display copy we reword.
+//
+// Example: incident_update
+type IncidentActivityLogEntryV2Type string
+
 // IncidentAlertV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"},"alert_route_id":"01GW2G3V0S59R238FAHPDS1R67","id":"01GW2G3V0S59R238FAHPDS1R66","incident":{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}}
 type IncidentAlertV2 struct {
 	// Alert Example: {"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}
@@ -19588,7 +20416,7 @@ type PoliciesCreatePayloadV2 struct {
 	// Example: Critical incidents must export follow-ups
 	Name string `json:"name"`
 
-	// OnCallReadiness Set when policy_type is on_call_readiness. The assignee is always the user in violation and cannot be configured.
+	// OnCallReadiness Set when policy_type is on_call_readiness. The assignee is always the user the finding is about and cannot be configured.
 	//
 	// Example: {"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]}
 	OnCallReadiness *PolicyOnCallReadinessV2 `json:"on_call_readiness,omitempty"`
@@ -19680,7 +20508,7 @@ type PoliciesUpdatePayloadV2 struct {
 	// Example: Critical incidents must export follow-ups
 	Name string `json:"name"`
 
-	// OnCallReadiness Set when policy_type is on_call_readiness. The assignee is always the user in violation and cannot be configured.
+	// OnCallReadiness Set when policy_type is on_call_readiness. The assignee is always the user the finding is about and cannot be configured.
 	//
 	// Example: {"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]}
 	OnCallReadiness *PolicyOnCallReadinessV2 `json:"on_call_readiness,omitempty"`
@@ -19762,7 +20590,7 @@ type PoliciesValidatePayloadV2 struct {
 	// Example: Critical incidents must export follow-ups
 	Name string `json:"name"`
 
-	// OnCallReadiness Set when policy_type is on_call_readiness. The assignee is always the user in violation and cannot be configured.
+	// OnCallReadiness Set when policy_type is on_call_readiness. The assignee is always the user the finding is about and cannot be configured.
 	//
 	// Example: {"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]}
 	OnCallReadiness *PolicyOnCallReadinessV2 `json:"on_call_readiness,omitempty"`
@@ -19805,17 +20633,17 @@ type PolicyAssignmentRulesPayloadV2 struct {
 	// Example: [{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}]
 	Bindings []EngineParamBindingPayloadV2 `json:"bindings"`
 
-	// ReminderCadenceAfter A recurring reminder, which repeats once per interval until the violation is resolved.
+	// ReminderCadenceAfter A recurring reminder, which repeats once per interval until the finding is resolved.
 	//
 	// Example: {"interval":"daily"}
 	ReminderCadenceAfter *PolicyReminderCadenceV2 `json:"reminder_cadence_after,omitempty"`
 
-	// ReminderCadenceBefore A recurring reminder, which repeats once per interval until the violation is resolved.
+	// ReminderCadenceBefore A recurring reminder, which repeats once per interval until the finding is resolved.
 	//
 	// Example: {"interval":"daily"}
 	ReminderCadenceBefore *PolicyReminderCadenceV2 `json:"reminder_cadence_before,omitempty"`
 
-	// ReminderDetectedDateOffsetHours List of hours relative to when the violation was detected to remind the assignee. Non-negative only; 0 means immediately on detection. Only valid for policy types that support detection reminders (e.g. schedule).
+	// ReminderDetectedDateOffsetHours List of hours relative to when the finding was detected to remind the assignee. Non-negative only; 0 means immediately on detection. Only valid for policy types that support detection reminders (e.g. schedule).
 	//
 	// Example: [0,48]
 	ReminderDetectedDateOffsetHours *[]int64 `json:"reminder_detected_date_offset_hours,omitempty"`
@@ -19833,17 +20661,17 @@ type PolicyAssignmentRulesV2 struct {
 	// Example: [{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}]
 	Bindings []EngineParamBindingV2 `json:"bindings"`
 
-	// ReminderCadenceAfter A recurring reminder, which repeats once per interval until the violation is resolved.
+	// ReminderCadenceAfter A recurring reminder, which repeats once per interval until the finding is resolved.
 	//
 	// Example: {"interval":"daily"}
 	ReminderCadenceAfter *PolicyReminderCadenceV2 `json:"reminder_cadence_after,omitempty"`
 
-	// ReminderCadenceBefore A recurring reminder, which repeats once per interval until the violation is resolved.
+	// ReminderCadenceBefore A recurring reminder, which repeats once per interval until the finding is resolved.
 	//
 	// Example: {"interval":"daily"}
 	ReminderCadenceBefore *PolicyReminderCadenceV2 `json:"reminder_cadence_before,omitempty"`
 
-	// ReminderDetectedDateOffsetHours List of hours relative to when the violation was detected to remind the assignee. Non-negative only; 0 means immediately on detection. Only valid for policy types that support detection reminders (e.g. schedule).
+	// ReminderDetectedDateOffsetHours List of hours relative to when the finding was detected to remind the assignee. Non-negative only; 0 means immediately on detection. Only valid for policy types that support detection reminders (e.g. schedule).
 	//
 	// Example: [0,48]
 	ReminderDetectedDateOffsetHours *[]int64 `json:"reminder_detected_date_offset_hours,omitempty"`
@@ -19946,7 +20774,7 @@ type PolicyDueDateConfigV2CalculationType string
 
 // PolicyEvaluationsHasOpenForUserResultV2 Example: {"has_open_violations":false}
 type PolicyEvaluationsHasOpenForUserResultV2 struct {
-	// HasOpenViolations Whether the user has an open violation for the policy.
+	// HasOpenViolations Whether the user has an open finding for the policy.
 	//
 	// Example: false
 	HasOpenViolations bool `json:"has_open_violations"`
@@ -19991,7 +20819,7 @@ type PolicyFindingFollowUpV2 struct {
 	IncidentId string `json:"incident_id"`
 }
 
-// PolicyFindingOnCallReadinessV2 Set when policy_type is on_call_readiness. The user is always the one in violation.
+// PolicyFindingOnCallReadinessV2 Set when policy_type is on_call_readiness. The user is always the one the finding is about.
 //
 // Example: {"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
 type PolicyFindingOnCallReadinessV2 struct {
@@ -20142,7 +20970,7 @@ type PolicyFindingV2 struct {
 	// Example: 2021-08-17T13:28:57.801578Z
 	LastCheckedAt time.Time `json:"last_checked_at"`
 
-	// OnCallReadiness Set when policy_type is on_call_readiness. The user is always the one in violation.
+	// OnCallReadiness Set when policy_type is on_call_readiness. The user is always the one the finding is about.
 	//
 	// Example: {"high_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"met":false,"method_types":["slack"]}],"user_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
 	OnCallReadiness *PolicyFindingOnCallReadinessV2 `json:"on_call_readiness,omitempty"`
@@ -20302,7 +21130,7 @@ type PolicyFollowUpV2 struct {
 	RunOnPrivateIncidents *bool `json:"run_on_private_incidents,omitempty"`
 }
 
-// PolicyOnCallReadinessV2 Set when policy_type is on_call_readiness. The assignee is always the user in violation and cannot be configured.
+// PolicyOnCallReadinessV2 Set when policy_type is on_call_readiness. The assignee is always the user the finding is about and cannot be configured.
 //
 // Example: {"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]}
 type PolicyOnCallReadinessV2 struct {
@@ -20373,7 +21201,7 @@ type PolicyReadinessRuleV2 struct {
 // PolicyReadinessRuleV2MethodTypes Example: slack
 type PolicyReadinessRuleV2MethodTypes string
 
-// PolicyReminderCadenceV2 A recurring reminder, which repeats once per interval until the violation is resolved.
+// PolicyReminderCadenceV2 A recurring reminder, which repeats once per interval until the finding is resolved.
 //
 // Example: {"interval":"daily"}
 type PolicyReminderCadenceV2 struct {
@@ -20452,7 +21280,7 @@ type PolicyV2 struct {
 	// Example: Critical incidents must export follow-ups
 	Name string `json:"name"`
 
-	// OnCallReadiness Set when policy_type is on_call_readiness. The assignee is always the user in violation and cannot be configured.
+	// OnCallReadiness Set when policy_type is on_call_readiness. The assignee is always the user the finding is about and cannot be configured.
 	//
 	// Example: {"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]}
 	OnCallReadiness *PolicyOnCallReadinessV2 `json:"on_call_readiness,omitempty"`
@@ -25366,6 +26194,21 @@ type HeartbeatV2PingParams struct {
 	Authorization *string `json:"authorization,omitempty"`
 }
 
+// IncidentActivityLogEntriesV2ListParams defines parameters for IncidentActivityLogEntriesV2List.
+type IncidentActivityLogEntriesV2ListParams struct {
+	// IncidentId Incident whose activity you want to list
+	IncidentId string `form:"incident_id" json:"incident_id"`
+
+	// Id Return only the entries with these IDs
+	Id *[]string `form:"id,omitempty" json:"id,omitempty"`
+
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After An entry's ID. This endpoint returns the entries that follow it.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+}
+
 // AlertsV2ListIncidentAlertsParams defines parameters for AlertsV2ListIncidentAlerts.
 type AlertsV2ListIncidentAlertsParams struct {
 	// PageSize Number of incident alerts to return per page
@@ -28366,6 +29209,19 @@ type ClientInterface interface {
 	// Corresponds with POST /v2/heartbeat/{alert_source_config_id}/ping (the `HeartbeatV2Ping` operationId).
 	HeartbeatV2Ping(ctx context.Context, alertSourceConfigId string, params *HeartbeatV2PingParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// IncidentActivityLogEntriesV2List List Incident Activity Log Entries V2
+	//
+	// List the activity log entries for an incident, oldest first.
+	//
+	// If the incident has streams, this returns their entries too, and incident_id on each entry
+	// tells you which stream it came from.
+	//
+	// Platform noise is left out: channel joins and leaves, chat messages and call transcript
+	// fragments are recorded internally but never returned here.
+	//
+	// Corresponds with GET /v2/incident_activity_log_entries (the `IncidentActivityLogEntriesV2List` operationId).
+	IncidentActivityLogEntriesV2List(ctx context.Context, params *IncidentActivityLogEntriesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// AlertsV2ListIncidentAlerts ListIncidentAlerts Alerts V2
 	//
 	// List the connections between incidents and alerts.
@@ -29916,7 +30772,7 @@ type ClientInterface interface {
 
 	// PolicyEvaluationsV2HasOpenForUser HasOpenForUser Policy Evaluations V2
 	//
-	// Check if a user has an open violation for a specific policy.
+	// Check if a user has an open finding for a specific policy.
 	//
 	// Corresponds with GET /v2/users/{user_id}/policies/{policy_id}/open (the `PolicyEvaluationsV2HasOpenForUser` operationId).
 	PolicyEvaluationsV2HasOpenForUser(ctx context.Context, userId string, policyId string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -34890,6 +35746,29 @@ func (c *Client) HeartbeatV2Ping(ctx context.Context, alertSourceConfigId string
 	return c.Client.Do(req)
 }
 
+// IncidentActivityLogEntriesV2List List Incident Activity Log Entries V2
+//
+// List the activity log entries for an incident, oldest first.
+//
+// If the incident has streams, this returns their entries too, and incident_id on each entry
+// tells you which stream it came from.
+//
+// Platform noise is left out: channel joins and leaves, chat messages and call transcript
+// fragments are recorded internally but never returned here.
+//
+// Corresponds with GET /v2/incident_activity_log_entries (the `IncidentActivityLogEntriesV2List` operationId).
+func (c *Client) IncidentActivityLogEntriesV2List(ctx context.Context, params *IncidentActivityLogEntriesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentActivityLogEntriesV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // AlertsV2ListIncidentAlerts ListIncidentAlerts Alerts V2
 //
 // List the connections between incidents and alerts.
@@ -37678,7 +38557,7 @@ func (c *Client) UsersV2UpdatePagingProvider(ctx context.Context, userId string,
 
 // PolicyEvaluationsV2HasOpenForUser HasOpenForUser Policy Evaluations V2
 //
-// Check if a user has an open violation for a specific policy.
+// Check if a user has an open finding for a specific policy.
 //
 // Corresponds with GET /v2/users/{user_id}/policies/{policy_id}/open (the `PolicyEvaluationsV2HasOpenForUser` operationId).
 func (c *Client) PolicyEvaluationsV2HasOpenForUser(ctx context.Context, userId string, policyId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -45820,6 +46699,92 @@ func NewHeartbeatV2PingRequest(server string, alertSourceConfigId string, params
 			req.Header.Set("authorization", headerParam0)
 		}
 
+	}
+
+	return req, nil
+}
+
+// NewIncidentActivityLogEntriesV2ListRequest constructs an http.Request for the IncidentActivityLogEntriesV2List method
+func NewIncidentActivityLogEntriesV2ListRequest(server string, params *IncidentActivityLogEntriesV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/incident_activity_log_entries")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "incident_id", params.IncidentId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+			return nil, err
+		} else {
+			for _, qp := range strings.Split(queryFrag, "&") {
+				rawQueryFragments = append(rawQueryFragments, qp)
+			}
+		}
+
+		if params.Id != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "id", *params.Id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
 	}
 
 	return req, nil
@@ -55390,6 +56355,21 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with POST /v2/heartbeat/{alert_source_config_id}/ping (the `HeartbeatV2Ping` operationId).
 	HeartbeatV2PingWithResponse(ctx context.Context, alertSourceConfigId string, params *HeartbeatV2PingParams, reqEditors ...RequestEditorFn) (*HeartbeatV2PingResponse, error)
 
+	// IncidentActivityLogEntriesV2ListWithResponse List Incident Activity Log Entries V2
+	//
+	// List the activity log entries for an incident, oldest first.
+	//
+	// If the incident has streams, this returns their entries too, and incident_id on each entry
+	// tells you which stream it came from.
+	//
+	// Platform noise is left out: channel joins and leaves, chat messages and call transcript
+	// fragments are recorded internally but never returned here.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/incident_activity_log_entries (the `IncidentActivityLogEntriesV2List` operationId).
+	IncidentActivityLogEntriesV2ListWithResponse(ctx context.Context, params *IncidentActivityLogEntriesV2ListParams, reqEditors ...RequestEditorFn) (*IncidentActivityLogEntriesV2ListResponse, error)
+
 	// AlertsV2ListIncidentAlertsWithResponse ListIncidentAlerts Alerts V2
 	//
 	// List the connections between incidents and alerts.
@@ -57036,7 +58016,7 @@ type ClientWithResponsesInterface interface {
 
 	// PolicyEvaluationsV2HasOpenForUserWithResponse HasOpenForUser Policy Evaluations V2
 	//
-	// Check if a user has an open violation for a specific policy.
+	// Check if a user has an open finding for a specific policy.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -76211,6 +77191,138 @@ func (r HeartbeatV2PingResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r HeartbeatV2PingResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type IncidentActivityLogEntriesV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *IncidentActivityLogEntriesListResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON200() *IncidentActivityLogEntriesListResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r IncidentActivityLogEntriesV2ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r IncidentActivityLogEntriesV2ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentActivityLogEntriesV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentActivityLogEntriesV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r IncidentActivityLogEntriesV2ListResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -99175,6 +100287,27 @@ func (c *ClientWithResponses) HeartbeatV2PingWithResponse(ctx context.Context, a
 	return ParseHeartbeatV2PingResponse(rsp)
 }
 
+// IncidentActivityLogEntriesV2ListWithResponse List Incident Activity Log Entries V2
+//
+// List the activity log entries for an incident, oldest first.
+//
+// If the incident has streams, this returns their entries too, and incident_id on each entry
+// tells you which stream it came from.
+//
+// Platform noise is left out: channel joins and leaves, chat messages and call transcript
+// fragments are recorded internally but never returned here.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/incident_activity_log_entries (the `IncidentActivityLogEntriesV2List` operationId).
+func (c *ClientWithResponses) IncidentActivityLogEntriesV2ListWithResponse(ctx context.Context, params *IncidentActivityLogEntriesV2ListParams, reqEditors ...RequestEditorFn) (*IncidentActivityLogEntriesV2ListResponse, error) {
+	rsp, err := c.IncidentActivityLogEntriesV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentActivityLogEntriesV2ListResponse(rsp)
+}
+
 // AlertsV2ListIncidentAlertsWithResponse ListIncidentAlerts Alerts V2
 //
 // List the connections between incidents and alerts.
@@ -101563,7 +102696,7 @@ func (c *ClientWithResponses) UsersV2UpdatePagingProviderWithResponse(ctx contex
 
 // PolicyEvaluationsV2HasOpenForUserWithResponse HasOpenForUser Policy Evaluations V2
 //
-// Check if a user has an open violation for a specific policy.
+// Check if a user has an open finding for a specific policy.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -119179,6 +120312,123 @@ func ParseHeartbeatV2PingResponse(rsp *http.Response) (*HeartbeatV2PingResponse,
 	switch {
 	case rsp.StatusCode == 204:
 		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIncidentActivityLogEntriesV2ListResponse parses an HTTP response from a IncidentActivityLogEntriesV2ListWithResponse call
+func ParseIncidentActivityLogEntriesV2ListResponse(rsp *http.Response) (*IncidentActivityLogEntriesV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentActivityLogEntriesV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest IncidentActivityLogEntriesListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
 		var dest ErrorResponse
