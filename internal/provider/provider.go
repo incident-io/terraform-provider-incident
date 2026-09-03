@@ -146,6 +146,7 @@ func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Reso
 		NewIncidentAlertSourceResource,
 		NewIncidentCatalogEntriesResource,
 		NewIncidentCatalogEntryResource,
+		NewIncidentCatalogEntryAttributeResource,
 		NewIncidentCatalogTypeAttributesResource,
 		NewIncidentCatalogTypeResource,
 		NewIncidentCustomFieldOptionResource,
