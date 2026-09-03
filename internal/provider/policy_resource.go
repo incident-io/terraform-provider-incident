@@ -315,9 +315,13 @@ func policyIncidentConfigAttribute(name, definition string) schema.SingleNestedA
 		PlanModifiers:       []planmodifier.Object{policyBlockRequiresReplace()},
 		Attributes: map[string]schema.Attribute{
 			"requirements": requirements,
+			// Required, because these are the three types that carry a due date and the
+			// API rejects an update to one without it. Leaving it optional let a config
+			// create a policy that then failed on its next apply, which is a worse place
+			// to find out.
 			"due_date_config": schema.SingleNestedAttribute{
 				MarkdownDescription: apischema.Docstring(definition, "due_date_config"),
-				Optional:            true,
+				Required:            true,
 				Attributes: map[string]schema.Attribute{
 					"incident_timestamp_id": schema.StringAttribute{
 						MarkdownDescription: apischema.Docstring("PolicyDueDateConfigV2", "incident_timestamp_id"),
