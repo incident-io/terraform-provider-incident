@@ -5,7 +5,7 @@ data "incident_user" "schedule_owner" {
 # A schedule policy, which finds gaps in on-call coverage.
 #
 # Unlike follow-up, debrief and post-mortem policies this one takes no
-# due_date_config: a coverage gap is a violation the moment it's spotted, so
+# due_date_config: a coverage gap is a finding the moment it's spotted, so
 # there is no due date to count from. It's the one type that instead supports
 # reminders measured from when the gap was detected.
 resource "incident_policy" "schedule_coverage" {

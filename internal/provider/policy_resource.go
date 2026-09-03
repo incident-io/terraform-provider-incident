@@ -100,7 +100,7 @@ type incidentPolicyAssignmentRules struct {
 }
 
 // incidentPolicyReminderCadence is a recurring reminder, which repeats once per interval
-// until the violation is resolved. Direction is which field holds it rather than a value on
+// until the finding is resolved. Direction is which field holds it rather than a value on
 // it, the way the sign of a one-off offset says before or after.
 type incidentPolicyReminderCadence struct {
 	Interval types.String `tfsdk:"interval"`
@@ -141,7 +141,7 @@ var policyBlocks = []string{
 	"follow_up", "debrief", "post_mortem", "schedule", "on_call_readiness", "vacation_conflict",
 }
 
-// policyTypesWithForcedAssignee are the types that assign the user in violation. The API
+// policyTypesWithForcedAssignee are the types that assign the user the finding is about. The API
 // picks their assignee itself and replaces whatever a request sends, so a config cannot set
 // one and a read must drop what comes back.
 var policyTypesWithForcedAssignee = []string{"on_call_readiness", "vacation_conflict"}
@@ -203,7 +203,7 @@ so carries no block.
 			"expressions":      expressions,
 
 			"assignment_rules": schema.SingleNestedAttribute{
-				MarkdownDescription: "Who to assign a violation to, and when to remind them. Omit it for a policy type that assigns the user in violation.",
+				MarkdownDescription: "Who to assign a finding to, and when to remind them. Omit it for a policy type that assigns the user the finding is about.",
 				Optional:            true,
 				Attributes: map[string]schema.Attribute{
 					"bindings": schema.ListNestedAttribute{
@@ -252,7 +252,7 @@ so carries no block.
 			},
 
 			"on_call_readiness": schema.SingleNestedAttribute{
-				MarkdownDescription: "Makes this an on-call readiness policy, which checks that users have suitable notification methods. The assignee is always the user in violation, so `assignment_rules` cannot be set alongside it.",
+				MarkdownDescription: "Makes this an on-call readiness policy, which checks that users have suitable notification methods. The assignee is always the user the finding is about, so `assignment_rules` cannot be set alongside it.",
 				Optional:            true,
 				PlanModifiers:       []planmodifier.Object{policyBlockRequiresReplace()},
 				Attributes: map[string]schema.Attribute{
@@ -269,7 +269,7 @@ so carries no block.
 			// Empty because the type has nothing to configure. Set it to `{}` to make a
 			// vacation-conflict policy, which keeps "exactly one block" true for every type.
 			"vacation_conflict": schema.SingleNestedAttribute{
-				MarkdownDescription: "Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object. The assignee is always the user in violation, so `assignment_rules` cannot be set alongside it.",
+				MarkdownDescription: "Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` cannot be set alongside it.",
 				Optional:            true,
 				PlanModifiers:       []planmodifier.Object{policyBlockRequiresReplace()},
 				Attributes:          map[string]schema.Attribute{},

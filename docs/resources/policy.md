@@ -228,7 +228,7 @@ data "incident_user" "schedule_owner" {
 # A schedule policy, which finds gaps in on-call coverage.
 #
 # Unlike follow-up, debrief and post-mortem policies this one takes no
-# due_date_config: a coverage gap is a violation the moment it's spotted, so
+# due_date_config: a coverage gap is a finding the moment it's spotted, so
 # there is no due date to count from. It's the one type that instead supports
 # reminders measured from when the gap was detected.
 resource "incident_policy" "schedule_coverage" {
@@ -267,8 +267,8 @@ resource "incident_policy" "schedule_coverage" {
 # An on-call readiness policy, which checks that responders have a notification
 # method that reaches them quickly enough.
 #
-# It takes no assignment_rules: this type always assigns the user in violation,
-# and the API picks that assignee itself.
+# It takes no assignment_rules: this type always assigns the user the finding is
+# about, and the API picks that assignee itself.
 resource "incident_policy" "responders_can_be_reached" {
   name        = "Responders carry a phone"
   description = "Anyone on call needs a notification method that reaches them quickly."
@@ -301,7 +301,7 @@ resource "incident_policy" "responders_can_be_reached" {
 # there to say which type this is.
 #
 # Like on-call readiness, it takes no assignment_rules: the API assigns the user
-# in violation.
+# the finding is about.
 resource "incident_policy" "vacation_conflicts" {
   name        = "No on-call during vacation"
   description = "Flag anyone scheduled on call while they are on leave."
@@ -323,15 +323,15 @@ resource "incident_policy" "vacation_conflicts" {
 
 ### Optional
 
-- `assignment_rules` (Attributes) Who to assign a violation to, and when to remind them. Omit it for a policy type that assigns the user in violation. (see [below for nested schema](#nestedatt--assignment_rules))
+- `assignment_rules` (Attributes) Who to assign a finding to, and when to remind them. Omit it for a policy type that assigns the user the finding is about. (see [below for nested schema](#nestedatt--assignment_rules))
 - `debrief` (Attributes) Makes this a debrief policy, stating what a debrief must satisfy and when it falls due. (see [below for nested schema](#nestedatt--debrief))
 - `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--expressions))
 - `follow_up` (Attributes) Makes this a follow_up policy, stating what a follow_up must satisfy and when it falls due. (see [below for nested schema](#nestedatt--follow_up))
-- `on_call_readiness` (Attributes) Makes this an on-call readiness policy, which checks that users have suitable notification methods. The assignee is always the user in violation, so `assignment_rules` cannot be set alongside it. (see [below for nested schema](#nestedatt--on_call_readiness))
+- `on_call_readiness` (Attributes) Makes this an on-call readiness policy, which checks that users have suitable notification methods. The assignee is always the user the finding is about, so `assignment_rules` cannot be set alongside it. (see [below for nested schema](#nestedatt--on_call_readiness))
 - `post_mortem` (Attributes) Makes this a post_mortem policy, stating what a post_mortem must satisfy and when it falls due. (see [below for nested schema](#nestedatt--post_mortem))
 - `schedule` (Attributes) Makes this a schedule policy, which detects gaps in on-call coverage. (see [below for nested schema](#nestedatt--schedule))
 - `status` (String) Disabled policies stop evaluating but keep their config. Possible values are: `enabled`, `disabled`.
-- `vacation_conflict` (Attributes) Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object. The assignee is always the user in violation, so `assignment_rules` cannot be set alongside it. (see [below for nested schema](#nestedatt--vacation_conflict))
+- `vacation_conflict` (Attributes) Makes this a vacation-conflict policy, which flags responders rota'd on while they are away. It takes no configuration, so set it to an empty object. The assignee is always the user the finding is about, so `assignment_rules` cannot be set alongside it. (see [below for nested schema](#nestedatt--vacation_conflict))
 
 ### Read-Only
 
@@ -397,9 +397,9 @@ Required:
 
 Optional:
 
-- `reminder_cadence_after` (Attributes) A recurring reminder, which repeats once per interval until the violation is resolved. (see [below for nested schema](#nestedatt--assignment_rules--reminder_cadence_after))
-- `reminder_cadence_before` (Attributes) A recurring reminder, which repeats once per interval until the violation is resolved. (see [below for nested schema](#nestedatt--assignment_rules--reminder_cadence_before))
-- `reminder_detected_date_offset_hours` (List of Number) List of hours relative to when the violation was detected to remind the assignee. Non-negative only; 0 means immediately on detection. Only valid for policy types that support detection reminders (e.g. schedule).
+- `reminder_cadence_after` (Attributes) A recurring reminder, which repeats once per interval until the finding is resolved. (see [below for nested schema](#nestedatt--assignment_rules--reminder_cadence_after))
+- `reminder_cadence_before` (Attributes) A recurring reminder, which repeats once per interval until the finding is resolved. (see [below for nested schema](#nestedatt--assignment_rules--reminder_cadence_before))
+- `reminder_detected_date_offset_hours` (List of Number) List of hours relative to when the finding was detected to remind the assignee. Non-negative only; 0 means immediately on detection. Only valid for policy types that support detection reminders (e.g. schedule).
 
 <a id="nestedatt--assignment_rules--bindings"></a>
 ### Nested Schema for `assignment_rules.bindings`

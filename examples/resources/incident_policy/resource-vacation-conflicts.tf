@@ -3,7 +3,7 @@
 # there to say which type this is.
 #
 # Like on-call readiness, it takes no assignment_rules: the API assigns the user
-# in violation.
+# the finding is about.
 resource "incident_policy" "vacation_conflicts" {
   name        = "No on-call during vacation"
   description = "Flag anyone scheduled on call while they are on leave."
