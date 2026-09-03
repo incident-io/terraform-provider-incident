@@ -6225,6 +6225,24 @@ func (e PolicyReadinessRuleV2MethodTypes) Valid() bool {
 	}
 }
 
+// Defines values for PolicyReminderCadenceV2Interval.
+const (
+	PolicyReminderCadenceV2IntervalDaily  PolicyReminderCadenceV2Interval = "daily"
+	PolicyReminderCadenceV2IntervalWeekly PolicyReminderCadenceV2Interval = "weekly"
+)
+
+// Valid indicates whether the value is a known member of the PolicyReminderCadenceV2Interval enum.
+func (e PolicyReminderCadenceV2Interval) Valid() bool {
+	switch e {
+	case PolicyReminderCadenceV2IntervalDaily:
+		return true
+	case PolicyReminderCadenceV2IntervalWeekly:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for PolicyScheduleV2EvaluationLevel.
 const (
 	PolicyScheduleV2EvaluationLevelRotation PolicyScheduleV2EvaluationLevel = "rotation"
@@ -6545,19 +6563,19 @@ func (e ScheduleRotationCreatePayloadV3SchedulingMode) Valid() bool {
 
 // Defines values for ScheduleRotationHandoverV2IntervalType.
 const (
-	Daily  ScheduleRotationHandoverV2IntervalType = "daily"
-	Hourly ScheduleRotationHandoverV2IntervalType = "hourly"
-	Weekly ScheduleRotationHandoverV2IntervalType = "weekly"
+	ScheduleRotationHandoverV2IntervalTypeDaily  ScheduleRotationHandoverV2IntervalType = "daily"
+	ScheduleRotationHandoverV2IntervalTypeHourly ScheduleRotationHandoverV2IntervalType = "hourly"
+	ScheduleRotationHandoverV2IntervalTypeWeekly ScheduleRotationHandoverV2IntervalType = "weekly"
 )
 
 // Valid indicates whether the value is a known member of the ScheduleRotationHandoverV2IntervalType enum.
 func (e ScheduleRotationHandoverV2IntervalType) Valid() bool {
 	switch e {
-	case Daily:
+	case ScheduleRotationHandoverV2IntervalTypeDaily:
 		return true
-	case Hourly:
+	case ScheduleRotationHandoverV2IntervalTypeHourly:
 		return true
-	case Weekly:
+	case ScheduleRotationHandoverV2IntervalTypeWeekly:
 		return true
 	default:
 		return false
@@ -17820,10 +17838,11 @@ type IncidentTemplatesValidateResultV1 struct {
 
 // IncidentTimelineItemV2 An item on an incident's curated timeline.
 //
-// The timeline is the narrative of an incident, as opposed to the raw stream of everything
-// that happened. Items either come from something we recorded and promoted onto the timeline -
-// a pinned message, an escalation, an event a workflow added - or were written by hand in the
-// dashboard. activity_log_id tells the two apart.
+// The timeline is the narrative of an incident, as opposed to the activity log, which records
+// everything that happened. Some of that activity - a pinned message, an escalation, an event a
+// workflow added - is promoted onto the timeline, and those items carry the ID of the activity
+// log entry they came from. The rest are custom, written by hand in the dashboard or through
+// the API, and have no activity_log_id.
 //
 // Example: {"activity_log_id":"01FCNDV6P870EA6S7TK1DSYDG1","created_at":"2026-09-01T15:31:04Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Rolled back **payments-api** to v411 after error rate hit 12%.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01G0J1EXE7AXZ2C93K61WBPYEH","timestamp":"2026-09-01T15:30:00Z","title":"Rolled back payments-api","updated_at":"2026-09-01T16:45:00Z"}
 type IncidentTimelineItemV2 struct {
@@ -17871,6 +17890,48 @@ type IncidentTimelineItemV2 struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+// IncidentTimelineItemsCreatePayloadV2 Example: {"description":"Rolled back **payments-api** to v411 after error rate hit 12%.","idempotency_key":"deploy-4f2c1b90","incident_id":"01FCNDV6P870EA6S7TK1DSYD5H","timestamp":"2026-09-01T15:30:00Z","title":"Rolled back payments-api"}
+type IncidentTimelineItemsCreatePayloadV2 struct {
+	// Description Description of the timeline item, in markdown
+	//
+	// Example: Rolled back **payments-api** to v411 after error rate hit 12%.
+	Description *string `json:"description,omitempty"`
+
+	// IdempotencyKey Unique string used to de-duplicate timeline item requests. Retrying with the same key returns the item the first request created, rather than adding a second one.
+	//
+	// Example: deploy-4f2c1b90
+	IdempotencyKey string `json:"idempotency_key"`
+
+	// IncidentId Incident to add this item to
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYD5H
+	IncidentId string `json:"incident_id"`
+
+	// Timestamp When the thing this item describes happened. This is where the item sits on the timeline, and can be in the past.
+	//
+	// Example: 2026-09-01T15:30:00Z
+	Timestamp time.Time `json:"timestamp"`
+
+	// Title Title of the timeline item
+	//
+	// Example: Rolled back payments-api
+	Title string `json:"title"`
+}
+
+// IncidentTimelineItemsCreateResultV2 Example: {"incident_timeline_item":{"activity_log_id":"01FCNDV6P870EA6S7TK1DSYDG1","created_at":"2026-09-01T15:31:04Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Rolled back **payments-api** to v411 after error rate hit 12%.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01G0J1EXE7AXZ2C93K61WBPYEH","timestamp":"2026-09-01T15:30:00Z","title":"Rolled back payments-api","updated_at":"2026-09-01T16:45:00Z"}}
+type IncidentTimelineItemsCreateResultV2 struct {
+	// IncidentTimelineItem An item on an incident's curated timeline.
+	//
+	// The timeline is the narrative of an incident, as opposed to the activity log, which records
+	// everything that happened. Some of that activity - a pinned message, an escalation, an event a
+	// workflow added - is promoted onto the timeline, and those items carry the ID of the activity
+	// log entry they came from. The rest are custom, written by hand in the dashboard or through
+	// the API, and have no activity_log_id.
+	//
+	// Example: {"activity_log_id":"01FCNDV6P870EA6S7TK1DSYDG1","created_at":"2026-09-01T15:31:04Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Rolled back **payments-api** to v411 after error rate hit 12%.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01G0J1EXE7AXZ2C93K61WBPYEH","timestamp":"2026-09-01T15:30:00Z","title":"Rolled back payments-api","updated_at":"2026-09-01T16:45:00Z"}
+	IncidentTimelineItem IncidentTimelineItemV2 `json:"incident_timeline_item"`
+}
+
 // IncidentTimelineItemsListResultV2 Example: {"incident_timeline_items":[{"activity_log_id":"01FCNDV6P870EA6S7TK1DSYDG1","created_at":"2026-09-01T15:31:04Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Rolled back **payments-api** to v411 after error rate hit 12%.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01G0J1EXE7AXZ2C93K61WBPYEH","timestamp":"2026-09-01T15:30:00Z","title":"Rolled back payments-api","updated_at":"2026-09-01T16:45:00Z"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
 type IncidentTimelineItemsListResultV2 struct {
 	// IncidentTimelineItems Example: [{"activity_log_id":"01FCNDV6P870EA6S7TK1DSYDG1","created_at":"2026-09-01T15:31:04Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Rolled back **payments-api** to v411 after error rate hit 12%.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01G0J1EXE7AXZ2C93K61WBPYEH","timestamp":"2026-09-01T15:30:00Z","title":"Rolled back payments-api","updated_at":"2026-09-01T16:45:00Z"}]
@@ -17878,6 +17939,38 @@ type IncidentTimelineItemsListResultV2 struct {
 
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta *PaginationMetaResultV2 `json:"pagination_meta,omitempty"`
+}
+
+// IncidentTimelineItemsUpdatePayloadV2 Example: {"description":"Rolled back **payments-api** to v411 after error rate hit 12%.","timestamp":"2026-09-01T15:30:00Z","title":"Rolled back payments-api"}
+type IncidentTimelineItemsUpdatePayloadV2 struct {
+	// Description Description of the timeline item, in markdown. Send an empty string to remove it.
+	//
+	// Example: Rolled back **payments-api** to v411 after error rate hit 12%.
+	Description *string `json:"description,omitempty"`
+
+	// Timestamp When the thing this item describes happened. Only editable on a custom item.
+	//
+	// Example: 2026-09-01T15:30:00Z
+	Timestamp *time.Time `json:"timestamp,omitempty"`
+
+	// Title Title of the timeline item
+	//
+	// Example: Rolled back payments-api
+	Title *string `json:"title,omitempty"`
+}
+
+// IncidentTimelineItemsUpdateResultV2 Example: {"incident_timeline_item":{"activity_log_id":"01FCNDV6P870EA6S7TK1DSYDG1","created_at":"2026-09-01T15:31:04Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Rolled back **payments-api** to v411 after error rate hit 12%.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01G0J1EXE7AXZ2C93K61WBPYEH","timestamp":"2026-09-01T15:30:00Z","title":"Rolled back payments-api","updated_at":"2026-09-01T16:45:00Z"}}
+type IncidentTimelineItemsUpdateResultV2 struct {
+	// IncidentTimelineItem An item on an incident's curated timeline.
+	//
+	// The timeline is the narrative of an incident, as opposed to the activity log, which records
+	// everything that happened. Some of that activity - a pinned message, an escalation, an event a
+	// workflow added - is promoted onto the timeline, and those items carry the ID of the activity
+	// log entry they came from. The rest are custom, written by hand in the dashboard or through
+	// the API, and have no activity_log_id.
+	//
+	// Example: {"activity_log_id":"01FCNDV6P870EA6S7TK1DSYDG1","created_at":"2026-09-01T15:31:04Z","creator":{"alert":{"id":"01GW2G3V0S59R238FAHPDS1R66","title":"*errors.withMessage: PG::Error failed to connect"},"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"owner","slack_user_id":"U02AYNF2XJM"},"workflow":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My little workflow"}},"description":"Rolled back **payments-api** to v411 after error rate hit 12%.","id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01G0J1EXE7AXZ2C93K61WBPYEH","timestamp":"2026-09-01T15:30:00Z","title":"Rolled back payments-api","updated_at":"2026-09-01T16:45:00Z"}
+	IncidentTimelineItem IncidentTimelineItemV2 `json:"incident_timeline_item"`
 }
 
 // IncidentTimestampV2 Example: {"id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Impact started","rank":1}
@@ -19460,9 +19553,9 @@ type PartialEntryPayloadV3 struct {
 	Rank *int32 `json:"rank,omitempty"`
 }
 
-// PoliciesCreatePayloadV2 Example: {"assignment_rules":{"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled"}
+// PoliciesCreatePayloadV2 Example: {"assignment_rules":{"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled"}
 type PoliciesCreatePayloadV2 struct {
-	// AssignmentRules Example: {"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
+	// AssignmentRules Example: {"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
 	AssignmentRules *PolicyAssignmentRulesPayloadV2 `json:"assignment_rules,omitempty"`
 
 	// Conditions Conditions which determine which resources are in scope for this policy
@@ -19531,30 +19624,30 @@ type PoliciesCreatePayloadV2PolicyType string
 // Example: enabled
 type PoliciesCreatePayloadV2Status string
 
-// PoliciesCreateResultV2 Example: {"policy":{"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}}
+// PoliciesCreateResultV2 Example: {"policy":{"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}}
 type PoliciesCreateResultV2 struct {
-	// Policy Example: {"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}
+	// Policy Example: {"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Policy PolicyV2 `json:"policy"`
 }
 
-// PoliciesListResultV2 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"policies":[{"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}]}
+// PoliciesListResultV2 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"policies":[{"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}]}
 type PoliciesListResultV2 struct {
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 
-	// Policies Example: [{"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}]
+	// Policies Example: [{"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}]
 	Policies []PolicyV2 `json:"policies"`
 }
 
-// PoliciesShowResultV2 Example: {"policy":{"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}}
+// PoliciesShowResultV2 Example: {"policy":{"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}}
 type PoliciesShowResultV2 struct {
-	// Policy Example: {"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}
+	// Policy Example: {"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Policy PolicyV2 `json:"policy"`
 }
 
-// PoliciesUpdatePayloadV2 Example: {"assignment_rules":{"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled"}
+// PoliciesUpdatePayloadV2 Example: {"assignment_rules":{"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled"}
 type PoliciesUpdatePayloadV2 struct {
-	// AssignmentRules Example: {"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
+	// AssignmentRules Example: {"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
 	AssignmentRules *PolicyAssignmentRulesPayloadV2 `json:"assignment_rules,omitempty"`
 
 	// Conditions Conditions which determine which resources are in scope for this policy
@@ -19623,15 +19716,15 @@ type PoliciesUpdatePayloadV2PolicyType string
 // Example: enabled
 type PoliciesUpdatePayloadV2Status string
 
-// PoliciesUpdateResultV2 Example: {"policy":{"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}}
+// PoliciesUpdateResultV2 Example: {"policy":{"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}}
 type PoliciesUpdateResultV2 struct {
-	// Policy Example: {"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}
+	// Policy Example: {"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Policy PolicyV2 `json:"policy"`
 }
 
-// PoliciesValidatePayloadV2 Example: {"assignment_rules":{"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled"}
+// PoliciesValidatePayloadV2 Example: {"assignment_rules":{"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"result":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"filter":{"condition_groups":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}]},"navigate":{"reference":"catalog_attribute[\"01FCNDV6P870EA6S7TK1DSYD5H\"]"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"}}],"reference":"abc123","root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":"one_of","param_bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"subject":"incident.severity"}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled"}
 type PoliciesValidatePayloadV2 struct {
-	// AssignmentRules Example: {"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
+	// AssignmentRules Example: {"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
 	AssignmentRules *PolicyAssignmentRulesPayloadV2 `json:"assignment_rules,omitempty"`
 
 	// Conditions Conditions which determine which resources are in scope for this policy
@@ -19705,12 +19798,22 @@ type PoliciesValidatePayloadV2PolicyType string
 // Example: enabled
 type PoliciesValidatePayloadV2Status string
 
-// PolicyAssignmentRulesPayloadV2 Example: {"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
+// PolicyAssignmentRulesPayloadV2 Example: {"bindings":[{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
 type PolicyAssignmentRulesPayloadV2 struct {
 	// Bindings Bindings which define the user to be assigned. We will assign the first user which evaluates; the rest are fallback values
 	//
 	// Example: [{"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"value":{"literal":"SEV123","reference":"incident.severity"}}]
 	Bindings []EngineParamBindingPayloadV2 `json:"bindings"`
+
+	// ReminderCadenceAfter A recurring reminder, which repeats once per interval until the violation is resolved.
+	//
+	// Example: {"interval":"daily"}
+	ReminderCadenceAfter *PolicyReminderCadenceV2 `json:"reminder_cadence_after,omitempty"`
+
+	// ReminderCadenceBefore A recurring reminder, which repeats once per interval until the violation is resolved.
+	//
+	// Example: {"interval":"daily"}
+	ReminderCadenceBefore *PolicyReminderCadenceV2 `json:"reminder_cadence_before,omitempty"`
 
 	// ReminderDetectedDateOffsetHours List of hours relative to when the violation was detected to remind the assignee. Non-negative only; 0 means immediately on detection. Only valid for policy types that support detection reminders (e.g. schedule).
 	//
@@ -19723,12 +19826,22 @@ type PolicyAssignmentRulesPayloadV2 struct {
 	ReminderDueDateOffsetHours []int64 `json:"reminder_due_date_offset_hours"`
 }
 
-// PolicyAssignmentRulesV2 Example: {"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
+// PolicyAssignmentRulesV2 Example: {"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
 type PolicyAssignmentRulesV2 struct {
 	// Bindings Bindings which define the user to be assigned. We will assign the first user which evaluates; the rest are fallback values
 	//
 	// Example: [{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}]
 	Bindings []EngineParamBindingV2 `json:"bindings"`
+
+	// ReminderCadenceAfter A recurring reminder, which repeats once per interval until the violation is resolved.
+	//
+	// Example: {"interval":"daily"}
+	ReminderCadenceAfter *PolicyReminderCadenceV2 `json:"reminder_cadence_after,omitempty"`
+
+	// ReminderCadenceBefore A recurring reminder, which repeats once per interval until the violation is resolved.
+	//
+	// Example: {"interval":"daily"}
+	ReminderCadenceBefore *PolicyReminderCadenceV2 `json:"reminder_cadence_before,omitempty"`
 
 	// ReminderDetectedDateOffsetHours List of hours relative to when the violation was detected to remind the assignee. Non-negative only; 0 means immediately on detection. Only valid for policy types that support detection reminders (e.g. schedule).
 	//
@@ -20260,6 +20373,21 @@ type PolicyReadinessRuleV2 struct {
 // PolicyReadinessRuleV2MethodTypes Example: slack
 type PolicyReadinessRuleV2MethodTypes string
 
+// PolicyReminderCadenceV2 A recurring reminder, which repeats once per interval until the violation is resolved.
+//
+// Example: {"interval":"daily"}
+type PolicyReminderCadenceV2 struct {
+	// Interval How often to send the reminder, stepping in fixed durations from the due date.
+	//
+	// Example: daily
+	Interval PolicyReminderCadenceV2Interval `json:"interval"`
+}
+
+// PolicyReminderCadenceV2Interval How often to send the reminder, stepping in fixed durations from the due date.
+//
+// Example: daily
+type PolicyReminderCadenceV2Interval string
+
 // PolicyScheduleV2 Detects gaps in on-call coverage. Set when policy_type is schedule.
 //
 // Example: {"evaluation_level":"schedule","requirement_type":"contiguous"}
@@ -20281,9 +20409,9 @@ type PolicyScheduleV2EvaluationLevel string
 // PolicyScheduleV2RequirementType Example: contiguous
 type PolicyScheduleV2RequirementType string
 
-// PolicyV2 Example: {"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}
+// PolicyV2 Example: {"assignment_rules":{"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]},"conditions":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"created_at":"2021-08-17T13:28:57.801578Z","debrief":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"description":"All critical incidents must export follow-ups to an external issue tracker before 7 days has passed since closure.","expressions":[{"else_branch":{"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}},"label":"Team Slack channel","operations":[{"branches":{"branches":[{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"result":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}}],"returns":{"array":true,"type":"IncidentStatus"}},"cast":{"returns":{"array":true,"type":"IncidentStatus"}},"concatenate":{"reference":"1235","reference_label":"Teams"},"filter":{"condition_groups":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}]},"navigate":{"reference":"1235","reference_label":"Teams"},"operation_type":"navigate","parse":{"returns":{"array":true,"type":"IncidentStatus"},"source":"metadata.annotations[\"github.com/repo\"]"},"returns":{"array":true,"type":"IncidentStatus"}}],"reference":"abc123","returns":{"array":true,"type":"IncidentStatus"},"root_reference":"incident.status"}],"follow_up":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"id":"01G0J1EXE7AXZ2C93K61WBPYEH","name":"Critical incidents must export follow-ups","on_call_readiness":{"enforcement":"advisory","high_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}],"low_urgency":[{"max_delay_seconds":300,"method_types":["slack"]}]},"policy_type":"follow_up","post_mortem":{"due_date_config":{"applies_from":"2021-08-17T13:28:57.801578Z","calculation_timezone":"Europe/London","calculation_type":"weekdays","days":{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}},"incident_timestamp_id":"01FCNDV6P870EA6S7TK1DSYDG0"},"requirements":[{"conditions":[{"operation":{"label":"Lawrence Jones","value":"01FCQSP07Z74QMMYPDDGQB9FTG"},"param_bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"subject":{"label":"Incident Severity","reference":"incident.severity"}}]}],"run_on_private_incidents":false},"schedule":{"evaluation_level":"schedule","requirement_type":"contiguous"},"status":"enabled","updated_at":"2021-08-17T13:28:57.801578Z"}
 type PolicyV2 struct {
-	// AssignmentRules Example: {"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
+	// AssignmentRules Example: {"bindings":[{"array_value":[{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}],"value":{"label":"Lawrence Jones","literal":"SEV123","reference":"incident.severity"}}],"reminder_cadence_after":{"interval":"daily"},"reminder_cadence_before":{"interval":"daily"},"reminder_detected_date_offset_hours":[0,48],"reminder_due_date_offset_hours":[-24,0,24]}
 	AssignmentRules *PolicyAssignmentRulesV2 `json:"assignment_rules,omitempty"`
 
 	// Conditions Conditions which determine which resources are in scope for this policy
@@ -22744,8 +22872,13 @@ type StatusPageMaintenanceUpdateV2 struct {
 // Example: maintenance_scheduled
 type StatusPageMaintenanceUpdateV2MaintenanceStatus string
 
-// StatusPageMaintenanceV2 Example: {"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}
+// StatusPageMaintenanceV2 Example: {"automate_maintenance_status":true,"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}
 type StatusPageMaintenanceV2 struct {
+	// AutomateMaintenanceStatus Whether updates are published automatically, moving this maintenance window to in progress at its start time and to complete at its end time
+	//
+	// Example: true
+	AutomateMaintenanceStatus bool `json:"automate_maintenance_status"`
+
 	// ComponentMaintenancePeriods A list of time periods where components were under maintenance during this status page maintenance window
 	//
 	// Example: [{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}]
@@ -23006,12 +23139,17 @@ type StatusPagesCreateStatusPageIncidentUpdateResultV2 struct {
 	StatusPageIncidentUpdate *StatusPageIncidentUpdateV2 `json:"status_page_incident_update,omitempty"`
 }
 
-// StatusPagesCreateStatusPageMaintenancePayloadV2 Example: {"affected_component_ids":["01FCNDV6P870EA6S7TK1DSYDG2"],"end_at":"2025-01-28T12:00:00Z","idempotency_key":"maintenance-12345-abcde","maintenance_status":"maintenance_scheduled","message":"Planned maintenance has been scheduled to upgrade our infrastructure. We expect minimal disruption, but some features may be briefly unavailable.","name":"Routine infrastructure upgrade","notify_subscribers":true,"start_at":"2025-01-28T10:00:00Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
+// StatusPagesCreateStatusPageMaintenancePayloadV2 Example: {"affected_component_ids":["01FCNDV6P870EA6S7TK1DSYDG2"],"automate_maintenance_status":true,"end_at":"2025-01-28T12:00:00Z","idempotency_key":"maintenance-12345-abcde","maintenance_status":"maintenance_scheduled","message":"Planned maintenance has been scheduled to upgrade our infrastructure. We expect minimal disruption, but some features may be briefly unavailable.","name":"Routine infrastructure upgrade","notify_subscribers":true,"start_at":"2025-01-28T10:00:00Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0"}
 type StatusPagesCreateStatusPageMaintenancePayloadV2 struct {
 	// AffectedComponentIds An array of IDs of component affected by the maintenance window
 	//
 	// Example: ["01FCNDV6P870EA6S7TK1DSYDG2"]
 	AffectedComponentIds []string `json:"affected_component_ids"`
+
+	// AutomateMaintenanceStatus Whether to publish updates automatically, moving this maintenance window to in progress at start_at and to complete at end_at. Defaults to false, which means you publish those updates yourself. When notify_subscribers is true, the automated updates notify subscribers too. Publishing your own update that sets maintenance_status turns automation off.
+	//
+	// Example: true
+	AutomateMaintenanceStatus *bool `json:"automate_maintenance_status,omitempty"`
 
 	// EndAt The time the maintenance window ends
 	//
@@ -23059,9 +23197,9 @@ type StatusPagesCreateStatusPageMaintenancePayloadV2 struct {
 // Example: maintenance_scheduled
 type StatusPagesCreateStatusPageMaintenancePayloadV2MaintenanceStatus string
 
-// StatusPagesCreateStatusPageMaintenanceResultV2 Example: {"status_page_maintenance":{"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}}
+// StatusPagesCreateStatusPageMaintenanceResultV2 Example: {"status_page_maintenance":{"automate_maintenance_status":true,"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}}
 type StatusPagesCreateStatusPageMaintenanceResultV2 struct {
-	// StatusPageMaintenance Example: {"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}
+	// StatusPageMaintenance Example: {"automate_maintenance_status":true,"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}
 	StatusPageMaintenance *StatusPageMaintenanceV2 `json:"status_page_maintenance,omitempty"`
 }
 
@@ -23148,12 +23286,12 @@ type StatusPagesListStatusPageIncidentsResultV2 struct {
 	StatusPageIncidents []StatusPageIncidentV2 `json:"status_page_incidents"`
 }
 
-// StatusPagesListStatusPageMaintenancesResultV2 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"status_page_maintenances":[{"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}]}
+// StatusPagesListStatusPageMaintenancesResultV2 Example: {"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25},"status_page_maintenances":[{"automate_maintenance_status":true,"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}]}
 type StatusPagesListStatusPageMaintenancesResultV2 struct {
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 
-	// StatusPageMaintenances Example: [{"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}]
+	// StatusPageMaintenances Example: [{"automate_maintenance_status":true,"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}]
 	StatusPageMaintenances []StatusPageMaintenanceV2 `json:"status_page_maintenances"`
 }
 
@@ -23172,9 +23310,9 @@ type StatusPagesShowStatusPageIncidentResultV2 struct {
 	StatusPageIncident *StatusPageIncidentV2 `json:"status_page_incident,omitempty"`
 }
 
-// StatusPagesShowStatusPageMaintenanceResultV2 Example: {"status_page_maintenance":{"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}}
+// StatusPagesShowStatusPageMaintenanceResultV2 Example: {"status_page_maintenance":{"automate_maintenance_status":true,"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}}
 type StatusPagesShowStatusPageMaintenanceResultV2 struct {
-	// StatusPageMaintenance Example: {"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}
+	// StatusPageMaintenance Example: {"automate_maintenance_status":true,"component_maintenance_periods":[{"component_id":"01GW7P4ES31Q6V1ZQH321T0GJN","end_at":"2021-08-17T13:28:57.801578Z","start_at":"2021-08-17T13:28:57.801578Z"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","name":"Routine infrastructure upgrade","published_at":"2021-08-17T13:28:57.801578Z","status_page_id":"01FCNDV6P870EA6S7TK1DSYDG0","updates":[{"component_statuses":[{"component_id":"01FCNDV6P870EA6S7TK1DSYDG2","component_status":"operational"}],"id":"01FCNDV6P870EA6S7TK1DSYDG0","maintenance_status":"maintenance_scheduled","message":"abc123","published_at":"2021-08-17T13:28:57.801578Z","status_page_maintenance_id":"01FCNDV6P870EA6S7TK1DSYDG1"}]}
 	StatusPageMaintenance *StatusPageMaintenanceV2 `json:"status_page_maintenance,omitempty"`
 }
 
@@ -25853,6 +25991,12 @@ type IncidentRolesV2CreateJSONRequestBody = IncidentRolesCreatePayloadV2
 // IncidentRolesV2UpdateJSONRequestBody defines body for IncidentRolesV2Update for application/json ContentType.
 type IncidentRolesV2UpdateJSONRequestBody = IncidentRolesUpdatePayloadV2
 
+// IncidentTimelineItemsV2CreateJSONRequestBody defines body for IncidentTimelineItemsV2Create for application/json ContentType.
+type IncidentTimelineItemsV2CreateJSONRequestBody = IncidentTimelineItemsCreatePayloadV2
+
+// IncidentTimelineItemsV2UpdateJSONRequestBody defines body for IncidentTimelineItemsV2Update for application/json ContentType.
+type IncidentTimelineItemsV2UpdateJSONRequestBody = IncidentTimelineItemsUpdatePayloadV2
+
 // IncidentUpdatesV2CreateJSONRequestBody defines body for IncidentUpdatesV2Create for application/json ContentType.
 type IncidentUpdatesV2CreateJSONRequestBody = IncidentUpdatesCreatePayloadV2
 
@@ -28414,6 +28558,64 @@ type ClientInterface interface {
 	// Corresponds with GET /v2/incident_timeline_items (the `IncidentTimelineItemsV2List` operationId).
 	IncidentTimelineItemsV2List(ctx context.Context, params *IncidentTimelineItemsV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// IncidentTimelineItemsV2CreateWithBody Create Incident Timeline Items V2
+	//
+	// Add a custom item to an incident's timeline.
+	//
+	// Items created here are custom, so they carry no activity_log_id and their timestamp stays
+	// editable. Set it to when the thing actually happened rather than when you're telling us about
+	// it - a deploy you shipped an hour ago belongs an hour back on the timeline.
+	//
+	// Every request needs an idempotency_key. Retrying with a key we've already seen returns the
+	// item the first request created rather than writing a second one, so an automation that
+	// retries on a timeout doesn't leave a duplicate behind.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/incident_timeline_items (the `IncidentTimelineItemsV2Create` operationId).
+	IncidentTimelineItemsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentTimelineItemsV2Create Create Incident Timeline Items V2
+	//
+	// Add a custom item to an incident's timeline.
+	//
+	// Items created here are custom, so they carry no activity_log_id and their timestamp stays
+	// editable. Set it to when the thing actually happened rather than when you're telling us about
+	// it - a deploy you shipped an hour ago belongs an hour back on the timeline.
+	//
+	// Every request needs an idempotency_key. Retrying with a key we've already seen returns the
+	// item the first request created rather than writing a second one, so an automation that
+	// retries on a timeout doesn't leave a duplicate behind.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/incident_timeline_items (the `IncidentTimelineItemsV2Create` operationId).
+	IncidentTimelineItemsV2Create(ctx context.Context, body IncidentTimelineItemsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentTimelineItemsV2UpdateWithBody Update Incident Timeline Items V2
+	//
+	// Edit a timeline item.
+	//
+	// Fields you leave out are unchanged, and an empty description removes it. Timestamp can only
+	// be changed on a custom item: a promoted one follows the activity it came from.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v2/incident_timeline_items/{id} (the `IncidentTimelineItemsV2Update` operationId).
+	IncidentTimelineItemsV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// IncidentTimelineItemsV2Update Update Incident Timeline Items V2
+	//
+	// Edit a timeline item.
+	//
+	// Fields you leave out are unchanged, and an empty description removes it. Timestamp can only
+	// be changed on a custom item: a promoted one follows the activity it came from.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v2/incident_timeline_items/{id} (the `IncidentTimelineItemsV2Update` operationId).
+	IncidentTimelineItemsV2Update(ctx context.Context, id string, body IncidentTimelineItemsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// IncidentTimestampsV2List List Incident Timestamps V2
 	//
 	// List all incident timestamps for an organisation.
@@ -28682,6 +28884,18 @@ type ClientInterface interface {
 	// When using this endpoint, only fields that are provided will be edited (omitted fields
 	// will be ignored).
 	//
+	// The API key must have the scope corresponding to each property it changes:
+	//
+	// - `incidents.update_name` for the name
+	// - `incidents.update_summary` for the summary
+	// - `incidents.update_severity` for the severity
+	// - `incidents.update_status` for the status
+	// - `incidents.update_custom_fields` for custom fields
+	// - `incidents.update_timestamps` for timestamps
+	// - `incidents.update_role_assignments` for role assignments
+	// - `incident_calls.create` to set the call URL
+	// - `incident_calls.destroy` when replacing an existing call URL
+	//
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /v2/incidents/{id}/actions/edit (the `IncidentsV2Edit` operationId).
@@ -28695,6 +28909,18 @@ type ClientInterface interface {
 	//
 	// When using this endpoint, only fields that are provided will be edited (omitted fields
 	// will be ignored).
+	//
+	// The API key must have the scope corresponding to each property it changes:
+	//
+	// - `incidents.update_name` for the name
+	// - `incidents.update_summary` for the summary
+	// - `incidents.update_severity` for the severity
+	// - `incidents.update_status` for the status
+	// - `incidents.update_custom_fields` for custom fields
+	// - `incidents.update_timestamps` for timestamps
+	// - `incidents.update_role_assignments` for role assignments
+	// - `incident_calls.create` to set the call URL
+	// - `incident_calls.destroy` when replacing an existing call URL
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -35006,6 +35232,104 @@ func (c *Client) IncidentTimelineItemsV2List(ctx context.Context, params *Incide
 	return c.Client.Do(req)
 }
 
+// IncidentTimelineItemsV2CreateWithBody Create Incident Timeline Items V2
+//
+// Add a custom item to an incident's timeline.
+//
+// Items created here are custom, so they carry no activity_log_id and their timestamp stays
+// editable. Set it to when the thing actually happened rather than when you're telling us about
+// it - a deploy you shipped an hour ago belongs an hour back on the timeline.
+//
+// Every request needs an idempotency_key. Retrying with a key we've already seen returns the
+// item the first request created rather than writing a second one, so an automation that
+// retries on a timeout doesn't leave a duplicate behind.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/incident_timeline_items (the `IncidentTimelineItemsV2Create` operationId).
+func (c *Client) IncidentTimelineItemsV2CreateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentTimelineItemsV2CreateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentTimelineItemsV2Create Create Incident Timeline Items V2
+//
+// Add a custom item to an incident's timeline.
+//
+// Items created here are custom, so they carry no activity_log_id and their timestamp stays
+// editable. Set it to when the thing actually happened rather than when you're telling us about
+// it - a deploy you shipped an hour ago belongs an hour back on the timeline.
+//
+// Every request needs an idempotency_key. Retrying with a key we've already seen returns the
+// item the first request created rather than writing a second one, so an automation that
+// retries on a timeout doesn't leave a duplicate behind.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/incident_timeline_items (the `IncidentTimelineItemsV2Create` operationId).
+func (c *Client) IncidentTimelineItemsV2Create(ctx context.Context, body IncidentTimelineItemsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentTimelineItemsV2CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentTimelineItemsV2UpdateWithBody Update Incident Timeline Items V2
+//
+// Edit a timeline item.
+//
+// Fields you leave out are unchanged, and an empty description removes it. Timestamp can only
+// be changed on a custom item: a promoted one follows the activity it came from.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v2/incident_timeline_items/{id} (the `IncidentTimelineItemsV2Update` operationId).
+func (c *Client) IncidentTimelineItemsV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentTimelineItemsV2UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// IncidentTimelineItemsV2Update Update Incident Timeline Items V2
+//
+// Edit a timeline item.
+//
+// Fields you leave out are unchanged, and an empty description removes it. Timestamp can only
+// be changed on a custom item: a promoted one follows the activity it came from.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v2/incident_timeline_items/{id} (the `IncidentTimelineItemsV2Update` operationId).
+func (c *Client) IncidentTimelineItemsV2Update(ctx context.Context, id string, body IncidentTimelineItemsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewIncidentTimelineItemsV2UpdateRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // IncidentTimestampsV2List List Incident Timestamps V2
 //
 // List all incident timestamps for an organisation.
@@ -35362,6 +35686,18 @@ func (c *Client) IncidentsV2Show(ctx context.Context, id string, reqEditors ...R
 // When using this endpoint, only fields that are provided will be edited (omitted fields
 // will be ignored).
 //
+// The API key must have the scope corresponding to each property it changes:
+//
+// - `incidents.update_name` for the name
+// - `incidents.update_summary` for the summary
+// - `incidents.update_severity` for the severity
+// - `incidents.update_status` for the status
+// - `incidents.update_custom_fields` for custom fields
+// - `incidents.update_timestamps` for timestamps
+// - `incidents.update_role_assignments` for role assignments
+// - `incident_calls.create` to set the call URL
+// - `incident_calls.destroy` when replacing an existing call URL
+//
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /v2/incidents/{id}/actions/edit (the `IncidentsV2Edit` operationId).
@@ -35385,6 +35721,18 @@ func (c *Client) IncidentsV2EditWithBody(ctx context.Context, id string, content
 //
 // When using this endpoint, only fields that are provided will be edited (omitted fields
 // will be ignored).
+//
+// The API key must have the scope corresponding to each property it changes:
+//
+// - `incidents.update_name` for the name
+// - `incidents.update_summary` for the summary
+// - `incidents.update_severity` for the severity
+// - `incidents.update_status` for the status
+// - `incidents.update_custom_fields` for custom fields
+// - `incidents.update_timestamps` for timestamps
+// - `incidents.update_role_assignments` for role assignments
+// - `incident_calls.create` to set the call URL
+// - `incident_calls.destroy` when replacing an existing call URL
 //
 // Takes a body of the `application/json` content type.
 //
@@ -46006,6 +46354,93 @@ func NewIncidentTimelineItemsV2ListRequest(server string, params *IncidentTimeli
 	return req, nil
 }
 
+// NewIncidentTimelineItemsV2CreateRequest calls the generic IncidentTimelineItemsV2Create builder with application/json body
+func NewIncidentTimelineItemsV2CreateRequest(server string, body IncidentTimelineItemsV2CreateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewIncidentTimelineItemsV2CreateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewIncidentTimelineItemsV2CreateRequestWithBody constructs an http.Request for the IncidentTimelineItemsV2Create method, with any body, and a specified content type
+func NewIncidentTimelineItemsV2CreateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/incident_timeline_items")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewIncidentTimelineItemsV2UpdateRequest calls the generic IncidentTimelineItemsV2Update builder with application/json body
+func NewIncidentTimelineItemsV2UpdateRequest(server string, id string, body IncidentTimelineItemsV2UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewIncidentTimelineItemsV2UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewIncidentTimelineItemsV2UpdateRequestWithBody constructs an http.Request for the IncidentTimelineItemsV2Update method, with any body, and a specified content type
+func NewIncidentTimelineItemsV2UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/incident_timeline_items/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewIncidentTimestampsV2ListRequest constructs an http.Request for the IncidentTimestampsV2List method
 func NewIncidentTimestampsV2ListRequest(server string) (*http.Request, error) {
 	var err error
@@ -55161,6 +55596,64 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /v2/incident_timeline_items (the `IncidentTimelineItemsV2List` operationId).
 	IncidentTimelineItemsV2ListWithResponse(ctx context.Context, params *IncidentTimelineItemsV2ListParams, reqEditors ...RequestEditorFn) (*IncidentTimelineItemsV2ListResponse, error)
 
+	// IncidentTimelineItemsV2CreateWithBodyWithResponse Create Incident Timeline Items V2
+	//
+	// Add a custom item to an incident's timeline.
+	//
+	// Items created here are custom, so they carry no activity_log_id and their timestamp stays
+	// editable. Set it to when the thing actually happened rather than when you're telling us about
+	// it - a deploy you shipped an hour ago belongs an hour back on the timeline.
+	//
+	// Every request needs an idempotency_key. Retrying with a key we've already seen returns the
+	// item the first request created rather than writing a second one, so an automation that
+	// retries on a timeout doesn't leave a duplicate behind.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/incident_timeline_items (the `IncidentTimelineItemsV2Create` operationId).
+	IncidentTimelineItemsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentTimelineItemsV2CreateResponse, error)
+
+	// IncidentTimelineItemsV2CreateWithResponse Create Incident Timeline Items V2
+	//
+	// Add a custom item to an incident's timeline.
+	//
+	// Items created here are custom, so they carry no activity_log_id and their timestamp stays
+	// editable. Set it to when the thing actually happened rather than when you're telling us about
+	// it - a deploy you shipped an hour ago belongs an hour back on the timeline.
+	//
+	// Every request needs an idempotency_key. Retrying with a key we've already seen returns the
+	// item the first request created rather than writing a second one, so an automation that
+	// retries on a timeout doesn't leave a duplicate behind.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/incident_timeline_items (the `IncidentTimelineItemsV2Create` operationId).
+	IncidentTimelineItemsV2CreateWithResponse(ctx context.Context, body IncidentTimelineItemsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentTimelineItemsV2CreateResponse, error)
+
+	// IncidentTimelineItemsV2UpdateWithBodyWithResponse Update Incident Timeline Items V2
+	//
+	// Edit a timeline item.
+	//
+	// Fields you leave out are unchanged, and an empty description removes it. Timestamp can only
+	// be changed on a custom item: a promoted one follows the activity it came from.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v2/incident_timeline_items/{id} (the `IncidentTimelineItemsV2Update` operationId).
+	IncidentTimelineItemsV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentTimelineItemsV2UpdateResponse, error)
+
+	// IncidentTimelineItemsV2UpdateWithResponse Update Incident Timeline Items V2
+	//
+	// Edit a timeline item.
+	//
+	// Fields you leave out are unchanged, and an empty description removes it. Timestamp can only
+	// be changed on a custom item: a promoted one follows the activity it came from.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v2/incident_timeline_items/{id} (the `IncidentTimelineItemsV2Update` operationId).
+	IncidentTimelineItemsV2UpdateWithResponse(ctx context.Context, id string, body IncidentTimelineItemsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentTimelineItemsV2UpdateResponse, error)
+
 	// IncidentTimestampsV2ListWithResponse List Incident Timestamps V2
 	//
 	// List all incident timestamps for an organisation.
@@ -55439,6 +55932,18 @@ type ClientWithResponsesInterface interface {
 	// When using this endpoint, only fields that are provided will be edited (omitted fields
 	// will be ignored).
 	//
+	// The API key must have the scope corresponding to each property it changes:
+	//
+	// - `incidents.update_name` for the name
+	// - `incidents.update_summary` for the summary
+	// - `incidents.update_severity` for the severity
+	// - `incidents.update_status` for the status
+	// - `incidents.update_custom_fields` for custom fields
+	// - `incidents.update_timestamps` for timestamps
+	// - `incidents.update_role_assignments` for role assignments
+	// - `incident_calls.create` to set the call URL
+	// - `incident_calls.destroy` when replacing an existing call URL
+	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /v2/incidents/{id}/actions/edit (the `IncidentsV2Edit` operationId).
@@ -55452,6 +55957,18 @@ type ClientWithResponsesInterface interface {
 	//
 	// When using this endpoint, only fields that are provided will be edited (omitted fields
 	// will be ignored).
+	//
+	// The API key must have the scope corresponding to each property it changes:
+	//
+	// - `incidents.update_name` for the name
+	// - `incidents.update_summary` for the summary
+	// - `incidents.update_severity` for the severity
+	// - `incidents.update_status` for the status
+	// - `incidents.update_custom_fields` for custom fields
+	// - `incidents.update_timestamps` for timestamps
+	// - `incidents.update_role_assignments` for role assignments
+	// - `incident_calls.create` to set the call URL
+	// - `incident_calls.destroy` when replacing an existing call URL
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -77145,6 +77662,270 @@ func (r IncidentTimelineItemsV2ListResponse) ContentType() string {
 	return ""
 }
 
+type IncidentTimelineItemsV2CreateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *IncidentTimelineItemsCreateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON201() *IncidentTimelineItemsCreateResultV2 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r IncidentTimelineItemsV2CreateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r IncidentTimelineItemsV2CreateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentTimelineItemsV2CreateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentTimelineItemsV2CreateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r IncidentTimelineItemsV2CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type IncidentTimelineItemsV2UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *IncidentTimelineItemsUpdateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON200() *IncidentTimelineItemsUpdateResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r IncidentTimelineItemsV2UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r IncidentTimelineItemsV2UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r IncidentTimelineItemsV2UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r IncidentTimelineItemsV2UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r IncidentTimelineItemsV2UpdateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type IncidentTimestampsV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -98690,6 +99471,88 @@ func (c *ClientWithResponses) IncidentTimelineItemsV2ListWithResponse(ctx contex
 	return ParseIncidentTimelineItemsV2ListResponse(rsp)
 }
 
+// IncidentTimelineItemsV2CreateWithBodyWithResponse Create Incident Timeline Items V2
+//
+// Add a custom item to an incident's timeline.
+//
+// Items created here are custom, so they carry no activity_log_id and their timestamp stays
+// editable. Set it to when the thing actually happened rather than when you're telling us about
+// it - a deploy you shipped an hour ago belongs an hour back on the timeline.
+//
+// Every request needs an idempotency_key. Retrying with a key we've already seen returns the
+// item the first request created rather than writing a second one, so an automation that
+// retries on a timeout doesn't leave a duplicate behind.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/incident_timeline_items (the `IncidentTimelineItemsV2Create` operationId).
+func (c *ClientWithResponses) IncidentTimelineItemsV2CreateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentTimelineItemsV2CreateResponse, error) {
+	rsp, err := c.IncidentTimelineItemsV2CreateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentTimelineItemsV2CreateResponse(rsp)
+}
+
+// IncidentTimelineItemsV2CreateWithResponse Create Incident Timeline Items V2
+//
+// Add a custom item to an incident's timeline.
+//
+// Items created here are custom, so they carry no activity_log_id and their timestamp stays
+// editable. Set it to when the thing actually happened rather than when you're telling us about
+// it - a deploy you shipped an hour ago belongs an hour back on the timeline.
+//
+// Every request needs an idempotency_key. Retrying with a key we've already seen returns the
+// item the first request created rather than writing a second one, so an automation that
+// retries on a timeout doesn't leave a duplicate behind.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/incident_timeline_items (the `IncidentTimelineItemsV2Create` operationId).
+func (c *ClientWithResponses) IncidentTimelineItemsV2CreateWithResponse(ctx context.Context, body IncidentTimelineItemsV2CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentTimelineItemsV2CreateResponse, error) {
+	rsp, err := c.IncidentTimelineItemsV2Create(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentTimelineItemsV2CreateResponse(rsp)
+}
+
+// IncidentTimelineItemsV2UpdateWithBodyWithResponse Update Incident Timeline Items V2
+//
+// Edit a timeline item.
+//
+// Fields you leave out are unchanged, and an empty description removes it. Timestamp can only
+// be changed on a custom item: a promoted one follows the activity it came from.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v2/incident_timeline_items/{id} (the `IncidentTimelineItemsV2Update` operationId).
+func (c *ClientWithResponses) IncidentTimelineItemsV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*IncidentTimelineItemsV2UpdateResponse, error) {
+	rsp, err := c.IncidentTimelineItemsV2UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentTimelineItemsV2UpdateResponse(rsp)
+}
+
+// IncidentTimelineItemsV2UpdateWithResponse Update Incident Timeline Items V2
+//
+// Edit a timeline item.
+//
+// Fields you leave out are unchanged, and an empty description removes it. Timestamp can only
+// be changed on a custom item: a promoted one follows the activity it came from.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v2/incident_timeline_items/{id} (the `IncidentTimelineItemsV2Update` operationId).
+func (c *ClientWithResponses) IncidentTimelineItemsV2UpdateWithResponse(ctx context.Context, id string, body IncidentTimelineItemsV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*IncidentTimelineItemsV2UpdateResponse, error) {
+	rsp, err := c.IncidentTimelineItemsV2Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseIncidentTimelineItemsV2UpdateResponse(rsp)
+}
+
 // IncidentTimestampsV2ListWithResponse List Incident Timestamps V2
 //
 // List all incident timestamps for an organisation.
@@ -99020,6 +99883,18 @@ func (c *ClientWithResponses) IncidentsV2ShowWithResponse(ctx context.Context, i
 // When using this endpoint, only fields that are provided will be edited (omitted fields
 // will be ignored).
 //
+// The API key must have the scope corresponding to each property it changes:
+//
+// - `incidents.update_name` for the name
+// - `incidents.update_summary` for the summary
+// - `incidents.update_severity` for the severity
+// - `incidents.update_status` for the status
+// - `incidents.update_custom_fields` for custom fields
+// - `incidents.update_timestamps` for timestamps
+// - `incidents.update_role_assignments` for role assignments
+// - `incident_calls.create` to set the call URL
+// - `incident_calls.destroy` when replacing an existing call URL
+//
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /v2/incidents/{id}/actions/edit (the `IncidentsV2Edit` operationId).
@@ -99039,6 +99914,18 @@ func (c *ClientWithResponses) IncidentsV2EditWithBodyWithResponse(ctx context.Co
 //
 // When using this endpoint, only fields that are provided will be edited (omitted fields
 // will be ignored).
+//
+// The API key must have the scope corresponding to each property it changes:
+//
+// - `incidents.update_name` for the name
+// - `incidents.update_summary` for the summary
+// - `incidents.update_severity` for the severity
+// - `incidents.update_status` for the status
+// - `incidents.update_custom_fields` for custom fields
+// - `incidents.update_timestamps` for timestamps
+// - `incidents.update_role_assignments` for role assignments
+// - `incident_calls.create` to set the call URL
+// - `incident_calls.destroy` when replacing an existing call URL
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -119571,6 +120458,240 @@ func ParseIncidentTimelineItemsV2ListResponse(rsp *http.Response) (*IncidentTime
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest IncidentTimelineItemsListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIncidentTimelineItemsV2CreateResponse parses an HTTP response from a IncidentTimelineItemsV2CreateWithResponse call
+func ParseIncidentTimelineItemsV2CreateResponse(rsp *http.Response) (*IncidentTimelineItemsV2CreateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentTimelineItemsV2CreateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest IncidentTimelineItemsCreateResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseIncidentTimelineItemsV2UpdateResponse parses an HTTP response from a IncidentTimelineItemsV2UpdateWithResponse call
+func ParseIncidentTimelineItemsV2UpdateResponse(rsp *http.Response) (*IncidentTimelineItemsV2UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &IncidentTimelineItemsV2UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest IncidentTimelineItemsUpdateResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

@@ -76,7 +76,7 @@ func (d *IncidentAlertSourcesDataSource) Read(ctx context.Context, req datasourc
 	// Convert filtered alert sources to the model
 	var alertSources []IncidentAlertSourcesDataSourceItemModel
 	for _, source := range filteredSources {
-		alertSources = append(alertSources, *d.buildItemModel(source))
+		alertSources = append(alertSources, *alertSourceDataSourceItemFromAPI(source))
 	}
 
 	modelResp := IncidentAlertSourcesDataSourceModel{
@@ -86,7 +86,7 @@ func (d *IncidentAlertSourcesDataSource) Read(ctx context.Context, req datasourc
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
 }
 
-func (d *IncidentAlertSourcesDataSource) buildItemModel(source client.AlertSourceV2) *IncidentAlertSourcesDataSourceItemModel {
+func alertSourceDataSourceItemFromAPI(source client.AlertSourceV2) *IncidentAlertSourcesDataSourceItemModel {
 	var emailAddress *string
 	if source.EmailOptions != nil {
 		emailAddress = &source.EmailOptions.EmailAddress
@@ -116,6 +116,110 @@ func (d *IncidentAlertSourcesDataSource) buildItemModel(source client.AlertSourc
 	}
 }
 
+// alertSourceDataSourceItemAttributes is the schema for a single alert source as returned
+// by the API. id is Computed here so the list data source can use it as-is; the singular
+// data source marks id Required instead.
+func alertSourceDataSourceItemAttributes() map[string]schema.Attribute {
+	return map[string]schema.Attribute{
+		"id": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("AlertSourceV2", "id"),
+		},
+		"name": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("AlertSourceV2", "name"),
+		},
+		"source_type": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: EnumValuesDescription("AlertSourceV2", "source_type"),
+		},
+		"secret_token": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("AlertSourceV2", "secret_token"),
+			Sensitive:           true,
+		},
+		"alert_events_url": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("AlertSourceV2", "alert_events_url"),
+		},
+		"template": schema.SingleNestedAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("AlertSourceV2", "template"),
+			Attributes: map[string]schema.Attribute{
+				"expressions": models.ExpressionsDataSourceAttribute(),
+				"title": schema.SingleNestedAttribute{
+					Computed:            true,
+					MarkdownDescription: apischema.Docstring("AlertTemplatePayloadV2", "title"),
+					Attributes:          models.ParamBindingValueDataSourceAttributes(),
+				},
+				"description": schema.SingleNestedAttribute{
+					Computed:            true,
+					MarkdownDescription: apischema.Docstring("AlertTemplatePayloadV2", "description"),
+					Attributes:          models.ParamBindingValueDataSourceAttributes(),
+				},
+				"attributes": schema.SetNestedAttribute{
+					Computed:            true,
+					MarkdownDescription: apischema.Docstring("AlertTemplatePayloadV2", "attributes"),
+					NestedObject: schema.NestedAttributeObject{
+						Attributes: map[string]schema.Attribute{
+							"alert_attribute_id": schema.StringAttribute{
+								Computed:            true,
+								MarkdownDescription: apischema.Docstring("AlertTemplateAttributePayloadV2", "alert_attribute_id"),
+							},
+							"binding": schema.SingleNestedAttribute{
+								Computed:            true,
+								MarkdownDescription: apischema.Docstring("AlertTemplateAttributePayloadV2", "binding"),
+								Attributes: map[string]schema.Attribute{
+									"array_value": schema.ListNestedAttribute{
+										Computed:            true,
+										MarkdownDescription: "The array of literal or reference parameter values",
+										NestedObject: schema.NestedAttributeObject{
+											Attributes: models.ParamBindingValueDataSourceAttributes(),
+										},
+									},
+									"value": schema.SingleNestedAttribute{
+										Computed:            true,
+										MarkdownDescription: "The literal or reference parameter value",
+										Attributes:          models.ParamBindingValueDataSourceAttributes(),
+									},
+									"merge_strategy": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: EnumValuesDescription("AlertTemplateAttributeBindingV2", "merge_strategy"),
+									},
+								},
+							},
+						},
+					},
+				},
+				"is_private": schema.BoolAttribute{
+					Computed:            true,
+					MarkdownDescription: apischema.Docstring("AlertTemplateV2", "is_private"),
+				},
+				"visible_to_teams": schema.SingleNestedAttribute{
+					Computed:            true,
+					MarkdownDescription: apischema.Docstring("AlertTemplateV2", "visible_to_teams"),
+					Attributes:          models.ParamBindingDataSourceAttributes(),
+				},
+			},
+		},
+		"jira_options": schema.SingleNestedAttribute{
+			MarkdownDescription: apischema.Docstring("AlertSourceV2", "jira_options"),
+			Computed:            true,
+			Attributes: map[string]schema.Attribute{
+				"project_ids": schema.ListAttribute{
+					Computed:            true,
+					ElementType:         types.StringType,
+					MarkdownDescription: apischema.Docstring("AlertSourceJiraOptionsV2", "project_ids"),
+				},
+			},
+		},
+		"email_address": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsV2", "email_address"),
+		},
+	}
+}
+
 func (d *IncidentAlertSourcesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Alert Sources V2"),
@@ -130,104 +234,7 @@ func (d *IncidentAlertSourcesDataSource) Schema(ctx context.Context, req datasou
 				Computed:            true,
 				MarkdownDescription: "List of alert sources matching the specified criteria. If no filters are provided, all alert sources are returned.",
 				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"id": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("AlertSourceV2", "id"),
-						},
-						"name": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("AlertSourceV2", "name"),
-						},
-						"source_type": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: EnumValuesDescription("AlertSourceV2", "source_type"),
-						},
-						"secret_token": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("AlertSourceV2", "secret_token"),
-							Sensitive:           true,
-						},
-						"alert_events_url": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("AlertSourceV2", "alert_events_url"),
-						},
-						"template": schema.SingleNestedAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("AlertSourceV2", "template"),
-							Attributes: map[string]schema.Attribute{
-								"expressions": models.ExpressionsDataSourceAttribute(),
-								"title": schema.SingleNestedAttribute{
-									Computed:            true,
-									MarkdownDescription: apischema.Docstring("AlertTemplatePayloadV2", "title"),
-									Attributes:          models.ParamBindingValueDataSourceAttributes(),
-								},
-								"description": schema.SingleNestedAttribute{
-									Computed:            true,
-									MarkdownDescription: apischema.Docstring("AlertTemplatePayloadV2", "description"),
-									Attributes:          models.ParamBindingValueDataSourceAttributes(),
-								},
-								"attributes": schema.SetNestedAttribute{
-									Computed:            true,
-									MarkdownDescription: apischema.Docstring("AlertTemplatePayloadV2", "attributes"),
-									NestedObject: schema.NestedAttributeObject{
-										Attributes: map[string]schema.Attribute{
-											"alert_attribute_id": schema.StringAttribute{
-												Computed:            true,
-												MarkdownDescription: apischema.Docstring("AlertTemplateAttributePayloadV2", "alert_attribute_id"),
-											},
-											"binding": schema.SingleNestedAttribute{
-												Computed:            true,
-												MarkdownDescription: apischema.Docstring("AlertTemplateAttributePayloadV2", "binding"),
-												Attributes: map[string]schema.Attribute{
-													"array_value": schema.ListNestedAttribute{
-														Computed:            true,
-														MarkdownDescription: "The array of literal or reference parameter values",
-														NestedObject: schema.NestedAttributeObject{
-															Attributes: models.ParamBindingValueDataSourceAttributes(),
-														},
-													},
-													"value": schema.SingleNestedAttribute{
-														Computed:            true,
-														MarkdownDescription: "The literal or reference parameter value",
-														Attributes:          models.ParamBindingValueDataSourceAttributes(),
-													},
-													"merge_strategy": schema.StringAttribute{
-														Computed:            true,
-														MarkdownDescription: EnumValuesDescription("AlertTemplateAttributeBindingV2", "merge_strategy"),
-													},
-												},
-											},
-										},
-									},
-								},
-								"is_private": schema.BoolAttribute{
-									Computed:            true,
-									MarkdownDescription: apischema.Docstring("AlertTemplateV2", "is_private"),
-								},
-								"visible_to_teams": schema.SingleNestedAttribute{
-									Computed:            true,
-									MarkdownDescription: apischema.Docstring("AlertTemplateV2", "visible_to_teams"),
-									Attributes:          models.ParamBindingDataSourceAttributes(),
-								},
-							},
-						},
-						"jira_options": schema.SingleNestedAttribute{
-							MarkdownDescription: apischema.Docstring("AlertSourceV2", "jira_options"),
-							Computed:            true,
-							Attributes: map[string]schema.Attribute{
-								"project_ids": schema.ListAttribute{
-									Computed:            true,
-									ElementType:         types.StringType,
-									MarkdownDescription: apischema.Docstring("AlertSourceJiraOptionsV2", "project_ids"),
-								},
-							},
-						},
-						"email_address": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsV2", "email_address"),
-						},
-					},
+					Attributes: alertSourceDataSourceItemAttributes(),
 				},
 			},
 		},

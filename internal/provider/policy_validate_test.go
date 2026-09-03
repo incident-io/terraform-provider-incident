@@ -60,6 +60,8 @@ func TestPolicyModelMatchesSchema(t *testing.T) {
 		AssignmentRules: &incidentPolicyAssignmentRules{
 			Bindings:                   models.IncidentEngineParamBindings{binding},
 			ReminderDueDateOffsetHours: []types.Int64{types.Int64Value(-24)},
+			ReminderCadenceBefore:      &incidentPolicyReminderCadence{Interval: types.StringValue("weekly")},
+			ReminderCadenceAfter:       &incidentPolicyReminderCadence{Interval: types.StringValue("daily")},
 		},
 		PostMortem: &incidentPolicyIncidentConfig{
 			Requirements:          models.IncidentEngineConditionGroups{},
