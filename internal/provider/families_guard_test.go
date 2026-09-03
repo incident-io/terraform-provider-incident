@@ -19,7 +19,7 @@ import (
 // So check it here, by reading the package's own source. This needs no API credentials and
 // runs as an ordinary unit test, which is the point: it fails on the pull request that adds
 // the test, rather than in whichever unrelated acceptance test it later collides with.
-func TestAcceptanceFamiliesCoverEveryTest(t *testing.T) {
+func TestFamiliesCoverEveryAcceptanceTest(t *testing.T) {
 	declared, referenced, topLevel := parseAcceptanceTests(t)
 
 	for _, name := range topLevel {

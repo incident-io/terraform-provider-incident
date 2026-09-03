@@ -86,21 +86,29 @@ func TestAcceptanceAlerts(t *testing.T) {
 	})
 }
 
-// Catalog entries are upserted by external ID, so two tests naming the same one adopt each
-// other's entry rather than creating their own.
-func TestAcceptanceCatalogEntries(t *testing.T) {
+// Types and entries are one family, not two. Entries are upserted by external ID, so two
+// tests naming the same one adopt each other's entry rather than creating their own. And
+// generateTypeName returns a single value for the whole run, which every catalog test builds
+// its type from, so any two of them racing hit the API's uniqueness check on type_name.
+func TestAcceptanceCatalog(t *testing.T) {
 	runFamily(t, map[string]func(*testing.T){
-		"IncidentCatalogEntriesDataSource":                       accIncidentCatalogEntriesDataSource,
-		"IncidentCatalogEntriesDataSource_Empty":                 accIncidentCatalogEntriesDataSourceEmpty,
-		"IncidentCatalogEntriesDataSource_WithAliases":           accIncidentCatalogEntriesDataSourceWithAliases,
-		"IncidentCatalogEntriesResource":                         accIncidentCatalogEntriesResource,
-		"IncidentCatalogEntriesResourceWithManagedAttributes":    accIncidentCatalogEntriesResourceWithManagedAttributes,
-		"IncidentCatalogEntryDataSource":                         accIncidentCatalogEntryDataSource,
-		"IncidentCatalogEntryResource":                           accIncidentCatalogEntryResource,
-		"IncidentCatalogEntryResourceManagedAttributesDestroy":   accIncidentCatalogEntryResourceManagedAttributesDestroy,
-		"IncidentCatalogEntryResourceWithAlias":                  accIncidentCatalogEntryResourceWithAlias,
-		"IncidentCatalogEntryResourceWithEmptyManagedAttributes": accIncidentCatalogEntryResourceWithEmptyManagedAttributes,
-		"IncidentCatalogEntryResourceWithManagedAttributes":      accIncidentCatalogEntryResourceWithManagedAttributes,
+		"IncidentCatalogTypeAttributeDataSource":                     accIncidentCatalogTypeAttributeDataSource,
+		"IncidentCatalogTypeAttributeResource":                       accIncidentCatalogTypeAttributeResource,
+		"IncidentCatalogTypeAttributeResourceImportMissingAttribute": accIncidentCatalogTypeAttributeResourceImportMissingAttribute,
+		"IncidentCatalogTypeDataSource":                              accIncidentCatalogTypeDataSource,
+		"IncidentCatalogTypeResource":                                accIncidentCatalogTypeResource,
+		"IncidentCatalogTypeResourceOwningTeams":                     accIncidentCatalogTypeResourceOwningTeams,
+		"IncidentCatalogEntriesDataSource":                           accIncidentCatalogEntriesDataSource,
+		"IncidentCatalogEntriesDataSource_Empty":                     accIncidentCatalogEntriesDataSourceEmpty,
+		"IncidentCatalogEntriesDataSource_WithAliases":               accIncidentCatalogEntriesDataSourceWithAliases,
+		"IncidentCatalogEntriesResource":                             accIncidentCatalogEntriesResource,
+		"IncidentCatalogEntriesResourceWithManagedAttributes":        accIncidentCatalogEntriesResourceWithManagedAttributes,
+		"IncidentCatalogEntryDataSource":                             accIncidentCatalogEntryDataSource,
+		"IncidentCatalogEntryResource":                               accIncidentCatalogEntryResource,
+		"IncidentCatalogEntryResourceManagedAttributesDestroy":       accIncidentCatalogEntryResourceManagedAttributesDestroy,
+		"IncidentCatalogEntryResourceWithAlias":                      accIncidentCatalogEntryResourceWithAlias,
+		"IncidentCatalogEntryResourceWithEmptyManagedAttributes":     accIncidentCatalogEntryResourceWithEmptyManagedAttributes,
+		"IncidentCatalogEntryResourceWithManagedAttributes":          accIncidentCatalogEntryResourceWithManagedAttributes,
 	})
 }
 
@@ -147,17 +155,6 @@ func TestAcceptanceCustomFields(t *testing.T) {
 		"IncidentCustomFieldResource_BothFilters":   accIncidentCustomFieldResourceBothFilters,
 		"IncidentCustomFieldResource_CatalogBacked": accIncidentCustomFieldResourceCatalogBacked,
 		"IncidentCustomFieldResource_FieldTypes":    accIncidentCustomFieldResourceFieldTypes,
-	})
-}
-
-func TestAcceptanceCatalogTypes(t *testing.T) {
-	runFamily(t, map[string]func(*testing.T){
-		"IncidentCatalogTypeAttributeDataSource":                     accIncidentCatalogTypeAttributeDataSource,
-		"IncidentCatalogTypeAttributeResource":                       accIncidentCatalogTypeAttributeResource,
-		"IncidentCatalogTypeAttributeResourceImportMissingAttribute": accIncidentCatalogTypeAttributeResourceImportMissingAttribute,
-		"IncidentCatalogTypeDataSource":                              accIncidentCatalogTypeDataSource,
-		"IncidentCatalogTypeResource":                                accIncidentCatalogTypeResource,
-		"IncidentCatalogTypeResourceOwningTeams":                     accIncidentCatalogTypeResourceOwningTeams,
 	})
 }
 
