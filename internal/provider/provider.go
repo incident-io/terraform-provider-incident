@@ -184,6 +184,7 @@ func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.
 		NewIncidentStatusDataSource,
 		NewIncidentTimestampDataSource,
 		NewIncidentAlertAttributeDataSource,
+		NewIncidentAlertSourceDataSource,
 		NewIncidentAlertSourcesDataSource,
 		NewIncidentScheduleDataSource,
 		NewIncidentScheduleBetaDataSource,
