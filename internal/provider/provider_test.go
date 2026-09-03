@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"sync"
 	"testing"
 	"text/template"
 
@@ -64,21 +65,35 @@ var testAccProtoV6ProviderFactories = map[string]func() (tfprotov6.ProviderServe
 	"incident": providerserver.NewProtocol6WithError(New("test")()),
 }
 
+// testAccPreCheck skips the test when there are no API credentials, and otherwise makes
+// testClient ready for the checks and cleanup that talk to the API directly.
+//
+// Every acceptance test runs this from its PreCheck, so the client is built exactly once
+// rather than reassigned each time: tests run in parallel, and a plain assignment here
+// would be a write race between them. Reads of testClient after this returns see the
+// built client, because sync.Once establishes that ordering.
 func testAccPreCheck(t *testing.T) {
-	if os.Getenv("INCIDENT_API_KEY") == "" {
+	apiKey := os.Getenv("INCIDENT_API_KEY")
+	if apiKey == "" {
 		t.Skip("No INCIDENT_API_KEY environment variable set, skipping")
-	} else {
-		apiKey := os.Getenv("INCIDENT_API_KEY")
+	}
+
+	testClientOnce.Do(func() {
 		endpoint := os.Getenv("INCIDENT_ENDPOINT")
 		if endpoint == "" {
 			endpoint = "https://api.incident.io"
 		}
-		var err error
-		testClient, err = client.New(context.Background(), apiKey, endpoint, "test")
-		if err != nil {
-			t.Fatalf("Error creating client: %s", err)
-		}
+
+		testClient, testClientErr = client.New(context.Background(), apiKey, endpoint, "test")
+	})
+
+	if testClientErr != nil {
+		t.Fatalf("Error creating client: %s", testClientErr)
 	}
 }
 
-var testClient *client.ClientWithResponses
+var (
+	testClientOnce sync.Once
+	testClient     *client.ClientWithResponses
+	testClientErr  error
+)

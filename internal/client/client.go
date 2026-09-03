@@ -22,8 +22,12 @@ func New(ctx context.Context, apiKey, apiEndpoint, version string, opts ...Clien
 
 	retryClient := retryablehttp.NewClient()
 	retryClient.RetryMax = maxRetries
-	retryClient.Backoff = attentiveBackoff
 
+	// We deliberately keep retryablehttp's DefaultBackoff. It already honours Retry-After on
+	// a 429 in both the forms RFC 7231 allows — delay-seconds and HTTP-date — and falls back
+	// to exponential backoff when the header is absent. We used to override it with a version
+	// that parsed the header as an HTTP-date only, so a delay-seconds value never parsed and
+	// every rate-limited request waited a fixed ten seconds instead of the delay it was given.
 	base := retryClient.StandardClient()
 
 	// The generated client won't turn validation errors into actual errors, so we do this
@@ -80,33 +84,6 @@ func New(ctx context.Context, apiKey, apiEndpoint, version string, opts ...Clien
 const (
 	maxRetries = 10
 )
-
-func attentiveBackoff(minDuration, maxDuration time.Duration, attemptNum int, resp *http.Response) time.Duration {
-	// Retry for rate limits and server errors.
-	if resp != nil && resp.StatusCode == http.StatusTooManyRequests {
-		// Check for a 'Retry-After' header.
-		retryAfter := resp.Header.Get("Retry-After")
-		if retryAfter != "" {
-			retryAfterDate, err := time.Parse(time.RFC1123, retryAfter)
-			if err != nil {
-				// If we can't parse the Retry-After, lets just wait for 10 seconds
-				return 10 * time.Second
-			}
-
-			timeToWait := time.Until(retryAfterDate)
-
-			if timeToWait < 1*time.Second {
-				// by default lets back off at least 1 second
-				return 1 * time.Second
-			}
-
-			return timeToWait
-		}
-
-	}
-	// otherwise use the default backoff
-	return retryablehttp.DefaultBackoff(minDuration, maxDuration, attemptNum, resp)
-}
 
 // WithReadOnly restricts the client to GET requests only, useful when creating a client
 // for the purpose of dry-running.
