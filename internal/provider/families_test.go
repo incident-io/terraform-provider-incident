@@ -170,6 +170,8 @@ func TestAcceptanceSchedules(t *testing.T) {
 		"IncidentScheduleResourceInvalidTimestamp":          accIncidentScheduleResourceInvalidTimestamp,
 		"IncidentScheduleResourceNonCanonicalTimestamps":    accIncidentScheduleResourceNonCanonicalTimestamps,
 		"IncidentScheduleResourceRotationUpdates":           accIncidentScheduleResourceRotationUpdates,
+		"IncidentScheduleReplicaResource":                   accIncidentScheduleReplicaResource,
+		"IncidentScheduleReplicaResource_InvalidImportID":   accIncidentScheduleReplicaResourceInvalidImportID,
 		"IncidentScheduleResourceTimezoneUpdate":            accIncidentScheduleResourceTimezoneUpdate,
 		"IncidentScheduleSyncRuleResource":                  accIncidentScheduleSyncRuleResource,
 		"IncidentScheduleSyncRuleResource_InvalidImportID":  accIncidentScheduleSyncRuleResourceInvalidImportID,
