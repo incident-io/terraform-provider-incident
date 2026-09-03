@@ -95,6 +95,15 @@ type incidentPolicyAssignmentRules struct {
 	Bindings                        models.IncidentEngineParamBindings `tfsdk:"bindings"`
 	ReminderDueDateOffsetHours      []types.Int64                      `tfsdk:"reminder_due_date_offset_hours"`
 	ReminderDetectedDateOffsetHours []types.Int64                      `tfsdk:"reminder_detected_date_offset_hours"`
+	ReminderCadenceBefore           *incidentPolicyReminderCadence     `tfsdk:"reminder_cadence_before"`
+	ReminderCadenceAfter            *incidentPolicyReminderCadence     `tfsdk:"reminder_cadence_after"`
+}
+
+// incidentPolicyReminderCadence is a recurring reminder, which repeats once per interval
+// until the violation is resolved. Direction is which field holds it rather than a value on
+// it, the way the sign of a one-off offset says before or after.
+type incidentPolicyReminderCadence struct {
+	Interval types.String `tfsdk:"interval"`
 }
 
 type incidentPolicyIncidentConfig struct {
@@ -214,6 +223,8 @@ so carries no block.
 						ElementType:         types.Int64Type,
 						Optional:            true,
 					},
+					"reminder_cadence_before": policyReminderCadenceAttribute("reminder_cadence_before"),
+					"reminder_cadence_after":  policyReminderCadenceAttribute("reminder_cadence_after"),
 				},
 			},
 
@@ -353,6 +364,19 @@ func policyIncidentConfigAttribute(name, definition string) schema.SingleNestedA
 				MarkdownDescription: apischema.Docstring(definition, "run_on_private_incidents"),
 				Optional:            true,
 				Computed:            true,
+			},
+		},
+	}
+}
+
+func policyReminderCadenceAttribute(field string) schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		MarkdownDescription: apischema.Docstring("PolicyAssignmentRulesV2", field),
+		Optional:            true,
+		Attributes: map[string]schema.Attribute{
+			"interval": schema.StringAttribute{
+				MarkdownDescription: apischema.EnumValuesDescription("PolicyReminderCadenceV2", "interval"),
+				Required:            true,
 			},
 		},
 	}
@@ -636,8 +660,28 @@ func assignmentRulesFromAPI(rules client.PolicyAssignmentRulesV2) *incidentPolic
 		out.ReminderDetectedDateOffsetHours = lo.Map(*rules.ReminderDetectedDateOffsetHours,
 			func(hours int64, _ int) types.Int64 { return types.Int64Value(hours) })
 	}
+	out.ReminderCadenceBefore = reminderCadenceFromAPI(rules.ReminderCadenceBefore)
+	out.ReminderCadenceAfter = reminderCadenceFromAPI(rules.ReminderCadenceAfter)
 
 	return out
+}
+
+func reminderCadenceFromAPI(cadence *client.PolicyReminderCadenceV2) *incidentPolicyReminderCadence {
+	if cadence == nil {
+		return nil
+	}
+
+	return &incidentPolicyReminderCadence{Interval: types.StringValue(string(cadence.Interval))}
+}
+
+func (cadence *incidentPolicyReminderCadence) toPayload() *client.PolicyReminderCadenceV2 {
+	if cadence == nil {
+		return nil
+	}
+
+	return &client.PolicyReminderCadenceV2{
+		Interval: client.PolicyReminderCadenceV2Interval(cadence.Interval.ValueString()),
+	}
 }
 
 func incidentConfigFromAPI(
@@ -714,6 +758,8 @@ func (rules *incidentPolicyAssignmentRules) toPayload() *client.PolicyAssignment
 		out.ReminderDetectedDateOffsetHours = lo.ToPtr(lo.Map(rules.ReminderDetectedDateOffsetHours,
 			func(hours types.Int64, _ int) int64 { return hours.ValueInt64() }))
 	}
+	out.ReminderCadenceBefore = rules.ReminderCadenceBefore.toPayload()
+	out.ReminderCadenceAfter = rules.ReminderCadenceAfter.toPayload()
 
 	return out
 }

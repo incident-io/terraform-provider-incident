@@ -117,9 +117,17 @@ resource "incident_policy" "follow_ups" {
 
   # Offsets are in whole days, so use multiples of 24 hours: a nudge the day
   # before, and a chase the day after.
+  #
+  # The two cadences add recurring reminders on top of those one-offs, repeating
+  # until the follow-up is dealt with. Which field holds the cadence is what says
+  # before or after, the way the sign of an offset above does.
   assignment_rules = {
     bindings                       = [{ value_literal = data.incident_user.followups_owner.id }]
     reminder_due_date_offset_hours = [-24, 24]
+
+    # Chase weekly in the run-up to the due date, then daily once it's overdue.
+    reminder_cadence_before = { interval = "weekly" }
+    reminder_cadence_after  = { interval = "daily" }
   }
 
   follow_up = {
@@ -389,6 +397,8 @@ Required:
 
 Optional:
 
+- `reminder_cadence_after` (Attributes) A recurring reminder, which repeats once per interval until the violation is resolved. (see [below for nested schema](#nestedatt--assignment_rules--reminder_cadence_after))
+- `reminder_cadence_before` (Attributes) A recurring reminder, which repeats once per interval until the violation is resolved. (see [below for nested schema](#nestedatt--assignment_rules--reminder_cadence_before))
 - `reminder_detected_date_offset_hours` (List of Number) List of hours relative to when the violation was detected to remind the assignee. Non-negative only; 0 means immediately on detection. Only valid for policy types that support detection reminders (e.g. schedule).
 
 <a id="nestedatt--assignment_rules--bindings"></a>
@@ -420,6 +430,22 @@ Optional:
 - `literal` (String) If set, this is the literal value of the step parameter
 - `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
 
+
+
+<a id="nestedatt--assignment_rules--reminder_cadence_after"></a>
+### Nested Schema for `assignment_rules.reminder_cadence_after`
+
+Required:
+
+- `interval` (String) How often to send the reminder, stepping in fixed durations from the due date. Possible values are: `daily`, `weekly`.
+
+
+<a id="nestedatt--assignment_rules--reminder_cadence_before"></a>
+### Nested Schema for `assignment_rules.reminder_cadence_before`
+
+Required:
+
+- `interval` (String) How often to send the reminder, stepping in fixed durations from the due date. Possible values are: `daily`, `weekly`.
 
 
 
