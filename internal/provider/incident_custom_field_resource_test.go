@@ -46,6 +46,38 @@ func TestAccIncidentCustomFieldResource(t *testing.T) {
 	})
 }
 
+// TestAccIncidentCustomFieldResource_FieldTypes covers each field_type the API
+// accepts, matching the split examples in examples/resources/incident_custom_field.
+func TestAccIncidentCustomFieldResource_FieldTypes(t *testing.T) {
+	for _, fieldType := range []string{"single_select", "multi_select", "text", "link", "numeric"} {
+		t.Run(fieldType, func(t *testing.T) {
+			resource.Test(t, resource.TestCase{
+				PreCheck:                 func() { testAccPreCheck(t) },
+				ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+				Steps: []resource.TestStep{
+					{
+						Config: testAccIncidentCustomFieldResourceConfig(customFieldTemplateParams{
+							Name:      fieldType,
+							FieldType: fieldType,
+						}),
+						Check: resource.ComposeAggregateTestCheckFunc(
+							resource.TestCheckResourceAttr(
+								"incident_custom_field.example", "name", StableSuffix(fieldType)),
+							resource.TestCheckResourceAttr(
+								"incident_custom_field.example", "field_type", fieldType),
+						),
+					},
+					{
+						ResourceName:      "incident_custom_field.example",
+						ImportState:       true,
+						ImportStateVerify: true,
+					},
+				},
+			})
+		})
+	}
+}
+
 func TestAccIncidentCustomFieldResource_CatalogBacked(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -197,9 +229,9 @@ resource "incident_catalog_entry" "other_second" {
 {{- end }}
 
 resource "incident_custom_field" "example" {
-  name                          = {{ stableSuffix "Features" | quote }}
+  name                          = {{ .Name | default "Features" | stableSuffix | quote }}
   description                   = "Features impacted by this incident"
-  field_type                     = "multi_select"
+  field_type                     = {{ .FieldType | default "multi_select" | quote }}
 
   {{- if .WithCatalogType }}
   catalog_type_id               = incident_catalog_type.example.id
@@ -227,6 +259,8 @@ resource "incident_custom_field" "example" {
 `))
 
 type customFieldTemplateParams struct {
+	Name            string
+	FieldType       string
 	WithCatalogType bool
 	WithFilter      bool
 	WithFixedFilter bool

@@ -163,9 +163,11 @@ func (p *IncidentProvider) Resources(ctx context.Context) []func() resource.Reso
 		NewIncidentWorkflowResource,
 		NewIncidentAlertAttributeResource,
 		NewIncidentAlertRouteResource,
+		NewIncidentIncidentTemplateResource,
 		NewIncidentMaintenanceWindowResource,
 		NewAlertSourceBetaResource,
 		NewAlertSourceAttributeBetaResource,
+		NewIncidentPolicyResource,
 	}
 }
 
@@ -190,5 +192,6 @@ func (p *IncidentProvider) DataSources(ctx context.Context) []func() datasource.
 		NewIncidentEscalationPathDataSource,
 		NewIncidentWorkflowDataSource,
 		NewRichTextDataSource,
+		NewIncidentPolicyDataSource,
 	}
 }

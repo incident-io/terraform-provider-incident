@@ -324,6 +324,43 @@ func (pbs IncidentEngineParamBindings) ReconcileSpelling(prior IncidentEnginePar
 	return pbs
 }
 
+// ReconcileScalarBinding is ReconcileSpelling for an endpoint that stores a scalar binding
+// as a one-element array and answers with the array. The policies API does this to assignee
+// bindings, because it binds them against an array param, so a config written as
+// value_literal reads back as array_value and fails the apply as an inconsistent result.
+//
+// meansTheSameAs cannot absorb that on its own: a scalar and an array are different shapes,
+// and for every other endpoint the difference is real drift. Restoring the config's
+// spelling hides nothing here, because the server treats the two as one binding.
+func ReconcileScalarBinding(applied, prior IncidentEngineParamBinding) IncidentEngineParamBinding {
+	if applied.meansTheSameAs(prior) {
+		return prior
+	}
+
+	resolved := applied.resolved()
+	if resolved.Value == nil && len(resolved.ArrayValue) == 1 {
+		scalar := IncidentEngineParamBinding{Value: &resolved.ArrayValue[0]}
+		if scalar.meansTheSameAs(prior) {
+			return prior
+		}
+	}
+
+	return applied
+}
+
+// ReconcileScalarSpelling is ReconcileSpelling using ReconcileScalarBinding, correlating
+// positionally for the same reason.
+func (pbs IncidentEngineParamBindings) ReconcileScalarSpelling(prior IncidentEngineParamBindings) IncidentEngineParamBindings {
+	for idx := range pbs {
+		if idx >= len(prior) {
+			break
+		}
+		pbs[idx] = ReconcileScalarBinding(pbs[idx], prior[idx])
+	}
+
+	return pbs
+}
+
 // TrimAppendedEmpty drops trailing empty bindings the API padded onto a step that has
 // gained params, beyond the priorLen we sent. Stopping at priorLen keeps a configured
 // empty binding, which means "skip this optional param".

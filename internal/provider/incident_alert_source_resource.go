@@ -408,7 +408,90 @@ func (r *IncidentAlertSourceResource) Metadata(ctx context.Context, req resource
 
 func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Alert Sources V2"), `We'd generally recommend building alert sources in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert source and copy the resulting Terraform without persisting it.`),
+		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Alert Sources V2"), `We'd generally recommend building alert sources in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert source and copy the resulting Terraform without persisting it.
+
+## Setting an alert's priority
+
+This resource has no `+"`priority`"+` field. An alert's priority is set the same way as any other
+attribute: as an entry in `+"`template.attributes`"+` bound to the built-in `+"`Priority`"+` alert attribute,
+which you look up by name.
+
+    data "incident_alert_attribute" "priority" {
+      name = "Priority"
+    }
+
+    # ...then, in template.attributes
+    {
+      alert_attribute_id = data.incident_alert_attribute.priority.id
+      binding            = { value = { reference = "expressions[\"my-priority\"]" } }
+    }
+
+A priority binding's `+"`merge_strategy`"+` can only be `+"`last_wins`"+`. Leave it out and the API fills
+it in — it reads back as `+"`last_wins`"+` either way, so there is no diff to manage. Setting any other
+value is rejected.
+
+Two mistakes here are worth knowing about, because both end with every alert on your default
+alert priority and neither says anything.
+
+The first is writing the expression and leaving out the binding. Nothing rejects it — the API
+stores an expression nothing references and never evaluates it — so the config applies and reads
+back unchanged, having done nothing. If you exported this source from the dashboard the binding
+is already there; it's a hand-written or hand-trimmed config that tends to lose it.
+
+The second is parsing a payload value straight into a `+"`CatalogEntry[\"AlertPriority\"]`"+`. That
+resolves by matching the value against a priority's name, alias or external ID exactly, so a
+payload saying `+"`CRITICAL`"+` matches no priority called `+"`Urgent`"+`, resolves to nothing, and falls back
+to your default priority — for every alert, which reads exactly like a hardcoded priority.
+
+Mapping a payload value onto a priority takes two expressions. The payload is opaque JSON: an
+expression reaches into it with a `+"`parse`"+` operation, and a condition can only ask whether
+`+"`payload`"+` as a whole is set, so `+"`subject = \"payload.severity\"`"+` resolves to nothing. Parse the
+value out first, then branch on the result:
+
+    expressions = [
+      {
+        label          = "Severity"
+        reference      = "severity"
+        root_reference = "payload"
+        operations = [{
+          operation_type = "parse"
+          parse = {
+            source  = "$['severity']"
+            returns = { type = "String", array = false }
+          }
+        }]
+      },
+      {
+        label          = "Priority"
+        reference      = "priority"
+        root_reference = "."
+        operations = [{
+          operation_type = "branches"
+          branches = {
+            returns = { type = "CatalogEntry[\"AlertPriority\"]", array = false }
+            branches = [{
+              condition_groups = [{
+                conditions = [{
+                  subject        = "expressions[\"severity\"]"
+                  operation      = "one_of"
+                  param_bindings = [{ values = ["CRITICAL", "critical"] }]
+                }]
+              }]
+              result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
+            }]
+          }
+        }]
+        else_branch = {
+          result = { value_literal = data.incident_catalog_entry.low_priority.id }
+        }
+      },
+    ]
+
+A `+"`branches`"+` operation reads the whole scope, so it needs `+"`root_reference = \".\"`"+` and has to be the
+only operation in its expression.
+
+`+"`incident_alert_source_beta`"+` binds priority directly, as `+"`priority = { expression_ref = ... }`"+`, and
+splits each attribute into its own resource.`),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
