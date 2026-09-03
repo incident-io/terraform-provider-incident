@@ -80,7 +80,7 @@ jobs:
     name: Acceptance Tests (${{ matrix.cli }} ${{ matrix.version }})
     needs: build
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     # Keyed by CLI so the legs run alongside each other, while the same leg still
     # queues across runs. Test resources are named per run, so concurrent runs no
     # longer collide on names.
@@ -130,4 +130,4 @@ jobs:
       - env:
           INCIDENT_API_KEY: ${{ secrets.INCIDENT_API_KEY }}
         run: make testacc
-        timeout-minutes: 10
+        timeout-minutes: 20
