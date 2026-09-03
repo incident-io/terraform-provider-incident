@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add the `incident_alert_source` data source, which looks up a single alert source by `id`. Use this when you already know the source's ID — for example one copied from the dashboard, or one another module created — and need its configuration, such as `alert_events_url` or `secret_token`. To list or filter sources, keep using `incident_alert_sources`.
+
 ## v6.11.0
 
 - Add the `incident_incident_template` resource, which manages an incident template. Incident templates determine how an incident is created from an alert, and have been split out of alert routes, where they lived previously.
