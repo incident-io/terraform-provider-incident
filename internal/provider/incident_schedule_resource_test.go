@@ -169,7 +169,7 @@ func TestAccIncidentScheduleResourceRotationUpdates(t *testing.T) {
 								Handovers: []client.ScheduleRotationHandoverV2{
 									{
 										Interval:     1,
-										IntervalType: client.Weekly,
+										IntervalType: client.ScheduleRotationHandoverV2IntervalTypeWeekly,
 									},
 								},
 								Layers: []client.ScheduleLayerV2{
@@ -205,7 +205,7 @@ func TestAccIncidentScheduleResourceRotationUpdates(t *testing.T) {
 								Handovers: []client.ScheduleRotationHandoverV2{
 									{
 										Interval:     1,
-										IntervalType: client.Daily,
+										IntervalType: client.ScheduleRotationHandoverV2IntervalTypeDaily,
 									},
 								},
 								Layers: []client.ScheduleLayerV2{
@@ -222,7 +222,7 @@ func TestAccIncidentScheduleResourceRotationUpdates(t *testing.T) {
 								Handovers: []client.ScheduleRotationHandoverV2{
 									{
 										Interval:     1,
-										IntervalType: client.Daily,
+										IntervalType: client.ScheduleRotationHandoverV2IntervalTypeDaily,
 									},
 								},
 								EffectiveFrom: &effectiveFrom,

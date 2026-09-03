@@ -49,6 +49,12 @@ func TestAccIncidentPolicyPostMortem(t *testing.T) {
 						"data.incident_user.assignee", "id"),
 					resource.TestCheckResourceAttr("incident_policy.post_mortems",
 						"post_mortem.due_date_config.days.value_literal", "5"),
+					// Direction is which field holds the cadence, so a read that swapped
+					// them would still look valid without these.
+					resource.TestCheckResourceAttr("incident_policy.post_mortems",
+						"assignment_rules.reminder_cadence_before.interval", "weekly"),
+					resource.TestCheckResourceAttr("incident_policy.post_mortems",
+						"assignment_rules.reminder_cadence_after.interval", "daily"),
 				),
 			},
 			{
@@ -167,6 +173,11 @@ resource "incident_policy" "post_mortems" {
   assignment_rules = {
     bindings                       = [{ value_literal = data.incident_user.assignee.id }]
     reminder_due_date_offset_hours = [-24, 0, 24]
+
+    # Recurring reminders, in both directions. The empty plan below is what proves
+    # each reads back as the direction it was written in.
+    reminder_cadence_before = { interval = "weekly" }
+    reminder_cadence_after  = { interval = "daily" }
   }
 
   # The API rejects an empty requirements list: a policy that requires nothing could

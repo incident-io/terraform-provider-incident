@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Add `reminder_cadence_before` and `reminder_cadence_after` to an `incident_policy`'s `assignment_rules`, which send a recurring reminder that repeats once per `interval` - `daily` or `weekly` - until the violation is resolved. These sit on top of the one-off `reminder_due_date_offset_hours`, and which field holds the cadence is what says before or after, the way the sign of an offset does. Policies with recurring reminders could not be expressed before, so managing one from Terraform turned its reminders off; that no longer happens.
 - Add the `incident_incident_template` data source, which looks up an existing incident template by `id` or by `name`.
 - `due_date_config` is now required on an `incident_policy`'s `follow_up`, `debrief` and `post_mortem` blocks. These are the policy types that carry a due date, and the API rejects an update to one without it - so a config that omitted the block created a policy successfully and then failed on its next apply. The plan now says so instead. If you have such a config, add a `due_date_config`; the policy it created was already un-editable through the API.
 
