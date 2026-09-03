@@ -163,6 +163,25 @@ func TestIncidentIncidentTemplateDataSourceReadStopsAtTheLastPage(t *testing.T) 
 	}
 }
 
+// Nothing stops two templates sharing a name, and returning whichever the API
+// ordered first would silently bind the config to the wrong one. Finding the
+// second match means the walk also has to continue past the first.
+func TestIncidentIncidentTemplateDataSourceReadRejectsDuplicateNames(t *testing.T) {
+	templates := []client.IncidentTemplateV1{
+		incidentTemplateFixture("01FIRST", "Payments incidents"),
+		incidentTemplateFixture("01OTHER", "Support escalations"),
+		incidentTemplateFixture("01SECOND", "Payments incidents"),
+	}
+	api, requests := startFakeIncidentTemplatesAPI(t, templates, 1)
+
+	_, resp := readIncidentTemplate(t, api, "", "Payments incidents")
+	assertIncidentTemplateError(t, resp, `found 2 incident templates named "Payments incidents"`)
+
+	if requests.listCalls != 3 {
+		t.Errorf("want 3 list calls, so a match on the first page doesn't end the walk, got %d", requests.listCalls)
+	}
+}
+
 func TestIncidentIncidentTemplateDataSourceValidateConfig(t *testing.T) {
 	for _, tc := range []struct {
 		name    string
@@ -184,7 +203,7 @@ func TestIncidentIncidentTemplateDataSourceValidateConfig(t *testing.T) {
 			d.ValidateConfig(ctx, datasource.ValidateConfigRequest{
 				Config: tfsdk.Config{
 					Schema: schemaResp.Schema,
-					Raw:    incidentTemplateDataSourceConfig(ctx, schemaResp, tc.id, tc.lookup),
+					Raw:    incidentTemplateDataSourceConfig(t, ctx, schemaResp, tc.id, tc.lookup),
 				},
 			}, resp)
 
@@ -279,7 +298,7 @@ func readIncidentTemplate(t *testing.T, api *client.ClientWithResponses, id, nam
 	d.Read(ctx, datasource.ReadRequest{
 		Config: tfsdk.Config{
 			Schema: schemaResp.Schema,
-			Raw:    incidentTemplateDataSourceConfig(ctx, schemaResp, id, name),
+			Raw:    incidentTemplateDataSourceConfig(t, ctx, schemaResp, id, name),
 		},
 	}, resp)
 
@@ -303,8 +322,11 @@ func incidentTemplateDataSourceSchema(t *testing.T, d *IncidentIncidentTemplateD
 	return schemaResp
 }
 
-func incidentTemplateDataSourceConfig(ctx context.Context, schemaResp datasource.SchemaResponse, id, name string) tftypes.Value {
-	tfType := schemaResp.Schema.Type().TerraformType(ctx).(tftypes.Object)
+func incidentTemplateDataSourceConfig(t *testing.T, ctx context.Context, schemaResp datasource.SchemaResponse, id, name string) tftypes.Value {
+	t.Helper()
+
+	tfType, ok := schemaResp.Schema.Type().TerraformType(ctx).(tftypes.Object)
+	require.True(t, ok, "the schema's Terraform type is not an object")
 	attrs := tfType.AttributeTypes
 
 	attribute := func(value string) tftypes.Value {

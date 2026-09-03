@@ -114,16 +114,18 @@ func (d *IncidentIncidentTemplateDataSource) Read(ctx context.Context, req datas
 }
 
 // incidentTemplateListPageSize is the largest page the list endpoint accepts.
-const incidentTemplateListPageSize = 50
+const incidentTemplateListPageSize = 250
 
-// findByName pages the incident template list looking for an exact name match.
-// The endpoint has no name filter, so every page has to be fetched until the name
-// turns up or the pages run out.
-//
-// A template's name is unique within an organisation, so the first match is the
-// only one.
+// findByName looks for an exact name match in the incident template list, and
+// requires exactly one. The endpoint has no name filter, so every page has to be
+// fetched — and the whole list has to be walked even once a match turns up,
+// because nothing stops two templates sharing a name and returning the first
+// would silently bind to whichever the API happened to order first.
 func (d *IncidentIncidentTemplateDataSource) findByName(ctx context.Context, name string) (*client.IncidentTemplateV1, error) {
-	var after *string
+	var (
+		after   *string
+		matches []client.IncidentTemplateV1
+	)
 
 	for {
 		result, err := d.client.IncidentTemplatesV1ListWithResponse(ctx, &client.IncidentTemplatesV1ListParams{
@@ -140,18 +142,25 @@ func (d *IncidentIncidentTemplateDataSource) findByName(ctx context.Context, nam
 			return nil, fmt.Errorf("unexpected response listing incident templates: %s", result.Status())
 		}
 
-		if match, found := lo.Find(result.JSON200.IncidentTemplates, func(template client.IncidentTemplateV1) bool {
+		matches = append(matches, lo.Filter(result.JSON200.IncidentTemplates, func(template client.IncidentTemplateV1, _ int) bool {
 			return template.Name == name
-		}); found {
-			return &match, nil
-		}
+		})...)
 
 		// The endpoint returns an after cursor only while another page exists, so an
 		// absent one ends the walk rather than looping on the last page forever.
 		if result.JSON200.PaginationMeta == nil || result.JSON200.PaginationMeta.After == nil {
-			return nil, fmt.Errorf("no incident template found with name %q", name)
+			break
 		}
 		after = result.JSON200.PaginationMeta.After
+	}
+
+	switch len(matches) {
+	case 0:
+		return nil, fmt.Errorf("no incident template found with name %q", name)
+	case 1:
+		return &matches[0], nil
+	default:
+		return nil, fmt.Errorf("found %d incident templates named %q; look it up by id instead", len(matches), name)
 	}
 }
 
