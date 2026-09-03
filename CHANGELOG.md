@@ -1,6 +1,7 @@
 ## Unreleased
 
-- Add the `incident_incident_template` data source, which looks up an existing incident template by `id` or by `name`, so you can reference a template the dashboard owns — for example pointing an `incident_alert_route` at it via `incident_config.incident_template` — without pinning an ID that differs between organisations. It reports the template's `name`, `expressions`, and nested `template` config. Set exactly one of the two lookup attributes; setting both, or neither, is rejected at plan time.
+- Add the `incident_incident_template` data source, which looks up an existing incident template by `id` or by `name`.
+- `due_date_config` is now required on an `incident_policy`'s `follow_up`, `debrief` and `post_mortem` blocks. These are the policy types that carry a due date, and the API rejects an update to one without it - so a config that omitted the block created a policy successfully and then failed on its next apply. The plan now says so instead. If you have such a config, add a `due_date_config`; the policy it created was already un-editable through the API.
 
 ## v6.11.0
 

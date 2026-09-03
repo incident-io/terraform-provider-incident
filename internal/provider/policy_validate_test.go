@@ -8,6 +8,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
@@ -278,5 +279,40 @@ func TestPolicyTypesWithForcedAssigneeAreRealTypes(t *testing.T) {
 		if !slices.Contains(fromAPI, policyType) {
 			t.Errorf("%q is not a policy type: %v", policyType, fromAPI)
 		}
+	}
+}
+
+// TestPolicyDueDateConfigRequired pins the rule for the three types that carry a due date.
+// The API rejects an update to one without a due_date_config, so a config that omits it
+// creates a policy and then fails on its next apply.
+func TestPolicyDueDateConfigRequired(t *testing.T) {
+	attributes := policySchema(t).Schema.Attributes
+
+	for _, block := range []string{"follow_up", "debrief", "post_mortem"} {
+		t.Run(block, func(t *testing.T) {
+			nested, ok := attributes[block].(schema.SingleNestedAttribute)
+			if !ok {
+				t.Fatalf("%s is not a single nested attribute", block)
+			}
+
+			if !nested.Attributes["due_date_config"].IsRequired() {
+				t.Error("due_date_config is not required")
+			}
+		})
+	}
+
+	// The other three don't carry a due date at all, and the API rejects one. Their
+	// blocks have no due_date_config attribute to require.
+	for _, block := range []string{"schedule", "on_call_readiness", "vacation_conflict"} {
+		t.Run(block, func(t *testing.T) {
+			nested, ok := attributes[block].(schema.SingleNestedAttribute)
+			if !ok {
+				t.Fatalf("%s is not a single nested attribute", block)
+			}
+
+			if _, found := nested.Attributes["due_date_config"]; found {
+				t.Error("due_date_config should not exist on a type without a due date")
+			}
+		})
 	}
 }
