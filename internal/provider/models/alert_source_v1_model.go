@@ -24,6 +24,7 @@ type AlertSourceResourceModel struct {
 	EmailOptions              *AlertSourceEmailOptionsModel      `tfsdk:"email_options"`
 	HTTPCustomOptions         *AlertSourceHTTPCustomOptionsModel `tfsdk:"http_custom_options"`
 	RateLimitSharding         *AlertSourceRateLimitShardingModel `tfsdk:"rate_limit_sharding"`
+	FixedTeamID               types.String                       `tfsdk:"fixed_team_id"`
 	OwningTeamIDs             types.Set                          `tfsdk:"owning_team_ids"`
 	AutoResolveTimeoutMinutes types.Int64                        `tfsdk:"auto_resolve_timeout_minutes"`
 	AutoResolveIncidentAlerts types.Bool                         `tfsdk:"auto_resolve_incident_alerts"`
@@ -76,6 +77,7 @@ func (AlertSourceResourceModel) FromAPIWithPlan(source client.AlertSourceV2, pla
 		EmailOptions:              AlertSourceEmailOptionsModel{}.FromAPI(source.EmailOptions),
 		HTTPCustomOptions:         AlertSourceHTTPCustomOptionsModel{}.FromAPI(source.HttpCustomOptions),
 		RateLimitSharding:         AlertSourceRateLimitShardingModel{}.FromAPI(source.RateLimitSharding),
+		FixedTeamID:               FixedTeamIDFromAPI(source.FixedTeamId),
 		OwningTeamIDs:             owningTeamIDs,
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
 		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),
@@ -364,6 +366,28 @@ func (sharding *AlertSourceRateLimitShardingModel) ToUpdatePayload() *client.Ale
 	}
 
 	return &client.AlertSourceRateLimitShardingV2{RateLimitShardKeyPath: ""}
+}
+
+// FixedTeamIDFromAPI maps an absent field to null, matching what the config spells: the API
+// returns fixed_team_id only while a team is fixed. The empty-string guard is defensive — the
+// API omits the field rather than sending it empty, but reading "" as a value would diff
+// against a config that never set one.
+func FixedTeamIDFromAPI(fixedTeamID *string) types.String {
+	if fixedTeamID == nil || *fixedTeamID == "" {
+		return types.StringNull()
+	}
+
+	return types.StringValue(*fixedTeamID)
+}
+
+// FixedTeamIDUpdatePayload sends an empty string where the config has no value, so removing the
+// attribute un-fixes the source. Omitting it tells the API to leave the stored team alone, which
+// would make the value unclearable from HCL — the same reasoning as ToUpdatePayload above.
+//
+// Safe when the source was never fixed: the API reads an empty string as "not fixed", which is
+// the no-op it already is.
+func FixedTeamIDUpdatePayload(fixedTeamID types.String) *string {
+	return lo.ToPtr(fixedTeamID.ValueString())
 }
 
 type AlertSourceEmailOptionsModel struct {
