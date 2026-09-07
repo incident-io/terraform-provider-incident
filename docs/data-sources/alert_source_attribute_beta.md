@@ -3,20 +3,25 @@
 page_title: "incident_alert_source_attribute_beta Data Source - terraform-provider-incident"
 subcategory: ""
 description: |-
-  Use this data source to retrieve information about an alert source attribute binding.
+  Look up one attribute binding on an alert source by alert_source_id and alert_attribute_id.
 ---
 
 # incident_alert_source_attribute_beta (Data Source)
 
-Use this data source to retrieve information about an alert source attribute binding.
+Look up one attribute binding on an alert source by `alert_source_id` and `alert_attribute_id`.
 
 ## Example Usage
 
 ```terraform
-# Look up an alert source attribute binding
-data "incident_alert_source_attribute_beta" "example" {
-  alert_source_id   = "01FCNDV6P870EA6S7TK1DSYDG0"
-  alert_attribute_id = "01FCNDV6P870EA6S7TK1DSYDG0"
+# Look up one attribute binding on an alert source.
+data "incident_alert_source_attribute_beta" "environment" {
+  alert_source_id    = "01FCNDV6P870EA6S7TK1DSYDG0"
+  alert_attribute_id = "01GW2G3V0S59R238FAHPDS1R66"
+}
+
+output "environment_merge_strategy" {
+  description = "How this attribute is merged when an alert is updated"
+  value       = data.incident_alert_source_attribute_beta.environment.merge_strategy
 }
 ```
 
@@ -25,13 +30,29 @@ data "incident_alert_source_attribute_beta" "example" {
 
 ### Required
 
-- `alert_attribute_id` (String) The ID of the alert attribute that is bound.
-- `alert_source_id` (String) The ID of the alert source that the attribute is bound to.
+- `alert_attribute_id` (String) The alert attribute being bound. This also identifies the binding: an attribute can be bound at most once per source.
+- `alert_source_id` (String) The alert source this binding belongs to
 
 ### Read-Only
 
-- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value.
-- `merge_strategy` (String) How to merge this attribute when an alert is updated.
-- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`.
-- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
-- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals.
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references.
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `merge_strategy` (String) How values are combined when an alert is updated.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this.
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+### Nested Schema for `expression`
+
+Read-Only:
+
+- `start_from` (String) Where the expression starts.
+
+### Nested Schema for `named_expression`
+
+Read-Only:
+
+- `label` (String) What the dashboard shows for this expression.
+- `name` (String) A name for this expression, unique within this resource, referenced by expression_ref.
+- `start_from` (String) Where the expression starts.

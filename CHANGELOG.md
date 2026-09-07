@@ -1,6 +1,8 @@
 ## Unreleased
 
 - Add the `incident_severity` data source, which looks up an existing incident severity by `id` or by `name` and returns its description and rank.
+- Add the `incident_escalation_path_beta` data source, which looks up an existing escalation path by `id` or by `name` and returns it in the same flat `sequences` shape as the `incident_escalation_path_beta` resource.
+- Add the `incident_alert_source_attribute_beta` data source, which looks up one alert source attribute binding by `alert_source_id` and `alert_attribute_id`.
 - Add the `incident_alert_source` data source, which looks up a single alert source by `id`. Use this when you already know the source's ID — for example one copied from the dashboard, or one another module created — and need its configuration, such as `alert_events_url` or `secret_token`. To list or filter sources, keep using `incident_alert_sources`.
 - Add `reminder_cadence_before` and `reminder_cadence_after` to an `incident_policy`'s `assignment_rules`, which send a recurring reminder that repeats once per `interval` - `daily` or `weekly` - until the finding is resolved. These sit on top of the one-off `reminder_due_date_offset_hours`, and which field holds the cadence is what says before or after, the way the sign of an offset does. Policies with recurring reminders could not be expressed before, so managing one from Terraform turned its reminders off; that no longer happens.
 - Add the `incident_incident_template` data source, which looks up an existing incident template by `id` or by `name`.

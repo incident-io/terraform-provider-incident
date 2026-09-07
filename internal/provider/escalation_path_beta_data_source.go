@@ -13,8 +13,9 @@ import (
 )
 
 var (
-	_ datasource.DataSource              = &EscalationPathBetaDataSource{}
-	_ datasource.DataSourceWithConfigure = &EscalationPathBetaDataSource{}
+	_ datasource.DataSource                   = &EscalationPathBetaDataSource{}
+	_ datasource.DataSourceWithConfigure      = &EscalationPathBetaDataSource{}
+	_ datasource.DataSourceWithValidateConfig = &EscalationPathBetaDataSource{}
 )
 
 func NewEscalationPathBetaDataSource() datasource.DataSource {
@@ -25,54 +26,13 @@ type EscalationPathBetaDataSource struct {
 	dataSourceConfigurer
 }
 
-func (d *EscalationPathBetaDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+func (d *EscalationPathBetaDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_escalation_path_beta"
 }
 
-func (d *EscalationPathBetaDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
-	// Build the node schema for datasource
-	nodeAttrs := map[string]schema.Attribute{
-		"id": schema.StringAttribute{
-			Computed:            true,
-			MarkdownDescription: "An id for this node, unique within the escalation path, so a `loop` can name it.",
-		},
-		"level":           escalationPathLevelAttributeDataSource(),
-		"notify_channel":  escalationPathNotifyChannelAttributeDataSource(),
-		"delay":           escalationPathDelayAttributeDataSource(),
-		"escalation_path": escalationPathEscalationPathAttributeDataSource(),
-		"branch": schema.SingleNestedAttribute{
-			Computed:            true,
-			MarkdownDescription: "Send the escalation down one of two sequences, depending on what `if` tests. A branch must be the last node in its sequence.",
-			Attributes: map[string]schema.Attribute{
-				"if":   escalationPathBetaBranchIfAttributeDataSource(),
-				"then": schema.StringAttribute{
-					Computed:            true,
-					MarkdownDescription: "The key of the sequence to continue down when the condition is met.",
-				},
-				"else": schema.StringAttribute{
-					Computed:            true,
-					MarkdownDescription: "The key of the sequence to continue down when the condition is not met.",
-				},
-			},
-		},
-		"loop": schema.SingleNestedAttribute{
-			Computed:            true,
-			MarkdownDescription: "Go back to an earlier node and run from there again.",
-			Attributes: map[string]schema.Attribute{
-				"back_to": schema.StringAttribute{
-					Computed:            true,
-					MarkdownDescription: "The `id` of the node to repeat from.",
-				},
-				"times": schema.Int64Attribute{
-					Computed:            true,
-					MarkdownDescription: apischema.Docstring("EscalationPathNodeRepeatV2", "repeat_times"),
-				},
-			},
-		},
-	}
-
+func (d *EscalationPathBetaDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Use this data source to retrieve information about an existing escalation path by ID or name.",
+		MarkdownDescription: "Look up an escalation path by `id` or `name` and read it in the same flat `sequences` shape as `incident_escalation_path_beta`. Exactly one lookup field should be set.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Optional:            true,
@@ -96,9 +56,7 @@ func (d *EscalationPathBetaDataSource) Schema(ctx context.Context, req datasourc
 						"nodes": schema.ListNestedAttribute{
 							Computed:            true,
 							MarkdownDescription: "The nodes in this sequence, in the order they run.",
-							NestedObject: schema.NestedAttributeObject{
-								Attributes: nodeAttrs,
-							},
+							NestedObject:        escalationPathBetaNodeDataSourceSchema(),
 						},
 					},
 				},
@@ -107,40 +65,7 @@ func (d *EscalationPathBetaDataSource) Schema(ctx context.Context, req datasourc
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("EscalationPathV2", "working_hours"),
 				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"id": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2", "id"),
-						},
-						"name": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2", "name"),
-						},
-						"timezone": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2", "timezone"),
-						},
-						"weekday_intervals": schema.ListNestedAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2", "weekday_intervals"),
-							NestedObject: schema.NestedAttributeObject{
-								Attributes: map[string]schema.Attribute{
-									"start_time": schema.StringAttribute{
-										Computed:            true,
-										MarkdownDescription: apischema.Docstring("WeekdayIntervalV2", "start_time"),
-									},
-									"end_time": schema.StringAttribute{
-										Computed:            true,
-										MarkdownDescription: apischema.Docstring("WeekdayIntervalV2", "end_time"),
-									},
-									"weekday": schema.StringAttribute{
-										Computed:            true,
-										MarkdownDescription: EnumValuesDescription("WeekdayIntervalV2", "weekday"),
-									},
-								},
-							},
-						},
-					},
+					Attributes: weekdayIntervalConfigDataSourceAttributes(),
 				},
 			},
 			"repeat_config": schema.SingleNestedAttribute{
@@ -166,96 +91,182 @@ func (d *EscalationPathBetaDataSource) Schema(ctx context.Context, req datasourc
 	}
 }
 
-func (d *EscalationPathBetaDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data escalationPathBetaModel
-	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
-		return
+func weekdayIntervalConfigDataSourceAttributes() map[string]schema.Attribute {
+	return map[string]schema.Attribute{
+		"id": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2", "id"),
+		},
+		"name": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2", "name"),
+		},
+		"timezone": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2", "timezone"),
+		},
+		"weekday_intervals": schema.ListNestedAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("WeekdayIntervalConfigV2", "weekday_intervals"),
+			NestedObject: schema.NestedAttributeObject{
+				Attributes: map[string]schema.Attribute{
+					"start_time": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("WeekdayIntervalV2", "start_time"),
+					},
+					"end_time": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("WeekdayIntervalV2", "end_time"),
+					},
+					"weekday": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: EnumValuesDescription("WeekdayIntervalV2", "weekday"),
+					},
+				},
+			},
+		},
 	}
-
-	// Fetch all escalation paths
-	result, err := d.client.EscalationsV2ListPathsWithResponse(ctx, &client.EscalationsV2ListPathsParams{})
-	if err == nil && result.StatusCode() >= 400 {
-		err = fmt.Errorf("%s", result.Body)
-	}
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list escalation paths, got error: %s", err))
-		return
-	}
-	if result.JSON200 == nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list escalation paths, unexpected response: %s", result.Status()))
-		return
-	}
-
-	// Filter by ID or name
-	var foundEP *client.EscalationPathV2
-	for _, ep := range result.JSON200.EscalationPaths {
-		ep := ep
-		if (!data.ID.IsNull() && data.ID.ValueString() != "" && ep.Id == data.ID.ValueString()) ||
-			(!data.Name.IsNull() && data.Name.ValueString() != "" && ep.Name == data.Name.ValueString()) {
-			foundEP = &ep
-			break
-		}
-	}
-
-	if foundEP == nil {
-		if !data.ID.IsNull() && data.ID.ValueString() != "" {
-			resp.Diagnostics.AddError("Not Found", fmt.Sprintf("Unable to find escalation path with ID: %s", data.ID.ValueString()))
-		} else if !data.Name.IsNull() && data.Name.ValueString() != "" {
-			resp.Diagnostics.AddError("Not Found", fmt.Sprintf("Unable to find escalation path with name: %s", data.Name.ValueString()))
-		} else {
-			resp.Diagnostics.AddError("Missing Filter", "Either id or name must be provided")
-		}
-		return
-	}
-
-	// Convert API response to model using the resource's buildModel logic
-	r := &escalationPathBetaResource{}
-	model := r.buildModel(ctx, *foundEP, &data, &resp.Diagnostics)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	resp.Diagnostics.Append(resp.State.Set(ctx, model)...)
 }
 
-// Helper functions for datasource schema elements
+// escalationPathBetaNodeDataSourceSchema is the computed form of escalationPathBetaNodeSchema.
+// Read reuses the resource's buildModel, so a block missing here fails State.Set for every
+// escalation path rather than only the ones using it.
+func escalationPathBetaNodeDataSourceSchema() schema.NestedAttributeObject {
+	return schema.NestedAttributeObject{
+		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "An id for this node, unique within the escalation path, so a `loop` can name it.",
+			},
+			"level":           escalationPathLevelAttributeDataSource(),
+			"notify_channel":  escalationPathNotifyChannelAttributeDataSource(),
+			"delay":           escalationPathDelayAttributeDataSource(),
+			"escalation_path": escalationPathEscalationPathAttributeDataSource(),
+			"branch": schema.SingleNestedAttribute{
+				Computed:            true,
+				MarkdownDescription: "Send the escalation down one of two sequences, depending on what `if` tests. A branch must be the last node in its sequence.",
+				Attributes: map[string]schema.Attribute{
+					"if": schema.SingleNestedAttribute{
+						Computed:            true,
+						MarkdownDescription: "What the branch tests. Set exactly one of these: a branch tests one thing, so combining them means nesting a second branch inside the first.",
+						Attributes: map[string]schema.Attribute{
+							"working_hours_active": schema.StringAttribute{
+								Computed:            true,
+								MarkdownDescription: "The `id` of one of this escalation path's `working_hours`, met while those hours are active.",
+							},
+							"priority_one_of": schema.SetAttribute{
+								Computed:            true,
+								MarkdownDescription: "Alert priority ids, met when the escalation came in at one of them.",
+								ElementType:         types.StringType,
+							},
+						},
+					},
+					"then": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "The key of the sequence to continue down when the condition is met.",
+					},
+					"else": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "The key of the sequence to continue down when the condition is not met.",
+					},
+				},
+			},
+			"loop": schema.SingleNestedAttribute{
+				Computed:            true,
+				MarkdownDescription: "Go back to an earlier node and run from there again.",
+				Attributes: map[string]schema.Attribute{
+					"back_to": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "The `id` of the node to repeat from.",
+					},
+					"times": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("EscalationPathNodeRepeatV2", "repeat_times"),
+					},
+				},
+			},
+		},
+	}
+}
+
+func escalationPathTargetsAttributeDataSource(docType string) schema.ListNestedAttribute {
+	return schema.ListNestedAttribute{
+		Computed:            true,
+		MarkdownDescription: apischema.Docstring(docType, "targets"),
+		NestedObject: schema.NestedAttributeObject{
+			Attributes: map[string]schema.Attribute{
+				"id": schema.StringAttribute{
+					Computed:            true,
+					MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "id"),
+				},
+				"type": schema.StringAttribute{
+					Computed:            true,
+					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "type"),
+				},
+				"urgency": schema.StringAttribute{
+					Computed:            true,
+					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "urgency"),
+				},
+				"schedule_mode": schema.StringAttribute{
+					Computed:            true,
+					MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "schedule_mode"),
+				},
+				"selected_rota_id": schema.StringAttribute{
+					Computed:            true,
+					MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "selected_rota_id"),
+				},
+			},
+		},
+	}
+}
+
 func escalationPathLevelAttributeDataSource() schema.SingleNestedAttribute {
 	return schema.SingleNestedAttribute{
 		Computed:            true,
 		MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "level"),
 		Attributes: map[string]schema.Attribute{
-			"targets": schema.ListNestedAttribute{
-				Computed:            true,
-				MarkdownDescription: apischema.Docstring("EscalationPathNodeLevelV2", "targets"),
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"id": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "id"),
-						},
-						"type": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "type"),
-						},
-						"urgency": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "urgency"),
-						},
-						"schedule_mode": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: EnumValuesDescription("EscalationPathTargetV2", "schedule_mode"),
-						},
-						"selected_rota_id": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("EscalationPathTargetV2", "selected_rota_id"),
-						},
+			"targets": escalationPathTargetsAttributeDataSource("EscalationPathNodeLevelV2"),
+			"round_robin_config": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"enabled": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("EscalationPathRoundRobinConfigV2", "enabled"),
+					},
+					"rotate_after_seconds": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("EscalationPathRoundRobinConfigV2", "rotate_after_seconds"),
+					},
+				},
+			},
+			"retry_config": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"attempts": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("EscalationPathRetryConfigV2", "attempts"),
+					},
+					"interval_seconds": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("EscalationPathRetryConfigV2", "interval_seconds"),
 					},
 				},
 			},
 			"time_to_ack_seconds": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("EscalationPathNodeLevelV2", "time_to_ack_seconds"),
+			},
+			"time_to_ack_interval_condition": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: EnumValuesDescription("EscalationPathNodeLevelV2", "time_to_ack_interval_condition"),
+			},
+			"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("EscalationPathNodeLevelV2", "time_to_ack_weekday_interval_config_id"),
+			},
+			"ack_mode": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: EnumValuesDescription("EscalationPathNodeLevelV2", "ack_mode"),
 			},
 		},
 	}
@@ -266,21 +277,18 @@ func escalationPathNotifyChannelAttributeDataSource() schema.SingleNestedAttribu
 		Computed:            true,
 		MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "notify_channel"),
 		Attributes: map[string]schema.Attribute{
-			"targets": schema.ListNestedAttribute{
+			"targets": escalationPathTargetsAttributeDataSource("EscalationPathNodeNotifyChannelV2"),
+			"time_to_ack_seconds": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("EscalationPathNodeNotifyChannelV2", "targets"),
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"id": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("EscalationPathChannelTargetV2", "id"),
-						},
-						"type": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: EnumValuesDescription("EscalationPathChannelTargetV2", "type"),
-						},
-					},
-				},
+				MarkdownDescription: apischema.Docstring("EscalationPathNodeNotifyChannelV2", "time_to_ack_seconds"),
+			},
+			"time_to_ack_interval_condition": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: EnumValuesDescription("EscalationPathNodeNotifyChannelV2", "time_to_ack_interval_condition"),
+			},
+			"time_to_ack_weekday_interval_config_id": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("EscalationPathNodeNotifyChannelV2", "time_to_ack_weekday_interval_config_id"),
 			},
 		},
 	}
@@ -295,14 +303,23 @@ func escalationPathDelayAttributeDataSource() schema.SingleNestedAttribute {
 				Computed:            true,
 				MarkdownDescription: apischema.Docstring("EscalationPathNodeDelayV2", "delay_seconds"),
 			},
+			"delay_interval_condition": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: EnumValuesDescription("EscalationPathNodeDelayV2", "delay_interval_condition"),
+			},
+			"delay_weekday_interval_config_id": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("EscalationPathNodeDelayV2", "delay_weekday_interval_config_id"),
+			},
 		},
 	}
 }
 
 func escalationPathEscalationPathAttributeDataSource() schema.SingleNestedAttribute {
 	return schema.SingleNestedAttribute{
-		Computed:            true,
-		MarkdownDescription: apischema.Docstring("EscalationPathNodeV2", "escalation_path"),
+		Computed: true,
+		MarkdownDescription: "Reassign the escalation to another escalation path, " +
+			"continuing from that path's first node.",
 		Attributes: map[string]schema.Attribute{
 			"escalation_path_id": schema.StringAttribute{
 				Computed:            true,
@@ -312,27 +329,90 @@ func escalationPathEscalationPathAttributeDataSource() schema.SingleNestedAttrib
 	}
 }
 
-func escalationPathBetaBranchIfAttributeDataSource() schema.SingleNestedAttribute {
-	return schema.SingleNestedAttribute{
-		Computed:            true,
-		MarkdownDescription: "Conditions to test.",
-		Attributes: map[string]schema.Attribute{
-			"alert_properties": schema.ListNestedAttribute{
-				Computed:            true,
-				MarkdownDescription: "Test the alert property.",
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"name": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: "Name of the alert property.",
-						},
-						"value": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: "Value to match.",
-						},
-					},
-				},
-			},
-		},
+func (d *EscalationPathBetaDataSource) ValidateConfig(ctx context.Context, req datasource.ValidateConfigRequest, resp *datasource.ValidateConfigResponse) {
+	var data *escalationPathBetaModel
+	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() || data == nil {
+		return
 	}
+
+	hasID := !data.ID.IsNull() && !data.ID.IsUnknown() && data.ID.ValueString() != ""
+	hasName := !data.Name.IsNull() && !data.Name.IsUnknown() && data.Name.ValueString() != ""
+	if hasID == hasName {
+		resp.Diagnostics.AddError(
+			"Invalid lookup",
+			"Set exactly one of id or name to look up an escalation path.",
+		)
+	}
+}
+
+func (d *EscalationPathBetaDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data escalationPathBetaModel
+	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	var escalationPath *client.EscalationPathV2
+	if !data.ID.IsNull() && data.ID.ValueString() != "" {
+		result, err := d.client.EscalationsV2ShowPathWithResponse(ctx, data.ID.ValueString())
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path, got error: %s", err))
+			return
+		}
+		if result.JSON200 == nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path, unexpected response: %s", result.Status()))
+			return
+		}
+		escalationPath = &result.JSON200.EscalationPath
+	} else {
+		lookup := &IncidentEscalationPathDataSource{dataSourceConfigurer: d.dataSourceConfigurer}
+		escalationPathTypeID, err := lookup.getEscalationPathTypeID(ctx)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", err.Error())
+			return
+		}
+
+		name := data.Name.ValueString()
+		entriesResult, err := d.client.CatalogV3ListEntriesWithResponse(ctx, &client.CatalogV3ListEntriesParams{
+			CatalogTypeId: escalationPathTypeID,
+			Identifier:    &name,
+			PageSize:      1,
+		})
+		if err == nil && entriesResult.StatusCode() >= 400 {
+			err = fmt.Errorf("%s", entriesResult.Body)
+		}
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list catalog entries, got error: %s", err))
+			return
+		}
+		if len(entriesResult.JSON200.CatalogEntries) == 0 {
+			resp.Diagnostics.AddError("Not Found", fmt.Sprintf("Unable to find escalation path with name: %s", name))
+			return
+		}
+
+		catalogEntry := entriesResult.JSON200.CatalogEntries[0]
+		if catalogEntry.ExternalId == nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Catalog entry for escalation path '%s' has no external ID", name))
+			return
+		}
+
+		result, err := d.client.EscalationsV2ShowPathWithResponse(ctx, *catalogEntry.ExternalId)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path with ID %s, got error: %s", *catalogEntry.ExternalId, err))
+			return
+		}
+		if result.JSON200 == nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path, unexpected response: %s", result.Status()))
+			return
+		}
+		escalationPath = &result.JSON200.EscalationPath
+	}
+
+	model := (&escalationPathBetaResource{}).buildModel(ctx, *escalationPath, nil, &resp.Diagnostics)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, model)...)
 }
