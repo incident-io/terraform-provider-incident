@@ -519,9 +519,6 @@ func (binding IncidentEngineParamBinding) resolved() resolvedBinding {
 			Reference: types.StringValue(ExpressionReference(binding.ExpressionRef.ValueString())),
 		}}
 
-	case binding.Values.IsUnknown() || binding.ArrayValue.IsUnknown() || binding.Value.IsUnknown():
-		return resolvedBinding{unsettled: true}
-
 	case isSet(binding.Values) && len(binding.Values.Elements()) > 0:
 		values := []IncidentEngineParamBindingValue{}
 		for _, literal := range binding.Values.Elements() {
@@ -532,6 +529,11 @@ func (binding IncidentEngineParamBinding) resolved() resolvedBinding {
 		}
 
 		return resolvedBinding{ArrayValue: values}
+
+	// Checked after every shorthand, so a form the config did write wins over one it left
+	// for Terraform to settle - the same way a set shorthand wins over a set long form.
+	case binding.Values.IsUnknown() || binding.ArrayValue.IsUnknown() || binding.Value.IsUnknown():
+		return resolvedBinding{unsettled: true}
 	}
 
 	out := resolvedBinding{}

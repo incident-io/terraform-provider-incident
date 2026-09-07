@@ -62,19 +62,31 @@ func TestUnsettledBindingsNeverMeanTheSame(t *testing.T) {
 	}
 }
 
-// A shorthand still wins over an unknown long form, the same way it wins over a set one:
-// ConflictsWith means only one form is ever written, so a shorthand alongside an unknown
-// array_value is the framework's null-vs-unknown bookkeeping, not two competing values.
-func TestAShorthandBeatsAnUnknownLongForm(t *testing.T) {
-	binding := bindValueLiteral("high")
-	binding.ArrayValue = types.ListUnknown(ParamBindingValueType())
+// A form the config wrote wins over one it left for Terraform to settle, the same way a set
+// shorthand wins over a set long form. Every shorthand has to behave the same here: reading
+// one as unsettled because a form nobody wrote is unknown would drop a value the config gave.
+func TestASetFormBeatsAnUnknownOne(t *testing.T) {
+	t.Run("value_literal", func(t *testing.T) {
+		binding := bindValueLiteral("high")
+		binding.ArrayValue = types.ListUnknown(ParamBindingValueType())
 
-	resolved := binding.resolved()
+		resolved := binding.resolved()
 
-	assert.False(t, resolved.unsettled)
-	if assert.NotNil(t, resolved.Value) {
-		assert.Equal(t, "high", resolved.Value.Literal.ValueString())
-	}
+		assert.False(t, resolved.unsettled)
+		if assert.NotNil(t, resolved.Value) {
+			assert.Equal(t, "high", resolved.Value.Literal.ValueString())
+		}
+	})
+
+	t.Run("values", func(t *testing.T) {
+		binding := bindValues("a", "b")
+		binding.ArrayValue = types.ListUnknown(ParamBindingValueType())
+
+		resolved := binding.resolved()
+
+		assert.False(t, resolved.unsettled)
+		assert.Len(t, resolved.ArrayValue, 2)
+	})
 }
 
 // An unsettled binding reaching a payload would send the API an empty binding, which is not
