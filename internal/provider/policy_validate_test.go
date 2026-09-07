@@ -38,9 +38,11 @@ func policySchema(t *testing.T) resource.SchemaResponse {
 func TestPolicyModelMatchesSchema(t *testing.T) {
 	schemaResp := policySchema(t)
 
-	binding := models.IncidentEngineParamBinding{
-		ValueLiteral: jsontypes.NewNormalizedJSONOrStringValue("5"),
-	}
+	// Built from NullParamBinding, not the zero value: a binding's array_value, value and
+	// values are framework types, whose zero values carry no element or attribute type and
+	// so can't be written to state.
+	binding := models.NullParamBinding()
+	binding.ValueLiteral = jsontypes.NewNormalizedJSONOrStringValue("5")
 
 	model := &incidentPolicyResourceModel{
 		ID:          types.StringValue("01POLICY"),
