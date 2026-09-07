@@ -152,9 +152,25 @@ func TestAlertSourceBetaModifyPlanSendsFilterConditionGroups(t *testing.T) {
 	api := &fakeAlertSourceValidateAPI{}
 
 	groupListType := attributeType(t, "filter_condition_groups")
-	groupType := groupListType.(tftypes.List).ElementType.(tftypes.Object)
+	groupList, ok := groupListType.(tftypes.List)
+	if !ok {
+		t.Fatalf("expected a list type, got %s", groupListType)
+	}
+	groupType, ok := groupList.ElementType.(tftypes.Object)
+	if !ok {
+		t.Fatalf("expected an object element type, got %s", groupList.ElementType)
+	}
+
 	conditionsListType := groupType.AttributeTypes["conditions"]
-	conditionType := conditionsListType.(tftypes.List).ElementType.(tftypes.Object)
+	conditionsList, ok := conditionsListType.(tftypes.List)
+	if !ok {
+		t.Fatalf("expected a list type, got %s", conditionsListType)
+	}
+	conditionType, ok := conditionsList.ElementType.(tftypes.Object)
+	if !ok {
+		t.Fatalf("expected an object element type, got %s", conditionsList.ElementType)
+	}
+
 	paramBindingsListType := conditionType.AttributeTypes["param_bindings"]
 
 	condition := objectWith(t, conditionType, map[string]tftypes.Value{
