@@ -110,29 +110,13 @@ func (d *IncidentSeverityDataSource) Read(ctx context.Context, req datasource.Re
 		severity = &result.JSON200.Severity
 
 	case !data.Name.IsNull():
-		result, err := d.client.SeveritiesV1ListWithResponse(ctx)
-		if err == nil && result.StatusCode() >= 400 {
-			err = fmt.Errorf("%s", result.Body)
-		}
+		found, err := d.findByName(ctx, data.Name.ValueString())
 		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list incident severities, got error: %s", err))
-			return
-		}
-		if result.JSON200 == nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list incident severities, unexpected response: %s", result.Status()))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read incident severity by name, got error: %s", err))
 			return
 		}
 
-		name := data.Name.ValueString()
-		found, ok := lo.Find(result.JSON200.Severities, func(severity client.SeverityV1) bool {
-			return severity.Name == name
-		})
-		if !ok {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to find incident severity with name: %s", name))
-			return
-		}
-
-		severity = &found
+		severity = found
 
 	default:
 		resp.Diagnostics.AddError("Missing lookup", "Set one of id or name.")
@@ -147,4 +131,30 @@ func (d *IncidentSeverityDataSource) Read(ctx context.Context, req datasource.Re
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &modelResp)...)
+}
+
+func (d *IncidentSeverityDataSource) findByName(ctx context.Context, name string) (*client.SeverityV1, error) {
+	result, err := d.client.SeveritiesV1ListWithResponse(ctx)
+	if err == nil && result.StatusCode() >= 400 {
+		err = fmt.Errorf("%s", result.Body)
+	}
+	if err != nil {
+		return nil, err
+	}
+	if result.JSON200 == nil {
+		return nil, fmt.Errorf("unexpected response listing incident severities: %s", result.Status())
+	}
+
+	matches := lo.Filter(result.JSON200.Severities, func(severity client.SeverityV1, _ int) bool {
+		return severity.Name == name
+	})
+
+	switch len(matches) {
+	case 0:
+		return nil, fmt.Errorf("no incident severity found with name %q", name)
+	case 1:
+		return &matches[0], nil
+	default:
+		return nil, fmt.Errorf("found %d incident severities named %q; look it up by id instead", len(matches), name)
+	}
 }
