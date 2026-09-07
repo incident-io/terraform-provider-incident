@@ -28,3 +28,25 @@ go run scripts/parse_tf_error.go -o cleaned.txt error_file.txt
 - Produces a cleaner, more readable error message
 
 This is particularly useful for parsing "Provider produced inconsistent result after apply" errors that contain complex cty structures.
+
+## docsfilenames
+
+Runs from `go generate` straight after `tfplugindocs`, and renames the docs page
+of any resource whose name already starts with `incident_` so the filename is
+the full resource name: `docs/resources/incident_role.md` becomes
+`docs/resources/incident_incident_role.md`.
+
+tfplugindocs strips a single `incident_` when naming pages. The Terraform
+Registry sorts its docs nav by that filename but labels each entry with the
+resource name, adding `incident_` back only when the filename doesn't already
+start with it - so `incident_incident_role` was labelled `incident_role`, which
+isn't a resource we have, and sorted under "i" between `escalation_path` and
+`policy`. Naming the page after the resource fixes both.
+
+### Usage
+
+It only needs running as part of docs generation:
+
+```bash
+go generate ./...
+```
