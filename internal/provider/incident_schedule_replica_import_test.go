@@ -86,4 +86,10 @@ func TestIncidentScheduleReplicaSchemas(t *testing.T) {
 	if dataSourceResp.Diagnostics.HasError() {
 		t.Fatalf("data source schema: %+v", dataSourceResp.Diagnostics)
 	}
+
+	var listDataSourceResp datasource.SchemaResponse
+	NewIncidentScheduleReplicasDataSource().Schema(context.Background(), datasource.SchemaRequest{}, &listDataSourceResp)
+	if listDataSourceResp.Diagnostics.HasError() {
+		t.Fatalf("list data source schema: %+v", listDataSourceResp.Diagnostics)
+	}
 }

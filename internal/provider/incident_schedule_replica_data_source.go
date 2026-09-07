@@ -29,86 +29,103 @@ func (d *IncidentScheduleReplicaDataSource) Metadata(_ context.Context, req data
 	resp.TypeName = req.ProviderTypeName + "_schedule_replica"
 }
 
-func (d *IncidentScheduleReplicaDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
-	resp.Schema = schema.Schema{
-		MarkdownDescription: "Look up an existing schedule replica by schedule ID and replica ID.",
-		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				Required:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "id"),
-			},
-			"schedule_id": schema.StringAttribute{
-				Required:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "schedule_id"),
-			},
-			"replica_provider": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: EnumValuesDescription("ScheduleReplicaV2", "replica_provider"),
-			},
-			"replica_provider_id": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "replica_provider_id"),
-			},
-			"replica_fallback_user_id": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "replica_fallback_user_id"),
-			},
-			"mirror_window_days": schema.Int64Attribute{
-				Computed:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "mirror_window_days"),
-			},
-			"sources": schema.SetNestedAttribute{
-				Computed:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "sources"),
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"rotation_id": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("ScheduleReplicaSourceV2", "rotation_id"),
-						},
-						"layer_id": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("ScheduleReplicaSourceV2", "layer_id"),
-						},
+// scheduleReplicaDataSourceItemAttributes is the schema for a single schedule
+// replica as returned by the API. id and schedule_id are Computed so the list
+// data source can use it as-is; the singular data source marks both Required.
+func scheduleReplicaDataSourceItemAttributes() map[string]schema.Attribute {
+	return map[string]schema.Attribute{
+		"id": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "id"),
+		},
+		"schedule_id": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "schedule_id"),
+		},
+		"replica_provider": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: EnumValuesDescription("ScheduleReplicaV2", "replica_provider"),
+		},
+		"replica_provider_id": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "replica_provider_id"),
+		},
+		"replica_fallback_user_id": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "replica_fallback_user_id"),
+		},
+		"mirror_window_days": schema.Int64Attribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "mirror_window_days"),
+		},
+		"sources": schema.SetNestedAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "sources"),
+			NestedObject: schema.NestedAttributeObject{
+				Attributes: map[string]schema.Attribute{
+					"rotation_id": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("ScheduleReplicaSourceV2", "rotation_id"),
 					},
-				},
-			},
-			"created_at": schema.StringAttribute{
-				Computed:            true,
-				CustomType:          timetypes.RFC3339Type{},
-				MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "created_at"),
-			},
-			"updated_at": schema.StringAttribute{
-				Computed:            true,
-				CustomType:          timetypes.RFC3339Type{},
-				MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "updated_at"),
-			},
-			"last_synced_at": schema.StringAttribute{
-				Computed:            true,
-				CustomType:          timetypes.RFC3339Type{},
-				MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "last_synced_at"),
-			},
-			"last_sync_error": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "last_sync_error"),
-			},
-			"user_statuses": schema.SetNestedAttribute{
-				Computed:            true,
-				MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "user_statuses"),
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"user_id": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("ScheduleReplicaUserStatusV2", "user_id"),
-						},
-						"external_user_id": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: apischema.Docstring("ScheduleReplicaUserStatusV2", "external_user_id"),
-						},
+					"layer_id": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("ScheduleReplicaSourceV2", "layer_id"),
 					},
 				},
 			},
 		},
+		"created_at": schema.StringAttribute{
+			Computed:            true,
+			CustomType:          timetypes.RFC3339Type{},
+			MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "created_at"),
+		},
+		"updated_at": schema.StringAttribute{
+			Computed:            true,
+			CustomType:          timetypes.RFC3339Type{},
+			MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "updated_at"),
+		},
+		"last_synced_at": schema.StringAttribute{
+			Computed:            true,
+			CustomType:          timetypes.RFC3339Type{},
+			MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "last_synced_at"),
+		},
+		"last_sync_error": schema.StringAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "last_sync_error"),
+		},
+		"user_statuses": schema.SetNestedAttribute{
+			Computed:            true,
+			MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "user_statuses"),
+			NestedObject: schema.NestedAttributeObject{
+				Attributes: map[string]schema.Attribute{
+					"user_id": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("ScheduleReplicaUserStatusV2", "user_id"),
+					},
+					"external_user_id": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: apischema.Docstring("ScheduleReplicaUserStatusV2", "external_user_id"),
+					},
+				},
+			},
+		},
+	}
+}
+
+func (d *IncidentScheduleReplicaDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+	attributes := scheduleReplicaDataSourceItemAttributes()
+	attributes["id"] = schema.StringAttribute{
+		Required:            true,
+		MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "id"),
+	}
+	attributes["schedule_id"] = schema.StringAttribute{
+		Required:            true,
+		MarkdownDescription: apischema.Docstring("ScheduleReplicaV2", "schedule_id"),
+	}
+
+	resp.Schema = schema.Schema{
+		MarkdownDescription: "Look up an existing schedule replica by schedule ID and replica ID.",
+		Attributes:          attributes,
 	}
 }
 
