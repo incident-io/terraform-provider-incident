@@ -116,6 +116,10 @@ resource "incident_alert_source_beta" "nightly_backup" {
     failure_threshold    = 1
     grace_period_seconds = 3600
   }
+
+  # Pause monitoring without deleting the source, for example during maintenance.
+  # Set false (or omit, after it's been applied once) to resume.
+  disabled = true
 }
 
 # A private source's alerts are visible to nobody until you say which teams can

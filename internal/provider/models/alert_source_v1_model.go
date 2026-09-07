@@ -29,6 +29,7 @@ type AlertSourceResourceModel struct {
 	AutoResolveTimeoutMinutes types.Int64                        `tfsdk:"auto_resolve_timeout_minutes"`
 	AutoResolveIncidentAlerts types.Bool                         `tfsdk:"auto_resolve_incident_alerts"`
 	FilterConditionGroups     IncidentEngineConditionGroups      `tfsdk:"filter_condition_groups"`
+	Disabled                  types.Bool                         `tfsdk:"disabled"`
 }
 
 func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSourceResourceModel {
@@ -95,6 +96,14 @@ func (AlertSourceResourceModel) FromAPIWithPlan(source client.AlertSourceV2, pla
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
 		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),
 		FilterConditionGroups:     filterConditionGroups,
+		// V2 does not return disabled, so keep whatever the plan already had when it is
+		// known. An unknown plan (create, attribute omitted) must settle as null rather
+		// than being stored, or apply fails as an inconsistent result.
+		Disabled: types.BoolNull(),
+	}
+
+	if plan != nil && !plan.Disabled.IsUnknown() {
+		result.Disabled = plan.Disabled
 	}
 
 	if plan != nil && plan.Template != nil {

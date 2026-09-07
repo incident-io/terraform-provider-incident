@@ -1,10 +1,12 @@
 package provider
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
+	"github.com/samber/lo"
 )
 
 // TestAccAlertSourceBeta covers the basic lifecycle: create, read back unchanged,
@@ -60,5 +62,59 @@ resource "incident_alert_source_beta" "test" {
 		Name:        StableSuffix(name),
 		Title:       title,
 		Description: description,
+	})
+}
+
+func testAccAlertSourceBetaHeartbeatConfig(name string, intervalSeconds int, disabled *bool) string {
+	disabledLine := ""
+	if disabled != nil {
+		disabledLine = fmt.Sprintf("  disabled = %t", *disabled)
+	}
+
+	return testRunTemplate("incident_alert_source_beta_heartbeat", `
+resource "incident_alert_source_beta" "test" {
+  name        = {{ quote .Name }}
+  source_type = "heartbeat"
+
+  heartbeat_options = {
+    interval_seconds = {{ .IntervalSeconds }}
+  }
+{{ .DisabledLine }}
+}
+`, struct {
+		Name            string
+		IntervalSeconds int
+		DisabledLine    string
+	}{
+		Name:            StableSuffix(name),
+		IntervalSeconds: intervalSeconds,
+		DisabledLine:    disabledLine,
+	})
+}
+
+// TestAccAlertSourceBetaHeartbeatDisabled pauses and resumes a heartbeat source,
+// including creating one already paused.
+func TestAccAlertSourceBetaHeartbeatDisabled(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceBetaHeartbeatConfig("heartbeat-paused", 60, lo.ToPtr(true)),
+				ConfigPlanChecks: resource.ConfigPlanChecks{
+					PostApplyPostRefresh: []plancheck.PlanCheck{plancheck.ExpectEmptyPlan()},
+				},
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source_beta.test", "source_type", "heartbeat"),
+					resource.TestCheckResourceAttr("incident_alert_source_beta.test", "disabled", "true"),
+				),
+			},
+			{
+				Config: testAccAlertSourceBetaHeartbeatConfig("heartbeat-paused", 60, lo.ToPtr(false)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source_beta.test", "disabled", "false"),
+				),
+			},
+		},
 	})
 }

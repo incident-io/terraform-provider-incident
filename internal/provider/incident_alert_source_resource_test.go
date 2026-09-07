@@ -9,6 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
+	"github.com/samber/lo"
 )
 
 func TestAccAlertSourceResource(t *testing.T) {
@@ -280,6 +281,15 @@ func TestAccAlertSourceResource_Heartbeat(t *testing.T) {
 }
 
 func testAccAlertSourceResourceConfigWithHeartbeat(name string, intervalSeconds int) string {
+	return testAccAlertSourceResourceConfigWithHeartbeatDisabled(name, intervalSeconds, nil)
+}
+
+func testAccAlertSourceResourceConfigWithHeartbeatDisabled(name string, intervalSeconds int, disabled *bool) string {
+	disabledLine := ""
+	if disabled != nil {
+		disabledLine = fmt.Sprintf("  disabled = %t", *disabled)
+	}
+
 	return testRunTemplate("incident_alert_source_heartbeat", `
 resource "incident_alert_source" "test" {
   name        = {{ quote .Name }}
@@ -295,13 +305,38 @@ resource "incident_alert_source" "test" {
   heartbeat_options = {
     interval_seconds = {{ .IntervalSeconds }}
   }
+{{ .DisabledLine }}
 }
 `, struct {
 		Name            string
 		IntervalSeconds int
+		DisabledLine    string
 	}{
 		Name:            StableSuffix(name),
 		IntervalSeconds: intervalSeconds,
+		DisabledLine:    disabledLine,
+	})
+}
+
+// TestAccAlertSourceResource_HeartbeatDisabled pauses and resumes a heartbeat source.
+func TestAccAlertSourceResource_HeartbeatDisabled(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceResourceConfigWithHeartbeatDisabled("heartbeat-paused", 60, lo.ToPtr(true)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "disabled", "true"),
+				),
+			},
+			{
+				Config: testAccAlertSourceResourceConfigWithHeartbeatDisabled("heartbeat-paused", 60, lo.ToPtr(false)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "disabled", "false"),
+				),
+			},
+		},
 	})
 }
 
@@ -397,6 +432,31 @@ resource "incident_alert_source" "test" {
 				}),
 				PlanOnly:    true,
 				ExpectError: regexp.MustCompile("heartbeat_options can only be set when source_type is heartbeat"),
+			},
+			{
+				Config: testRunTemplate("incident_alert_source_invalid_disabled", `
+resource "incident_alert_source" "test" {
+  name        = "Not a heartbeat"
+  source_type = "datadog"
+  disabled    = true
+
+  template = {
+    expressions = [],
+    title = {
+      literal = {{ quote .Title }}
+    },
+    description = {
+      literal = {{ quote .Description }}
+    },
+    attributes = []
+  }
+}
+`, struct{ Title, Description string }{
+					Title:       testAlertSourceTitle,
+					Description: testAlertSourceDescription,
+				}),
+				PlanOnly:    true,
+				ExpectError: regexp.MustCompile("disabled can only be set when source_type is heartbeat"),
 			},
 			{
 				// Test email_options with wrong source_type
