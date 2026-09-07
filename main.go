@@ -16,6 +16,7 @@ import (
 // Format terraform and generate docs:
 //go:generate terraform fmt -recursive ./examples/
 //go:generate go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs
+//go:generate go run ./scripts/docsfilenames
 
 var (
 	version string = "dev" // set by goreleaser
