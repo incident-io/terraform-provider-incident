@@ -541,9 +541,21 @@ func (binding IncidentEngineParamBinding) resolved() resolvedBinding {
 		out.Value = lo.ToPtr(ParamBindingValueFromObject(binding.Value))
 	}
 	for _, element := range binding.ArrayValue.Elements() {
-		if value, ok := element.(types.Object); ok {
-			out.ArrayValue = append(out.ArrayValue, ParamBindingValueFromObject(value))
+		value, ok := element.(types.Object)
+		if !ok {
+			continue
 		}
+
+		// An element Terraform hasn't settled leaves the whole binding unsettled. The list
+		// around it can be known while an element isn't - a ternary whose branches are the
+		// same length gives exactly that, which is how the reported failure arrived - and
+		// reading such an element off would produce a value with no literal and no
+		// reference, indistinguishable from one the config left empty.
+		if value.IsUnknown() {
+			return resolvedBinding{unsettled: true}
+		}
+
+		out.ArrayValue = append(out.ArrayValue, ParamBindingValueFromObject(value))
 	}
 
 	return out

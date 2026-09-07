@@ -3,6 +3,7 @@ package provider
 import (
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
@@ -20,7 +21,7 @@ import (
 //
 // The forms are covered together because they share one cause: value_literal and
 // value_reference were always framework types and never had the problem.
-var unknownBindingForms = []string{"array_value", "value", "values"}
+var unknownBindingForms = []string{"array_value", "array_value[0]", "value", "values"}
 
 // objectType narrows a schema type, failing the test rather than panicking when the schema
 // isn't the shape a case expects.
@@ -64,13 +65,39 @@ func bindingWithUnknown(t *testing.T, bindingType tftypes.Object, field string) 
 		t.Fatalf("reading the binding back: %v", err)
 	}
 
-	fieldType, ok := bindingType.AttributeTypes[field]
+	setUnknownForm(t, attributes, bindingType.AttributeTypes, field)
+
+	return tftypes.NewValue(bindingType, attributes)
+}
+
+// setUnknownForm marks one binding form unknown among attributes.
+//
+// "array_value[0]" is the whole list known with one unknown element, which is how the
+// reported failure actually arrived: a ternary whose branches are the same length lets
+// Terraform settle the list's length without settling what is in it, so the unknown lands
+// at array_value[0] rather than at array_value.
+func setUnknownForm(
+	t *testing.T,
+	attributes map[string]tftypes.Value,
+	attrTypes map[string]tftypes.Type,
+	field string,
+) {
+	t.Helper()
+
+	if field == "array_value[0]" {
+		arrayType := listType(t, attrTypes["array_value"])
+		attributes["array_value"] = tftypes.NewValue(arrayType, []tftypes.Value{
+			tftypes.NewValue(arrayType.ElementType, tftypes.UnknownValue),
+		})
+
+		return
+	}
+
+	fieldType, ok := attrTypes[field]
 	if !ok {
 		t.Fatalf("the binding has no %s attribute", field)
 	}
 	attributes[field] = tftypes.NewValue(fieldType, tftypes.UnknownValue)
-
-	return tftypes.NewValue(bindingType, attributes)
 }
 
 // conditionWithUnknownBinding builds one condition whose single param binding is unknown in
@@ -256,7 +283,7 @@ func TestAlertSourceAttributeReadsAnUnknownBinding(t *testing.T) {
 			}
 			attributes["alert_source_id"] = tftypes.NewValue(tftypes.String, "01SOURCE")
 			attributes["alert_attribute_id"] = tftypes.NewValue(tftypes.String, "01ATTRIBUTE")
-			attributes[field] = tftypes.NewValue(objType.AttributeTypes[field], tftypes.UnknownValue)
+			setUnknownForm(t, attributes, objType.AttributeTypes, field)
 
 			config := tfsdk.Config{Schema: schemaResp.Schema, Raw: tftypes.NewValue(objType, attributes)}
 
@@ -277,6 +304,10 @@ func TestUnknownBindingCountsAsOneForm(t *testing.T) {
 			switch field {
 			case "array_value":
 				binding.ArrayValue = types.ListUnknown(models.BindingValueType())
+			case "array_value[0]":
+				binding.ArrayValue = types.ListValueMust(models.BindingValueType(), []attr.Value{
+					types.ObjectUnknown(models.BindingValueAttrTypes()),
+				})
 			case "value":
 				binding.Value = types.ObjectUnknown(models.BindingValueAttrTypes())
 			case "values":

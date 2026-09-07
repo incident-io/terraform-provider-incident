@@ -3,6 +3,7 @@ package models
 import (
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/stretchr/testify/assert"
 
@@ -23,10 +24,19 @@ func unknownBindings() map[string]IncidentEngineParamBinding {
 	values := NullParamBinding()
 	values.Values = types.ListUnknown(jsontypes.NormalizedJSONOrStringType{})
 
+	// The list is KNOWN here and only the element inside it isn't, which is what a ternary
+	// whose branches are the same length produces - and is how the reported failure actually
+	// arrived, as array_value[0] rather than array_value.
+	arrayElement := NullParamBinding()
+	arrayElement.ArrayValue = types.ListValueMust(ParamBindingValueType(), []attr.Value{
+		types.ObjectUnknown(ParamBindingValueAttrTypes()),
+	})
+
 	return map[string]IncidentEngineParamBinding{
-		"array_value": arrayValue,
-		"value":       value,
-		"values":      values,
+		"array_value":         arrayValue,
+		"array_value element": arrayElement,
+		"value":               value,
+		"values":              values,
 	}
 }
 
