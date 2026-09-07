@@ -409,6 +409,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 - `auto_resolve_timeout_minutes` (Number) When set, alerts from this source will automatically resolve after this many minutes.
 - `email_address` (String) Email address this alert source receives alerts to
 - `email_options` (Attributes) (see [below for nested schema](#nestedatt--email_options))
+- `filter_condition_groups` (Attributes List) Conditions an incoming event must match to be ingested from this source, evaluated against the event's payload and this source's expressions. When empty, everything is ingested; otherwise a firing event that doesn't match is dropped and never creates or updates an alert. Resolve events are never filtered. (see [below for nested schema](#nestedatt--filter_condition_groups))
 - `fixed_team_id` (String) When set, the team every alert from this source is attributed to. The team attribute is managed from this field: its binding is not returned in the template and cannot be edited directly. While set, don't bind the organisation's team attribute in `template.attributes`: the binding is managed from this field, a binding sent in the template is ignored, and reads leave it out — so a config carrying both never settles.
 - `heartbeat_options` (Attributes) (see [below for nested schema](#nestedatt--heartbeat_options))
 - `http_custom_options` (Attributes) (see [below for nested schema](#nestedatt--http_custom_options))
@@ -820,6 +821,55 @@ Required:
 Optional:
 
 - `transform_expression` (String) JavaScript expression to transform email fields into structured alert fields
+
+
+<a id="nestedatt--filter_condition_groups"></a>
+### Nested Schema for `filter_condition_groups`
+
+Required:
+
+- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--filter_condition_groups--conditions))
+
+<a id="nestedatt--filter_condition_groups--conditions"></a>
+### Nested Schema for `filter_condition_groups.conditions`
+
+Required:
+
+- `operation` (String) The logical operation to be applied
+- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--filter_condition_groups--conditions--param_bindings))
+- `subject` (String) The subject of the condition, on which the operation is applied
+
+<a id="nestedatt--filter_condition_groups--conditions--param_bindings"></a>
+### Nested Schema for `filter_condition_groups.conditions.param_bindings`
+
+Optional:
+
+- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--filter_condition_groups--conditions--param_bindings--array_value))
+- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
+- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--filter_condition_groups--conditions--param_bindings--value))
+- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
+- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
+
+<a id="nestedatt--filter_condition_groups--conditions--param_bindings--array_value"></a>
+### Nested Schema for `filter_condition_groups.conditions.param_bindings.array_value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+<a id="nestedatt--filter_condition_groups--conditions--param_bindings--value"></a>
+### Nested Schema for `filter_condition_groups.conditions.param_bindings.value`
+
+Optional:
+
+- `literal` (String) If set, this is the literal value of the step parameter
+- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
+
+
+
 
 
 <a id="nestedatt--heartbeat_options"></a>
