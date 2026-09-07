@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Add the `incident_ip_allowlist` data source, which reads the organisation's IP allowlist: whether it is enabled, its version, and the IP addresses or CIDR prefixes — with optional labels — that are allowed to reach the dashboard, public API and mobile app. There is no matching resource, so this is how you inspect an allowlist that the dashboard owns.
 - Add the `incident_severity` data source, which looks up an existing incident severity by `id` or by `name` and returns its description and rank.
 - Add the `incident_escalation_path_beta` data source, which looks up an existing escalation path by `id` or by `name` and returns it in the same flat `sequences` shape as the `incident_escalation_path_beta` resource.
 - Add the `incident_alert_source_attribute_beta` data source, which looks up one alert source attribute binding by `alert_source_id` and `alert_attribute_id`.
