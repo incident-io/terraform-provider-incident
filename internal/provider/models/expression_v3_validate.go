@@ -382,11 +382,14 @@ func ValidateBinding(binding *Binding, at path.Path, known map[string]bool, diag
 		validateExpressionRef(binding.ExpressionRef.ValueString(), at.AtName("expression_ref"), known, diags)
 	}
 
-	if binding.Value != nil {
-		validateBindingValue(*binding.Value, at.AtName("value"), diags)
+	// A value or array Terraform hasn't settled has nothing to check yet - what it holds is
+	// decided after the plan. BindingObject and BindingArray read one as absent, so this
+	// skips it rather than reporting a missing value against a config that has one.
+	if value, ok := binding.BindingObject(); ok {
+		validateBindingValue(value, at.AtName("value"), diags)
 	}
 
-	for idx, value := range binding.ArrayValue {
+	for idx, value := range binding.BindingArray() {
 		validateBindingValue(value, at.AtName("array_value").AtListIndex(idx), diags)
 	}
 }

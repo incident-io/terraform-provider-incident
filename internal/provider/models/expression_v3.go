@@ -1,7 +1,9 @@
 package models
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/samber/lo"
 )
 
 // The V3 expression and binding grammar: sugar over the engine schema, which is positional
@@ -133,16 +135,132 @@ type Else struct {
 
 // Binding carries the sugar spellings alongside the full forms. `values` covers the
 // all-literal array; array_value stays because a mixed literal/reference array is real.
+//
+// values, value and array_value are framework types rather than a slice and a pointer,
+// because a config may point any of them at an expression Terraform hasn't settled - a
+// local, a for, a ternary, each.value - and a slice can hold no such thing. Read them
+// through BindingValues, BindingObject and BindingArray, which say what an unknown means
+// once rather than at every use.
 type Binding struct {
-	ValueLiteral   types.String   `tfsdk:"value_literal"`
-	ValueReference types.String   `tfsdk:"value_reference"`
-	ExpressionRef  types.String   `tfsdk:"expression_ref"`
-	Values         []types.String `tfsdk:"values"`
-	Value          *BindingValue  `tfsdk:"value"`
-	ArrayValue     []BindingValue `tfsdk:"array_value"`
+	ValueLiteral   types.String `tfsdk:"value_literal"`
+	ValueReference types.String `tfsdk:"value_reference"`
+	ExpressionRef  types.String `tfsdk:"expression_ref"`
+	Values         types.List   `tfsdk:"values"`
+	Value          types.Object `tfsdk:"value"`
+	ArrayValue     types.List   `tfsdk:"array_value"`
 }
 
 type BindingValue struct {
 	Literal   types.String `tfsdk:"literal"`
 	Reference types.String `tfsdk:"reference"`
+}
+
+// BindingValueAttrTypes must match the value object BindingAttributes declares.
+func BindingValueAttrTypes() map[string]attr.Type {
+	return map[string]attr.Type{
+		"literal":   types.StringType,
+		"reference": types.StringType,
+	}
+}
+
+// BindingValueType is the type of a binding's value, and of one array_value element.
+func BindingValueType() types.ObjectType {
+	return types.ObjectType{AttrTypes: BindingValueAttrTypes()}
+}
+
+// NullBinding is a binding with nothing set. Use it rather than the zero value: a
+// zero-value types.List carries no element type, and the framework can't write one to state.
+func NullBinding() Binding {
+	return Binding{
+		ValueLiteral:   types.StringNull(),
+		ValueReference: types.StringNull(),
+		ExpressionRef:  types.StringNull(),
+		Values:         types.ListNull(types.StringType),
+		Value:          types.ObjectNull(BindingValueAttrTypes()),
+		ArrayValue:     types.ListNull(BindingValueType()),
+	}
+}
+
+func (v BindingValue) ToObject() types.Object {
+	return types.ObjectValueMust(BindingValueAttrTypes(), map[string]attr.Value{
+		"literal":   v.Literal,
+		"reference": v.Reference,
+	})
+}
+
+// BindingArrayValue builds a binding's array_value. No values at all reads as unset.
+func BindingArrayValue(values ...BindingValue) types.List {
+	if len(values) == 0 {
+		return types.ListNull(BindingValueType())
+	}
+
+	return types.ListValueMust(BindingValueType(), lo.Map(values,
+		func(v BindingValue, _ int) attr.Value { return v.ToObject() }))
+}
+
+// BindingValuesList builds a binding's values shorthand.
+func BindingValuesList(literals ...string) types.List {
+	if len(literals) == 0 {
+		return types.ListNull(types.StringType)
+	}
+
+	return types.ListValueMust(types.StringType, lo.Map(literals,
+		func(s string, _ int) attr.Value { return types.StringValue(s) }))
+}
+
+// BindingObject reads a binding's value, reporting false when it holds none - which
+// includes one Terraform hasn't settled, because there is nothing yet to read.
+func (b Binding) BindingObject() (BindingValue, bool) {
+	if b.Value.IsNull() || b.Value.IsUnknown() {
+		return BindingValue{}, false
+	}
+
+	return bindingValueFromObject(b.Value), true
+}
+
+// BindingArray reads a binding's array_value. An unknown list reads as no values, for the
+// same reason.
+func (b Binding) BindingArray() []BindingValue {
+	if b.ArrayValue.IsNull() || b.ArrayValue.IsUnknown() {
+		return nil
+	}
+
+	out := make([]BindingValue, 0, len(b.ArrayValue.Elements()))
+	for _, element := range b.ArrayValue.Elements() {
+		if obj, ok := element.(types.Object); ok {
+			out = append(out, bindingValueFromObject(obj))
+		}
+	}
+
+	return out
+}
+
+// BindingValues reads a binding's values shorthand.
+func (b Binding) BindingValues() []types.String {
+	if b.Values.IsNull() || b.Values.IsUnknown() {
+		return nil
+	}
+
+	out := make([]types.String, 0, len(b.Values.Elements()))
+	for _, element := range b.Values.Elements() {
+		if str, ok := element.(types.String); ok {
+			out = append(out, str)
+		}
+	}
+
+	return out
+}
+
+func bindingValueFromObject(obj types.Object) BindingValue {
+	attrs := obj.Attributes()
+	value := BindingValue{Literal: types.StringNull(), Reference: types.StringNull()}
+
+	if literal, ok := attrs["literal"].(types.String); ok {
+		value.Literal = literal
+	}
+	if reference, ok := attrs["reference"].(types.String); ok {
+		value.Reference = reference
+	}
+
+	return value
 }

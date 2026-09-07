@@ -6,7 +6,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
+
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
 // A param binding attribute a config points at anything other than a literal - a local, a
@@ -18,6 +21,38 @@ import (
 // The forms are covered together because they share one cause: value_literal and
 // value_reference were always framework types and never had the problem.
 var unknownBindingForms = []string{"array_value", "value", "values"}
+
+// objectType narrows a schema type, failing the test rather than panicking when the schema
+// isn't the shape a case expects.
+func objectType(t *testing.T, in tftypes.Type) tftypes.Object {
+	t.Helper()
+
+	out, ok := in.(tftypes.Object)
+	if !ok {
+		t.Fatalf("expected an object type, got %s", in)
+	}
+
+	return out
+}
+
+// listType is objectType for a list.
+func listType(t *testing.T, in tftypes.Type) tftypes.List {
+	t.Helper()
+
+	out, ok := in.(tftypes.List)
+	if !ok {
+		t.Fatalf("expected a list type, got %s", in)
+	}
+
+	return out
+}
+
+// schemaType is the object type a resource's schema describes.
+func schemaType(t *testing.T, schemaResp resource.SchemaResponse) tftypes.Object {
+	t.Helper()
+
+	return objectType(t, schemaResp.Schema.Type().TerraformType(t.Context()))
+}
 
 // bindingWithUnknown builds one param binding object with field set to unknown and every
 // other attribute null.
@@ -43,18 +78,9 @@ func bindingWithUnknown(t *testing.T, bindingType tftypes.Object, field string) 
 func conditionWithUnknownBinding(t *testing.T, conditionsType tftypes.List, subject, field string) tftypes.Value {
 	t.Helper()
 
-	conditionType, ok := conditionsType.ElementType.(tftypes.Object)
-	if !ok {
-		t.Fatal("expected conditions to hold objects")
-	}
-	bindingsType, ok := conditionType.AttributeTypes["param_bindings"].(tftypes.List)
-	if !ok {
-		t.Fatal("expected param_bindings to be a list")
-	}
-	bindingType, ok := bindingsType.ElementType.(tftypes.Object)
-	if !ok {
-		t.Fatal("expected param_bindings to hold objects")
-	}
+	conditionType := objectType(t, conditionsType.ElementType)
+	bindingsType := listType(t, conditionType.AttributeTypes["param_bindings"])
+	bindingType := objectType(t, bindingsType.ElementType)
 
 	attributes := map[string]tftypes.Value{}
 	if err := nullFilledObject(t, conditionType).As(&attributes); err != nil {
@@ -78,10 +104,10 @@ func TestEscalationPathValidatesAnUnknownConditionBinding(t *testing.T) {
 		t.Run(field, func(t *testing.T) {
 			objType := escalationPathSchemaType(t)
 
-			pathType := objType.AttributeTypes["path"].(tftypes.List)
-			nodeType := pathType.ElementType.(tftypes.Object)
-			ifElseType := nodeType.AttributeTypes["if_else"].(tftypes.Object)
-			conditionsType := ifElseType.AttributeTypes["conditions"].(tftypes.List)
+			pathType := listType(t, objType.AttributeTypes["path"])
+			nodeType := objectType(t, pathType.ElementType)
+			ifElseType := objectType(t, nodeType.AttributeTypes["if_else"])
+			conditionsType := listType(t, ifElseType.AttributeTypes["conditions"])
 
 			condition := conditionWithUnknownBinding(t, conditionsType, "escalation.priority", field)
 
@@ -158,14 +184,11 @@ func TestConditionGroupsReadAnUnknownBinding(t *testing.T) {
 			for _, field := range unknownBindingForms {
 				t.Run(field, func(t *testing.T) {
 					schemaResp := tc.schema(t)
-					objType := schemaResp.Schema.Type().TerraformType(t.Context()).(tftypes.Object)
+					objType := schemaType(t, schemaResp)
 
-					groupsType, ok := objType.AttributeTypes[tc.attribute].(tftypes.List)
-					if !ok {
-						t.Fatalf("expected %s to be a list", tc.attribute)
-					}
-					groupType := groupsType.ElementType.(tftypes.Object)
-					conditionsType := groupType.AttributeTypes["conditions"].(tftypes.List)
+					groupsType := listType(t, objType.AttributeTypes[tc.attribute])
+					groupType := objectType(t, groupsType.ElementType)
+					conditionsType := listType(t, groupType.AttributeTypes["conditions"])
 
 					condition := conditionWithUnknownBinding(t, conditionsType, tc.subject, field)
 
@@ -195,12 +218,12 @@ func TestConditionGroupsReadAnUnknownBinding(t *testing.T) {
 }
 
 // resourceSchema builds a resource's schema, for the table above.
-func resourceSchema(new func() resource.Resource) func(*testing.T) resource.SchemaResponse {
+func resourceSchema(newResource func() resource.Resource) func(*testing.T) resource.SchemaResponse {
 	return func(t *testing.T) resource.SchemaResponse {
 		t.Helper()
 
 		var resp resource.SchemaResponse
-		new().Schema(t.Context(), resource.SchemaRequest{}, &resp)
+		newResource().Schema(t.Context(), resource.SchemaRequest{}, &resp)
 		if resp.Diagnostics.HasError() {
 			t.Fatalf("building the schema: %+v", resp.Diagnostics)
 		}
@@ -214,5 +237,55 @@ func assertNoDiagErrors(t *testing.T, diags diag.Diagnostics) {
 
 	for _, d := range diags.Errors() {
 		t.Errorf("%s: %s", d.Summary(), d.Detail())
+	}
+}
+
+// TestAlertSourceAttributeReadsAnUnknownBinding covers the v3 binding model, which repeated
+// the v2 model's shape and so had the same problem. This resource holds the value forms at
+// its top level, so a config that points one at anything Terraform hasn't settled fails
+// inside Config.Get, before ValidateConfig runs.
+func TestAlertSourceAttributeReadsAnUnknownBinding(t *testing.T) {
+	for _, field := range unknownBindingForms {
+		t.Run(field, func(t *testing.T) {
+			schemaResp := resourceSchema(NewAlertSourceAttributeBetaResource)(t)
+			objType := schemaType(t, schemaResp)
+
+			attributes := map[string]tftypes.Value{}
+			for name, attrType := range objType.AttributeTypes {
+				attributes[name] = tftypes.NewValue(attrType, nil)
+			}
+			attributes["alert_source_id"] = tftypes.NewValue(tftypes.String, "01SOURCE")
+			attributes["alert_attribute_id"] = tftypes.NewValue(tftypes.String, "01ATTRIBUTE")
+			attributes[field] = tftypes.NewValue(objType.AttributeTypes[field], tftypes.UnknownValue)
+
+			config := tfsdk.Config{Schema: schemaResp.Schema, Raw: tftypes.NewValue(objType, attributes)}
+
+			var model *alertSourceAttributeBetaModel
+			assertNoDiagErrors(t, config.Get(t.Context(), &model))
+		})
+	}
+}
+
+// A binding whose only form is one Terraform hasn't settled still names exactly one form.
+// SetBindingForms counting it as none would report "set exactly one of ..." against a config
+// that set exactly one, and counting it twice would report the same against a config that
+// set one and left the rest null.
+func TestUnknownBindingCountsAsOneForm(t *testing.T) {
+	for _, field := range unknownBindingForms {
+		t.Run(field, func(t *testing.T) {
+			binding := models.NullBinding()
+			switch field {
+			case "array_value":
+				binding.ArrayValue = types.ListUnknown(models.BindingValueType())
+			case "value":
+				binding.Value = types.ObjectUnknown(models.BindingValueAttrTypes())
+			case "values":
+				binding.Values = types.ListUnknown(types.StringType)
+			}
+
+			if got := models.SetBindingForms(&binding); got != 1 {
+				t.Errorf("an unknown %s counted as %d forms, want 1", field, got)
+			}
+		})
 	}
 }

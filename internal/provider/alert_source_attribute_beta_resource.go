@@ -51,12 +51,15 @@ type alertSourceAttributeBetaModel struct {
 	AlertAttributeID types.String `tfsdk:"alert_attribute_id"`
 	MergeStrategy    types.String `tfsdk:"merge_strategy"`
 
-	ValueLiteral   types.String          `tfsdk:"value_literal"`
-	ValueReference types.String          `tfsdk:"value_reference"`
-	ExpressionRef  types.String          `tfsdk:"expression_ref"`
-	Values         []types.String        `tfsdk:"values"`
-	Value          *models.BindingValue  `tfsdk:"value"`
-	ArrayValue     []models.BindingValue `tfsdk:"array_value"`
+	// These mirror models.Binding's fields, and hold the same framework types for the same
+	// reason: a config may point values, value or array_value at an expression Terraform
+	// hasn't settled, which a slice or a pointer can't hold.
+	ValueLiteral   types.String `tfsdk:"value_literal"`
+	ValueReference types.String `tfsdk:"value_reference"`
+	ExpressionRef  types.String `tfsdk:"expression_ref"`
+	Values         types.List   `tfsdk:"values"`
+	Value          types.Object `tfsdk:"value"`
+	ArrayValue     types.List   `tfsdk:"array_value"`
 
 	Expression       *models.Expression       `tfsdk:"expression"`
 	NamedExpressions []models.NamedExpression `tfsdk:"named_expression"`
@@ -584,10 +587,17 @@ func alertSourceAttributeBetaFromAPI(
 }
 
 // bindingToModel spreads a binding's spellings onto the resource's own attributes.
+//
+// Every spelling is reset first, including the three framework ones: their zero values carry
+// no element or attribute type, and the framework can't write those to state.
 func bindingToModel(binding *models.Binding, model *alertSourceAttributeBetaModel) {
-	model.ValueLiteral = types.StringNull()
-	model.ValueReference = types.StringNull()
-	model.ExpressionRef = types.StringNull()
+	empty := models.NullBinding()
+	model.ValueLiteral = empty.ValueLiteral
+	model.ValueReference = empty.ValueReference
+	model.ExpressionRef = empty.ExpressionRef
+	model.Values = empty.Values
+	model.Value = empty.Value
+	model.ArrayValue = empty.ArrayValue
 
 	if binding == nil {
 		return
