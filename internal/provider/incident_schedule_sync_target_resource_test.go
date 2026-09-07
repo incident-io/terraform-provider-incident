@@ -28,6 +28,18 @@ func TestAccIncidentScheduleSyncTargetResource(t *testing.T) {
 					resource.TestCheckResourceAttrSet("incident_schedule_sync_target.test", "id"),
 					resource.TestCheckResourceAttrSet("incident_schedule_sync_target.test", "slack_user_group_id"),
 					resource.TestCheckResourceAttrSet("incident_schedule_sync_target.test", "slack_team_id"),
+					resource.TestCheckResourceAttrPair(
+						"data.incident_schedule_sync_target.by_id", "id",
+						"incident_schedule_sync_target.test", "id",
+					),
+					resource.TestCheckResourceAttrPair(
+						"data.incident_schedule_sync_target.by_slack_group", "id",
+						"incident_schedule_sync_target.test", "id",
+					),
+					resource.TestCheckResourceAttrPair(
+						"data.incident_schedule_sync_target.by_id", "slack_user_group_id",
+						"incident_schedule_sync_target.test", "slack_user_group_id",
+					),
 				),
 			},
 			// Update add_bot_to_group to false
@@ -59,6 +71,14 @@ resource "incident_schedule_sync_target" "test" {
     handle      = {{ quote .Handle }}
     description = {{ quote .Description }}
   }
+}
+
+data "incident_schedule_sync_target" "by_id" {
+  id = incident_schedule_sync_target.test.id
+}
+
+data "incident_schedule_sync_target" "by_slack_group" {
+  slack_user_group_id = incident_schedule_sync_target.test.slack_user_group_id
 }
 `, struct {
 		Name          string
