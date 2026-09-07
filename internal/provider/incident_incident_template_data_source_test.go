@@ -101,7 +101,8 @@ func TestIncidentIncidentTemplateDataSourceRead(t *testing.T) {
 		if model.Template == nil || model.Template.Name == nil {
 			t.Fatal("expected template.name to be set")
 		}
-		if got := model.Template.Name.Value.Literal.ValueString(); got != "Support escalations" {
+		name := models.ParamBindingValueFromObject(model.Template.Name.Value)
+		if got := name.Literal.ValueString(); got != "Support escalations" {
 			t.Errorf("got template.name.value.literal %q, want Support escalations", got)
 		}
 	})

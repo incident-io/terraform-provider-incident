@@ -162,7 +162,7 @@ func TestExpressionRoundTrip(t *testing.T) {
 								Subject:   types.StringValue("input.tier"),
 								Operation: types.StringValue("one_of"),
 								Params: []Binding{
-									{Values: []types.String{types.StringValue("1"), types.StringValue("2")}},
+									*v3Values("1", "2"),
 								},
 							},
 						},
@@ -203,14 +203,14 @@ func TestExpressionRoundTrip(t *testing.T) {
 								Subject:   types.StringValue("payload.severity"),
 								Operation: types.StringValue("is_set"),
 							}},
-							Result: &Binding{ValueLiteral: types.StringValue("major")},
+							Result: v3ValueLiteral("major"),
 						},
 						ElseIf: []Branch{{
 							Conditions: []Condition{{
 								Subject:   types.StringValue("payload.tier"),
 								Operation: types.StringValue("is_set"),
 							}},
-							Result: &Binding{ValueReference: types.StringValue("payload.tier")},
+							Result: v3ValueReference("payload.tier"),
 						}},
 					}},
 				},
@@ -229,10 +229,7 @@ func TestExpressionRoundTrip(t *testing.T) {
 								Subject:   types.StringValue("payload.env"),
 								Operation: types.StringValue("is_set"),
 							}},
-							Result: &Binding{ArrayValue: []BindingValue{
-								{Literal: types.StringValue("core")},
-								{Reference: types.StringValue("payload.team")},
-							}},
+							Result: v3Array(v3Literal("core"), v3Reference("payload.team")),
 						},
 					}},
 				},
@@ -243,7 +240,7 @@ func TestExpressionRoundTrip(t *testing.T) {
 			bound: &Expression{
 				StartFrom:  types.StringValue("payload"),
 				Operations: []Operation{{Cast: &Cast{As: types.StringValue("Text")}}},
-				Fallback:   &Fallback{Result: &Binding{ValueLiteral: types.StringValue("unknown")}},
+				Fallback:   &Fallback{Result: v3ValueLiteral("unknown")},
 			},
 		},
 		{
@@ -272,16 +269,16 @@ func TestExpressionRoundTrip(t *testing.T) {
 							Subject:   types.StringValue("payload.env"),
 							Operation: types.StringValue("is_set"),
 						}},
-						Result: &Binding{ValueLiteral: types.StringValue("staging")},
+						Result: v3ValueLiteral("staging"),
 					},
 					ElseIf: []Branch{{
 						Conditions: []Condition{{
 							Subject:   types.StringValue("payload.region"),
 							Operation: types.StringValue("is_set"),
 						}},
-						Result: &Binding{ValueLiteral: types.StringValue("eu")},
+						Result: v3ValueLiteral("eu"),
 					}},
-					Else: &Else{Result: &Binding{ValueLiteral: types.StringValue("production")}},
+					Else: &Else{Result: v3ValueLiteral("production")},
 				},
 			},
 		},
@@ -296,7 +293,7 @@ func TestExpressionRoundTrip(t *testing.T) {
 							Subject:   types.StringValue("payload.env"),
 							Operation: types.StringValue("is_set"),
 						}},
-						Result: &Binding{ValueLiteral: types.StringValue("staging")},
+						Result: v3ValueLiteral("staging"),
 					},
 				},
 			},
@@ -312,9 +309,9 @@ func TestExpressionRoundTrip(t *testing.T) {
 							Conditions: []Condition{{
 								Subject:   types.StringValue("payload.env"),
 								Operation: types.StringValue("is_set"),
-								Params:    []Binding{{ExpressionRef: types.StringValue("guess")}},
+								Params:    []Binding{*v3ExpressionRef("guess")},
 							}},
-							Result: &Binding{ExpressionRef: types.StringValue("guess")},
+							Result: v3ExpressionRef("guess"),
 						},
 					}},
 				},
@@ -407,7 +404,7 @@ func TestImportOrdersExpressionsStably(t *testing.T) {
 			Fallback: &Fallback{
 				If: &Branch{
 					Conditions: []Condition{{Subject: types.StringValue("payload.env"), Operation: types.StringValue("is_set")}},
-					Result:     &Binding{ValueLiteral: types.StringValue("staging")},
+					Result:     v3ValueLiteral("staging"),
 				},
 			},
 		},
@@ -471,7 +468,7 @@ func TestPriorSpellingSurvivesRead(t *testing.T) {
 						As: types.StringValue("Text"),
 						If: &Branch{
 							Conditions: []Condition{condition},
-							Result:     &Binding{Value: &BindingValue{Literal: types.StringValue("high")}},
+							Result:     v3Value(v3Literal("high")),
 						},
 					},
 				}},
@@ -488,12 +485,7 @@ func TestPriorSpellingSurvivesRead(t *testing.T) {
 						Conditions: []Condition{{
 							Subject:   types.StringValue("payload.team"),
 							Operation: types.StringValue("one_of"),
-							Params: []Binding{{
-								ArrayValue: []BindingValue{
-									{Literal: types.StringValue("platform")},
-									{Literal: types.StringValue("payments")},
-								},
-							}},
+							Params:    []Binding{*v3Array(v3Literal("platform"), v3Literal("payments"))},
 						}},
 					},
 				}},
@@ -523,7 +515,7 @@ func TestPriorSpellingSurvivesRead(t *testing.T) {
 				Fallback: &Fallback{
 					If: &Branch{
 						Conditions: []Condition{condition},
-						Result:     &Binding{Value: &BindingValue{Literal: types.StringValue("unknown")}},
+						Result:     v3Value(v3Literal("unknown")),
 					},
 				},
 			}},
@@ -567,7 +559,7 @@ func TestPriorSpellingYieldsToRealChanges(t *testing.T) {
 						Subject:   types.StringValue("payload.level"),
 						Operation: types.StringValue("is_set"),
 					}},
-					Result: &Binding{Value: &BindingValue{Literal: types.StringValue("high")}},
+					Result: v3Value(v3Literal("high")),
 				},
 			},
 		}},
@@ -583,7 +575,7 @@ func TestPriorSpellingYieldsToRealChanges(t *testing.T) {
 				If: &Branch{
 					Conditions:      prior[0].Operations[0].Branches.If.Conditions,
 					ConditionGroups: nil,
-					Result:          &Binding{ValueLiteral: types.StringValue("critical")},
+					Result:          v3ValueLiteral("critical"),
 				},
 			},
 		}},
@@ -601,8 +593,8 @@ func TestPriorSpellingYieldsToRealChanges(t *testing.T) {
 }
 
 func TestReconcileBinding(t *testing.T) {
-	longForm := &Binding{Value: &BindingValue{Literal: types.StringValue("high")}}
-	sugar := &Binding{ValueLiteral: types.StringValue("high")}
+	longForm := v3Value(v3Literal("high"))
+	sugar := v3ValueLiteral("high")
 
 	payload, err := BindingToPayload(longForm)
 	if err != nil {
@@ -621,7 +613,7 @@ func TestReconcileBinding(t *testing.T) {
 		{
 			// The prior no longer means this, so the server's value has to win.
 			name:    "yields to a changed value",
-			prior:   &Binding{ValueLiteral: types.StringValue("low")},
+			prior:   v3ValueLiteral("low"),
 			fromAPI: payload,
 			want:    sugar,
 		},
@@ -667,9 +659,9 @@ func TestFallbackShorthandPayload(t *testing.T) {
 		Fallback: &Fallback{
 			If: &Branch{
 				Conditions: []Condition{{Subject: types.StringValue("payload.env"), Operation: types.StringValue("is_set")}},
-				Result:     &Binding{ValueLiteral: types.StringValue("staging")},
+				Result:     v3ValueLiteral("staging"),
 			},
-			Else: &Else{Result: &Binding{ValueLiteral: types.StringValue("production")}},
+			Else: &Else{Result: v3ValueLiteral("production")},
 		},
 	}, nil)
 	if err != nil {
@@ -734,7 +726,7 @@ func TestFallbackShorthandNeedsAKnowableType(t *testing.T) {
 		Fallback: &Fallback{
 			If: &Branch{
 				Conditions: []Condition{{Subject: types.StringValue("payload.env"), Operation: types.StringValue("is_set")}},
-				Result:     &Binding{ValueLiteral: types.StringValue("staging")},
+				Result:     v3ValueLiteral("staging"),
 			},
 		},
 	}, nil)
@@ -865,33 +857,33 @@ func TestBindingToPayload(t *testing.T) {
 	}{
 		{
 			name:    "nothing set reads as absent",
-			binding: &Binding{},
+			binding: lo.ToPtr(NullBinding()),
 			want:    nil,
 		},
 		{
 			name:    "value_literal",
-			binding: &Binding{ValueLiteral: types.StringValue("major")},
+			binding: v3ValueLiteral("major"),
 			want: &client.EngineParamBindingPayloadV3{
 				Value: &client.EngineParamBindingValuePayloadV3{Literal: lo.ToPtr("major")},
 			},
 		},
 		{
 			name:    "value_reference",
-			binding: &Binding{ValueReference: types.StringValue("payload.team")},
+			binding: v3ValueReference("payload.team"),
 			want: &client.EngineParamBindingPayloadV3{
 				Value: &client.EngineParamBindingValuePayloadV3{Reference: lo.ToPtr("payload.team")},
 			},
 		},
 		{
 			name:    "expression_ref becomes an ordinary scope reference",
-			binding: &Binding{ExpressionRef: types.StringValue("guess")},
+			binding: v3ExpressionRef("guess"),
 			want: &client.EngineParamBindingPayloadV3{
 				Value: &client.EngineParamBindingValuePayloadV3{Reference: lo.ToPtr(`expressions["guess"]`)},
 			},
 		},
 		{
 			name:    "values is an all-literal array",
-			binding: &Binding{Values: []types.String{types.StringValue("a"), types.StringValue("b")}},
+			binding: v3Values("a", "b"),
 			want: &client.EngineParamBindingPayloadV3{
 				ArrayValue: &[]client.EngineParamBindingValuePayloadV3{
 					{Literal: lo.ToPtr("a")},
@@ -901,17 +893,14 @@ func TestBindingToPayload(t *testing.T) {
 		},
 		{
 			name:    "the long form of one value",
-			binding: &Binding{Value: &BindingValue{Reference: types.StringValue("payload.team")}},
+			binding: v3Value(v3Reference("payload.team")),
 			want: &client.EngineParamBindingPayloadV3{
 				Value: &client.EngineParamBindingValuePayloadV3{Reference: lo.ToPtr("payload.team")},
 			},
 		},
 		{
-			name: "a mixed array needs the long form",
-			binding: &Binding{ArrayValue: []BindingValue{
-				{Literal: types.StringValue("core")},
-				{Reference: types.StringValue("payload.team")},
-			}},
+			name:    "a mixed array needs the long form",
+			binding: v3Array(v3Literal("core"), v3Reference("payload.team")),
 			want: &client.EngineParamBindingPayloadV3{
 				ArrayValue: &[]client.EngineParamBindingValuePayloadV3{
 					{Literal: lo.ToPtr("core")},
@@ -929,12 +918,12 @@ func TestBindingToPayload(t *testing.T) {
 		},
 		{
 			name:    "a value that is neither literal nor reference is refused",
-			binding: &Binding{Value: &BindingValue{}},
+			binding: v3Value(BindingValue{}),
 			wantErr: true,
 		},
 		{
 			name:    "a value that is both is refused",
-			binding: &Binding{Value: &BindingValue{Literal: types.StringValue("a"), Reference: types.StringValue("b")}},
+			binding: v3Value(BindingValue{Literal: types.StringValue("a"), Reference: types.StringValue("b")}),
 			wantErr: true,
 		},
 	} {
@@ -974,7 +963,7 @@ func TestOperationPayloadTypes(t *testing.T) {
 		"random":      {Random: &EmptyOpts{}},
 		"branches": {Branches: &Branches{
 			As: types.StringValue("Text"),
-			If: &Branch{Result: &Binding{ValueLiteral: types.StringValue("a")}},
+			If: &Branch{Result: v3ValueLiteral("a")},
 		}},
 	} {
 		t.Run(want, func(t *testing.T) {
@@ -1041,7 +1030,7 @@ func TestValidateExpressions(t *testing.T) {
 			bound: &Expression{
 				StartFrom: types.StringValue("."),
 				Operations: []Operation{{Branches: &Branches{
-					If: &Branch{Result: &Binding{ValueLiteral: types.StringValue("a")}},
+					If: &Branch{Result: v3ValueLiteral("a")},
 				}}},
 			},
 			wantErr: true,
@@ -1060,7 +1049,7 @@ func TestValidateExpressions(t *testing.T) {
 				StartFrom: types.StringValue("."),
 				Operations: []Operation{{Branches: &Branches{
 					As:     types.StringValue("Text"),
-					ElseIf: []Branch{{Result: &Binding{ValueLiteral: types.StringValue("a")}}},
+					ElseIf: []Branch{{Result: v3ValueLiteral("a")}},
 				}}},
 			},
 			wantErr: true,
@@ -1093,7 +1082,7 @@ func TestValidateExpressions(t *testing.T) {
 				StartFrom:  types.StringValue("payload"),
 				Operations: []Operation{{Cast: &Cast{As: types.StringValue("Text")}}},
 				Fallback: &Fallback{
-					Result:        &Binding{ValueLiteral: types.StringValue("a")},
+					Result:        v3ValueLiteral("a"),
 					ExpressionRef: types.StringValue("guess"),
 				},
 			},
@@ -1110,8 +1099,8 @@ func TestValidateExpressions(t *testing.T) {
 				StartFrom:  types.StringValue("payload"),
 				Operations: []Operation{{Cast: &Cast{As: types.StringValue("Text")}}},
 				Fallback: &Fallback{
-					Result: &Binding{ValueLiteral: types.StringValue("a")},
-					If:     &Branch{Result: &Binding{ValueLiteral: types.StringValue("b")}},
+					Result: v3ValueLiteral("a"),
+					If:     &Branch{Result: v3ValueLiteral("b")},
 				},
 			},
 			wantErr: true,
@@ -1122,7 +1111,7 @@ func TestValidateExpressions(t *testing.T) {
 				StartFrom:  types.StringValue("payload"),
 				Operations: []Operation{{Cast: &Cast{As: types.StringValue("Text")}}},
 				Fallback: &Fallback{
-					If:   &Branch{Result: &Binding{ValueLiteral: types.StringValue("b")}},
+					If:   &Branch{Result: v3ValueLiteral("b")},
 					Else: &Else{},
 				},
 			},
@@ -1142,7 +1131,7 @@ func TestValidateExpressions(t *testing.T) {
 			bound: &Expression{
 				StartFrom:  types.StringValue("payload"),
 				Operations: []Operation{{Cast: &Cast{As: types.StringValue("Text")}}},
-				Fallback:   &Fallback{Result: &Binding{ExpressionRef: types.StringValue("nope")}},
+				Fallback:   &Fallback{Result: v3ExpressionRef("nope")},
 			},
 			wantErr: true,
 		},
@@ -1210,7 +1199,7 @@ func TestValidateExpressions(t *testing.T) {
 				Fallback: &Fallback{
 					If: &Branch{
 						Conditions: []Condition{{Subject: types.StringValue("payload.env"), Operation: types.StringValue("is_set")}},
-						Result:     &Binding{ValueLiteral: types.StringValue("staging")},
+						Result:     v3ValueLiteral("staging"),
 					},
 				},
 			},
@@ -1222,7 +1211,7 @@ func TestValidateExpressions(t *testing.T) {
 				StartFrom:  types.StringValue("payload"),
 				Operations: []Operation{{Cast: &Cast{As: types.StringValue("Text")}}},
 				Fallback: &Fallback{
-					Else: &Else{Result: &Binding{ValueLiteral: types.StringValue("a")}},
+					Else: &Else{Result: v3ValueLiteral("a")},
 				},
 			},
 			wantErr: true,
@@ -1232,7 +1221,7 @@ func TestValidateExpressions(t *testing.T) {
 			bound: &Expression{
 				StartFrom:  types.StringValue("payload"),
 				Operations: []Operation{{Cast: &Cast{As: types.StringValue("Text")}}},
-				Fallback:   &Fallback{Result: &Binding{Value: &BindingValue{}}},
+				Fallback:   &Fallback{Result: v3Value(BindingValue{})},
 			},
 			wantErr: true,
 		},
@@ -1241,9 +1230,10 @@ func TestValidateExpressions(t *testing.T) {
 			bound: &Expression{
 				StartFrom:  types.StringValue("payload"),
 				Operations: []Operation{{Cast: &Cast{As: types.StringValue("Text")}}},
-				Fallback: &Fallback{Result: &Binding{ArrayValue: []BindingValue{
-					{Literal: types.StringValue("core"), Reference: types.StringValue("payload.team")},
-				}}},
+				Fallback: &Fallback{Result: v3Array(BindingValue{
+					Literal:   types.StringValue("core"),
+					Reference: types.StringValue("payload.team"),
+				})},
 			},
 			wantErr: true,
 		},
@@ -1254,7 +1244,7 @@ func TestValidateExpressions(t *testing.T) {
 				Operations: []Operation{{Cast: &Cast{As: types.StringValue("Text")}}},
 				Fallback: &Fallback{Result: &Binding{
 					ValueLiteral: types.StringValue("a"),
-					Values:       []types.String{types.StringValue("b")},
+					Values:       BindingValuesList("b"),
 				}},
 			},
 			wantErr: true,
@@ -1290,7 +1280,7 @@ func TestValidateExpressions(t *testing.T) {
 				StartFrom:  types.StringValue("payload"),
 				Operations: []Operation{{Cast: &Cast{As: types.StringValue("Text")}}},
 				Fallback: &Fallback{
-					If:   &Branch{Result: &Binding{ValueLiteral: types.StringValue("a")}},
+					If:   &Branch{Result: v3ValueLiteral("a")},
 					Else: &Else{Result: &Binding{}},
 				},
 			},
@@ -1348,17 +1338,17 @@ func TestValidatedConfigsAlwaysMapCleanly(t *testing.T) {
 				Conditions: []Condition{{
 					Subject:   types.StringValue("payload.env"),
 					Operation: types.StringValue("one_of"),
-					Params:    []Binding{{Values: []types.String{types.StringValue("staging")}}},
+					Params:    []Binding{*v3Values("staging")},
 				}},
-				Result: &Binding{ExpressionRef: types.StringValue("guess")},
+				Result: v3ExpressionRef("guess"),
 			},
 		}}},
 		Fallback: &Fallback{
 			If: &Branch{
 				Conditions: []Condition{{Subject: types.StringValue("payload.region"), Operation: types.StringValue("is_set")}},
-				Result:     &Binding{ValueLiteral: types.StringValue("eu")},
+				Result:     v3ValueLiteral("eu"),
 			},
-			Else: &Else{Result: &Binding{ValueLiteral: types.StringValue("unknown")}},
+			Else: &Else{Result: v3ValueLiteral("unknown")},
 		},
 	}
 	named := []NamedExpression{{
@@ -1578,4 +1568,58 @@ func TestExpressionLabel(t *testing.T) {
 			t.Errorf("an imported label equal to the reference says nothing, got %v", read[0].Label)
 		}
 	})
+}
+
+// The binding builders below start from NullBinding rather than the zero value: values,
+// value and array_value are framework types, whose zero values carry no element or
+// attribute type and so never compare equal to one the framework built.
+
+func v3Value(value BindingValue) *Binding {
+	binding := NullBinding()
+	binding.Value = value.ToObject()
+
+	return &binding
+}
+
+func v3Array(values ...BindingValue) *Binding {
+	binding := NullBinding()
+	binding.ArrayValue = BindingArrayValue(values...)
+
+	return &binding
+}
+
+func v3Values(literals ...string) *Binding {
+	binding := NullBinding()
+	binding.Values = BindingValuesList(literals...)
+
+	return &binding
+}
+
+func v3Literal(s string) BindingValue {
+	return BindingValue{Literal: types.StringValue(s), Reference: types.StringNull()}
+}
+
+func v3Reference(s string) BindingValue {
+	return BindingValue{Literal: types.StringNull(), Reference: types.StringValue(s)}
+}
+
+func v3ValueLiteral(s string) *Binding {
+	binding := NullBinding()
+	binding.ValueLiteral = types.StringValue(s)
+
+	return &binding
+}
+
+func v3ValueReference(s string) *Binding {
+	binding := NullBinding()
+	binding.ValueReference = types.StringValue(s)
+
+	return &binding
+}
+
+func v3ExpressionRef(s string) *Binding {
+	binding := NullBinding()
+	binding.ExpressionRef = types.StringValue(s)
+
+	return &binding
 }

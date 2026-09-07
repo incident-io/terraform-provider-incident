@@ -9,6 +9,7 @@
 - Add the `incident_incident_template` data source, which looks up an existing incident template by `id` or by `name`.
 - Add `fixed_team_id` to `incident_alert_source` and `incident_alert_source_beta`, which fixes the team every alert from the source is attributed to instead of deriving it per alert from the payload. The team has to exist and your organisation needs a team alert attribute configured. 
 - `due_date_config` is now required on an `incident_policy`'s `follow_up`, `debrief` and `post_mortem` blocks. These are the policy types that carry a due date, and the API rejects an update to one without it - so a config that omitted the block created a policy successfully and then failed on its next apply. The plan now says so instead. If you have such a config, add a `due_date_config`; the policy it created was already un-editable through the API.
+- Fix `Received unknown value, however the target type cannot handle unknown values` on an `incident_escalation_path` whose `if_else` condition binds a value that isn't settled until apply - one built from a resource created in the same run, or chosen by a ternary or `for` expression over such a value. The plan failed outright, so a condition's values had to be written out by hand, and changing the set for one path meant editing IDs in the `.tf` file. `array_value`, `value` and `values` now hold an unsettled value wherever a binding appears, rather than only where every value is written out in the config. `value_literal` and `value_reference` were never affected.
 
 ## v6.11.0
 

@@ -149,7 +149,7 @@ func TestAlertSourceAttributeBetaFromAPIValue(t *testing.T) {
 			}
 		}), &alertSourceAttributeBetaModel{})
 
-		want := []types.String{types.StringValue("one"), types.StringValue("two")}
+		want := models.BindingValuesList("one", "two")
 		if !reflect.DeepEqual(model.Values, want) {
 			t.Errorf("values is %#v, want %#v", model.Values, want)
 		}
@@ -159,7 +159,10 @@ func TestAlertSourceAttributeBetaFromAPIValue(t *testing.T) {
 	// read has to take the spelling from the prior or the apply fails as an inconsistent result.
 	t.Run("keeps the long form the config wrote", func(t *testing.T) {
 		prior := &alertSourceAttributeBetaModel{
-			Value: &models.BindingValue{Literal: types.StringValue("high")},
+			Value: models.BindingValue{
+				Literal:   types.StringValue("high"),
+				Reference: types.StringNull(),
+			}.ToObject(),
 		}
 
 		model := alertSourceAttributeBetaFromAPI(alertSourceAttributeV3(func(attribute *client.AlertSourceAttributeV3) {
@@ -169,7 +172,8 @@ func TestAlertSourceAttributeBetaFromAPIValue(t *testing.T) {
 		if !model.ValueLiteral.IsNull() {
 			t.Errorf("read rewrote the long form to value_literal = %q", model.ValueLiteral.ValueString())
 		}
-		if model.Value == nil || model.Value.Literal.ValueString() != "high" {
+		if value, ok := (&models.Binding{Value: model.Value}).BindingObject(); !ok ||
+			value.Literal.ValueString() != "high" {
 			t.Errorf("value did not round trip, got %#v", model.Value)
 		}
 	})

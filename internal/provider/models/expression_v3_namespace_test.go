@@ -153,16 +153,16 @@ var referencesEverywhereNamed = []NamedExpression{
 				{
 					Subject:   types.StringValue(ExpressionReference("severity")),
 					Operation: types.StringValue("one_of"),
-					Params:    []Binding{{ExpressionRef: types.StringValue("severity")}},
+					Params:    []Binding{*v3ExpressionRef("severity")},
 				},
 				{
 					Subject:   types.StringValue("payload.tags"),
 					Operation: types.StringValue("one_of"),
 					// A mixed array, which is the long form a read returns.
-					Params: []Binding{{ArrayValue: []BindingValue{
-						{Reference: types.StringValue(ExpressionReference("severity"))},
-						{Literal: types.StringValue("urgent")},
-					}}},
+					Params: []Binding{*v3Array(
+						v3Reference(ExpressionReference("severity")),
+						v3Literal("urgent"),
+					)},
 				},
 			}}},
 			{Branches: &Branches{
@@ -174,7 +174,7 @@ var referencesEverywhereNamed = []NamedExpression{
 						Subject:   types.StringValue(ExpressionReference("severity") + ".name"),
 						Operation: types.StringValue("is_set"),
 					}},
-					Result: &Binding{ValueReference: types.StringValue(ExpressionReference("severity") + ".name")},
+					Result: v3ValueReference(ExpressionReference("severity") + ".name"),
 				},
 				ElseIf: []Branch{{
 					// Two groups, because a read returns a single one as the `conditions` sugar.
@@ -188,7 +188,7 @@ var referencesEverywhereNamed = []NamedExpression{
 							Operation: types.StringValue("is_set"),
 						}}},
 					},
-					Result: &Binding{ExpressionRef: types.StringValue("severity")},
+					Result: v3ExpressionRef("severity"),
 				}},
 			}},
 		},
@@ -207,8 +207,8 @@ var referencesEverywhereBound = &Expression{
 				Subject:   types.StringValue(ExpressionReference("severity")),
 				Operation: types.StringValue("is_set"),
 			}},
-			Result: &Binding{ExpressionRef: types.StringValue("severity")},
+			Result: v3ExpressionRef("severity"),
 		},
-		Else: &Else{Result: &Binding{ExpressionRef: types.StringValue("team")}},
+		Else: &Else{Result: v3ExpressionRef("team")},
 	},
 }

@@ -1,6 +1,8 @@
 package models
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -24,20 +26,72 @@ func ParamBindingValueAttrTypes() map[string]attr.Type {
 	}
 }
 
+// ParamBindingValueType is the type of one element of a binding's array_value, and of its
+// value. It must match ParamBindingValueAttributes: literal is a NormalizedJSONOrString and
+// not a plain string, and a list built with the wrong element type fails when the framework
+// writes it to state.
+func ParamBindingValueType() types.ObjectType {
+	return types.ObjectType{AttrTypes: ParamBindingValueAttrTypes()}
+}
+
+// ParamBindingValueListType is the type of a binding's array_value.
+func ParamBindingValueListType() types.ListType {
+	return types.ListType{ElemType: ParamBindingValueType()}
+}
+
+// ParamBindingValuesListType is the type of a binding's values shorthand, which holds bare
+// literals rather than value objects.
+func ParamBindingValuesListType() types.ListType {
+	return types.ListType{ElemType: jsontypes.NormalizedJSONOrStringType{}}
+}
+
+// ParamBindingArrayValue builds a binding's array_value from its values. No values at all
+// reads as unset, which is what an array_value the API answers with but left empty means.
+func ParamBindingArrayValue(values ...IncidentEngineParamBindingValue) types.List {
+	if len(values) == 0 {
+		return types.ListNull(ParamBindingValueType())
+	}
+
+	return types.ListValueMust(ParamBindingValueType(), lo.Map(values,
+		func(v IncidentEngineParamBindingValue, _ int) attr.Value { return v.ToObject() }))
+}
+
+// ParamBindingValuesList builds a binding's values shorthand from its literals.
+func ParamBindingValuesList(literals ...jsontypes.NormalizedJSONOrString) types.List {
+	if len(literals) == 0 {
+		return types.ListNull(jsontypes.NormalizedJSONOrStringType{})
+	}
+
+	return types.ListValueMust(jsontypes.NormalizedJSONOrStringType{}, lo.Map(literals,
+		func(v jsontypes.NormalizedJSONOrString, _ int) attr.Value { return v }))
+}
+
+// NullParamBinding is a binding with nothing set. Use it rather than the zero value: a
+// zero-value types.List carries no element type, and the framework can't write one to
+// state.
+func NullParamBinding() IncidentEngineParamBinding {
+	return IncidentEngineParamBinding{
+		ArrayValue:     types.ListNull(ParamBindingValueType()),
+		Value:          types.ObjectNull(ParamBindingValueAttrTypes()),
+		ValueLiteral:   jsontypes.NewNormalizedJSONOrStringNull(),
+		ValueReference: types.StringNull(),
+		ExpressionRef:  types.StringNull(),
+		Values:         types.ListNull(jsontypes.NormalizedJSONOrStringType{}),
+	}
+}
+
 // ParamBindingAttrTypes returns the attribute types for a param binding object. It has to list
 // every attribute ParamBindingAttributes declares, including the shorthands: a binding built as
 // an object from a shorter list fails at apply with "struct defines fields not found in object".
 func ParamBindingAttrTypes() map[string]attr.Type {
 	return map[string]attr.Type{
-		"array_value": types.ListType{
-			ElemType: types.ObjectType{AttrTypes: ParamBindingValueAttrTypes()},
-		},
-		"value": types.ObjectType{AttrTypes: ParamBindingValueAttrTypes()},
+		"array_value": ParamBindingValueListType(),
+		"value":       ParamBindingValueType(),
 
 		"value_literal":   jsontypes.NormalizedJSONOrStringType{},
 		"value_reference": types.StringType,
 		"expression_ref":  types.StringType,
-		"values":          types.ListType{ElemType: jsontypes.NormalizedJSONOrStringType{}},
+		"values":          ParamBindingValuesListType(),
 	}
 }
 
@@ -45,65 +99,71 @@ func ParamBindingAttrTypes() map[string]attr.Type {
 // severity holds its binding as a types.Object rather than a struct, and going through here keeps
 // the attribute list in one place.
 func (binding IncidentEngineParamBinding) ToObject() types.Object {
-	valueType := types.ObjectType{AttrTypes: ParamBindingValueAttrTypes()}
-
-	arrayValue := types.ListNull(valueType)
-	if len(binding.ArrayValue) > 0 {
-		arrayValue = types.ListValueMust(valueType, lo.Map(binding.ArrayValue,
-			func(v IncidentEngineParamBindingValue, _ int) attr.Value { return v.ToObject() }))
-	}
-
-	value := types.ObjectNull(ParamBindingValueAttrTypes())
-	if binding.Value != nil {
-		value = binding.Value.ToObject()
-	}
-
-	values := types.ListNull(jsontypes.NormalizedJSONOrStringType{})
-	if len(binding.Values) > 0 {
-		values = types.ListValueMust(jsontypes.NormalizedJSONOrStringType{}, lo.Map(binding.Values,
-			func(v jsontypes.NormalizedJSONOrString, _ int) attr.Value { return v }))
-	}
-
 	return types.ObjectValueMust(ParamBindingAttrTypes(), map[string]attr.Value{
-		"array_value":     arrayValue,
-		"value":           value,
+		"array_value":     listOrNull(binding.ArrayValue, ParamBindingValueType()),
+		"value":           objectOrNull(binding.Value, ParamBindingValueAttrTypes()),
 		"value_literal":   binding.ValueLiteral,
 		"value_reference": binding.ValueReference,
 		"expression_ref":  binding.ExpressionRef,
-		"values":          values,
+		"values":          listOrNull(binding.Values, jsontypes.NormalizedJSONOrStringType{}),
 	})
 }
 
 func ParamBindingFromObject(value attr.Value) IncidentEngineParamBinding {
 	obj, ok := value.(types.Object)
 	if !ok || obj.IsNull() || obj.IsUnknown() {
-		return IncidentEngineParamBinding{}
+		return NullParamBinding()
 	}
 
 	attrs := obj.Attributes()
-	binding := IncidentEngineParamBinding{
-		ValueLiteral:   stringOrJSONAttr(attrs["value_literal"]),
-		ValueReference: stringAttr(attrs["value_reference"]),
-		ExpressionRef:  stringAttr(attrs["expression_ref"]),
-	}
+	binding := NullParamBinding()
+	binding.ValueLiteral = stringOrJSONAttr(attrs["value_literal"])
+	binding.ValueReference = stringAttr(attrs["value_reference"])
+	binding.ExpressionRef = stringAttr(attrs["expression_ref"])
 
-	if value, ok := attrs["value"].(types.Object); ok && !value.IsNull() {
-		binding.Value = lo.ToPtr(paramBindingValueFromObject(value))
+	if value, ok := attrs["value"].(types.Object); ok {
+		binding.Value = value
 	}
 	if arrayValue, ok := attrs["array_value"].(types.List); ok {
-		for _, elem := range arrayValue.Elements() {
-			if value, ok := elem.(types.Object); ok {
-				binding.ArrayValue = append(binding.ArrayValue, paramBindingValueFromObject(value))
-			}
-		}
+		binding.ArrayValue = listOrNull(arrayValue, ParamBindingValueType())
 	}
 	if values, ok := attrs["values"].(types.List); ok {
-		for _, elem := range values.Elements() {
-			binding.Values = append(binding.Values, stringOrJSONAttr(elem))
-		}
+		binding.Values = listOrNull(values, jsontypes.NormalizedJSONOrStringType{})
 	}
 
 	return binding
+}
+
+// listOrNull replaces a list that carries no element type - the zero value of types.List,
+// which a binding built as a Go literal has - with a properly typed null. The framework
+// can't write an untyped list to state, and the failure is a long way from the literal
+// that caused it.
+func listOrNull(list types.List, elemType attr.Type) types.List {
+	if list.ElementType(context.Background()) == nil {
+		return types.ListNull(elemType)
+	}
+
+	return list
+}
+
+// objectOrNull is listOrNull for an object.
+func objectOrNull(obj types.Object, attrTypes map[string]attr.Type) types.Object {
+	if obj.AttributeTypes(context.Background()) == nil {
+		return types.ObjectNull(attrTypes)
+	}
+
+	return obj
+}
+
+// nullIfEmptyList reads a list holding nothing as unset. The API answers a binding it has no
+// array for with an empty array, and a config that didn't write the attribute reads back
+// null, so keeping the empty one would show as a diff on every plan.
+func nullIfEmptyList(list types.List, elemType attr.Type) types.List {
+	if isEmptyList(list) {
+		return types.ListNull(elemType)
+	}
+
+	return listOrNull(list, elemType)
 }
 
 func (v IncidentEngineParamBindingValue) ToObject() types.Object {
@@ -113,7 +173,9 @@ func (v IncidentEngineParamBindingValue) ToObject() types.Object {
 	})
 }
 
-func paramBindingValueFromObject(obj types.Object) IncidentEngineParamBindingValue {
+// ParamBindingValueFromObject reads a binding value back out of the object a binding holds
+// it as. A null or unknown object reads as a value with nothing set.
+func ParamBindingValueFromObject(obj types.Object) IncidentEngineParamBindingValue {
 	attrs := obj.Attributes()
 
 	return IncidentEngineParamBindingValue{
@@ -267,19 +329,28 @@ func (binding IncidentEngineParamBinding) ReconcileSpelling(prior IncidentEngine
 }
 
 func (binding IncidentEngineParamBinding) meansTheSameAs(other IncidentEngineParamBinding) bool {
-	resolved, otherResolved := binding.resolved(), other.resolved()
+	return binding.resolved().meansTheSameAs(other.resolved())
+}
 
-	if (resolved.Value == nil) != (otherResolved.Value == nil) {
+// meansTheSameAs compares two bindings by what they bind rather than how they were written.
+// A binding Terraform hasn't settled means nothing yet, so it matches nothing - including
+// another unsettled one, which may land somewhere else entirely.
+func (resolved resolvedBinding) meansTheSameAs(other resolvedBinding) bool {
+	if resolved.unsettled || other.unsettled {
 		return false
 	}
-	if resolved.Value != nil && !resolved.Value.meansTheSameAs(*otherResolved.Value) {
+
+	if (resolved.Value == nil) != (other.Value == nil) {
 		return false
 	}
-	if len(resolved.ArrayValue) != len(otherResolved.ArrayValue) {
+	if resolved.Value != nil && !resolved.Value.meansTheSameAs(*other.Value) {
+		return false
+	}
+	if len(resolved.ArrayValue) != len(other.ArrayValue) {
 		return false
 	}
 	for idx := range resolved.ArrayValue {
-		if !resolved.ArrayValue[idx].meansTheSameAs(otherResolved.ArrayValue[idx]) {
+		if !resolved.ArrayValue[idx].meansTheSameAs(other.ArrayValue[idx]) {
 			return false
 		}
 	}
@@ -339,8 +410,8 @@ func ReconcileScalarBinding(applied, prior IncidentEngineParamBinding) IncidentE
 
 	resolved := applied.resolved()
 	if resolved.Value == nil && len(resolved.ArrayValue) == 1 {
-		scalar := IncidentEngineParamBinding{Value: &resolved.ArrayValue[0]}
-		if scalar.meansTheSameAs(prior) {
+		scalar := resolvedBinding{Value: &resolved.ArrayValue[0]}
+		if scalar.meansTheSameAs(prior.resolved()) {
 			return prior
 		}
 	}
@@ -377,81 +448,138 @@ func (pbs IncidentEngineParamBindings) TrimAppendedEmpty(priorLen int) IncidentE
 // The shorthands carry no meaning of their own: ToPayload folds them onto the two real forms, and
 // a read puts back whichever spelling the config used, because Terraform compares the spelling
 // and not the meaning.
+// The framework types matter: array_value, value and values are all attributes a config can
+// point at an expression Terraform hasn't settled yet - a local, a for, a ternary, anything
+// under for_each - and a plain Go slice or pointer can't hold the unknown that arrives while
+// validating such a config. Everything downstream works on the resolved form instead, which
+// is settled by construction.
 type IncidentEngineParamBinding struct {
-	ArrayValue []IncidentEngineParamBindingValue `tfsdk:"array_value"`
-	Value      *IncidentEngineParamBindingValue  `tfsdk:"value"`
+	ArrayValue types.List   `tfsdk:"array_value"`
+	Value      types.Object `tfsdk:"value"`
 
-	ValueLiteral   jsontypes.NormalizedJSONOrString   `tfsdk:"value_literal"`
-	ValueReference types.String                       `tfsdk:"value_reference"`
-	ExpressionRef  types.String                       `tfsdk:"expression_ref"`
-	Values         []jsontypes.NormalizedJSONOrString `tfsdk:"values"`
+	ValueLiteral   jsontypes.NormalizedJSONOrString `tfsdk:"value_literal"`
+	ValueReference types.String                     `tfsdk:"value_reference"`
+	ExpressionRef  types.String                     `tfsdk:"expression_ref"`
+	Values         types.List                       `tfsdk:"values"`
 }
 
 func (binding IncidentEngineParamBinding) IsEmpty() bool {
-	return binding.Value == nil && len(binding.ArrayValue) == 0 &&
+	return binding.Value.IsNull() && isEmptyList(binding.ArrayValue) &&
 		binding.ValueLiteral.IsNull() && binding.ValueReference.IsNull() &&
-		binding.ExpressionRef.IsNull() && len(binding.Values) == 0
+		binding.ExpressionRef.IsNull() && isEmptyList(binding.Values)
+}
+
+// isEmptyList reports a list holding nothing. Null and empty both count, which is what the
+// slice this used to be said: an unset attribute and an `= []` both read as len 0. An
+// unknown doesn't, because it may yet turn out to hold something.
+func isEmptyList(list types.List) bool {
+	if list.IsUnknown() {
+		return false
+	}
+
+	return list.IsNull() || len(list.Elements()) == 0
+}
+
+// resolvedBinding is a binding folded onto the two forms the API understands, holding plain
+// Go values rather than framework ones.
+//
+// Comparison, payloads and spelling all work on this rather than on the model, so each of
+// them asks about null and unknown once, here, instead of at every use.
+type resolvedBinding struct {
+	ArrayValue []IncidentEngineParamBindingValue
+	Value      *IncidentEngineParamBindingValue
+
+	// unsettled marks a binding whose form Terraform hasn't decided yet, so there is
+	// nothing to compare and nothing to send. Only a config or plan can hold one: every
+	// binding attribute is settled by the time an apply reads it.
+	unsettled bool
 }
 
 // resolved folds the shorthands onto the two forms the API understands, so a shorthand and the
 // long form it stands for are the same binding from here on.
 // An unknown shorthand counts as unset, so the value it stands for stays unknown rather than
 // becoming whatever ValueString reads off an unknown, which is the empty string.
-func (binding IncidentEngineParamBinding) resolved() IncidentEngineParamBinding {
+func (binding IncidentEngineParamBinding) resolved() resolvedBinding {
 	switch {
 	case isSet(binding.ValueLiteral):
-		return IncidentEngineParamBinding{Value: &IncidentEngineParamBindingValue{
+		return resolvedBinding{Value: &IncidentEngineParamBindingValue{
 			Literal:   binding.ValueLiteral,
 			Reference: types.StringNull(),
 		}}
 
 	case isSet(binding.ValueReference):
-		return IncidentEngineParamBinding{Value: &IncidentEngineParamBindingValue{
+		return resolvedBinding{Value: &IncidentEngineParamBindingValue{
 			Literal:   jsontypes.NewNormalizedJSONOrStringNull(),
 			Reference: binding.ValueReference,
 		}}
 
 	case isSet(binding.ExpressionRef):
-		return IncidentEngineParamBinding{Value: &IncidentEngineParamBindingValue{
+		return resolvedBinding{Value: &IncidentEngineParamBindingValue{
 			Literal:   jsontypes.NewNormalizedJSONOrStringNull(),
 			Reference: types.StringValue(ExpressionReference(binding.ExpressionRef.ValueString())),
 		}}
 
-	case len(binding.Values) > 0:
+	case isSet(binding.Values) && len(binding.Values.Elements()) > 0:
 		values := []IncidentEngineParamBindingValue{}
-		for _, literal := range binding.Values {
+		for _, literal := range binding.Values.Elements() {
 			values = append(values, IncidentEngineParamBindingValue{
-				Literal:   literal,
+				Literal:   stringOrJSONAttr(literal),
 				Reference: types.StringNull(),
 			})
 		}
 
-		return IncidentEngineParamBinding{ArrayValue: values}
+		return resolvedBinding{ArrayValue: values}
+
+	// Checked after every shorthand, so a form the config did write wins over one it left
+	// for Terraform to settle - the same way a set shorthand wins over a set long form.
+	case binding.Values.IsUnknown() || binding.ArrayValue.IsUnknown() || binding.Value.IsUnknown():
+		return resolvedBinding{unsettled: true}
 	}
 
-	return IncidentEngineParamBinding{ArrayValue: binding.ArrayValue, Value: binding.Value}
+	out := resolvedBinding{}
+	if isSet(binding.Value) {
+		out.Value = lo.ToPtr(ParamBindingValueFromObject(binding.Value))
+	}
+	for _, element := range binding.ArrayValue.Elements() {
+		value, ok := element.(types.Object)
+		if !ok {
+			continue
+		}
+
+		// An element Terraform hasn't settled leaves the whole binding unsettled. The list
+		// around it can be known while an element isn't - a ternary whose branches are the
+		// same length gives exactly that, which is how the reported failure arrived - and
+		// reading such an element off would produce a value with no literal and no
+		// reference, indistinguishable from one the config left empty.
+		if value.IsUnknown() {
+			return resolvedBinding{unsettled: true}
+		}
+
+		out.ArrayValue = append(out.ArrayValue, ParamBindingValueFromObject(value))
+	}
+
+	return out
 }
 
 func (IncidentEngineParamBinding) FromAPI(pb client.EngineParamBindingV2) IncidentEngineParamBinding {
-	var arrayValue []IncidentEngineParamBindingValue
+	binding := NullParamBinding()
+
 	if pb.ArrayValue != nil {
+		values := make([]IncidentEngineParamBindingValue, 0, len(*pb.ArrayValue))
 		for _, v := range *pb.ArrayValue {
-			arrayValue = append(arrayValue, IncidentEngineParamBindingValue{
+			values = append(values, IncidentEngineParamBindingValue{
 				Literal:   jsontypes.NewNormalizedJSONOrStringPointerValue(v.Literal),
 				Reference: types.StringPointerValue(v.Reference),
 			})
 		}
+		binding.ArrayValue = ParamBindingArrayValue(values...)
 	}
 
-	var value *IncidentEngineParamBindingValue
 	if pb.Value != nil {
-		value = lo.ToPtr(IncidentEngineParamBindingValue{}.FromAPI(*pb.Value))
+		binding.Value = IncidentEngineParamBindingValue{}.FromAPI(*pb.Value).ToObject()
 	}
 
-	return IncidentEngineParamBinding{
-		ArrayValue: arrayValue,
-		Value:      value,
-	}
+	return binding
 }
 
 type IncidentEngineParamBindingValue struct {

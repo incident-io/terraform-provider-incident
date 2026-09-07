@@ -489,23 +489,24 @@ func BindingToPayload(binding *Binding) (*client.EngineParamBindingPayloadV3, er
 			},
 		}, nil
 
-	case len(binding.Values) > 0:
+	case len(binding.BindingValues()) > 0:
 		values := []client.EngineParamBindingValuePayloadV3{}
-		for _, value := range binding.Values {
+		for _, value := range binding.BindingValues() {
 			values = append(values, client.EngineParamBindingValuePayloadV3{Literal: value.ValueStringPointer()})
 		}
 		return &client.EngineParamBindingPayloadV3{ArrayValue: &values}, nil
 
-	case binding.Value != nil:
-		value, err := bindingValuePayload(*binding.Value)
-		if err != nil {
-			return nil, err
-		}
-		return &client.EngineParamBindingPayloadV3{Value: value}, nil
-
 	default:
+		if value, ok := binding.BindingObject(); ok {
+			payload, err := bindingValuePayload(value)
+			if err != nil {
+				return nil, err
+			}
+			return &client.EngineParamBindingPayloadV3{Value: payload}, nil
+		}
+
 		values := []client.EngineParamBindingValuePayloadV3{}
-		for idx, element := range binding.ArrayValue {
+		for idx, element := range binding.BindingArray() {
 			value, err := bindingValuePayload(element)
 			if err != nil {
 				return nil, fmt.Errorf("array_value %d: %w", idx, err)
@@ -518,15 +519,20 @@ func BindingToPayload(binding *Binding) (*client.EngineParamBindingPayloadV3, er
 
 // SetBindingForms counts the value forms in use. The schema can't express the group — it
 // spans attributes of different types.
+//
+// A form Terraform hasn't settled counts as set: the config wrote it, and reading it as
+// absent would report "set exactly one" against a binding that names exactly one.
 func SetBindingForms(binding *Binding) int {
+	_, hasValue := binding.BindingObject()
+
 	set := 0
 	for _, isSet := range []bool{
 		!binding.ValueLiteral.IsNull(),
 		!binding.ValueReference.IsNull(),
 		!binding.ExpressionRef.IsNull(),
-		len(binding.Values) > 0,
-		binding.Value != nil,
-		len(binding.ArrayValue) > 0,
+		len(binding.BindingValues()) > 0 || binding.Values.IsUnknown(),
+		hasValue || binding.Value.IsUnknown(),
+		len(binding.BindingArray()) > 0 || binding.ArrayValue.IsUnknown(),
 	} {
 		if isSet {
 			set++
