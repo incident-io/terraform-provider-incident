@@ -459,16 +459,14 @@ func (opts *AlertSourceEmailOptionsModel) ToPayload() *client.AlertSourceEmailOp
 	}
 }
 
-// ToPayloadPtr converts to the pointer-to-slice shape the create/update endpoints expect, where
-// nil leaves any stored filters unchanged (or, on create, means "no filters") and a non-nil
-// slice — possibly empty — replaces them. Terraform leaves this field nil when the config omits
-// the attribute, and a non-nil empty slice when the config writes an explicit empty list, so the
-// two cases already carry the distinction the API needs.
+// ToPayloadPtr always sends a non-nil slice, converting the config's omitting the attribute into
+// clearing whatever filters are stored — never leaving them alone. The API itself supports "nil
+// means leave unchanged", but the provider can't use that: filter_condition_groups is a plain
+// Optional (not Computed) attribute, so Terraform's plan for it is null whenever config omits it,
+// and the post-apply value has to match — a provider that sometimes echoes back a real, non-null
+// value there fails Terraform's consistency check. Always sending sidesteps that, the same way
+// rate_limit_sharding's ToUpdatePayload always sends an empty path rather than omitting the field.
 func (groups IncidentEngineConditionGroups) ToPayloadPtr() *[]client.ConditionGroupPayloadV2 {
-	if groups == nil {
-		return nil
-	}
-
 	payload := groups.ToPayload()
 	return &payload
 }

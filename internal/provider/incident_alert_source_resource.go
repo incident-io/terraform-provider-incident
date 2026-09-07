@@ -898,9 +898,9 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 			FixedTeamId:   models.FixedTeamIDUpdatePayload(data.FixedTeamID),
 			OwningTeamIds: owningTeamIDs,
 
-			// Left nil when the config omits the attribute, which the API reads as "leave the
-			// stored filters alone" — so removing the attribute from HCL doesn't clear filters
-			// set elsewhere (e.g. the dashboard).
+			// Always sent, as an empty list when the config has no filters: removing the
+			// attribute from HCL clears them, the same way rate_limit_sharding's omission clears
+			// the shard key path above.
 			FilterConditionGroups: data.FilterConditionGroups.ToPayloadPtr(),
 		}
 

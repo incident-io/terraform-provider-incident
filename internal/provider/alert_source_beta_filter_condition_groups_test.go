@@ -102,12 +102,18 @@ func TestAlertSourceBetaFilterConditionGroups(t *testing.T) {
 		}
 	})
 
-	// Nil leaves any stored filters alone, matching a config that omits the attribute: the API
-	// reads an omitted field as "leave the stored filters alone", so removing the attribute from
-	// HCL doesn't clear filters set elsewhere (e.g. the dashboard).
-	t.Run("update sends nothing when the config has no blocks", func(t *testing.T) {
-		if payload := filterConditionGroupsToPayload(nil); payload != nil {
-			t.Errorf("expected no payload, got %+v", payload)
+	// The provider always sends a value, even when the config has no blocks: the attribute is
+	// plain Optional (not Computed), so Terraform's plan for it is null whenever config omits
+	// it, and sending nil here would let the API's real, non-null answer fail Terraform's
+	// post-apply consistency check. Sending an empty slice converts "the config said nothing"
+	// into "clear whatever's there" instead of "leave it alone".
+	t.Run("update sends an empty slice when the config has no blocks", func(t *testing.T) {
+		payload := filterConditionGroupsToPayload(nil)
+		if payload == nil {
+			t.Fatal("expected a non-nil payload, got nil")
+		}
+		if len(*payload) != 0 {
+			t.Errorf("expected an empty slice, got %+v", *payload)
 		}
 	})
 
@@ -142,11 +148,15 @@ func TestAlertSourceBetaFilterConditionGroups(t *testing.T) {
 		}
 	})
 
-	// Create differs from update in intent, though not in code: a new source has nothing to
-	// clear, so sending nothing just means no filters rather than needing an explicit empty list.
-	t.Run("create sends nothing when the config has no blocks", func(t *testing.T) {
-		if payload := filterConditionGroupsToPayload(nil); payload != nil {
-			t.Errorf("expected no payload, got %+v", payload)
+	// Create shares the same helper as update, so it sends the same empty slice; there's just
+	// nothing for it to clear on a source that doesn't exist yet.
+	t.Run("create sends an empty slice when the config has no blocks", func(t *testing.T) {
+		payload := filterConditionGroupsToPayload(nil)
+		if payload == nil {
+			t.Fatal("expected a non-nil payload, got nil")
+		}
+		if len(*payload) != 0 {
+			t.Errorf("expected an empty slice, got %+v", *payload)
 		}
 	})
 }

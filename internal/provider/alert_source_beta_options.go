@@ -326,14 +326,15 @@ func rateLimitShardingFromAPI(sharding *client.AlertSourceRateLimitShardingV3) *
 	}
 }
 
-// filterConditionGroupsToPayload leaves the payload nil when the config omits the attribute,
-// which the API reads as "leave any stored filters alone" rather than clearing them. A non-nil
-// (possibly empty) slice replaces them, matching the config writing an explicit empty list.
+// filterConditionGroupsToPayload always sends a non-nil slice, converting the config's omitting
+// the attribute into clearing whatever filters are stored — never leaving them alone. The API
+// itself supports "nil means leave unchanged", but the provider can't use that:
+// filter_condition_groups is a plain Optional (not Computed) attribute, so Terraform's plan for it
+// is null whenever config omits it, and the post-apply value has to match — a provider that
+// sometimes echoes back a real, non-null value there fails Terraform's consistency check. Always
+// sending sidesteps that, the same way rateLimitShardingUpdatePayload always sends an empty path
+// rather than omitting the field.
 func filterConditionGroupsToPayload(groups models.IncidentEngineConditionGroups) *[]client.ConditionGroupPayloadV3 {
-	if groups == nil {
-		return nil
-	}
-
 	payload := models.ConditionGroupsToV3Payload(groups)
 	return &payload
 }

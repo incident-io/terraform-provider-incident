@@ -698,9 +698,8 @@ func (r *alertSourceBetaResource) Update(ctx context.Context, req resource.Updat
 		HttpCustomOptions: plan.HTTPCustomOptions.toPayload(),
 		RateLimitSharding: rateLimitShardingUpdatePayload(plan.RateLimitSharding),
 
-		// Left nil when the config omits the attribute, which the API reads as "leave the
-		// stored filters alone" — so removing the attribute from HCL doesn't clear filters set
-		// elsewhere (e.g. the dashboard).
+		// Always sent, as an empty list when the config has no filters: removing the attribute
+		// from HCL clears them, the same way an omitted rate_limit_sharding block does above.
 		FilterConditionGroups: filterConditionGroupsToPayload(plan.FilterConditionGroups),
 
 		// No expected_version, deliberately: a version covers the whole source, and each
