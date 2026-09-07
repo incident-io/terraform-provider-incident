@@ -338,13 +338,19 @@ func filterConditionGroupsToPayload(groups models.IncidentEngineConditionGroups)
 	return &payload
 }
 
-// filterConditionGroupsFromAPI maps an absent field to nil (Terraform null), matching what the
-// config spells: the API omits filter_condition_groups whenever the source has no filters, so
-// there's no empty-vs-absent ambiguity to guard against here the way rate limit sharding needs.
-func filterConditionGroupsFromAPI(groups *[]client.ConditionGroupPayloadV3) models.IncidentEngineConditionGroups {
-	if groups == nil {
-		return nil
+// filterConditionGroupsFromAPI maps an absent field to nil (Terraform null) or, when config is
+// non-nil, to a non-nil empty slice instead. The API omits filter_condition_groups whenever the
+// source has no filters, whether that's because config never set the attribute or because it
+// explicitly cleared it with an empty list — so nil alone would read an explicit clear back as
+// null and leave a perpetual diff against a plan of `[]`.
+func filterConditionGroupsFromAPI(groups *[]client.ConditionGroupPayloadV3, config models.IncidentEngineConditionGroups) models.IncidentEngineConditionGroups {
+	if groups != nil {
+		return models.ConditionGroupsFromV3Payload(*groups)
 	}
 
-	return models.ConditionGroupsFromV3Payload(*groups)
+	if config != nil {
+		return models.IncidentEngineConditionGroups{}
+	}
+
+	return nil
 }

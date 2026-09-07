@@ -44,10 +44,61 @@ func TestAlertSourceBetaFilterConditionGroups(t *testing.T) {
 	// The API omits the field whenever the source has no filters, so this has to read back as
 	// no blocks, or it would diff against a config that never set the attribute and fail the
 	// apply as an inconsistent result.
-	t.Run("reads an absent field as no blocks", func(t *testing.T) {
+	t.Run("reads an absent field as no blocks when the config never set it", func(t *testing.T) {
 		model := fromAPI(t, alertSourceV3("http"), &alertSourceBetaModel{})
 		if model.FilterConditionGroups != nil {
 			t.Errorf("expected nil, got %+v", model.FilterConditionGroups)
+		}
+	})
+
+	// An explicit empty list is how a config clears stored filters. The API omits the field
+	// exactly the same way it does when the attribute was never set, so without the config to
+	// disambiguate, this would read back as null against a plan of `[]` and fail the apply as an
+	// inconsistent result.
+	t.Run("reads an absent field as an empty list when the config set one", func(t *testing.T) {
+		config := &alertSourceBetaModel{FilterConditionGroups: models.IncidentEngineConditionGroups{}}
+
+		model := fromAPI(t, alertSourceV3("http"), config)
+		if model.FilterConditionGroups == nil {
+			t.Fatal("expected a non-nil empty slice, got nil")
+		}
+		if len(model.FilterConditionGroups) != 0 {
+			t.Errorf("expected an empty slice, got %+v", model.FilterConditionGroups)
+		}
+	})
+
+	// Condition shorthands and operation aliases fold to their canonical API form on write, so
+	// a read has to restore the config's spelling or a successful apply fails Terraform's
+	// consistency check.
+	t.Run("restores the operation alias the config used", func(t *testing.T) {
+		source := alertSourceV3("http")
+		source.FilterConditionGroups = &[]client.ConditionGroupPayloadV3{
+			{Conditions: []client.ConditionPayloadV3{
+				{
+					Subject:       `expressions["severity_expr"]`,
+					Operation:     "contains_one_of",
+					ParamBindings: []client.EngineParamBindingPayloadV3{},
+				},
+			}},
+		}
+
+		config := &alertSourceBetaModel{
+			FilterConditionGroups: models.IncidentEngineConditionGroups{
+				{Conditions: models.IncidentEngineConditions{
+					{
+						Subject:   types.StringValue(`expressions["severity_expr"]`),
+						Operation: types.StringValue("one_of"),
+					},
+				}},
+			},
+		}
+
+		model := fromAPI(t, source, config)
+		if len(model.FilterConditionGroups) != 1 || len(model.FilterConditionGroups[0].Conditions) != 1 {
+			t.Fatalf("unexpected model %+v", model.FilterConditionGroups)
+		}
+		if got := model.FilterConditionGroups[0].Conditions[0].Operation.ValueString(); got != "one_of" {
+			t.Errorf("expected the config's alias %q to survive the read, got %q", "one_of", got)
 		}
 	})
 

@@ -918,7 +918,7 @@ func alertSourceBetaFromAPI(
 		HTTPCustomOptions: httpCustomOptionsFromAPI(source.HttpCustomOptions),
 		RateLimitSharding: rateLimitShardingFromAPI(source.RateLimitSharding),
 
-		FilterConditionGroups: filterConditionGroupsFromAPI(source.FilterConditionGroups),
+		FilterConditionGroups: filterConditionGroupsFromAPI(source.FilterConditionGroups, config.FilterConditionGroups),
 
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
 		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),
@@ -931,6 +931,11 @@ func alertSourceBetaFromAPI(
 	if source.EmailOptions != nil {
 		model.EmailAddress = types.StringValue(source.EmailOptions.EmailAddress)
 	}
+
+	// Condition shorthands (value_literal, values, expression_ref) and operation aliases fold to
+	// their canonical API form on write, so without restoring the config's spelling here, a
+	// successful apply would fail Terraform's consistency check or leave a perpetual diff.
+	model.FilterConditionGroups.ReconcileSpelling(config.FilterConditionGroups)
 
 	// An email source always reads back with options, because the address we mint for it lives
 	// in them. A config that set no block would otherwise go from null to an object, which

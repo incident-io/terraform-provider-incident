@@ -58,11 +58,16 @@ func (AlertSourceResourceModel) FromAPIWithPlan(source client.AlertSourceV2, pla
 		owningTeamIDs, _ = types.SetValue(types.StringType, teamIDValues)
 	}
 
-	// Left nil (Terraform null) when the API omits the field, which it always does when the
-	// source has no filters, matching a config that never set the attribute.
+	// The API omits the field whenever the source has no filters, whether that's because the
+	// config never set the attribute or because it explicitly cleared it with an empty list.
+	// Left nil to match the former; forced to a non-nil empty slice when plan is non-nil, to
+	// match the latter — otherwise an explicit empty list would read back as null and Terraform
+	// would see every later plan as a change.
 	var filterConditionGroups IncidentEngineConditionGroups
 	if source.FilterConditionGroups != nil {
 		filterConditionGroups = IncidentEngineConditionGroups{}.FromAPI(*source.FilterConditionGroups)
+	} else if plan != nil && plan.FilterConditionGroups != nil {
+		filterConditionGroups = IncidentEngineConditionGroups{}
 	}
 
 	result := AlertSourceResourceModel{
