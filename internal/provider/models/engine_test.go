@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -81,18 +82,18 @@ func TestIncidentEngineParamBindingValue_SemanticEquality(t *testing.T) {
 
 func TestIncidentEngineParamBindings_TrimAppendedEmpty(t *testing.T) {
 	literal := func(s string) IncidentEngineParamBinding {
-		return IncidentEngineParamBinding{
-			ArrayValue: []IncidentEngineParamBindingValue{
-				{Literal: jsontypes.NewNormalizedJSONOrStringValue(s)},
-			},
-		}
+		return bindArray(IncidentEngineParamBindingValue{
+			Literal:   jsontypes.NewNormalizedJSONOrStringValue(s),
+			Reference: types.StringNull(),
+		})
 	}
 	ref := func(s string) IncidentEngineParamBinding {
-		return IncidentEngineParamBinding{
-			Value: &IncidentEngineParamBindingValue{Reference: types.StringValue(s)},
-		}
+		return bindValue(IncidentEngineParamBindingValue{
+			Literal:   jsontypes.NewNormalizedJSONOrStringNull(),
+			Reference: types.StringValue(s),
+		})
 	}
-	empty := IncidentEngineParamBinding{}
+	empty := NullParamBinding()
 
 	tests := []struct {
 		name     string
@@ -288,16 +289,20 @@ func TestIncidentEngineExpressions_ReconcileSpellingCorrelatesByReference(t *tes
 }
 
 func TestIncidentEngineParamBinding_IsEmpty(t *testing.T) {
-	assert.True(t, IncidentEngineParamBinding{}.IsEmpty(), "zero binding is empty")
-	assert.True(t, IncidentEngineParamBinding{ArrayValue: []IncidentEngineParamBindingValue{}}.IsEmpty(),
-		"empty (non-nil) array_value is still empty")
+	assert.True(t, NullParamBinding().IsEmpty(), "a binding with nothing set is empty")
 
-	assert.False(t, IncidentEngineParamBinding{
-		Value: &IncidentEngineParamBindingValue{},
-	}.IsEmpty(), "a present value object is not empty, even with zero fields")
-	assert.False(t, IncidentEngineParamBinding{
-		ArrayValue: []IncidentEngineParamBindingValue{{Reference: types.StringValue("incident")}},
-	}.IsEmpty(), "a populated array_value is not empty")
+	emptyArray := NullParamBinding()
+	emptyArray.ArrayValue = types.ListValueMust(ParamBindingValueType(), []attr.Value{})
+	assert.True(t, emptyArray.IsEmpty(), "empty (non-null) array_value is still empty")
+
+	assert.False(t, bindValue(IncidentEngineParamBindingValue{
+		Literal:   jsontypes.NewNormalizedJSONOrStringNull(),
+		Reference: types.StringNull(),
+	}).IsEmpty(), "a present value object is not empty, even with null fields")
+	assert.False(t, bindArray(IncidentEngineParamBindingValue{
+		Literal:   jsontypes.NewNormalizedJSONOrStringNull(),
+		Reference: types.StringValue("incident"),
+	}).IsEmpty(), "a populated array_value is not empty")
 }
 
 // TestIncidentEngineExpressionOperation_CastRoundTrip covers the cast operation,

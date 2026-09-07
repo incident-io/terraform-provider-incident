@@ -66,9 +66,9 @@ func TestEscalationPathKeepsAConditionsBindingSpelling(t *testing.T) {
 	require.Len(t, nodes[0].IfElse.Conditions, 1)
 
 	// Stand in for a config that wrote the shorthand rather than the long form.
-	nodes[0].IfElse.Conditions[0].ParamBindings = models.IncidentEngineParamBindings{
-		{ValueLiteral: jsontypes.NewNormalizedJSONOrStringValue("high")},
-	}
+	shorthand := models.NullParamBinding()
+	shorthand.ValueLiteral = jsontypes.NewNormalizedJSONOrStringValue("high")
+	nodes[0].IfElse.Conditions[0].ParamBindings = models.IncidentEngineParamBindings{shorthand}
 	prior := &IncidentEscalationPathResourceModel{
 		Path: types.ListValueMust(
 			types.ObjectType{AttrTypes: nodeAttrTypes(pathSchemaDepth)},
@@ -84,5 +84,5 @@ func TestEscalationPathKeepsAConditionsBindingSpelling(t *testing.T) {
 
 	binding := reread[0].IfElse.Conditions[0].ParamBindings[0]
 	assert.Equal(t, "high", binding.ValueLiteral.ValueString(), "should keep the shorthand")
-	assert.Nil(t, binding.Value, "and not also report the long form")
+	assert.True(t, binding.Value.IsNull(), "and not also report the long form")
 }

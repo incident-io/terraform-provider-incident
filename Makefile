@@ -13,9 +13,17 @@ test:
 	go test ./... $(TESTARGS)
 
 # Run acceptance tests
+#
+# The suite has grown past `go test`'s ten minute default timeout, so set one
+# explicitly: without it the test binary aborts the whole run mid-test, whatever
+# budget the caller thought it had given it. Keep this below the workflow's own
+# job timeout, so a genuinely stuck test panics with a stack trace naming itself
+# rather than being killed by the runner with nothing to show for it.
+#
+# TESTARGS comes last, so passing your own -timeout still wins.
 .PHONY: testacc
 testacc:
-	TF_ACC=1 go test ./internal/provider -v $(TESTARGS)
+	TF_ACC=1 go test ./internal/provider -v -timeout 18m $(TESTARGS)
 
 .PHONY: debug
 debug:

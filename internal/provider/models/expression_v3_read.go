@@ -5,6 +5,7 @@ import (
 	"sort"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
@@ -405,11 +406,7 @@ func BindingFromPayload(binding *client.EngineParamBindingPayloadV3) *Binding {
 		return nil
 	}
 
-	model := &Binding{
-		ValueLiteral:   types.StringNull(),
-		ValueReference: types.StringNull(),
-		ExpressionRef:  types.StringNull(),
-	}
+	model := lo.ToPtr(NullBinding())
 
 	if binding.Value != nil {
 		if binding.Value.Literal != nil {
@@ -443,18 +440,23 @@ func BindingFromPayload(binding *client.EngineParamBindingPayloadV3) *Binding {
 	}
 
 	if allLiteral {
+		literals := make([]string, 0, len(*binding.ArrayValue))
 		for _, value := range *binding.ArrayValue {
-			model.Values = append(model.Values, types.StringValue(*value.Literal))
+			literals = append(literals, *value.Literal)
 		}
+		model.Values = BindingValuesList(literals...)
+
 		return model
 	}
 
+	values := make([]BindingValue, 0, len(*binding.ArrayValue))
 	for _, value := range *binding.ArrayValue {
-		model.ArrayValue = append(model.ArrayValue, BindingValue{
+		values = append(values, BindingValue{
 			Literal:   stringOrNull(value.Literal),
 			Reference: stringOrNull(value.Reference),
 		})
 	}
+	model.ArrayValue = BindingArrayValue(values...)
 
 	return model
 }
