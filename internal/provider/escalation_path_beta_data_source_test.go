@@ -32,6 +32,78 @@ func TestEscalationPathBetaDataSourceSchema(t *testing.T) {
 	}
 }
 
+// TestEscalationPathBetaDataSourceValidateConfig covers the id-XOR-name lookup, including
+// the case a value isn't known yet: an id read off a path created in the same apply is
+// non-null but unknown, and rejecting that would fail a plan that would have applied.
+func TestEscalationPathBetaDataSourceValidateConfig(t *testing.T) {
+	for _, tc := range []struct {
+		name    string
+		id      tftypes.Value
+		lookup  tftypes.Value
+		wantErr string
+	}{
+		{name: "id only", id: tftypes.NewValue(tftypes.String, "01PAYMENTS"), lookup: tftypes.NewValue(tftypes.String, nil)},
+		{name: "name only", id: tftypes.NewValue(tftypes.String, nil), lookup: tftypes.NewValue(tftypes.String, "Urgent support")},
+		{
+			name:    "both",
+			id:      tftypes.NewValue(tftypes.String, "01PAYMENTS"),
+			lookup:  tftypes.NewValue(tftypes.String, "Urgent support"),
+			wantErr: "Ambiguous lookup",
+		},
+		{
+			name:    "neither",
+			id:      tftypes.NewValue(tftypes.String, nil),
+			lookup:  tftypes.NewValue(tftypes.String, nil),
+			wantErr: "Missing lookup",
+		},
+		{
+			name:   "an id another resource computes",
+			id:     tftypes.NewValue(tftypes.String, tftypes.UnknownValue),
+			lookup: tftypes.NewValue(tftypes.String, nil),
+		},
+		{
+			name:   "a name another resource computes",
+			id:     tftypes.NewValue(tftypes.String, nil),
+			lookup: tftypes.NewValue(tftypes.String, tftypes.UnknownValue),
+		},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			ctx := t.Context()
+			d := &EscalationPathBetaDataSource{}
+
+			var schemaResp datasource.SchemaResponse
+			d.Schema(ctx, datasource.SchemaRequest{}, &schemaResp)
+			require.False(t, schemaResp.Diagnostics.HasError(), "schema: %s", schemaResp.Diagnostics)
+
+			tfType, ok := schemaResp.Schema.Type().TerraformType(ctx).(tftypes.Object)
+			require.True(t, ok, "the schema's Terraform type is not an object")
+
+			config := map[string]tftypes.Value{}
+			for name, attrType := range tfType.AttributeTypes {
+				config[name] = tftypes.NewValue(attrType, nil)
+			}
+			config["id"] = tc.id
+			config["name"] = tc.lookup
+
+			resp := &datasource.ValidateConfigResponse{}
+			d.ValidateConfig(ctx, datasource.ValidateConfigRequest{
+				Config: tfsdk.Config{
+					Schema: schemaResp.Schema,
+					Raw:    tftypes.NewValue(tfType, config),
+				},
+			}, resp)
+
+			if tc.wantErr == "" {
+				require.False(t, resp.Diagnostics.HasError(), "unexpected diagnostics: %s", resp.Diagnostics)
+				return
+			}
+
+			require.True(t, resp.Diagnostics.HasError(), "expected an error diagnostic")
+			assert.Equal(t, tc.wantErr, resp.Diagnostics.Errors()[0].Summary())
+		})
+	}
+}
+
 // TestEscalationPathBetaDataSourceSchemaMatchesModel guards the seam between the data
 // source schema and escalationPathBetaModel: Read reuses the resource's buildModel, so an
 // attribute the schema forgets fails every read rather than only the paths using it.

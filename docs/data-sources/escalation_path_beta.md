@@ -38,5 +38,168 @@ output "urgent_support_start" {
 - `repeat_config` (Attributes) Controls if an escalation will repeat after acknowledgement, when the alert is unresolved. When configured, it will repeat after the specified delay. (see [below for nested schema](#nestedatt--repeat_config))
 - `sequences` (Attributes Map) Named sequences of nodes, keyed by a name you choose. Each sequence either ends with a `branch` node or runs off the end of the escalation path. Branches reference other sequences by key. (see [below for nested schema](#nestedatt--sequences))
 - `start` (String) The key of the sequence this escalation path begins with.
-- `team_ids` (Set of String) IDs of the teams that own this escalation path.
+- `team_ids` (Set of String) IDs of the teams that own this escalation path. This will automatically sync escalation paths with the right teams in Catalog. If you have an escalation paths attribute on your Teams, this attribute is required.
 - `working_hours` (Attributes List) The working hours for this escalation path. (see [below for nested schema](#nestedatt--working_hours))
+
+<a id="nestedatt--repeat_config"></a>
+### Nested Schema for `repeat_config`
+
+Read-Only:
+
+- `delay_repeat_on_activity` (Boolean) When true, incident activity resets the repeat timer.
+- `repeat_after_seconds` (Number) Number of seconds we'll wait before repeating an escalation.
+
+
+<a id="nestedatt--sequences"></a>
+### Nested Schema for `sequences`
+
+Read-Only:
+
+- `nodes` (Attributes List) The nodes in this sequence, in the order they run. (see [below for nested schema](#nestedatt--sequences--nodes))
+
+<a id="nestedatt--sequences--nodes"></a>
+### Nested Schema for `sequences.nodes`
+
+Read-Only:
+
+- `branch` (Attributes) Send the escalation down one of two sequences, depending on what `if` tests. A branch must be the last node in its sequence. (see [below for nested schema](#nestedatt--sequences--nodes--branch))
+- `delay` (Attributes) (see [below for nested schema](#nestedatt--sequences--nodes--delay))
+- `escalation_path` (Attributes) Reassign the escalation to another escalation path, continuing from that path's first node. (see [below for nested schema](#nestedatt--sequences--nodes--escalation_path))
+- `id` (String) An id for this node, unique within the escalation path, so a `loop` can name it.
+- `level` (Attributes) (see [below for nested schema](#nestedatt--sequences--nodes--level))
+- `loop` (Attributes) Go back to an earlier node and run from there again. (see [below for nested schema](#nestedatt--sequences--nodes--loop))
+- `notify_channel` (Attributes) (see [below for nested schema](#nestedatt--sequences--nodes--notify_channel))
+
+<a id="nestedatt--sequences--nodes--branch"></a>
+### Nested Schema for `sequences.nodes.branch`
+
+Read-Only:
+
+- `else` (String) The key of the sequence to continue down when the condition is not met.
+- `if` (Attributes) What the branch tests. Set exactly one of these: a branch tests one thing, so combining them means nesting a second branch inside the first. (see [below for nested schema](#nestedatt--sequences--nodes--branch--if))
+- `then` (String) The key of the sequence to continue down when the condition is met.
+
+<a id="nestedatt--sequences--nodes--branch--if"></a>
+### Nested Schema for `sequences.nodes.branch.if`
+
+Read-Only:
+
+- `priority_one_of` (Set of String) Alert priority ids, met when the escalation came in at one of them.
+- `working_hours_active` (String) The `id` of one of this escalation path's `working_hours`, met while those hours are active.
+
+
+
+<a id="nestedatt--sequences--nodes--delay"></a>
+### Nested Schema for `sequences.nodes.delay`
+
+Read-Only:
+
+- `delay_interval_condition` (String) If the delay is relative to a time window, this defines whether we advance when the window is active or inactive. Possible values are: `active`, `inactive`.
+- `delay_seconds` (Number) How long to delay before advancing to the next node in the path, in seconds
+- `delay_weekday_interval_config_id` (String) If the delay is relative to a time window, this identifies which window it is relative to
+
+
+<a id="nestedatt--sequences--nodes--escalation_path"></a>
+### Nested Schema for `sequences.nodes.escalation_path`
+
+Read-Only:
+
+- `escalation_path_id` (String) The ID of the escalation path to reassign to
+
+
+<a id="nestedatt--sequences--nodes--level"></a>
+### Nested Schema for `sequences.nodes.level`
+
+Read-Only:
+
+- `ack_mode` (String) Controls the behaviour of acknowledgements for this level, with 'first' cancelling all other escalations on the same level when someone acks. Possible values are: `all`, `first`.
+- `retry_config` (Attributes) (see [below for nested schema](#nestedatt--sequences--nodes--level--retry_config))
+- `round_robin_config` (Attributes) (see [below for nested schema](#nestedatt--sequences--nodes--level--round_robin_config))
+- `targets` (Attributes List) The targets (users or schedules) for this level (see [below for nested schema](#nestedatt--sequences--nodes--level--targets))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before proceeding to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--sequences--nodes--level--retry_config"></a>
+### Nested Schema for `sequences.nodes.level.retry_config`
+
+Read-Only:
+
+- `attempts` (Number) The total number of times we page this level, counting the initial page. For example, 3 means three notifications in total. Must be between 2 and 10.
+- `interval_seconds` (Number) How long we wait between attempts at this level, in seconds. Must be a whole number of minutes (divisible by 60).
+
+
+<a id="nestedatt--sequences--nodes--level--round_robin_config"></a>
+### Nested Schema for `sequences.nodes.level.round_robin_config`
+
+Read-Only:
+
+- `enabled` (Boolean) Whether round robin is enabled for this level
+- `rotate_after_seconds` (Number) How long should we wait before rotating to the next target in a round robin, if not set will stick with a single target per level.
+
+
+<a id="nestedatt--sequences--nodes--level--targets"></a>
+### Nested Schema for `sequences.nodes.level.targets`
+
+Read-Only:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
+- `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
+
+
+
+<a id="nestedatt--sequences--nodes--loop"></a>
+### Nested Schema for `sequences.nodes.loop`
+
+Read-Only:
+
+- `back_to` (String) The `id` of the node to repeat from.
+- `times` (Number) How many times to repeat these nodes
+
+
+<a id="nestedatt--sequences--nodes--notify_channel"></a>
+### Nested Schema for `sequences.nodes.notify_channel`
+
+Read-Only:
+
+- `targets` (Attributes List) The targets (Slack channels) for this level (see [below for nested schema](#nestedatt--sequences--nodes--notify_channel--targets))
+- `time_to_ack_interval_condition` (String) If the time to ack is relative to a time window, this defines whether we move when the window is active or inactive. Possible values are: `active`, `inactive`.
+- `time_to_ack_seconds` (Number) How long should we wait for this level to acknowledge before moving on to the next node in the path?
+- `time_to_ack_weekday_interval_config_id` (String) If the time to ack is relative to a time window, this identifies which window it is relative to
+
+<a id="nestedatt--sequences--nodes--notify_channel--targets"></a>
+### Nested Schema for `sequences.nodes.notify_channel.targets`
+
+Read-Only:
+
+- `id` (String) Uniquely identifies an entity of this type
+- `schedule_mode` (String) Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule. Possible values are: `currently_on_call`, `all_users_for_rota`, `all_users`, `currently_on_call_for_rota`, `next_on_call_for_rota`, `next_on_call`.
+- `selected_rota_id` (String) For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+- `type` (String) Controls what type of entity this target identifies, such as EscalationPolicy or User. Possible values are: `schedule`, `user`, `slack_channel`, `msteams_channel`.
+- `urgency` (String) The urgency of this escalation path target. Possible values are: `high`, `low`.
+
+
+
+
+
+<a id="nestedatt--working_hours"></a>
+### Nested Schema for `working_hours`
+
+Read-Only:
+
+- `id` (String) The unique identifier for this set of working intervals
+- `name` (String) A human readable label for this set of working intervals
+- `timezone` (String) How to interpret all the intervals
+- `weekday_intervals` (Attributes List) (see [below for nested schema](#nestedatt--working_hours--weekday_intervals))
+
+<a id="nestedatt--working_hours--weekday_intervals"></a>
+### Nested Schema for `working_hours.weekday_intervals`
+
+Read-Only:
+
+- `end_time` (String) End time of the interval, in 24hr format
+- `start_time` (String) Start time of the interval, in 24hr format
+- `weekday` (String) Weekdays for use within a schedule or escalation path. Possible values are: `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`.

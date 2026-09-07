@@ -329,6 +329,9 @@ func escalationPathEscalationPathAttributeDataSource() schema.SingleNestedAttrib
 	}
 }
 
+// ValidateConfig rejects an ambiguous lookup at plan time. Both attributes are Optional
+// and Computed so either can be used, which means setting both would otherwise silently
+// ignore one of them.
 func (d *EscalationPathBetaDataSource) ValidateConfig(ctx context.Context, req datasource.ValidateConfigRequest, resp *datasource.ValidateConfigResponse) {
 	var data *escalationPathBetaModel
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
@@ -336,13 +339,18 @@ func (d *EscalationPathBetaDataSource) ValidateConfig(ctx context.Context, req d
 		return
 	}
 
-	hasID := !data.ID.IsNull() && !data.ID.IsUnknown() && data.ID.ValueString() != ""
-	hasName := !data.Name.IsNull() && !data.Name.IsUnknown() && data.Name.ValueString() != ""
-	if hasID == hasName {
-		resp.Diagnostics.AddError(
-			"Invalid lookup",
-			"Set exactly one of id or name to look up an escalation path.",
-		)
+	// A value that isn't known yet — an id taken from a resource created in the same
+	// apply, or either attribute behind an unresolved conditional — is non-null, so
+	// judging it here would reject a config that's actually fine.
+	if data.ID.IsUnknown() || data.Name.IsUnknown() {
+		return
+	}
+
+	switch {
+	case !data.ID.IsNull() && !data.Name.IsNull():
+		resp.Diagnostics.AddError("Ambiguous lookup", "Set either id or name, not both.")
+	case data.ID.IsNull() && data.Name.IsNull():
+		resp.Diagnostics.AddError("Missing lookup", "Set one of id or name.")
 	}
 }
 
@@ -354,7 +362,7 @@ func (d *EscalationPathBetaDataSource) Read(ctx context.Context, req datasource.
 	}
 
 	var escalationPath *client.EscalationPathV2
-	if !data.ID.IsNull() && data.ID.ValueString() != "" {
+	if !data.ID.IsNull() {
 		result, err := d.client.EscalationsV2ShowPathWithResponse(ctx, data.ID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read escalation path, got error: %s", err))
@@ -384,6 +392,10 @@ func (d *EscalationPathBetaDataSource) Read(ctx context.Context, req datasource.
 		}
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list catalog entries, got error: %s", err))
+			return
+		}
+		if entriesResult.JSON200 == nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to list catalog entries, unexpected response: %s", entriesResult.Status()))
 			return
 		}
 		if len(entriesResult.JSON200.CatalogEntries) == 0 {
