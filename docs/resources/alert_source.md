@@ -409,7 +409,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 - `auto_resolve_timeout_minutes` (Number) When set, alerts from this source will automatically resolve after this many minutes.
 - `email_address` (String) Email address this alert source receives alerts to
 - `email_options` (Attributes) (see [below for nested schema](#nestedatt--email_options))
-- `filter_condition_groups` (Attributes List) Conditions an incoming event must match to be ingested from this source, evaluated against the event's payload and this source's expressions. When empty, everything is ingested; otherwise a firing event that doesn't match is dropped and never creates or updates an alert. Resolve events are never filtered. (see [below for nested schema](#nestedatt--filter_condition_groups))
+- `filter_condition_groups` (Attributes List) Conditions an incoming event must match to be ingested from this source, evaluated against the event's payload and this source's expressions. (see [below for nested schema](#nestedatt--filter_condition_groups))
 - `fixed_team_id` (String) When set, the team every alert from this source is attributed to. The team attribute is managed from this field: its binding is not returned in the template and cannot be edited directly. While set, don't bind the organisation's team attribute in `template.attributes`: the binding is managed from this field, a binding sent in the template is ignored, and reads leave it out — so a config carrying both never settles.
 - `heartbeat_options` (Attributes) (see [below for nested schema](#nestedatt--heartbeat_options))
 - `http_custom_options` (Attributes) (see [below for nested schema](#nestedatt--http_custom_options))
