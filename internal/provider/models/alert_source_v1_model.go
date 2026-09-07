@@ -28,6 +28,7 @@ type AlertSourceResourceModel struct {
 	OwningTeamIDs             types.Set                          `tfsdk:"owning_team_ids"`
 	AutoResolveTimeoutMinutes types.Int64                        `tfsdk:"auto_resolve_timeout_minutes"`
 	AutoResolveIncidentAlerts types.Bool                         `tfsdk:"auto_resolve_incident_alerts"`
+	FilterConditionGroups     IncidentEngineConditionGroups      `tfsdk:"filter_condition_groups"`
 }
 
 func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSourceResourceModel {
@@ -57,6 +58,13 @@ func (AlertSourceResourceModel) FromAPIWithPlan(source client.AlertSourceV2, pla
 		owningTeamIDs, _ = types.SetValue(types.StringType, teamIDValues)
 	}
 
+	// Left nil (Terraform null) when the API omits the field, which it always does when the
+	// source has no filters, matching a config that never set the attribute.
+	var filterConditionGroups IncidentEngineConditionGroups
+	if source.FilterConditionGroups != nil {
+		filterConditionGroups = IncidentEngineConditionGroups{}.FromAPI(*source.FilterConditionGroups)
+	}
+
 	result := AlertSourceResourceModel{
 		ID:             types.StringValue(source.Id),
 		Name:           types.StringValue(source.Name),
@@ -81,12 +89,17 @@ func (AlertSourceResourceModel) FromAPIWithPlan(source client.AlertSourceV2, pla
 		OwningTeamIDs:             owningTeamIDs,
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
 		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),
+		FilterConditionGroups:     filterConditionGroups,
 	}
 
 	if plan != nil && plan.Template != nil {
 		result.Template.Expressions.ReconcileSpelling(plan.Template.Expressions)
 		result.Template.VisibleToTeams = ReconcileBindingSpelling(
 			result.Template.VisibleToTeams, plan.Template.VisibleToTeams)
+	}
+
+	if plan != nil {
+		result.FilterConditionGroups.ReconcileSpelling(plan.FilterConditionGroups)
 	}
 
 	return result
@@ -439,4 +452,18 @@ func (opts *AlertSourceEmailOptionsModel) ToPayload() *client.AlertSourceEmailOp
 		TransformExpression: opts.TransformExpression.ValueStringPointer(),
 		Redactions:          redactions,
 	}
+}
+
+// ToPayloadPtr converts to the pointer-to-slice shape the create/update endpoints expect, where
+// nil leaves any stored filters unchanged (or, on create, means "no filters") and a non-nil
+// slice — possibly empty — replaces them. Terraform leaves this field nil when the config omits
+// the attribute, and a non-nil empty slice when the config writes an explicit empty list, so the
+// two cases already carry the distinction the API needs.
+func (groups IncidentEngineConditionGroups) ToPayloadPtr() *[]client.ConditionGroupPayloadV2 {
+	if groups == nil {
+		return nil
+	}
+
+	payload := groups.ToPayload()
+	return &payload
 }

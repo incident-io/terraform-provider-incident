@@ -81,6 +81,8 @@ type alertSourceBetaModel struct {
 
 	RateLimitSharding *alertSourceRateLimitSharding `tfsdk:"rate_limit_sharding"`
 
+	FilterConditionGroups models.IncidentEngineConditionGroups `tfsdk:"filter_condition_groups"`
+
 	AutoResolveTimeoutMinutes types.Int64 `tfsdk:"auto_resolve_timeout_minutes"`
 	AutoResolveIncidentAlerts types.Bool  `tfsdk:"auto_resolve_incident_alerts"`
 
@@ -204,6 +206,16 @@ compatible, so pin the provider version if that matters to you.
 			"email_options":       emailOptionsAttribute(),
 			"http_custom_options": httpCustomOptionsAttribute(),
 			"rate_limit_sharding": rateLimitShardingAttribute(),
+
+			"filter_condition_groups": schema.ListNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "filter_condition_groups"),
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"conditions": models.ConditionsAttribute(),
+					},
+				},
+			},
 
 			"auto_resolve_timeout_minutes": schema.Int64Attribute{
 				Optional:            true,
@@ -590,6 +602,8 @@ func (r *alertSourceBetaResource) Create(ctx context.Context, req resource.Creat
 		HttpCustomOptions: data.HTTPCustomOptions.toPayload(),
 		RateLimitSharding: data.RateLimitSharding.toPayload(),
 
+		FilterConditionGroups: filterConditionGroupsToPayload(data.FilterConditionGroups),
+
 		Annotations: r.annotations(),
 	}
 	r.applyAutoResolve(&data, &payload.AutoResolveTimeoutMinutes, &payload.AutoResolveIncidentAlerts)
@@ -683,6 +697,11 @@ func (r *alertSourceBetaResource) Update(ctx context.Context, req resource.Updat
 		EmailOptions:      emailOptionsUpdatePayload(plan.EmailOptions, plan.SourceType),
 		HttpCustomOptions: plan.HTTPCustomOptions.toPayload(),
 		RateLimitSharding: rateLimitShardingUpdatePayload(plan.RateLimitSharding),
+
+		// Left nil when the config omits the attribute, which the API reads as "leave the
+		// stored filters alone" — so removing the attribute from HCL doesn't clear filters set
+		// elsewhere (e.g. the dashboard).
+		FilterConditionGroups: filterConditionGroupsToPayload(plan.FilterConditionGroups),
 
 		// No expected_version, deliberately: a version covers the whole source, and each
 		// attribute is its own resource writing the same one. Removing an attribute in the
@@ -898,6 +917,8 @@ func alertSourceBetaFromAPI(
 		EmailOptions:      emailOptionsFromAPI(source.EmailOptions),
 		HTTPCustomOptions: httpCustomOptionsFromAPI(source.HttpCustomOptions),
 		RateLimitSharding: rateLimitShardingFromAPI(source.RateLimitSharding),
+
+		FilterConditionGroups: filterConditionGroupsFromAPI(source.FilterConditionGroups),
 
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
 		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),

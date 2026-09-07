@@ -11,6 +11,7 @@ import (
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
 // Per-source-type options, shaped the same way the V2 resource shapes them so a config moving
@@ -323,4 +324,27 @@ func rateLimitShardingFromAPI(sharding *client.AlertSourceRateLimitShardingV3) *
 	return &alertSourceRateLimitSharding{
 		RateLimitShardKeyPath: types.StringValue(sharding.RateLimitShardKeyPath),
 	}
+}
+
+// filterConditionGroupsToPayload leaves the payload nil when the config omits the attribute,
+// which the API reads as "leave any stored filters alone" rather than clearing them. A non-nil
+// (possibly empty) slice replaces them, matching the config writing an explicit empty list.
+func filterConditionGroupsToPayload(groups models.IncidentEngineConditionGroups) *[]client.ConditionGroupPayloadV3 {
+	if groups == nil {
+		return nil
+	}
+
+	payload := models.ConditionGroupsToV3Payload(groups)
+	return &payload
+}
+
+// filterConditionGroupsFromAPI maps an absent field to nil (Terraform null), matching what the
+// config spells: the API omits filter_condition_groups whenever the source has no filters, so
+// there's no empty-vs-absent ambiguity to guard against here the way rate limit sharding needs.
+func filterConditionGroupsFromAPI(groups *[]client.ConditionGroupPayloadV3) models.IncidentEngineConditionGroups {
+	if groups == nil {
+		return nil
+	}
+
+	return models.ConditionGroupsFromV3Payload(*groups)
 }

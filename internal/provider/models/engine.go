@@ -170,6 +170,32 @@ func (IncidentEngineConditionGroups) FromAPI(groups []client.ConditionGroupV2) I
 	return out
 }
 
+// FromPayload builds condition groups from the payload shape rather than the decorated read
+// shape FromAPI expects. Alert routes always read the decorated shape (label, catalog_entry,
+// etc), but a resource that reads back exactly what it can write — its subject and operation
+// are already plain strings, not the read type's {label, reference}/{label, value} objects —
+// needs this instead.
+func (IncidentEngineConditionGroups) FromPayload(groups []client.ConditionGroupPayloadV2) IncidentEngineConditionGroups {
+	out := IncidentEngineConditionGroups{}
+
+	for _, g := range groups {
+		conditions := IncidentEngineConditions{}
+		for _, c := range g.Conditions {
+			conditions = append(conditions, IncidentEngineCondition{
+				Subject:   types.StringValue(c.Subject),
+				Operation: types.StringValue(c.Operation),
+				ParamBindings: IncidentEngineParamBindings{}.FromAPI(
+					convertEngineType[[]client.EngineParamBindingV2](c.ParamBindings),
+				),
+			})
+		}
+
+		out = append(out, IncidentEngineConditionGroup{Conditions: conditions})
+	}
+
+	return out
+}
+
 type IncidentEngineConditionGroup struct {
 	Conditions IncidentEngineConditions `tfsdk:"conditions"`
 }

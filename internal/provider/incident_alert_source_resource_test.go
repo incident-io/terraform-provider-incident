@@ -173,6 +173,85 @@ resource "incident_alert_source" "test" {
 	})
 }
 
+// TestAccAlertSourceResource_FilterConditionGroups checks that filter_condition_groups can be
+// set, updated, and cleared, and that omitting the attribute on a later apply leaves whatever
+// was there alone.
+func TestAccAlertSourceResource_FilterConditionGroups(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccAlertSourceResourceConfigWithFilter(true),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "filter_condition_groups.#", "1"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "filter_condition_groups.0.conditions.#", "1"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "filter_condition_groups.0.conditions.0.subject", `expressions["severity_expr"]`),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "filter_condition_groups.0.conditions.0.operation", "is_set"),
+				),
+			},
+			{
+				Config: testAccAlertSourceResourceConfigWithFilter(false),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "filter_condition_groups.#", "0"),
+				),
+			},
+		},
+	})
+}
+
+func testAccAlertSourceResourceConfigWithFilter(withFilter bool) string {
+	return testRunTemplate("incident_alert_source_filter", `
+resource "incident_alert_source" "test" {
+  name        = {{ stableSuffix "filter-test-source" | quote }}
+  source_type = "datadog"
+
+  template = {
+    title = {
+      literal = {{ quote .Title }}
+    }
+    description = {
+      literal = {{ quote .Description }}
+    }
+    attributes = []
+
+    expressions = [{
+      label = "Severity"
+      reference = "severity_expr"
+      root_reference = "payload"
+      operations = [{
+        operation_type = "parse"
+        parse = {
+          source = "$.metadata.severity"
+          returns = {
+            type  = "String"
+            array = false
+          }
+        }
+      }]
+    }]
+  }
+
+  {{ if .WithFilter }}
+  filter_condition_groups = [{
+    conditions = [{
+      subject        = "expressions[\"severity_expr\"]"
+      operation      = "is_set"
+      param_bindings = []
+    }]
+  }]
+  {{ end }}
+}
+`, struct {
+		Title, Description string
+		WithFilter         bool
+	}{
+		Title:       testAlertSourceTitle,
+		Description: testAlertSourceDescription,
+		WithFilter:  withFilter,
+	})
+}
+
 // TestAccAlertSourceResource_Heartbeat checks that heartbeat_options work.
 func TestAccAlertSourceResource_Heartbeat(t *testing.T) {
 	resource.Test(t, resource.TestCase{

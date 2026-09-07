@@ -179,6 +179,20 @@ func conditionGroupsToV3Payload(groups IncidentEngineConditionGroups) []client.C
 	return convertEngineType[[]client.ConditionGroupPayloadV3](groups.ToPayload())
 }
 
+// ConditionGroupsFromV3Payload is conditionGroupsFromV3's counterpart for a resource whose read
+// type is the payload shape rather than the decorated read shape — the alert source, unlike
+// alert routes, answers with exactly what it accepts on write.
+func ConditionGroupsFromV3Payload(groups []client.ConditionGroupPayloadV3) IncidentEngineConditionGroups {
+	return IncidentEngineConditionGroups{}.FromPayload(convertEngineType[[]client.ConditionGroupPayloadV2](groups))
+}
+
+// ConditionGroupsToV3Payload is the exported form of conditionGroupsToV3Payload, for a resource
+// (in another file in this package, or another package) that needs it directly rather than
+// through a route-shaped model.
+func ConditionGroupsToV3Payload(groups IncidentEngineConditionGroups) []client.ConditionGroupPayloadV3 {
+	return conditionGroupsToV3Payload(groups)
+}
+
 func paramBindingFromV3(pb client.EngineParamBindingV3) IncidentEngineParamBinding {
 	return IncidentEngineParamBinding{}.FromAPI(convertEngineType[client.EngineParamBindingV2](pb))
 }
