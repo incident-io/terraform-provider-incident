@@ -383,14 +383,18 @@ func ValidateBinding(binding *Binding, at path.Path, known map[string]bool, diag
 	}
 
 	// A value or array Terraform hasn't settled has nothing to check yet - what it holds is
-	// decided after the plan. BindingObject and BindingArray read one as absent, so this
-	// skips it rather than reporting a missing value against a config that has one.
+	// decided after the plan - and checking one anyway reports "Missing value" against a
+	// config that names a value perfectly well. An unsettled element leaves the whole array
+	// unchecked rather than only itself, because the elements around it shift position as
+	// soon as the unsettled one resolves, so an index reported now names nothing.
 	if value, ok := binding.BindingObject(); ok {
 		validateBindingValue(value, at.AtName("value"), diags)
 	}
 
-	for idx, value := range binding.BindingArray() {
-		validateBindingValue(value, at.AtName("array_value").AtListIndex(idx), diags)
+	if !binding.BindingArrayUnsettled() {
+		for idx, value := range binding.BindingArray() {
+			validateBindingValue(value, at.AtName("array_value").AtListIndex(idx), diags)
+		}
 	}
 }
 

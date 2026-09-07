@@ -218,6 +218,27 @@ func (b Binding) BindingObject() (BindingValue, bool) {
 	return bindingValueFromObject(b.Value), true
 }
 
+// BindingArrayUnsettled reports whether array_value holds anything Terraform hasn't decided
+// yet, the list itself included.
+//
+// An element is the case worth naming: the list around it can be known while it isn't - a
+// ternary whose branches are the same length gives exactly that - and such an element reads
+// back with neither literal nor reference, which is indistinguishable from one the config
+// left empty. Anything that would reject that shape has to ask here first.
+func (b Binding) BindingArrayUnsettled() bool {
+	if b.ArrayValue.IsUnknown() {
+		return true
+	}
+
+	for _, element := range b.ArrayValue.Elements() {
+		if element.IsUnknown() {
+			return true
+		}
+	}
+
+	return false
+}
+
 // BindingArray reads a binding's array_value. An unknown list reads as no values, for the
 // same reason.
 func (b Binding) BindingArray() []BindingValue {

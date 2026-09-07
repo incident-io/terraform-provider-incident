@@ -269,8 +269,12 @@ func assertNoDiagErrors(t *testing.T, diags diag.Diagnostics) {
 
 // TestAlertSourceAttributeReadsAnUnknownBinding covers the v3 binding model, which repeated
 // the v2 model's shape and so had the same problem. This resource holds the value forms at
-// its top level, so a config that points one at anything Terraform hasn't settled fails
-// inside Config.Get, before ValidateConfig runs.
+// its top level, so an unsettled one arrives in Config.Get itself.
+//
+// ValidateConfig is exercised as well as the read, because this resource swallows a decode
+// failure and skips validating. Before the model held these as framework types that swallow
+// hid the problem; now the decode succeeds, the checks actually run, and one that mistook an
+// unsettled value for an empty one would fail the plan where nothing failed before.
 func TestAlertSourceAttributeReadsAnUnknownBinding(t *testing.T) {
 	for _, field := range unknownBindingForms {
 		t.Run(field, func(t *testing.T) {
@@ -289,6 +293,12 @@ func TestAlertSourceAttributeReadsAnUnknownBinding(t *testing.T) {
 
 			var model *alertSourceAttributeBetaModel
 			assertNoDiagErrors(t, config.Get(t.Context(), &model))
+
+			var resp resource.ValidateConfigResponse
+			(&alertSourceAttributeBetaResource{}).ValidateConfig(t.Context(), resource.ValidateConfigRequest{
+				Config: config,
+			}, &resp)
+			assertNoDiagErrors(t, resp.Diagnostics)
 		})
 	}
 }
