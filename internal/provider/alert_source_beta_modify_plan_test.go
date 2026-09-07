@@ -146,6 +146,62 @@ func TestAlertSourceBetaModifyPlanAcceptsValidSource(t *testing.T) {
 	}
 }
 
+// filter_condition_groups has to reach the validate payload like every other attribute here, or
+// a bad subject, operation, or expression reference plans cleanly and only 422s on apply.
+func TestAlertSourceBetaModifyPlanSendsFilterConditionGroups(t *testing.T) {
+	api := &fakeAlertSourceValidateAPI{}
+
+	groupListType := attributeType(t, "filter_condition_groups")
+	groupType := groupListType.(tftypes.List).ElementType.(tftypes.Object)
+	conditionsListType := groupType.AttributeTypes["conditions"]
+	conditionType := conditionsListType.(tftypes.List).ElementType.(tftypes.Object)
+	paramBindingsListType := conditionType.AttributeTypes["param_bindings"]
+
+	condition := objectWith(t, conditionType, map[string]tftypes.Value{
+		"subject":        stringValue(`expressions["severity_expr"]`),
+		"operation":      stringValue("is_set"),
+		"param_bindings": tftypes.NewValue(paramBindingsListType, []tftypes.Value{}),
+	})
+	group := objectWith(t, groupType, map[string]tftypes.Value{
+		"conditions": tftypes.NewValue(conditionsListType, []tftypes.Value{condition}),
+	})
+
+	plan := alertSourceBetaPlan(t, map[string]tftypes.Value{
+		"source_type":             stringValue("http"),
+		"filter_condition_groups": tftypes.NewValue(groupListType, []tftypes.Value{group}),
+	})
+
+	resp := modifyAlertSourceBetaPlan(t, api, &plan)
+
+	if resp.Diagnostics.HasError() {
+		t.Fatalf("expected no diagnostics, got %+v", resp.Diagnostics)
+	}
+	if api.requests != 1 {
+		t.Fatalf("expected 1 request, got %d", api.requests)
+	}
+
+	var sent struct {
+		AlertSource struct {
+			FilterConditionGroups []struct {
+				Conditions []struct {
+					Subject   string `json:"subject"`
+					Operation string `json:"operation"`
+				} `json:"conditions"`
+			} `json:"filter_condition_groups"`
+		} `json:"alert_source"`
+	}
+	if err := json.Unmarshal(api.received, &sent); err != nil {
+		t.Fatalf("decoding what we sent: %v (%s)", err, api.received)
+	}
+
+	if len(sent.AlertSource.FilterConditionGroups) != 1 || len(sent.AlertSource.FilterConditionGroups[0].Conditions) != 1 {
+		t.Fatalf("expected the configured filter to be sent, got %+v", sent.AlertSource.FilterConditionGroups)
+	}
+	if got := sent.AlertSource.FilterConditionGroups[0].Conditions[0].Subject; got != `expressions["severity_expr"]` {
+		t.Errorf("unexpected subject %q", got)
+	}
+}
+
 // A 422 fails the plan and repeats what the API said, field path included.
 func TestAlertSourceBetaModifyPlanRejectsInvalidSource(t *testing.T) {
 	api := &fakeAlertSourceValidateAPI{

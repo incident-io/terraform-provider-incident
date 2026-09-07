@@ -488,6 +488,10 @@ func (r *alertSourceBetaResource) ModifyPlan(ctx context.Context, req resource.M
 			// to fix into, is rejected here instead of at apply. Null means not fixed —
 			// nothing to check — so send the value only when set.
 			FixedTeamId: data.FixedTeamID.ValueStringPointer(),
+
+			// And again: a bad subject, operation, or expression reference is rejected here
+			// instead of only surfacing as a 422 partway through an apply.
+			FilterConditionGroups: filterConditionGroupsToPayload(data.FilterConditionGroups),
 		},
 	})
 	if err == nil {
@@ -550,6 +554,7 @@ var alertSourceBetaValidatedAttributes = []string{
 	"visible_to_teams",
 	"named_expression",
 	"rate_limit_sharding",
+	"filter_condition_groups",
 }
 
 // alertSourceBetaValidateSettled reports whether every value the check would send is
