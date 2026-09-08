@@ -149,6 +149,17 @@ func TestSecretNameRejectsPaddedName(t *testing.T) {
 		{name: "trailing newline", value: "PagerDuty webhook token\n", wantError: true},
 		{name: "only whitespace", value: "   ", wantError: true},
 		{name: "empty", value: "", wantError: true},
+		// The API caps the name at 1024 bytes, so the provider says so at plan time rather
+		// than letting the create fail.
+		{name: "at the byte limit", value: strings.Repeat("a", secretNameMaxLengthBytes)},
+		{name: "one byte over", value: strings.Repeat("a", secretNameMaxLengthBytes+1), wantError: true},
+		{
+			// The limit counts bytes, so a name of multi-byte characters hits it at far
+			// fewer characters than 1024. This one is 1026 bytes in 342 characters.
+			name:      "under the limit in characters but over it in bytes",
+			value:     strings.Repeat("日", 342),
+			wantError: true,
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()

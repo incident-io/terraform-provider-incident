@@ -26,6 +26,10 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
+// secretNameMaxLengthBytes is the API's cap on a secret's name. The limit is on bytes
+// rather than characters, so a name of multi-byte characters reaches it sooner.
+const secretNameMaxLengthBytes = 1024
+
 // secretTrimmedName matches a name incident.io will store as written. It trims a name
 // before storing it, so a padded name reads back as a different string.
 var secretTrimmedName = regexp.MustCompile(`(?s)^\S(.*\S)?$`)
@@ -75,8 +79,10 @@ never touched.`),
 				},
 			},
 			"name": schema.StringAttribute{
-				Required:            true,
-				MarkdownDescription: apischema.Docstring("SecretV2", "name"),
+				Required: true,
+				MarkdownDescription: apischema.Docstring("SecretV2", "name") +
+					fmt.Sprintf(". At most %d bytes, counted in bytes rather than characters, so a name "+
+						"using multi-byte characters reaches the limit sooner.", secretNameMaxLengthBytes),
 				Validators: []validator.String{
 					// The API trims the name before storing it, so a name that is padded or
 					// entirely whitespace would read back as something else and fail the
@@ -85,6 +91,10 @@ never touched.`),
 						secretTrimmedName,
 						"must not start or end with whitespace, which incident.io strips from a secret's name",
 					),
+					// The API rejects a longer name, so say so at plan time. This validator
+					// counts bytes, as the API's limit does, so the two agree on a name
+					// holding characters that aren't one byte each.
+					stringvalidator.LengthAtMost(secretNameMaxLengthBytes),
 				},
 			},
 			"description": schema.StringAttribute{
