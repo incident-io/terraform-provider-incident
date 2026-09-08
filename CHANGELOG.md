@@ -1,4 +1,4 @@
-## Unreleased
+## v6.12.0
 
 - Add `rank` to `incident_status`, which says where a status sits within its category, lowest rank first. Statuses could not express their order before: each landed after the last one created, so several in a single apply raced for the same rank and the apply failed with `Can't have more than one status with the same rank`. Ranks must be unique within a category but needn't be consecutive, so leaving gaps (10, 20, 30) means a status can be inserted between two others later without renumbering them. The attribute is optional and not computed, so a config that leaves it out doesn't manage the order and a reorder made in the dashboard survives the next apply.
 - Fix the `incident_status` example, which created a status with `category = "closed"`. Closed statuses cannot be created through the API, so the example as documented did not work. It now shows two active statuses ordered by rank.
