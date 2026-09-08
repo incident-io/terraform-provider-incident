@@ -25,11 +25,24 @@ rules.
 ## Example Usage
 
 ```terraform
-# Create an additional closed status called "Clean-up".
+# Statuses are ordered by rank within their category, lowest first. Give every status
+# in a category a rank and the order is whatever the config says, rather than the order
+# Terraform happened to create them in.
+#
+# Leaving gaps is worth doing: a status can then be slotted between two others without
+# renumbering them.
+resource "incident_status" "investigating" {
+  name        = "Investigating"
+  description = "We've spotted that something is wrong, but we're not sure why yet."
+  category    = "live"
+  rank        = 10
+}
+
 resource "incident_status" "clean_up" {
   name        = "Clean-up"
   description = "Not yet fully finished, but isn't a live incident anymore."
-  category    = "closed"
+  category    = "live"
+  rank        = 20
 }
 ```
 
@@ -38,9 +51,13 @@ resource "incident_status" "clean_up" {
 
 ### Required
 
-- `category` (String) What category of status it is. All statuses apart from live (renamed in the app to Active) and learning (renamed in the app to Post-incident) are managed by incident.io and cannot be configured. Possible values are: `triage`, `declined`, `merged`, `canceled`, `live`, `learning`, `closed`, `paused`.
+- `category` (String) What category of status it is. All statuses apart from live (renamed in the app to Active) and learning (renamed in the app to Post-incident) are managed by incident.io and cannot be configured. Possible values are: `triage`, `declined`, `merged`, `canceled`, `live`, `learning`, `closed`, `paused`. Changing it replaces the status, as a status can't move between categories. Set `rank` if you want the replacement to keep its place.
 - `description` (String) Rich text description of the incident status
 - `name` (String) Unique name of this status
+
+### Optional
+
+- `rank` (Number) Where this status sits within its category, lowest rank first. Set it on every status in a category to fix their order: without it each status lands after the last one created, which for a single apply means whichever order Terraform happened to create them in. No two statuses in a category can share a rank, and ranks needn't be consecutive — leaving gaps (10, 20, 30) means you can insert a status between two others without renumbering them. Because a rank belongs to one status at a time, swapping a pair of them in a single apply fails: move a status to a rank nothing holds instead.
 
 ### Read-Only
 

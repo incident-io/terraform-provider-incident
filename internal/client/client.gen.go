@@ -18545,7 +18545,7 @@ type IncidentStatusV2 struct {
 // Example: triage
 type IncidentStatusV2Category string
 
-// IncidentStatusesCreatePayloadV1 Example: {"category":"live","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","name":"Closed"}
+// IncidentStatusesCreatePayloadV1 Example: {"category":"live","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","name":"Closed","rank":4}
 type IncidentStatusesCreatePayloadV1 struct {
 	// Category Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
 	//
@@ -18561,6 +18561,11 @@ type IncidentStatusesCreatePayloadV1 struct {
 	//
 	// Example: Closed
 	Name string `json:"name"`
+
+	// Rank Where this status sits within its category, lowest rank first. No two statuses in the same category can share a rank, but ranks needn't run consecutively — leaving gaps (10, 20, 30) means you can later insert a status between two others without renumbering them. Omit it to add this status to the end of its category.
+	//
+	// Example: 4
+	Rank *int64 `json:"rank,omitempty"`
 }
 
 // IncidentStatusesCreatePayloadV1Category Whether the status should be considered 'live' (now renamed to active), 'learning' (now renamed to post-incident) or 'closed'. The triage and declined statuses cannot be created or modified.
@@ -18586,7 +18591,7 @@ type IncidentStatusesShowResultV1 struct {
 	IncidentStatus IncidentStatusV1 `json:"incident_status"`
 }
 
-// IncidentStatusesUpdatePayloadV1 Example: {"description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","name":"Closed"}
+// IncidentStatusesUpdatePayloadV1 Example: {"description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","name":"Closed","rank":4}
 type IncidentStatusesUpdatePayloadV1 struct {
 	// Description Rich text description of the incident status
 	//
@@ -18597,6 +18602,11 @@ type IncidentStatusesUpdatePayloadV1 struct {
 	//
 	// Example: Closed
 	Name string `json:"name"`
+
+	// Rank Where this status sits within its category, lowest rank first. No two statuses in the same category can share a rank, but ranks needn't run consecutively — leaving gaps (10, 20, 30) means you can later insert a status between two others without renumbering them. Omit it to leave this status where it is.
+	//
+	// Example: 4
+	Rank *int64 `json:"rank,omitempty"`
 }
 
 // IncidentStatusesUpdateResultV1 Example: {"incident_status":{"category":"triage","created_at":"2021-08-17T13:28:57.801578Z","description":"Impact has been **fully mitigated**, and we're ready to learn from this incident.","id":"01FCNDV6P870EA6S7TK1DSYD5H","name":"Closed","rank":4,"updated_at":"2021-08-17T13:28:57.801578Z"}}
