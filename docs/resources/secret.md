@@ -186,7 +186,7 @@ resource "incident_workflow" "notify_partner" {
 
 ### Required
 
-- `name` (String) Human-readable name, unique within the organisation amongst unarchived secrets
+- `name` (String) Human-readable name, unique within the organisation amongst unarchived secrets. At most 1024 bytes, counted in bytes rather than characters, so a name using multi-byte characters reaches the limit sooner.
 
 ### Optional
 
