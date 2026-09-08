@@ -30,6 +30,16 @@ func TestAccIncidentScheduleSyncRuleResource(t *testing.T) {
 					resource.TestCheckResourceAttrSet("incident_schedule_sync_rule.test", "id"),
 					resource.TestCheckResourceAttrSet("incident_schedule_sync_rule.test", "schedule_id"),
 					resource.TestCheckResourceAttrSet("incident_schedule_sync_rule.test", "schedule_sync_target_id"),
+					resource.TestCheckResourceAttrPair(
+						"data.incident_schedule_sync_rule.test", "id",
+						"incident_schedule_sync_rule.test", "id",
+					),
+					resource.TestCheckResourceAttrPair(
+						"data.incident_schedule_sync_rule.test", "schedule_sync_target_id",
+						"incident_schedule_sync_rule.test", "schedule_sync_target_id",
+					),
+					resource.TestCheckResourceAttr(
+						"data.incident_schedule_sync_rule.test", "sync_type", "on_call"),
 				),
 			},
 			// Update sync type to all_users
@@ -201,6 +211,11 @@ resource "incident_schedule_sync_rule" "test" {
   schedule_id             = incident_schedule.test.id
   schedule_sync_target_id = incident_schedule_sync_target.test.id
   sync_type               = {{ quote .SyncType }}
+}
+
+data "incident_schedule_sync_rule" "test" {
+  schedule_id = incident_schedule.test.id
+  id          = incident_schedule_sync_rule.test.id
 }
 `, struct {
 		SyncType string

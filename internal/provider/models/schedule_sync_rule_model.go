@@ -35,6 +35,17 @@ func (ScheduleSyncRuleResourceModel) FromAPI(rule client.ScheduleSyncRuleV2) Sch
 	}
 }
 
+// FromAPIDataSource is FromAPI for the data source, which always surfaces
+// permanent_member_user_ids (including as an empty set). There is no "omit to
+// leave unmanaged" behaviour on a read-only lookup.
+func (ScheduleSyncRuleResourceModel) FromAPIDataSource(rule client.ScheduleSyncRuleV2) ScheduleSyncRuleResourceModel {
+	model := ScheduleSyncRuleResourceModel{}.FromAPI(rule)
+	if model.PermanentMemberUserIDs.IsNull() {
+		model.PermanentMemberUserIDs = types.SetValueMust(types.StringType, []attr.Value{})
+	}
+	return model
+}
+
 // PreserveEmptyPermanentMemberUserIDs keeps an explicitly empty
 // permanent_member_user_ids set from prior when FromAPI collapsed an empty API
 // response to null. Without this, `permanent_member_user_ids = []` would
