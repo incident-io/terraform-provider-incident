@@ -181,6 +181,11 @@ func TestAccIncidentAPIKeyResourceTeamScoped(t *testing.T) {
 // TestAccIncidentAPIKeyResourceTeamPairing checks the plan-time errors for team scoping,
 // which the API requires to be set as a pair: teams with no roles to grant for them, or
 // roles with no teams to grant them for, are both rejected before an apply is attempted.
+//
+// The patterns match against Terraform's rendered diagnostic, which it hard-wraps, so any
+// space in an expected phrase may be a line break by the time ExpectError sees it. Hence
+// `\s+` rather than a literal space: without it a pattern matches or not depending on
+// where the wrap happens to fall.
 func TestAccIncidentAPIKeyResourceTeamPairing(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
@@ -193,7 +198,7 @@ resource "incident_api_key" "test" {
   team_ids = ["01G0J1EXE7AXZ2C93K61WBPYEH"]
 }
 `, nil),
-				ExpectError: regexp.MustCompile(`needs at least one team role`),
+				ExpectError: regexp.MustCompile(`needs at least one\s+team role`),
 			},
 			{
 				Config: testRunTemplate("incident_api_key_team_roles_only", `
@@ -202,7 +207,7 @@ resource "incident_api_key" "test" {
   team_role_names = ["schedules_editor"]
 }
 `, nil),
-				ExpectError: regexp.MustCompile(`it needs team_ids saying which`),
+				ExpectError: regexp.MustCompile(`it needs team_ids\s+saying which`),
 			},
 		},
 	})
