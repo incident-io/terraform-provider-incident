@@ -723,7 +723,7 @@ splits each attribute into its own resource.`),
 			"disabled": schema.BoolAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourcesUpdatePayloadV2", "disabled"),
+				MarkdownDescription: apischema.Docstring("AlertSourcesUpdatePayloadV2", "disabled") + "\n\n" + heartbeatDisabledDescription,
 				PlanModifiers: []planmodifier.Bool{
 					useStateForUnknownIncludingNull{},
 				},

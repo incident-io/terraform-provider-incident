@@ -118,8 +118,10 @@ resource "incident_alert_source_beta" "nightly_backup" {
   }
 
   # Pause monitoring without deleting the source, for example during maintenance.
-  # Set false (or omit, after it's been applied once) to resume.
-  disabled = true
+  # A heartbeat can only be paused once it has received its first ping, so this
+  # starts monitoring and is flipped to true on a later apply. Omit the attribute
+  # entirely to leave a pause made in the dashboard alone.
+  disabled = false
 }
 
 # A private source's alerts are visible to nobody until you say which teams can
