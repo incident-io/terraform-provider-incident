@@ -204,9 +204,17 @@ func (r *IncidentAPIKeyResource) Schema(_ context.Context, _ resource.SchemaRequ
 				Computed:            true,
 				CustomType:          timetypes.RFC3339Type{},
 				MarkdownDescription: apischema.Docstring("APIKeyV1", "last_used_at"),
-				// Deliberately no UseStateForUnknown: this moves whenever something
-				// authenticates with the key, so promising the stored value would be a promise
-				// the apply breaks.
+				// Deliberately no plan modifier. This moves whenever something authenticates
+				// with the key, and Update writes back whatever the API reports, so pinning the
+				// stored value would promise a timestamp the apply then contradicts - which is
+				// what "Provider produced inconsistent result after apply" is.
+				//
+				// Leaving it bare does not make every plan an update. The framework only marks
+				// a null-in-config Computed attribute unknown when the proposed new state
+				// already differs from prior state (MarkComputedNilsAsUnknown, gated in
+				// server_planresourcechange.go), so a no-op plan keeps the stored value and
+				// stays empty, and a real update gets an unknown for the apply to fill in.
+				// `incident_secret`'s updated_at is the same shape, for the same reason.
 			},
 		},
 	}

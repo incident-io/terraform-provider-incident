@@ -60,6 +60,19 @@ func TestAccIncidentAPIKeyResource(t *testing.T) {
 				),
 			},
 			{
+				// Re-planning the same config must produce nothing. `last_used_at` and
+				// `token_last_issued_at` are Computed and move outside Terraform, so this is
+				// what catches one of them being planned as a change and turning every apply
+				// into an update. Pinning either with UseStateForUnknown would trade this for
+				// an inconsistent-result failure on the next real update, so the empty plan
+				// and the rotation tests have to pass together.
+				Config: testAccIncidentAPIKeyResourceConfig(apiKeyTestConfig{
+					Comments: "Requested in #ask-infra",
+					Roles:    []string{"viewer"},
+				}),
+				PlanOnly: true,
+			},
+			{
 				ResourceName:      "incident_api_key.test",
 				ImportState:       true,
 				ImportStateVerify: true,
