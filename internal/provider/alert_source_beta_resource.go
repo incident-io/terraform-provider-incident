@@ -667,10 +667,16 @@ func (r *alertSourceBetaResource) Create(ctx context.Context, req resource.Creat
 	// plan of true.
 	if wantsHeartbeatPaused(data.SourceType.ValueString(), data.Disabled) {
 		updated := r.updateAlertSource(ctx, source.Id, &data, &resp.Diagnostics)
-		if resp.Diagnostics.HasError() {
-			return
+		if updated != nil {
+			source = *updated
+		} else {
+			// No early return when the pause fails: the source exists and is monitoring, so
+			// returning without state would orphan it and the next apply would create a
+			// second one. Terraform logs rather than raises the mismatch with the plan
+			// because we're returning an error. Drop the planned disabled so state records
+			// what the source is actually doing, and the next plan pauses it.
+			data.Disabled = types.BoolNull()
 		}
-		source = *updated
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceBetaFromAPI(source, &data, &resp.Diagnostics))...)

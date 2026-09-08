@@ -805,15 +805,21 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 	if wantsHeartbeatPaused(data.SourceType.ValueString(), data.Disabled) {
 		data.ID = types.StringValue(source.Id)
 		paused, err := r.updateAlertSourceV2(ctx, data)
-		if err != nil {
+		switch {
+		case err != nil:
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to pause alert source, got error: %s", err))
-			return
-		}
-		if paused.JSON200 == nil {
+			// No early return: the source exists and is monitoring, so returning without
+			// state would orphan it and the next apply would create a second one. Terraform
+			// logs rather than raises the mismatch with the plan because we're returning an
+			// error. Drop the planned disabled, which FromAPIWithPlan would otherwise store
+			// as true over a source that is still running, so the next plan pauses it.
+			data.Disabled = types.BoolNull()
+		case paused.JSON200 == nil:
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to pause alert source, unexpected response: %s", paused.Status()))
-			return
+			data.Disabled = types.BoolNull()
+		default:
+			source = paused.JSON200.AlertSource
 		}
-		source = paused.JSON200.AlertSource
 	}
 
 	// Save the planned values before overwriting with API response.
