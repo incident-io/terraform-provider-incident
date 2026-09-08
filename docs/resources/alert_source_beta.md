@@ -207,7 +207,7 @@ resource "incident_alert_source_beta" "security_scanner" {
 - `description` (Attributes) (see [below for nested schema](#nestedatt--description))
 - `disabled` (Boolean) Whether monitoring is paused for this source. Only returned for source types that support being disabled.
 
-Only heartbeat sources can be paused, and only once one has received its first ping: the API refuses to disable a source that has never reported, so a new heartbeat can't be created paused. Leave the attribute unset to keep whatever the source is currently doing, so a pause made in the dashboard survives an unrelated apply.
+Only heartbeat sources can be paused, and only once one has received its first ping: the API refuses to disable a source that has never reported, so a new one can't be created paused. Leave the attribute unset to keep whatever the source is currently doing, so a pause made in the dashboard survives an unrelated apply.
 - `email_options` (Attributes) (see [below for nested schema](#nestedatt--email_options))
 - `filter_condition_groups` (Attributes List) Conditions an incoming event must match to be ingested from this source, evaluated against the event's payload and this source's expressions. (see [below for nested schema](#nestedatt--filter_condition_groups))
 - `fixed_team_id` (String) When set, the team every alert from this source is attributed to. The team attribute is managed from this field: it is not returned by the attribute endpoints and cannot be bound directly. While set, an `incident_alert_source_attribute_beta` resource binding the organisation's team attribute is rejected at apply time: the binding is managed from this field.

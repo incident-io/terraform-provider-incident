@@ -235,7 +235,7 @@ compatible, so pin the provider version if that matters to you.
 			"disabled": schema.BoolAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceV3", "disabled") + "\n\n" + heartbeatDisabledDescription,
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "disabled") + "\n\n" + heartbeatDisabledV3Description,
 				PlanModifiers: []planmodifier.Bool{
 					useStateForUnknownIncludingNull{},
 				},
@@ -1038,12 +1038,19 @@ func alertSourceBetaFromAPI(
 	return model
 }
 
-// heartbeatDisabledDescription documents what the API will and won't let you pause, on both
-// alert source resources.
-const heartbeatDisabledDescription = "Only heartbeat sources can be paused, and only once one " +
-	"has received its first ping: the API refuses to disable a source that has never reported, " +
-	"so a new heartbeat can't be created paused. Leave the attribute unset to keep whatever the " +
-	"source is currently doing, so a pause made in the dashboard survives an unrelated apply."
+const (
+	// heartbeatDisabledDescription documents pausing, for the v2 alert source resource.
+	heartbeatDisabledDescription = "Only heartbeat sources can be paused." + heartbeatDisabledUnsetDescription
+
+	// heartbeatDisabledV3Description adds a rule the v3 API enforces and v2 doesn't, so it
+	// only belongs on the beta resource.
+	heartbeatDisabledV3Description = "Only heartbeat sources can be paused, and only once one " +
+		"has received its first ping: the API refuses to disable a source that has never " +
+		"reported, so a new one can't be created paused." + heartbeatDisabledUnsetDescription
+
+	heartbeatDisabledUnsetDescription = " Leave the attribute unset to keep whatever the " +
+		"source is currently doing, so a pause made in the dashboard survives an unrelated apply."
+)
 
 // heartbeatDisabledPayload is the update field for pausing a heartbeat. Omitted for every
 // other source type (the API rejects it), and omitted when the config didn't set it so a

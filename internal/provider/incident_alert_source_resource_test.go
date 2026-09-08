@@ -318,25 +318,28 @@ resource "incident_alert_source" "test" {
 	})
 }
 
-// TestAccAlertSourceResource_HeartbeatDisabled covers disabled on a heartbeat source.
+// TestAccAlertSourceResource_HeartbeatDisabled pauses and resumes a heartbeat source. The
+// create has no disabled field, so the first step is a create followed by an update.
 //
-// The API refuses to disable a heartbeat until it has received its first ping, which a
-// source created by this test never has, so pausing is the error case here. What matters is
-// that the source the provider created before attempting the pause is still recorded: the
-// step after this one adopts it, where an orphan would leave a monitoring heartbeat behind.
+// The V2 show payload doesn't return disabled, so what these checks confirm is that the API
+// accepts the pause and the configured value survives the apply, not that monitoring
+// actually stopped. Reading a pause back is what the beta resource covers, on the V3 API
+// that returns it.
 func TestAccAlertSourceResource_HeartbeatDisabled(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config:      testAccAlertSourceResourceConfigWithHeartbeatDisabled("heartbeat-paused", 60, lo.ToPtr(true)),
-				ExpectError: regexp.MustCompile(`(?s)Unable to (pause|update) alert source.*alert_source.disabled`),
+				Config: testAccAlertSourceResourceConfigWithHeartbeatDisabled("heartbeat-paused", 60, lo.ToPtr(true)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "heartbeat"),
+					resource.TestCheckResourceAttr("incident_alert_source.test", "disabled", "true"),
+				),
 			},
 			{
 				Config: testAccAlertSourceResourceConfigWithHeartbeatDisabled("heartbeat-paused", 60, lo.ToPtr(false)),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "heartbeat"),
 					resource.TestCheckResourceAttr("incident_alert_source.test", "disabled", "false"),
 				),
 			},

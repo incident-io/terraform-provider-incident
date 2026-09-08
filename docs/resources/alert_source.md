@@ -409,7 +409,7 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 - `auto_resolve_timeout_minutes` (Number) When set, alerts from this source will automatically resolve after this many minutes.
 - `disabled` (Boolean) For heartbeat sources, set to true to disable monitoring
 
-Only heartbeat sources can be paused, and only once one has received its first ping: the API refuses to disable a source that has never reported, so a new heartbeat can't be created paused. Leave the attribute unset to keep whatever the source is currently doing, so a pause made in the dashboard survives an unrelated apply.
+Only heartbeat sources can be paused. Leave the attribute unset to keep whatever the source is currently doing, so a pause made in the dashboard survives an unrelated apply.
 - `email_address` (String) Email address this alert source receives alerts to
 - `email_options` (Attributes) (see [below for nested schema](#nestedatt--email_options))
 - `filter_condition_groups` (Attributes List) Conditions an incoming event must match to be ingested from this source, evaluated against the event's payload and this source's expressions. (see [below for nested schema](#nestedatt--filter_condition_groups))
