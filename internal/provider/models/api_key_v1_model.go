@@ -89,6 +89,27 @@ func (m APIKeyModel) ToCreatePayload() client.APIKeysCreatePayloadV1 {
 	return payload
 }
 
+// ToValidatePayload converts the Terraform model to an API validate payload, which takes
+// the same shape as the create payload: the endpoint runs the checks Create runs, so a
+// config it accepts is one Create accepts.
+//
+// Unlike the create payload, absent comments are still sent as empty. Nothing is being
+// stored, so there is no "leave unchanged" reading to avoid, and it keeps the payload a
+// straight description of the planned key.
+func (m APIKeyModel) ToValidatePayload() client.APIKeysValidatePayloadV1 {
+	return client.APIKeysValidatePayloadV1{
+		Name:     m.Name.ValueString(),
+		Comments: lo.ToPtr(m.Comments.ValueString()),
+		RoleNames: lo.Map(m.RoleNamesSlice(), func(name string, _ int) client.APIKeysValidatePayloadV1RoleNames {
+			return client.APIKeysValidatePayloadV1RoleNames(name)
+		}),
+		TeamIds: m.TeamIDsSlice(),
+		TeamRoleNames: lo.Map(m.TeamRoleNamesSlice(), func(name string, _ int) client.APIKeysValidatePayloadV1TeamRoleNames {
+			return client.APIKeysValidatePayloadV1TeamRoleNames(name)
+		}),
+	}
+}
+
 // ToUpdatePayload converts the Terraform model to an API update payload, which covers
 // everything about a key except its token: that changes only by rotating.
 func (m APIKeyModel) ToUpdatePayload() client.APIKeysUpdatePayloadV1 {

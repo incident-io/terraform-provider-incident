@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/http"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
@@ -20,6 +22,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
@@ -33,11 +36,16 @@ import (
 // being accepted.
 const apiKeyDefaultGracePeriodMinutes = 30
 
+// apiKeyValidateTimeout keeps an unresponsive API from stalling a plan. A var so tests
+// needn't wait it out.
+var apiKeyValidateTimeout = 10 * time.Second
+
 var (
 	_ resource.Resource                   = &IncidentAPIKeyResource{}
 	_ resource.ResourceWithConfigure      = &IncidentAPIKeyResource{}
 	_ resource.ResourceWithImportState    = &IncidentAPIKeyResource{}
 	_ resource.ResourceWithValidateConfig = &IncidentAPIKeyResource{}
+	_ resource.ResourceWithModifyPlan     = &IncidentAPIKeyResource{}
 )
 
 type IncidentAPIKeyResource struct {
@@ -79,9 +87,12 @@ func (r *IncidentAPIKeyResource) Schema(_ context.Context, _ resource.SchemaRequ
 				"for the teams in `team_ids`, so those two go together: set both, or neither.\n\n"+
 				"incident.io will not let a key grant more than its own bearer holds, so the key running "+
 				"Terraform has to already have every role it assigns. It also refuses to assign "+
-				"`api_keys_manage` at all, which means a Terraform-managed key cannot itself manage keys. "+
-				"Both are enforced by the API rather than by this provider, so they surface as an error "+
-				"from incident.io.",
+				"`api_keys_manage` at all, which means a Terraform-managed key cannot itself manage keys.\n\n"+
+				"Neither rule is decided by this provider - which roles your own key holds is not something "+
+				"a configuration can know - so the plan asks incident.io whether the key it describes would "+
+				"be accepted. A role you cannot grant is reported when you plan, rather than part way "+
+				"through an apply. If that check cannot be reached the plan warns and carries on, so the "+
+				"rejection may still arrive at apply time.",
 		),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -247,6 +258,94 @@ func (r *IncidentAPIKeyResource) ValidateConfig(ctx context.Context, req resourc
 				"never read. Set token_version if you want to rotate the key.",
 		)
 	}
+}
+
+// apiKeyValidatedAttributes are the attributes the validate payload is built from. Gating
+// on the whole plan instead would skip every create, which plans id and token unknown.
+var apiKeyValidatedAttributes = []string{
+	"name",
+	"comments",
+	"role_names",
+	"team_ids",
+	"team_role_names",
+}
+
+// ModifyPlan asks the API whether the planned key would be accepted, so a role the calling
+// key cannot grant surfaces here rather than part way through an apply.
+//
+// This is where the scope rules live: incident.io resolves the role names, checks them
+// against the scopes the calling key holds, and applies the account's key limit. None of
+// that is knowable from the configuration alone, which is why the provider asks rather than
+// deciding for itself - and why the rules can change server-side without a provider release.
+//
+// It can't live in ValidateConfig, which `terraform validate` also calls: that runs the
+// provider without configuring it, so there is no client to ask with.
+func (r *IncidentAPIKeyResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	// A destroy plans no key, and an unconfigured provider has no client.
+	if r.client == nil || req.Plan.Raw.IsNull() {
+		return
+	}
+
+	// The framework runs this for every resource in the plan, changed or not. A rejection on
+	// a key planning no change isn't something an apply could fix.
+	if req.Plan.Raw.Equal(req.State.Raw) {
+		return
+	}
+
+	// A team ID pointing at a catalog entry this same apply creates is unknown until it
+	// exists, and validating around the gaps reports errors the apply won't hit.
+	if !apiKeyValidateSettled(req.Plan.Raw) {
+		return
+	}
+
+	var data models.APIKeyModel
+	if req.Plan.Get(ctx, &data).HasError() {
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(ctx, apiKeyValidateTimeout)
+	defer cancel()
+
+	// The endpoint answers 204 with no body, so a success has nothing to read. The client's
+	// middleware turns any status over 299 into an HTTPError, so a rejection arrives here as
+	// an error rather than as a response to inspect.
+	_, err := r.client.APIKeysV1ValidateWithResponse(ctx, data.ToValidatePayload())
+	if err == nil {
+		return
+	}
+
+	// 422 is the API rejecting this key, which is the whole point.
+	var httpErr client.HTTPError
+	if errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusUnprocessableEntity {
+		resp.Diagnostics.AddError("Invalid API key", httpErr.Error())
+		return
+	}
+
+	// Anything else means the check didn't run, not that the config is bad, so failing here
+	// would break plans that would have applied fine.
+	resp.Diagnostics.AddWarning(
+		"Could not validate the API key",
+		fmt.Sprintf("The API key was not checked, and may still be rejected when you apply: %s", err),
+	)
+}
+
+// apiKeyValidateSettled reports whether every value the check would send is known. The
+// role and team sets are Optional and Computed, so their static defaults land before this
+// runs, and anything unknown here is waiting on another resource.
+func apiKeyValidateSettled(plan tftypes.Value) bool {
+	attributes := map[string]tftypes.Value{}
+	if err := plan.As(&attributes); err != nil {
+		return false
+	}
+
+	for _, name := range apiKeyValidatedAttributes {
+		value, ok := attributes[name]
+		if !ok || !value.IsFullyKnown() {
+			return false
+		}
+	}
+
+	return true
 }
 
 func (r *IncidentAPIKeyResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {

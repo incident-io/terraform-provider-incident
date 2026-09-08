@@ -22,7 +22,8 @@ description: |-
   Editing a key's roles or name never rotates it: the token outlives its permissions, and a key whose scopes you have just narrowed carries on working. Rotate deliberately if a permissions change means the old token should stop being accepted.
   Roles
   role_names grants a role across the whole account. team_role_names grants roles only for the teams in team_ids, so those two go together: set both, or neither.
-  incident.io will not let a key grant more than its own bearer holds, so the key running Terraform has to already have every role it assigns. It also refuses to assign api_keys_manage at all, which means a Terraform-managed key cannot itself manage keys. Both are enforced by the API rather than by this provider, so they surface as an error from incident.io.
+  incident.io will not let a key grant more than its own bearer holds, so the key running Terraform has to already have every role it assigns. It also refuses to assign api_keys_manage at all, which means a Terraform-managed key cannot itself manage keys.
+  Neither rule is decided by this provider - which roles your own key holds is not something a configuration can know - so the plan asks incident.io whether the key it describes would be accepted. A role you cannot grant is reported when you plan, rather than part way through an apply. If that check cannot be reached the plan warns and carries on, so the rejection may still arrive at apply time.
 ---
 
 # incident_api_key (Resource)
@@ -69,7 +70,9 @@ Editing a key's roles or name never rotates it: the token outlives its permissio
 
 `role_names` grants a role across the whole account. `team_role_names` grants roles only for the teams in `team_ids`, so those two go together: set both, or neither.
 
-incident.io will not let a key grant more than its own bearer holds, so the key running Terraform has to already have every role it assigns. It also refuses to assign `api_keys_manage` at all, which means a Terraform-managed key cannot itself manage keys. Both are enforced by the API rather than by this provider, so they surface as an error from incident.io.
+incident.io will not let a key grant more than its own bearer holds, so the key running Terraform has to already have every role it assigns. It also refuses to assign `api_keys_manage` at all, which means a Terraform-managed key cannot itself manage keys.
+
+Neither rule is decided by this provider - which roles your own key holds is not something a configuration can know - so the plan asks incident.io whether the key it describes would be accepted. A role you cannot grant is reported when you plan, rather than part way through an apply. If that check cannot be reached the plan warns and carries on, so the rejection may still arrive at apply time.
 
 ## Example Usage
 
@@ -139,7 +142,7 @@ resource "incident_api_key" "narrowed" {
 - `comments` (String) Freeform notes about this API key
 - `role_names` (Set of String) Account-level roles to assign to the API key. These roles apply across the entire account, not scoped to specific teams. Pass an empty array if no account-level roles are needed.
 
-API key role name. Possible values are: `viewer`, `incident_creator`, `incident_editor`, `manage_settings`, `global_access`, `catalog_viewer`, `catalog_editor`, `incident_memberships_editor`, `schedules_editor`, `schedules_reader`, `schedule_overrides_editor`, `workflows_editor`, `workflows_viewer`, `private_workflows_editor`, `private_escalation_workflows_editor`, `on_call_editor`, `on_call_viewer`, `escalation_creator`, `post_incident_flow_opt_out`, `security_settings_editor`, `investigation_download`, `team_memberships_manage`, `status_page_publisher`, `postmortems_manage`, `api_keys_manage`, `notification_methods_manage`, `notification_methods_unredacted_viewer`, `incident_workload_viewer`, `incident_workload_private_viewer`, `act_on_behalf_of_users`, `secrets_manage`, `secrets_use`, `call_transcripts_viewer`, `heartbeats_ping`, `telemetry_query_restricted`, `telemetry_data_source_update`.
+API key role name. Possible values are: `viewer`, `incident_creator`, `incident_editor`, `manage_settings`, `global_access`, `catalog_viewer`, `catalog_editor`, `incident_memberships_editor`, `schedules_editor`, `schedules_reader`, `schedule_overrides_editor`, `workflows_editor`, `workflows_viewer`, `private_workflows_editor`, `private_escalation_workflows_editor`, `on_call_editor`, `on_call_viewer`, `escalation_creator`, `post_incident_flow_opt_out`, `security_settings_editor`, `investigation_download`, `team_memberships_manage`, `status_page_publisher`, `postmortems_manage`, `api_keys_manage`, `notification_methods_manage`, `notification_methods_unredacted_viewer`, `incident_workload_viewer`, `incident_workload_private_viewer`, `act_on_behalf_of_users`, `secrets_manage`, `secrets_use`, `call_transcripts_viewer`, `heartbeats_ping`, `telemetry_query_restricted`, `telemetry_data_source_update`, `policies_viewer`, `policy_findings_manage`.
 - `rotation_grace_period_minutes` (Number) How long the previous token keeps working after a rotation, in minutes, giving whatever holds it a window to pick up the new one. Defaults to 30. Set it to 0 to retire the old token immediately, at the cost of breaking anything still using it. incident.io documents an hour as the longest a rotated token stays valid, so it may reject a longer period. Only read when a change to `token_version` rotates the key.
 - `team_ids` (Set of String) IDs of teams to scope the `team_role_names` to. If provided, `team_role_names` must also be a non-empty array, and vice versa. Pass an empty array if the key should not be scoped to any teams.
 - `team_role_names` (Set of String) Roles to grant for the teams specified in `team_ids`. If provided, `team_ids` must also be a non-empty array, and vice versa. Pass an empty array if no team-level roles are needed.

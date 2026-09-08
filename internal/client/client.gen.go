@@ -558,6 +558,186 @@ func (e APIKeysUpdatePayloadV1TeamRoleNames) Valid() bool {
 	}
 }
 
+// Defines values for APIKeysValidatePayloadV1RoleNames.
+const (
+	APIKeysValidatePayloadV1RoleNamesActOnBehalfOfUsers                  APIKeysValidatePayloadV1RoleNames = "act_on_behalf_of_users"
+	APIKeysValidatePayloadV1RoleNamesApiKeysManage                       APIKeysValidatePayloadV1RoleNames = "api_keys_manage"
+	APIKeysValidatePayloadV1RoleNamesCallTranscriptsViewer               APIKeysValidatePayloadV1RoleNames = "call_transcripts_viewer"
+	APIKeysValidatePayloadV1RoleNamesCatalogEditor                       APIKeysValidatePayloadV1RoleNames = "catalog_editor"
+	APIKeysValidatePayloadV1RoleNamesCatalogViewer                       APIKeysValidatePayloadV1RoleNames = "catalog_viewer"
+	APIKeysValidatePayloadV1RoleNamesEscalationCreator                   APIKeysValidatePayloadV1RoleNames = "escalation_creator"
+	APIKeysValidatePayloadV1RoleNamesGlobalAccess                        APIKeysValidatePayloadV1RoleNames = "global_access"
+	APIKeysValidatePayloadV1RoleNamesHeartbeatsPing                      APIKeysValidatePayloadV1RoleNames = "heartbeats_ping"
+	APIKeysValidatePayloadV1RoleNamesIncidentCreator                     APIKeysValidatePayloadV1RoleNames = "incident_creator"
+	APIKeysValidatePayloadV1RoleNamesIncidentEditor                      APIKeysValidatePayloadV1RoleNames = "incident_editor"
+	APIKeysValidatePayloadV1RoleNamesIncidentMembershipsEditor           APIKeysValidatePayloadV1RoleNames = "incident_memberships_editor"
+	APIKeysValidatePayloadV1RoleNamesIncidentWorkloadPrivateViewer       APIKeysValidatePayloadV1RoleNames = "incident_workload_private_viewer"
+	APIKeysValidatePayloadV1RoleNamesIncidentWorkloadViewer              APIKeysValidatePayloadV1RoleNames = "incident_workload_viewer"
+	APIKeysValidatePayloadV1RoleNamesInvestigationDownload               APIKeysValidatePayloadV1RoleNames = "investigation_download"
+	APIKeysValidatePayloadV1RoleNamesManageSettings                      APIKeysValidatePayloadV1RoleNames = "manage_settings"
+	APIKeysValidatePayloadV1RoleNamesNotificationMethodsManage           APIKeysValidatePayloadV1RoleNames = "notification_methods_manage"
+	APIKeysValidatePayloadV1RoleNamesNotificationMethodsUnredactedViewer APIKeysValidatePayloadV1RoleNames = "notification_methods_unredacted_viewer"
+	APIKeysValidatePayloadV1RoleNamesOnCallEditor                        APIKeysValidatePayloadV1RoleNames = "on_call_editor"
+	APIKeysValidatePayloadV1RoleNamesOnCallViewer                        APIKeysValidatePayloadV1RoleNames = "on_call_viewer"
+	APIKeysValidatePayloadV1RoleNamesPoliciesViewer                      APIKeysValidatePayloadV1RoleNames = "policies_viewer"
+	APIKeysValidatePayloadV1RoleNamesPolicyFindingsManage                APIKeysValidatePayloadV1RoleNames = "policy_findings_manage"
+	APIKeysValidatePayloadV1RoleNamesPostIncidentFlowOptOut              APIKeysValidatePayloadV1RoleNames = "post_incident_flow_opt_out"
+	APIKeysValidatePayloadV1RoleNamesPostmortemsManage                   APIKeysValidatePayloadV1RoleNames = "postmortems_manage"
+	APIKeysValidatePayloadV1RoleNamesPrivateEscalationWorkflowsEditor    APIKeysValidatePayloadV1RoleNames = "private_escalation_workflows_editor"
+	APIKeysValidatePayloadV1RoleNamesPrivateWorkflowsEditor              APIKeysValidatePayloadV1RoleNames = "private_workflows_editor"
+	APIKeysValidatePayloadV1RoleNamesScheduleOverridesEditor             APIKeysValidatePayloadV1RoleNames = "schedule_overrides_editor"
+	APIKeysValidatePayloadV1RoleNamesSchedulesEditor                     APIKeysValidatePayloadV1RoleNames = "schedules_editor"
+	APIKeysValidatePayloadV1RoleNamesSchedulesReader                     APIKeysValidatePayloadV1RoleNames = "schedules_reader"
+	APIKeysValidatePayloadV1RoleNamesSecretsManage                       APIKeysValidatePayloadV1RoleNames = "secrets_manage"
+	APIKeysValidatePayloadV1RoleNamesSecretsUse                          APIKeysValidatePayloadV1RoleNames = "secrets_use"
+	APIKeysValidatePayloadV1RoleNamesSecuritySettingsEditor              APIKeysValidatePayloadV1RoleNames = "security_settings_editor"
+	APIKeysValidatePayloadV1RoleNamesStatusPagePublisher                 APIKeysValidatePayloadV1RoleNames = "status_page_publisher"
+	APIKeysValidatePayloadV1RoleNamesTeamMembershipsManage               APIKeysValidatePayloadV1RoleNames = "team_memberships_manage"
+	APIKeysValidatePayloadV1RoleNamesTelemetryDataSourceUpdate           APIKeysValidatePayloadV1RoleNames = "telemetry_data_source_update"
+	APIKeysValidatePayloadV1RoleNamesTelemetryQueryRestricted            APIKeysValidatePayloadV1RoleNames = "telemetry_query_restricted"
+	APIKeysValidatePayloadV1RoleNamesViewer                              APIKeysValidatePayloadV1RoleNames = "viewer"
+	APIKeysValidatePayloadV1RoleNamesWorkflowsEditor                     APIKeysValidatePayloadV1RoleNames = "workflows_editor"
+	APIKeysValidatePayloadV1RoleNamesWorkflowsViewer                     APIKeysValidatePayloadV1RoleNames = "workflows_viewer"
+)
+
+// Valid indicates whether the value is a known member of the APIKeysValidatePayloadV1RoleNames enum.
+func (e APIKeysValidatePayloadV1RoleNames) Valid() bool {
+	switch e {
+	case APIKeysValidatePayloadV1RoleNamesActOnBehalfOfUsers:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesApiKeysManage:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesCallTranscriptsViewer:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesCatalogEditor:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesCatalogViewer:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesEscalationCreator:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesGlobalAccess:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesHeartbeatsPing:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesIncidentCreator:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesIncidentEditor:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesIncidentMembershipsEditor:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesIncidentWorkloadPrivateViewer:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesIncidentWorkloadViewer:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesInvestigationDownload:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesManageSettings:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesNotificationMethodsManage:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesNotificationMethodsUnredactedViewer:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesOnCallEditor:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesOnCallViewer:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesPoliciesViewer:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesPolicyFindingsManage:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesPostIncidentFlowOptOut:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesPostmortemsManage:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesPrivateEscalationWorkflowsEditor:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesPrivateWorkflowsEditor:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesScheduleOverridesEditor:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesSchedulesEditor:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesSchedulesReader:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesSecretsManage:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesSecretsUse:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesSecuritySettingsEditor:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesStatusPagePublisher:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesTeamMembershipsManage:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesTelemetryDataSourceUpdate:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesTelemetryQueryRestricted:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesViewer:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesWorkflowsEditor:
+		return true
+	case APIKeysValidatePayloadV1RoleNamesWorkflowsViewer:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for APIKeysValidatePayloadV1TeamRoleNames.
+const (
+	APIKeysValidatePayloadV1TeamRoleNamesApiKeysManage             APIKeysValidatePayloadV1TeamRoleNames = "api_keys_manage"
+	APIKeysValidatePayloadV1TeamRoleNamesCatalogEditor             APIKeysValidatePayloadV1TeamRoleNames = "catalog_editor"
+	APIKeysValidatePayloadV1TeamRoleNamesEscalationCreator         APIKeysValidatePayloadV1TeamRoleNames = "escalation_creator"
+	APIKeysValidatePayloadV1TeamRoleNamesHeartbeatsPing            APIKeysValidatePayloadV1TeamRoleNames = "heartbeats_ping"
+	APIKeysValidatePayloadV1TeamRoleNamesOnCallEditor              APIKeysValidatePayloadV1TeamRoleNames = "on_call_editor"
+	APIKeysValidatePayloadV1TeamRoleNamesPrivateWorkflowsEditor    APIKeysValidatePayloadV1TeamRoleNames = "private_workflows_editor"
+	APIKeysValidatePayloadV1TeamRoleNamesScheduleOverridesEditor   APIKeysValidatePayloadV1TeamRoleNames = "schedule_overrides_editor"
+	APIKeysValidatePayloadV1TeamRoleNamesSchedulesEditor           APIKeysValidatePayloadV1TeamRoleNames = "schedules_editor"
+	APIKeysValidatePayloadV1TeamRoleNamesSchedulesReader           APIKeysValidatePayloadV1TeamRoleNames = "schedules_reader"
+	APIKeysValidatePayloadV1TeamRoleNamesSecretsManage             APIKeysValidatePayloadV1TeamRoleNames = "secrets_manage"
+	APIKeysValidatePayloadV1TeamRoleNamesSecretsUse                APIKeysValidatePayloadV1TeamRoleNames = "secrets_use"
+	APIKeysValidatePayloadV1TeamRoleNamesTelemetryDataSourceUpdate APIKeysValidatePayloadV1TeamRoleNames = "telemetry_data_source_update"
+	APIKeysValidatePayloadV1TeamRoleNamesTelemetryQueryRestricted  APIKeysValidatePayloadV1TeamRoleNames = "telemetry_query_restricted"
+	APIKeysValidatePayloadV1TeamRoleNamesWorkflowsEditor           APIKeysValidatePayloadV1TeamRoleNames = "workflows_editor"
+)
+
+// Valid indicates whether the value is a known member of the APIKeysValidatePayloadV1TeamRoleNames enum.
+func (e APIKeysValidatePayloadV1TeamRoleNames) Valid() bool {
+	switch e {
+	case APIKeysValidatePayloadV1TeamRoleNamesApiKeysManage:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesCatalogEditor:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesEscalationCreator:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesHeartbeatsPing:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesOnCallEditor:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesPrivateWorkflowsEditor:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesScheduleOverridesEditor:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesSchedulesEditor:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesSchedulesReader:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesSecretsManage:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesSecretsUse:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesTelemetryDataSourceUpdate:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesTelemetryQueryRestricted:
+		return true
+	case APIKeysValidatePayloadV1TeamRoleNamesWorkflowsEditor:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ActionV1Status.
 const (
 	ActionV1StatusCompleted   ActionV1Status = "completed"
@@ -8808,6 +8988,40 @@ type APIKeysUpdateResultV1 struct {
 	// ApiKey Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","created_at":"2021-08-17T13:28:57.801578Z","creator":{"api_key":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"My test API key"},"user":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"}},"id":"01FCNDV6P870EA6S7TK1DSYDG0","last_used_at":"2021-08-17T13:28:57.801578Z","name":"My test API key","roles":[{"description":"can view data, like public incidents and organization settings","name":"viewer"}],"team_ids":["abc123"],"team_roles":[{"description":"can view data, like public incidents and organization settings","name":"catalog_editor"}],"token_last_issued_at":"2021-08-17T13:28:57.801578Z"}
 	ApiKey APIKeyV1 `json:"api_key"`
 }
+
+// APIKeysValidatePayloadV1 Example: {"comments":"Requested in https://example.slack.com/archives/C123/p456","name":"My test API key","role_names":["viewer","incident_creator"],"team_ids":["01FCNDV6P870EA6S7TK1DSYDG0"],"team_role_names":["schedules_editor"]}
+type APIKeysValidatePayloadV1 struct {
+	// Comments Freeform notes about the API key
+	//
+	// Example: Requested in https://example.slack.com/archives/C123/p456
+	Comments *string `json:"comments,omitempty"`
+
+	// Name Human-readable name for the new API key
+	//
+	// Example: My test API key
+	Name string `json:"name"`
+
+	// RoleNames Account-level roles to assign to the API key. These roles apply across the entire account, not scoped to specific teams. Pass an empty array if no account-level roles are needed.
+	//
+	// Example: ["viewer","incident_creator"]
+	RoleNames []APIKeysValidatePayloadV1RoleNames `json:"role_names"`
+
+	// TeamIds IDs of teams to scope the `team_role_names` to. If provided, `team_role_names` must also be a non-empty array, and vice versa. Pass an empty array if the key should not be scoped to any teams.
+	//
+	// Example: ["01FCNDV6P870EA6S7TK1DSYDG0"]
+	TeamIds []string `json:"team_ids"`
+
+	// TeamRoleNames Roles to grant for the teams specified in `team_ids`. If provided, `team_ids` must also be a non-empty array, and vice versa. Pass an empty array if no team-level roles are needed.
+	//
+	// Example: ["schedules_editor"]
+	TeamRoleNames []APIKeysValidatePayloadV1TeamRoleNames `json:"team_role_names"`
+}
+
+// APIKeysValidatePayloadV1RoleNames Example: viewer
+type APIKeysValidatePayloadV1RoleNames string
+
+// APIKeysValidatePayloadV1TeamRoleNames Example: catalog_editor
+type APIKeysValidatePayloadV1TeamRoleNames string
 
 // ActionV1 Example: {"assignee":{"email":"lisa@incident.io","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Lisa Karlin Curtis","role":"viewer","slack_user_id":"U02AYNF2XJM"},"completed_at":"2021-08-17T13:28:57.801578Z","created_at":"2021-08-17T13:28:57.801578Z","description":"Call the fire brigade","external_issue_reference":{"issue_name":"INC-123","issue_permalink":"https://linear.app/incident-io/issue/INC-1609/find-copywriter-to-write-up","provider":"asana"},"follow_up":true,"id":"01FCNDV6P870EA6S7TK1DSYDG0","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","status":"outstanding","updated_at":"2021-08-17T13:28:57.801578Z"}
 type ActionV1 struct {
@@ -26754,6 +26968,9 @@ type AlertNotesV1UpdateJSONRequestBody = AlertNotesUpdatePayloadV1
 // APIKeysV1CreateJSONRequestBody defines body for APIKeysV1Create for application/json ContentType.
 type APIKeysV1CreateJSONRequestBody = APIKeysCreatePayloadV1
 
+// APIKeysV1ValidateJSONRequestBody defines body for APIKeysV1Validate for application/json ContentType.
+type APIKeysV1ValidateJSONRequestBody = APIKeysValidatePayloadV1
+
 // APIKeysV1UpdateJSONRequestBody defines body for APIKeysV1Update for application/json ContentType.
 type APIKeysV1UpdateJSONRequestBody = APIKeysUpdatePayloadV1
 
@@ -27319,6 +27536,32 @@ type ClientInterface interface {
 	//
 	// Corresponds with POST /v1/api_keys (the `APIKeysV1Create` operationId).
 	APIKeysV1Create(ctx context.Context, body APIKeysV1CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// APIKeysV1ValidateWithBody Validate API Keys V1
+	//
+	// Check whether an API key's config is valid, without creating anything.
+	//
+	// This runs the same checks Create runs. It resolves the role names, checks those roles
+	// against the scopes the calling key holds, and applies the account's key limit. A config
+	// this endpoint accepts is one Create accepts.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/api_keys/actions/validate (the `APIKeysV1Validate` operationId).
+	APIKeysV1ValidateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// APIKeysV1Validate Validate API Keys V1
+	//
+	// Check whether an API key's config is valid, without creating anything.
+	//
+	// This runs the same checks Create runs. It resolves the role names, checks those roles
+	// against the scopes the calling key holds, and applies the account's key limit. A config
+	// this endpoint accepts is one Create accepts.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/api_keys/actions/validate (the `APIKeysV1Validate` operationId).
+	APIKeysV1Validate(ctx context.Context, body APIKeysV1ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// APIKeysV1Delete Delete API Keys V1
 	//
@@ -32145,6 +32388,52 @@ func (c *Client) APIKeysV1CreateWithBody(ctx context.Context, contentType string
 // Corresponds with POST /v1/api_keys (the `APIKeysV1Create` operationId).
 func (c *Client) APIKeysV1Create(ctx context.Context, body APIKeysV1CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewAPIKeysV1CreateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// APIKeysV1ValidateWithBody Validate API Keys V1
+//
+// Check whether an API key's config is valid, without creating anything.
+//
+// This runs the same checks Create runs. It resolves the role names, checks those roles
+// against the scopes the calling key holds, and applies the account's key limit. A config
+// this endpoint accepts is one Create accepts.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/api_keys/actions/validate (the `APIKeysV1Validate` operationId).
+func (c *Client) APIKeysV1ValidateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAPIKeysV1ValidateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// APIKeysV1Validate Validate API Keys V1
+//
+// Check whether an API key's config is valid, without creating anything.
+//
+// This runs the same checks Create runs. It resolves the role names, checks those roles
+// against the scopes the calling key holds, and applies the account's key limit. A config
+// this endpoint accepts is one Create accepts.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/api_keys/actions/validate (the `APIKeysV1Validate` operationId).
+func (c *Client) APIKeysV1Validate(ctx context.Context, body APIKeysV1ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAPIKeysV1ValidateRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -41182,6 +41471,46 @@ func NewAPIKeysV1CreateRequestWithBody(server string, contentType string, body i
 	}
 
 	operationPath := fmt.Sprintf("/v1/api_keys")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAPIKeysV1ValidateRequest calls the generic APIKeysV1Validate builder with application/json body
+func NewAPIKeysV1ValidateRequest(server string, body APIKeysV1ValidateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAPIKeysV1ValidateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewAPIKeysV1ValidateRequestWithBody constructs an http.Request for the APIKeysV1Validate method, with any body, and a specified content type
+func NewAPIKeysV1ValidateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/api_keys/actions/validate")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -54604,6 +54933,32 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with POST /v1/api_keys (the `APIKeysV1Create` operationId).
 	APIKeysV1CreateWithResponse(ctx context.Context, body APIKeysV1CreateJSONRequestBody, reqEditors ...RequestEditorFn) (*APIKeysV1CreateResponse, error)
 
+	// APIKeysV1ValidateWithBodyWithResponse Validate API Keys V1
+	//
+	// Check whether an API key's config is valid, without creating anything.
+	//
+	// This runs the same checks Create runs. It resolves the role names, checks those roles
+	// against the scopes the calling key holds, and applies the account's key limit. A config
+	// this endpoint accepts is one Create accepts.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/api_keys/actions/validate (the `APIKeysV1Validate` operationId).
+	APIKeysV1ValidateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*APIKeysV1ValidateResponse, error)
+
+	// APIKeysV1ValidateWithResponse Validate API Keys V1
+	//
+	// Check whether an API key's config is valid, without creating anything.
+	//
+	// This runs the same checks Create runs. It resolves the role names, checks those roles
+	// against the scopes the calling key holds, and applies the account's key limit. A config
+	// this endpoint accepts is one Create accepts.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/api_keys/actions/validate (the `APIKeysV1Validate` operationId).
+	APIKeysV1ValidateWithResponse(ctx context.Context, body APIKeysV1ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*APIKeysV1ValidateResponse, error)
+
 	// APIKeysV1DeleteWithResponse Delete API Keys V1
 	//
 	// Delete an existing API key. The calling API key does not need to hold the scopes of the key being deleted, but a team-scoped key can only delete keys belonging to its teams.
@@ -60714,6 +61069,131 @@ func (r APIKeysV1CreateResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r APIKeysV1CreateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type APIKeysV1ValidateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r APIKeysV1ValidateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r APIKeysV1ValidateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r APIKeysV1ValidateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r APIKeysV1ValidateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r APIKeysV1ValidateResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -97805,6 +98285,44 @@ func (c *ClientWithResponses) APIKeysV1CreateWithResponse(ctx context.Context, b
 	return ParseAPIKeysV1CreateResponse(rsp)
 }
 
+// APIKeysV1ValidateWithBodyWithResponse Validate API Keys V1
+//
+// Check whether an API key's config is valid, without creating anything.
+//
+// This runs the same checks Create runs. It resolves the role names, checks those roles
+// against the scopes the calling key holds, and applies the account's key limit. A config
+// this endpoint accepts is one Create accepts.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/api_keys/actions/validate (the `APIKeysV1Validate` operationId).
+func (c *ClientWithResponses) APIKeysV1ValidateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*APIKeysV1ValidateResponse, error) {
+	rsp, err := c.APIKeysV1ValidateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAPIKeysV1ValidateResponse(rsp)
+}
+
+// APIKeysV1ValidateWithResponse Validate API Keys V1
+//
+// Check whether an API key's config is valid, without creating anything.
+//
+// This runs the same checks Create runs. It resolves the role names, checks those roles
+// against the scopes the calling key holds, and applies the account's key limit. A config
+// this endpoint accepts is one Create accepts.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/api_keys/actions/validate (the `APIKeysV1Validate` operationId).
+func (c *ClientWithResponses) APIKeysV1ValidateWithResponse(ctx context.Context, body APIKeysV1ValidateJSONRequestBody, reqEditors ...RequestEditorFn) (*APIKeysV1ValidateResponse, error) {
+	rsp, err := c.APIKeysV1Validate(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAPIKeysV1ValidateResponse(rsp)
+}
+
 // APIKeysV1DeleteWithResponse Delete API Keys V1
 //
 // Delete an existing API key. The calling API key does not need to hold the scopes of the key being deleted, but a team-scoped key can only delete keys belonging to its teams.
@@ -106087,6 +106605,119 @@ func ParseAPIKeysV1CreateResponse(rsp *http.Response) (*APIKeysV1CreateResponse,
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAPIKeysV1ValidateResponse parses an HTTP response from a APIKeysV1ValidateWithResponse call
+func ParseAPIKeysV1ValidateResponse(rsp *http.Response) (*APIKeysV1ValidateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &APIKeysV1ValidateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
 		var dest ErrorResponse
