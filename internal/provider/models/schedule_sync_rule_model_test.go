@@ -47,6 +47,22 @@ func TestScheduleSyncRuleResourceModelFromAPIEmptyPermanentMembers(t *testing.T)
 	assert.True(t, model.PermanentMemberUserIDs.IsNull())
 }
 
+func TestScheduleSyncRuleResourceModelFromAPIDataSource(t *testing.T) {
+	t.Parallel()
+
+	rule := client.ScheduleSyncRuleV2{
+		Id:                     "rule_1",
+		ScheduleId:             "sched_1",
+		ScheduleSyncTargetId:   "target_1",
+		SyncType:               client.ScheduleSyncRuleV2SyncTypeOnCall,
+		PermanentMemberUserIds: []string{},
+	}
+
+	model := ScheduleSyncRuleResourceModel{}.FromAPIDataSource(rule)
+	require.False(t, model.PermanentMemberUserIDs.IsNull())
+	assert.Empty(t, model.PermanentMemberUserIDs.Elements())
+}
+
 func TestPreserveEmptyPermanentMemberUserIDs(t *testing.T) {
 	t.Parallel()
 

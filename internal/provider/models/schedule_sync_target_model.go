@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
@@ -57,4 +58,55 @@ func (m ScheduleSyncTargetResourceModel) ToPayload() client.ScheduleSyncTargetCr
 	}
 
 	return payload
+}
+
+// ScheduleSyncTargetDataSourceModel is the Terraform model for the schedule
+// sync target data source. It omits new_slack_user_group (create-only) and
+// includes linked_schedules from the API, which the resource does not manage.
+type ScheduleSyncTargetDataSourceModel struct {
+	ID               types.String                            `tfsdk:"id"`
+	AddBotToGroup    types.Bool                              `tfsdk:"add_bot_to_group"`
+	SlackUserGroupID types.String                            `tfsdk:"slack_user_group_id"`
+	SlackTeamID      types.String                            `tfsdk:"slack_team_id"`
+	LinkedSchedules  []ScheduleSyncTargetLinkedScheduleModel `tfsdk:"linked_schedules"`
+}
+
+// ScheduleSyncTargetLinkedScheduleModel is a schedule with an active sync rule
+// pointing at this target.
+type ScheduleSyncTargetLinkedScheduleModel struct {
+	ID      types.String `tfsdk:"id"`
+	Name    types.String `tfsdk:"name"`
+	TeamIDs types.Set    `tfsdk:"team_ids"`
+}
+
+// FromAPIDataSource converts an API sync target into the data source model.
+func (ScheduleSyncTargetDataSourceModel) FromAPIDataSource(target client.ScheduleSyncTargetResourceV2) ScheduleSyncTargetDataSourceModel {
+	linked := make([]ScheduleSyncTargetLinkedScheduleModel, 0, len(target.LinkedSchedules))
+	for _, schedule := range target.LinkedSchedules {
+		linked = append(linked, ScheduleSyncTargetLinkedScheduleModel{
+			ID:      types.StringValue(schedule.Id),
+			Name:    types.StringValue(schedule.Name),
+			TeamIDs: stringSliceToSet(schedule.TeamIds),
+		})
+	}
+
+	return ScheduleSyncTargetDataSourceModel{
+		ID:               types.StringValue(target.Id),
+		AddBotToGroup:    types.BoolValue(target.AddBotToGroup),
+		SlackUserGroupID: types.StringValue(target.SlackUserGroupId),
+		SlackTeamID:      types.StringValue(target.SlackTeamId),
+		LinkedSchedules:  linked,
+	}
+}
+
+func stringSliceToSet(ids []string) types.Set {
+	if len(ids) == 0 {
+		return types.SetValueMust(types.StringType, []attr.Value{})
+	}
+
+	elements := make([]attr.Value, len(ids))
+	for i, id := range ids {
+		elements[i] = types.StringValue(id)
+	}
+	return types.SetValueMust(types.StringType, elements)
 }
