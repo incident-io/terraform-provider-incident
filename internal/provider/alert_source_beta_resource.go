@@ -81,6 +81,8 @@ type alertSourceBetaModel struct {
 
 	RateLimitSharding *alertSourceRateLimitSharding `tfsdk:"rate_limit_sharding"`
 
+	FilterConditionGroups models.IncidentEngineConditionGroups `tfsdk:"filter_condition_groups"`
+
 	AutoResolveTimeoutMinutes types.Int64 `tfsdk:"auto_resolve_timeout_minutes"`
 	AutoResolveIncidentAlerts types.Bool  `tfsdk:"auto_resolve_incident_alerts"`
 
@@ -204,6 +206,16 @@ compatible, so pin the provider version if that matters to you.
 			"email_options":       emailOptionsAttribute(),
 			"http_custom_options": httpCustomOptionsAttribute(),
 			"rate_limit_sharding": rateLimitShardingAttribute(),
+
+			"filter_condition_groups": schema.ListNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "filter_condition_groups"),
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"conditions": models.ConditionsAttribute(),
+					},
+				},
+			},
 
 			"auto_resolve_timeout_minutes": schema.Int64Attribute{
 				Optional:            true,
@@ -476,6 +488,10 @@ func (r *alertSourceBetaResource) ModifyPlan(ctx context.Context, req resource.M
 			// to fix into, is rejected here instead of at apply. Null means not fixed —
 			// nothing to check — so send the value only when set.
 			FixedTeamId: data.FixedTeamID.ValueStringPointer(),
+
+			// And again: a bad subject, operation, or expression reference is rejected here
+			// instead of only surfacing as a 422 partway through an apply.
+			FilterConditionGroups: filterConditionGroupsToPayload(data.FilterConditionGroups),
 		},
 	})
 	if err == nil {
@@ -538,6 +554,7 @@ var alertSourceBetaValidatedAttributes = []string{
 	"visible_to_teams",
 	"named_expression",
 	"rate_limit_sharding",
+	"filter_condition_groups",
 }
 
 // alertSourceBetaValidateSettled reports whether every value the check would send is
@@ -589,6 +606,8 @@ func (r *alertSourceBetaResource) Create(ctx context.Context, req resource.Creat
 		EmailOptions:      data.EmailOptions.toPayload(),
 		HttpCustomOptions: data.HTTPCustomOptions.toPayload(),
 		RateLimitSharding: data.RateLimitSharding.toPayload(),
+
+		FilterConditionGroups: filterConditionGroupsToPayload(data.FilterConditionGroups),
 
 		Annotations: r.annotations(),
 	}
@@ -683,6 +702,10 @@ func (r *alertSourceBetaResource) Update(ctx context.Context, req resource.Updat
 		EmailOptions:      emailOptionsUpdatePayload(plan.EmailOptions, plan.SourceType),
 		HttpCustomOptions: plan.HTTPCustomOptions.toPayload(),
 		RateLimitSharding: rateLimitShardingUpdatePayload(plan.RateLimitSharding),
+
+		// Always sent, as an empty list when the config has no filters: removing the attribute
+		// from HCL clears them, the same way an omitted rate_limit_sharding block does above.
+		FilterConditionGroups: filterConditionGroupsToPayload(plan.FilterConditionGroups),
 
 		// No expected_version, deliberately: a version covers the whole source, and each
 		// attribute is its own resource writing the same one. Removing an attribute in the
@@ -899,6 +922,8 @@ func alertSourceBetaFromAPI(
 		HTTPCustomOptions: httpCustomOptionsFromAPI(source.HttpCustomOptions),
 		RateLimitSharding: rateLimitShardingFromAPI(source.RateLimitSharding),
 
+		FilterConditionGroups: filterConditionGroupsFromAPI(source.FilterConditionGroups, config.FilterConditionGroups),
+
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
 		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),
 
@@ -910,6 +935,11 @@ func alertSourceBetaFromAPI(
 	if source.EmailOptions != nil {
 		model.EmailAddress = types.StringValue(source.EmailOptions.EmailAddress)
 	}
+
+	// Condition shorthands (value_literal, values, expression_ref) and operation aliases fold to
+	// their canonical API form on write, so without restoring the config's spelling here, a
+	// successful apply would fail Terraform's consistency check or leave a perpetual diff.
+	model.FilterConditionGroups.ReconcileSpelling(config.FilterConditionGroups)
 
 	// An email source always reads back with options, because the address we mint for it lives
 	// in them. A config that set no block would otherwise go from null to an object, which

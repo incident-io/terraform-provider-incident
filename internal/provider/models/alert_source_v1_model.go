@@ -28,6 +28,7 @@ type AlertSourceResourceModel struct {
 	OwningTeamIDs             types.Set                          `tfsdk:"owning_team_ids"`
 	AutoResolveTimeoutMinutes types.Int64                        `tfsdk:"auto_resolve_timeout_minutes"`
 	AutoResolveIncidentAlerts types.Bool                         `tfsdk:"auto_resolve_incident_alerts"`
+	FilterConditionGroups     IncidentEngineConditionGroups      `tfsdk:"filter_condition_groups"`
 }
 
 func (AlertSourceResourceModel) FromAPI(source client.AlertSourceV2) AlertSourceResourceModel {
@@ -57,6 +58,18 @@ func (AlertSourceResourceModel) FromAPIWithPlan(source client.AlertSourceV2, pla
 		owningTeamIDs, _ = types.SetValue(types.StringType, teamIDValues)
 	}
 
+	// The API omits the field whenever the source has no filters, whether that's because the
+	// config never set the attribute or because it explicitly cleared it with an empty list.
+	// Left nil to match the former; forced to a non-nil empty slice when plan is non-nil, to
+	// match the latter — otherwise an explicit empty list would read back as null and Terraform
+	// would see every later plan as a change.
+	var filterConditionGroups IncidentEngineConditionGroups
+	if source.FilterConditionGroups != nil {
+		filterConditionGroups = IncidentEngineConditionGroups{}.FromAPI(*source.FilterConditionGroups)
+	} else if plan != nil && plan.FilterConditionGroups != nil {
+		filterConditionGroups = IncidentEngineConditionGroups{}
+	}
+
 	result := AlertSourceResourceModel{
 		ID:             types.StringValue(source.Id),
 		Name:           types.StringValue(source.Name),
@@ -81,12 +94,17 @@ func (AlertSourceResourceModel) FromAPIWithPlan(source client.AlertSourceV2, pla
 		OwningTeamIDs:             owningTeamIDs,
 		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
 		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),
+		FilterConditionGroups:     filterConditionGroups,
 	}
 
 	if plan != nil && plan.Template != nil {
 		result.Template.Expressions.ReconcileSpelling(plan.Template.Expressions)
 		result.Template.VisibleToTeams = ReconcileBindingSpelling(
 			result.Template.VisibleToTeams, plan.Template.VisibleToTeams)
+	}
+
+	if plan != nil {
+		result.FilterConditionGroups.ReconcileSpelling(plan.FilterConditionGroups)
 	}
 
 	return result
@@ -439,4 +457,16 @@ func (opts *AlertSourceEmailOptionsModel) ToPayload() *client.AlertSourceEmailOp
 		TransformExpression: opts.TransformExpression.ValueStringPointer(),
 		Redactions:          redactions,
 	}
+}
+
+// ToPayloadPtr always sends a non-nil slice, converting the config's omitting the attribute into
+// clearing whatever filters are stored — never leaving them alone. The API itself supports "nil
+// means leave unchanged", but the provider can't use that: filter_condition_groups is a plain
+// Optional (not Computed) attribute, so Terraform's plan for it is null whenever config omits it,
+// and the post-apply value has to match — a provider that sometimes echoes back a real, non-null
+// value there fails Terraform's consistency check. Always sending sidesteps that, the same way
+// rate_limit_sharding's ToUpdatePayload always sends an empty path rather than omitting the field.
+func (groups IncidentEngineConditionGroups) ToPayloadPtr() *[]client.ConditionGroupPayloadV2 {
+	payload := groups.ToPayload()
+	return &payload
 }

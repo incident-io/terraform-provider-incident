@@ -716,6 +716,15 @@ splits each attribute into its own resource.`),
 				ElementType:         types.StringType,
 				MarkdownDescription: apischema.Docstring("AlertSourceV2", "owning_team_ids"),
 			},
+			"filter_condition_groups": schema.ListNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV2", "filter_condition_groups"),
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"conditions": models.ConditionsAttribute(),
+					},
+				},
+			},
 		},
 	}
 }
@@ -747,6 +756,8 @@ func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.C
 			// Sent only when set: a source being created has no stored team to clear.
 			FixedTeamId:   data.FixedTeamID.ValueStringPointer(),
 			OwningTeamIds: owningTeamIDs,
+
+			FilterConditionGroups: data.FilterConditionGroups.ToPayloadPtr(),
 		}
 
 		// Only send auto-resolve fields when explicitly configured, as some
@@ -886,6 +897,11 @@ func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.U
 			// change can clear.
 			FixedTeamId:   models.FixedTeamIDUpdatePayload(data.FixedTeamID),
 			OwningTeamIds: owningTeamIDs,
+
+			// Always sent, as an empty list when the config has no filters: removing the
+			// attribute from HCL clears them, the same way rate_limit_sharding's omission clears
+			// the shard key path above.
+			FilterConditionGroups: data.FilterConditionGroups.ToPayloadPtr(),
 		}
 
 		if !data.AutoResolveTimeoutMinutes.IsNull() && !data.AutoResolveTimeoutMinutes.IsUnknown() {

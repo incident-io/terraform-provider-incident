@@ -11,6 +11,7 @@ import (
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
 // Per-source-type options, shaped the same way the V2 resource shapes them so a config moving
@@ -323,4 +324,34 @@ func rateLimitShardingFromAPI(sharding *client.AlertSourceRateLimitShardingV3) *
 	return &alertSourceRateLimitSharding{
 		RateLimitShardKeyPath: types.StringValue(sharding.RateLimitShardKeyPath),
 	}
+}
+
+// filterConditionGroupsToPayload always sends a non-nil slice, converting the config's omitting
+// the attribute into clearing whatever filters are stored — never leaving them alone. The API
+// itself supports "nil means leave unchanged", but the provider can't use that:
+// filter_condition_groups is a plain Optional (not Computed) attribute, so Terraform's plan for it
+// is null whenever config omits it, and the post-apply value has to match — a provider that
+// sometimes echoes back a real, non-null value there fails Terraform's consistency check. Always
+// sending sidesteps that, the same way rateLimitShardingUpdatePayload always sends an empty path
+// rather than omitting the field.
+func filterConditionGroupsToPayload(groups models.IncidentEngineConditionGroups) *[]client.ConditionGroupPayloadV3 {
+	payload := models.ConditionGroupsToV3Payload(groups)
+	return &payload
+}
+
+// filterConditionGroupsFromAPI maps an absent field to nil (Terraform null) or, when config is
+// non-nil, to a non-nil empty slice instead. The API omits filter_condition_groups whenever the
+// source has no filters, whether that's because config never set the attribute or because it
+// explicitly cleared it with an empty list — so nil alone would read an explicit clear back as
+// null and leave a perpetual diff against a plan of `[]`.
+func filterConditionGroupsFromAPI(groups *[]client.ConditionGroupPayloadV3, config models.IncidentEngineConditionGroups) models.IncidentEngineConditionGroups {
+	if groups != nil {
+		return models.ConditionGroupsFromV3Payload(*groups)
+	}
+
+	if config != nil {
+		return models.IncidentEngineConditionGroups{}
+	}
+
+	return nil
 }
