@@ -38,24 +38,24 @@ const (
 // subject we don't recognise rather than as working hours we'd then fail to find.
 var escalationWorkingHoursSubjectPattern = regexp.MustCompile(`^escalation\.working_hours\["([^"]+)"\]$`)
 
-// escalationPathBetaBranchIf is what a branch tests. Exactly one attribute is set, which
+// escalationPathBranchIf is what a branch tests. Exactly one attribute is set, which
 // validateSequenceConditions enforces, and which one it is takes the place of the subject
 // and operation the API carries.
-type escalationPathBetaBranchIf struct {
+type escalationPathBranchIf struct {
 	WorkingHoursActive types.String `tfsdk:"working_hours_active"`
 	PriorityOneOf      types.Set    `tfsdk:"priority_one_of"`
 }
 
-// escalationPathBetaBranchIfAttrTypes returns the attribute types for a branch's if object.
-func escalationPathBetaBranchIfAttrTypes() map[string]attr.Type {
+// escalationPathBranchIfAttrTypes returns the attribute types for a branch's if object.
+func escalationPathBranchIfAttrTypes() map[string]attr.Type {
 	return map[string]attr.Type{
 		"working_hours_active": types.StringType,
 		"priority_one_of":      types.SetType{ElemType: types.StringType},
 	}
 }
 
-// escalationPathBetaBranchIfAttribute returns the if attribute's schema.
-func escalationPathBetaBranchIfAttribute() schema.SingleNestedAttribute {
+// escalationPathBranchIfAttribute returns the if attribute's schema.
+func escalationPathBranchIfAttribute() schema.SingleNestedAttribute {
 	return schema.SingleNestedAttribute{
 		MarkdownDescription: "What the branch tests. Set exactly one of these: a branch tests one thing, so combining them means nesting a second branch inside the first.",
 		Required:            true,
@@ -78,7 +78,7 @@ func escalationPathBetaBranchIfAttribute() schema.SingleNestedAttribute {
 //
 // validateSequenceConditions reports the same two, but only for a config it can read: one
 // whose sequences another resource computes reaches here unchecked.
-func (i *escalationPathBetaBranchIf) toPayload(ctx context.Context, diags *diag.Diagnostics) []client.ConditionPayloadV2 {
+func (i *escalationPathBranchIf) toPayload(ctx context.Context, diags *diag.Diagnostics) []client.ConditionPayloadV2 {
 	none := []client.ConditionPayloadV2{}
 	nothingToTest := func() []client.ConditionPayloadV2 {
 		diags.AddError(
@@ -95,7 +95,7 @@ func (i *escalationPathBetaBranchIf) toPayload(ctx context.Context, diags *diag.
 	}
 
 	workingHours := i.WorkingHoursActive.ValueString()
-	priorities := escalationPathBetaPriorityIDs(ctx, i.PriorityOneOf, diags)
+	priorities := escalationPathPriorityIDs(ctx, i.PriorityOneOf, diags)
 	if diags.HasError() {
 		return none
 	}
@@ -132,8 +132,8 @@ func (i *escalationPathBetaBranchIf) toPayload(ctx context.Context, diags *diag.
 	}
 }
 
-// escalationPathBetaPriorityIDs decodes the priority set, treating an unset one as empty.
-func escalationPathBetaPriorityIDs(ctx context.Context, set types.Set, diags *diag.Diagnostics) []string {
+// escalationPathPriorityIDs decodes the priority set, treating an unset one as empty.
+func escalationPathPriorityIDs(ctx context.Context, set types.Set, diags *diag.Diagnostics) []string {
 	if set.IsNull() || set.IsUnknown() {
 		return nil
 	}
@@ -146,16 +146,16 @@ func escalationPathBetaPriorityIDs(ctx context.Context, set types.Set, diags *di
 	return ids
 }
 
-// escalationPathBetaBranchIfFromAPI reads a branch's condition back into the attribute
+// escalationPathBranchIfFromAPI reads a branch's condition back into the attribute
 // that holds it, reporting one it can't: the engine allows conditions neither this
 // resource nor our dashboard builds.
-func escalationPathBetaBranchIfFromAPI(ctx context.Context, conditions []client.ConditionV2, diags *diag.Diagnostics) *escalationPathBetaBranchIf {
-	out := &escalationPathBetaBranchIf{
+func escalationPathBranchIfFromAPI(ctx context.Context, conditions []client.ConditionV2, diags *diag.Diagnostics) *escalationPathBranchIf {
+	out := &escalationPathBranchIf{
 		WorkingHoursActive: types.StringNull(),
 		PriorityOneOf:      types.SetNull(types.StringType),
 	}
 
-	unsupported := func(detail string) *escalationPathBetaBranchIf {
+	unsupported := func(detail string) *escalationPathBranchIf {
 		diags.AddError(
 			"Escalation path branch can't be represented",
 			fmt.Sprintf("%s Use incident_escalation_path for this path.", detail),
@@ -183,7 +183,7 @@ func escalationPathBetaBranchIfFromAPI(ctx context.Context, conditions []client.
 		if operation != escalationOperationOneOf {
 			return unsupported(fmt.Sprintf("A branch tests whether the priority is %q.", operation))
 		}
-		ids, ok := escalationPathBetaPriorityIDsFromAPI(condition.ParamBindings)
+		ids, ok := escalationPathPriorityIDsFromAPI(condition.ParamBindings)
 		if !ok {
 			return unsupported("A branch tests the priority against something other than a list of priority ids.")
 		}
@@ -196,9 +196,9 @@ func escalationPathBetaBranchIfFromAPI(ctx context.Context, conditions []client.
 	return unsupported(fmt.Sprintf("A branch tests %s, which is neither the priority nor a set of working hours.", subject))
 }
 
-// escalationPathBetaPriorityIDsFromAPI pulls the priority ids out of a one_of's bindings,
+// escalationPathPriorityIDsFromAPI pulls the priority ids out of a one_of's bindings,
 // reporting false for a binding holding anything but literals.
-func escalationPathBetaPriorityIDsFromAPI(bindings []client.EngineParamBindingV2) ([]string, bool) {
+func escalationPathPriorityIDsFromAPI(bindings []client.EngineParamBindingV2) ([]string, bool) {
 	ids := []string{}
 	for _, binding := range bindings {
 		if binding.Value != nil || binding.ArrayValue == nil {
@@ -219,8 +219,8 @@ func escalationPathBetaPriorityIDsFromAPI(bindings []client.EngineParamBindingV2
 
 // validateSequenceConditions checks each branch tests one thing, and that the working
 // hours it names are ones this path declares.
-func validateSequenceConditions(ctx context.Context, data *escalationPathBetaModel, diags *diag.Diagnostics) {
-	workingHoursIDs := escalationPathBetaWorkingHoursIDs(ctx, data.WorkingHours, diags)
+func validateSequenceConditions(ctx context.Context, data *escalationPathModel, diags *diag.Diagnostics) {
+	workingHoursIDs := escalationPathWorkingHoursIDs(ctx, data.WorkingHours, diags)
 	sequences := decodeSequences(ctx, data.Sequences, diags)
 
 	for _, key := range sortedKeys(sequences) {
@@ -282,9 +282,9 @@ func validateSequenceConditions(ctx context.Context, data *escalationPathBetaMod
 	}
 }
 
-// escalationPathBetaWorkingHoursIDs returns the ids of the working hours this path
+// escalationPathWorkingHoursIDs returns the ids of the working hours this path
 // declares, or nil when they aren't all known yet.
-func escalationPathBetaWorkingHoursIDs(ctx context.Context, list types.List, diags *diag.Diagnostics) map[string]bool {
+func escalationPathWorkingHoursIDs(ctx context.Context, list types.List, diags *diag.Diagnostics) map[string]bool {
 	// A null list declares no working hours, so a branch naming any is wrong. An unknown
 	// one is a list another resource computes, which we can't check yet.
 	if list.IsUnknown() {

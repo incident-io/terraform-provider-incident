@@ -15,31 +15,31 @@ import (
 
 // betaModel builds the model validateSequences reads, going through the same map
 // construction the resource uses to write state.
-func betaModel(t *testing.T, start string, sequences map[string][]escalationPathBetaNode) *escalationPathBetaModel {
+func betaModel(t *testing.T, start string, sequences map[string][]escalationPathNode) *escalationPathModel {
 	t.Helper()
 
 	var diags diag.Diagnostics
-	value := escalationPathBetaSequencesToMap(context.Background(), sequences, &diags)
+	value := escalationPathSequencesToMap(context.Background(), sequences, &diags)
 	if diags.HasError() {
 		t.Fatalf("building sequences map: %+v", diags)
 	}
 
-	return &escalationPathBetaModel{
+	return &escalationPathModel{
 		Start:     types.StringValue(start),
 		Sequences: value,
 	}
 }
 
-func branchWithID(id, then, els string) escalationPathBetaNode {
+func branchWithID(id, then, els string) escalationPathNode {
 	node := branchNode(then, els)
 	node.ID = types.StringValue(id)
 	return node
 }
 
-func loopNode(backTo string, times int64) escalationPathBetaNode {
-	return escalationPathBetaNode{
+func loopNode(backTo string, times int64) escalationPathNode {
+	return escalationPathNode{
 		ID: types.StringNull(),
-		Loop: &escalationPathBetaLoop{
+		Loop: &escalationPathLoop{
 			BackTo: types.StringValue(backTo),
 			Times:  types.Int64Value(times),
 		},
@@ -47,9 +47,9 @@ func loopNode(backTo string, times int64) escalationPathBetaNode {
 }
 
 // twoBlockNode is a node claiming to be both a level and a loop.
-func twoBlockNode(t *testing.T) escalationPathBetaNode {
+func twoBlockNode(t *testing.T) escalationPathNode {
 	node := levelNode(t, "page-eng")
-	node.Loop = &escalationPathBetaLoop{
+	node.Loop = &escalationPathLoop{
 		BackTo: types.StringValue("page-eng"),
 		Times:  types.Int64Value(3),
 	}
@@ -57,14 +57,14 @@ func twoBlockNode(t *testing.T) escalationPathBetaNode {
 }
 
 // unknownBranchNode is a branch naming a sequence another resource hasn't computed yet.
-func unknownBranchNode() escalationPathBetaNode {
+func unknownBranchNode() escalationPathNode {
 	node := branchNode("urgent", "")
 	node.Branch.Then = types.StringUnknown()
 	return node
 }
 
 // unknownLoopNode is a loop whose target another resource hasn't computed yet.
-func unknownLoopNode() escalationPathBetaNode {
+func unknownLoopNode() escalationPathNode {
 	node := loopNode("page-eng", 3)
 	node.Loop.BackTo = types.StringUnknown()
 	return node
@@ -76,13 +76,13 @@ func TestValidateSequences(t *testing.T) {
 	for _, tc := range []struct {
 		name      string
 		start     string
-		sequences map[string][]escalationPathBetaNode
+		sequences map[string][]escalationPathNode
 		wantError string
 	}{
 		{
 			name:  "a tree with a branch and a loop back to the first node",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":   {levelNode(t, "page-eng"), branchNode("urgent", "quiet")},
 				"urgent": {levelNode(t, ""), loopNode("page-eng", 3)},
 				"quiet":  {levelNode(t, "")},
@@ -91,7 +91,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a sequence continues after a loop",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main": {levelNode(t, "page-eng"), loopNode("page-eng", 3), levelNode(t, "")},
 			},
 			wantError: "continues after a loop node",
@@ -101,7 +101,7 @@ func TestValidateSequences(t *testing.T) {
 			// they left off.
 			name:  "a branch names the empty sequence",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":   {branchNode("", "urgent")},
 				"urgent": {levelNode(t, "")},
 			},
@@ -110,14 +110,14 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a loop back to a node we derived an id for",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main": {levelNode(t, ""), loopNode("main/0", 2)},
 			},
 		},
 		{
 			name:  "a loop back to the branch it sits under",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":   {branchWithID("split", "urgent", "")},
 				"urgent": {levelNode(t, ""), loopNode("split", 2)},
 			},
@@ -125,7 +125,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a loop back to a node it doesn't sit under",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":   {branchWithID("split", "urgent", "quiet")},
 				"urgent": {levelNode(t, "page-eng")},
 				"quiet":  {levelNode(t, ""), loopNode("page-eng", 2)},
@@ -135,7 +135,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a loop back to a level in its own sequence that isn't the first node",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":   {branchWithID("split", "urgent", "")},
 				"urgent": {levelNode(t, "page-eng"), loopNode("page-eng", 2)},
 			},
@@ -144,13 +144,13 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:      "start names a sequence that doesn't exist",
 			start:     "nowhere",
-			sequences: map[string][]escalationPathBetaNode{"main": {levelNode(t, "")}},
+			sequences: map[string][]escalationPathNode{"main": {levelNode(t, "")}},
 			wantError: "start names \"nowhere\"",
 		},
 		{
 			name:  "a branch names a sequence that doesn't exist",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main": {branchNode("nowhere", "")},
 			},
 			wantError: "There is no sequence named \"nowhere\"",
@@ -158,7 +158,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a loop names a node that doesn't exist",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main": {levelNode(t, ""), loopNode("nowhere", 2)},
 			},
 			wantError: "There is no node with id \"nowhere\"",
@@ -166,7 +166,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a sequence continues after a branch",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":   {branchNode("urgent", ""), levelNode(t, "")},
 				"urgent": {levelNode(t, "")},
 			},
@@ -175,7 +175,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "nothing branches to a sequence",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":     {levelNode(t, "")},
 				"stranded": {levelNode(t, "")},
 			},
@@ -184,7 +184,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a sequence has no nodes",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":   {branchNode("urgent", "")},
 				"urgent": {},
 			},
@@ -193,7 +193,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "two nodes share an id",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main": {levelNode(t, "page-eng"), levelNode(t, "page-eng")},
 			},
 			wantError: "More than one node is called \"page-eng\"",
@@ -201,7 +201,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a node id would collide with one we derive",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main": {levelNode(t, "other/0")},
 			},
 			wantError: "must not contain \"/\"",
@@ -209,7 +209,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a sequence name isn't usable",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":     {branchNode("2 urgent", "")},
 				"2 urgent": {levelNode(t, "")},
 			},
@@ -218,7 +218,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "two branches name the same sequence",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":   {branchNode("urgent", "quiet")},
 				"urgent": {branchNode("shared", "")},
 				"quiet":  {branchNode("shared", "")},
@@ -229,7 +229,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a branch goes back to the start",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":   {branchNode("urgent", "")},
 				"urgent": {branchNode("main", "")},
 			},
@@ -238,7 +238,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a node sets two type blocks",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main": {twoBlockNode(t)},
 			},
 			wantError: "sets level and loop",
@@ -249,7 +249,7 @@ func TestValidateSequences(t *testing.T) {
 			// matches one block and ignores the rest, so missing this drops one on apply.
 			name:  "a node sets two type blocks while another sequence isn't computed yet",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":   {unknownBranchNode()},
 				"urgent": {twoBlockNode(t)},
 			},
@@ -258,7 +258,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a node sets none of them",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main": {{ID: types.StringValue("does-nothing")}},
 			},
 			wantError: "sets none of level, notify_channel, delay, escalation_path, branch or loop",
@@ -268,7 +268,7 @@ func TestValidateSequences(t *testing.T) {
 			// checking around the gap reports a stranded sequence that an apply won't hit.
 			name:  "a branch names a sequence that isn't computed yet",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":   {unknownBranchNode()},
 				"urgent": {levelNode(t, "")},
 			},
@@ -276,7 +276,7 @@ func TestValidateSequences(t *testing.T) {
 		{
 			name:  "a loop names a node that isn't computed yet",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main": {levelNode(t, "page-eng"), unknownLoopNode()},
 			},
 		},
@@ -286,7 +286,7 @@ func TestValidateSequences(t *testing.T) {
 			// path a loop is allowed to name.
 			name:  "a loop back to the branch it sits under",
 			start: "main",
-			sequences: map[string][]escalationPathBetaNode{
+			sequences: map[string][]escalationPathNode{
 				"main":         {branchWithID("start", "in_hours", "out_of_hours")},
 				"in_hours":     {levelNode(t, ""), loopNode("start", 3)},
 				"out_of_hours": {levelNode(t, "")},
@@ -324,7 +324,7 @@ func TestValidateSequences(t *testing.T) {
 func TestValidateSequencesSkipsUnknownNodes(t *testing.T) {
 	ctx := context.Background()
 
-	nodeType := types.ObjectType{AttrTypes: escalationPathBetaNodeAttrTypes()}
+	nodeType := types.ObjectType{AttrTypes: escalationPathNodeAttrTypes()}
 	sequenceType := types.ObjectType{AttrTypes: map[string]attr.Type{
 		"nodes": types.ListType{ElemType: nodeType},
 	}}
@@ -339,7 +339,7 @@ func TestValidateSequencesSkipsUnknownNodes(t *testing.T) {
 	}
 
 	var diags diag.Diagnostics
-	validateSequences(ctx, &escalationPathBetaModel{
+	validateSequences(ctx, &escalationPathModel{
 		Start:     types.StringValue("main"),
 		Sequences: sequences,
 	}, &diags)
@@ -349,13 +349,13 @@ func TestValidateSequencesSkipsUnknownNodes(t *testing.T) {
 	}
 }
 
-// escalationPathBetaPlanType is the resource's schema as a tftypes.Object, so the plans
+// escalationPathPlanType is the resource's schema as a tftypes.Object, so the plans
 // these tests build are the ones Terraform would build.
-func escalationPathBetaPlanType(t *testing.T) tftypes.Object {
+func escalationPathPlanType(t *testing.T) tftypes.Object {
 	t.Helper()
 
 	var schemaResp resource.SchemaResponse
-	NewEscalationPathBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+	NewEscalationPathResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
 	if schemaResp.Diagnostics.HasError() {
 		t.Fatalf("schema build failed: %+v", schemaResp.Diagnostics)
 	}
@@ -367,8 +367,8 @@ func escalationPathBetaPlanType(t *testing.T) tftypes.Object {
 	return objType
 }
 
-func TestEscalationPathBetaPlanSettled(t *testing.T) {
-	objType := escalationPathBetaPlanType(t)
+func TestEscalationPathPlanSettled(t *testing.T) {
+	objType := escalationPathPlanType(t)
 
 	// A plan holding nothing but nulls, which each case then makes unknown in one place.
 	plan := func(overrides map[string]tftypes.Value) tftypes.Value {
@@ -376,7 +376,7 @@ func TestEscalationPathBetaPlanSettled(t *testing.T) {
 	}
 
 	t.Run("an id the API will mint doesn't stop the check", func(t *testing.T) {
-		settled := escalationPathBetaPlanSettled(plan(map[string]tftypes.Value{
+		settled := escalationPathPlanSettled(plan(map[string]tftypes.Value{
 			"id": tftypes.NewValue(tftypes.String, tftypes.UnknownValue),
 		}))
 		if !settled {
@@ -385,7 +385,7 @@ func TestEscalationPathBetaPlanSettled(t *testing.T) {
 	})
 
 	t.Run("a name another resource computes does", func(t *testing.T) {
-		settled := escalationPathBetaPlanSettled(plan(map[string]tftypes.Value{
+		settled := escalationPathPlanSettled(plan(map[string]tftypes.Value{
 			"name": tftypes.NewValue(tftypes.String, tftypes.UnknownValue),
 		}))
 		if settled {
@@ -394,7 +394,7 @@ func TestEscalationPathBetaPlanSettled(t *testing.T) {
 	})
 
 	t.Run("so does a sequence waiting on one", func(t *testing.T) {
-		settled := escalationPathBetaPlanSettled(plan(map[string]tftypes.Value{
+		settled := escalationPathPlanSettled(plan(map[string]tftypes.Value{
 			"sequences": tftypes.NewValue(objType.AttributeTypes["sequences"], tftypes.UnknownValue),
 		}))
 		if settled {
@@ -429,7 +429,7 @@ func TestEscalationPathBetaPlanSettled(t *testing.T) {
 	}
 
 	t.Run("a schedule_mode the API will derive doesn't stop the check", func(t *testing.T) {
-		settled := escalationPathBetaPlanSettled(targetPlan(t, map[string]tftypes.Value{
+		settled := escalationPathPlanSettled(targetPlan(t, map[string]tftypes.Value{
 			"schedule_mode": tftypes.NewValue(tftypes.String, tftypes.UnknownValue),
 		}))
 		if !settled {
@@ -438,7 +438,7 @@ func TestEscalationPathBetaPlanSettled(t *testing.T) {
 	})
 
 	t.Run("a target id another resource computes does", func(t *testing.T) {
-		settled := escalationPathBetaPlanSettled(targetPlan(t, map[string]tftypes.Value{
+		settled := escalationPathPlanSettled(targetPlan(t, map[string]tftypes.Value{
 			"id": tftypes.NewValue(tftypes.String, tftypes.UnknownValue),
 		}))
 		if settled {

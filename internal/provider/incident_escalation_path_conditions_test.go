@@ -17,21 +17,21 @@ import (
 
 // workingHoursIf is the branch condition the tests reach for by default. The id matches the
 // working hours the sequence fixtures declare, so a branch built from it resolves.
-func workingHoursIf() *escalationPathBetaBranchIf {
-	return &escalationPathBetaBranchIf{
+func workingHoursIf() *escalationPathBranchIf {
+	return &escalationPathBranchIf{
 		WorkingHoursActive: types.StringValue("UK"),
 		PriorityOneOf:      types.SetNull(types.StringType),
 	}
 }
 
-func priorityIf(t *testing.T, ids ...string) *escalationPathBetaBranchIf {
+func priorityIf(t *testing.T, ids ...string) *escalationPathBranchIf {
 	t.Helper()
 
 	set, diags := types.SetValueFrom(context.Background(), types.StringType, ids)
 	if diags.HasError() {
 		t.Fatalf("building priority set: %+v", diags)
 	}
-	return &escalationPathBetaBranchIf{
+	return &escalationPathBranchIf{
 		WorkingHoursActive: types.StringNull(),
 		PriorityOneOf:      set,
 	}
@@ -64,7 +64,7 @@ func workingHoursConditions(id string) []client.ConditionV2 {
 	}}
 }
 
-func TestEscalationPathBetaBranchIfToPayload(t *testing.T) {
+func TestEscalationPathBranchIfToPayload(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("builds the working hours condition from an id", func(t *testing.T) {
@@ -117,17 +117,17 @@ func TestEscalationPathBetaBranchIfToPayload(t *testing.T) {
 	t.Run("refuses to build a branch that tests nothing", func(t *testing.T) {
 		for _, tc := range []struct {
 			name     string
-			branchIf *escalationPathBetaBranchIf
+			branchIf *escalationPathBranchIf
 		}{
-			{"neither attribute set", &escalationPathBetaBranchIf{
+			{"neither attribute set", &escalationPathBranchIf{
 				WorkingHoursActive: types.StringNull(),
 				PriorityOneOf:      types.SetNull(types.StringType),
 			}},
-			{"an empty working hours id", &escalationPathBetaBranchIf{
+			{"an empty working hours id", &escalationPathBranchIf{
 				WorkingHoursActive: types.StringValue(""),
 				PriorityOneOf:      types.SetNull(types.StringType),
 			}},
-			{"an empty priority set", &escalationPathBetaBranchIf{
+			{"an empty priority set", &escalationPathBranchIf{
 				WorkingHoursActive: types.StringNull(),
 				PriorityOneOf:      types.SetValueMust(types.StringType, []attr.Value{}),
 			}},
@@ -159,13 +159,13 @@ func TestEscalationPathBetaBranchIfToPayload(t *testing.T) {
 	})
 }
 
-func TestEscalationPathBetaBranchIfFromAPI(t *testing.T) {
+func TestEscalationPathBranchIfFromAPI(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("round-trips working hours", func(t *testing.T) {
 		var diags diag.Diagnostics
 		want := workingHoursIf()
-		got := escalationPathBetaBranchIfFromAPI(ctx, apiConditions(want.toPayload(ctx, &diags)), &diags)
+		got := escalationPathBranchIfFromAPI(ctx, apiConditions(want.toPayload(ctx, &diags)), &diags)
 
 		if diags.HasError() {
 			t.Fatalf("unexpected errors: %+v", diags)
@@ -178,7 +178,7 @@ func TestEscalationPathBetaBranchIfFromAPI(t *testing.T) {
 	t.Run("round-trips priorities", func(t *testing.T) {
 		var diags diag.Diagnostics
 		want := priorityIf(t, "01AAA", "01BBB")
-		got := escalationPathBetaBranchIfFromAPI(ctx, apiConditions(want.toPayload(ctx, &diags)), &diags)
+		got := escalationPathBranchIfFromAPI(ctx, apiConditions(want.toPayload(ctx, &diags)), &diags)
 
 		if diags.HasError() {
 			t.Fatalf("unexpected errors: %+v", diags)
@@ -254,7 +254,7 @@ func TestEscalationPathBetaBranchIfFromAPI(t *testing.T) {
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			var diags diag.Diagnostics
-			escalationPathBetaBranchIfFromAPI(ctx, tc.conditions, &diags)
+			escalationPathBranchIfFromAPI(ctx, tc.conditions, &diags)
 
 			if !diags.HasError() {
 				t.Fatal("expected an error")
@@ -272,7 +272,7 @@ func TestEscalationPathBetaBranchIfFromAPI(t *testing.T) {
 func TestValidateSequenceConditions(t *testing.T) {
 	ctx := context.Background()
 
-	branchWith := func(branchIf *escalationPathBetaBranchIf) escalationPathBetaNode {
+	branchWith := func(branchIf *escalationPathBranchIf) escalationPathNode {
 		node := branchNode("urgent", "")
 		node.Branch.If = branchIf
 		return node
@@ -280,7 +280,7 @@ func TestValidateSequenceConditions(t *testing.T) {
 
 	for _, tc := range []struct {
 		name         string
-		branchIf     *escalationPathBetaBranchIf
+		branchIf     *escalationPathBranchIf
 		workingHours []string
 		wantError    string
 	}{
@@ -300,7 +300,7 @@ func TestValidateSequenceConditions(t *testing.T) {
 		},
 		{
 			name: "a branch testing nothing",
-			branchIf: &escalationPathBetaBranchIf{
+			branchIf: &escalationPathBranchIf{
 				WorkingHoursActive: types.StringNull(),
 				PriorityOneOf:      types.SetNull(types.StringType),
 			},
@@ -308,7 +308,7 @@ func TestValidateSequenceConditions(t *testing.T) {
 		},
 		{
 			name: "a branch testing both",
-			branchIf: &escalationPathBetaBranchIf{
+			branchIf: &escalationPathBranchIf{
 				WorkingHoursActive: types.StringValue("UK"),
 				PriorityOneOf:      priorityIf(t, "01AAA").PriorityOneOf,
 			},
@@ -319,7 +319,7 @@ func TestValidateSequenceConditions(t *testing.T) {
 			// Either could still resolve to null, so calling this two tests reports a
 			// problem an apply won't hit.
 			name: "a branch whose tests another resource hasn't computed yet",
-			branchIf: &escalationPathBetaBranchIf{
+			branchIf: &escalationPathBranchIf{
 				WorkingHoursActive: types.StringUnknown(),
 				PriorityOneOf:      types.SetUnknown(types.StringType),
 			},
@@ -327,7 +327,7 @@ func TestValidateSequenceConditions(t *testing.T) {
 		},
 		{
 			name: "a branch naming no working hours at all",
-			branchIf: &escalationPathBetaBranchIf{
+			branchIf: &escalationPathBranchIf{
 				WorkingHoursActive: types.StringValue(""),
 				PriorityOneOf:      types.SetNull(types.StringType),
 			},
@@ -335,7 +335,7 @@ func TestValidateSequenceConditions(t *testing.T) {
 		},
 		{
 			name: "a branch matching no priority at all",
-			branchIf: &escalationPathBetaBranchIf{
+			branchIf: &escalationPathBranchIf{
 				WorkingHoursActive: types.StringNull(),
 				PriorityOneOf:      types.SetValueMust(types.StringType, []attr.Value{}),
 			},
@@ -343,7 +343,7 @@ func TestValidateSequenceConditions(t *testing.T) {
 		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
-			data := betaModel(t, "main", map[string][]escalationPathBetaNode{
+			data := betaModel(t, "main", map[string][]escalationPathNode{
 				"main":   {branchWith(tc.branchIf)},
 				"urgent": {levelNode(t, "")},
 			})

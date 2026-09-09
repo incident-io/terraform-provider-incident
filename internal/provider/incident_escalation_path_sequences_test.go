@@ -13,7 +13,7 @@ import (
 
 // levelNode builds a level node paging a single schedule, which is the least interesting
 // node these tests can hang a sequence off.
-func levelNode(t *testing.T, id string) escalationPathBetaNode {
+func levelNode(t *testing.T, id string) escalationPathNode {
 	t.Helper()
 
 	var diags diag.Diagnostics
@@ -30,20 +30,20 @@ func levelNode(t *testing.T, id string) escalationPathBetaNode {
 	if id != "" {
 		nodeID = types.StringValue(id)
 	}
-	return escalationPathBetaNode{
+	return escalationPathNode{
 		ID:    nodeID,
 		Level: &IncidentEscalationPathNodeLevel{Targets: targets},
 	}
 }
 
-func branchNode(then, els string) escalationPathBetaNode {
+func branchNode(then, els string) escalationPathNode {
 	elseKey := types.StringNull()
 	if els != "" {
 		elseKey = types.StringValue(els)
 	}
-	return escalationPathBetaNode{
+	return escalationPathNode{
 		ID: types.StringNull(),
-		Branch: &escalationPathBetaBranch{
+		Branch: &escalationPathBranch{
 			If:   workingHoursIf(),
 			Then: types.StringValue(then),
 			Else: elseKey,
@@ -56,7 +56,7 @@ func TestUnflattenSequences(t *testing.T) {
 
 	t.Run("derives an id from the node's position", func(t *testing.T) {
 		var diags diag.Diagnostics
-		path := unflattenSequences(ctx, "main", map[string][]escalationPathBetaNode{
+		path := unflattenSequences(ctx, "main", map[string][]escalationPathNode{
 			"main": {levelNode(t, ""), levelNode(t, "")},
 		}, &diags)
 
@@ -70,7 +70,7 @@ func TestUnflattenSequences(t *testing.T) {
 
 	t.Run("keeps an id the author wrote", func(t *testing.T) {
 		var diags diag.Diagnostics
-		path := unflattenSequences(ctx, "main", map[string][]escalationPathBetaNode{
+		path := unflattenSequences(ctx, "main", map[string][]escalationPathNode{
 			"main": {levelNode(t, "page-eng")},
 		}, &diags)
 
@@ -84,7 +84,7 @@ func TestUnflattenSequences(t *testing.T) {
 
 	t.Run("inlines the sequences a branch names", func(t *testing.T) {
 		var diags diag.Diagnostics
-		path := unflattenSequences(ctx, "main", map[string][]escalationPathBetaNode{
+		path := unflattenSequences(ctx, "main", map[string][]escalationPathNode{
 			"main":   {branchNode("urgent", "quiet")},
 			"urgent": {levelNode(t, "")},
 			"quiet":  {levelNode(t, ""), levelNode(t, "")},
@@ -109,7 +109,7 @@ func TestUnflattenSequences(t *testing.T) {
 
 	t.Run("leaves the else path empty when the branch has no else", func(t *testing.T) {
 		var diags diag.Diagnostics
-		path := unflattenSequences(ctx, "main", map[string][]escalationPathBetaNode{
+		path := unflattenSequences(ctx, "main", map[string][]escalationPathNode{
 			"main":   {branchNode("urgent", "")},
 			"urgent": {levelNode(t, "")},
 		}, &diags)
@@ -124,7 +124,7 @@ func TestUnflattenSequences(t *testing.T) {
 
 	t.Run("reports a sequence that doesn't exist", func(t *testing.T) {
 		var diags diag.Diagnostics
-		unflattenSequences(ctx, "main", map[string][]escalationPathBetaNode{
+		unflattenSequences(ctx, "main", map[string][]escalationPathNode{
 			"main": {branchNode("nowhere", "")},
 		}, &diags)
 
@@ -135,7 +135,7 @@ func TestUnflattenSequences(t *testing.T) {
 
 	t.Run("reports a cycle rather than recursing forever", func(t *testing.T) {
 		var diags diag.Diagnostics
-		unflattenSequences(ctx, "main", map[string][]escalationPathBetaNode{
+		unflattenSequences(ctx, "main", map[string][]escalationPathNode{
 			"main": {branchNode("loop", "")},
 			"loop": {branchNode("main", "")},
 		}, &diags)
@@ -147,7 +147,7 @@ func TestUnflattenSequences(t *testing.T) {
 
 	t.Run("reports a sequence two branches name rather than copying it", func(t *testing.T) {
 		var diags diag.Diagnostics
-		unflattenSequences(ctx, "main", map[string][]escalationPathBetaNode{
+		unflattenSequences(ctx, "main", map[string][]escalationPathNode{
 			"main":   {branchNode("urgent", "quiet")},
 			"urgent": {branchNode("shared", "")},
 			"quiet":  {branchNode("shared", "")},
@@ -186,15 +186,15 @@ func apiNodes(payload []client.EscalationPathNodePayloadV2) []client.EscalationP
 }
 
 // priorNames is the naming a read starts from, as the plan or state carries it.
-func priorNames(start string, sequences map[string][]escalationPathBetaNode) escalationPathBetaPriorNames {
-	return escalationPathBetaPriorNames{start: start, sequences: sequences}
+func priorNames(start string, sequences map[string][]escalationPathNode) escalationPathPriorNames {
+	return escalationPathPriorNames{start: start, sequences: sequences}
 }
 
 func TestFlattenSequences(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("recovers the keys a round trip started with", func(t *testing.T) {
-		want := map[string][]escalationPathBetaNode{
+		want := map[string][]escalationPathNode{
 			"main":   {branchNode("urgent", "quiet")},
 			"urgent": {levelNode(t, "")},
 			"quiet":  {levelNode(t, "")},
@@ -223,7 +223,7 @@ func TestFlattenSequences(t *testing.T) {
 
 	t.Run("drops the ids it derived and keeps the ones the author wrote", func(t *testing.T) {
 		var diags diag.Diagnostics
-		sequences := map[string][]escalationPathBetaNode{
+		sequences := map[string][]escalationPathNode{
 			"main": {levelNode(t, "page-eng"), levelNode(t, "")},
 		}
 		_, got := flattenSequences(ctx, apiNodes(unflattenSequences(ctx, "main", sequences, &diags)), priorNames("main", sequences), &diags)
@@ -253,7 +253,7 @@ func TestFlattenSequences(t *testing.T) {
 		}}
 
 		var diags diag.Diagnostics
-		start, got := flattenSequences(ctx, nodes, escalationPathBetaPriorNames{}, &diags)
+		start, got := flattenSequences(ctx, nodes, escalationPathPriorNames{}, &diags)
 		if diags.HasError() {
 			t.Fatalf("unexpected errors: %+v", diags)
 		}
@@ -284,7 +284,7 @@ func TestFlattenSequences(t *testing.T) {
 		}
 
 		var diags diag.Diagnostics
-		flattenSequences(ctx, nodes, escalationPathBetaPriorNames{}, &diags)
+		flattenSequences(ctx, nodes, escalationPathPriorNames{}, &diags)
 
 		if !diags.HasError() {
 			t.Fatal("expected an error")
@@ -295,7 +295,7 @@ func TestFlattenSequences(t *testing.T) {
 	t.Run("keeps the author's names when every node has an id", func(t *testing.T) {
 		// The documented shape: a sequence whose only node is a branch, named so a loop can
 		// point back at it. Nothing is left to derive a key from.
-		want := map[string][]escalationPathBetaNode{
+		want := map[string][]escalationPathNode{
 			"entry":  {branchWithID("start", "urgent", "quiet")},
 			"urgent": {levelNode(t, "page-eng"), loopNode("start", 3)},
 			"quiet":  {levelNode(t, "page-ops")},
@@ -325,7 +325,7 @@ func TestFlattenSequences(t *testing.T) {
 	t.Run("falls back to a derived key when the prior naming has moved on", func(t *testing.T) {
 		// A branch added in the dashboard has no counterpart in the config, so its children
 		// can only take the names we derive.
-		sequences := map[string][]escalationPathBetaNode{
+		sequences := map[string][]escalationPathNode{
 			"entry": {branchNode("urgent", "")},
 			"urgent": {
 				levelNode(t, ""),
@@ -336,7 +336,7 @@ func TestFlattenSequences(t *testing.T) {
 		nodes := apiNodes(unflattenSequences(ctx, "entry", sequences, &diags))
 
 		// The prior config knows "entry", but nothing about a branch inside it.
-		prior := priorNames("entry", map[string][]escalationPathBetaNode{
+		prior := priorNames("entry", map[string][]escalationPathNode{
 			"entry": {levelNode(t, "")},
 		})
 
@@ -356,7 +356,7 @@ func TestFlattenSequences(t *testing.T) {
 	})
 
 	t.Run("takes the naming from a model, and manages without one", func(t *testing.T) {
-		sequences := map[string][]escalationPathBetaNode{
+		sequences := map[string][]escalationPathNode{
 			"entry":  {branchWithID("start", "urgent", "")},
 			"urgent": {levelNode(t, "page-eng")},
 		}
@@ -364,7 +364,7 @@ func TestFlattenSequences(t *testing.T) {
 		var diags diag.Diagnostics
 		nodes := apiNodes(unflattenSequences(ctx, "entry", sequences, &diags))
 
-		start, _ := flattenSequences(ctx, nodes, escalationPathBetaPriorNamesFrom(ctx, betaModel(t, "entry", sequences)), &diags)
+		start, _ := flattenSequences(ctx, nodes, escalationPathPriorNamesFrom(ctx, betaModel(t, "entry", sequences)), &diags)
 		if diags.HasError() {
 			t.Fatalf("unexpected errors: %+v", diags)
 		}
@@ -373,7 +373,7 @@ func TestFlattenSequences(t *testing.T) {
 		}
 
 		// An import has no prior model at all.
-		start, _ = flattenSequences(ctx, nodes, escalationPathBetaPriorNamesFrom(ctx, nil), &diags)
+		start, _ = flattenSequences(ctx, nodes, escalationPathPriorNamesFrom(ctx, nil), &diags)
 		if diags.HasError() {
 			t.Fatalf("unexpected errors: %+v", diags)
 		}

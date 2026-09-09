@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -17,11 +18,175 @@ import (
 )
 
 // The level, notify_channel and delay blocks are identical in incident_escalation_path
-// and incident_escalation_path_beta: only the way nodes are arranged differs between the
+// and incident_escalation_path: only the way nodes are arranged differs between the
 // two. Their schema, attribute types and conversions live here so the two resources share
 // one definition rather than drifting apart.
 
 // levelAttrTypes returns the attribute types for a level node's block.
+// The pieces of a node that every escalation path shares, whichever shape it is
+// written in. They lived on the resource that declared its path as nested lists
+// until v7 removed it; the helpers below, which both the resource and the data
+// source use, are what they belong to.
+type IncidentEscalationPathNodeLevel struct {
+	Targets                          types.List                          `tfsdk:"targets"`
+	RoundRobinConfig                 *IncidentEscalationRoundRobinConfig `tfsdk:"round_robin_config"`
+	RetryConfig                      *IncidentEscalationRetryConfig      `tfsdk:"retry_config"`
+	TimeToAckIntervalCondition       types.String                        `tfsdk:"time_to_ack_interval_condition"`
+	TimeToAckSeconds                 types.Int64                         `tfsdk:"time_to_ack_seconds"`
+	TimeToAckWeekdayIntervalConfigID types.String                        `tfsdk:"time_to_ack_weekday_interval_config_id"`
+
+	AckMode types.String `tfsdk:"ack_mode"`
+}
+
+type IncidentEscalationPathNodeNotifyChannel struct {
+	Targets                          types.List   `tfsdk:"targets"`
+	TimeToAckIntervalCondition       types.String `tfsdk:"time_to_ack_interval_condition"`
+	TimeToAckSeconds                 types.Int64  `tfsdk:"time_to_ack_seconds"`
+	TimeToAckWeekdayIntervalConfigID types.String `tfsdk:"time_to_ack_weekday_interval_config_id"`
+}
+
+type IncidentEscalationPathNodeDelay struct {
+	DelayIntervalCondition       types.String `tfsdk:"delay_interval_condition"`
+	DelaySeconds                 types.Int64  `tfsdk:"delay_seconds"`
+	DelayWeekdayIntervalConfigID types.String `tfsdk:"delay_weekday_interval_config_id"`
+}
+
+type IncidentEscalationPathNodeEscalationPath struct {
+	EscalationPathID types.String `tfsdk:"escalation_path_id"`
+}
+
+type IncidentEscalationRoundRobinConfig struct {
+	Enabled            types.Bool  `tfsdk:"enabled"`
+	RotateAfterSeconds types.Int64 `tfsdk:"rotate_after_seconds"`
+}
+
+type IncidentEscalationRetryConfig struct {
+	Attempts        types.Int64 `tfsdk:"attempts"`
+	IntervalSeconds types.Int64 `tfsdk:"interval_seconds"`
+}
+
+type IncidentEscalationPathTarget struct {
+	ID             types.String `tfsdk:"id"`
+	Type           types.String `tfsdk:"type"`
+	Urgency        types.String `tfsdk:"urgency"`
+	ScheduleMode   types.String `tfsdk:"schedule_mode"`
+	SelectedRotaID types.String `tfsdk:"selected_rota_id"`
+}
+
+// IncidentEscalationPathRepeatConfig is how an escalation path repeats after
+// acknowledgement while the alert is unresolved.
+type IncidentEscalationPathRepeatConfig struct {
+	RepeatAfterSeconds    types.Int64 `tfsdk:"repeat_after_seconds"`
+	DelayRepeatOnActivity types.Bool  `tfsdk:"delay_repeat_on_activity"`
+}
+
+// targetAttrTypes returns the attribute types for an escalation path target
+// object.
+func targetAttrTypes() map[string]attr.Type {
+	return map[string]attr.Type{
+		"id":               types.StringType,
+		"type":             types.StringType,
+		"urgency":          types.StringType,
+		"schedule_mode":    types.StringType,
+		"selected_rota_id": types.StringType,
+	}
+}
+
+// targetListType returns the list type of escalation path targets.
+func targetListType() types.ListType {
+	return types.ListType{ElemType: types.ObjectType{AttrTypes: targetAttrTypes()}}
+}
+
+func targetsFromAPI(ctx context.Context, targets []client.EscalationPathTargetV2, diags *diag.Diagnostics) types.List {
+	targetModels := lo.Map(targets, func(target client.EscalationPathTargetV2, _ int) IncidentEscalationPathTarget {
+		scheduleMode := types.StringNull()
+		if target.ScheduleMode != nil {
+			scheduleMode = types.StringValue(string(*target.ScheduleMode))
+		}
+
+		selectedRotaID := types.StringNull()
+		if target.SelectedRotaId != nil && *target.SelectedRotaId != "" {
+			selectedRotaID = types.StringValue(*target.SelectedRotaId)
+		}
+
+		return IncidentEscalationPathTarget{
+			ID:             types.StringValue(target.Id),
+			Type:           types.StringValue(string(target.Type)),
+			Urgency:        types.StringValue(string(target.Urgency)),
+			ScheduleMode:   scheduleMode,
+			SelectedRotaID: selectedRotaID,
+		}
+	})
+
+	list, d := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: targetAttrTypes()}, targetModels)
+	diags.Append(d...)
+	return list
+}
+
+func targetsToPayload(ctx context.Context, list types.List, diags *diag.Diagnostics) []client.EscalationPathTargetV2 {
+	targets := decodeTargets(ctx, list, diags)
+	return lo.Map(targets, func(target IncidentEscalationPathTarget, _ int) client.EscalationPathTargetV2 {
+		targetPayload := client.EscalationPathTargetV2{
+			Id:      target.ID.ValueString(),
+			Type:    client.EscalationPathTargetV2Type(target.Type.ValueString()),
+			Urgency: client.EscalationPathTargetV2Urgency(target.Urgency.ValueString()),
+		}
+
+		if target.ScheduleMode.ValueString() != "" {
+			targetPayload.ScheduleMode = lo.ToPtr(client.EscalationPathTargetV2ScheduleMode(target.ScheduleMode.ValueString()))
+		}
+
+		if target.SelectedRotaID.ValueString() != "" {
+			targetPayload.SelectedRotaId = lo.ToPtr(target.SelectedRotaID.ValueString())
+		}
+
+		return targetPayload
+	})
+}
+
+// rotaRequiredScheduleModes is the set of schedule_mode values that require a
+// selected_rota_id. Other modes must leave selected_rota_id unset.
+var rotaRequiredScheduleModes = map[string]bool{
+	string(client.EscalationPathTargetV2ScheduleModeAllUsersForRota):        true,
+	string(client.EscalationPathTargetV2ScheduleModeCurrentlyOnCallForRota): true,
+	string(client.EscalationPathTargetV2ScheduleModeNextOnCallForRota):      true,
+}
+
+func decodeTargets(ctx context.Context, list types.List, diags *diag.Diagnostics) []IncidentEscalationPathTarget {
+	if list.IsNull() || list.IsUnknown() {
+		return nil
+	}
+	var targets []IncidentEscalationPathTarget
+	diags.Append(list.ElementsAs(ctx, &targets, false)...)
+	return targets
+}
+
+func validateEscalationPathTarget(target IncidentEscalationPathTarget, diags *diag.Diagnostics) {
+	if target.ScheduleMode.IsUnknown() || target.SelectedRotaID.IsUnknown() {
+		return
+	}
+
+	mode := target.ScheduleMode.ValueString()
+	rotaID := target.SelectedRotaID.ValueString()
+
+	if rotaRequiredScheduleModes[mode] {
+		if rotaID == "" {
+			diags.Append(diag.NewErrorDiagnostic(
+				"Missing selected_rota_id",
+				fmt.Sprintf("Escalation path target with schedule_mode %q requires selected_rota_id to be set.", mode),
+			))
+		}
+		return
+	}
+
+	if rotaID != "" {
+		diags.Append(diag.NewErrorDiagnostic(
+			"Unexpected selected_rota_id",
+			fmt.Sprintf("Escalation path target with schedule_mode %q must not set selected_rota_id; it is only valid for all_users_for_rota, currently_on_call_for_rota, and next_on_call_for_rota.", mode),
+		))
+	}
+}
+
 func levelAttrTypes() map[string]attr.Type {
 	return map[string]attr.Type{
 		"targets": targetListType(),

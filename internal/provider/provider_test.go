@@ -82,3 +82,17 @@ func testAccPreCheck(t *testing.T) {
 }
 
 var testClient *client.ClientWithResponses
+
+// teamTypeName is the name of the catalog type holding teams in the account the
+// acceptance tests run against. Ours is called Team; TF_TEAM_TYPE_NAME points
+// the tests at a differently named one when running locally.
+func teamTypeName() string {
+	if os.Getenv("CI") == "true" {
+		return "Team"
+	}
+	if teamType := os.Getenv("TF_TEAM_TYPE_NAME"); teamType != "" {
+		return teamType
+	}
+
+	return "Team"
+}

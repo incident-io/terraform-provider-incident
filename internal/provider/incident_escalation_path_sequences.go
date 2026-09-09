@@ -58,7 +58,7 @@ func sequenceKeyFromNodeID(id string) (string, bool) {
 
 // nodeID returns the ID a node will be stored under: the author's own, or one derived
 // from its position.
-func (n escalationPathBetaNode) nodeID(sequenceKey string, index int) string {
+func (n escalationPathNode) nodeID(sequenceKey string, index int) string {
 	if id := n.ID.ValueString(); id != "" {
 		return id
 	}
@@ -67,7 +67,7 @@ func (n escalationPathBetaNode) nodeID(sequenceKey string, index int) string {
 
 // blockNames lists the type blocks this node sets, in the order the schema declares them.
 // Exactly one is valid; more than one leaves the conversions with nothing to go on.
-func (n escalationPathBetaNode) blockNames() []string {
+func (n escalationPathNode) blockNames() []string {
 	var names []string
 	if n.Level != nil {
 		names = append(names, "level")
@@ -91,20 +91,20 @@ func (n escalationPathBetaNode) blockNames() []string {
 }
 
 // decodeSequences decodes the sequences map into node slices keyed by sequence name.
-func decodeSequences(ctx context.Context, sequences types.Map, diags *diag.Diagnostics) map[string][]escalationPathBetaNode {
+func decodeSequences(ctx context.Context, sequences types.Map, diags *diag.Diagnostics) map[string][]escalationPathNode {
 	if sequences.IsNull() || sequences.IsUnknown() {
 		return nil
 	}
 
-	var decoded map[string]escalationPathBetaSequence
+	var decoded map[string]escalationPathSequence
 	diags.Append(sequences.ElementsAs(ctx, &decoded, false)...)
 	if diags.HasError() {
 		return nil
 	}
 
-	out := make(map[string][]escalationPathBetaNode, len(decoded))
+	out := make(map[string][]escalationPathNode, len(decoded))
 	for key, sequence := range decoded {
-		var nodes []escalationPathBetaNode
+		var nodes []escalationPathNode
 		if !sequence.Nodes.IsNull() && !sequence.Nodes.IsUnknown() {
 			diags.Append(sequence.Nodes.ElementsAs(ctx, &nodes, false)...)
 		}
@@ -115,7 +115,7 @@ func decodeSequences(ctx context.Context, sequences types.Map, diags *diag.Diagn
 
 // unflattenSequences walks the sequences from start and builds the tree the API stores,
 // inlining each branch's target sequences as its then and else paths.
-func unflattenSequences(ctx context.Context, start string, sequences map[string][]escalationPathBetaNode, diags *diag.Diagnostics) []client.EscalationPathNodePayloadV2 {
+func unflattenSequences(ctx context.Context, start string, sequences map[string][]escalationPathNode, diags *diag.Diagnostics) []client.EscalationPathNodePayloadV2 {
 	return unflattenSequence(ctx, start, sequences, map[string]bool{}, map[string]bool{}, diags)
 }
 
@@ -124,7 +124,7 @@ func unflattenSequences(ctx context.Context, start string, sequences map[string]
 // validateSequences rejects a sequences map that isn't a tree at plan time, but a plan
 // holding unknown values skips that check, so this walk guards against a cycle and a
 // sequence two branches name rather than trusting it.
-func unflattenSequence(ctx context.Context, key string, sequences map[string][]escalationPathBetaNode, visiting, inlined map[string]bool, diags *diag.Diagnostics) []client.EscalationPathNodePayloadV2 {
+func unflattenSequence(ctx context.Context, key string, sequences map[string][]escalationPathNode, visiting, inlined map[string]bool, diags *diag.Diagnostics) []client.EscalationPathNodePayloadV2 {
 	nodes, ok := sequences[key]
 	if !ok {
 		diags.AddError(
@@ -210,22 +210,22 @@ func unflattenSequence(ctx context.Context, key string, sequences map[string][]e
 	return out
 }
 
-// escalationPathBetaPriorNames is the naming from the config we last wrote: the sequence the
+// escalationPathPriorNames is the naming from the config we last wrote: the sequence the
 // path started with, and the sequences themselves, whose branches say what their children
 // were called.
 //
 // Sequence names are ours, not the API's: it stores a tree and knows nothing about them, so
 // a read can only recover the author's names from here.
-type escalationPathBetaPriorNames struct {
+type escalationPathPriorNames struct {
 	start     string
-	sequences map[string][]escalationPathBetaNode
+	sequences map[string][]escalationPathNode
 }
 
-// escalationPathBetaPriorNamesFrom reads the naming out of a model, or returns nothing when
+// escalationPathPriorNamesFrom reads the naming out of a model, or returns nothing when
 // there's no prior model to read.
-func escalationPathBetaPriorNamesFrom(ctx context.Context, prior *escalationPathBetaModel) escalationPathBetaPriorNames {
+func escalationPathPriorNamesFrom(ctx context.Context, prior *escalationPathModel) escalationPathPriorNames {
 	if prior == nil {
-		return escalationPathBetaPriorNames{}
+		return escalationPathPriorNames{}
 	}
 
 	// The naming is a hint for keeping a round-trip stable, not input we check, so a prior
@@ -233,10 +233,10 @@ func escalationPathBetaPriorNamesFrom(ctx context.Context, prior *escalationPath
 	var ignored diag.Diagnostics
 	sequences := decodeSequences(ctx, prior.Sequences, &ignored)
 	if ignored.HasError() {
-		return escalationPathBetaPriorNames{}
+		return escalationPathPriorNames{}
 	}
 
-	return escalationPathBetaPriorNames{
+	return escalationPathPriorNames{
 		start:     prior.Start.ValueString(),
 		sequences: sequences,
 	}
@@ -245,7 +245,7 @@ func escalationPathBetaPriorNamesFrom(ctx context.Context, prior *escalationPath
 // branchTargets returns the sequences the branch in this sequence pointed at, which are the
 // names its children were last written under. A sequence holds at most one branch, so
 // there's no question which one is meant.
-func (p escalationPathBetaPriorNames) branchTargets(key string) (thenKey string, elseKey string) {
+func (p escalationPathPriorNames) branchTargets(key string) (thenKey string, elseKey string) {
 	if key == "" {
 		return "", ""
 	}
@@ -260,8 +260,8 @@ func (p escalationPathBetaPriorNames) branchTargets(key string) (thenKey string,
 
 // flattenSequences walks the tree the API returns and splits it into named sequences,
 // returning the key the path starts with alongside them. The names come from prior.
-func flattenSequences(ctx context.Context, nodes []client.EscalationPathNodeV2, prior escalationPathBetaPriorNames, diags *diag.Diagnostics) (string, map[string][]escalationPathBetaNode) {
-	sequences := map[string][]escalationPathBetaNode{}
+func flattenSequences(ctx context.Context, nodes []client.EscalationPathNodeV2, prior escalationPathPriorNames, diags *diag.Diagnostics) (string, map[string][]escalationPathNode) {
+	sequences := map[string][]escalationPathNode{}
 	start := flattenSequence(ctx, nodes, prior.start, rootSequenceKey, prior, sequences, diags)
 	return start, sequences
 }
@@ -269,17 +269,17 @@ func flattenSequences(ctx context.Context, nodes []client.EscalationPathNodeV2, 
 // flattenSequence converts one node array into a sequence, recursing into each branch's
 // then and else paths, and returns the key it was stored under. priorKey is what the author
 // called this sequence, empty if we can't tell.
-func flattenSequence(ctx context.Context, nodes []client.EscalationPathNodeV2, priorKey, fallbackKey string, prior escalationPathBetaPriorNames, sequences map[string][]escalationPathBetaNode, diags *diag.Diagnostics) string {
+func flattenSequence(ctx context.Context, nodes []client.EscalationPathNodeV2, priorKey, fallbackKey string, prior escalationPathPriorNames, sequences map[string][]escalationPathNode, diags *diag.Diagnostics) string {
 	key := chooseSequenceKey(nodes, priorKey, fallbackKey, sequences)
 
 	// Claim the key before recursing, or a child sequence could take it back.
 	sequences[key] = nil
 
-	convertedNodes := make([]escalationPathBetaNode, 0, len(nodes))
+	convertedNodes := make([]escalationPathNode, 0, len(nodes))
 	for index, node := range nodes {
 		// An ID we derived says where the node lives, which we already know, so leaving it
 		// out keeps state matching a config that never wrote one.
-		converted := escalationPathBetaNode{ID: types.StringNull()}
+		converted := escalationPathNode{ID: types.StringNull()}
 		if _, derived := sequenceKeyFromNodeID(node.Id); !derived {
 			converted.ID = types.StringValue(node.Id)
 		}
@@ -297,8 +297,8 @@ func flattenSequence(ctx context.Context, nodes []client.EscalationPathNodeV2, p
 			}
 
 			priorThen, priorElse := prior.branchTargets(priorKey)
-			branch := &escalationPathBetaBranch{
-				If:   escalationPathBetaBranchIfFromAPI(ctx, node.IfElse.Conditions, diags),
+			branch := &escalationPathBranch{
+				If:   escalationPathBranchIfFromAPI(ctx, node.IfElse.Conditions, diags),
 				Then: types.StringValue(flattenSequence(ctx, node.IfElse.ThenPath, priorThen, key+"_then", prior, sequences, diags)),
 				Else: types.StringNull(),
 			}
@@ -308,7 +308,7 @@ func flattenSequence(ctx context.Context, nodes []client.EscalationPathNodeV2, p
 			converted.Branch = branch
 
 		case node.Repeat != nil:
-			converted.Loop = &escalationPathBetaLoop{
+			converted.Loop = &escalationPathLoop{
 				BackTo: types.StringValue(node.Repeat.ToNode),
 				Times:  types.Int64Value(node.Repeat.RepeatTimes),
 			}
@@ -328,7 +328,7 @@ func flattenSequence(ctx context.Context, nodes []client.EscalationPathNodeV2, p
 		default:
 			diags.AddError(
 				"Unsupported escalation path node",
-				fmt.Sprintf("Node %q is a %s node, which incident_escalation_path_beta can't represent yet.", node.Id, node.Type),
+				fmt.Sprintf("Node %q is a %s node, which incident_escalation_path can't represent yet.", node.Id, node.Type),
 			)
 			continue
 		}
@@ -345,7 +345,7 @@ func flattenSequence(ctx context.Context, nodes []client.EscalationPathNodeV2, p
 // prior config) a node ID we derived carries the key the sequence had when we last wrote it.
 // Failing both we fall back to the name of the branch that reached it, and add a suffix if
 // something already holds the name.
-func chooseSequenceKey(nodes []client.EscalationPathNodeV2, priorKey, fallbackKey string, taken map[string][]escalationPathBetaNode) string {
+func chooseSequenceKey(nodes []client.EscalationPathNodeV2, priorKey, fallbackKey string, taken map[string][]escalationPathNode) string {
 	if priorKey != "" {
 		if _, exists := taken[priorKey]; !exists {
 			return priorKey
@@ -377,7 +377,7 @@ func chooseSequenceKey(nodes []client.EscalationPathNodeV2, priorKey, fallbackKe
 // validateSequences checks the shape of the sequences map: that every reference resolves,
 // that the sequences form a tree rooted at start, and that nothing is stranded. These are
 // the rules the flat representation adds, not a second copy of what the API checks.
-func validateSequences(ctx context.Context, data *escalationPathBetaModel, diags *diag.Diagnostics) {
+func validateSequences(ctx context.Context, data *escalationPathModel, diags *diag.Diagnostics) {
 	// A value another resource computes isn't there to check yet, and validating around the
 	// gap reports problems an apply won't hit.
 	if data.Sequences.IsNull() || data.Sequences.IsUnknown() {
@@ -418,7 +418,7 @@ func validateSequences(ctx context.Context, data *escalationPathBetaModel, diags
 // This can't be read off the decoded sequences, which is the point: decodeSequences turns an
 // unknown list into no nodes, so by then it looks like a sequence the author left empty.
 func hasUnknownSequenceNodes(ctx context.Context, sequences types.Map, diags *diag.Diagnostics) bool {
-	var decoded map[string]escalationPathBetaSequence
+	var decoded map[string]escalationPathSequence
 	diags.Append(sequences.ElementsAs(ctx, &decoded, false)...)
 	if diags.HasError() {
 		return false
@@ -435,7 +435,7 @@ func hasUnknownSequenceNodes(ctx context.Context, sequences types.Map, diags *di
 
 // hasUnknownSequenceReference reports whether any name the checks resolve against is still
 // unknown: a node's own id, or a branch or loop's reference to one.
-func hasUnknownSequenceReference(sequences map[string][]escalationPathBetaNode) bool {
+func hasUnknownSequenceReference(sequences map[string][]escalationPathNode) bool {
 	for _, nodes := range sequences {
 		for _, node := range nodes {
 			if node.ID.IsUnknown() {
@@ -462,7 +462,7 @@ type sequenceParent struct {
 // validateSequenceLoops checks each loop names a node the API will take. It only accepts
 // the escalation path's first node, or a branch the loop sits underneath, and rejecting
 // anything else here saves finding out on apply.
-func validateSequenceLoops(start string, sequences map[string][]escalationPathBetaNode, diags *diag.Diagnostics) {
+func validateSequenceLoops(start string, sequences map[string][]escalationPathNode, diags *diag.Diagnostics) {
 	startNodes, ok := sequences[start]
 	if !ok || len(startNodes) == 0 {
 		return
@@ -518,7 +518,7 @@ func validateSequenceLoops(start string, sequences map[string][]escalationPathBe
 }
 
 // nodeExists reports whether any sequence holds a node with this id.
-func nodeExists(sequences map[string][]escalationPathBetaNode, id string) bool {
+func nodeExists(sequences map[string][]escalationPathNode, id string) bool {
 	for key, nodes := range sequences {
 		for index, node := range nodes {
 			if node.nodeID(key, index) == id {
@@ -531,7 +531,7 @@ func nodeExists(sequences map[string][]escalationPathBetaNode, id string) bool {
 
 // validateSequenceNodes checks each sequence in isolation and returns every node ID the
 // path will hold, which the reference checks need.
-func validateSequenceNodes(sequences map[string][]escalationPathBetaNode, diags *diag.Diagnostics) map[string]bool {
+func validateSequenceNodes(sequences map[string][]escalationPathNode, diags *diag.Diagnostics) map[string]bool {
 	nodeIDs := map[string]bool{}
 
 	for _, key := range sortedKeys(sequences) {
@@ -622,7 +622,7 @@ func validateSequenceNodes(sequences map[string][]escalationPathBetaNode, diags 
 
 // validateSequenceReferences checks that every branch names a sequence that exists and
 // every loop names a node that does.
-func validateSequenceReferences(sequences map[string][]escalationPathBetaNode, nodeIDs map[string]bool, diags *diag.Diagnostics) {
+func validateSequenceReferences(sequences map[string][]escalationPathNode, nodeIDs map[string]bool, diags *diag.Diagnostics) {
 	for _, key := range sortedKeys(sequences) {
 		for index, node := range sequences[key] {
 			nodePath := path.Root("sequences").AtMapKey(key).AtName("nodes").AtListIndex(index)
@@ -666,7 +666,7 @@ func validateSequenceReferences(sequences map[string][]escalationPathBetaNode, n
 
 // validateSequenceTree checks the sequences form a tree rooted at start: every sequence
 // reachable, none reachable twice, and none reachable from itself.
-func validateSequenceTree(start string, sequences map[string][]escalationPathBetaNode, diags *diag.Diagnostics) {
+func validateSequenceTree(start string, sequences map[string][]escalationPathNode, diags *diag.Diagnostics) {
 	if _, exists := sequences[start]; !exists {
 		diags.AddAttributeError(
 			path.Root("start"),
@@ -756,15 +756,15 @@ func validateSequenceTree(start string, sequences map[string][]escalationPathBet
 
 // sortedKeys returns a map's keys in a fixed order, so a config with several problems
 // reports them the same way every run.
-func sortedKeys(sequences map[string][]escalationPathBetaNode) []string {
+func sortedKeys(sequences map[string][]escalationPathNode) []string {
 	keys := lo.Keys(sequences)
 	sort.Strings(keys)
 	return keys
 }
 
-// escalationPathBetaSequencesToMap builds the sequences map for state.
-func escalationPathBetaSequencesToMap(ctx context.Context, sequences map[string][]escalationPathBetaNode, diags *diag.Diagnostics) types.Map {
-	nodeType := types.ObjectType{AttrTypes: escalationPathBetaNodeAttrTypes()}
+// escalationPathSequencesToMap builds the sequences map for state.
+func escalationPathSequencesToMap(ctx context.Context, sequences map[string][]escalationPathNode, diags *diag.Diagnostics) types.Map {
+	nodeType := types.ObjectType{AttrTypes: escalationPathNodeAttrTypes()}
 	sequenceType := types.ObjectType{AttrTypes: map[string]attr.Type{
 		"nodes": types.ListType{ElemType: nodeType},
 	}}

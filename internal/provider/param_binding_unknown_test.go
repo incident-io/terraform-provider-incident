@@ -122,62 +122,6 @@ func conditionWithUnknownBinding(t *testing.T, conditionsType tftypes.List, subj
 	return tftypes.NewValue(conditionType, attributes)
 }
 
-// TestEscalationPathValidatesAnUnknownConditionBinding is the reported failure: an
-// escalation path whose if_else condition binds `array_value = local.priorities` (or any
-// other expression) failed to plan at all, with a value conversion error naming
-// conditions[0].param_bindings[0].array_value.
-func TestEscalationPathValidatesAnUnknownConditionBinding(t *testing.T) {
-	for _, field := range unknownBindingForms {
-		t.Run(field, func(t *testing.T) {
-			objType := escalationPathSchemaType(t)
-
-			pathType := listType(t, objType.AttributeTypes["path"])
-			nodeType := objectType(t, pathType.ElementType)
-			ifElseType := objectType(t, nodeType.AttributeTypes["if_else"])
-			conditionsType := listType(t, ifElseType.AttributeTypes["conditions"])
-
-			condition := conditionWithUnknownBinding(t, conditionsType, "escalation.priority", field)
-
-			ifElseAttributes := map[string]tftypes.Value{}
-			if err := nullFilledObject(t, ifElseType).As(&ifElseAttributes); err != nil {
-				t.Fatalf("reading if_else back: %v", err)
-			}
-			ifElseAttributes["conditions"] = tftypes.NewValue(conditionsType, []tftypes.Value{condition})
-			ifElseAttributes["then_path"] = tftypes.NewValue(ifElseType.AttributeTypes["then_path"], []tftypes.Value{})
-			ifElseAttributes["else_path"] = tftypes.NewValue(ifElseType.AttributeTypes["else_path"], []tftypes.Value{})
-
-			nodeAttributes := map[string]tftypes.Value{}
-			if err := nullFilledObject(t, nodeType).As(&nodeAttributes); err != nil {
-				t.Fatalf("reading the node back: %v", err)
-			}
-			nodeAttributes["type"] = tftypes.NewValue(tftypes.String, "if_else")
-			nodeAttributes["if_else"] = tftypes.NewValue(ifElseType, ifElseAttributes)
-			// nullFilledObject gives every nested block an object of nulls, which the
-			// node/block agreement check reads as a block that is set.
-			nodeAttributes["escalation_path"] = tftypes.NewValue(nodeType.AttributeTypes["escalation_path"], nil)
-
-			attributes := map[string]tftypes.Value{}
-			for name, attrType := range objType.AttributeTypes {
-				attributes[name] = tftypes.NewValue(attrType, nil)
-			}
-			attributes["name"] = tftypes.NewValue(tftypes.String, "Paged by priority")
-			attributes["path"] = tftypes.NewValue(pathType, []tftypes.Value{
-				tftypes.NewValue(nodeType, nodeAttributes),
-			})
-
-			var schemaResp resource.SchemaResponse
-			NewIncidentEscalationPathResource().Schema(t.Context(), resource.SchemaRequest{}, &schemaResp)
-
-			var resp resource.ValidateConfigResponse
-			(&IncidentEscalationPathResource{}).ValidateConfig(t.Context(), resource.ValidateConfigRequest{
-				Config: tfsdk.Config{Schema: schemaResp.Schema, Raw: tftypes.NewValue(objType, attributes)},
-			}, &resp)
-
-			assertNoDiagErrors(t, resp.Diagnostics)
-		})
-	}
-}
-
 // TestConditionGroupsReadAnUnknownBinding covers the resources that hold condition groups in
 // their top-level model. Those fail earlier than the escalation path does - inside
 // Config.Get itself, which takes no options - so nothing but the model's types can fix them.
