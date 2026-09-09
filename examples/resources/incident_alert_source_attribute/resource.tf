@@ -1,17 +1,17 @@
-# One attribute of an alert source. The source is an incident_alert_source_beta resource,
+# One attribute of an alert source. The source is an incident_alert_source resource,
 # so editing an attribute doesn't mean rewriting the source.
 
 # The simplest form: a fixed value.
-resource "incident_alert_source_attribute_beta" "environment" {
-  alert_source_id    = incident_alert_source_beta.prometheus.id
+resource "incident_alert_source_attribute" "environment" {
+  alert_source_id    = incident_alert_source.prometheus.id
   alert_attribute_id = incident_alert_attribute.environment.id
 
   value_literal = "production"
 }
 
 # Several fixed values, for an attribute that takes an array.
-resource "incident_alert_source_attribute_beta" "regions" {
-  alert_source_id    = incident_alert_source_beta.prometheus.id
+resource "incident_alert_source_attribute" "regions" {
+  alert_source_id    = incident_alert_source.prometheus.id
   alert_attribute_id = incident_alert_attribute.regions.id
 
   # Later values are added to the ones already on the alert, rather than replacing them.
@@ -24,8 +24,8 @@ resource "incident_alert_source_attribute_beta" "regions" {
 # value_reference: the payload is opaque JSON, so `payload` as a whole is the only part of
 # it in scope, and a reference to "payload.labels.service" resolves to nothing. A parse
 # reaches inside it.
-resource "incident_alert_source_attribute_beta" "service_name" {
-  alert_source_id    = incident_alert_source_beta.prometheus.id
+resource "incident_alert_source_attribute" "service_name" {
+  alert_source_id    = incident_alert_source.prometheus.id
   alert_attribute_id = incident_alert_attribute.service_name.id
 
   expression {
@@ -43,8 +43,8 @@ resource "incident_alert_source_attribute_beta" "service_name" {
 
 # Computed by an expression. Declaring the block is what binds its result, so there is no
 # value alongside it.
-resource "incident_alert_source_attribute_beta" "team" {
-  alert_source_id    = incident_alert_source_beta.prometheus.id
+resource "incident_alert_source_attribute" "team" {
+  alert_source_id    = incident_alert_source.prometheus.id
   alert_attribute_id = incident_alert_attribute.team.id
 
   # Only the first value survives an update, so a re-fired alert doesn't collect owners.
@@ -74,8 +74,8 @@ resource "incident_alert_source_attribute_beta" "team" {
 #
 # A name only has to be unique within this resource: two attributes of one source can each have
 # a "severity_lookup".
-resource "incident_alert_source_attribute_beta" "severity" {
-  alert_source_id    = incident_alert_source_beta.prometheus.id
+resource "incident_alert_source_attribute" "severity" {
+  alert_source_id    = incident_alert_source.prometheus.id
   alert_attribute_id = incident_alert_attribute.severity.id
 
   expression_ref = "severity_lookup"

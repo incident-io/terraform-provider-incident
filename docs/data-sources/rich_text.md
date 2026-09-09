@@ -20,7 +20,7 @@ data "incident_rich_text" "alert_description" {
   feature_set = "rich"
 }
 
-resource "incident_alert_source_beta" "prometheus" {
+resource "incident_alert_source" "prometheus" {
   name        = "Prometheus"
   source_type = "http"
 

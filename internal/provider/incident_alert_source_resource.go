@@ -12,12 +12,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/samber/lo"
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
@@ -25,948 +24,959 @@ import (
 )
 
 var (
-	_ resource.ResourceWithConfigure      = &IncidentAlertSourceResource{}
-	_ resource.ResourceWithImportState    = &IncidentAlertSourceResource{}
-	_ resource.ResourceWithValidateConfig = &IncidentAlertSourceResource{}
-	_ resource.ResourceWithModifyPlan     = &IncidentAlertSourceResource{}
+	_ resource.Resource                   = &alertSourceResource{}
+	_ resource.ResourceWithConfigure      = &alertSourceResource{}
+	_ resource.ResourceWithMoveState      = &alertSourceResource{}
+	_ resource.ResourceWithImportState    = &alertSourceResource{}
+	_ resource.ResourceWithValidateConfig = &alertSourceResource{}
+	_ resource.ResourceWithModifyPlan     = &alertSourceResource{}
 )
 
-type IncidentAlertSourceResource struct {
+func NewAlertSourceResource() resource.Resource {
+	return &alertSourceResource{}
+}
+
+type alertSourceResource struct {
 	resourceConfigurer
 }
 
-// ValidateConfig checks that jira_options is only set when the source type is
-// 'jira', and never set otherwise.
-func (r *IncidentAlertSourceResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
-	var data models.AlertSourceResourceModel
-	// We can't validate the whole model here because we want to support dynamic values for
-	// attributes used in the resource.
+// alertSourceExpressions stores names as written: only this source's attributes, which share a
+// namespace with each other, need one of their own.
+var alertSourceExpressions = models.ExpressionNamespace{}
 
-	diagnostic := req.Config.GetAttribute(ctx, path.Root("template"), &data.Template)
-	if diagnostic.HasError() {
-		// If attribute_values is unknown, don't attempt to validate the managed
-		// attributes. We have to return early here because the call to req.Config.Get
-		// fails to marshal into the []CatalogEntryAttributeValue in this case.
-		return
-	}
-
-	// Ahead of the source-type checks below, each of which can return early.
-	req.Config.GetAttribute(ctx, path.Root("rate_limit_sharding"), &data.RateLimitSharding)
-	data.RateLimitSharding.Validate(&resp.Diagnostics)
-
-	req.Config.GetAttribute(ctx, path.Root("source_type"), &data.SourceType)
-	req.Config.GetAttribute(ctx, path.Root("jira_options"), &data.JiraOptions)
-	if data.JiraOptions != nil && data.SourceType.ValueString() != "jira" {
-		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
-			"jira_options can only be set when source_type is jira",
-			"These options only apply to the 'jira' source type"))
-		return
-	}
-
-	if data.JiraOptions == nil && data.SourceType.ValueString() == "jira" {
-		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
-			"jira_options must be set when source_type is jira",
-			"These options are required for the 'jira' source type, to specify which projects to watch for new issues."))
-		return
-	}
-
-	req.Config.GetAttribute(ctx, path.Root("heartbeat_options"), &data.HeartbeatOptions)
-	if data.HeartbeatOptions != nil && data.SourceType.ValueString() != "heartbeat" {
-		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
-			"heartbeat_options can only be set when source_type is heartbeat",
-			"These options only apply to the 'heartbeat' source type"))
-		return
-	}
-
-	if data.HeartbeatOptions == nil && data.SourceType.ValueString() == "heartbeat" {
-		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
-			"heartbeat_options must be set when source_type is heartbeat",
-			"These options are required for the 'heartbeat' source type, to specify the expected ping interval."))
-		return
-	}
-
-	req.Config.GetAttribute(ctx, path.Root("email_options"), &data.EmailOptions)
-	if data.EmailOptions != nil && data.SourceType.ValueString() != "email" {
-		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
-			"email_options can only be set when source_type is email",
-			"These options only apply to the 'email' source type"))
-		return
-	}
-
-	// Read http_custom_options as an Object rather than the model pointer so we
-	// can tell "unknown" (computed at plan time) apart from "null" (not set).
-	// We only validate it against source_type once both are known: if either is
-	// computed from another resource, Terraform re-runs validation at apply.
-	var httpCustomOptions types.Object
-	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("http_custom_options"), &httpCustomOptions)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-	if !data.SourceType.IsUnknown() && !httpCustomOptions.IsUnknown() {
-		httpCustomOptionsSet := !httpCustomOptions.IsNull()
-		if httpCustomOptionsSet && data.SourceType.ValueString() != "http_custom" {
-			resp.Diagnostics.Append(diag.NewErrorDiagnostic(
-				"http_custom_options can only be set when source_type is http_custom",
-				"These options only apply to the 'http_custom' source type. The 'http' source type does not support a transform expression or deduplication key path."))
-			return
-		}
-		if !httpCustomOptionsSet && data.SourceType.ValueString() == "http_custom" {
-			resp.Diagnostics.Append(diag.NewErrorDiagnostic(
-				"http_custom_options must be set when source_type is http_custom",
-				"These options are required for the 'http_custom' source type, to specify the transform expression and deduplication key path."))
-			return
-		}
-	}
-
-	// Validate that heartbeat sources don't set template title or description,
-	// as the API normalizes these fields and the provider ignores the returned values.
-	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
-		title := data.Template.Title
-		if !title.Literal.IsNull() && !title.Literal.IsUnknown() {
-			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
-				path.Root("template").AtName("title").AtName("literal"),
-				"template.title cannot be set for heartbeat alert sources",
-				"Heartbeat alert sources manage their own template title automatically."))
-			return
-		}
-		if !title.Reference.IsNull() && !title.Reference.IsUnknown() {
-			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
-				path.Root("template").AtName("title").AtName("reference"),
-				"template.title cannot be set for heartbeat alert sources",
-				"Heartbeat alert sources manage their own template title automatically."))
-			return
-		}
-		desc := data.Template.Description
-		if !desc.Literal.IsNull() && !desc.Literal.IsUnknown() {
-			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
-				path.Root("template").AtName("description").AtName("literal"),
-				"template.description cannot be set for heartbeat alert sources",
-				"Heartbeat alert sources manage their own template description automatically."))
-			return
-		}
-		if !desc.Reference.IsNull() && !desc.Reference.IsUnknown() {
-			resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
-				path.Root("template").AtName("description").AtName("reference"),
-				"template.description cannot be set for heartbeat alert sources",
-				"Heartbeat alert sources manage their own template description automatically."))
-			return
-		}
-	}
-
-	// Validate visible_to_teams only set when is_private is true
-	if data.Template != nil && data.Template.VisibleToTeams != nil {
-		if data.Template.IsPrivate.IsNull() || !data.Template.IsPrivate.ValueBool() {
-			resp.Diagnostics.Append(diag.NewErrorDiagnostic(
-				"visible_to_teams can only be set when is_private is true",
-				"The visible_to_teams field specifies which teams can view private alerts, so it requires is_private to be true."))
-			return
-		}
-	}
-
-	// Validate visible_to_teams must be set when is_private is true
-	if data.Template != nil && !data.Template.IsPrivate.IsNull() && data.Template.IsPrivate.ValueBool() {
-		if data.Template.VisibleToTeams == nil {
-			resp.Diagnostics.Append(diag.NewErrorDiagnostic(
-				"visible_to_teams must be set when is_private is true",
-				"Private alert sources require specifying which teams can view the alerts."))
-			return
-		}
-	}
-
-	// Validate that branches operations have valid root references.
-	if data.Template != nil {
-		for i, expr := range data.Template.Expressions {
-			hasBranches := false
-			for _, op := range expr.Operations {
-				if op.Branches != nil {
-					hasBranches = true
-					break
-				}
-			}
-
-			if !hasBranches {
-				continue
-			}
-
-			rootRef := expr.RootReference.ValueString()
-			if rootRef != "" && rootRef != "." {
-				resp.Diagnostics.Append(diag.NewAttributeErrorDiagnostic(
-					path.Root("template").AtName("expressions").AtListIndex(i).AtName("root_reference"),
-					"Invalid root_reference for branches operation",
-					fmt.Sprintf(
-						"Expression %q uses a branches (if/else) operation, which requires "+
-							"root_reference to be \".\" (the whole scope). Got %q instead.\n\n"+
-							"When using branches operations, set root_reference = \".\" and have "+
-							"conditions reference absolute paths like \"alert.attributes.xxx\".",
-						expr.Label.ValueString(),
-						rootRef,
-					),
-				))
-			}
-		}
-	}
-}
-
-// useStateForUnknownIncludingNull is like stringplanmodifier.UseStateForUnknown()
-// but also preserves null state values. The built-in UseStateForUnknown skips when
-// state is null, which causes Computed+Optional attributes to show as "known after
-// apply" on every plan when the API doesn't return the field (e.g. email_address
-// for non-email alert sources).
-type useStateForUnknownIncludingNull struct{}
-
-func (m useStateForUnknownIncludingNull) Description(ctx context.Context) string {
-	return "Use the state value for unknown, including null."
-}
-
-func (m useStateForUnknownIncludingNull) MarkdownDescription(ctx context.Context) string {
-	return m.Description(ctx)
-}
-
-func (m useStateForUnknownIncludingNull) PlanModifyString(ctx context.Context, req planmodifier.StringRequest, resp *planmodifier.StringResponse) {
-	// Do nothing if there is a known planned value.
-	if !req.PlanValue.IsUnknown() {
-		return
-	}
-
-	// Do nothing if there is an unknown configuration value.
-	if req.ConfigValue.IsUnknown() {
-		return
-	}
-
-	// Do nothing if there is no prior state (first creation).
-	if req.State.Raw.IsNull() {
-		return
-	}
-
-	// Preserve the prior state value, even if it's null.
-	resp.PlanValue = req.StateValue
-}
-
-func (m useStateForUnknownIncludingNull) PlanModifyBool(ctx context.Context, req planmodifier.BoolRequest, resp *planmodifier.BoolResponse) {
-	if !req.PlanValue.IsUnknown() {
-		return
-	}
-	if req.ConfigValue.IsUnknown() {
-		return
-	}
-	if req.State.Raw.IsNull() {
-		return
-	}
-	resp.PlanValue = req.StateValue
-}
-
-func NewIncidentAlertSourceResource() resource.Resource {
-	return &IncidentAlertSourceResource{}
-}
-
-// alertSourceValidateTimeout bounds the plan-time template check. Long enough that a
-// slow-but-working API still answers, short enough that an unhealthy one costs a plan
-// seconds rather than minutes. A var so tests don't have to wait it out.
-var alertSourceValidateTimeout = 10 * time.Second
-
-// ModifyPlan asks the API whether the planned template would be accepted, so a broken
-// expression shows up in the plan instead of part way through an apply.
+// alertSourceModel carries no attribute bindings: each one is its own
+// incident_alert_source_attribute resource, so holding them here would mean an apply of
+// this resource wiping whatever those manage.
 //
-// It can't live in ValidateConfig, which is also called by `terraform validate` — that
-// runs the provider without configuring it, so there's no client to ask with.
-func (r *IncidentAlertSourceResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
-	// A destroy plans no template, and an unconfigured provider has no client.
-	if r.client == nil || req.Plan.Raw.IsNull() {
-		return
-	}
+// priority and visible_to_teams take a value directly rather than through an unnamed expression
+// block, because an unnamed block couldn't say which field it binds. A field wanting an
+// expression names one of this resource's named_expression blocks with expression_ref.
+//
+// title and description carry rich text: a literal interpolates the scope with "{{ variable }}",
+// or holds a raw AST document for anything a template can't express.
+type alertSourceModel struct {
+	ID         types.String `tfsdk:"id"`
+	Name       types.String `tfsdk:"name"`
+	SourceType types.String `tfsdk:"source_type"`
 
-	// A source the plan doesn't change isn't going to be applied, so there is nothing to
-	// warn about — and checking every source on every plan is a request each.
-	if req.Plan.Raw.Equal(req.State.Raw) {
-		return
-	}
+	SecretToken    types.String `tfsdk:"secret_token"`
+	AlertEventsURL types.String `tfsdk:"alert_events_url"`
+	EmailAddress   types.String `tfsdk:"email_address"`
 
-	// An expression pointing at, say, a catalog type this same apply creates is unknown
-	// until it exists. Validating around the gaps would report errors the apply won't hit,
-	// so leave those configs alone.
-	if !alertSourceTemplateSettled(req.Plan.Raw) {
-		return
-	}
+	OwningTeamIDs types.Set    `tfsdk:"owning_team_ids"`
+	IsPrivate     types.Bool   `tfsdk:"is_private"`
+	FixedTeamID   types.String `tfsdk:"fixed_team_id"`
 
-	var data models.AlertSourceResourceModel
-	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
+	Title       *models.TemplatedTextValue `tfsdk:"title"`
+	Description *models.TemplatedTextValue `tfsdk:"description"`
 
-	// The schema makes template required, so this shouldn't happen — but ToPayload has a
-	// value receiver, and a panic in a plan modifier takes the whole provider down over a
-	// check that is only advisory.
-	if data.Template == nil {
-		return
-	}
+	Priority       *models.Binding `tfsdk:"priority"`
+	VisibleToTeams *models.Binding `tfsdk:"visible_to_teams"`
 
-	// The shared client retries a 5xx ten times with exponential backoff, which is right
-	// for a read an apply depends on and far too patient for an advisory check: it would
-	// stall a plan for minutes per alert source. Give up quickly and warn instead.
-	ctx, cancel := context.WithTimeout(ctx, alertSourceValidateTimeout)
-	defer cancel()
+	NamedExpressions []models.NamedExpression `tfsdk:"named_expression"`
 
-	_, err := r.client.AlertSourcesV2ValidateWithResponse(ctx, client.AlertSourcesValidatePayloadV2{
-		SourceType:    client.AlertSourcesValidatePayloadV2SourceType(data.SourceType.ValueString()),
-		Template:      data.Template.ToPayload(),
-		OwningTeamIds: owningTeamIDsPayload(data.OwningTeamIDs),
-	})
-	if err == nil {
-		return
-	}
+	JiraOptions       *alertSourceJiraOptions       `tfsdk:"jira_options"`
+	HeartbeatOptions  *alertSourceHeartbeatOptions  `tfsdk:"heartbeat_options"`
+	EmailOptions      *alertSourceEmailOptions      `tfsdk:"email_options"`
+	HTTPCustomOptions *alertSourceHTTPCustomOptions `tfsdk:"http_custom_options"`
 
-	// 422 is the API telling us this template is wrong, which is the whole point.
-	var httpErr client.HTTPError
-	if errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusUnprocessableEntity {
-		resp.Diagnostics.AddAttributeError(path.Root("template"),
-			"Invalid alert source template", httpErr.Error())
-		return
-	}
+	RateLimitSharding *alertSourceRateLimitSharding `tfsdk:"rate_limit_sharding"`
 
-	// Anything else means the check didn't run, not that the config is bad: the endpoint
-	// isn't deployed yet, the API is down, the request timed out. Warn, because failing
-	// here would break plans over a config that may be perfectly good.
-	resp.Diagnostics.AddAttributeWarning(path.Root("template"),
-		"Could not validate the alert source template",
-		fmt.Sprintf("The template was not checked, and may still be rejected when you apply: %s", err))
+	FilterConditionGroups models.IncidentEngineConditionGroups `tfsdk:"filter_condition_groups"`
+
+	AutoResolveTimeoutMinutes types.Int64 `tfsdk:"auto_resolve_timeout_minutes"`
+	AutoResolveIncidentAlerts types.Bool  `tfsdk:"auto_resolve_incident_alerts"`
+
+	Version types.Int64 `tfsdk:"version"`
 }
 
-// alertSourceComputedLeaves are the template's Optional+Computed attributes, which sit
-// unknown in the plan whenever the config leaves them out. The API fills them in, and the
-// payload we send leaves them out too, so validation still describes what an apply would
-// do — treating them as unsettled would skip the check on any config with a binding.
-var alertSourceComputedLeaves = map[string]bool{
-	"merge_strategy": true,
-	"is_private":     true,
-}
-
-// alertSourceTemplateSettled reports whether the values validation reads are known. An
-// expression pointing at a catalog type this same apply creates is unknown until it
-// exists, and checking around that reports errors the apply won't hit.
-func alertSourceTemplateSettled(plan tftypes.Value) bool {
-	var attributes map[string]tftypes.Value
-	if err := plan.As(&attributes); err != nil {
-		return false
-	}
-
-	if !attributes["source_type"].IsKnown() {
-		return false
-	}
-
-	settled := true
-	err := tftypes.Walk(attributes["template"], func(steps *tftypes.AttributePath, value tftypes.Value) (bool, error) {
-		if value.IsKnown() {
-			return true, nil
-		}
-
-		if name, ok := lastAttributeName(steps); ok && alertSourceComputedLeaves[name] {
-			return false, nil
-		}
-
-		settled = false
-
-		return false, nil
-	})
-	if err != nil {
-		return false
-	}
-
-	return settled
-}
-
-func lastAttributeName(steps *tftypes.AttributePath) (string, bool) {
-	if steps == nil || len(steps.Steps()) == 0 {
-		return "", false
-	}
-
-	name, ok := steps.Steps()[len(steps.Steps())-1].(tftypes.AttributeName)
-
-	return string(name), ok
-}
-
-// owningTeamIDsPayload drops unknown elements, which only a plan has: sending them would
-// send "" as a team ID, which the API reads as a team the caller has no permission on.
-func owningTeamIDsPayload(configured types.Set) *[]string {
-	if configured.IsNull() || configured.IsUnknown() {
-		return nil
-	}
-
-	teamIDs := []string{}
-	for _, elem := range configured.Elements() {
-		if str, ok := elem.(types.String); ok && !str.IsUnknown() {
-			teamIDs = append(teamIDs, str.ValueString())
-		}
-	}
-
-	return &teamIDs
-}
-
-func (r *IncidentAlertSourceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (r *alertSourceResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_alert_source"
 }
 
-func (r *IncidentAlertSourceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *alertSourceResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Alert Sources V2"), `We'd generally recommend building alert sources in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert source and copy the resulting Terraform without persisting it.
+		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Alert Sources V3"), `An alert source, without the attributes it populates — each of those is an `+"`incident_alert_source_attribute`"+` resource. Editing one attribute therefore doesn't mean rewriting the source, and two people editing different attributes don't race each other.
 
-## Setting an alert's priority
+## What changed in v7
 
-This resource has no `+"`priority`"+` field. An alert's priority is set the same way as any other
-attribute: as an entry in `+"`template.attributes`"+` bound to the built-in `+"`Priority`"+` alert attribute,
-which you look up by name.
+Before v7, a source and every attribute it populated were declared together under one
+`+"`template.attributes`"+` list. Filling in one more attribute meant rewriting that whole
+list, and two people editing different attributes were editing the same resource.
 
-    data "incident_alert_attribute" "priority" {
-      name = "Priority"
-    }
-
-    # ...then, in template.attributes
-    {
-      alert_attribute_id = data.incident_alert_attribute.priority.id
-      binding            = { value = { reference = "expressions[\"my-priority\"]" } }
-    }
-
-A priority binding's `+"`merge_strategy`"+` can only be `+"`last_wins`"+`. Leave it out and the API fills
-it in — it reads back as `+"`last_wins`"+` either way, so there is no diff to manage. Setting any other
-value is rejected.
-
-Two mistakes here are worth knowing about, because both end with every alert on your default
-alert priority and neither says anything.
-
-The first is writing the expression and leaving out the binding. Nothing rejects it — the API
-stores an expression nothing references and never evaluates it — so the config applies and reads
-back unchanged, having done nothing. If you exported this source from the dashboard the binding
-is already there; it's a hand-written or hand-trimmed config that tends to lose it.
-
-The second is parsing a payload value straight into a `+"`CatalogEntry[\"AlertPriority\"]`"+`. That
-resolves by matching the value against a priority's name, alias or external ID exactly, so a
-payload saying `+"`CRITICAL`"+` matches no priority called `+"`Urgent`"+`, resolves to nothing, and falls back
-to your default priority — for every alert, which reads exactly like a hardcoded priority.
-
-Mapping a payload value onto a priority takes two expressions. The payload is opaque JSON: an
-expression reaches into it with a `+"`parse`"+` operation, and a condition can only ask whether
-`+"`payload`"+` as a whole is set, so `+"`subject = \"payload.severity\"`"+` resolves to nothing. Parse the
-value out first, then branch on the result:
-
-    expressions = [
-      {
-        label          = "Severity"
-        reference      = "severity"
-        root_reference = "payload"
-        operations = [{
-          operation_type = "parse"
-          parse = {
-            source  = "$['severity']"
-            returns = { type = "String", array = false }
-          }
-        }]
-      },
-      {
-        label          = "Priority"
-        reference      = "priority"
-        root_reference = "."
-        operations = [{
-          operation_type = "branches"
-          branches = {
-            returns = { type = "CatalogEntry[\"AlertPriority\"]", array = false }
-            branches = [{
-              condition_groups = [{
-                conditions = [{
-                  subject        = "expressions[\"severity\"]"
-                  operation      = "one_of"
-                  param_bindings = [{ values = ["CRITICAL", "critical"] }]
-                }]
-              }]
-              result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
-            }]
-          }
-        }]
-        else_branch = {
-          result = { value_literal = data.incident_catalog_entry.low_priority.id }
-        }
-      },
-    ]
-
-A `+"`branches`"+` operation reads the whole scope, so it needs `+"`root_reference = \".\"`"+` and has to be the
-only operation in its expression.
-
-`+"`incident_alert_source_beta`"+` binds priority directly, as `+"`priority = { expression_ref = ... }`"+`, and
-splits each attribute into its own resource.`),
+The source now holds only its own configuration - name, type, title, description,
+priority - and each attribute binding is an `+"`incident_alert_source_attribute`"+` resource
+with its own lifecycle. [v7 migration
+guide](https://registry.terraform.io/providers/incident-io/incident/latest/docs/guides/migrating-to-v7) has the mapping, and the
+IDs to import a source and its bindings with rather than recreating them.`),
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "id"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "id"),
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "name"),
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "name"),
 			},
 			"source_type": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: EnumValuesDescription("AlertSourceV2", "source_type"),
+				MarkdownDescription: EnumValuesDescription("AlertSourceV3", "source_type"),
 				PlanModifiers: []planmodifier.String{
-					// This cannot be changed once the source is set up.
+					// A source's type is fixed once it exists.
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"secret_token": schema.StringAttribute{
 				Computed: true,
-				// We do *not* mark this as sensitive, since it is no more sensitive
-				// than other values in the Terraform state.
+				// This token authenticates anyone sending events to the alert source, so
+				// it is more sensitive than the rest of the resource and should not be
+				// printed in plan output, which often ends up in CI logs.
 				//
-				// If we marked this as sensitive, it would not appear in CLI output,
-				// which makes setting up new alert sources more difficult than
-				// necessary.
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "secret_token"),
+				// It is still stored in plain text in state, as all Terraform values are.
+				// To read it during setup, wrap it in nonsensitive():
+				//
+				//   output "secret_token" {
+				//     value = nonsensitive(incident_alert_source.example.secret_token)
+				//   }
+				Sensitive:           true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "secret_token"),
 				PlanModifiers: []planmodifier.String{
-					// This does not change after creation
-					stringplanmodifier.UseStateForUnknown(),
+					// Including null: most source types have no token, so the plain modifier
+					// would skip and leave this planning "known after apply" on every plan.
+					useStateForUnknownIncludingNull{},
 				},
 			},
 			"alert_events_url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "alert_events_url"),
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "alert_events_url"),
 				PlanModifiers: []planmodifier.String{
 					useStateForUnknownIncludingNull{},
 				},
 			},
-			"template": schema.SingleNestedAttribute{
-				Required:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "template"),
-				Attributes: map[string]schema.Attribute{
-					"expressions": models.ExpressionsAttribute(),
-					"title": schema.SingleNestedAttribute{
-						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertTemplatePayloadV2", "title"),
-						Attributes:          models.ParamBindingValueAttributes(),
-					},
-					"description": schema.SingleNestedAttribute{
-						Required:            true,
-						Attributes:          models.ParamBindingValueAttributes(),
-						MarkdownDescription: apischema.Docstring("AlertTemplatePayloadV2", "description"),
-					},
-					"attributes": schema.SetNestedAttribute{
-						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertTemplatePayloadV2", "attributes"),
-						NestedObject: schema.NestedAttributeObject{
-							Attributes: map[string]schema.Attribute{
-								"alert_attribute_id": schema.StringAttribute{
-									Required:            true,
-									MarkdownDescription: apischema.Docstring("AlertTemplateAttributePayloadV2", "alert_attribute_id"),
-								},
-								"binding": schema.SingleNestedAttribute{
-									Required:            true,
-									MarkdownDescription: apischema.Docstring("AlertTemplateAttributePayloadV2", "binding"),
-									Attributes: map[string]schema.Attribute{
-										"array_value": schema.ListNestedAttribute{
-											MarkdownDescription: "The array of literal or reference parameter values",
-											Optional:            true,
-											NestedObject: schema.NestedAttributeObject{
-												Attributes: models.ParamBindingValueAttributes(),
-											},
-										},
-										"value": schema.SingleNestedAttribute{
-											MarkdownDescription: "The literal or reference parameter value",
-											Optional:            true,
-											Attributes:          models.ParamBindingValueAttributes(),
-										},
-										"merge_strategy": schema.StringAttribute{
-											Optional:            true,
-											Computed:            true,
-											MarkdownDescription: EnumValuesDescription("AlertTemplateAttributeBindingPayloadV2", "merge_strategy"),
-											PlanModifiers: []planmodifier.String{
-												// Not UseStateForUnknown: this is a child of a
-												// nested collection, so a newly added binding
-												// has no state value and that modifier would
-												// plan null.
-												stringplanmodifier.UseNonNullStateForUnknown(),
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-					"is_private": schema.BoolAttribute{
-						Optional:            true,
-						Computed:            true,
-						Default:             booldefault.StaticBool(false),
-						MarkdownDescription: apischema.Docstring("AlertTemplateV2", "is_private"),
-					},
-					"visible_to_teams": schema.SingleNestedAttribute{
-						Optional:            true,
-						MarkdownDescription: apischema.Docstring("AlertTemplateV2", "visible_to_teams"),
-						Attributes:          models.ParamBindingAttributes(),
-					},
-				},
-			},
-			"jira_options": schema.SingleNestedAttribute{
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "jira_options"),
-				Optional:            true,
-				Attributes: map[string]schema.Attribute{
-					"project_ids": schema.ListAttribute{
-						Optional:            true,
-						ElementType:         types.StringType,
-						MarkdownDescription: apischema.Docstring("AlertSourceJiraOptionsV2", "project_ids"),
-					},
-				},
-			},
-			"heartbeat_options": schema.SingleNestedAttribute{
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "heartbeat_options"),
-				Optional:            true,
-				Attributes: map[string]schema.Attribute{
-					"interval_seconds": schema.Int64Attribute{
-						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsPayloadV2", "interval_seconds"),
-					},
-					"failure_threshold": schema.Int64Attribute{
-						Optional:            true,
-						Computed:            true,
-						Default:             int64default.StaticInt64(1),
-						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsPayloadV2", "failure_threshold"),
-					},
-					"grace_period_seconds": schema.Int64Attribute{
-						Optional:            true,
-						Computed:            true,
-						Default:             int64default.StaticInt64(0),
-						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsPayloadV2", "grace_period_seconds"),
-					},
-					"ping_url": schema.StringAttribute{
-						Computed:            true,
-						MarkdownDescription: apischema.Docstring("AlertSourceHeartbeatOptionsV2", "ping_url"),
-						PlanModifiers: []planmodifier.String{
-							useStateForUnknownIncludingNull{},
-						},
-					},
-				},
-			},
+			// Computed only, despite V2 also marking it Optional: there is no field for it on
+			// either write payload, so a config setting it would plan a value we never send and
+			// fail the apply as an inconsistent result.
 			"email_address": schema.StringAttribute{
 				Computed:            true,
-				Optional:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsV2", "email_address"),
+				MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsV3", "email_address"),
 				PlanModifiers: []planmodifier.String{
-					useStateForUnknownIncludingNull{},
-				},
-			},
-			"email_options": schema.SingleNestedAttribute{
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "email_options"),
-				Optional:            true,
-				Attributes: map[string]schema.Attribute{
-					"transform_expression": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: apischema.Docstring("AlertSourceEmailOptionsPayloadV2", "transform_expression"),
-					},
-					"redactions": schema.SetAttribute{
-						Required:            true,
-						ElementType:         types.StringType,
-						MarkdownDescription: EnumValuesDescription("AlertSourceEmailOptionsPayloadV2", "redactions"),
-					},
-				},
-			},
-			"http_custom_options": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "http_custom_options"),
-				Attributes: map[string]schema.Attribute{
-					"transform_expression": schema.StringAttribute{
-						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertSourceHTTPCustomOptionsV2", "transform_expression"),
-					},
-					"deduplication_key_path": schema.StringAttribute{
-						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertSourceHTTPCustomOptionsV2", "deduplication_key_path"),
-					},
-				},
-			},
-			"rate_limit_sharding": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "rate_limit_sharding"),
-				Attributes: map[string]schema.Attribute{
-					"rate_limit_shard_key_path": schema.StringAttribute{
-						Required:            true,
-						MarkdownDescription: apischema.Docstring("AlertSourceRateLimitShardingV2", "rate_limit_shard_key_path"),
-					},
-				},
-			},
-			// The V2 validate endpoint takes no fixed_team_id, and which attribute is the
-			// organisation's team attribute is a server-side setting the provider can't see,
-			// so both the team's existence and the clash below surface at apply rather than
-			// in the plan.
-			"fixed_team_id": schema.StringAttribute{
-				Optional: true,
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "fixed_team_id") +
-					" While set, don't bind the organisation's team attribute in `template.attributes`: the binding is managed from this field, a binding sent in the template is ignored, and reads leave it out — so a config carrying both never settles.",
-			},
-			"auto_resolve_timeout_minutes": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "auto_resolve_timeout_minutes"),
-			},
-			"auto_resolve_incident_alerts": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "auto_resolve_incident_alerts"),
-				PlanModifiers: []planmodifier.Bool{
 					useStateForUnknownIncludingNull{},
 				},
 			},
 			"owning_team_ids": schema.SetAttribute{
 				Optional:            true,
 				ElementType:         types.StringType,
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "owning_team_ids"),
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "owning_team_ids"),
 			},
+			"is_private": schema.BoolAttribute{
+				Optional:            true,
+				Computed:            true,
+				Default:             booldefault.StaticBool(false),
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "is_private"),
+			},
+			// Whether an attribute is the organisation's team attribute is a server-side
+			// setting the provider can't see at plan time, so the clash below surfaces at
+			// apply rather than in the plan.
+			"fixed_team_id": schema.StringAttribute{
+				Optional: true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "fixed_team_id") +
+					" While set, an `incident_alert_source_attribute` resource binding the organisation's team attribute is rejected at apply time: the binding is managed from this field.",
+			},
+
+			// The feature sets are the server's, from sourceconfigs.TitleParam and
+			// DescriptionParam. A title renders as one line of plain text, so formatting and
+			// line breaks in one are dropped on read.
+			"title": models.TemplatedTextAttribute(
+				apischema.Docstring("AlertSourceV3", "title"), "plain_single_line"),
+			"description": models.TemplatedTextAttribute(
+				apischema.Docstring("AlertSourceV3", "description"), "rich"),
+
+			"priority":         models.BindingAttribute(apischema.Docstring("AlertSourceV3", "priority")),
+			"visible_to_teams": models.BindingAttribute(apischema.Docstring("AlertSourceV3", "visible_to_teams")),
+
+			"jira_options":        jiraOptionsAttribute(),
+			"heartbeat_options":   heartbeatOptionsAttribute(),
+			"email_options":       emailOptionsAttribute(),
+			"http_custom_options": httpCustomOptionsAttribute(),
+			"rate_limit_sharding": rateLimitShardingAttribute(),
+
 			"filter_condition_groups": schema.ListNestedAttribute{
 				Optional:            true,
-				MarkdownDescription: apischema.Docstring("AlertSourceV2", "filter_condition_groups"),
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "filter_condition_groups"),
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"conditions": models.ConditionsAttribute(),
 					},
 				},
 			},
+
+			"auto_resolve_timeout_minutes": schema.Int64Attribute{
+				Optional:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "auto_resolve_timeout_minutes"),
+			},
+			"auto_resolve_incident_alerts": schema.BoolAttribute{
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "auto_resolve_incident_alerts"),
+				PlanModifiers: []planmodifier.Bool{
+					useStateForUnknownIncludingNull{},
+				},
+			},
+
+			"version": schema.Int64Attribute{
+				Computed:            true,
+				MarkdownDescription: apischema.Docstring("AlertSourceV3", "version"),
+			},
+		},
+		Blocks: map[string]schema.Block{
+			"named_expression": models.NamedExpressionBlock(),
 		},
 	}
 }
 
-func (r *IncidentAlertSourceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var data models.AlertSourceResourceModel
+// ValidateConfig runs the checks the schema can't express, so they land at plan time against a
+// path in the config rather than as an API rejection at apply.
+func (r *alertSourceResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var data alertSourceModel
+
+	// The bindings and expression blocks hold values that can be computed by another
+	// resource, which the model's concrete types can't represent. Decoding a config like that
+	// fails outright, so give up on validating rather than reporting a spurious error.
+	if req.Config.Get(ctx, &data).HasError() {
+		return
+	}
+
+	r.validateOptionsMatchSourceType(ctx, req, resp)
+	r.validateHeartbeatTemplate(&data, &resp.Diagnostics)
+	r.validateTemplateProvided(&data, &resp.Diagnostics)
+	r.validatePrivacy(&data, &resp.Diagnostics)
+
+	// An empty list stores no options at all, so the block would read back absent and fail the
+	// apply. A Jira source watching no projects does nothing anyway.
+	if data.JiraOptions != nil && len(data.JiraOptions.ProjectIDs) == 0 {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("jira_options").AtName("project_ids"),
+			"No Jira projects",
+			"List at least one project to watch for new issues.",
+		)
+	}
+
+	validateRateLimitSharding(data.RateLimitSharding, &resp.Diagnostics)
+
+	models.ValidateExpressions(
+		alertSourceExpressions, nil, path.Empty(),
+		data.NamedExpressions, path.Root("named_expression"), &resp.Diagnostics)
+
+	for name, value := range map[string]*models.TemplatedTextValue{
+		"title":       data.Title,
+		"description": data.Description,
+	} {
+		models.ValidateTemplatedTextValue(value, path.Root(name), &resp.Diagnostics)
+	}
+
+	known := models.KnownExpressionNames(data.NamedExpressions)
+	for name, binding := range map[string]*models.Binding{
+		"priority":         data.Priority,
+		"visible_to_teams": data.VisibleToTeams,
+	} {
+		models.ValidateBinding(binding, path.Root(name), known, &resp.Diagnostics)
+	}
+}
+
+// validateOptionsMatchSourceType checks each options block against the source type that reads
+// it. It reads the blocks as objects rather than off the decoded model so it can tell "not set"
+// apart from "computed from another resource, not known yet" — Terraform re-runs validation at
+// apply, by which point the type is known.
+func (r *alertSourceResource) validateOptionsMatchSourceType(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var sourceType types.String
+	resp.Diagnostics.Append(req.Config.GetAttribute(ctx, path.Root("source_type"), &sourceType)...)
+	if resp.Diagnostics.HasError() || sourceType.IsUnknown() {
+		return
+	}
+
+	for _, options := range []struct {
+		name string
+		// The source type that reads these options.
+		sourceType string
+		// Whether that source type cannot be created without them.
+		required bool
+		why      string
+	}{
+		{"jira_options", "jira", true, "which projects to watch for new issues"},
+		{"heartbeat_options", "heartbeat", true, "the interval a ping is expected within"},
+		{"http_custom_options", "http_custom", true, "the transform expression and deduplication key path"},
+		// Email sources work without them: no options means no redactions and no transform.
+		{"email_options", "email", false, ""},
+	} {
+		at := path.Root(options.name)
+
+		var block types.Object
+		resp.Diagnostics.Append(req.Config.GetAttribute(ctx, at, &block)...)
+		if resp.Diagnostics.HasError() || block.IsUnknown() {
+			continue
+		}
+
+		set := !block.IsNull()
+		matches := sourceType.ValueString() == options.sourceType
+
+		if set && !matches {
+			resp.Diagnostics.AddAttributeError(
+				at,
+				fmt.Sprintf("%s is only for %s alert sources", options.name, options.sourceType),
+				fmt.Sprintf("This source's type is %q, which doesn't read these options. Remove the block.", sourceType.ValueString()),
+			)
+			continue
+		}
+
+		if !set && matches && options.required {
+			resp.Diagnostics.AddAttributeError(
+				at,
+				fmt.Sprintf("%s is required for %s alert sources", options.name, options.sourceType),
+				fmt.Sprintf("A %s source needs %s.", options.sourceType, options.why),
+			)
+		}
+	}
+}
+
+// validateHeartbeatTemplate rejects a title or description on a heartbeat source. The API
+// generates both, so anything set here is silently replaced.
+func (r *alertSourceResource) validateHeartbeatTemplate(data *alertSourceModel, diags *diag.Diagnostics) {
+	if data.SourceType.ValueString() != "heartbeat" {
+		return
+	}
+
+	for name, value := range map[string]*models.TemplatedTextValue{
+		"title":       data.Title,
+		"description": data.Description,
+	} {
+		if value == nil {
+			continue
+		}
+
+		diags.AddAttributeError(
+			path.Root(name),
+			fmt.Sprintf("%s can't be set on a heartbeat alert source", name),
+			fmt.Sprintf("Heartbeat sources write their own %s, so this value would be replaced.", name),
+		)
+	}
+}
+
+// validateTemplateProvided requires a title and description from the source types that accept
+// one. A create sending neither gets the API's own default template, which an Optional attribute
+// has nowhere to put, while the same absence on an update clears the field instead.
+func (r *alertSourceResource) validateTemplateProvided(data *alertSourceModel, diags *diag.Diagnostics) {
+	if data.SourceType.IsNull() || data.SourceType.IsUnknown() {
+		return
+	}
+
+	// Heartbeat sources write their own, and validateHeartbeatTemplate rejects setting one.
+	if data.SourceType.ValueString() == "heartbeat" {
+		return
+	}
+
+	for name, value := range map[string]*models.TemplatedTextValue{
+		"title":       data.Title,
+		"description": data.Description,
+	} {
+		if value != nil {
+			continue
+		}
+
+		diags.AddAttributeError(
+			path.Root(name),
+			fmt.Sprintf("%s is required for source_type %q", name, data.SourceType.ValueString()),
+			fmt.Sprintf("Set a %s. Without one the API writes its own default, which this resource "+
+				"can't store.", name),
+		)
+	}
+}
+
+// validatePrivacy ties visible_to_teams to is_private: it says who can see a private source's
+// alerts, so each is meaningless without the other.
+func (r *alertSourceResource) validatePrivacy(data *alertSourceModel, diags *diag.Diagnostics) {
+	if data.IsPrivate.IsUnknown() {
+		return
+	}
+
+	private := data.IsPrivate.ValueBool()
+
+	switch {
+	case data.VisibleToTeams != nil && !private:
+		diags.AddAttributeError(
+			path.Root("visible_to_teams"),
+			"visible_to_teams needs is_private",
+			"This says which teams can see a private source's alerts. Set is_private = true, or remove it.",
+		)
+
+	case data.VisibleToTeams == nil && private:
+		diags.AddAttributeError(
+			path.Root("visible_to_teams"),
+			"visible_to_teams is required when is_private is true",
+			"A private source's alerts are visible to nobody until you say which teams can see them.",
+		)
+	}
+}
+
+// alertSourceValidateTimeout keeps an unresponsive API from stalling a plan. A var so
+// tests needn't wait it out.
+var alertSourceValidateTimeout = 10 * time.Second
+
+// ModifyPlan asks the API whether the planned source would be accepted, so an expression
+// that doesn't compile surfaces here rather than part way through an apply.
+//
+// It can't live in ValidateConfig, which `terraform validate` also calls: that runs the
+// provider without configuring it, so there is no client to ask with.
+func (r *alertSourceResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+	// A destroy plans no source, and an unconfigured provider has no client.
+	if r.client == nil || req.Plan.Raw.IsNull() {
+		return
+	}
+
+	// The framework runs this for every resource in the plan, changed or not. A rejection
+	// on a source planning no change isn't something an apply could fix, and asking costs
+	// the API a registry build per source on every plan.
+	if req.Plan.Raw.Equal(req.State.Raw) {
+		return
+	}
+
+	// An expression pointing at a catalog type this same apply creates is unknown until it
+	// exists, and validating around the gaps reports errors the apply won't hit.
+	if !alertSourceValidateSettled(req.Plan.Raw) {
+		return
+	}
+
+	// The options blocks can hold values another resource computes, which the model's
+	// concrete types can't represent. Decoding one fails outright, so give up on validating
+	// rather than failing the plan over a config the API may well accept.
+	var data alertSourceModel
+	if req.Plan.Get(ctx, &data).HasError() {
+		return
+	}
+
+	expressions, bindings := r.toPayloads(&data, &resp.Diagnostics)
+	owningTeamIDs := r.toTeamIDsPayload(ctx, data.OwningTeamIDs, &resp.Diagnostics)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(ctx, alertSourceValidateTimeout)
+	defer cancel()
+
+	result, err := r.client.AlertSourcesV3ValidateWithResponse(ctx, client.AlertSourcesV3ValidateJSONRequestBody{
+		AlertSource: client.AlertSourceValidatePayloadV3{
+			SourceType:     client.AlertSourceValidatePayloadV3SourceType(data.SourceType.ValueString()),
+			OwningTeamIds:  owningTeamIDs,
+			IsPrivate:      data.IsPrivate.ValueBoolPointer(),
+			Title:          bindings.title,
+			Description:    bindings.description,
+			Priority:       bindings.priority,
+			VisibleToTeams: bindings.visibleToTeams,
+			Expressions:    &expressions,
+
+			// Carried so the source-type capability check runs at plan time rather than
+			// surfacing as a 422 half way through an apply.
+			RateLimitSharding: data.RateLimitSharding.toPayload(),
+
+			// Likewise: a team that doesn't exist, or an organisation with no team attribute
+			// to fix into, is rejected here instead of at apply. Null means not fixed —
+			// nothing to check — so send the value only when set.
+			FixedTeamId: data.FixedTeamID.ValueStringPointer(),
+
+			// And again: a bad subject, operation, or expression reference is rejected here
+			// instead of only surfacing as a 422 partway through an apply.
+			FilterConditionGroups: filterConditionGroupsToPayload(data.FilterConditionGroups),
+		},
+	})
+	if err == nil {
+		addAlertSourceValidateWarnings(result, &resp.Diagnostics)
+		return
+	}
+
+	// 422 is the API rejecting this source, which is the whole point.
+	var httpErr client.HTTPError
+	if errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusUnprocessableEntity {
+		resp.Diagnostics.AddError("Invalid alert source", httpErr.Error())
+		return
+	}
+
+	// Anything else means the check didn't run, not that the config is bad, so failing here
+	// would break plans that would have applied fine.
+	resp.Diagnostics.AddWarning(
+		"Could not validate the alert source",
+		fmt.Sprintf("The alert source was not checked, and may still be rejected when you apply: %s", err),
+	)
+}
+
+// alertSourceWarningPaths maps a payload field the API warns about onto the attribute
+// that holds it. Only the literal can carry a reference the scope doesn't have, which is
+// what these warnings are about.
+var alertSourceWarningPaths = map[string]path.Path{
+	"title":       path.Root("title").AtName("literal"),
+	"description": path.Root("description").AtName("literal"),
+}
+
+// addAlertSourceValidateWarnings reports what the API found suspect without rejecting,
+// such as a "{{ payload.sumary }}" that will silently render as "(not set)".
+func addAlertSourceValidateWarnings(result *client.AlertSourcesV3ValidateResponse, diags *diag.Diagnostics) {
+	if result == nil || result.JSON200 == nil {
+		return
+	}
+
+	for _, warning := range result.JSON200.Warnings {
+		if attribute, ok := alertSourceWarningPaths[warning.Path]; ok {
+			diags.AddAttributeWarning(attribute, warning.Summary, warning.Detail)
+			continue
+		}
+
+		// A path we don't know still says something worth reading, just not against a
+		// particular attribute: a new check on the API shouldn't need a provider release.
+		diags.AddWarning(warning.Summary, warning.Detail)
+	}
+}
+
+// alertSourceValidatedAttributes are the attributes the validate payload is built
+// from. Gating on the whole plan instead would skip every create, which plans id and
+// secret_token unknown.
+var alertSourceValidatedAttributes = []string{
+	"source_type",
+	"owning_team_ids",
+	"is_private",
+	"title",
+	"description",
+	"priority",
+	"visible_to_teams",
+	"named_expression",
+	"rate_limit_sharding",
+	"filter_condition_groups",
+}
+
+// alertSourceValidateSettled reports whether every value the check would send is
+// known. The only Optional+Computed one is is_private, whose static default lands before
+// this runs, so anything unknown here is waiting on another resource.
+func alertSourceValidateSettled(plan tftypes.Value) bool {
+	attributes := map[string]tftypes.Value{}
+	if err := plan.As(&attributes); err != nil {
+		return false
+	}
+
+	for _, name := range alertSourceValidatedAttributes {
+		value, ok := attributes[name]
+		if !ok || !value.IsFullyKnown() {
+			return false
+		}
+	}
+
+	return true
+}
+
+func (r *alertSourceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data alertSourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	expressions, bindings := r.toPayloads(&data, &resp.Diagnostics)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	payload := client.AlertSourceCreatePayloadV3{
+		Name:          data.Name.ValueString(),
+		SourceType:    client.AlertSourceCreatePayloadV3SourceType(data.SourceType.ValueString()),
+		OwningTeamIds: r.toTeamIDsPayload(ctx, data.OwningTeamIDs, &resp.Diagnostics),
+		IsPrivate:     data.IsPrivate.ValueBoolPointer(),
+		// Sent only when set: a source being created has no stored team to clear.
+		FixedTeamId:    data.FixedTeamID.ValueStringPointer(),
+		Title:          bindings.title,
+		Description:    bindings.description,
+		Priority:       bindings.priority,
+		VisibleToTeams: bindings.visibleToTeams,
+		Expressions:    &expressions,
+
+		JiraOptions:       data.JiraOptions.toPayload(),
+		HeartbeatOptions:  data.HeartbeatOptions.toPayload(),
+		EmailOptions:      data.EmailOptions.toPayload(),
+		HttpCustomOptions: data.HTTPCustomOptions.toPayload(),
+		RateLimitSharding: data.RateLimitSharding.toPayload(),
+
+		FilterConditionGroups: filterConditionGroupsToPayload(data.FilterConditionGroups),
+
+		Annotations: r.annotations(),
+	}
+	r.applyAutoResolve(&data, &payload.AutoResolveTimeoutMinutes, &payload.AutoResolveIncidentAlerts)
 
 	// Re-checked here because a path from a variable is unknown at plan time, so ValidateConfig
 	// has nothing to judge.
-	data.RateLimitSharding.Validate(&resp.Diagnostics)
+	validateRateLimitSharding(data.RateLimitSharding, &resp.Diagnostics)
 
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertSourcesV2CreateResponse, error) {
-		owningTeamIDs := owningTeamIDsPayload(data.OwningTeamIDs)
-
-		payload := client.AlertSourcesCreatePayloadV2{
-			Name:              data.Name.ValueString(),
-			SourceType:        client.AlertSourcesCreatePayloadV2SourceType(data.SourceType.ValueString()),
-			Template:          data.Template.ToPayload(),
-			JiraOptions:       data.JiraOptions.ToPayload(),
-			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
-			EmailOptions:      data.EmailOptions.ToPayload(),
-			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
-			RateLimitSharding: data.RateLimitSharding.ToPayload(),
-			// Sent only when set: a source being created has no stored team to clear.
-			FixedTeamId:   data.FixedTeamID.ValueStringPointer(),
-			OwningTeamIds: owningTeamIDs,
-
-			FilterConditionGroups: data.FilterConditionGroups.ToPayloadPtr(),
-		}
-
-		// Only send auto-resolve fields when explicitly configured, as some
-		// source types (e.g. heartbeat) do not support them and the API will
-		// reject the request if they are present.
-		if !data.AutoResolveTimeoutMinutes.IsNull() && !data.AutoResolveTimeoutMinutes.IsUnknown() {
-			payload.AutoResolveTimeoutMinutes = data.AutoResolveTimeoutMinutes.ValueInt64Pointer()
-		}
-		if !data.AutoResolveIncidentAlerts.IsNull() && !data.AutoResolveIncidentAlerts.IsUnknown() {
-			payload.AutoResolveIncidentAlerts = data.AutoResolveIncidentAlerts.ValueBoolPointer()
-		}
-
-		return r.client.AlertSourcesV2CreateWithResponse(ctx, payload)
+	result, err := r.client.AlertSourcesV3CreateWithResponse(ctx, client.AlertSourcesV3CreateJSONRequestBody{
+		AlertSource: payload,
 	})
-
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create alert source, got error: %s", err))
+		resp.Diagnostics.AddError("Unable to create alert source", err.Error())
+		return
+	}
+	if result.JSON201 == nil {
+		resp.Diagnostics.AddError("Unable to create alert source", fmt.Sprintf("unexpected response: %s", result.Status()))
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON200.AlertSource.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource, r.terraformVersion)
-
-	tflog.Trace(ctx, fmt.Sprintf("created an alert source with id=%s", result.JSON200.AlertSource.Id))
-
-	// Save the planned values before overwriting with API response.
-	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
-	planEmailOptions := data.EmailOptions
-
-	data = models.AlertSourceResourceModel{}.FromAPIWithPlan(result.JSON200.AlertSource, &data)
-
-	// When auto_resolve_timeout_minutes isn't set, the API ignores
-	// auto_resolve_incident_alerts and won't return it. Preserve the
-	// planned value so Terraform doesn't see an inconsistent result.
-	if data.AutoResolveTimeoutMinutes.IsNull() && data.AutoResolveIncidentAlerts.IsNull() && !planAutoResolveIncidentAlerts.IsUnknown() {
-		data.AutoResolveIncidentAlerts = planAutoResolveIncidentAlerts
-	}
-
-	// When the user explicitly configures email_options (e.g. with an empty
-	// redactions set) but the API response has no meaningful email option
-	// data, FromAPI returns nil. Restore the planned value so Terraform
-	// doesn't see an inconsistent result.
-	if planEmailOptions != nil && data.EmailOptions == nil {
-		data.EmailOptions = planEmailOptions
-	}
-
-	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
-		data.Template.Title = models.IncidentEngineParamBindingValue{}
-		data.Template.Description = models.IncidentEngineParamBindingValue{}
-	}
-
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceFromAPI(result.JSON201.AlertSource, &data, &resp.Diagnostics))...)
 }
 
-func (r *IncidentAlertSourceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var data models.AlertSourceResourceModel
+func (r *alertSourceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data alertSourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	result, err := r.client.AlertSourcesV2ShowWithResponse(ctx, data.ID.ValueString())
+	result, err := r.client.AlertSourcesV3ShowWithResponse(ctx, data.ID.ValueString())
+	if isNotFound(err) {
+		resp.State.RemoveResource(ctx)
+		return
+	}
 	if err != nil {
-		// Check if error message contains any indication of a 404 not found
-		httpErr := client.HTTPError{}
-		if errors.As(err, &httpErr) && httpErr.StatusCode == 404 {
-			tflog.Warn(ctx, fmt.Sprintf("Alert source with ID %s not found: removing from state.", data.ID.ValueString()))
-			resp.State.RemoveResource(ctx)
-			return
-		}
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read alert source, got error: %s", err))
+		resp.Diagnostics.AddError("Unable to read alert source", err.Error())
+		return
+	}
+	// The client turns any non-2xx into an error, so a missing body is an unexpected success
+	// rather than a deleted source. Dropping it from state would have the next apply create a
+	// second one, so fail instead.
+	if result.JSON200 == nil {
+		resp.Diagnostics.AddError("Unable to read alert source", fmt.Sprintf("unexpected response: %s", result.Status()))
 		return
 	}
 
-	// Save the prior state values before overwriting with API response.
-	stateAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
-	stateEmailOptions := data.EmailOptions
-
-	data = models.AlertSourceResourceModel{}.FromAPIWithPlan(result.JSON200.AlertSource, &data)
-
-	// When auto_resolve_timeout_minutes isn't set, the API ignores
-	// auto_resolve_incident_alerts and won't return it. Preserve the
-	// prior state value so Terraform doesn't see a perpetual diff.
-	if data.AutoResolveTimeoutMinutes.IsNull() && data.AutoResolveIncidentAlerts.IsNull() && !stateAutoResolveIncidentAlerts.IsUnknown() {
-		data.AutoResolveIncidentAlerts = stateAutoResolveIncidentAlerts
-	}
-
-	// Preserve the prior state's email_options when FromAPI returns nil but
-	// state had it (e.g. user configured email_options with empty redactions).
-	if stateEmailOptions != nil && data.EmailOptions == nil {
-		data.EmailOptions = stateEmailOptions
-	}
-
-	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
-		data.Template.Title = models.IncidentEngineParamBindingValue{}
-		data.Template.Description = models.IncidentEngineParamBindingValue{}
-	}
-
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceFromAPI(result.JSON200.AlertSource, &data, &resp.Diagnostics))...)
 }
 
-func (r *IncidentAlertSourceResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var data models.AlertSourceResourceModel
-	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+func (r *alertSourceResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan, state alertSourceModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
-	data.RateLimitSharding.Validate(&resp.Diagnostics)
+	expressions, bindings := r.toPayloads(&plan, &resp.Diagnostics)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Always send owning_team_ids, as an empty list when the attribute is unset: omitting it
+	// tells the API to leave ownership alone, which would strand the source on its old teams
+	// after they're removed from the config.
+	owningTeamIDs := r.toTeamIDsPayload(ctx, plan.OwningTeamIDs, &resp.Diagnostics)
+	if owningTeamIDs == nil {
+		owningTeamIDs = &[]string{}
+	}
+
+	payload := client.AlertSourceUpdatePayloadV3{
+		Name:          plan.Name.ValueString(),
+		OwningTeamIds: owningTeamIDs,
+		IsPrivate:     plan.IsPrivate.ValueBool(),
+		// Always sent, as an empty string when the config has no value, so removing the
+		// attribute un-fixes the source instead of leaving a team no config change can clear.
+		FixedTeamId:    models.FixedTeamIDUpdatePayload(plan.FixedTeamID),
+		Title:          bindings.title,
+		Description:    bindings.description,
+		Priority:       bindings.priority,
+		VisibleToTeams: bindings.visibleToTeams,
+		Expressions:    &expressions,
+
+		JiraOptions:       plan.JiraOptions.toPayload(),
+		HeartbeatOptions:  plan.HeartbeatOptions.toPayload(),
+		EmailOptions:      emailOptionsUpdatePayload(plan.EmailOptions, plan.SourceType),
+		HttpCustomOptions: plan.HTTPCustomOptions.toPayload(),
+		RateLimitSharding: rateLimitShardingUpdatePayload(plan.RateLimitSharding),
+
+		// Always sent, as an empty list when the config has no filters: removing the attribute
+		// from HCL clears them, the same way an omitted rate_limit_sharding block does above.
+		FilterConditionGroups: filterConditionGroupsToPayload(plan.FilterConditionGroups),
+
+		// No expected_version, deliberately: a version covers the whole source, and each
+		// attribute is its own resource writing the same one. Removing an attribute in the
+		// apply that also edits the source bumps the version before this write, because
+		// Terraform destroys a dependent before touching what it depends on — so pinning the
+		// version read at refresh rejects a legitimate apply.
+		//
+		// Nothing is lost by leaving it out. The write is a read-modify-write under a row lock
+		// that pins the version it just read, so it can neither clobber a concurrent write nor
+		// touch an attribute's binding, and a change made outside Terraform still shows as
+		// drift on the next plan.
+
+		// Re-asserted on every write, so the source stays claimed even if something cleared
+		// the marker, and the recorded version tracks the Terraform in use.
+		Annotations: r.annotations(),
+	}
+	r.applyAutoResolve(&plan, &payload.AutoResolveTimeoutMinutes, &payload.AutoResolveIncidentAlerts)
+
+	validateRateLimitSharding(plan.RateLimitSharding, &resp.Diagnostics)
 
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	result, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertSourcesV2UpdateResponse, error) {
-		var owningTeamIDs *[]string
-		if !data.OwningTeamIDs.IsNull() {
-			teamIDs := []string{}
-			for _, elem := range data.OwningTeamIDs.Elements() {
-				if str, ok := elem.(types.String); ok {
-					teamIDs = append(teamIDs, str.ValueString())
-				}
-			}
-
-			owningTeamIDs = &teamIDs
-		}
-
-		payload := client.AlertSourcesUpdatePayloadV2{
-			Name:              data.Name.ValueString(),
-			Template:          data.Template.ToPayload(),
-			JiraOptions:       data.JiraOptions.ToPayload(),
-			HeartbeatOptions:  data.HeartbeatOptions.ToPayload(),
-			EmailOptions:      data.EmailOptions.ToPayload(),
-			HttpCustomOptions: data.HTTPCustomOptions.ToPayload(),
-			// Always sent, as an empty path when the config has no block: the API reads an
-			// omission as "leave the stored path alone", so removing the block would never clear
-			// it.
-			RateLimitSharding: data.RateLimitSharding.ToUpdatePayload(),
-			// Likewise always sent, as an empty string when the config has no value, so
-			// removing the attribute un-fixes the source instead of leaving a team no config
-			// change can clear.
-			FixedTeamId:   models.FixedTeamIDUpdatePayload(data.FixedTeamID),
-			OwningTeamIds: owningTeamIDs,
-
-			// Always sent, as an empty list when the config has no filters: removing the
-			// attribute from HCL clears them, the same way rate_limit_sharding's omission clears
-			// the shard key path above.
-			FilterConditionGroups: data.FilterConditionGroups.ToPayloadPtr(),
-		}
-
-		if !data.AutoResolveTimeoutMinutes.IsNull() && !data.AutoResolveTimeoutMinutes.IsUnknown() {
-			payload.AutoResolveTimeoutMinutes = data.AutoResolveTimeoutMinutes.ValueInt64Pointer()
-		}
-		if !data.AutoResolveIncidentAlerts.IsNull() && !data.AutoResolveIncidentAlerts.IsUnknown() {
-			payload.AutoResolveIncidentAlerts = data.AutoResolveIncidentAlerts.ValueBoolPointer()
-		}
-
-		return r.client.AlertSourcesV2UpdateWithResponse(ctx, data.ID.ValueString(), payload)
+	result, err := r.client.AlertSourcesV3UpdateWithResponse(ctx, state.ID.ValueString(), client.AlertSourcesV3UpdateJSONRequestBody{
+		AlertSource: payload,
 	})
-
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update alert source, got error: %s", err))
+		resp.Diagnostics.AddError("Unable to update alert source", err.Error())
+		return
+	}
+	if result.JSON200 == nil {
+		resp.Diagnostics.AddError("Unable to update alert source", fmt.Sprintf("unexpected response: %s", result.Status()))
 		return
 	}
 
-	claimResource(ctx, r.client, result.JSON200.AlertSource.Id, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource, r.terraformVersion)
-
-	// Save the planned values before overwriting with API response.
-	planAutoResolveIncidentAlerts := data.AutoResolveIncidentAlerts
-	planEmailOptions := data.EmailOptions
-
-	data = models.AlertSourceResourceModel{}.FromAPIWithPlan(result.JSON200.AlertSource, &data)
-
-	// When auto_resolve_timeout_minutes isn't set, the API ignores
-	// auto_resolve_incident_alerts and won't return it. Preserve the
-	// planned value so Terraform doesn't see an inconsistent result.
-	if data.AutoResolveTimeoutMinutes.IsNull() && data.AutoResolveIncidentAlerts.IsNull() && !planAutoResolveIncidentAlerts.IsUnknown() {
-		data.AutoResolveIncidentAlerts = planAutoResolveIncidentAlerts
-	}
-
-	// When the user explicitly configures email_options (e.g. with an empty
-	// redactions set) but the API response has no meaningful email option
-	// data, FromAPI returns nil. Restore the planned value so Terraform
-	// doesn't see an inconsistent result.
-	if planEmailOptions != nil && data.EmailOptions == nil {
-		data.EmailOptions = planEmailOptions
-	}
-
-	if data.SourceType.ValueString() == "heartbeat" && data.Template != nil {
-		data.Template.Title = models.IncidentEngineParamBindingValue{}
-		data.Template.Description = models.IncidentEngineParamBindingValue{}
-	}
-
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceFromAPI(result.JSON200.AlertSource, &plan, &resp.Diagnostics))...)
 }
 
-func (r *IncidentAlertSourceResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data models.AlertSourceResourceModel
+func (r *alertSourceResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data alertSourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	_, err := lockForAlertConfig(ctx, func(ctx context.Context) (*client.AlertSourcesV2DeleteResponse, error) {
-		return r.client.AlertSourcesV2DeleteWithResponse(ctx, data.ID.ValueString())
-	})
-	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete alert source, got error: %s", err))
-		return
+	_, err := r.client.AlertSourcesV3DestroyWithResponse(ctx, data.ID.ValueString())
+	if err != nil && !isNotFound(err) {
+		resp.Diagnostics.AddError("Unable to delete alert source", err.Error())
 	}
 }
 
-func (r *IncidentAlertSourceResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *alertSourceResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	// Create and Update carry the Terraform annotation in their payload, but an import writes
+	// nothing, so claim the source here instead.
 	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics, client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource, r.terraformVersion, r.markImportedAsManaged)
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
+// MoveState takes the state of an `incident_alert_source_beta`, which is the name
+// this resource went by before v7. The schema is the same one, so a `moved` block
+// is all it takes:
+//
+//	moved {
+//	  from = incident_alert_source_beta.prometheus
+//	  to   = incident_alert_source.prometheus
+//	}
+func (r *alertSourceResource) MoveState(ctx context.Context) []resource.StateMover {
+	return []resource.StateMover{
+		renameStateMover("incident_alert_source_beta", declaredResourceSchema(ctx, r)),
+	}
+}
+
+func (r *alertSourceResource) annotations() *map[string]string {
+	return &map[string]string{
+		"incident.io/terraform/version": r.terraformVersion,
+	}
+}
+
+// alertSourceBindings is the four bindable fields, mapped together so Create and Update don't
+// each repeat the error handling.
+type alertSourceBindings struct {
+	title          *client.EngineParamBindingPayloadV3
+	description    *client.EngineParamBindingPayloadV3
+	priority       *client.EngineParamBindingPayloadV3
+	visibleToTeams *client.EngineParamBindingPayloadV3
+}
+
+func (r *alertSourceResource) toPayloads(
+	data *alertSourceModel,
+	diags *diag.Diagnostics,
+) ([]client.ExpressionPayloadV3, alertSourceBindings) {
+	// Nil for the unnamed block: this resource owns only named expressions, so the binding
+	// ExpressionsToPayload returns for it is unused.
+	expressions, _, err := models.ExpressionsToPayload(alertSourceExpressions, nil, data.NamedExpressions)
+	if err != nil {
+		diags.AddAttributeError(path.Root("named_expression"), "Invalid expression", err.Error())
+		return nil, alertSourceBindings{}
+	}
+
+	bindings := alertSourceBindings{}
+
+	for _, field := range []struct {
+		name  string
+		value *models.TemplatedTextValue
+		into  **client.EngineParamBindingPayloadV3
+	}{
+		{"title", data.Title, &bindings.title},
+		{"description", data.Description, &bindings.description},
+	} {
+		payload, err := models.TemplatedTextValueToPayload(field.value)
+		if err != nil {
+			diags.AddAttributeError(path.Root(field.name), "Invalid value", err.Error())
+			continue
+		}
+		*field.into = payload
+	}
+
+	for _, field := range []struct {
+		name    string
+		binding *models.Binding
+		into    **client.EngineParamBindingPayloadV3
+	}{
+		{"priority", data.Priority, &bindings.priority},
+		{"visible_to_teams", data.VisibleToTeams, &bindings.visibleToTeams},
+	} {
+		payload, err := models.BindingToPayload(field.binding)
+		if err != nil {
+			diags.AddAttributeError(path.Root(field.name), "Invalid value", err.Error())
+			continue
+		}
+		*field.into = payload
+	}
+
+	return expressions, bindings
+}
+
+// templatedTextFromAPI reads a rich text binding back, reporting anything the attribute can't
+// hold rather than dropping it: the API assigns title and description unconditionally, so
+// reading one as absent would have the next apply delete it.
+func templatedTextFromAPI(
+	binding *client.EngineParamBindingPayloadV3,
+	name string,
+	diags *diag.Diagnostics,
+) *models.TemplatedTextValue {
+	value, err := models.TemplatedTextValueFromPayload(binding)
+	if err != nil {
+		diags.AddAttributeError(
+			path.Root(name),
+			fmt.Sprintf("This alert source's %s isn't manageable here", name),
+			fmt.Sprintf(
+				"Its %s %s. Manage this source in the dashboard until that is supported, so the "+
+					"existing value isn't lost.",
+				name, err.Error(),
+			),
+		)
+
+		return nil
+	}
+
+	return value
+}
+
+// applyAutoResolve sets the auto-resolve fields only when the config gave them a value. Some
+// source types reject them outright — a heartbeat source has nothing to auto-resolve — and the
+// API reads a field being present as the caller setting it.
+func (r *alertSourceResource) applyAutoResolve(data *alertSourceModel, timeout **int64, incidentAlerts **bool) {
+	if !data.AutoResolveTimeoutMinutes.IsNull() && !data.AutoResolveTimeoutMinutes.IsUnknown() {
+		*timeout = data.AutoResolveTimeoutMinutes.ValueInt64Pointer()
+	}
+	if !data.AutoResolveIncidentAlerts.IsNull() && !data.AutoResolveIncidentAlerts.IsUnknown() {
+		*incidentAlerts = data.AutoResolveIncidentAlerts.ValueBoolPointer()
+	}
+}
+
+func (r *alertSourceResource) toTeamIDsPayload(ctx context.Context, set types.Set, diags *diag.Diagnostics) *[]string {
+	if set.IsNull() || set.IsUnknown() {
+		return nil
+	}
+
+	ids := []string{}
+	diags.Append(set.ElementsAs(ctx, &ids, false)...)
+	if diags.HasError() {
+		return nil
+	}
+
+	return &ids
+}
+
+// alertSourceFromAPI projects an API alert source into Terraform state. config is the plan
+// or the prior state, which the read needs wherever the API's answer doesn't pin a single
+// spelling: which named expressions were written in what order, which of a binding's
+// interchangeable spellings it used, and whether "nothing" was spelled as an empty collection or
+// an omitted attribute.
+func alertSourceFromAPI(
+	source client.AlertSourceV3,
+	config *alertSourceModel,
+	diags *diag.Diagnostics,
+) *alertSourceModel {
+	// No unnamed block on this resource, so no prior for one either.
+	_, named := models.ExpressionsFromPayload(
+		source.Expressions, alertSourceExpressions, nil, config.NamedExpressions)
+
+	model := &alertSourceModel{
+		ID:         types.StringValue(source.Id),
+		Name:       types.StringValue(source.Name),
+		SourceType: types.StringValue(string(source.SourceType)),
+		Version:    types.Int64Value(source.Version),
+
+		SecretToken:    types.StringPointerValue(source.SecretToken),
+		AlertEventsURL: types.StringPointerValue(source.AlertEventsUrl),
+
+		OwningTeamIDs: teamIDsToState(lo.FromPtr(source.OwningTeamIds), config.OwningTeamIDs),
+		IsPrivate:     types.BoolValue(source.IsPrivate),
+		FixedTeamID:   models.FixedTeamIDFromAPI(source.FixedTeamId),
+
+		Title:       templatedTextFromAPI(source.Title, "title", diags),
+		Description: templatedTextFromAPI(source.Description, "description", diags),
+
+		Priority:       models.ReconcileBinding(config.Priority, source.Priority),
+		VisibleToTeams: models.ReconcileBinding(config.VisibleToTeams, source.VisibleToTeams),
+
+		NamedExpressions: named,
+
+		JiraOptions:       jiraOptionsFromAPI(source.JiraOptions),
+		HeartbeatOptions:  heartbeatOptionsFromAPI(source.HeartbeatOptions),
+		EmailOptions:      emailOptionsFromAPI(source.EmailOptions),
+		HTTPCustomOptions: httpCustomOptionsFromAPI(source.HttpCustomOptions),
+		RateLimitSharding: rateLimitShardingFromAPI(source.RateLimitSharding),
+
+		FilterConditionGroups: filterConditionGroupsFromAPI(source.FilterConditionGroups, config.FilterConditionGroups),
+
+		AutoResolveTimeoutMinutes: types.Int64PointerValue(source.AutoResolveTimeoutMinutes),
+		AutoResolveIncidentAlerts: types.BoolPointerValue(source.AutoResolveIncidentAlerts),
+
+		// Minted for email sources and absent for every other type, so it lives at the top
+		// level rather than inside the optional email_options block.
+		EmailAddress: types.StringNull(),
+	}
+
+	if source.EmailOptions != nil {
+		model.EmailAddress = types.StringValue(source.EmailOptions.EmailAddress)
+	}
+
+	// Condition shorthands (value_literal, values, expression_ref) and operation aliases fold to
+	// their canonical API form on write, so without restoring the config's spelling here, a
+	// successful apply would fail Terraform's consistency check or leave a perpetual diff.
+	model.FilterConditionGroups.ReconcileSpelling(config.FilterConditionGroups)
+
+	// An email source always reads back with options, because the address we mint for it lives
+	// in them. A config that set no block would otherwise go from null to an object, which
+	// Terraform rejects as an inconsistent result.
+	if config.EmailOptions == nil && model.EmailOptions != nil &&
+		model.EmailOptions.TransformExpression.IsNull() && len(model.EmailOptions.Redactions) == 0 {
+		model.EmailOptions = nil
+	}
+
+	// The API ignores auto_resolve_incident_alerts where there's no timeout to resolve against,
+	// and never sends it for a heartbeat source. Keep what was asked for, or Terraform sees the
+	// result as inconsistent with the plan and every later plan as a change.
+	//
+	// The unknown check is what makes this safe on create: the attribute is Optional+Computed,
+	// so a config that omits it plans unknown, and storing that would fail the apply outright.
+	if model.AutoResolveTimeoutMinutes.IsNull() && model.AutoResolveIncidentAlerts.IsNull() &&
+		!config.AutoResolveIncidentAlerts.IsUnknown() {
+		model.AutoResolveIncidentAlerts = config.AutoResolveIncidentAlerts
+	}
+
+	// Heartbeat sources generate their own title and description. ValidateConfig rejects
+	// setting either, so drop what the API generated rather than showing a permanent diff
+	// against a config that can't hold it.
+	if source.SourceType == "heartbeat" {
+		model.Title = nil
+		model.Description = nil
+	}
+
+	return model
 }

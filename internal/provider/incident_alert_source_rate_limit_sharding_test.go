@@ -10,14 +10,14 @@ import (
 
 // The drift harness in examples/experiment is what proves the round-trip end to end. These cover
 // the three mappings it would fail on, so a break points at the direction that caused it.
-func TestAlertSourceBetaRateLimitSharding(t *testing.T) {
+func TestAlertSourceRateLimitSharding(t *testing.T) {
 	t.Run("reads a shard key path", func(t *testing.T) {
 		source := alertSourceV3("http")
 		source.RateLimitSharding = &client.AlertSourceRateLimitShardingV3{
 			RateLimitShardKeyPath: "$.metadata.team",
 		}
 
-		model := fromAPI(t, source, &alertSourceBetaModel{})
+		model := fromAPI(t, source, &alertSourceModel{})
 		if model.RateLimitSharding == nil {
 			t.Fatal("rate_limit_sharding should be set")
 		}
@@ -29,7 +29,7 @@ func TestAlertSourceBetaRateLimitSharding(t *testing.T) {
 	// Both spellings of "not sharding" have to read back as no block, or they diff against a
 	// config that never set one and fail the apply as an inconsistent result.
 	t.Run("reads an absent object as no block", func(t *testing.T) {
-		model := fromAPI(t, alertSourceV3("http"), &alertSourceBetaModel{})
+		model := fromAPI(t, alertSourceV3("http"), &alertSourceModel{})
 		if model.RateLimitSharding != nil {
 			t.Errorf("expected no block, got %+v", model.RateLimitSharding)
 		}
@@ -39,7 +39,7 @@ func TestAlertSourceBetaRateLimitSharding(t *testing.T) {
 		source := alertSourceV3("http")
 		source.RateLimitSharding = &client.AlertSourceRateLimitShardingV3{RateLimitShardKeyPath: ""}
 
-		model := fromAPI(t, source, &alertSourceBetaModel{})
+		model := fromAPI(t, source, &alertSourceModel{})
 		if model.RateLimitSharding != nil {
 			t.Errorf("expected no block, got %+v", model.RateLimitSharding)
 		}

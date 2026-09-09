@@ -15,7 +15,7 @@ func alertSourceAttributeSchemaType(t *testing.T) (tfsdk.Config, tftypes.Object)
 	t.Helper()
 
 	var schemaResp resource.SchemaResponse
-	NewAlertSourceAttributeBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+	NewAlertSourceAttributeResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
 	if schemaResp.Diagnostics.HasError() {
 		t.Fatalf("schema build failed: %+v", schemaResp.Diagnostics)
 	}
@@ -117,12 +117,12 @@ func namedExpressionsValue(t *testing.T, name string) tftypes.Value {
 	})
 }
 
-func validateAlertSourceAttributeBeta(t *testing.T, config tfsdk.Config) diag.Diagnostics {
+func validateAlertSourceAttribute(t *testing.T, config tfsdk.Config) diag.Diagnostics {
 	t.Helper()
 
-	r, ok := NewAlertSourceAttributeBetaResource().(*alertSourceAttributeBetaResource)
+	r, ok := NewAlertSourceAttributeResource().(*alertSourceAttributeResource)
 	if !ok {
-		t.Fatalf("NewAlertSourceAttributeBetaResource did not return a *alertSourceAttributeBetaResource")
+		t.Fatalf("NewAlertSourceAttributeResource did not return a *alertSourceAttributeResource")
 	}
 
 	resp := resource.ValidateConfigResponse{}
@@ -135,19 +135,19 @@ func validateAlertSourceAttributeBeta(t *testing.T, config tfsdk.Config) diag.Di
 	return resp.Diagnostics
 }
 
-// TestAlertSourceAttributeBetaValidateValue covers the exclusive group, which spans a block and
+// TestAlertSourceAttributeValidateValue covers the exclusive group, which spans a block and
 // its sibling attributes and so can't be a schema validator.
-func TestAlertSourceAttributeBetaValidateValue(t *testing.T) {
+func TestAlertSourceAttributeValidateValue(t *testing.T) {
 	expressionType := alertSourceAttributeType(t, "expression")
 
 	t.Run("rejects an attribute nothing fills in", func(t *testing.T) {
-		diags := validateAlertSourceAttributeBeta(t, alertSourceAttributeConfig(t, nil))
+		diags := validateAlertSourceAttribute(t, alertSourceAttributeConfig(t, nil))
 
 		assertErrorContaining(t, diags, "Missing value")
 	})
 
 	t.Run("rejects a value and an expression block together", func(t *testing.T) {
-		diags := validateAlertSourceAttributeBeta(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSourceAttribute(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
 			"value_literal": stringValue("high"),
 			"expression":    expressionBlockValue(t, expressionType, nil),
 		}))
@@ -156,7 +156,7 @@ func TestAlertSourceAttributeBetaValidateValue(t *testing.T) {
 	})
 
 	t.Run("accepts a value on its own", func(t *testing.T) {
-		diags := validateAlertSourceAttributeBeta(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSourceAttribute(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
 			"value_literal": stringValue("high"),
 		}))
 
@@ -166,7 +166,7 @@ func TestAlertSourceAttributeBetaValidateValue(t *testing.T) {
 	})
 
 	t.Run("accepts an expression block on its own", func(t *testing.T) {
-		diags := validateAlertSourceAttributeBeta(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSourceAttribute(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
 			"expression": expressionBlockValue(t, expressionType, nil),
 		}))
 
@@ -176,11 +176,11 @@ func TestAlertSourceAttributeBetaValidateValue(t *testing.T) {
 	})
 }
 
-// TestAlertSourceAttributeBetaValidateMergeStrategy reads the allowed values from the API
+// TestAlertSourceAttributeValidateMergeStrategy reads the allowed values from the API
 // schema, so the check can't fall behind the API and start rejecting one it has since accepted.
-func TestAlertSourceAttributeBetaValidateMergeStrategy(t *testing.T) {
+func TestAlertSourceAttributeValidateMergeStrategy(t *testing.T) {
 	t.Run("rejects a strategy that isn't one", func(t *testing.T) {
-		diags := validateAlertSourceAttributeBeta(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSourceAttribute(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
 			"value_literal":  stringValue("high"),
 			"merge_strategy": stringValue("latest_wins"),
 		}))
@@ -190,7 +190,7 @@ func TestAlertSourceAttributeBetaValidateMergeStrategy(t *testing.T) {
 
 	t.Run("accepts every strategy the API lists", func(t *testing.T) {
 		for _, strategy := range alertSourceAttributeMergeStrategies {
-			diags := validateAlertSourceAttributeBeta(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
+			diags := validateAlertSourceAttribute(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
 				"value_literal":  stringValue("high"),
 				"merge_strategy": stringValue(strategy),
 			}))
@@ -200,11 +200,11 @@ func TestAlertSourceAttributeBetaValidateMergeStrategy(t *testing.T) {
 	})
 }
 
-// TestAlertSourceAttributeBetaValidateExpressions checks the shared expression checks run
+// TestAlertSourceAttributeValidateExpressions checks the shared expression checks run
 // against this resource's paths. The checks themselves are covered in the models package.
-func TestAlertSourceAttributeBetaValidateExpressions(t *testing.T) {
+func TestAlertSourceAttributeValidateExpressions(t *testing.T) {
 	t.Run("rejects an expression_ref naming nothing", func(t *testing.T) {
-		diags := validateAlertSourceAttributeBeta(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSourceAttribute(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
 			"expression_ref": stringValue("severity"),
 		}))
 
@@ -212,7 +212,7 @@ func TestAlertSourceAttributeBetaValidateExpressions(t *testing.T) {
 	})
 
 	t.Run("accepts an expression_ref naming a named_expression", func(t *testing.T) {
-		diags := validateAlertSourceAttributeBeta(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSourceAttribute(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
 			"expression_ref":   stringValue("severity"),
 			"named_expression": namedExpressionsValue(t, "severity"),
 		}))
@@ -225,7 +225,7 @@ func TestAlertSourceAttributeBetaValidateExpressions(t *testing.T) {
 	// A named_expression taking the local name of the unnamed block would be stored under its
 	// reference.
 	t.Run("rejects a named_expression using the name kept for the unnamed block", func(t *testing.T) {
-		diags := validateAlertSourceAttributeBeta(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSourceAttribute(t, alertSourceAttributeConfig(t, map[string]tftypes.Value{
 			"value_literal":    stringValue("high"),
 			"named_expression": namedExpressionsValue(t, "_bound"),
 		}))

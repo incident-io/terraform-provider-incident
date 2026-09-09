@@ -14,13 +14,13 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
 )
 
-func TestAlertSourceAttributeBetaDataSourceSchema(t *testing.T) {
+func TestAlertSourceAttributeDataSourceSchema(t *testing.T) {
 	ctx := context.Background()
-	d := NewAlertSourceAttributeBetaDataSource()
+	d := NewAlertSourceAttributeDataSource()
 
 	var metaResp datasource.MetadataResponse
 	d.Metadata(ctx, datasource.MetadataRequest{ProviderTypeName: "incident"}, &metaResp)
-	if metaResp.TypeName != "incident_alert_source_attribute_beta" {
+	if metaResp.TypeName != "incident_alert_source_attribute" {
 		t.Fatalf("unexpected type name: %q", metaResp.TypeName)
 	}
 
@@ -46,11 +46,11 @@ func TestAlertSourceAttributeBetaDataSourceSchema(t *testing.T) {
 	}
 }
 
-func TestAlertSourceAttributeBetaDataSourceSchemaMatchesModel(t *testing.T) {
+func TestAlertSourceAttributeDataSourceSchemaMatchesModel(t *testing.T) {
 	ctx := context.Background()
 
 	resp := &datasource.SchemaResponse{}
-	(&AlertSourceAttributeBetaDataSource{}).Schema(ctx, datasource.SchemaRequest{}, resp)
+	(&AlertSourceAttributeDataSource{}).Schema(ctx, datasource.SchemaRequest{}, resp)
 	require.False(t, resp.Diagnostics.HasError(), "schema: %s", resp.Diagnostics)
 
 	attribute := client.AlertSourceAttributeV3{
@@ -62,8 +62,8 @@ func TestAlertSourceAttributeBetaDataSourceSchemaMatchesModel(t *testing.T) {
 		},
 	}
 
-	prior := &alertSourceAttributeBetaModel{}
-	model := alertSourceAttributeBetaFromAPI(attribute, prior)
+	prior := &alertSourceAttributeModel{}
+	model := alertSourceAttributeFromAPI(attribute, prior)
 
 	state := tfsdk.State{
 		Schema: resp.Schema,

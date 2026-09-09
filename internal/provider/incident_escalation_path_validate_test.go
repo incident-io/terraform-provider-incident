@@ -13,9 +13,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 )
 
-// betaModel builds the model validateSequences reads, going through the same map
+// sequencesModel builds the model validateSequences reads, going through the same map
 // construction the resource uses to write state.
-func betaModel(t *testing.T, start string, sequences map[string][]escalationPathNode) *escalationPathModel {
+func sequencesModel(t *testing.T, start string, sequences map[string][]escalationPathNode) *escalationPathModel {
 	t.Helper()
 
 	var diags diag.Diagnostics
@@ -295,7 +295,7 @@ func TestValidateSequences(t *testing.T) {
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			var diags diag.Diagnostics
-			validateSequences(ctx, betaModel(t, tc.start, tc.sequences), &diags)
+			validateSequences(ctx, sequencesModel(t, tc.start, tc.sequences), &diags)
 
 			if tc.wantError == "" {
 				if diags.HasError() {

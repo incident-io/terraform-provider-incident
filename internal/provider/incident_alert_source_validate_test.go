@@ -14,13 +14,13 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
-// alertSourceBetaSchemaType is the resource's schema as a tftypes.Object, so the config the
+// alertSourceSchemaType is the resource's schema as a tftypes.Object, so the config the
 // tests build is the one Terraform would build.
-func alertSourceBetaSchemaType(t *testing.T) (tfsdk.Config, tftypes.Object) {
+func alertSourceSchemaType(t *testing.T) (tfsdk.Config, tftypes.Object) {
 	t.Helper()
 
 	var schemaResp resource.SchemaResponse
-	NewAlertSourceBetaResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
+	NewAlertSourceResource().Schema(context.Background(), resource.SchemaRequest{}, &schemaResp)
 	if schemaResp.Diagnostics.HasError() {
 		t.Fatalf("schema build failed: %+v", schemaResp.Diagnostics)
 	}
@@ -33,13 +33,13 @@ func alertSourceBetaSchemaType(t *testing.T) (tfsdk.Config, tftypes.Object) {
 	return tfsdk.Config{Schema: schemaResp.Schema}, objType
 }
 
-// alertSourceBetaConfig builds a config with every attribute null, then applies overrides. The
+// alertSourceConfig builds a config with every attribute null, then applies overrides. The
 // resource has around twenty attributes and only a few matter per test, so spelling them all
 // out per case would bury what each one is actually checking.
-func alertSourceBetaConfig(t *testing.T, overrides map[string]tftypes.Value) tfsdk.Config {
+func alertSourceConfig(t *testing.T, overrides map[string]tftypes.Value) tfsdk.Config {
 	t.Helper()
 
-	config, objType := alertSourceBetaSchemaType(t)
+	config, objType := alertSourceSchemaType(t)
 
 	values := map[string]tftypes.Value{}
 	for name, attrType := range objType.AttributeTypes {
@@ -86,7 +86,7 @@ func objectWith(t *testing.T, objectType tftypes.Type, set map[string]tftypes.Va
 func attributeType(t *testing.T, name string) tftypes.Type {
 	t.Helper()
 
-	_, objType := alertSourceBetaSchemaType(t)
+	_, objType := alertSourceSchemaType(t)
 	attrType, ok := objType.AttributeTypes[name]
 	if !ok {
 		t.Fatalf("schema has no attribute %q", name)
@@ -95,12 +95,12 @@ func attributeType(t *testing.T, name string) tftypes.Type {
 	return attrType
 }
 
-func validateAlertSourceBeta(t *testing.T, config tfsdk.Config) diag.Diagnostics {
+func validateAlertSource(t *testing.T, config tfsdk.Config) diag.Diagnostics {
 	t.Helper()
 
-	r, ok := NewAlertSourceBetaResource().(*alertSourceBetaResource)
+	r, ok := NewAlertSourceResource().(*alertSourceResource)
 	if !ok {
-		t.Fatalf("NewAlertSourceBetaResource did not return a *alertSourceBetaResource")
+		t.Fatalf("NewAlertSourceResource did not return a *alertSourceResource")
 	}
 
 	resp := resource.ValidateConfigResponse{}
@@ -139,10 +139,10 @@ func stringValue(value string) tftypes.Value {
 	return tftypes.NewValue(tftypes.String, value)
 }
 
-// TestAlertSourceBetaValidateOptions covers each options block being tied to the one source
+// TestAlertSourceValidateOptions covers each options block being tied to the one source
 // type that reads it. The API rejects a mismatch too, but only at apply — and for a required
 // block that means a create that was never going to work.
-func TestAlertSourceBetaValidateOptions(t *testing.T) {
+func TestAlertSourceValidateOptions(t *testing.T) {
 	projectIDs := func(ids ...tftypes.Value) tftypes.Value {
 		return tftypes.NewValue(tftypes.List{ElementType: tftypes.String}, ids)
 	}
@@ -151,7 +151,7 @@ func TestAlertSourceBetaValidateOptions(t *testing.T) {
 	})
 
 	t.Run("rejects options the source type doesn't read", func(t *testing.T) {
-		diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type":  stringValue("http"),
 			"jira_options": jiraOptions,
 		}))
@@ -160,7 +160,7 @@ func TestAlertSourceBetaValidateOptions(t *testing.T) {
 	})
 
 	t.Run("requires the options a jira source can't be created without", func(t *testing.T) {
-		diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type": stringValue("jira"),
 		}))
 
@@ -168,7 +168,7 @@ func TestAlertSourceBetaValidateOptions(t *testing.T) {
 	})
 
 	t.Run("accepts the matching pair", func(t *testing.T) {
-		diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type":  stringValue("jira"),
 			"jira_options": jiraOptions,
 		}))
@@ -179,7 +179,7 @@ func TestAlertSourceBetaValidateOptions(t *testing.T) {
 	// An email source works with no options at all: it just gets no redactions and no
 	// transform. Only jira, heartbeat and http_custom are rejected without theirs.
 	t.Run("does not require email_options for an email source", func(t *testing.T) {
-		diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type": stringValue("email"),
 		}))
 
@@ -193,7 +193,7 @@ func TestAlertSourceBetaValidateOptions(t *testing.T) {
 			"project_ids": projectIDs(),
 		})
 
-		diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type":  stringValue("jira"),
 			"jira_options": empty,
 		}))
@@ -204,7 +204,7 @@ func TestAlertSourceBetaValidateOptions(t *testing.T) {
 	// source_type computed from another resource isn't known at validate time, so the check
 	// has to hold off rather than guess.
 	t.Run("holds off while source_type is unknown", func(t *testing.T) {
-		diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type":  tftypes.NewValue(tftypes.String, tftypes.UnknownValue),
 			"jira_options": jiraOptions,
 		}))
@@ -213,17 +213,17 @@ func TestAlertSourceBetaValidateOptions(t *testing.T) {
 	})
 }
 
-// TestAlertSourceBetaValidateHeartbeatTemplate covers the title and description a heartbeat
+// TestAlertSourceValidateHeartbeatTemplate covers the title and description a heartbeat
 // source writes for itself. Left to the API these are silently replaced, so the config would
 // keep planning a change that never lands.
-func TestAlertSourceBetaValidateHeartbeatTemplate(t *testing.T) {
+func TestAlertSourceValidateHeartbeatTemplate(t *testing.T) {
 	title := func(literal string) tftypes.Value {
 		return objectWith(t, attributeType(t, "title"), map[string]tftypes.Value{
 			"literal": stringValue(literal),
 		})
 	}
 
-	diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+	diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 		"source_type": stringValue("heartbeat"),
 		"title":       title("Heartbeat missed"),
 	}))
@@ -231,7 +231,7 @@ func TestAlertSourceBetaValidateHeartbeatTemplate(t *testing.T) {
 	assertErrorContaining(t, diags, "title can't be set on a heartbeat alert source")
 
 	// A source type that does take one is left alone.
-	diags = validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+	diags = validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 		"source_type": stringValue("http"),
 		"title":       title("Prometheus alert"),
 	}))
@@ -239,12 +239,12 @@ func TestAlertSourceBetaValidateHeartbeatTemplate(t *testing.T) {
 	assertNoErrorContaining(t, diags, "title")
 }
 
-// TestAlertSourceBetaValidateTemplatedText covers a title carrying neither form or both. The
+// TestAlertSourceValidateTemplatedText covers a title carrying neither form or both. The
 // mapping reads neither as absent, silently dropping the field and planning it again next time,
 // and reads both as a conflict the API rejects only at apply.
-func TestAlertSourceBetaValidateTemplatedText(t *testing.T) {
+func TestAlertSourceValidateTemplatedText(t *testing.T) {
 	t.Run("rejects a value holding nothing", func(t *testing.T) {
-		diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type": stringValue("http"),
 			"title":       objectWith(t, attributeType(t, "title"), nil),
 		}))
@@ -253,7 +253,7 @@ func TestAlertSourceBetaValidateTemplatedText(t *testing.T) {
 	})
 
 	t.Run("rejects both forms at once", func(t *testing.T) {
-		diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type": stringValue("http"),
 			"title": objectWith(t, attributeType(t, "title"), map[string]tftypes.Value{
 				"literal":   stringValue("Prometheus alert"),
@@ -267,7 +267,7 @@ func TestAlertSourceBetaValidateTemplatedText(t *testing.T) {
 	// The type reports syntax errors on every attribute using it, with no resource wiring. This
 	// proves that reaches the config.
 	t.Run("reports a template syntax error", func(t *testing.T) {
-		config := alertSourceBetaConfig(t, map[string]tftypes.Value{
+		config := alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type": stringValue("http"),
 			"title": objectWith(t, attributeType(t, "title"), map[string]tftypes.Value{
 				"literal": stringValue("Alert on {{ payload.service"),
@@ -281,16 +281,16 @@ func TestAlertSourceBetaValidateTemplatedText(t *testing.T) {
 	})
 }
 
-// TestAlertSourceBetaValidatePrivacy covers visible_to_teams and is_private, which are only
+// TestAlertSourceValidatePrivacy covers visible_to_teams and is_private, which are only
 // meaningful together: one says who can see the alerts, the other that they're restricted at
 // all.
-func TestAlertSourceBetaValidatePrivacy(t *testing.T) {
+func TestAlertSourceValidatePrivacy(t *testing.T) {
 	visibleToTeams := objectWith(t, attributeType(t, "visible_to_teams"), map[string]tftypes.Value{
 		"value_reference": stringValue("payload.team"),
 	})
 
 	t.Run("rejects visible_to_teams on a source that isn't private", func(t *testing.T) {
-		diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type":      stringValue("http"),
 			"is_private":       tftypes.NewValue(tftypes.Bool, false),
 			"visible_to_teams": visibleToTeams,
@@ -300,7 +300,7 @@ func TestAlertSourceBetaValidatePrivacy(t *testing.T) {
 	})
 
 	t.Run("rejects a private source nobody can see", func(t *testing.T) {
-		diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type": stringValue("http"),
 			"is_private":  tftypes.NewValue(tftypes.Bool, true),
 		}))
@@ -309,7 +309,7 @@ func TestAlertSourceBetaValidatePrivacy(t *testing.T) {
 	})
 
 	t.Run("accepts the two together", func(t *testing.T) {
-		diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+		diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 			"source_type":      stringValue("http"),
 			"is_private":       tftypes.NewValue(tftypes.Bool, true),
 			"visible_to_teams": visibleToTeams,
@@ -319,15 +319,15 @@ func TestAlertSourceBetaValidatePrivacy(t *testing.T) {
 	})
 }
 
-// TestAlertSourceBetaValidateBindings checks the source's own bindings reach the shared
+// TestAlertSourceValidateBindings checks the source's own bindings reach the shared
 // expression validation. A reference to an expression this resource doesn't own can't be
 // resolved by anyone — there is no shared pool — so it has to fail at plan time.
-func TestAlertSourceBetaValidateBindings(t *testing.T) {
+func TestAlertSourceValidateBindings(t *testing.T) {
 	priority := objectWith(t, attributeType(t, "priority"), map[string]tftypes.Value{
 		"expression_ref": stringValue("severity_lookup"),
 	})
 
-	diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, map[string]tftypes.Value{
+	diags := validateAlertSource(t, alertSourceConfig(t, map[string]tftypes.Value{
 		"source_type": stringValue("http"),
 		"priority":    priority,
 	}))

@@ -222,7 +222,7 @@ func assertNoDiagErrors(t *testing.T, diags diag.Diagnostics) {
 func TestAlertSourceAttributeReadsAnUnknownBinding(t *testing.T) {
 	for _, field := range unknownBindingForms {
 		t.Run(field, func(t *testing.T) {
-			schemaResp := resourceSchema(NewAlertSourceAttributeBetaResource)(t)
+			schemaResp := resourceSchema(NewAlertSourceAttributeResource)(t)
 			objType := schemaType(t, schemaResp)
 
 			attributes := map[string]tftypes.Value{}
@@ -235,11 +235,11 @@ func TestAlertSourceAttributeReadsAnUnknownBinding(t *testing.T) {
 
 			config := tfsdk.Config{Schema: schemaResp.Schema, Raw: tftypes.NewValue(objType, attributes)}
 
-			var model *alertSourceAttributeBetaModel
+			var model *alertSourceAttributeModel
 			assertNoDiagErrors(t, config.Get(t.Context(), &model))
 
 			var resp resource.ValidateConfigResponse
-			(&alertSourceAttributeBetaResource{}).ValidateConfig(t.Context(), resource.ValidateConfigRequest{
+			(&alertSourceAttributeResource{}).ValidateConfig(t.Context(), resource.ValidateConfigRequest{
 				Config: config,
 			}, &resp)
 			assertNoDiagErrors(t, resp.Diagnostics)
@@ -273,4 +273,27 @@ func TestUnknownBindingCountsAsOneForm(t *testing.T) {
 			}
 		})
 	}
+}
+
+// nullFilledObject builds an object whose leaves are all null. Nested objects are built
+// rather than nulled, because the model's param-binding types don't accept a null.
+func nullFilledObject(t *testing.T, attrType tftypes.Type) tftypes.Value {
+	t.Helper()
+
+	objType, ok := attrType.(tftypes.Object)
+	if !ok {
+		t.Fatalf("expected an object type, got %s", attrType)
+	}
+
+	attributes := map[string]tftypes.Value{}
+	for name, nested := range objType.AttributeTypes {
+		if _, nestedIsObject := nested.(tftypes.Object); nestedIsObject {
+			attributes[name] = nullFilledObject(t, nested)
+			continue
+		}
+
+		attributes[name] = tftypes.NewValue(nested, nil)
+	}
+
+	return tftypes.NewValue(objType, attributes)
 }

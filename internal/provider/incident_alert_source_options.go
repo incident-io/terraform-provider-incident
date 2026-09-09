@@ -14,10 +14,10 @@ import (
 	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
 )
 
-// Per-source-type options, shaped the same way the V2 resource shapes them so a config moving
-// to the beta resource doesn't have to relearn them.
+// Per-source-type options, shaped the same way the resource this replaced shaped them, so a
+// config moving across doesn't have to relearn them.
 //
-// Two fields the API returns inside its options are lifted out or left in place to match V2:
+// Two fields the API returns inside its options are lifted out or left in place to match it:
 // email_address sits at the top level of the resource, while ping_url stays inside
 // heartbeat_options.
 

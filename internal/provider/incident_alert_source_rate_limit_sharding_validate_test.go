@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 )
 
-func TestAlertSourceBetaValidateRateLimitSharding(t *testing.T) {
+func TestAlertSourceValidateRateLimitSharding(t *testing.T) {
 	shardingConfig := func(t *testing.T, keyPath tftypes.Value) map[string]tftypes.Value {
 		t.Helper()
 
@@ -26,7 +26,7 @@ func TestAlertSourceBetaValidateRateLimitSharding(t *testing.T) {
 	hasShardKeyError := func(t *testing.T, keyPath tftypes.Value) bool {
 		t.Helper()
 
-		diags := validateAlertSourceBeta(t, alertSourceBetaConfig(t, shardingConfig(t, keyPath)))
+		diags := validateAlertSource(t, alertSourceConfig(t, shardingConfig(t, keyPath)))
 		for _, d := range diags.Errors() {
 			if strings.Contains(d.Summary(), "Empty shard key path") {
 				return true

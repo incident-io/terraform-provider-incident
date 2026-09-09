@@ -23,17 +23,17 @@ const (
 	testAlertAttributeID = "01ATTRIBUTE"
 )
 
-// TestAlertSourceAttributeBetaResourceSchema builds the schema, which resolves every
+// TestAlertSourceAttributeResourceSchema builds the schema, which resolves every
 // apischema.Docstring call against the embedded OpenAPI schema and panics if a definition or
 // property is missing — the quickest way to catch the resource being built against a stale
 // vendored schema.
-func TestAlertSourceAttributeBetaResourceSchema(t *testing.T) {
+func TestAlertSourceAttributeResourceSchema(t *testing.T) {
 	ctx := context.Background()
-	r := NewAlertSourceAttributeBetaResource()
+	r := NewAlertSourceAttributeResource()
 
 	var metaResp resource.MetadataResponse
 	r.Metadata(ctx, resource.MetadataRequest{ProviderTypeName: "incident"}, &metaResp)
-	if metaResp.TypeName != "incident_alert_source_attribute_beta" {
+	if metaResp.TypeName != "incident_alert_source_attribute" {
 		t.Fatalf("unexpected type name: %q", metaResp.TypeName)
 	}
 
@@ -78,9 +78,9 @@ func TestAlertSourceAttributeImportIDRoundTrips(t *testing.T) {
 }
 
 func TestAlertSourceAttributeImportIDRejectsOnePart(t *testing.T) {
-	r, ok := NewAlertSourceAttributeBetaResource().(*alertSourceAttributeBetaResource)
+	r, ok := NewAlertSourceAttributeResource().(*alertSourceAttributeResource)
 	if !ok {
-		t.Fatalf("NewAlertSourceAttributeBetaResource did not return a *alertSourceAttributeBetaResource")
+		t.Fatalf("NewAlertSourceAttributeResource did not return a *alertSourceAttributeResource")
 	}
 
 	for _, id := range []string{testAlertSourceID, ":" + testAlertAttributeID, testAlertSourceID + ":", ""} {
@@ -126,13 +126,13 @@ func TestAlertSourceAttributeConflict(t *testing.T) {
 	})
 }
 
-// TestAlertSourceAttributeBetaFromAPIValue covers the value spellings living at the top level:
+// TestAlertSourceAttributeFromAPIValue covers the value spellings living at the top level:
 // a read has to put them back in the spelling the config wrote.
-func TestAlertSourceAttributeBetaFromAPIValue(t *testing.T) {
+func TestAlertSourceAttributeFromAPIValue(t *testing.T) {
 	t.Run("reads a literal back as value_literal", func(t *testing.T) {
-		model := alertSourceAttributeBetaFromAPI(alertSourceAttributeV3(func(attribute *client.AlertSourceAttributeV3) {
+		model := alertSourceAttributeFromAPI(alertSourceAttributeV3(func(attribute *client.AlertSourceAttributeV3) {
 			attribute.Value = &client.EngineParamBindingValuePayloadV3{Literal: lo.ToPtr("high")}
-		}), &alertSourceAttributeBetaModel{})
+		}), &alertSourceAttributeModel{})
 
 		if model.ValueLiteral.ValueString() != "high" {
 			t.Errorf("value_literal is %q, want %q", model.ValueLiteral.ValueString(), "high")
@@ -143,11 +143,11 @@ func TestAlertSourceAttributeBetaFromAPIValue(t *testing.T) {
 	})
 
 	t.Run("reads an all-literal array back as values", func(t *testing.T) {
-		model := alertSourceAttributeBetaFromAPI(alertSourceAttributeV3(func(attribute *client.AlertSourceAttributeV3) {
+		model := alertSourceAttributeFromAPI(alertSourceAttributeV3(func(attribute *client.AlertSourceAttributeV3) {
 			attribute.ArrayValue = &[]client.EngineParamBindingValuePayloadV3{
 				{Literal: lo.ToPtr("one")}, {Literal: lo.ToPtr("two")},
 			}
-		}), &alertSourceAttributeBetaModel{})
+		}), &alertSourceAttributeModel{})
 
 		want := models.BindingValuesList("one", "two")
 		if !reflect.DeepEqual(model.Values, want) {
@@ -158,14 +158,14 @@ func TestAlertSourceAttributeBetaFromAPIValue(t *testing.T) {
 	// `value = { literal = "high" }` and `value_literal = "high"` are the same payload, so the
 	// read has to take the spelling from the prior or the apply fails as an inconsistent result.
 	t.Run("keeps the long form the config wrote", func(t *testing.T) {
-		prior := &alertSourceAttributeBetaModel{
+		prior := &alertSourceAttributeModel{
 			Value: models.BindingValue{
 				Literal:   types.StringValue("high"),
 				Reference: types.StringNull(),
 			}.ToObject(),
 		}
 
-		model := alertSourceAttributeBetaFromAPI(alertSourceAttributeV3(func(attribute *client.AlertSourceAttributeV3) {
+		model := alertSourceAttributeFromAPI(alertSourceAttributeV3(func(attribute *client.AlertSourceAttributeV3) {
 			attribute.Value = &client.EngineParamBindingValuePayloadV3{Literal: lo.ToPtr("high")}
 		}), prior)
 
@@ -179,7 +179,7 @@ func TestAlertSourceAttributeBetaFromAPIValue(t *testing.T) {
 	})
 
 	t.Run("takes the merge strategy the API settled on", func(t *testing.T) {
-		model := alertSourceAttributeBetaFromAPI(alertSourceAttributeV3(nil), &alertSourceAttributeBetaModel{})
+		model := alertSourceAttributeFromAPI(alertSourceAttributeV3(nil), &alertSourceAttributeModel{})
 
 		if model.MergeStrategy.ValueString() != "first_wins" {
 			t.Errorf("merge_strategy is %q, want the API's answer", model.MergeStrategy.ValueString())
@@ -187,11 +187,11 @@ func TestAlertSourceAttributeBetaFromAPIValue(t *testing.T) {
 	})
 }
 
-// TestAlertSourceAttributeBetaBoundExpressionRoundTrip is the property the expression block
+// TestAlertSourceAttributeBoundExpressionRoundTrip is the property the expression block
 // rests on: declaring it binds its result, so the reference the provider minted has to fold
 // back into the block rather than reading as a value or a named_expression.
-func TestAlertSourceAttributeBetaBoundExpressionRoundTrip(t *testing.T) {
-	config := &alertSourceAttributeBetaModel{
+func TestAlertSourceAttributeBoundExpressionRoundTrip(t *testing.T) {
+	config := &alertSourceAttributeModel{
 		AlertSourceID:    types.StringValue(testAlertSourceID),
 		AlertAttributeID: types.StringValue(testAlertAttributeID),
 		Expression: &models.Expression{
@@ -200,9 +200,9 @@ func TestAlertSourceAttributeBetaBoundExpressionRoundTrip(t *testing.T) {
 		},
 	}
 
-	binding := (&alertSourceAttributeBetaResource{}).toPayload(config, &diag.Diagnostics{})
+	binding := (&alertSourceAttributeResource{}).toPayload(config, &diag.Diagnostics{})
 
-	model := alertSourceAttributeBetaFromAPI(alertSourceAttributeV3(func(attribute *client.AlertSourceAttributeV3) {
+	model := alertSourceAttributeFromAPI(alertSourceAttributeV3(func(attribute *client.AlertSourceAttributeV3) {
 		attribute.Value = binding.value
 		attribute.Expressions = binding.expressions
 	}), config)
@@ -218,10 +218,10 @@ func TestAlertSourceAttributeBetaBoundExpressionRoundTrip(t *testing.T) {
 	}
 }
 
-// TestAlertSourceAttributeBetaMintsPerAttribute is why the minted name isn't a constant: two
+// TestAlertSourceAttributeMintsPerAttribute is why the minted name isn't a constant: two
 // resources on one alert source would claim the same reference, and the API refuses the second
 // as somebody else's.
-func TestAlertSourceAttributeBetaMintsPerAttribute(t *testing.T) {
+func TestAlertSourceAttributeMintsPerAttribute(t *testing.T) {
 	expression := &models.Expression{
 		StartFrom:  types.StringValue("payload"),
 		Operations: []models.Operation{{Cast: &models.Cast{As: types.StringValue("Text")}}},
@@ -229,7 +229,7 @@ func TestAlertSourceAttributeBetaMintsPerAttribute(t *testing.T) {
 
 	references := []string{}
 	for _, attributeID := range []string{"01TEAM", "01SERVICE"} {
-		binding := (&alertSourceAttributeBetaResource{}).toPayload(&alertSourceAttributeBetaModel{
+		binding := (&alertSourceAttributeResource{}).toPayload(&alertSourceAttributeModel{
 			AlertAttributeID: types.StringValue(attributeID),
 			Expression:       expression,
 		}, &diag.Diagnostics{})
@@ -245,11 +245,11 @@ func TestAlertSourceAttributeBetaMintsPerAttribute(t *testing.T) {
 	}
 }
 
-// TestAlertSourceAttributeBetaValueReachesItsExpression covers the value that sits outside the
+// TestAlertSourceAttributeValueReachesItsExpression covers the value that sits outside the
 // expression tree and still names something in it. Left unrenamed it round trips happily and fails
 // at apply.
-func TestAlertSourceAttributeBetaValueReachesItsExpression(t *testing.T) {
-	binding := (&alertSourceAttributeBetaResource{}).toPayload(&alertSourceAttributeBetaModel{
+func TestAlertSourceAttributeValueReachesItsExpression(t *testing.T) {
+	binding := (&alertSourceAttributeResource{}).toPayload(&alertSourceAttributeModel{
 		AlertAttributeID: types.StringValue(testAlertAttributeID),
 		ExpressionRef:    types.StringValue("zebra"),
 		NamedExpressions: []models.NamedExpression{{
@@ -272,10 +272,10 @@ func TestAlertSourceAttributeBetaValueReachesItsExpression(t *testing.T) {
 	}
 }
 
-// TestAlertSourceAttributeBetaNamedExpressionOrder covers named_expression being a list: the API
+// TestAlertSourceAttributeNamedExpressionOrder covers named_expression being a list: the API
 // returns them sorted by reference, so a read has to restore the config's order or a config
 // nobody touched plans a change.
-func TestAlertSourceAttributeBetaNamedExpressionOrder(t *testing.T) {
+func TestAlertSourceAttributeNamedExpressionOrder(t *testing.T) {
 	named := func(names ...string) []models.NamedExpression {
 		return lo.Map(names, func(name string, _ int) models.NamedExpression {
 			return models.NamedExpression{
@@ -286,15 +286,15 @@ func TestAlertSourceAttributeBetaNamedExpressionOrder(t *testing.T) {
 		})
 	}
 
-	config := &alertSourceAttributeBetaModel{
+	config := &alertSourceAttributeModel{
 		AlertAttributeID: types.StringValue(testAlertAttributeID),
 		ExpressionRef:    types.StringValue("zebra"),
 		NamedExpressions: named("zebra", "aardvark"),
 	}
 
-	binding := (&alertSourceAttributeBetaResource{}).toPayload(config, &diag.Diagnostics{})
+	binding := (&alertSourceAttributeResource{}).toPayload(config, &diag.Diagnostics{})
 
-	model := alertSourceAttributeBetaFromAPI(alertSourceAttributeV3(func(attribute *client.AlertSourceAttributeV3) {
+	model := alertSourceAttributeFromAPI(alertSourceAttributeV3(func(attribute *client.AlertSourceAttributeV3) {
 		attribute.Value = binding.value
 		// Sorted by reference, which is the order the API reads them back in.
 		attribute.Expressions = []client.ExpressionPayloadV3{binding.expressions[1], binding.expressions[0]}
@@ -333,9 +333,9 @@ func emptyAlertSourceAttributeState(t *testing.T) tfsdk.State {
 func importAlertSourceAttribute(t *testing.T, id string) tfsdk.State {
 	t.Helper()
 
-	r, ok := NewAlertSourceAttributeBetaResource().(*alertSourceAttributeBetaResource)
+	r, ok := NewAlertSourceAttributeResource().(*alertSourceAttributeResource)
 	if !ok {
-		t.Fatalf("NewAlertSourceAttributeBetaResource did not return a *alertSourceAttributeBetaResource")
+		t.Fatalf("NewAlertSourceAttributeResource did not return a *alertSourceAttributeResource")
 	}
 
 	resp := resource.ImportStateResponse{State: emptyAlertSourceAttributeState(t)}

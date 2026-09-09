@@ -26,27 +26,28 @@ import (
 )
 
 var (
-	_ resource.Resource                   = &alertSourceAttributeBetaResource{}
-	_ resource.ResourceWithConfigure      = &alertSourceAttributeBetaResource{}
-	_ resource.ResourceWithImportState    = &alertSourceAttributeBetaResource{}
-	_ resource.ResourceWithValidateConfig = &alertSourceAttributeBetaResource{}
-	_ resource.ResourceWithModifyPlan     = &alertSourceAttributeBetaResource{}
+	_ resource.Resource                   = &alertSourceAttributeResource{}
+	_ resource.ResourceWithConfigure      = &alertSourceAttributeResource{}
+	_ resource.ResourceWithMoveState      = &alertSourceAttributeResource{}
+	_ resource.ResourceWithImportState    = &alertSourceAttributeResource{}
+	_ resource.ResourceWithValidateConfig = &alertSourceAttributeResource{}
+	_ resource.ResourceWithModifyPlan     = &alertSourceAttributeResource{}
 )
 
-func NewAlertSourceAttributeBetaResource() resource.Resource {
-	return &alertSourceAttributeBetaResource{}
+func NewAlertSourceAttributeResource() resource.Resource {
+	return &alertSourceAttributeResource{}
 }
 
-type alertSourceAttributeBetaResource struct {
+type alertSourceAttributeResource struct {
 	resourceConfigurer
 }
 
-// alertSourceAttributeBetaModel is one attribute of one alert source. The value spellings sit
+// alertSourceAttributeModel is one attribute of one alert source. The value spellings sit
 // at the top level rather than under a `binding` key, because the resource is the binding.
 //
 // There is no id: an attribute is bound at most once per source, so the pair of ids is the
 // identity.
-type alertSourceAttributeBetaModel struct {
+type alertSourceAttributeModel struct {
 	AlertSourceID    types.String `tfsdk:"alert_source_id"`
 	AlertAttributeID types.String `tfsdk:"alert_attribute_id"`
 	MergeStrategy    types.String `tfsdk:"merge_strategy"`
@@ -65,11 +66,11 @@ type alertSourceAttributeBetaModel struct {
 	NamedExpressions []models.NamedExpression `tfsdk:"named_expression"`
 }
 
-func (r *alertSourceAttributeBetaResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_alert_source_attribute_beta"
+func (r *alertSourceAttributeResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_alert_source_attribute"
 }
 
-func (r *alertSourceAttributeBetaResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *alertSourceAttributeResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attributes := map[string]schema.Attribute{
 		"alert_source_id": schema.StringAttribute{
 			Required:            true,
@@ -104,25 +105,19 @@ func (r *alertSourceAttributeBetaResource) Schema(_ context.Context, _ resource.
 	resp.Schema = schema.Schema{
 		MarkdownDescription: fmt.Sprintf("%s\n\n%s", apischema.TagDocstring("Alert Sources V3"), `What fills in one attribute of an alert source, and how values are merged when an alert is updated.
 
-Each attribute is its own resource. Editing one doesn't mean rewriting the source, and two people editing different attributes don't race each other. The source is an `+"`incident_alert_source_beta`"+` resource.
+Each attribute is its own resource. Editing one doesn't mean rewriting the source, and two people editing different attributes don't race each other. The source is an `+"`incident_alert_source`"+` resource.
 
 A `+"`named_expression`"+` name only has to be unique within this resource: two attributes of one source can each have one called `+"`severity`"+`.
 
-## How this differs from `+"`incident_alert_source`"+`
+## What changed in v7
 
-`+"`incident_alert_source`"+` declares a source and every attribute it populates together, under
-one `+"`template.attributes`"+` list. Filling in one more attribute means rewriting that whole
-list, and two people editing different attributes are editing the same resource.
-
-This resource splits an attribute binding out as its own resource, with its own lifecycle,
-so filling in one more attribute is an add rather than an edit of something else.
-
-## Beta, and what happens next
-
-This resource is in beta. Its schema may still change in ways that are not backwards
-compatible, so pin the provider version if that matters to you.
-
-`+"`incident_alert_source`"+` is not deprecated, and there is no need to move anything yet.`),
+Before v7, every attribute a source populated was declared on the source itself, under one
+`+"`template.attributes`"+` list, so filling in one more meant rewriting the list. Splitting
+each binding out means adding an attribute is an add rather than an edit of everything
+else. See the [v7 migration
+guide](https://registry.terraform.io/providers/incident-io/incident/latest/docs/guides/migrating-to-v7) for how to move a
+configuration across: each entry of the old list becomes one of these, imported by its
+source and attribute IDs.`),
 		Attributes: attributes,
 		Blocks: map[string]schema.Block{
 			"expression":       models.ExpressionBlock(),
@@ -139,8 +134,8 @@ const alertSourceAttributeMissingValue = "Say what fills this attribute in. Set 
 
 // ValidateConfig runs the checks the schema can't express, so they land at plan time against a
 // path in the config rather than as an API rejection at apply.
-func (r *alertSourceAttributeBetaResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
-	var data alertSourceAttributeBetaModel
+func (r *alertSourceAttributeResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var data alertSourceAttributeModel
 
 	// The bindings and expression blocks hold values that can be computed by another
 	// resource, which the model's concrete types can't represent. Decoding a config like that
@@ -162,7 +157,7 @@ func (r *alertSourceAttributeBetaResource) ValidateConfig(ctx context.Context, r
 
 // validateValue holds the exclusive group together: the block and the spellings all say what
 // this attribute is filled with, and exactly one of them has to.
-func (r *alertSourceAttributeBetaResource) validateValue(data *alertSourceAttributeBetaModel, diags *diag.Diagnostics) {
+func (r *alertSourceAttributeResource) validateValue(data *alertSourceAttributeModel, diags *diag.Diagnostics) {
 	binding := data.binding()
 
 	switch {
@@ -181,7 +176,7 @@ func (r *alertSourceAttributeBetaResource) validateValue(data *alertSourceAttrib
 	}
 }
 
-func (r *alertSourceAttributeBetaResource) validateMergeStrategy(data *alertSourceAttributeBetaModel, diags *diag.Diagnostics) {
+func (r *alertSourceAttributeResource) validateMergeStrategy(data *alertSourceAttributeModel, diags *diag.Diagnostics) {
 	strategy := data.MergeStrategy
 	if strategy.IsNull() || strategy.IsUnknown() {
 		return
@@ -206,7 +201,7 @@ var alertSourceAttributeValidateTimeout = 10 * time.Second
 //
 // It can't live in ValidateConfig, which `terraform validate` also calls: that runs the
 // provider without configuring it, so there is no client to ask with.
-func (r *alertSourceAttributeBetaResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
+func (r *alertSourceAttributeResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
 	// A destroy plans no binding, and an unconfigured provider has no client.
 	if r.client == nil || req.Plan.Raw.IsNull() {
 		return
@@ -226,7 +221,7 @@ func (r *alertSourceAttributeBetaResource) ModifyPlan(ctx context.Context, req r
 
 	// A block holding a value another resource computes doesn't decode into the model's
 	// concrete types. Give up rather than fail a plan the API may well accept.
-	var data alertSourceAttributeBetaModel
+	var data alertSourceAttributeModel
 	if req.Plan.Get(ctx, &data).HasError() {
 		return
 	}
@@ -299,8 +294,8 @@ func alertSourceAttributeValidateSettled(plan tftypes.Value) bool {
 	return true
 }
 
-func (r *alertSourceAttributeBetaResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var data alertSourceAttributeBetaModel
+func (r *alertSourceAttributeResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data alertSourceAttributeModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -345,11 +340,11 @@ func (r *alertSourceAttributeBetaResource) Create(ctx context.Context, req resou
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceAttributeBetaFromAPI(result.JSON201.AlertSourceAttribute, &data))...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceAttributeFromAPI(result.JSON201.AlertSourceAttribute, &data))...)
 }
 
-func (r *alertSourceAttributeBetaResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var data alertSourceAttributeBetaModel
+func (r *alertSourceAttributeResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data alertSourceAttributeModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -374,11 +369,11 @@ func (r *alertSourceAttributeBetaResource) Read(ctx context.Context, req resourc
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceAttributeBetaFromAPI(result.JSON200.AlertSourceAttribute, &data))...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceAttributeFromAPI(result.JSON200.AlertSourceAttribute, &data))...)
 }
 
-func (r *alertSourceAttributeBetaResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan alertSourceAttributeBetaModel
+func (r *alertSourceAttributeResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan alertSourceAttributeModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -419,11 +414,11 @@ func (r *alertSourceAttributeBetaResource) Update(ctx context.Context, req resou
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceAttributeBetaFromAPI(result.JSON200.AlertSourceAttribute, &plan))...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, alertSourceAttributeFromAPI(result.JSON200.AlertSourceAttribute, &plan))...)
 }
 
-func (r *alertSourceAttributeBetaResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data alertSourceAttributeBetaModel
+func (r *alertSourceAttributeResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data alertSourceAttributeModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -448,7 +443,7 @@ func (r *alertSourceAttributeBetaResource) Delete(ctx context.Context, req resou
 	}
 }
 
-func (r *alertSourceAttributeBetaResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *alertSourceAttributeResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	sourceID, attributeID, found := strings.Cut(req.ID, alertSourceAttributeImportSeparator)
 	if !found || sourceID == "" || attributeID == "" {
 		resp.Diagnostics.AddError(
@@ -464,6 +459,20 @@ func (r *alertSourceAttributeBetaResource) ImportState(ctx context.Context, req 
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("alert_attribute_id"), attributeID)...)
 }
 
+// MoveState takes the state of an `incident_alert_source_attribute_beta`, which is
+// the name this resource went by before v7. The schema is the same one, so a
+// `moved` block is all it takes:
+//
+//	moved {
+//	  from = incident_alert_source_attribute_beta.environment
+//	  to   = incident_alert_source_attribute.environment
+//	}
+func (r *alertSourceAttributeResource) MoveState(ctx context.Context) []resource.StateMover {
+	return []resource.StateMover{
+		renameStateMover("incident_alert_source_attribute_beta", declaredResourceSchema(ctx, r)),
+	}
+}
+
 const alertSourceAttributeImportSeparator = ":"
 
 func alertSourceAttributeImportID(sourceID, attributeID string) string {
@@ -472,7 +481,7 @@ func alertSourceAttributeImportID(sourceID, attributeID string) string {
 
 // binding gathers the value spellings into the shared binding model. Nil means the config set
 // none, which is the case where an expression block is the value.
-func (m *alertSourceAttributeBetaModel) binding() *models.Binding {
+func (m *alertSourceAttributeModel) binding() *models.Binding {
 	binding := &models.Binding{
 		ValueLiteral:   m.ValueLiteral,
 		ValueReference: m.ValueReference,
@@ -512,8 +521,8 @@ type alertSourceAttributeBinding struct {
 //
 // expressions is always sent, empty included. The API reads it as the full set this attribute
 // owns, so omitting it on an edit that drops an expression would leave the old one behind.
-func (r *alertSourceAttributeBetaResource) toPayload(
-	data *alertSourceAttributeBetaModel,
+func (r *alertSourceAttributeResource) toPayload(
+	data *alertSourceAttributeModel,
 	diags *diag.Diagnostics,
 ) alertSourceAttributeBinding {
 	ns := models.AlertAttributeExpressions(data.AlertAttributeID.ValueString())
@@ -550,18 +559,18 @@ func (r *alertSourceAttributeBetaResource) toPayload(
 	return binding
 }
 
-// alertSourceAttributeBetaFromAPI projects an API binding into Terraform state. prior is the
+// alertSourceAttributeFromAPI projects an API binding into Terraform state. prior is the
 // plan on create and update, the prior state on read, and settles what the payload can't: the
 // order the config wrote its named expressions in, and which spelling its value used.
-func alertSourceAttributeBetaFromAPI(
+func alertSourceAttributeFromAPI(
 	attribute client.AlertSourceAttributeV3,
-	prior *alertSourceAttributeBetaModel,
-) *alertSourceAttributeBetaModel {
+	prior *alertSourceAttributeModel,
+) *alertSourceAttributeModel {
 	ns := models.AlertAttributeExpressions(attribute.AlertAttributeId)
 	expression, named := models.ExpressionsFromPayload(
 		attribute.Expressions, ns, prior.Expression, prior.NamedExpressions)
 
-	model := &alertSourceAttributeBetaModel{
+	model := &alertSourceAttributeModel{
 		AlertSourceID:    types.StringValue(attribute.AlertSourceId),
 		AlertAttributeID: types.StringValue(attribute.AlertAttributeId),
 		MergeStrategy:    types.StringValue(string(attribute.MergeStrategy)),
@@ -590,7 +599,7 @@ func alertSourceAttributeBetaFromAPI(
 //
 // Every spelling is reset first, including the three framework ones: their zero values carry
 // no element or attribute type, and the framework can't write those to state.
-func bindingToModel(binding *models.Binding, model *alertSourceAttributeBetaModel) {
+func bindingToModel(binding *models.Binding, model *alertSourceAttributeModel) {
 	empty := models.NullBinding()
 	model.ValueLiteral = empty.ValueLiteral
 	model.ValueReference = empty.ValueReference
@@ -621,7 +630,7 @@ func isConflict(err error) bool {
 //
 // Anything other than a clear yes reads as no, so a create that hit a conflict for some other
 // reason is described as what it is rather than sent to import a binding that isn't there.
-func (r *alertSourceAttributeBetaResource) attributeIsBound(ctx context.Context, sourceID, attributeID string) bool {
+func (r *alertSourceAttributeResource) attributeIsBound(ctx context.Context, sourceID, attributeID string) bool {
 	result, err := r.client.AlertSourcesV3ShowAttributeWithResponse(ctx, sourceID, attributeID)
 
 	return err == nil && result.JSON200 != nil

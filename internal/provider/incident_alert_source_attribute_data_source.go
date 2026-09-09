@@ -12,23 +12,23 @@ import (
 )
 
 var (
-	_ datasource.DataSource              = &AlertSourceAttributeBetaDataSource{}
-	_ datasource.DataSourceWithConfigure = &AlertSourceAttributeBetaDataSource{}
+	_ datasource.DataSource              = &AlertSourceAttributeDataSource{}
+	_ datasource.DataSourceWithConfigure = &AlertSourceAttributeDataSource{}
 )
 
-func NewAlertSourceAttributeBetaDataSource() datasource.DataSource {
-	return &AlertSourceAttributeBetaDataSource{}
+func NewAlertSourceAttributeDataSource() datasource.DataSource {
+	return &AlertSourceAttributeDataSource{}
 }
 
-type AlertSourceAttributeBetaDataSource struct {
+type AlertSourceAttributeDataSource struct {
 	dataSourceConfigurer
 }
 
-func (d *AlertSourceAttributeBetaDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_alert_source_attribute_beta"
+func (d *AlertSourceAttributeDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_alert_source_attribute"
 }
 
-func (d *AlertSourceAttributeBetaDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *AlertSourceAttributeDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	attributes := map[string]schema.Attribute{
 		"alert_source_id": schema.StringAttribute{
 			Required:            true,
@@ -57,8 +57,8 @@ func (d *AlertSourceAttributeBetaDataSource) Schema(_ context.Context, _ datasou
 	}
 }
 
-func (d *AlertSourceAttributeBetaDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data alertSourceAttributeBetaModel
+func (d *AlertSourceAttributeDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data alertSourceAttributeModel
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -77,6 +77,6 @@ func (d *AlertSourceAttributeBetaDataSource) Read(ctx context.Context, req datas
 		return
 	}
 
-	model := alertSourceAttributeBetaFromAPI(result.JSON200.AlertSourceAttribute, &data)
+	model := alertSourceAttributeFromAPI(result.JSON200.AlertSourceAttribute, &data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, model)...)
 }

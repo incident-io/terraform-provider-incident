@@ -13,10 +13,9 @@ description: |-
   on it.
   What varies per source is the binding: the rule parsing a value for this attribute out of an
   incoming event. A source binds a given attribute at most once, and two sources can fill the
-  same attribute from completely different parts of their payloads. Write bindings either as
-  template.attributes on incident_alert_source, which declares a source and everything it
-  populates together, or as one incident_alert_source_attribute_beta resource per binding
-  against an incident_alert_source_beta source.
+  same attribute from completely different parts of their payloads. Write each binding as an
+  incident_alert_source_attribute resource, against the incident_alert_source it belongs
+  to.
   So a GCP service attribute is declared once, then bound separately by each source that sets it.
   Declaring one attribute from several workspaces
   If your Terraform is split across workspaces — one per environment, say — only one of them
@@ -53,10 +52,9 @@ on it.
 
 What varies per source is the *binding*: the rule parsing a value for this attribute out of an
 incoming event. A source binds a given attribute at most once, and two sources can fill the
-same attribute from completely different parts of their payloads. Write bindings either as
-`template.attributes` on `incident_alert_source`, which declares a source and everything it
-populates together, or as one `incident_alert_source_attribute_beta` resource per binding
-against an `incident_alert_source_beta` source.
+same attribute from completely different parts of their payloads. Write each binding as an
+`incident_alert_source_attribute` resource, against the `incident_alert_source` it belongs
+to.
 
 So a `GCP service` attribute is declared once, then bound separately by each source that sets it.
 
@@ -121,8 +119,8 @@ resource "incident_alert_attribute" "gcp_service" {
 
 # Staging and production each parse the same attribute out of their own source, so both
 # environments' alerts are labelled with one attribute that routes can match on.
-resource "incident_alert_source_attribute_beta" "gcp_service_staging" {
-  alert_source_id    = incident_alert_source_beta.gcp_staging.id
+resource "incident_alert_source_attribute" "gcp_service_staging" {
+  alert_source_id    = incident_alert_source.gcp_staging.id
   alert_attribute_id = incident_alert_attribute.gcp_service.id
 
   # The payload is opaque JSON, so `payload` as a whole is the only part of it in scope: a
@@ -141,8 +139,8 @@ resource "incident_alert_source_attribute_beta" "gcp_service_staging" {
   }
 }
 
-resource "incident_alert_source_attribute_beta" "gcp_service_production" {
-  alert_source_id    = incident_alert_source_beta.gcp_production.id
+resource "incident_alert_source_attribute" "gcp_service_production" {
+  alert_source_id    = incident_alert_source.gcp_production.id
   alert_attribute_id = incident_alert_attribute.gcp_service.id
 
   # The payload is opaque JSON, so `payload` as a whole is the only part of it in scope: a
@@ -168,8 +166,8 @@ data "incident_alert_attribute" "existing_gcp_service" {
   name = "GCP service"
 }
 
-resource "incident_alert_source_attribute_beta" "gcp_service_other_workspace" {
-  alert_source_id    = incident_alert_source_beta.gcp_other.id
+resource "incident_alert_source_attribute" "gcp_service_other_workspace" {
+  alert_source_id    = incident_alert_source.gcp_other.id
   alert_attribute_id = data.incident_alert_attribute.existing_gcp_service.id
 
   # The payload is opaque JSON, so `payload` as a whole is the only part of it in scope: a

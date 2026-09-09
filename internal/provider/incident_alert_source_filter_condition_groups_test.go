@@ -11,7 +11,7 @@ import (
 
 // The drift harness in examples/experiment is what proves the round-trip end to end. These cover
 // the three mappings it would fail on, so a break points at the direction that caused it.
-func TestAlertSourceBetaFilterConditionGroups(t *testing.T) {
+func TestAlertSourceFilterConditionGroups(t *testing.T) {
 	t.Run("reads filter conditions", func(t *testing.T) {
 		source := alertSourceV3("http")
 		source.FilterConditionGroups = &[]client.ConditionGroupPayloadV3{
@@ -24,7 +24,7 @@ func TestAlertSourceBetaFilterConditionGroups(t *testing.T) {
 			}},
 		}
 
-		model := fromAPI(t, source, &alertSourceBetaModel{})
+		model := fromAPI(t, source, &alertSourceModel{})
 		if len(model.FilterConditionGroups) != 1 {
 			t.Fatalf("expected 1 filter condition group, got %d", len(model.FilterConditionGroups))
 		}
@@ -45,7 +45,7 @@ func TestAlertSourceBetaFilterConditionGroups(t *testing.T) {
 	// no blocks, or it would diff against a config that never set the attribute and fail the
 	// apply as an inconsistent result.
 	t.Run("reads an absent field as no blocks when the config never set it", func(t *testing.T) {
-		model := fromAPI(t, alertSourceV3("http"), &alertSourceBetaModel{})
+		model := fromAPI(t, alertSourceV3("http"), &alertSourceModel{})
 		if model.FilterConditionGroups != nil {
 			t.Errorf("expected nil, got %+v", model.FilterConditionGroups)
 		}
@@ -56,7 +56,7 @@ func TestAlertSourceBetaFilterConditionGroups(t *testing.T) {
 	// disambiguate, this would read back as null against a plan of `[]` and fail the apply as an
 	// inconsistent result.
 	t.Run("reads an absent field as an empty list when the config set one", func(t *testing.T) {
-		config := &alertSourceBetaModel{FilterConditionGroups: models.IncidentEngineConditionGroups{}}
+		config := &alertSourceModel{FilterConditionGroups: models.IncidentEngineConditionGroups{}}
 
 		model := fromAPI(t, alertSourceV3("http"), config)
 		if model.FilterConditionGroups == nil {
@@ -82,7 +82,7 @@ func TestAlertSourceBetaFilterConditionGroups(t *testing.T) {
 			}},
 		}
 
-		config := &alertSourceBetaModel{
+		config := &alertSourceModel{
 			FilterConditionGroups: models.IncidentEngineConditionGroups{
 				{Conditions: models.IncidentEngineConditions{
 					{

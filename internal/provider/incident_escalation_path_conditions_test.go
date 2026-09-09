@@ -343,7 +343,7 @@ func TestValidateSequenceConditions(t *testing.T) {
 		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
-			data := betaModel(t, "main", map[string][]escalationPathNode{
+			data := sequencesModel(t, "main", map[string][]escalationPathNode{
 				"main":   {branchWith(tc.branchIf)},
 				"urgent": {levelNode(t, "")},
 			})

@@ -95,7 +95,7 @@ func modifyAlertSourceAttributePlanFrom(
 ) resource.ModifyPlanResponse {
 	t.Helper()
 
-	r := &alertSourceAttributeBetaResource{resourceConfigurer: withClient(api.start(t))}
+	r := &alertSourceAttributeResource{resourceConfigurer: withClient(api.start(t))}
 
 	var resp resource.ModifyPlanResponse
 	r.ModifyPlan(context.Background(), resource.ModifyPlanRequest{Plan: plan, State: state}, &resp)
@@ -105,7 +105,7 @@ func modifyAlertSourceAttributePlanFrom(
 
 // Asserts the request too: a payload that doesn't describe the planned binding, or one asked
 // about the wrong source, would validate something nobody is about to apply.
-func TestAlertSourceAttributeBetaModifyPlanAcceptsValidBinding(t *testing.T) {
+func TestAlertSourceAttributeModifyPlanAcceptsValidBinding(t *testing.T) {
 	api := &fakeAlertSourceAttributeValidateAPI{}
 	plan := alertSourceAttributePlan(t, map[string]tftypes.Value{
 		"value_literal": stringValue("critical"),
@@ -150,7 +150,7 @@ func TestAlertSourceAttributeBetaModifyPlanAcceptsValidBinding(t *testing.T) {
 }
 
 // A 422 fails the plan and repeats what the API said, field path included.
-func TestAlertSourceAttributeBetaModifyPlanRejectsInvalidBinding(t *testing.T) {
+func TestAlertSourceAttributeModifyPlanRejectsInvalidBinding(t *testing.T) {
 	api := &fakeAlertSourceAttributeValidateAPI{
 		status: http.StatusUnprocessableEntity,
 		body:   `{"type":"validation_error","errors":[{"code":"invalid_value","message":"referenced resource not found in scope","source":{"field":"alert_source_attribute.value"}}]}`,
@@ -173,7 +173,7 @@ func TestAlertSourceAttributeBetaModifyPlanRejectsInvalidBinding(t *testing.T) {
 
 // Any other status means the check didn't run, over a config that may be perfectly good — a
 // 404 included, since the source can be created by an apply this plan can't see.
-func TestAlertSourceAttributeBetaModifyPlanWarnsWhenCheckUnavailable(t *testing.T) {
+func TestAlertSourceAttributeModifyPlanWarnsWhenCheckUnavailable(t *testing.T) {
 	original := alertSourceAttributeValidateTimeout
 	alertSourceAttributeValidateTimeout = 50 * time.Millisecond
 	t.Cleanup(func() { alertSourceAttributeValidateTimeout = original })
@@ -197,7 +197,7 @@ func TestAlertSourceAttributeBetaModifyPlanWarnsWhenCheckUnavailable(t *testing.
 
 // merge_strategy is unknown on every create, the source deciding it. Treating that as
 // unsettled would skip the plans worth checking.
-func TestAlertSourceAttributeBetaModifyPlanValidatesWhenOnlyMergeStrategyIsUnknown(t *testing.T) {
+func TestAlertSourceAttributeModifyPlanValidatesWhenOnlyMergeStrategyIsUnknown(t *testing.T) {
 	api := &fakeAlertSourceAttributeValidateAPI{}
 	plan := alertSourceAttributePlan(t, map[string]tftypes.Value{
 		"value_literal":  stringValue("critical"),
@@ -216,7 +216,7 @@ func TestAlertSourceAttributeBetaModifyPlanValidatesWhenOnlyMergeStrategyIsUnkno
 
 // The shape of a first apply: the source is created by the same run, so there is nothing yet
 // to validate against.
-func TestAlertSourceAttributeBetaModifyPlanSkipsUnknownValues(t *testing.T) {
+func TestAlertSourceAttributeModifyPlanSkipsUnknownValues(t *testing.T) {
 	for name, override := range map[string]map[string]tftypes.Value{
 		"source not created yet": {
 			"alert_source_id": tftypes.NewValue(tftypes.String, tftypes.UnknownValue),
@@ -247,7 +247,7 @@ func TestAlertSourceAttributeBetaModifyPlanSkipsUnknownValues(t *testing.T) {
 
 // ModifyPlan runs for every resource in the plan, changed or not, so without this a source
 // with a dozen attributes costs a dozen checks per plan.
-func TestAlertSourceAttributeBetaModifyPlanSkipsUnchangedBinding(t *testing.T) {
+func TestAlertSourceAttributeModifyPlanSkipsUnchangedBinding(t *testing.T) {
 	api := &fakeAlertSourceAttributeValidateAPI{}
 	plan := alertSourceAttributePlan(t, map[string]tftypes.Value{
 		"value_literal":  stringValue("critical"),
@@ -264,7 +264,7 @@ func TestAlertSourceAttributeBetaModifyPlanSkipsUnchangedBinding(t *testing.T) {
 	}
 }
 
-func TestAlertSourceAttributeBetaModifyPlanSkipsDestroy(t *testing.T) {
+func TestAlertSourceAttributeModifyPlanSkipsDestroy(t *testing.T) {
 	api := &fakeAlertSourceAttributeValidateAPI{}
 
 	resp := modifyAlertSourceAttributePlan(t, api, nil)

@@ -364,7 +364,7 @@ func TestFlattenSequences(t *testing.T) {
 		var diags diag.Diagnostics
 		nodes := apiNodes(unflattenSequences(ctx, "entry", sequences, &diags))
 
-		start, _ := flattenSequences(ctx, nodes, escalationPathPriorNamesFrom(ctx, betaModel(t, "entry", sequences)), &diags)
+		start, _ := flattenSequences(ctx, nodes, escalationPathPriorNamesFrom(ctx, sequencesModel(t, "entry", sequences)), &diags)
 		if diags.HasError() {
 			t.Fatalf("unexpected errors: %+v", diags)
 		}

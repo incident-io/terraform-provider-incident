@@ -328,11 +328,11 @@ func TestIncidentAlertRouteResource_ValidateConfigUnknownSkipsRequired(t *testin
 resource "incident_alert_source" "trigger" {
   name        = "validate-unknown-source"
   source_type = "http"
-  template = {
-    title       = { literal = "t" }
-    description = { literal = "d" }
-    attributes  = []
-    expressions = []
+  title = {
+    literal = "Test alert"
+  }
+  description = {
+    literal = "Raised by the acceptance tests"
   }
 }
 

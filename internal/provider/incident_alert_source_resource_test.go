@@ -2,1461 +2,389 @@ package provider
 
 import (
 	"context"
-	"fmt"
-	"os"
-	"regexp"
+	"strings"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/plancheck"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/samber/lo"
+
+	"github.com/incident-io/terraform-provider-incident/v6/internal/client"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/models"
+	"github.com/incident-io/terraform-provider-incident/v6/internal/provider/richtexttypes"
 )
 
-func TestAccAlertSourceResource(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			// Create and Read testing
-			{
-				Config: testAccAlertSourceResourceConfig("test-source", "datadog"),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("test-source")),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "datadog"),
-					resource.TestCheckResourceAttrSet("incident_alert_source.test", "id"),
-					resource.TestCheckResourceAttrSet("incident_alert_source.test", "secret_token"),
-				),
-			},
-			// ImportState testing
-			{
-				ResourceName:      "incident_alert_source.test",
-				ImportState:       true,
-				ImportStateVerify: true,
-			},
-			// Update testing
-			{
-				Config: testAccAlertSourceResourceConfig("updated-source", "datadog"),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("updated-source")),
-				),
-			},
-			// Test full configuration with template
-			{
-				Config: testAccAlertSourceResourceConfigFull(),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("full-test-source")),
-					resource.TestCheckResourceAttrSet("incident_alert_source.test", "template.title.literal"),
-					resource.TestCheckResourceAttrSet("incident_alert_source.test", "template.description.literal"),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "template.attributes.#", "1"),
-					resource.TestCheckResourceAttrPair("incident_alert_source.test", "template.attributes.0.alert_attribute_id", "incident_alert_attribute.test", "id"),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "template.attributes.0.binding.value.reference", `expressions["severity_expr"]`),
-				),
-			},
-		},
-	})
-}
+// TestAlertSourceResourceSchema builds the schema, which resolves every apischema.Docstring
+// call against the embedded OpenAPI schema and panics if a definition or property is missing.
+// It's the quickest way to catch the resource being built against a stale vendored schema —
+// which is exactly what it was before the V3 alert source endpoints were regenerated into it.
+func TestAlertSourceResourceSchema(t *testing.T) {
+	ctx := context.Background()
+	r := NewAlertSourceResource()
 
-func testAccAlertSourceResourceConfig(name string, sourceType string) string {
-	return testRunTemplate("incident_alert_source", `
-resource "incident_alert_source" "test" {
-  name        = {{ quote .Name }}
-  source_type = {{ quote .SourceType }}
-
-  template = {
-    expressions = [],
-    title = {
-      literal = {{ quote .Title }}
-    },
-    description = {
-      literal = {{ quote .Description }}
-    },
-    attributes = []
-  }
-}
-`, struct {
-		Name, SourceType, Title, Description string
-	}{
-		Name:        StableSuffix(name),
-		SourceType:  sourceType,
-		Title:       testAlertSourceTitle,
-		Description: testAlertSourceDescription,
-	})
-}
-
-func testAccAlertSourceResourceConfigWithJira(name string, projectIDs []string) string {
-	return testRunTemplate("incident_alert_source_jira", `
-resource "incident_alert_source" "test" {
-  name        = {{ quote .Name }}
-  source_type = "jira"
-
-  template = {
-    expressions = [],
-    title = {
-      literal = {{ quote .Title }}
-    },
-    description = {
-      literal = {{ quote .Description }}
-    },
-    attributes = []
-  }
-
-  jira_options = {
-    project_ids = [
-      {{ range .ProjectIDs }}
-      {{ quote . }},
-      {{ end }}
-    ]
-  }
-}
-`, struct {
-		Name        string
-		Title       string
-		Description string
-		ProjectIDs  []string
-	}{
-		Name:        StableSuffix(name),
-		Title:       testAlertSourceTitle,
-		Description: testAlertSourceDescription,
-		ProjectIDs:  projectIDs,
-	})
-}
-
-func testAccAlertSourceResourceConfigFull() string {
-	return testRunTemplate("incident_alert_source_full", `
-resource "incident_alert_attribute" "test" {
-  name = {{ stableSuffix "test-attribute" | quote }}
-  type = "String"
-  array = false
-}
-
-resource "incident_alert_source" "test" {
-  name        = {{ stableSuffix "full-test-source" | quote }}
-  source_type = "datadog"
-
-  template = {
-    title = {
-      literal = {{ quote .Title }}
-    }
-    description = {
-      literal = {{ quote .Description }}
-    }
-    attributes = [{
-      alert_attribute_id = incident_alert_attribute.test.id
-      binding = {
-        value = {
-          reference = "expressions[\"severity_expr\"]"
-        }
-      }
-    }]
-
-    expressions = [{
-      label = "Severity"
-      reference = "severity_expr"
-      root_reference = "payload"
-      operations = [{
-        operation_type = "parse"
-        parse = {
-          source = "$.metadata.severity"
-          returns = {
-            type  = "String"
-            array = false
-          }
-        }
-      }]
-    }]
-  }
-}
-`, struct {
-		Title, Description string
-	}{
-		Title:       testAlertSourceTitle,
-		Description: testAlertSourceDescription,
-	})
-}
-
-// TestAccAlertSourceResource_FilterConditionGroups checks that filter_condition_groups can be
-// set, updated, and cleared, and that omitting the attribute on a later apply leaves whatever
-// was there alone.
-func TestAccAlertSourceResource_FilterConditionGroups(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccAlertSourceResourceConfigWithFilter(true),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "filter_condition_groups.#", "1"),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "filter_condition_groups.0.conditions.#", "1"),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "filter_condition_groups.0.conditions.0.subject", `expressions["severity_expr"]`),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "filter_condition_groups.0.conditions.0.operation", "is_set"),
-				),
-			},
-			{
-				Config: testAccAlertSourceResourceConfigWithFilter(false),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "filter_condition_groups.#", "0"),
-				),
-			},
-		},
-	})
-}
-
-func testAccAlertSourceResourceConfigWithFilter(withFilter bool) string {
-	return testRunTemplate("incident_alert_source_filter", `
-resource "incident_alert_source" "test" {
-  name        = {{ stableSuffix "filter-test-source" | quote }}
-  source_type = "datadog"
-
-  template = {
-    title = {
-      literal = {{ quote .Title }}
-    }
-    description = {
-      literal = {{ quote .Description }}
-    }
-    attributes = []
-
-    expressions = [{
-      label = "Severity"
-      reference = "severity_expr"
-      root_reference = "payload"
-      operations = [{
-        operation_type = "parse"
-        parse = {
-          source = "$.metadata.severity"
-          returns = {
-            type  = "String"
-            array = false
-          }
-        }
-      }]
-    }]
-  }
-
-  {{ if .WithFilter }}
-  filter_condition_groups = [{
-    conditions = [{
-      subject        = "expressions[\"severity_expr\"]"
-      operation      = "is_set"
-      param_bindings = []
-    }]
-  }]
-  {{ end }}
-}
-`, struct {
-		Title, Description string
-		WithFilter         bool
-	}{
-		Title:       testAlertSourceTitle,
-		Description: testAlertSourceDescription,
-		WithFilter:  withFilter,
-	})
-}
-
-// TestAccAlertSourceResource_Heartbeat checks that heartbeat_options work.
-func TestAccAlertSourceResource_Heartbeat(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccAlertSourceResourceConfigWithHeartbeat("heartbeat-source", 60),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("heartbeat-source")),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "heartbeat"),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "heartbeat_options.interval_seconds", "60"),
-					resource.TestCheckResourceAttrSet("incident_alert_source.test", "heartbeat_options.failure_threshold"),
-					resource.TestCheckResourceAttrSet("incident_alert_source.test", "heartbeat_options.grace_period_seconds"),
-					resource.TestCheckResourceAttrSet("incident_alert_source.test", "heartbeat_options.ping_url"),
-				),
-			},
-			// ImportState testing
-			{
-				ResourceName:      "incident_alert_source.test",
-				ImportState:       true,
-				ImportStateVerify: true,
-			},
-		},
-	})
-}
-
-func testAccAlertSourceResourceConfigWithHeartbeat(name string, intervalSeconds int) string {
-	return testRunTemplate("incident_alert_source_heartbeat", `
-resource "incident_alert_source" "test" {
-  name        = {{ quote .Name }}
-  source_type = "heartbeat"
-
-  template = {
-    expressions = [],
-    title       = {},
-    description = {},
-    attributes  = []
-  }
-
-  heartbeat_options = {
-    interval_seconds = {{ .IntervalSeconds }}
-  }
-}
-`, struct {
-		Name            string
-		IntervalSeconds int
-	}{
-		Name:            StableSuffix(name),
-		IntervalSeconds: intervalSeconds,
-	})
-}
-
-// TestAccAlertSourceResource_Jira checks that the jira_options work.
-//
-// NOTE: this only runs if TF_ACC_JIRA is in your environment, since it requires
-// the Jira integration to be installed in the target account.
-func TestAccAlertSourceResource_Jira(t *testing.T) {
-	if os.Getenv("TF_ACC_JIRA") == "" {
-		t.Skip("TF_ACC_JIRA is not set: skipping Jira-specific test")
+	var metaResp resource.MetadataResponse
+	r.Metadata(ctx, resource.MetadataRequest{ProviderTypeName: "incident"}, &metaResp)
+	if metaResp.TypeName != "incident_alert_source" {
+		t.Fatalf("unexpected type name: %q", metaResp.TypeName)
 	}
 
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
+	var schemaResp resource.SchemaResponse
+	r.Schema(ctx, resource.SchemaRequest{}, &schemaResp)
+	if schemaResp.Diagnostics.HasError() {
+		t.Fatalf("schema build produced diagnostics: %+v", schemaResp.Diagnostics)
+	}
 
-			// Add a Jira one
-			{
-				// This is the default project in our dev account
-				Config: testAccAlertSourceResourceConfigWithJira("jira-source", []string{"46a0db2b-17d4-48c1-961e-563d87797b5c/10000"}),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("jira-source")),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "jira_options.project_ids.#", "1"),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "jira_options.project_ids.0", "46a0db2b-17d4-48c1-961e-563d87797b5c/10000"),
-				),
-			},
-		},
-	})
-}
+	for _, name := range []string{
+		"id", "name", "source_type", "secret_token", "alert_events_url", "email_address",
+		"owning_team_ids", "is_private", "title", "description", "priority", "visible_to_teams",
+		"jira_options", "heartbeat_options", "email_options", "http_custom_options",
+		"rate_limit_sharding", "fixed_team_id", "filter_condition_groups",
+		"auto_resolve_timeout_minutes", "auto_resolve_incident_alerts", "version",
+	} {
+		if _, ok := schemaResp.Schema.Attributes[name]; !ok {
+			t.Errorf("schema missing expected attribute %q", name)
+		}
+	}
 
-// TestAccAlertSourceResource_ValidationErrors checks that we return helpful
-// validation errors when possible.
-func TestAccAlertSourceResource_ValidationErrors(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			{
-				// Test
-				Config: testRunTemplate("incident_alert_source_invalid", `
-resource "incident_alert_source" "test" {
-  name = "Not Jira, but with Jira options"
-  source_type = "datadog"
+	if _, ok := schemaResp.Schema.Blocks["named_expression"]; !ok {
+		t.Error("schema missing expected block \"named_expression\"")
+	}
 
-  template = {
-    expressions = [],
-    title = {
-      literal = {{ quote .Title }}
-    },
-    description = {
-      literal = {{ quote .Description }}
-    },
-    attributes = []
-  }
+	// The attributes each belong to their own resource, so holding them here would have an
+	// apply of the source wipe whatever those manage.
+	if _, ok := schemaResp.Schema.Attributes["attributes"]; ok {
+		t.Error("schema should not carry attribute bindings")
+	}
 
-  jira_options = {
-    project_ids = ["my-project"]
-  }
-}
-`, struct{ Title, Description string }{
-					Title:       testAlertSourceTitle,
-					Description: testAlertSourceDescription,
-				}),
-				PlanOnly:    true,
-				ExpectError: regexp.MustCompile("jira_options can only be set when source_type is jira"),
-			},
-			{
-				// Test heartbeat_options with wrong source_type
-				Config: testRunTemplate("incident_alert_source_invalid_heartbeat", `
-resource "incident_alert_source" "test" {
-  name = "Not Heartbeat, but with heartbeat options"
-  source_type = "datadog"
-
-  template = {
-    expressions = [],
-    title = {
-      literal = {{ quote .Title }}
-    },
-    description = {
-      literal = {{ quote .Description }}
-    },
-    attributes = []
-  }
-
-  heartbeat_options = {
-    interval_seconds = 60
-  }
-}
-`, struct{ Title, Description string }{
-					Title:       testAlertSourceTitle,
-					Description: testAlertSourceDescription,
-				}),
-				PlanOnly:    true,
-				ExpectError: regexp.MustCompile("heartbeat_options can only be set when source_type is heartbeat"),
-			},
-			{
-				// Test email_options with wrong source_type
-				Config: testRunTemplate("incident_alert_source_invalid_email", `
-resource "incident_alert_source" "test" {
-  name = "Not Email, but with email options"
-  source_type = "datadog"
-
-  template = {
-    expressions = [],
-    title = {
-      literal = {{ quote .Title }}
-    },
-    description = {
-      literal = {{ quote .Description }}
-    },
-    attributes = []
-  }
-
-  email_options = {
-    redactions = ["credit_card_numbers"]
-  }
-}
-`, struct{ Title, Description string }{
-					Title:       testAlertSourceTitle,
-					Description: testAlertSourceDescription,
-				}),
-				PlanOnly:    true,
-				ExpectError: regexp.MustCompile("email_options can only be set when source_type is email"),
-			},
-			{
-				// Test http_custom_options with wrong source_type
-				Config: testRunTemplate("incident_alert_source_invalid_http_custom", `
-resource "incident_alert_source" "test" {
-  name = "Not http_custom, but with http_custom options"
-  source_type = "datadog"
-
-  template = {
-    expressions = [],
-    title = {
-      literal = {{ quote .Title }}
-    },
-    description = {
-      literal = {{ quote .Description }}
-    },
-    attributes = []
-  }
-
-  http_custom_options = {
-    transform_expression   = "return { title: $.title }"
-    deduplication_key_path = "$.alert_id"
-  }
-}
-`, struct{ Title, Description string }{
-					Title:       testAlertSourceTitle,
-					Description: testAlertSourceDescription,
-				}),
-				PlanOnly:    true,
-				ExpectError: regexp.MustCompile("http_custom_options can only be set when source_type is http_custom"),
-			},
-			{
-				// Test http_custom source_type without the required http_custom_options
-				Config: testRunTemplate("incident_alert_source_missing_http_custom", `
-resource "incident_alert_source" "test" {
-  name = "http_custom without options"
-  source_type = "http_custom"
-
-  template = {
-    expressions = [],
-    title = {
-      literal = {{ quote .Title }}
-    },
-    description = {
-      literal = {{ quote .Description }}
-    },
-    attributes = []
-  }
-}
-`, struct{ Title, Description string }{
-					Title:       testAlertSourceTitle,
-					Description: testAlertSourceDescription,
-				}),
-				PlanOnly:    true,
-				ExpectError: regexp.MustCompile("http_custom_options must be set when source_type is http_custom"),
-			},
-			{
-				// Test missing required template fields
-				Config: testRunTemplate("incident_alert_source_invalid", `
-resource "incident_alert_source" "test" {
-  name        = {{ stableSuffix "test-source" | quote }}
-  source_type = "datadog"
-  template = {
-    # Missing required title
-    description = {
-      literal = {{ quote .Description }}
-    }
-  }
-}
-`, struct{ Description string }{Description: testAlertSourceDescription}),
-				PlanOnly:    true,
-				ExpectError: regexp.MustCompile("required"),
-			},
-			{
-				// Test visible_to_teams without is_private=true
-				Config:      testAccAlertSourceResourceConfigVisibleToTeamsWithoutPrivate(),
-				PlanOnly:    true,
-				ExpectError: regexp.MustCompile("visible_to_teams can only be set when is_private is true"),
-			},
-			{
-				// Test is_private=true without visible_to_teams
-				Config:      testAccAlertSourceResourceConfigPrivateWithoutTeams(),
-				PlanOnly:    true,
-				ExpectError: regexp.MustCompile("visible_to_teams must be set when is_private is true"),
-			},
-			{
-				// Test branches operation with invalid root_reference
-				Config:      testAccAlertSourceResourceConfigInvalidBranches(),
-				PlanOnly:    true,
-				ExpectError: regexp.MustCompile("Invalid root_reference for branches operation"),
-			},
-		},
-	})
-}
-
-func testAccAlertSourceResourceConfigInvalidBranches() string {
-	return fmt.Sprintf(`
-resource "incident_alert_source" "invalid_branches" {
-  name        = "invalid-branches-test"
-  source_type = "http"
-
-  template = {
-    title = {
-      literal = %[1]q
-    }
-    description = {
-      literal = %[2]q
-    }
-    attributes = []
-
-    # Invalid: branches operation with non-"." root_reference
-    expressions = [
-      {
-        label          = "Test Expression"
-        reference      = "test-expr"
-        root_reference = "payload.some_field"
-        operations = [
-          {
-            operation_type = "branches"
-            branches = {
-              returns = {
-                type  = "Text"
-                array = false
-              }
-              branches = [
-                {
-                  condition_groups = [
-                    {
-                      conditions = [
-                        {
-                          subject   = "payload.title"
-                          operation = "is_set"
-                          param_bindings = []
-                        }
-                      ]
-                    }
-                  ]
-                  result = {
-                    value = {
-                      literal = "some-value"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    ]
-  }
-}
-`, testAlertSourceTitle, testAlertSourceDescription)
-}
-
-const (
-	testAlertSourceTitle       = `{"content":[{"content":[{"attrs":{"label":"Payload → Title","missing":false,"name":"title"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`
-	testAlertSourceDescription = `{"content":[{"content":[{"attrs":{"label":"Payload → Description","missing":false,"name":"description"},"type":"varSpec"}],"type":"paragraph"}],"type":"doc"}`
-)
-
-func TestAccAlertSourceResource_DynamicAttributes(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			// Test dynamic attributes
-			{
-				Config: testAccAlertSourceResourceConfigDynamicAttributes(),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "name", StableSuffix("tf-dynamic-alert-source")),
-					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "source_type", "http"),
-					// Verify we have 2 attributes
-					resource.TestCheckResourceAttr("incident_alert_source.dynamic_alert_source", "template.attributes.#", "2"),
-				),
-			},
-		},
-	})
-}
-
-func testAccAlertSourceResourceConfigDynamicAttributes() string {
-	return testRunTemplate("incident_alert_source_dynamic_attributes", `
-# Create alert attributes directly
-resource "incident_alert_attribute" "team" {
-  name  = {{ stableSuffix "team-tf-attr" | quote }}
-  type  = "String"
-  array = false
-}
-
-resource "incident_alert_attribute" "feature" {
-  name  = {{ stableSuffix "feature-tf-attr" | quote }}
-  type  = "String"
-  array = false
-}
-
-locals {
-	with_conds = true
-}
-
-# Use those attributes in an alert source
-resource "incident_alert_source" "dynamic_alert_source" {
-  name        = {{ stableSuffix "tf-dynamic-alert-source" | quote }}
-  source_type = "http"
-
-  template = {
-    expressions = []
-    title = {
-      literal = {{ quote .Title }}
-    }
-    description = {
-      literal = {{ quote .Description }}
-    }
-
-    # Use a simple attribute list without dynamic references
-    attributes = local.with_conds ? [
-      {
-        alert_attribute_id = incident_alert_attribute.team.id
-        binding = {
-          value = {
-            literal = "team-value"
-          }
-        }
-      },
-      {
-        alert_attribute_id = incident_alert_attribute.feature.id
-        binding = {
-          value = {
-            literal = "feature-value"
-          }
-        }
-      }
-    ] : []
-  }
-}
-`, struct {
-		Title, Description string
-	}{
-		Title:       testAlertSourceTitle,
-		Description: testAlertSourceDescription,
-	})
-}
-
-func testAccAlertSourceResourceConfigVisibleToTeamsWithoutPrivate() string {
-	return testRunTemplate("incident_alert_source_visible_to_teams_without_private", `
-resource "incident_alert_source" "test" {
-  name        = {{ stableSuffix "test-source-invalid" | quote }}
-  source_type = "http"
-
-  template = {
-    expressions = []
-    title = {
-      literal = {{ quote .Title }}
-    }
-    description = {
-      literal = {{ quote .Description }}
-    }
-    attributes = []
-    visible_to_teams = {
-      array_value = [{ literal = "some-team-id" }]
-    }
-  }
-}
-`, struct {
-		Title, Description string
-	}{
-		Title:       testAlertSourceTitle,
-		Description: testAlertSourceDescription,
-	})
-}
-
-func testAccAlertSourceResourceConfigPrivateWithoutTeams() string {
-	return testRunTemplate("incident_alert_source_private_without_teams", `
-resource "incident_alert_source" "test" {
-  name        = {{ stableSuffix "test-source-invalid" | quote }}
-  source_type = "http"
-
-  template = {
-    expressions = []
-    title = {
-      literal = {{ quote .Title }}
-    }
-    description = {
-      literal = {{ quote .Description }}
-    }
-    attributes = []
-    is_private = true
-  }
-}
-`, struct {
-		Title, Description string
-	}{
-		Title:       testAlertSourceTitle,
-		Description: testAlertSourceDescription,
-	})
-}
-
-// TestAccAlertSourceResource_Private checks that privacy settings work correctly.
-func TestAccAlertSourceResource_Private(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			// Create a private alert source
-			{
-				Config: testAccAlertSourceResourceConfigPrivate(),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("private-alert-source")),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "http"),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "template.is_private", "true"),
-					resource.TestCheckResourceAttrSet("incident_alert_source.test", "template.visible_to_teams.array_value.0.literal"),
-				),
-			},
-			// ImportState testing
-			{
-				ResourceName:      "incident_alert_source.test",
-				ImportState:       true,
-				ImportStateVerify: true,
-			},
-		},
-	})
-}
-
-func testAccAlertSourceResourceConfigPrivate() string {
-	return testRunTemplate("incident_alert_source_private", `
-# Look up the Team catalog type
-data "incident_catalog_type" "team" {
-  name = {{ quote .TeamTypeName }}
-}
-
-# Create a team catalog entry for this test
-resource "incident_catalog_entry" "test_team" {
-  catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = {{ stableSuffix "tf-alert-source-privacy-test" | quote }}
-  name            = {{ stableSuffix "Alert Source Privacy Test Team" | quote }}
-  attribute_values = []
-}
-
-resource "incident_alert_source" "test" {
-  name        = {{ stableSuffix "private-alert-source" | quote }}
-  source_type = "http"
-
-  template = {
-    expressions = []
-    title = {
-      literal = {{ quote .Title }}
-    }
-    description = {
-      literal = {{ quote .Description }}
-    }
-    attributes = []
-    is_private = true
-    visible_to_teams = {
-      array_value = [{ literal = incident_catalog_entry.test_team.id }]
-    }
-  }
-}
-`, struct {
-		Title, Description, TeamTypeName string
-	}{
-		Title:        testAlertSourceTitle,
-		Description:  testAlertSourceDescription,
-		TeamTypeName: teamTypeName(),
-	})
-}
-
-// TestAccAlertSourceResource_Issue342_SpuriousMergeStrategy is a regression
-// test for https://github.com/incident-io/terraform-provider-incident/issues/342.
-//
-// Original bug: when adding a new element to template.attributes (a Set), the
-// framework couldn't reliably match an existing literal-only binding (e.g. the
-// Priority attribute) between prior state and new plan, because state had
-// merge_strategy=null and the plan resolved merge_strategy to Unknown. The
-// resulting plan deleted-and-recreated the priority element with a spurious
-// merge_strategy injected, which the API rejected with HTTP 422 (priority
-// bindings rejected merge_strategy entirely).
-//
-// Fix landed server-side: priority bindings now always carry
-// merge_strategy="last_wins" in the API response and accept either nil or
-// "last_wins" on write (matching the actual evaluation semantics, which
-// always overwrite the alert's PriorityID). With a concrete (non-null) value
-// in state, the standard UseStateForUnknown plan modifier preserves it, set
-// element identity stays stable, and the spurious diff disappears.
-//
-// The plan check asserts: no literal-only binding has merge_strategy marked
-// Unknown in the planned state (the original bug signature), and any
-// merge_strategy value present in `before` is preserved in `after`.
-func TestAccAlertSourceResource_Issue342_SpuriousMergeStrategy(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			// Step 1: alert source with priority (literal-only binding) plus
-			// three reference bindings that explicitly set merge_strategy.
-			{
-				Config: testAccAlertSourceResourceConfigIssue342(false),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "template.attributes.#", "4"),
-				),
-			},
-			// Step 2: add a fifth attribute. The plan should add only that
-			// new element and leave existing elements (notably the priority
-			// binding) untouched.
-			{
-				Config: testAccAlertSourceResourceConfigIssue342(true),
-				ConfigPlanChecks: resource.ConfigPlanChecks{
-					PreApply: []plancheck.PlanCheck{
-						noSpuriousMergeStrategyPlanCheck("incident_alert_source.test"),
-					},
-				},
-			},
-		},
-	})
-}
-
-// noSpuriousMergeStrategyPlanCheck asserts that adding a new element to
-// template.attributes does NOT cause the framework to lose track of an
-// existing literal-only binding's merge_strategy value. Specifically:
-//
-//   - No literal-only binding in the planned state has merge_strategy marked
-//     Unknown (that was the original bug signature — state had null,
-//     plan went Unknown, set diff treated the element as deleted-and-recreated).
-//   - Every literal-only binding present in the prior state survives into
-//     the planned state with the same merge_strategy value (matched by
-//     alert_attribute_id).
-func noSpuriousMergeStrategyPlanCheck(addr string) plancheck.PlanCheck {
-	return spuriousMergeStrategyCheck{addr: addr}
-}
-
-type spuriousMergeStrategyCheck struct {
-	addr string
-}
-
-func (c spuriousMergeStrategyCheck) CheckPlan(_ context.Context, req plancheck.CheckPlanRequest, resp *plancheck.CheckPlanResponse) {
-	for _, rc := range req.Plan.ResourceChanges {
-		if rc.Address != c.addr || rc.Change == nil {
-			continue
+	// The custom type on literal is what carries "{{ }}" support and, through semantic equality,
+	// what stops a template diffing against the document it produces.
+	for _, name := range []string{"title", "description"} {
+		nested, ok := schemaResp.Schema.Attributes[name].(schema.SingleNestedAttribute)
+		if !ok {
+			t.Fatalf("%s should be a single nested attribute, got %T", name, schemaResp.Schema.Attributes[name])
 		}
 
-		beforeAttrs := extractAttributes(rc.Change.Before)
-		afterAttrs := extractAttributes(rc.Change.After)
-		unknownAttrs := extractAttributes(rc.Change.AfterUnknown)
-
-		// Original bug signature: literal-only binding has merge_strategy
-		// marked Unknown in the planned state.
-		for i, planned := range afterAttrs {
-			if !isLiteralOnlyBinding(planned) {
-				continue
-			}
-			if i >= len(unknownAttrs) {
-				continue
-			}
-			ub, _ := unknownAttrs[i]["binding"].(map[string]any)
-			if ub == nil {
-				continue
-			}
-			if ums, ok := ub["merge_strategy"]; ok && ums == true {
-				resp.Error = fmt.Errorf(
-					"plan marks merge_strategy as Unknown on literal-only binding at template.attributes[%d] (alert_attribute_id=%v); this is the issue #342 bug signature",
-					i, planned["alert_attribute_id"],
-				)
-				return
-			}
+		literal, ok := nested.Attributes["literal"]
+		if !ok {
+			t.Fatalf("%s should have a literal attribute", name)
 		}
-
-		// Stronger check: every literal-only binding in prior state must
-		// survive into the planned state with the same merge_strategy.
-		afterByID := make(map[string]map[string]any, len(afterAttrs))
-		for _, a := range afterAttrs {
-			id, _ := a["alert_attribute_id"].(string)
-			if id != "" {
-				afterByID[id] = a
-			}
+		if got := literal.GetType(); got != (richtexttypes.TemplatedTextType{}) {
+			t.Errorf("%s.literal should be templated text, got %s", name, got)
 		}
-		for _, prior := range beforeAttrs {
-			if !isLiteralOnlyBinding(prior) {
-				continue
-			}
-			id, _ := prior["alert_attribute_id"].(string)
-			planned, ok := afterByID[id]
-			if !ok {
-				resp.Error = fmt.Errorf(
-					"prior state's literal-only binding (alert_attribute_id=%s) is not present in the planned state; the plan would delete and recreate it",
-					id,
-				)
-				return
-			}
-			pBinding, _ := prior["binding"].(map[string]any)
-			aBinding, _ := planned["binding"].(map[string]any)
-			if !mergeStrategiesEqual(pBinding, aBinding) {
-				resp.Error = fmt.Errorf(
-					"merge_strategy on literal-only binding (alert_attribute_id=%s) changed between state (%v) and plan (%v) without any config change",
-					id, pBinding["merge_strategy"], aBinding["merge_strategy"],
-				)
-				return
-			}
+		if _, ok := nested.Attributes["reference"]; !ok {
+			t.Errorf("%s should have a reference attribute", name)
 		}
 	}
 }
 
-func isLiteralOnlyBinding(attr map[string]any) bool {
-	binding, _ := attr["binding"].(map[string]any)
-	if binding == nil {
-		return false
+func alertSourceV3(sourceType string) client.AlertSourceV3 {
+	return client.AlertSourceV3{
+		Id:         "01SOURCE",
+		Name:       "Prometheus",
+		SourceType: client.AlertSourceV3SourceType(sourceType),
+		Version:    7,
+		IsPrivate:  false,
 	}
-	value, _ := binding["value"].(map[string]any)
-	if value == nil {
-		return false
-	}
-	literal, _ := value["literal"].(string)
-	reference, _ := value["reference"].(string)
-	arrayValue := binding["array_value"]
-	return literal != "" && reference == "" && arrayValue == nil
 }
 
-func mergeStrategiesEqual(a, b map[string]any) bool {
-	if a == nil || b == nil {
-		return a == nil && b == nil
+// fromAPI projects a source and fails the test on an unexpected diagnostic, so each case below
+// only says what it is actually asserting.
+func fromAPI(t *testing.T, source client.AlertSourceV3, config *alertSourceModel) *alertSourceModel {
+	t.Helper()
+
+	diags := diag.Diagnostics{}
+	model := alertSourceFromAPI(source, config, &diags)
+	if diags.HasError() {
+		t.Fatalf("unexpected diagnostics: %+v", diags.Errors())
 	}
-	return a["merge_strategy"] == b["merge_strategy"]
+
+	return model
 }
 
-func extractAttributes(after any) []map[string]any {
-	root, _ := after.(map[string]any)
-	if root == nil {
-		return nil
+func literalPayload(value string) *client.EngineParamBindingPayloadV3 {
+	return &client.EngineParamBindingPayloadV3{
+		Value: &client.EngineParamBindingValuePayloadV3{Literal: lo.ToPtr(value)},
 	}
-	template, _ := root["template"].(map[string]any)
-	if template == nil {
-		return nil
-	}
-	rawAttrs, _ := template["attributes"].([]any)
-	out := make([]map[string]any, 0, len(rawAttrs))
-	for _, a := range rawAttrs {
-		if m, ok := a.(map[string]any); ok {
-			out = append(out, m)
-		} else {
-			out = append(out, nil)
+}
+
+// TestAlertSourceTemplatedText covers both directions: the API stores a document, while a
+// config usually writes a template.
+func TestAlertSourceTemplatedText(t *testing.T) {
+	const template = "Alert on {{ payload.service }}"
+
+	t.Run("sends a template as the document the API stores", func(t *testing.T) {
+		data := &alertSourceModel{
+			Title: &models.TemplatedTextValue{
+				Literal:   richtexttypes.NewTemplatedTextValue(template),
+				Reference: types.StringNull(),
+			},
 		}
+
+		diags := diag.Diagnostics{}
+		_, bindings := (&alertSourceResource{}).toPayloads(data, &diags)
+		if diags.HasError() {
+			t.Fatalf("unexpected diagnostics: %+v", diags.Errors())
+		}
+
+		document, err := richtexttypes.ToDocument(template)
+		if err != nil {
+			t.Fatalf("building the expected document: %v", err)
+		}
+		if bindings.title == nil || bindings.title.Value == nil ||
+			lo.FromPtr(bindings.title.Value.Literal) != string(document) {
+			t.Errorf("title should be sent as its document, got %+v", bindings.title)
+		}
+	})
+
+	t.Run("reads a document back as its template", func(t *testing.T) {
+		document, err := richtexttypes.ToDocument(template)
+		if err != nil {
+			t.Fatalf("building the stored document: %v", err)
+		}
+
+		source := alertSourceV3("http")
+		source.Title = literalPayload(string(document))
+
+		title := fromAPI(t, source, &alertSourceModel{}).Title
+		if title == nil {
+			t.Fatal("title should be read back")
+		}
+		// Emission is canonical, so spacing isn't preserved here. Semantic equality is what
+		// keeps the config's own spelling in state.
+		if got := title.Literal.ValueString(); got != "Alert on {{payload.service}}" {
+			t.Errorf("title should collapse to its template, got %q", got)
+		}
+	})
+
+	// Semantic equality reconciles the AST against whichever form the config wrote, so keeping it
+	// loses nothing — while a lossy template would silently drop the mention.
+	t.Run("keeps a document no template can spell", func(t *testing.T) {
+		const mention = `{"type":"doc","content":[{"type":"paragraph","content":` +
+			`[{"type":"user","attrs":{"id":"01USER"}}]}]}`
+
+		source := alertSourceV3("http")
+		source.Description = literalPayload(mention)
+
+		description := fromAPI(t, source, &alertSourceModel{}).Description
+		if description == nil || description.Literal.ValueString() != mention {
+			t.Errorf("an unexpressible document should be kept verbatim, got %+v", description)
+		}
+	})
+
+	// The point of the object shape: a source bound to a scope reference is manageable rather
+	// than an error, which is what a bare string left it as.
+	t.Run("reads a reference", func(t *testing.T) {
+		source := alertSourceV3("http")
+		source.Title = &client.EngineParamBindingPayloadV3{
+			Value: &client.EngineParamBindingValuePayloadV3{Reference: lo.ToPtr("payload.summary")},
+		}
+
+		title := fromAPI(t, source, &alertSourceModel{}).Title
+		if title == nil || title.Reference.ValueString() != "payload.summary" {
+			t.Fatalf("a reference-bound title should be read back, got %+v", title)
+		}
+		if !title.Literal.IsNull() {
+			t.Errorf("no literal was stored, so it should read null, got %v", title.Literal)
+		}
+	})
+
+	// The API assigns title unconditionally, so reading a value we can't hold as absent would
+	// have the next apply delete it.
+	t.Run("reports a binding no single value can hold", func(t *testing.T) {
+		source := alertSourceV3("http")
+		source.Title = &client.EngineParamBindingPayloadV3{
+			ArrayValue: &[]client.EngineParamBindingValuePayloadV3{
+				{Literal: lo.ToPtr("one")},
+				{Literal: lo.ToPtr("two")},
+			},
+		}
+
+		diags := diag.Diagnostics{}
+		model := alertSourceFromAPI(source, &alertSourceModel{}, &diags)
+
+		if !diags.HasError() {
+			t.Fatal("an array-valued title should be reported, not silently dropped")
+		}
+		if !strings.Contains(diags.Errors()[0].Detail(), "several values") {
+			t.Errorf("the error should say what it holds, got %q", diags.Errors()[0].Detail())
+		}
+		if model.Title != nil {
+			t.Errorf("the unrepresentable value should not be stored, got %+v", model.Title)
+		}
+	})
+
+	t.Run("sends nothing for an unset value", func(t *testing.T) {
+		payload, err := models.TemplatedTextValueToPayload(nil)
+		if err != nil || payload != nil {
+			t.Errorf("an unset value should send no binding, got %+v (%v)", payload, err)
+		}
+	})
+}
+
+// TestAlertSourceFromAPIEmailAddress covers email_address being lifted out of the options
+// the API nests it in. It sits at the top level because we mint it rather than accepting it.
+func TestAlertSourceFromAPIEmailAddress(t *testing.T) {
+	source := alertSourceV3("email")
+	source.EmailOptions = &client.AlertSourceEmailOptionsV3{
+		EmailAddress: "alerts@example.incident.io",
+		Redactions:   []client.AlertSourceEmailOptionsV3Redactions{"phone_numbers"},
 	}
-	return out
+
+	model := fromAPI(t, source, &alertSourceModel{
+		EmailOptions: &alertSourceEmailOptions{},
+	})
+
+	if got := model.EmailAddress.ValueString(); got != "alerts@example.incident.io" {
+		t.Errorf("email_address should come from email_options, got %q", got)
+	}
+	if model.EmailOptions == nil || len(model.EmailOptions.Redactions) != 1 {
+		t.Errorf("email_options should keep its redactions, got %+v", model.EmailOptions)
+	}
+
+	// Every other source type has no email options, so the attribute has to read back null
+	// rather than empty — an empty string would diff against a config that never set it.
+	withoutEmail := fromAPI(t, alertSourceV3("http"), &alertSourceModel{})
+	if !withoutEmail.EmailAddress.IsNull() {
+		t.Errorf("email_address should be null for a non-email source, got %v", withoutEmail.EmailAddress)
+	}
 }
 
-func testAccAlertSourceResourceConfigIssue342(withThirdAttribute bool) string {
-	return testRunTemplate("incident_alert_source_issue_342", `
-// Priority is a built-in attribute that already exists in the org, so it must be
-// looked up by its real name rather than a per-run one.
-data "incident_alert_attribute" "priority" {
-  name = "Priority"
+// TestAlertSourceFromAPIEmailOptionsSpelling covers an email source configured with no
+// email_options block. The API always answers with options for one, because the address we mint
+// lives in them, so storing them would take the attribute from null to an object — which
+// Terraform rejects as an inconsistent result after apply.
+func TestAlertSourceFromAPIEmailOptionsSpelling(t *testing.T) {
+	source := alertSourceV3("email")
+	source.EmailOptions = &client.AlertSourceEmailOptionsV3{
+		EmailAddress: "alerts@example.incident.io",
+		Redactions:   []client.AlertSourceEmailOptionsV3Redactions{},
+	}
+
+	model := fromAPI(t, source, &alertSourceModel{EmailOptions: nil})
+	if model.EmailOptions != nil {
+		t.Errorf("options carrying nothing the config set should stay unset, got %+v", model.EmailOptions)
+	}
+	// The address is still captured, so nothing is lost by dropping the block.
+	if model.EmailAddress.ValueString() != "alerts@example.incident.io" {
+		t.Errorf("email_address should still be read, got %v", model.EmailAddress)
+	}
+
+	// Options carrying something the config could have set are real drift, so they're kept.
+	source.EmailOptions.Redactions = []client.AlertSourceEmailOptionsV3Redactions{"phone_numbers"}
+	if fromAPI(t, source, &alertSourceModel{EmailOptions: nil}).EmailOptions == nil {
+		t.Error("redactions added out of band should be read back, so the diff shows")
+	}
 }
 
-data "incident_catalog_type" "alert_priority" {
-  type_name = "AlertPriority"
-}
+// TestAlertSourceFromAPIAutoResolve covers the API ignoring auto_resolve_incident_alerts
+// where there's no timeout to resolve against, and never sending it for a heartbeat source.
+func TestAlertSourceFromAPIAutoResolve(t *testing.T) {
+	t.Run("keeps the configured value when the API omits it", func(t *testing.T) {
+		config := &alertSourceModel{AutoResolveIncidentAlerts: types.BoolValue(true)}
 
-data "incident_catalog_entries" "priorities" {
-  catalog_type_id = data.incident_catalog_type.alert_priority.id
-}
+		if !fromAPI(t, alertSourceV3("heartbeat"), config).AutoResolveIncidentAlerts.ValueBool() {
+			t.Error("the configured value should be kept when the API omits it")
+		}
+	})
 
-# A handful of regular attributes mirroring the user's setup (url, country,
-# environment, service). They all use reference bindings with
-# merge_strategy = "first_wins", which sits alongside the literal-only
-# priority binding.
-resource "incident_alert_attribute" "url" {
-  name  = {{ stableSuffix "issue-342-url" | quote }}
-  type  = "String"
-  array = false
-}
+	// The attribute is Optional+Computed, so a config that omits it plans unknown, and on create
+	// there's no prior state for the plan modifier to substitute. Storing that unknown fails the
+	// apply with "provider produced inconsistent result".
+	t.Run("never stores an unknown", func(t *testing.T) {
+		config := &alertSourceModel{AutoResolveIncidentAlerts: types.BoolUnknown()}
 
-resource "incident_alert_attribute" "country" {
-  name  = {{ stableSuffix "issue-342-country" | quote }}
-  type  = "String"
-  array = false
-}
+		got := fromAPI(t, alertSourceV3("heartbeat"), config).AutoResolveIncidentAlerts
+		if got.IsUnknown() {
+			t.Error("an unknown planned value must not be written into state")
+		}
+		if !got.IsNull() {
+			t.Errorf("it should settle as null, got %v", got)
+		}
+	})
 
-resource "incident_alert_attribute" "environment" {
-  name  = {{ stableSuffix "issue-342-environment" | quote }}
-  type  = "String"
-  array = false
-}
+	t.Run("takes the API's answer when it gives one", func(t *testing.T) {
+		source := alertSourceV3("http")
+		source.AutoResolveTimeoutMinutes = lo.ToPtr(int64(30))
+		source.AutoResolveIncidentAlerts = lo.ToPtr(false)
 
-resource "incident_alert_attribute" "service" {
-  name  = {{ stableSuffix "issue-342-service" | quote }}
-  type  = "String"
-  array = false
-}
-
-resource "incident_alert_source" "test" {
-  name        = {{ stableSuffix "issue-342-test-source" | quote }}
-  source_type = "datadog"
-
-  template = {
-    expressions = [
-      {
-        label          = "url"
-        reference      = "url"
-        root_reference = "payload"
-        operations = [{
-          operation_type = "parse"
-          parse = {
-            source = "$.url"
-            returns = {
-              type  = "String"
-              array = false
-            }
-          }
-        }]
-      },
-      {
-        label          = "country"
-        reference      = "country"
-        root_reference = "payload"
-        operations = [{
-          operation_type = "parse"
-          parse = {
-            source = "$.country"
-            returns = {
-              type  = "String"
-              array = false
-            }
-          }
-        }]
-      },
-      {
-        label          = "environment"
-        reference      = "environment"
-        root_reference = "payload"
-        operations = [{
-          operation_type = "parse"
-          parse = {
-            source = "$.environment"
-            returns = {
-              type  = "String"
-              array = false
-            }
-          }
-        }]
-      },
-      {
-        label          = "service"
-        reference      = "service"
-        root_reference = "payload"
-        operations = [{
-          operation_type = "parse"
-          parse = {
-            source = "$.service"
-            returns = {
-              type  = "String"
-              array = false
-            }
-          }
-        }]
-      },
-    ]
-    title = {
-      literal = {{ quote .Title }}
-    }
-    description = {
-      literal = {{ quote .Description }}
-    }
-
-    attributes = concat(
-      [
-        # Priority binding: literal-only, no merge_strategy. The API stores no
-        # merge_strategy server-side for this binding.
-        {
-          alert_attribute_id = data.incident_alert_attribute.priority.id
-          binding = {
-            value = {
-              literal = data.incident_catalog_entries.priorities.catalog_entries[0].id
-            }
-          }
-        },
-        # Reference bindings with merge_strategy. Several of these alongside the
-        # literal-only priority binding is what triggers the Set-diff bug when
-        # we add another element in step 2.
-        {
-          alert_attribute_id = incident_alert_attribute.url.id
-          binding = {
-            value          = { reference = "expressions[\"url\"]" }
-            merge_strategy = "first_wins"
-          }
-        },
-        {
-          alert_attribute_id = incident_alert_attribute.country.id
-          binding = {
-            value          = { reference = "expressions[\"country\"]" }
-            merge_strategy = "first_wins"
-          }
-        },
-        {
-          alert_attribute_id = incident_alert_attribute.environment.id
-          binding = {
-            value          = { reference = "expressions[\"environment\"]" }
-            merge_strategy = "first_wins"
-          }
-        },
-      ],
-      {{ if .WithThird }}[
-        # The new element added in step 2. Adding this should NOT cause any
-        # change to the priority binding above, but the bug causes the
-        # framework to plan merge_strategy = "first_wins" on it anyway.
-        {
-          alert_attribute_id = incident_alert_attribute.service.id
-          binding = {
-            value          = { reference = "expressions[\"service\"]" }
-            merge_strategy = "first_wins"
-          }
-        },
-      ]{{ else }}[]{{ end }},
-    )
-  }
-}
-`, struct {
-		Title, Description string
-		WithThird          bool
-	}{
-		Title:       testAlertSourceTitle,
-		Description: testAlertSourceDescription,
-		WithThird:   withThirdAttribute,
+		config := &alertSourceModel{AutoResolveIncidentAlerts: types.BoolValue(true)}
+		if fromAPI(t, source, config).AutoResolveIncidentAlerts.ValueBool() {
+			t.Error("the API's answer should win when it gives one")
+		}
 	})
 }
 
-// TestAccAlertSourceResource_OwningTeamIDs checks that owning_team_ids work correctly.
-func TestAccAlertSourceResourceOwningTeamIDs(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			// Create without owning_team_ids
-			{
-				Config: testAccAlertSourceResourceConfig("test-source-no-teams", "datadog"),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("test-source-no-teams")),
-					resource.TestCheckNoResourceAttr("incident_alert_source.test", "owning_team_ids"),
-				),
-			},
-			// Update to add owning_team_ids
-			{
-				Config: testAccAlertSourceResourceConfigWithOwningTeamIDs("test-source-with-teams"),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("test-source-with-teams")),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "owning_team_ids.#", "1"),
-					resource.TestCheckResourceAttrPair("incident_alert_source.test", "owning_team_ids.0", "incident_catalog_entry.owner_team", "id"),
-				),
-			},
-			// Update to change the team
-			{
-				Config: testAccAlertSourceResourceConfigWithDifferentOwningTeamIDs("test-source-updated-teams"),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("test-source-updated-teams")),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "owning_team_ids.#", "2"),
-				),
-			},
+// TestAlertSourceFromAPIHeartbeatTemplate covers dropping the title and description a
+// heartbeat source generates for itself. ValidateConfig rejects setting either, so storing what
+// the API returned would leave a diff the config has no way to satisfy.
+func TestAlertSourceFromAPIHeartbeatTemplate(t *testing.T) {
+	source := alertSourceV3("heartbeat")
+	source.Title = literalPayload("Heartbeat missed")
+	source.Description = literalPayload("No ping received")
+
+	model := fromAPI(t, source, &alertSourceModel{})
+
+	if model.Title != nil {
+		t.Errorf("a heartbeat source's generated title should be dropped, got %+v", model.Title)
+	}
+	if model.Description != nil {
+		t.Errorf("a heartbeat source's generated description should be dropped, got %+v", model.Description)
+	}
+
+	// The same value on a type that does take one is kept.
+	http := alertSourceV3("http")
+	http.Title = literalPayload("Heartbeat missed")
+	if fromAPI(t, http, &alertSourceModel{}).Title == nil {
+		t.Error("a title should be kept for a source type that takes one")
+	}
+}
+
+// TestAlertSourceFromAPIOwningTeamIDs covers the null-versus-empty distinction: the API
+// always answers with a list, while HCL can omit the attribute, and storing [] against an
+// omitted attribute shows a diff on every plan.
+func TestAlertSourceFromAPIOwningTeamIDs(t *testing.T) {
+	source := alertSourceV3("http")
+	source.OwningTeamIds = &[]string{}
+
+	unset := fromAPI(t, source, &alertSourceModel{
+		OwningTeamIDs: types.SetNull(types.StringType),
+	})
+	if !unset.OwningTeamIDs.IsNull() {
+		t.Errorf("no teams with the attribute unset should stay null, got %v", unset.OwningTeamIDs)
+	}
+
+	explicit := fromAPI(t, source, &alertSourceModel{
+		OwningTeamIDs: types.SetValueMust(types.StringType, []attr.Value{}),
+	})
+	if explicit.OwningTeamIDs.IsNull() {
+		t.Error("no teams with the attribute set to [] should stay empty, not null")
+	}
+}
+
+// TestAlertSourceFromAPINamedExpressionOrder covers named_expression being a list, so any
+// order but the config's own reads as a diff. The server sorts by dependency and won't preserve
+// what was written.
+func TestAlertSourceFromAPINamedExpressionOrder(t *testing.T) {
+	source := alertSourceV3("http")
+	source.Expressions = []client.ExpressionPayloadV3{
+		{Reference: "team_lookup", Label: "team_lookup", RootReference: "payload"},
+		{Reference: "severity_lookup", Label: "severity_lookup", RootReference: "payload"},
+	}
+
+	config := &alertSourceModel{
+		NamedExpressions: []models.NamedExpression{
+			{Name: types.StringValue("severity_lookup")},
+			{Name: types.StringValue("team_lookup")},
 		},
+	}
+
+	got := lo.Map(fromAPI(t, source, config).NamedExpressions, func(expression models.NamedExpression, _ int) string {
+		return expression.Name.ValueString()
 	})
-}
-
-func testAccAlertSourceResourceConfigWithOwningTeamIDs(name string) string {
-	return testRunTemplate("incident_alert_source_with_owning_teams", `
-# Look up the Team catalog type
-data "incident_catalog_type" "team" {
-  name = {{ quote .TeamTypeName }}
-}
-
-# Create a team catalog entry for this test
-resource "incident_catalog_entry" "owner_team" {
-  catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = {{ stableSuffix "tf-alert-source-owning-team-test" | quote }}
-  name            = {{ stableSuffix "Alert Source Owning Team Test" | quote }}
-  attribute_values = []
-}
-
-resource "incident_alert_source" "test" {
-  name        = {{ quote .Name }}
-  source_type = "datadog"
-
-  template = {
-    expressions = []
-    title = {
-      literal = {{ quote .Title }}
-    }
-    description = {
-      literal = {{ quote .Description }}
-    }
-    attributes = []
-  }
-
-  owning_team_ids = [incident_catalog_entry.owner_team.id]
-}
-`, struct {
-		Name, Title, Description, TeamTypeName string
-	}{
-		Name:         StableSuffix(name),
-		Title:        testAlertSourceTitle,
-		Description:  testAlertSourceDescription,
-		TeamTypeName: teamTypeName(),
-	})
-}
-
-// TestAccAlertSourceResource_Email checks that email_options work.
-func TestAccAlertSourceResource_Email(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccAlertSourceResourceConfigWithEmail("email-source"),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("email-source")),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "email"),
-					resource.TestCheckResourceAttrSet("incident_alert_source.test", "email_address"),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "email_options.redactions.#", "2"),
-					resource.TestCheckTypeSetElemAttr("incident_alert_source.test", "email_options.redactions.*", "credit_card_numbers"),
-					resource.TestCheckTypeSetElemAttr("incident_alert_source.test", "email_options.redactions.*", "phone_numbers"),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "email_options.transform_expression", "payload.subject"),
-				),
-			},
-			// ImportState testing
-			{
-				ResourceName:      "incident_alert_source.test",
-				ImportState:       true,
-				ImportStateVerify: true,
-			},
-		},
-	})
-}
-
-func testAccAlertSourceResourceConfigWithEmail(name string) string {
-	return testRunTemplate("incident_alert_source_email", `
-resource "incident_alert_source" "test" {
-  name        = {{ quote .Name }}
-  source_type = "email"
-
-  template = {
-    expressions = [],
-    title = {
-      literal = {{ quote .Title }}
-    },
-    description = {
-      literal = {{ quote .Description }}
-    },
-    attributes = []
-  }
-
-  email_options = {
-    redactions           = ["credit_card_numbers", "phone_numbers"]
-    transform_expression = "payload.subject"
-  }
-}
-`, struct {
-		Name, Title, Description string
-	}{
-		Name:        StableSuffix(name),
-		Title:       testAlertSourceTitle,
-		Description: testAlertSourceDescription,
-	})
-}
-
-// Regression test: an http_custom alert source with http_custom_options must
-// round-trip cleanly through create, apply and re-read with no "Provider
-// produced inconsistent result after apply" error and no perpetual diff. The
-// public API returns http_custom_options on read for the http_custom source
-// type, so the planned value matches the post-apply state without any
-// provider-side workaround.
-//
-// (http_custom_options only apply to the http_custom source type. The API
-// rejects them on other source types, including the legacy "http" source —
-// see incident-io/terraform-provider-incident#352.)
-func TestAccAlertSourceResource_HTTPCustomOptions(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccAlertSourceResourceConfigWithHTTPCustom("http-custom-source"),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "name", StableSuffix("http-custom-source")),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "http_custom"),
-					resource.TestCheckResourceAttrSet("incident_alert_source.test", "alert_events_url"),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "http_custom_options.deduplication_key_path", "$.alert_id"),
-					resource.TestCheckResourceAttr("incident_alert_source.test", "http_custom_options.transform_expression", "return { title: $.title }"),
-				),
-			},
-			// ImportState testing. The API returns http_custom_options on read
-			// for http_custom sources, so they round-trip on import too.
-			{
-				ResourceName:      "incident_alert_source.test",
-				ImportState:       true,
-				ImportStateVerify: true,
-			},
-		},
-	})
-}
-
-// Regression test: http_custom_options whose values are computed at plan time
-// (e.g. derived from another resource) must not trip up ValidateConfig. The
-// source_type↔http_custom_options validation only runs once both are known, so
-// the plan should not raise a spurious validation error and the apply should
-// succeed. Guards against the validation choking on unknown values.
-func TestAccAlertSourceResource_HTTPCustomOptionsComputed(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccAlertSourceResourceConfigHTTPCustomComputed("http-custom-computed"),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("incident_alert_source.test", "source_type", "http_custom"),
-					resource.TestCheckResourceAttrSet("incident_alert_source.test", "http_custom_options.deduplication_key_path"),
-				),
-			},
-		},
-	})
-}
-
-// The deduplication_key_path interpolates a computed attribute id, so the value
-// inside http_custom_options is unknown at plan time.
-func testAccAlertSourceResourceConfigHTTPCustomComputed(name string) string {
-	return testRunTemplate("incident_alert_source_http_custom_computed", `
-resource "incident_alert_attribute" "dedup" {
-  name  = {{ stableSuffix "dedup-tf-attr" | quote }}
-  type  = "String"
-  array = false
-}
-
-resource "incident_alert_source" "test" {
-  name        = {{ quote .Name }}
-  source_type = "http_custom"
-
-  template = {
-    expressions = [],
-    title = {
-      literal = {{ quote .Title }}
-    },
-    description = {
-      literal = {{ quote .Description }}
-    },
-    attributes = []
-  }
-
-  http_custom_options = {
-    transform_expression   = "return { title: $.title }"
-    deduplication_key_path = "$.${incident_alert_attribute.dedup.id}"
-  }
-}
-`, struct {
-		Name, Title, Description string
-	}{
-		Name:        StableSuffix(name),
-		Title:       testAlertSourceTitle,
-		Description: testAlertSourceDescription,
-	})
-}
-
-func testAccAlertSourceResourceConfigWithHTTPCustom(name string) string {
-	return testRunTemplate("incident_alert_source_http_custom", `
-resource "incident_alert_source" "test" {
-  name        = {{ quote .Name }}
-  source_type = "http_custom"
-
-  template = {
-    expressions = [],
-    title = {
-      literal = {{ quote .Title }}
-    },
-    description = {
-      literal = {{ quote .Description }}
-    },
-    attributes = []
-  }
-
-  http_custom_options = {
-    transform_expression   = "return { title: $.title }"
-    deduplication_key_path = "$.alert_id"
-  }
-}
-`, struct {
-		Name, Title, Description string
-	}{
-		Name:        StableSuffix(name),
-		Title:       testAlertSourceTitle,
-		Description: testAlertSourceDescription,
-	})
-}
-
-func testAccAlertSourceResourceConfigWithDifferentOwningTeamIDs(name string) string {
-	return testRunTemplate("incident_alert_source_with_different_owning_teams", `
-# Look up the Team catalog type
-data "incident_catalog_type" "team" {
-  name = {{ quote .TeamTypeName }}
-}
-
-# Create team catalog entries for this test
-resource "incident_catalog_entry" "owner_team" {
-  catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = {{ stableSuffix "tf-alert-source-owning-team-test" | quote }}
-  name            = {{ stableSuffix "Alert Source Owning Team Test" | quote }}
-  attribute_values = []
-}
-
-resource "incident_catalog_entry" "owner_team_2" {
-  catalog_type_id = data.incident_catalog_type.team.id
-  external_id     = {{ stableSuffix "tf-alert-source-owning-team-test-2" | quote }}
-  name            = {{ stableSuffix "Alert Source Owning Team Test 2" | quote }}
-  attribute_values = []
-}
-
-resource "incident_alert_source" "test" {
-  name        = {{ quote .Name }}
-  source_type = "datadog"
-
-  template = {
-    expressions = []
-    title = {
-      literal = {{ quote .Title }}
-    }
-    description = {
-      literal = {{ quote .Description }}
-    }
-    attributes = []
-  }
-
-  owning_team_ids = [
-    incident_catalog_entry.owner_team.id,
-    incident_catalog_entry.owner_team_2.id
-  ]
-}
-`, struct {
-		Name, Title, Description, TeamTypeName string
-	}{
-		Name:         StableSuffix(name),
-		Title:        testAlertSourceTitle,
-		Description:  testAlertSourceDescription,
-		TeamTypeName: teamTypeName(),
-	})
+	if len(got) != 2 || got[0] != "severity_lookup" || got[1] != "team_lookup" {
+		t.Errorf("expressions should read back in the order the config wrote them, got %v", got)
+	}
 }

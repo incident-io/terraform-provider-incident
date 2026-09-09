@@ -3,367 +3,121 @@
 page_title: "incident_alert_source Resource - terraform-provider-incident"
 subcategory: ""
 description: |-
-  Configure your alert sources in incident.io.
-  Alert sources are the systems that send alerts to incident.io, which can then be routed to the right people and teams.
-  We'd generally recommend building alert sources in our web dashboard https://app.incident.io/~/alerts/configuration, and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert source and copy the resulting Terraform without persisting it.
-  Setting an alert's priority
-  This resource has no priority field. An alert's priority is set the same way as any other
-  attribute: as an entry in template.attributes bound to the built-in Priority alert attribute,
-  which you look up by name.
-  data "incident_alert_attribute" "priority" {
-    name = "Priority"
-  }
-  
-  # ...then, in template.attributes
-  {
-    alert_attribute_id = data.incident_alert_attribute.priority.id
-    binding            = { value = { reference = "expressions[\"my-priority\"]" } }
-  }
-  
-  A priority binding's merge_strategy can only be last_wins. Leave it out and the API fills
-  it in — it reads back as last_wins either way, so there is no diff to manage. Setting any other
-  value is rejected.
-  Two mistakes here are worth knowing about, because both end with every alert on your default
-  alert priority and neither says anything.
-  The first is writing the expression and leaving out the binding. Nothing rejects it — the API
-  stores an expression nothing references and never evaluates it — so the config applies and reads
-  back unchanged, having done nothing. If you exported this source from the dashboard the binding
-  is already there; it's a hand-written or hand-trimmed config that tends to lose it.
-  The second is parsing a payload value straight into a CatalogEntry["AlertPriority"]. That
-  resolves by matching the value against a priority's name, alias or external ID exactly, so a
-  payload saying CRITICAL matches no priority called Urgent, resolves to nothing, and falls back
-  to your default priority — for every alert, which reads exactly like a hardcoded priority.
-  Mapping a payload value onto a priority takes two expressions. The payload is opaque JSON: an
-  expression reaches into it with a parse operation, and a condition can only ask whether
-  payload as a whole is set, so subject = "payload.severity" resolves to nothing. Parse the
-  value out first, then branch on the result:
-  expressions = [
-    {
-      label          = "Severity"
-      reference      = "severity"
-      root_reference = "payload"
-      operations = [{
-        operation_type = "parse"
-        parse = {
-          source  = "$['severity']"
-          returns = { type = "String", array = false }
-        }
-      }]
-    },
-    {
-      label          = "Priority"
-      reference      = "priority"
-      root_reference = "."
-      operations = [{
-        operation_type = "branches"
-        branches = {
-          returns = { type = "CatalogEntry[\"AlertPriority\"]", array = false }
-          branches = [{
-            condition_groups = [{
-              conditions = [{
-                subject        = "expressions[\"severity\"]"
-                operation      = "one_of"
-                param_bindings = [{ values = ["CRITICAL", "critical"] }]
-              }]
-            }]
-            result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
-          }]
-        }
-      }]
-      else_branch = {
-        result = { value_literal = data.incident_catalog_entry.low_priority.id }
-      }
-    },
-  ]
-  
-  A branches operation reads the whole scope, so it needs root_reference = "." and has to be the
-  only operation in its expression.
-  incident_alert_source_beta binds priority directly, as priority = { expression_ref = ... }, and
-  splits each attribute into its own resource.
+  Configure your alert sources, separately from the attributes they populate.
+  An alert source, without the attributes it populates — each of those is an incident_alert_source_attribute resource. Editing one attribute therefore doesn't mean rewriting the source, and two people editing different attributes don't race each other.
+  What changed in v7
+  Before v7, a source and every attribute it populated were declared together under one
+  template.attributes list. Filling in one more attribute meant rewriting that whole
+  list, and two people editing different attributes were editing the same resource.
+  The source now holds only its own configuration - name, type, title, description,
+  priority - and each attribute binding is an incident_alert_source_attribute resource
+  with its own lifecycle. v7 migration
+  guide https://registry.terraform.io/providers/incident-io/incident/latest/docs/guides/migrating-to-v7 has the mapping, and the
+  IDs to import a source and its bindings with rather than recreating them.
 ---
 
 # incident_alert_source (Resource)
 
-Configure your alert sources in incident.io.
+Configure your alert sources, separately from the attributes they populate.
 
-Alert sources are the systems that send alerts to incident.io, which can then be routed to the right people and teams.
+An alert source, without the attributes it populates — each of those is an `incident_alert_source_attribute` resource. Editing one attribute therefore doesn't mean rewriting the source, and two people editing different attributes don't race each other.
 
-We'd generally recommend building alert sources in our [web dashboard](https://app.incident.io/~/alerts/configuration), and using the 'Export' flow to generate your Terraform, as it's easier to see what you've configured. You can also make changes to an existing alert source and copy the resulting Terraform without persisting it.
+## What changed in v7
 
-## Setting an alert's priority
+Before v7, a source and every attribute it populated were declared together under one
+`template.attributes` list. Filling in one more attribute meant rewriting that whole
+list, and two people editing different attributes were editing the same resource.
 
-This resource has no `priority` field. An alert's priority is set the same way as any other
-attribute: as an entry in `template.attributes` bound to the built-in `Priority` alert attribute,
-which you look up by name.
-
-    data "incident_alert_attribute" "priority" {
-      name = "Priority"
-    }
-
-    # ...then, in template.attributes
-    {
-      alert_attribute_id = data.incident_alert_attribute.priority.id
-      binding            = { value = { reference = "expressions[\"my-priority\"]" } }
-    }
-
-A priority binding's `merge_strategy` can only be `last_wins`. Leave it out and the API fills
-it in — it reads back as `last_wins` either way, so there is no diff to manage. Setting any other
-value is rejected.
-
-Two mistakes here are worth knowing about, because both end with every alert on your default
-alert priority and neither says anything.
-
-The first is writing the expression and leaving out the binding. Nothing rejects it — the API
-stores an expression nothing references and never evaluates it — so the config applies and reads
-back unchanged, having done nothing. If you exported this source from the dashboard the binding
-is already there; it's a hand-written or hand-trimmed config that tends to lose it.
-
-The second is parsing a payload value straight into a `CatalogEntry["AlertPriority"]`. That
-resolves by matching the value against a priority's name, alias or external ID exactly, so a
-payload saying `CRITICAL` matches no priority called `Urgent`, resolves to nothing, and falls back
-to your default priority — for every alert, which reads exactly like a hardcoded priority.
-
-Mapping a payload value onto a priority takes two expressions. The payload is opaque JSON: an
-expression reaches into it with a `parse` operation, and a condition can only ask whether
-`payload` as a whole is set, so `subject = "payload.severity"` resolves to nothing. Parse the
-value out first, then branch on the result:
-
-    expressions = [
-      {
-        label          = "Severity"
-        reference      = "severity"
-        root_reference = "payload"
-        operations = [{
-          operation_type = "parse"
-          parse = {
-            source  = "$['severity']"
-            returns = { type = "String", array = false }
-          }
-        }]
-      },
-      {
-        label          = "Priority"
-        reference      = "priority"
-        root_reference = "."
-        operations = [{
-          operation_type = "branches"
-          branches = {
-            returns = { type = "CatalogEntry[\"AlertPriority\"]", array = false }
-            branches = [{
-              condition_groups = [{
-                conditions = [{
-                  subject        = "expressions[\"severity\"]"
-                  operation      = "one_of"
-                  param_bindings = [{ values = ["CRITICAL", "critical"] }]
-                }]
-              }]
-              result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
-            }]
-          }
-        }]
-        else_branch = {
-          result = { value_literal = data.incident_catalog_entry.low_priority.id }
-        }
-      },
-    ]
-
-A `branches` operation reads the whole scope, so it needs `root_reference = "."` and has to be the
-only operation in its expression.
-
-`incident_alert_source_beta` binds priority directly, as `priority = { expression_ref = ... }`, and
-splits each attribute into its own resource.
+The source now holds only its own configuration - name, type, title, description,
+priority - and each attribute binding is an `incident_alert_source_attribute` resource
+with its own lifecycle. [v7 migration
+guide](https://registry.terraform.io/providers/incident-io/incident/latest/docs/guides/migrating-to-v7) has the mapping, and the
+IDs to import a source and its bindings with rather than recreating them.
 
 ## Example Usage
 
 ```terraform
-## Create a basic Alert Source that receives from an SNS Topic in AWS
+# An alert source, without the attributes it populates. Each of those is its own
+# incident_alert_source_attribute resource, so editing one attribute doesn't
+# mean rewriting the source.
+resource "incident_alert_source" "prometheus" {
+  name        = "Prometheus"
+  source_type = "http"
 
-resource "incident_alert_source" "cloudwatch" {
-  name        = "CloudWatch Alerts"
-  source_type = "cloudwatch"
-  template = {
-    title = {
-      literal = jsonencode({
-        content = [
-          {
-            content = [
-              {
-                attrs = {
-                  label   = "Payload → Title"
-                  missing = false
-                  name    = "title"
-                }
-                type = "varSpec"
-              },
-            ]
-            type = "paragraph"
-          },
-        ]
-        type = "doc"
-      })
+  # Optional: teams that own this alert source.
+  owning_team_ids = [data.incident_catalog_entry.platform_team.id]
+
+  # A literal interpolates the alert's scope with {{ }}, and takes the filters
+  # truncate and omit_if_unset.
+  title = {
+    literal = "{{payload.labels.alertname}} on {{payload.labels.service}}"
+  }
+
+  # For content a template can't express — formatting, links, lists — build the
+  # document from markdown instead. feature_set must match the field: a title is
+  # plain_single_line, a description is rich.
+  description = {
+    literal = data.incident_rich_text.prometheus_alert.json
+  }
+
+  # Expressions this source owns, addressed by name. Setting a priority from the payload
+  # takes two of them.
+  #
+  # The payload is opaque JSON, so a condition can't reach inside it: `payload` as a whole
+  # is all one can see, and a subject of "payload.labels.severity" resolves to nothing.
+  # Parse the value out first...
+  named_expression {
+    name       = "severity_string"
+    start_from = "payload"
+
+    operation {
+      parse = {
+        # JavaScript, evaluated with the payload bound to `$`.
+        function = "$.labels.severity"
+        as       = "String"
+      }
+    }
+  }
+
+  # ...then map that string onto a priority. Parsing straight into a priority would be
+  # shorter, but it resolves by matching the value against a priority's name, so a payload
+  # saying "critical" would match no priority called "Urgent" and every alert would land on
+  # the fallback. Branching on the value says what you mean.
+  named_expression {
+    name       = "severity_lookup"
+    start_from = "."
+
+    operation {
+      branches {
+        # A priority is a catalog entry, so the branches return its catalog type. Take the
+        # type from attribute_type rather than writing it out.
+        as = data.incident_catalog_type.alert_priority.attribute_type
+
+        if {
+          conditions = [{
+            subject   = "expressions[\"severity_string\"]"
+            operation = "one_of"
+            params    = [{ values = ["critical", "page"] }]
+          }]
+          result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
+        }
+      }
     }
 
-    description = {
-      literal = jsonencode({
-        content = [
-          {
-            content = [
-              {
-                attrs = {
-                  label   = "Payload → Description"
-                  missing = false
-                  name    = "description"
-                }
-                type = "varSpec"
-              },
-            ]
-            type = "paragraph"
-          },
-        ]
-        type = "doc"
-      })
+    # What the expression produces when no branch matched.
+    fallback {
+      result = { value_literal = data.incident_catalog_entry.in_hours_priority.id }
     }
+  }
 
-    ## Bind the `team` expression to an Alert Attribute we can use to label our Alerts
-    attributes = [
-      {
-        alert_attribute_id = data.incident_alert_attribute.team.id
-        binding = {
-          value = {
-            ## Bind the expression below to this attribute for this Source
-            reference = "expressions[\"cloudwatch-team\"]"
-          }
-          ## Controls how the attribute value is handled when alert fires multiple times
-          merge_strategy = "first_wins"
-        }
-      },
-
-      ## An alert's priority is set here, as a binding on the built-in `Priority` Alert
-      ## Attribute: this resource has no `priority` field of its own. An expression that
-      ## returns an AlertPriority and is bound to nothing has no effect, so this entry is
-      ## what makes the `cloudwatch-priority` expression below do anything at all.
-      ##
-      ## A priority binding's `merge_strategy` can only be `last_wins`. Left out
-      ## here because the API fills it in, and it reads back as `last_wins`
-      ## either way; setting any other value is rejected.
-      {
-        alert_attribute_id = data.incident_alert_attribute.priority.id
-        binding = {
-          value = {
-            reference = "expressions[\"cloudwatch-priority\"]"
-          }
-        }
-      },
-    ]
-
-    ## Query the `team` value from the endpoint referenced in the SNS Topic Subscription
-    expressions = [
-      {
-        label = "Team"
-        operations = [
-          {
-            operation_type = "parse"
-            parse = {
-              returns = {
-                array = false
-                ## This'll bind to some Catalog Entry Type
-                type = "CatalogEntry[\"CatalogEntryID\"]"
-              }
-              source = "$['query_params']['team']"
-            }
-        }]
-        reference      = "cloudwatch-team"
-        root_reference = "payload"
-      },
-
-      ## Mapping the payload's severity onto an AlertPriority takes two expressions.
-      ##
-      ## The payload is opaque JSON: an expression reaches into it with a `parse`
-      ## operation, and a condition can only ask whether `payload` as a whole is set. So
-      ## `subject = "payload.severity"` resolves to nothing — pull the value out first.
-      ##
-      ## Step one: parse the severity out of the payload as a plain string.
-      {
-        label = "Severity"
-        operations = [
-          {
-            operation_type = "parse"
-            parse = {
-              returns = {
-                array = false
-                type  = "String"
-              }
-              source = "$['severity']"
-            }
-        }]
-        reference      = "cloudwatch-severity"
-        root_reference = "payload"
-      },
-
-      ## Step two: map that string onto a priority.
-      ##
-      ## Parsing the severity straight into a CatalogEntry["AlertPriority"] instead would
-      ## be shorter, but it resolves by matching the value against a priority's name, alias
-      ## or external ID exactly. A payload saying "CRITICAL" matches no priority called
-      ## "Urgent", so it resolves to nothing and every alert lands on the else_branch.
-      ## Branching on the value says what you mean.
-      {
-        label = "Priority"
-        operations = [
-          {
-            operation_type = "branches"
-            branches = {
-              returns = {
-                array = false
-                type  = "CatalogEntry[\"AlertPriority\"]"
-              }
-              branches = [
-                {
-                  condition_groups = [
-                    {
-                      conditions = [
-                        {
-                          subject   = "expressions[\"cloudwatch-severity\"]"
-                          operation = "one_of"
-                          param_bindings = [
-                            { values = ["CRITICAL", "critical"] },
-                          ]
-                        },
-                      ]
-                    },
-                  ]
-                  result = { value_literal = data.incident_catalog_entry.urgent_priority.id }
-                },
-              ]
-            }
-        }]
-        reference = "cloudwatch-priority"
-        ## A branches operation reads the whole scope, so root_reference must be "."
-        root_reference = "."
-        ## What the priority is when no branch matched
-        else_branch = {
-          result = { value_literal = data.incident_catalog_entry.low_priority.id }
-        }
-      },
-    ]
+  priority = {
+    expression_ref = "severity_lookup"
   }
 }
 
-## The `team` Alert Attribute we've configured to label Alerts and route alerts to schedules
-
-data "incident_alert_attribute" "team" {
-  name = "Team"
-}
-
-## `Priority` is a built-in Alert Attribute that every account already has, so it's looked
-## up rather than declared: `incident_alert_attribute` rejects the name.
-
-data "incident_alert_attribute" "priority" {
-  name = "Priority"
-}
-
-## The priorities themselves are Catalog Entries, looked up by name
-
+# An alert's priority is a catalog entry, so the priorities themselves are looked up rather
+# than declared. Urgent and In-hours are the ones a new account starts with; use whichever
+# your organisation has.
 data "incident_catalog_type" "alert_priority" {
   type_name = "AlertPriority"
 }
@@ -373,24 +127,55 @@ data "incident_catalog_entry" "urgent_priority" {
   identifier      = "Urgent"
 }
 
-data "incident_catalog_entry" "low_priority" {
+data "incident_catalog_entry" "in_hours_priority" {
   catalog_type_id = data.incident_catalog_type.alert_priority.id
-  identifier      = "Low"
+  identifier      = "In-hours"
 }
 
-## AWS Resources
+data "incident_rich_text" "prometheus_alert" {
+  feature_set = "rich"
+  markdown    = <<-EOT
+    Fired by the **Prometheus alertmanager**.
 
-resource "aws_sns_topic" "alerts" {
-  name = "cloudwatch-alerts"
+    Runbook: {{payload.annotations.runbook_url}}
+  EOT
 }
 
-## SNS Topic Subscription that routes to the incident.io Alert Source created above
+# A heartbeat source writes its own title and description, and needs the interval a
+# ping is expected within.
+resource "incident_alert_source" "nightly_backup" {
+  name        = "Nightly backup"
+  source_type = "heartbeat"
 
-resource "aws_sns_topic_subscription" "incidentio_alert_source" {
-  endpoint               = "https://api.incident.io/v2/alert_events/cloudwatch/${incident_alert_source.cloudwatch.id}?team=platform"
-  endpoint_auto_confirms = true
-  protocol               = "https"
-  topic_arn              = aws_sns_topic.alerts.arn
+  heartbeat_options = {
+    interval_seconds = 86400
+
+    # Optional: how many missed intervals before we alert, and how long to wait
+    # after each one.
+    failure_threshold    = 1
+    grace_period_seconds = 3600
+  }
+}
+
+# A private source's alerts are visible to nobody until you say which teams can
+# see them.
+resource "incident_alert_source" "security_scanner" {
+  name        = "Security scanner"
+  source_type = "http"
+
+  # Every source but a heartbeat needs both of these: leave one out and the API writes
+  # its own default, which this resource has nowhere to store.
+  title = {
+    literal = "{{payload.rule}} on {{payload.target}}"
+  }
+  description = {
+    literal = "{{payload.detail}}"
+  }
+
+  is_private = true
+  visible_to_teams = {
+    values = [data.incident_catalog_entry.security_team.id]
+  }
 }
 ```
 
@@ -399,416 +184,43 @@ resource "aws_sns_topic_subscription" "incidentio_alert_source" {
 
 ### Required
 
-- `name` (String) Unique name of the alert source
+- `name` (String) The name of this alert source, for the user's reference
 - `source_type` (String) Type of alert source. Possible values are: `alertmanager`, `app_optics`, `azure_monitor`, `azure_devops`, `big_panda`, `bugsnag`, `checkly`, `chronosphere`, `cloudwatch`, `cloudflare`, `coralogix`, `cronitor`, `crowdstrike_falcon`, `dash0`, `datadog`, `dynatrace`, `elasticsearch`, `email`, `expel`, `github_issue`, `google_cloud`, `grafana`, `heartbeat`, `http`, `http_custom`, `honeycomb`, `icinga2`, `incoming_calls`, `jira`, `jsm`, `monte_carlo`, `nagios`, `new_relic`, `opsgenie`, `prtg`, `pager_duty`, `panther`, `pingdom`, `runscope`, `sns`, `salesforce_case`, `sentry`, `sentry_metric`, `service_now`, `splunk`, `status_cake`, `status_page_views`, `sumo_logic`, `uptime`, `vercel`, `wiz`, `zendesk`.
-- `template` (Attributes) (see [below for nested schema](#nestedatt--template))
 
 ### Optional
 
 - `auto_resolve_incident_alerts` (Boolean) Whether alerts from this source keep counting down to auto-resolve while attached to an incident. Defaults to true. Has no effect without auto_resolve_timeout_minutes.
-- `auto_resolve_timeout_minutes` (Number) When set, alerts from this source will automatically resolve after this many minutes.
-- `email_address` (String) Email address this alert source receives alerts to
+- `auto_resolve_timeout_minutes` (Number) How long to wait before automatically resolving alerts from this source
+- `description` (Attributes) (see [below for nested schema](#nestedatt--description))
 - `email_options` (Attributes) (see [below for nested schema](#nestedatt--email_options))
 - `filter_condition_groups` (Attributes List) Conditions an incoming event must match to be ingested from this source, evaluated against the event's payload and this source's expressions. (see [below for nested schema](#nestedatt--filter_condition_groups))
-- `fixed_team_id` (String) When set, the team every alert from this source is attributed to. The team attribute is managed from this field: its binding is not returned in the template and cannot be edited directly. While set, don't bind the organisation's team attribute in `template.attributes`: the binding is managed from this field, a binding sent in the template is ignored, and reads leave it out — so a config carrying both never settles.
+- `fixed_team_id` (String) When set, the team every alert from this source is attributed to. The team attribute is managed from this field: it is not returned by the attribute endpoints and cannot be bound directly. While set, an `incident_alert_source_attribute` resource binding the organisation's team attribute is rejected at apply time: the binding is managed from this field.
 - `heartbeat_options` (Attributes) (see [below for nested schema](#nestedatt--heartbeat_options))
 - `http_custom_options` (Attributes) (see [below for nested schema](#nestedatt--http_custom_options))
+- `is_private` (Boolean) Whether alerts from this source are private
 - `jira_options` (Attributes) (see [below for nested schema](#nestedatt--jira_options))
-- `owning_team_ids` (Set of String) IDs of teams that own this alert source
+- `named_expression` (Block List) An expression this resource owns, addressed by name. (see [below for nested schema](#nestedblock--named_expression))
+- `owning_team_ids` (Set of String) IDs of the teams that own this alert source
+- `priority` (Attributes) (see [below for nested schema](#nestedatt--priority))
 - `rate_limit_sharding` (Attributes) Controls how this source's ingest rate limit is split into buckets. (see [below for nested schema](#nestedatt--rate_limit_sharding))
+- `title` (Attributes) (see [below for nested schema](#nestedatt--title))
+- `visible_to_teams` (Attributes) (see [below for nested schema](#nestedatt--visible_to_teams))
 
 ### Read-Only
 
-- `alert_events_url` (String) URL that can be used to send alert events to this source. This is only set for sources that accept webhook/HTTP events; email sources use the email_address field, and integration-based sources (like Jira) receive events through their native integrations.
-- `id` (String) The ID of this alert source
-- `secret_token` (String) Secret token used to authenticate this source, if applicable. If applicable, this is the token that must be included in either the query string or the 'Authorization' header when sending events to this alert source.
+- `alert_events_url` (String) The URL to send alert events to
+- `email_address` (String) Email address this alert source receives alerts to
+- `id` (String) Unique identifier for this alert source
+- `secret_token` (String, Sensitive) The token to use when sending alerts to this source. Only returned to callers with permission to update the source.
+- `version` (Number) The source's current version, which increments on every write. Pass it back as expected_version to reject a write built from a stale read.
 
-<a id="nestedatt--template"></a>
-### Nested Schema for `template`
-
-Required:
-
-- `attributes` (Attributes Set) Attributes to set on alerts coming from this source, with a binding describing how to set them. (see [below for nested schema](#nestedatt--template--attributes))
-- `description` (Attributes) (see [below for nested schema](#nestedatt--template--description))
-- `expressions` (Attributes Set) The expressions to be prepared for use by steps and conditions (see [below for nested schema](#nestedatt--template--expressions))
-- `title` (Attributes) (see [below for nested schema](#nestedatt--template--title))
+<a id="nestedatt--description"></a>
+### Nested Schema for `description`
 
 Optional:
 
-- `is_private` (Boolean) Whether or not alerts produced by this source should be private
-- `visible_to_teams` (Attributes) (see [below for nested schema](#nestedatt--template--visible_to_teams))
-
-<a id="nestedatt--template--attributes"></a>
-### Nested Schema for `template.attributes`
-
-Required:
-
-- `alert_attribute_id` (String) ID of the alert attribute to set with this binding
-- `binding` (Attributes) (see [below for nested schema](#nestedatt--template--attributes--binding))
-
-<a id="nestedatt--template--attributes--binding"></a>
-### Nested Schema for `template.attributes.binding`
-
-Optional:
-
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--attributes--binding--array_value))
-- `merge_strategy` (String) Merge strategy for this attribute when alert updates. Possible values are: `first_wins`, `last_wins`, `append`, `max`, `min`.
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--attributes--binding--value))
-
-<a id="nestedatt--template--attributes--binding--array_value"></a>
-### Nested Schema for `template.attributes.binding.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--template--attributes--binding--value"></a>
-### Nested Schema for `template.attributes.binding.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-
-
-<a id="nestedatt--template--description"></a>
-### Nested Schema for `template.description`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--template--expressions"></a>
-### Nested Schema for `template.expressions`
-
-Required:
-
-- `label` (String) The human readable label of the expression
-- `operations` (Attributes List) The operations to execute in sequence for this expression (see [below for nested schema](#nestedatt--template--expressions--operations))
-- `reference` (String) A short ID that can be used to reference the expression
-- `root_reference` (String) The root reference for this expression (i.e. where the expression starts)
-
-Optional:
-
-- `else_branch` (Attributes) The else branch to resort to if all operations fail (see [below for nested schema](#nestedatt--template--expressions--else_branch))
-
-<a id="nestedatt--template--expressions--operations"></a>
-### Nested Schema for `template.expressions.operations`
-
-Required:
-
-- `operation_type` (String) Indicates which operation type to execute. Possible values are: `navigate`, `filter`, `concatenate`, `count`, `min`, `max`, `sum`, `random`, `first`, `parse`, `branches`, `cast`.
-
-Optional:
-
-- `branches` (Attributes) An operation type that allows for a value to be set conditionally by a series of logical branches (see [below for nested schema](#nestedatt--template--expressions--operations--branches))
-- `cast` (Attributes) An operation type that converts a value into another type. Only valid on values that can be represented as text. The returned `array` follows the value being cast, so it must match the cardinality of the previous operation (see [below for nested schema](#nestedatt--template--expressions--operations--cast))
-- `concatenate` (Attributes) An operation type that adds the values behind another reference to the current value, keeping each value once. There is no delimiter, despite the name (see [below for nested schema](#nestedatt--template--expressions--operations--concatenate))
-- `filter` (Attributes) An operation type that allows values to be filtered out by conditions (see [below for nested schema](#nestedatt--template--expressions--operations--filter))
-- `navigate` (Attributes) An operation type that allows attributes of a type to be accessed by reference (see [below for nested schema](#nestedatt--template--expressions--operations--navigate))
-- `parse` (Attributes) An operation type that allows a value to parsed from within a JSON object (see [below for nested schema](#nestedatt--template--expressions--operations--parse))
-
-<a id="nestedatt--template--expressions--operations--branches"></a>
-### Nested Schema for `template.expressions.operations.branches`
-
-Required:
-
-- `branches` (Attributes List) The branches to apply for this operation (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches))
-- `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--template--expressions--operations--branches--returns))
-
-<a id="nestedatt--template--expressions--operations--branches--branches"></a>
-### Nested Schema for `template.expressions.operations.branches.branches`
-
-Required:
-
-- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups))
-- `result` (Attributes) The result assumed if the condition groups are satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--result))
-
-<a id="nestedatt--template--expressions--operations--branches--branches--condition_groups"></a>
-### Nested Schema for `template.expressions.operations.branches.branches.condition_groups`
-
-Required:
-
-- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions))
-
-<a id="nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions"></a>
-### Nested Schema for `template.expressions.operations.branches.branches.condition_groups.conditions`
-
-Required:
-
-- `operation` (String) The logical operation to be applied
-- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings))
-- `subject` (String) The subject of the condition, on which the operation is applied
-
-<a id="nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings"></a>
-### Nested Schema for `template.expressions.operations.branches.branches.condition_groups.conditions.param_bindings`
-
-Optional:
-
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value))
-- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--value))
-- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
-- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
-- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
-
-<a id="nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--array_value"></a>
-### Nested Schema for `template.expressions.operations.branches.branches.condition_groups.conditions.param_bindings.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--template--expressions--operations--branches--branches--condition_groups--conditions--param_bindings--value"></a>
-### Nested Schema for `template.expressions.operations.branches.branches.condition_groups.conditions.param_bindings.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-
-
-
-<a id="nestedatt--template--expressions--operations--branches--branches--result"></a>
-### Nested Schema for `template.expressions.operations.branches.branches.result`
-
-Optional:
-
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--result--array_value))
-- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--expressions--operations--branches--branches--result--value))
-- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
-- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
-- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
-
-<a id="nestedatt--template--expressions--operations--branches--branches--result--array_value"></a>
-### Nested Schema for `template.expressions.operations.branches.branches.result.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--template--expressions--operations--branches--branches--result--value"></a>
-### Nested Schema for `template.expressions.operations.branches.branches.result.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-
-
-<a id="nestedatt--template--expressions--operations--branches--returns"></a>
-### Nested Schema for `template.expressions.operations.branches.returns`
-
-Required:
-
-- `array` (Boolean) Whether the return value should be single or multi-value
-- `type` (String) Expected return type of this expression (what to try casting the result to)
-
-
-
-<a id="nestedatt--template--expressions--operations--cast"></a>
-### Nested Schema for `template.expressions.operations.cast`
-
-Required:
-
-- `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--template--expressions--operations--cast--returns))
-
-<a id="nestedatt--template--expressions--operations--cast--returns"></a>
-### Nested Schema for `template.expressions.operations.cast.returns`
-
-Required:
-
-- `array` (Boolean) Whether the return value should be single or multi-value
-- `type` (String) Expected return type of this expression (what to try casting the result to)
-
-
-
-<a id="nestedatt--template--expressions--operations--concatenate"></a>
-### Nested Schema for `template.expressions.operations.concatenate`
-
-Required:
-
-- `reference` (String) The reference within the scope to concatenate with
-
-
-<a id="nestedatt--template--expressions--operations--filter"></a>
-### Nested Schema for `template.expressions.operations.filter`
-
-Required:
-
-- `condition_groups` (Attributes List) Groups of prerequisite conditions. All conditions in at least one group must be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups))
-
-<a id="nestedatt--template--expressions--operations--filter--condition_groups"></a>
-### Nested Schema for `template.expressions.operations.filter.condition_groups`
-
-Required:
-
-- `conditions` (Attributes List) The prerequisite conditions that must all be satisfied (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups--conditions))
-
-<a id="nestedatt--template--expressions--operations--filter--condition_groups--conditions"></a>
-### Nested Schema for `template.expressions.operations.filter.condition_groups.conditions`
-
-Required:
-
-- `operation` (String) The logical operation to be applied
-- `param_bindings` (Attributes List) Bindings for the operation parameters (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups--conditions--param_bindings))
-- `subject` (String) The subject of the condition, on which the operation is applied
-
-<a id="nestedatt--template--expressions--operations--filter--condition_groups--conditions--param_bindings"></a>
-### Nested Schema for `template.expressions.operations.filter.condition_groups.conditions.param_bindings`
-
-Optional:
-
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value))
-- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--expressions--operations--filter--condition_groups--conditions--param_bindings--value))
-- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
-- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
-- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
-
-<a id="nestedatt--template--expressions--operations--filter--condition_groups--conditions--param_bindings--array_value"></a>
-### Nested Schema for `template.expressions.operations.filter.condition_groups.conditions.param_bindings.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--template--expressions--operations--filter--condition_groups--conditions--param_bindings--value"></a>
-### Nested Schema for `template.expressions.operations.filter.condition_groups.conditions.param_bindings.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-
-
-
-
-<a id="nestedatt--template--expressions--operations--navigate"></a>
-### Nested Schema for `template.expressions.operations.navigate`
-
-Required:
-
-- `reference` (String)
-
-
-<a id="nestedatt--template--expressions--operations--parse"></a>
-### Nested Schema for `template.expressions.operations.parse`
-
-Required:
-
-- `returns` (Attributes) The return type of an operation (see [below for nested schema](#nestedatt--template--expressions--operations--parse--returns))
-- `source` (String) The ES5 Javascript expression to execute
-
-<a id="nestedatt--template--expressions--operations--parse--returns"></a>
-### Nested Schema for `template.expressions.operations.parse.returns`
-
-Required:
-
-- `array` (Boolean) Whether the return value should be single or multi-value
-- `type` (String) Expected return type of this expression (what to try casting the result to)
-
-
-
-
-<a id="nestedatt--template--expressions--else_branch"></a>
-### Nested Schema for `template.expressions.else_branch`
-
-Required:
-
-- `result` (Attributes) The result assumed if the else branch is reached (see [below for nested schema](#nestedatt--template--expressions--else_branch--result))
-
-<a id="nestedatt--template--expressions--else_branch--result"></a>
-### Nested Schema for `template.expressions.else_branch.result`
-
-Optional:
-
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--expressions--else_branch--result--array_value))
-- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--expressions--else_branch--result--value))
-- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
-- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
-- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
-
-<a id="nestedatt--template--expressions--else_branch--result--array_value"></a>
-### Nested Schema for `template.expressions.else_branch.result.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--template--expressions--else_branch--result--value"></a>
-### Nested Schema for `template.expressions.else_branch.result.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-
-
-
-<a id="nestedatt--template--title"></a>
-### Nested Schema for `template.title`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--template--visible_to_teams"></a>
-### Nested Schema for `template.visible_to_teams`
-
-Optional:
-
-- `array_value` (Attributes List) The array of literal or reference parameter values (see [below for nested schema](#nestedatt--template--visible_to_teams--array_value))
-- `expression_ref` (String) The name of an expression on this resource, whose result becomes the value. Shorthand for referencing `expressions["name"]`.
-- `value` (Attributes) The literal or reference parameter value (see [below for nested schema](#nestedatt--template--visible_to_teams--value))
-- `value_literal` (String) A fixed value, shorthand for `value = { literal = ... }`. A catalog entry ID is a literal, not a reference.
-- `value_reference` (String) A reference into the scope, shorthand for `value = { reference = ... }`.
-- `values` (List of String) Several fixed values, shorthand for an `array_value` of literals. For a mix of literals and references, use `array_value`.
-
-<a id="nestedatt--template--visible_to_teams--array_value"></a>
-### Nested Schema for `template.visible_to_teams.array_value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
-<a id="nestedatt--template--visible_to_teams--value"></a>
-### Nested Schema for `template.visible_to_teams.value`
-
-Optional:
-
-- `literal` (String) If set, this is the literal value of the step parameter
-- `reference` (String) If set, this is the reference into the trigger scope that is the value of this parameter
-
-
+- `literal` (String) Fixed content, which may interpolate the scope with `{{ variable }}`. Filters `truncate: N` and `omit_if_unset` are supported. For content needing formatting a template can't express, pass a document from `data.incident_rich_text` with `feature_set = "rich"`.
+- `reference` (String) A reference into the scope whose value becomes the content, such as `payload.summary`. Prefer a literal interpolating `{{ payload.summary }}`, which can also carry surrounding text.
 
 
 <a id="nestedatt--email_options"></a>
@@ -901,9 +313,881 @@ Required:
 <a id="nestedatt--jira_options"></a>
 ### Nested Schema for `jira_options`
 
-Optional:
+Required:
 
 - `project_ids` (List of String) Which projects in Jira should this alert source watch for new issues? IDs can either be IDs of the projects in Jira, or ID of catalog entries in the 'Jira Project' catalog type.
+
+
+<a id="nestedblock--named_expression"></a>
+### Nested Schema for `named_expression`
+
+Required:
+
+- `name` (String) A name for this expression, unique within this resource, referenced by expression_ref.
+
+Optional:
+
+- `fallback` (Block, Optional) What this expression produces when nothing else matched. (see [below for nested schema](#nestedblock--named_expression--fallback))
+- `label` (String) What the dashboard shows for this expression. Defaults to the name. Set it when importing a source whose expressions were labelled in the dashboard, so those labels survive.
+- `operation` (Block List) An ordered pipeline. Each operation feeds the next. (see [below for nested schema](#nestedblock--named_expression--operation))
+- `start_from` (String) Where the expression starts: "payload", "alert", "." for a branches-only expression, or a scope path. Required when the block is present.
+
+<a id="nestedblock--named_expression--fallback"></a>
+### Nested Schema for `named_expression.fallback`
+
+Optional:
+
+- `else` (Block, Optional) The unconditional default for the shorthand above. (see [below for nested schema](#nestedblock--named_expression--fallback--else))
+- `else_if` (Block List) Tried in order, after if. (see [below for nested schema](#nestedblock--named_expression--fallback--else_if))
+- `expression_ref` (String) The name of a named_expression in this resource.
+- `if` (Block, Optional) Shorthand for a branching fallback. (see [below for nested schema](#nestedblock--named_expression--fallback--if))
+- `result` (Attributes) A flat, unconditional value. (see [below for nested schema](#nestedatt--named_expression--fallback--result))
+
+<a id="nestedblock--named_expression--fallback--else"></a>
+### Nested Schema for `named_expression.fallback.else`
+
+Optional:
+
+- `result` (Attributes) The value to fall back to. Required when the block is present. (see [below for nested schema](#nestedatt--named_expression--fallback--else--result))
+
+<a id="nestedatt--named_expression--fallback--else--result"></a>
+### Nested Schema for `named_expression.fallback.else.result`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--fallback--else--result--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--fallback--else--result--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--fallback--else--result--array_value"></a>
+### Nested Schema for `named_expression.fallback.else.result.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--fallback--else--result--value"></a>
+### Nested Schema for `named_expression.fallback.else.result.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+<a id="nestedblock--named_expression--fallback--else_if"></a>
+### Nested Schema for `named_expression.fallback.else_if`
+
+Optional:
+
+- `condition_groups` (Attributes List) Groups are OR'd; conditions within a group are AND'd. (see [below for nested schema](#nestedatt--named_expression--fallback--else_if--condition_groups))
+- `conditions` (Attributes List) All of these must hold. Sugar for a single condition group. (see [below for nested schema](#nestedatt--named_expression--fallback--else_if--conditions))
+- `result` (Attributes) The value this branch produces. Required when the branch is present. (see [below for nested schema](#nestedatt--named_expression--fallback--else_if--result))
+
+<a id="nestedatt--named_expression--fallback--else_if--condition_groups"></a>
+### Nested Schema for `named_expression.fallback.else_if.condition_groups`
+
+Required:
+
+- `conditions` (Attributes List) All of these must hold for the group to hold. (see [below for nested schema](#nestedatt--named_expression--fallback--else_if--condition_groups--conditions))
+
+<a id="nestedatt--named_expression--fallback--else_if--condition_groups--conditions"></a>
+### Nested Schema for `named_expression.fallback.else_if.condition_groups.conditions`
+
+Required:
+
+- `operation` (String) How the subject is tested. The available operations depend on the subject's type.
+- `subject` (String) The reference this condition tests.
+
+Optional:
+
+- `params` (Attributes List) Positional parameters for the operation. (see [below for nested schema](#nestedatt--named_expression--fallback--else_if--condition_groups--conditions--params))
+
+<a id="nestedatt--named_expression--fallback--else_if--condition_groups--conditions--params"></a>
+### Nested Schema for `named_expression.fallback.else_if.condition_groups.conditions.params`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--fallback--else_if--condition_groups--conditions--params--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--fallback--else_if--condition_groups--conditions--params--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--fallback--else_if--condition_groups--conditions--params--array_value"></a>
+### Nested Schema for `named_expression.fallback.else_if.condition_groups.conditions.params.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--fallback--else_if--condition_groups--conditions--params--value"></a>
+### Nested Schema for `named_expression.fallback.else_if.condition_groups.conditions.params.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+
+<a id="nestedatt--named_expression--fallback--else_if--conditions"></a>
+### Nested Schema for `named_expression.fallback.else_if.conditions`
+
+Required:
+
+- `operation` (String) How the subject is tested. The available operations depend on the subject's type.
+- `subject` (String) The reference this condition tests.
+
+Optional:
+
+- `params` (Attributes List) Positional parameters for the operation. (see [below for nested schema](#nestedatt--named_expression--fallback--else_if--conditions--params))
+
+<a id="nestedatt--named_expression--fallback--else_if--conditions--params"></a>
+### Nested Schema for `named_expression.fallback.else_if.conditions.params`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--fallback--else_if--conditions--params--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--fallback--else_if--conditions--params--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--fallback--else_if--conditions--params--array_value"></a>
+### Nested Schema for `named_expression.fallback.else_if.conditions.params.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--fallback--else_if--conditions--params--value"></a>
+### Nested Schema for `named_expression.fallback.else_if.conditions.params.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+<a id="nestedatt--named_expression--fallback--else_if--result"></a>
+### Nested Schema for `named_expression.fallback.else_if.result`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--fallback--else_if--result--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--fallback--else_if--result--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--fallback--else_if--result--array_value"></a>
+### Nested Schema for `named_expression.fallback.else_if.result.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--fallback--else_if--result--value"></a>
+### Nested Schema for `named_expression.fallback.else_if.result.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+<a id="nestedblock--named_expression--fallback--if"></a>
+### Nested Schema for `named_expression.fallback.if`
+
+Optional:
+
+- `condition_groups` (Attributes List) Groups are OR'd; conditions within a group are AND'd. (see [below for nested schema](#nestedatt--named_expression--fallback--if--condition_groups))
+- `conditions` (Attributes List) All of these must hold. Sugar for a single condition group. (see [below for nested schema](#nestedatt--named_expression--fallback--if--conditions))
+- `result` (Attributes) The value this branch produces. Required when the branch is present. (see [below for nested schema](#nestedatt--named_expression--fallback--if--result))
+
+<a id="nestedatt--named_expression--fallback--if--condition_groups"></a>
+### Nested Schema for `named_expression.fallback.if.condition_groups`
+
+Required:
+
+- `conditions` (Attributes List) All of these must hold for the group to hold. (see [below for nested schema](#nestedatt--named_expression--fallback--if--condition_groups--conditions))
+
+<a id="nestedatt--named_expression--fallback--if--condition_groups--conditions"></a>
+### Nested Schema for `named_expression.fallback.if.condition_groups.conditions`
+
+Required:
+
+- `operation` (String) How the subject is tested. The available operations depend on the subject's type.
+- `subject` (String) The reference this condition tests.
+
+Optional:
+
+- `params` (Attributes List) Positional parameters for the operation. (see [below for nested schema](#nestedatt--named_expression--fallback--if--condition_groups--conditions--params))
+
+<a id="nestedatt--named_expression--fallback--if--condition_groups--conditions--params"></a>
+### Nested Schema for `named_expression.fallback.if.condition_groups.conditions.params`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--fallback--if--condition_groups--conditions--params--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--fallback--if--condition_groups--conditions--params--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--fallback--if--condition_groups--conditions--params--array_value"></a>
+### Nested Schema for `named_expression.fallback.if.condition_groups.conditions.params.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--fallback--if--condition_groups--conditions--params--value"></a>
+### Nested Schema for `named_expression.fallback.if.condition_groups.conditions.params.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+
+<a id="nestedatt--named_expression--fallback--if--conditions"></a>
+### Nested Schema for `named_expression.fallback.if.conditions`
+
+Required:
+
+- `operation` (String) How the subject is tested. The available operations depend on the subject's type.
+- `subject` (String) The reference this condition tests.
+
+Optional:
+
+- `params` (Attributes List) Positional parameters for the operation. (see [below for nested schema](#nestedatt--named_expression--fallback--if--conditions--params))
+
+<a id="nestedatt--named_expression--fallback--if--conditions--params"></a>
+### Nested Schema for `named_expression.fallback.if.conditions.params`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--fallback--if--conditions--params--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--fallback--if--conditions--params--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--fallback--if--conditions--params--array_value"></a>
+### Nested Schema for `named_expression.fallback.if.conditions.params.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--fallback--if--conditions--params--value"></a>
+### Nested Schema for `named_expression.fallback.if.conditions.params.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+<a id="nestedatt--named_expression--fallback--if--result"></a>
+### Nested Schema for `named_expression.fallback.if.result`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--fallback--if--result--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--fallback--if--result--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--fallback--if--result--array_value"></a>
+### Nested Schema for `named_expression.fallback.if.result.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--fallback--if--result--value"></a>
+### Nested Schema for `named_expression.fallback.if.result.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+<a id="nestedatt--named_expression--fallback--result"></a>
+### Nested Schema for `named_expression.fallback.result`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--fallback--result--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--fallback--result--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--fallback--result--array_value"></a>
+### Nested Schema for `named_expression.fallback.result.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--fallback--result--value"></a>
+### Nested Schema for `named_expression.fallback.result.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+<a id="nestedblock--named_expression--operation"></a>
+### Nested Schema for `named_expression.operation`
+
+Optional:
+
+- `branches` (Block, Optional) A lookup table, evaluated in order until one matches. Must be the only operation in its expression, with start_from = ".". (see [below for nested schema](#nestedblock--named_expression--operation--branches))
+- `cast` (Attributes) Converts the current value to another type. (see [below for nested schema](#nestedatt--named_expression--operation--cast))
+- `concatenate` (Attributes) Adds the values behind another reference to the current value, keeping each value once. There is no delimiter, despite the name. (see [below for nested schema](#nestedatt--named_expression--operation--concatenate))
+- `count` (Attributes) Counts the values. (see [below for nested schema](#nestedatt--named_expression--operation--count))
+- `filter` (Attributes) Keeps the values matching these conditions. Inside a filter the value under test is bound as `input`. (see [below for nested schema](#nestedatt--named_expression--operation--filter))
+- `first` (Attributes) Takes the first value. (see [below for nested schema](#nestedatt--named_expression--operation--first))
+- `max` (Attributes) Takes the largest value. (see [below for nested schema](#nestedatt--named_expression--operation--max))
+- `min` (Attributes) Takes the smallest value. (see [below for nested schema](#nestedatt--named_expression--operation--min))
+- `navigate` (Attributes) Follows an attribute of the current value. (see [below for nested schema](#nestedatt--named_expression--operation--navigate))
+- `parse` (Attributes) Evaluates a function against the current value. (see [below for nested schema](#nestedatt--named_expression--operation--parse))
+- `random` (Attributes) Takes one value at random. (see [below for nested schema](#nestedatt--named_expression--operation--random))
+- `sum` (Attributes) Adds the values together. (see [below for nested schema](#nestedatt--named_expression--operation--sum))
+
+<a id="nestedblock--named_expression--operation--branches"></a>
+### Nested Schema for `named_expression.operation.branches`
+
+Optional:
+
+- `array` (Boolean) Whether each branch returns several values rather than one.
+- `as` (String) The type every branch result returns. Required when the block is present.
+- `else_if` (Block List) Tried in order, after if. (see [below for nested schema](#nestedblock--named_expression--operation--branches--else_if))
+- `if` (Block, Optional) The first branch to try. (see [below for nested schema](#nestedblock--named_expression--operation--branches--if))
+
+<a id="nestedblock--named_expression--operation--branches--else_if"></a>
+### Nested Schema for `named_expression.operation.branches.else_if`
+
+Optional:
+
+- `condition_groups` (Attributes List) Groups are OR'd; conditions within a group are AND'd. (see [below for nested schema](#nestedatt--named_expression--operation--branches--else_if--condition_groups))
+- `conditions` (Attributes List) All of these must hold. Sugar for a single condition group. (see [below for nested schema](#nestedatt--named_expression--operation--branches--else_if--conditions))
+- `result` (Attributes) The value this branch produces. Required when the branch is present. (see [below for nested schema](#nestedatt--named_expression--operation--branches--else_if--result))
+
+<a id="nestedatt--named_expression--operation--branches--else_if--condition_groups"></a>
+### Nested Schema for `named_expression.operation.branches.else_if.condition_groups`
+
+Required:
+
+- `conditions` (Attributes List) All of these must hold for the group to hold. (see [below for nested schema](#nestedatt--named_expression--operation--branches--else_if--condition_groups--conditions))
+
+<a id="nestedatt--named_expression--operation--branches--else_if--condition_groups--conditions"></a>
+### Nested Schema for `named_expression.operation.branches.else_if.condition_groups.conditions`
+
+Required:
+
+- `operation` (String) How the subject is tested. The available operations depend on the subject's type.
+- `subject` (String) The reference this condition tests.
+
+Optional:
+
+- `params` (Attributes List) Positional parameters for the operation. (see [below for nested schema](#nestedatt--named_expression--operation--branches--else_if--condition_groups--conditions--params))
+
+<a id="nestedatt--named_expression--operation--branches--else_if--condition_groups--conditions--params"></a>
+### Nested Schema for `named_expression.operation.branches.else_if.condition_groups.conditions.params`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--operation--branches--else_if--condition_groups--conditions--params--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--operation--branches--else_if--condition_groups--conditions--params--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--operation--branches--else_if--condition_groups--conditions--params--array_value"></a>
+### Nested Schema for `named_expression.operation.branches.else_if.condition_groups.conditions.params.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--operation--branches--else_if--condition_groups--conditions--params--value"></a>
+### Nested Schema for `named_expression.operation.branches.else_if.condition_groups.conditions.params.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+
+<a id="nestedatt--named_expression--operation--branches--else_if--conditions"></a>
+### Nested Schema for `named_expression.operation.branches.else_if.conditions`
+
+Required:
+
+- `operation` (String) How the subject is tested. The available operations depend on the subject's type.
+- `subject` (String) The reference this condition tests.
+
+Optional:
+
+- `params` (Attributes List) Positional parameters for the operation. (see [below for nested schema](#nestedatt--named_expression--operation--branches--else_if--conditions--params))
+
+<a id="nestedatt--named_expression--operation--branches--else_if--conditions--params"></a>
+### Nested Schema for `named_expression.operation.branches.else_if.conditions.params`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--operation--branches--else_if--conditions--params--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--operation--branches--else_if--conditions--params--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--operation--branches--else_if--conditions--params--array_value"></a>
+### Nested Schema for `named_expression.operation.branches.else_if.conditions.params.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--operation--branches--else_if--conditions--params--value"></a>
+### Nested Schema for `named_expression.operation.branches.else_if.conditions.params.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+<a id="nestedatt--named_expression--operation--branches--else_if--result"></a>
+### Nested Schema for `named_expression.operation.branches.else_if.result`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--operation--branches--else_if--result--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--operation--branches--else_if--result--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--operation--branches--else_if--result--array_value"></a>
+### Nested Schema for `named_expression.operation.branches.else_if.result.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--operation--branches--else_if--result--value"></a>
+### Nested Schema for `named_expression.operation.branches.else_if.result.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+<a id="nestedblock--named_expression--operation--branches--if"></a>
+### Nested Schema for `named_expression.operation.branches.if`
+
+Optional:
+
+- `condition_groups` (Attributes List) Groups are OR'd; conditions within a group are AND'd. (see [below for nested schema](#nestedatt--named_expression--operation--branches--if--condition_groups))
+- `conditions` (Attributes List) All of these must hold. Sugar for a single condition group. (see [below for nested schema](#nestedatt--named_expression--operation--branches--if--conditions))
+- `result` (Attributes) The value this branch produces. Required when the branch is present. (see [below for nested schema](#nestedatt--named_expression--operation--branches--if--result))
+
+<a id="nestedatt--named_expression--operation--branches--if--condition_groups"></a>
+### Nested Schema for `named_expression.operation.branches.if.condition_groups`
+
+Required:
+
+- `conditions` (Attributes List) All of these must hold for the group to hold. (see [below for nested schema](#nestedatt--named_expression--operation--branches--if--condition_groups--conditions))
+
+<a id="nestedatt--named_expression--operation--branches--if--condition_groups--conditions"></a>
+### Nested Schema for `named_expression.operation.branches.if.condition_groups.conditions`
+
+Required:
+
+- `operation` (String) How the subject is tested. The available operations depend on the subject's type.
+- `subject` (String) The reference this condition tests.
+
+Optional:
+
+- `params` (Attributes List) Positional parameters for the operation. (see [below for nested schema](#nestedatt--named_expression--operation--branches--if--condition_groups--conditions--params))
+
+<a id="nestedatt--named_expression--operation--branches--if--condition_groups--conditions--params"></a>
+### Nested Schema for `named_expression.operation.branches.if.condition_groups.conditions.params`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--operation--branches--if--condition_groups--conditions--params--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--operation--branches--if--condition_groups--conditions--params--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--operation--branches--if--condition_groups--conditions--params--array_value"></a>
+### Nested Schema for `named_expression.operation.branches.if.condition_groups.conditions.params.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--operation--branches--if--condition_groups--conditions--params--value"></a>
+### Nested Schema for `named_expression.operation.branches.if.condition_groups.conditions.params.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+
+<a id="nestedatt--named_expression--operation--branches--if--conditions"></a>
+### Nested Schema for `named_expression.operation.branches.if.conditions`
+
+Required:
+
+- `operation` (String) How the subject is tested. The available operations depend on the subject's type.
+- `subject` (String) The reference this condition tests.
+
+Optional:
+
+- `params` (Attributes List) Positional parameters for the operation. (see [below for nested schema](#nestedatt--named_expression--operation--branches--if--conditions--params))
+
+<a id="nestedatt--named_expression--operation--branches--if--conditions--params"></a>
+### Nested Schema for `named_expression.operation.branches.if.conditions.params`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--operation--branches--if--conditions--params--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--operation--branches--if--conditions--params--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--operation--branches--if--conditions--params--array_value"></a>
+### Nested Schema for `named_expression.operation.branches.if.conditions.params.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--operation--branches--if--conditions--params--value"></a>
+### Nested Schema for `named_expression.operation.branches.if.conditions.params.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+<a id="nestedatt--named_expression--operation--branches--if--result"></a>
+### Nested Schema for `named_expression.operation.branches.if.result`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--operation--branches--if--result--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--operation--branches--if--result--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--operation--branches--if--result--array_value"></a>
+### Nested Schema for `named_expression.operation.branches.if.result.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--operation--branches--if--result--value"></a>
+### Nested Schema for `named_expression.operation.branches.if.result.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+
+<a id="nestedatt--named_expression--operation--cast"></a>
+### Nested Schema for `named_expression.operation.cast`
+
+Required:
+
+- `as` (String) The type to convert to. Take it from the resource that defines the type rather than writing it out.
+
+
+<a id="nestedatt--named_expression--operation--concatenate"></a>
+### Nested Schema for `named_expression.operation.concatenate`
+
+Required:
+
+- `with` (String) The reference whose values are added.
+
+
+<a id="nestedatt--named_expression--operation--count"></a>
+### Nested Schema for `named_expression.operation.count`
+
+
+<a id="nestedatt--named_expression--operation--filter"></a>
+### Nested Schema for `named_expression.operation.filter`
+
+Optional:
+
+- `condition_groups` (Attributes List) Groups are OR'd; conditions within a group are AND'd. (see [below for nested schema](#nestedatt--named_expression--operation--filter--condition_groups))
+- `conditions` (Attributes List) All of these must hold. Sugar for a single condition group. (see [below for nested schema](#nestedatt--named_expression--operation--filter--conditions))
+
+<a id="nestedatt--named_expression--operation--filter--condition_groups"></a>
+### Nested Schema for `named_expression.operation.filter.condition_groups`
+
+Required:
+
+- `conditions` (Attributes List) All of these must hold for the group to hold. (see [below for nested schema](#nestedatt--named_expression--operation--filter--condition_groups--conditions))
+
+<a id="nestedatt--named_expression--operation--filter--condition_groups--conditions"></a>
+### Nested Schema for `named_expression.operation.filter.condition_groups.conditions`
+
+Required:
+
+- `operation` (String) How the subject is tested. The available operations depend on the subject's type.
+- `subject` (String) The reference this condition tests.
+
+Optional:
+
+- `params` (Attributes List) Positional parameters for the operation. (see [below for nested schema](#nestedatt--named_expression--operation--filter--condition_groups--conditions--params))
+
+<a id="nestedatt--named_expression--operation--filter--condition_groups--conditions--params"></a>
+### Nested Schema for `named_expression.operation.filter.condition_groups.conditions.params`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--operation--filter--condition_groups--conditions--params--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--operation--filter--condition_groups--conditions--params--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--operation--filter--condition_groups--conditions--params--array_value"></a>
+### Nested Schema for `named_expression.operation.filter.condition_groups.conditions.params.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--operation--filter--condition_groups--conditions--params--value"></a>
+### Nested Schema for `named_expression.operation.filter.condition_groups.conditions.params.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+
+<a id="nestedatt--named_expression--operation--filter--conditions"></a>
+### Nested Schema for `named_expression.operation.filter.conditions`
+
+Required:
+
+- `operation` (String) How the subject is tested. The available operations depend on the subject's type.
+- `subject` (String) The reference this condition tests.
+
+Optional:
+
+- `params` (Attributes List) Positional parameters for the operation. (see [below for nested schema](#nestedatt--named_expression--operation--filter--conditions--params))
+
+<a id="nestedatt--named_expression--operation--filter--conditions--params"></a>
+### Nested Schema for `named_expression.operation.filter.conditions.params`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--named_expression--operation--filter--conditions--params--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--named_expression--operation--filter--conditions--params--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--named_expression--operation--filter--conditions--params--array_value"></a>
+### Nested Schema for `named_expression.operation.filter.conditions.params.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--named_expression--operation--filter--conditions--params--value"></a>
+### Nested Schema for `named_expression.operation.filter.conditions.params.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+
+
+
+<a id="nestedatt--named_expression--operation--first"></a>
+### Nested Schema for `named_expression.operation.first`
+
+
+<a id="nestedatt--named_expression--operation--max"></a>
+### Nested Schema for `named_expression.operation.max`
+
+
+<a id="nestedatt--named_expression--operation--min"></a>
+### Nested Schema for `named_expression.operation.min`
+
+
+<a id="nestedatt--named_expression--operation--navigate"></a>
+### Nested Schema for `named_expression.operation.navigate`
+
+Required:
+
+- `to` (String) The catalog attribute to follow.
+
+
+<a id="nestedatt--named_expression--operation--parse"></a>
+### Nested Schema for `named_expression.operation.parse`
+
+Required:
+
+- `as` (String) The type this returns. Take it from the resource that defines the type rather than writing it out, e.g. `incident_catalog_type.service.attribute_type`.
+- `function` (String) JavaScript evaluated against the current value, bound to `$`. 5 KiB limit.
+
+Optional:
+
+- `array` (Boolean) Whether this returns several values rather than one.
+
+
+<a id="nestedatt--named_expression--operation--random"></a>
+### Nested Schema for `named_expression.operation.random`
+
+
+<a id="nestedatt--named_expression--operation--sum"></a>
+### Nested Schema for `named_expression.operation.sum`
+
+
+
+
+<a id="nestedatt--priority"></a>
+### Nested Schema for `priority`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--priority--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--priority--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--priority--array_value"></a>
+### Nested Schema for `priority.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--priority--value"></a>
+### Nested Schema for `priority.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
 
 
 <a id="nestedatt--rate_limit_sharding"></a>
@@ -913,20 +1197,48 @@ Required:
 
 - `rate_limit_shard_key_path` (String) JSON path to a value that splits this source's rate limit into per-value buckets.
 
+
+<a id="nestedatt--title"></a>
+### Nested Schema for `title`
+
+Optional:
+
+- `literal` (String) Fixed content, which may interpolate the scope with `{{ variable }}`. Filters `truncate: N` and `omit_if_unset` are supported. For content needing formatting a template can't express, pass a document from `data.incident_rich_text` with `feature_set = "plain_single_line"`.
+- `reference` (String) A reference into the scope whose value becomes the content, such as `payload.summary`. Prefer a literal interpolating `{{ payload.summary }}`, which can also carry surrounding text.
+
+
+<a id="nestedatt--visible_to_teams"></a>
+### Nested Schema for `visible_to_teams`
+
+Optional:
+
+- `array_value` (Attributes List) Several values, spelled out. Needed when they mix fixed values and references. (see [below for nested schema](#nestedatt--visible_to_teams--array_value))
+- `expression_ref` (String) The name of a named_expression in this resource, whose result becomes the value.
+- `value` (Attributes) One value, spelled out. `value_literal` and `value_reference` are shorthand for this. (see [below for nested schema](#nestedatt--visible_to_teams--value))
+- `value_literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `value_reference` (String) A reference into the scope, such as `payload.team`.
+- `values` (List of String) Several fixed values. For a mix of fixed values and references, use array_value.
+
+<a id="nestedatt--visible_to_teams--array_value"></a>
+### Nested Schema for `visible_to_teams.array_value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
+
+<a id="nestedatt--visible_to_teams--value"></a>
+### Nested Schema for `visible_to_teams.value`
+
+Optional:
+
+- `literal` (String) A fixed value. A catalog entry ID is a literal, not a reference.
+- `reference` (String) A reference into the scope, such as `payload.team`.
+
 ## Import
 
 Import is supported using an [`import` block](https://developer.hashicorp.com/terraform/language/import) or the [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import):
-
-The [`import` block](https://developer.hashicorp.com/terraform/language/import) can be used with the `id` attribute, for example:
-
-```terraform
-# Import an alert source using its ID
-# Replace the ID with a real ID from your incident.io organization
-import {
-  to = incident_alert_source.example
-  id = "01ABC123DEF456GHI789JKL"
-}
-```
 
 The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 

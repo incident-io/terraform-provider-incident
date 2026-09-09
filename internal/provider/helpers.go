@@ -1,8 +1,12 @@
 package provider
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-go/tftypes"
 
 	"github.com/incident-io/terraform-provider-incident/v6/internal/apischema"
 )
@@ -45,4 +49,64 @@ func knownInt64(value attr.Value) (int64, bool) {
 	}
 
 	return number.ValueInt64(), true
+}
+
+// useStateForUnknownIncludingNull is like stringplanmodifier.UseStateForUnknown()
+// but also preserves null state values. The built-in UseStateForUnknown skips when
+// state is null, which causes Computed+Optional attributes to show as "known after
+// apply" on every plan when the API doesn't return the field (e.g. email_address
+// for non-email alert sources).
+type useStateForUnknownIncludingNull struct{}
+
+func (m useStateForUnknownIncludingNull) Description(ctx context.Context) string {
+	return "Use the state value for unknown, including null."
+}
+
+func (m useStateForUnknownIncludingNull) MarkdownDescription(ctx context.Context) string {
+	return m.Description(ctx)
+}
+
+func (m useStateForUnknownIncludingNull) PlanModifyString(ctx context.Context, req planmodifier.StringRequest, resp *planmodifier.StringResponse) {
+	// Do nothing if there is a known planned value.
+	if !req.PlanValue.IsUnknown() {
+		return
+	}
+
+	// Do nothing if there is an unknown configuration value.
+	if req.ConfigValue.IsUnknown() {
+		return
+	}
+
+	// Do nothing if there is no prior state (first creation).
+	if req.State.Raw.IsNull() {
+		return
+	}
+
+	// Preserve the prior state value, even if it's null.
+	resp.PlanValue = req.StateValue
+}
+
+func (m useStateForUnknownIncludingNull) PlanModifyBool(ctx context.Context, req planmodifier.BoolRequest, resp *planmodifier.BoolResponse) {
+	if !req.PlanValue.IsUnknown() {
+		return
+	}
+	if req.ConfigValue.IsUnknown() {
+		return
+	}
+	if req.State.Raw.IsNull() {
+		return
+	}
+	resp.PlanValue = req.StateValue
+}
+
+// lastAttributeName is the name of the attribute a path ends at, for the plan
+// walks that classify a leaf by what it is called.
+func lastAttributeName(steps *tftypes.AttributePath) (string, bool) {
+	if steps == nil || len(steps.Steps()) == 0 {
+		return "", false
+	}
+
+	name, ok := steps.Steps()[len(steps.Steps())-1].(tftypes.AttributeName)
+
+	return string(name), ok
 }
