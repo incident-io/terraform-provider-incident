@@ -376,6 +376,9 @@ func (r *IncidentAPIKeyResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
+	claimResource(ctx, r.client, result.JSON201.ApiKey.Id, &resp.Diagnostics,
+		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey, r.terraformVersion)
+
 	tflog.Trace(ctx, fmt.Sprintf("created an API key with id=%s", result.JSON201.ApiKey.Id))
 
 	// This response carries the only copy of the token there will ever be.
@@ -451,6 +454,9 @@ func (r *IncidentAPIKeyResource) Update(ctx context.Context, req resource.Update
 		return
 	}
 
+	claimResource(ctx, r.client, result.JSON200.ApiKey.Id, &resp.Diagnostics,
+		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey, r.terraformVersion)
+
 	var (
 		key   = result.JSON200.ApiKey
 		token = state.Token
@@ -501,6 +507,10 @@ func (r *IncidentAPIKeyResource) Delete(ctx context.Context, req resource.Delete
 }
 
 func (r *IncidentAPIKeyResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics,
+		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey, r.terraformVersion,
+		r.markImportedAsManaged)
+
 	result, err := r.client.APIKeysV1ShowWithResponse(ctx, req.ID)
 	if err != nil {
 		httpErr := client.HTTPError{}

@@ -1,3 +1,7 @@
+## Unreleased
+
+- `incident_api_key` and `incident_secret` now claim the key or secret they manage, the way every other managed resource does. Neither did before, so a key or secret Terraform created still looked dashboard-managed: the dashboard offered to edit it, and the next apply put its own configuration back over the change. Both now send the `incident.io/terraform/version` annotation, so the dashboard shows the resource as synced, refuses to edit it, and offers to disconnect one you want to hand back. The claim happens on create, on update, and on import - the last subject to `mark_imported_resources_as_managed`, like every other resource. It needs a version of incident.io that knows `api_key` and `secret` as managed-resource types; against an older one the claim is rejected and the apply reports it.
+
 ## v6.12.0
 
 - Add `rank` to `incident_status`, which says where a status sits within its category, lowest rank first. Statuses could not express their order before: each landed after the last one created, so several in a single apply raced for the same rank and the apply failed with `Can't have more than one status with the same rank`. Ranks must be unique within a category but needn't be consecutive, so leaving gaps (10, 20, 30) means a status can be inserted between two others later without renumbering them. The attribute is optional and not computed, so a config that leaves it out doesn't manage the order and a reorder made in the dashboard survives the next apply.

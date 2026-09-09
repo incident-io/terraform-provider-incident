@@ -217,6 +217,9 @@ func (r *IncidentSecretResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
+	claimResource(ctx, r.client, result.JSON201.Secret.Id, &resp.Diagnostics,
+		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret, r.terraformVersion)
+
 	tflog.Trace(ctx, fmt.Sprintf("created a secret with id=%s", result.JSON201.Secret.Id))
 
 	state := models.SecretModel{}.FromAPI(result.JSON201.Secret, data.ValueWOVersion)
@@ -274,6 +277,9 @@ func (r *IncidentSecretResource) Update(ctx context.Context, req resource.Update
 		return
 	}
 
+	claimResource(ctx, r.client, secret.Id, &resp.Diagnostics,
+		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret, r.terraformVersion)
+
 	// The value itself is invisible to Terraform, so a change to value_wo_version is the
 	// only thing that can ask for a rotation. Dropping it is not such a change: a config
 	// that removes both value attributes is handing the value back rather than asking for
@@ -324,6 +330,10 @@ func (r *IncidentSecretResource) Delete(ctx context.Context, req resource.Delete
 }
 
 func (r *IncidentSecretResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	claimResourceOnImport(ctx, r.client, req.ID, &resp.Diagnostics,
+		client.ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret, r.terraformVersion,
+		r.markImportedAsManaged)
+
 	result, err := r.client.SecretsV2ShowWithResponse(ctx, req.ID)
 	if err != nil {
 		httpErr := client.HTTPError{}
