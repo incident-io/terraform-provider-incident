@@ -2535,6 +2535,384 @@ func (e AlertsTransitionIncidentAlertPayloadV2State) Valid() bool {
 	}
 }
 
+// Defines values for CallRouteOptionV2Digit.
+const (
+	CallRouteOptionV2DigitN1 CallRouteOptionV2Digit = "1"
+	CallRouteOptionV2DigitN2 CallRouteOptionV2Digit = "2"
+	CallRouteOptionV2DigitN3 CallRouteOptionV2Digit = "3"
+	CallRouteOptionV2DigitN4 CallRouteOptionV2Digit = "4"
+	CallRouteOptionV2DigitN5 CallRouteOptionV2Digit = "5"
+	CallRouteOptionV2DigitN6 CallRouteOptionV2Digit = "6"
+	CallRouteOptionV2DigitN7 CallRouteOptionV2Digit = "7"
+	CallRouteOptionV2DigitN8 CallRouteOptionV2Digit = "8"
+	CallRouteOptionV2DigitN9 CallRouteOptionV2Digit = "9"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteOptionV2Digit enum.
+func (e CallRouteOptionV2Digit) Valid() bool {
+	switch e {
+	case CallRouteOptionV2DigitN1:
+		return true
+	case CallRouteOptionV2DigitN2:
+		return true
+	case CallRouteOptionV2DigitN3:
+		return true
+	case CallRouteOptionV2DigitN4:
+		return true
+	case CallRouteOptionV2DigitN5:
+		return true
+	case CallRouteOptionV2DigitN6:
+		return true
+	case CallRouteOptionV2DigitN7:
+		return true
+	case CallRouteOptionV2DigitN8:
+		return true
+	case CallRouteOptionV2DigitN9:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRoutePathNodePayloadV2Type.
+const (
+	CallRoutePathNodePayloadV2TypeLevel     CallRoutePathNodePayloadV2Type = "level"
+	CallRoutePathNodePayloadV2TypeVoicemail CallRoutePathNodePayloadV2Type = "voicemail"
+)
+
+// Valid indicates whether the value is a known member of the CallRoutePathNodePayloadV2Type enum.
+func (e CallRoutePathNodePayloadV2Type) Valid() bool {
+	switch e {
+	case CallRoutePathNodePayloadV2TypeLevel:
+		return true
+	case CallRoutePathNodePayloadV2TypeVoicemail:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRoutePathNodeV2Type.
+const (
+	CallRoutePathNodeV2TypeLevel     CallRoutePathNodeV2Type = "level"
+	CallRoutePathNodeV2TypeVoicemail CallRoutePathNodeV2Type = "voicemail"
+)
+
+// Valid indicates whether the value is a known member of the CallRoutePathNodeV2Type enum.
+func (e CallRoutePathNodeV2Type) Valid() bool {
+	switch e {
+	case CallRoutePathNodeV2TypeLevel:
+		return true
+	case CallRoutePathNodeV2TypeVoicemail:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteTargetV2ScheduleMode.
+const (
+	CallRouteTargetV2ScheduleModeAllUsers               CallRouteTargetV2ScheduleMode = "all_users"
+	CallRouteTargetV2ScheduleModeAllUsersForRota        CallRouteTargetV2ScheduleMode = "all_users_for_rota"
+	CallRouteTargetV2ScheduleModeCurrentlyOnCall        CallRouteTargetV2ScheduleMode = "currently_on_call"
+	CallRouteTargetV2ScheduleModeCurrentlyOnCallForRota CallRouteTargetV2ScheduleMode = "currently_on_call_for_rota"
+	CallRouteTargetV2ScheduleModeEmpty                  CallRouteTargetV2ScheduleMode = ""
+	CallRouteTargetV2ScheduleModeNextOnCall             CallRouteTargetV2ScheduleMode = "next_on_call"
+	CallRouteTargetV2ScheduleModeNextOnCallForRota      CallRouteTargetV2ScheduleMode = "next_on_call_for_rota"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteTargetV2ScheduleMode enum.
+func (e CallRouteTargetV2ScheduleMode) Valid() bool {
+	switch e {
+	case CallRouteTargetV2ScheduleModeAllUsers:
+		return true
+	case CallRouteTargetV2ScheduleModeAllUsersForRota:
+		return true
+	case CallRouteTargetV2ScheduleModeCurrentlyOnCall:
+		return true
+	case CallRouteTargetV2ScheduleModeCurrentlyOnCallForRota:
+		return true
+	case CallRouteTargetV2ScheduleModeEmpty:
+		return true
+	case CallRouteTargetV2ScheduleModeNextOnCall:
+		return true
+	case CallRouteTargetV2ScheduleModeNextOnCallForRota:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteTargetV2Type.
+const (
+	CallRouteTargetV2TypeSchedule CallRouteTargetV2Type = "schedule"
+	CallRouteTargetV2TypeUser     CallRouteTargetV2Type = "user"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteTargetV2Type enum.
+func (e CallRouteTargetV2Type) Valid() bool {
+	switch e {
+	case CallRouteTargetV2TypeSchedule:
+		return true
+	case CallRouteTargetV2TypeUser:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteTargetV2Urgency.
+const (
+	CallRouteTargetV2UrgencyHigh CallRouteTargetV2Urgency = "high"
+	CallRouteTargetV2UrgencyLow  CallRouteTargetV2Urgency = "low"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteTargetV2Urgency enum.
+func (e CallRouteTargetV2Urgency) Valid() bool {
+	switch e {
+	case CallRouteTargetV2UrgencyHigh:
+		return true
+	case CallRouteTargetV2UrgencyLow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteV2CurrentState.
+const (
+	CallRouteV2CurrentStateActive                       CallRouteV2CurrentState = "active"
+	CallRouteV2CurrentStatePending                      CallRouteV2CurrentState = "pending"
+	CallRouteV2CurrentStatePendingNumber                CallRouteV2CurrentState = "pending_number"
+	CallRouteV2CurrentStatePendingRegulatoryInformation CallRouteV2CurrentState = "pending_regulatory_information"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteV2CurrentState enum.
+func (e CallRouteV2CurrentState) Valid() bool {
+	switch e {
+	case CallRouteV2CurrentStateActive:
+		return true
+	case CallRouteV2CurrentStatePending:
+		return true
+	case CallRouteV2CurrentStatePendingNumber:
+		return true
+	case CallRouteV2CurrentStatePendingRegulatoryInformation:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteV2CustomLanguage.
+const (
+	CallRouteV2CustomLanguageDeDE CallRouteV2CustomLanguage = "de-DE"
+	CallRouteV2CustomLanguageEnGB CallRouteV2CustomLanguage = "en-GB"
+	CallRouteV2CustomLanguageEnUS CallRouteV2CustomLanguage = "en-US"
+	CallRouteV2CustomLanguageEsES CallRouteV2CustomLanguage = "es-ES"
+	CallRouteV2CustomLanguageFrFR CallRouteV2CustomLanguage = "fr-FR"
+	CallRouteV2CustomLanguageNlNL CallRouteV2CustomLanguage = "nl-NL"
+	CallRouteV2CustomLanguagePtBR CallRouteV2CustomLanguage = "pt-BR"
+	CallRouteV2CustomLanguagePtPT CallRouteV2CustomLanguage = "pt-PT"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteV2CustomLanguage enum.
+func (e CallRouteV2CustomLanguage) Valid() bool {
+	switch e {
+	case CallRouteV2CustomLanguageDeDE:
+		return true
+	case CallRouteV2CustomLanguageEnGB:
+		return true
+	case CallRouteV2CustomLanguageEnUS:
+		return true
+	case CallRouteV2CustomLanguageEsES:
+		return true
+	case CallRouteV2CustomLanguageFrFR:
+		return true
+	case CallRouteV2CustomLanguageNlNL:
+		return true
+	case CallRouteV2CustomLanguagePtBR:
+		return true
+	case CallRouteV2CustomLanguagePtPT:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteV2PhoneNumberType.
+const (
+	Local    CallRouteV2PhoneNumberType = "local"
+	Mobile   CallRouteV2PhoneNumberType = "mobile"
+	National CallRouteV2PhoneNumberType = "national"
+	TollFree CallRouteV2PhoneNumberType = "toll_free"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteV2PhoneNumberType enum.
+func (e CallRouteV2PhoneNumberType) Valid() bool {
+	switch e {
+	case Local:
+		return true
+	case Mobile:
+		return true
+	case National:
+		return true
+	case TollFree:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRouteV2ResponderCallerId.
+const (
+	CallRouteV2ResponderCallerIdOncallNumber CallRouteV2ResponderCallerId = "oncall_number"
+	CallRouteV2ResponderCallerIdRouteNumber  CallRouteV2ResponderCallerId = "route_number"
+)
+
+// Valid indicates whether the value is a known member of the CallRouteV2ResponderCallerId enum.
+func (e CallRouteV2ResponderCallerId) Valid() bool {
+	switch e {
+	case CallRouteV2ResponderCallerIdOncallNumber:
+		return true
+	case CallRouteV2ResponderCallerIdRouteNumber:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRoutesCreateOptionPayloadV2Digit.
+const (
+	CallRoutesCreateOptionPayloadV2DigitN1 CallRoutesCreateOptionPayloadV2Digit = "1"
+	CallRoutesCreateOptionPayloadV2DigitN2 CallRoutesCreateOptionPayloadV2Digit = "2"
+	CallRoutesCreateOptionPayloadV2DigitN3 CallRoutesCreateOptionPayloadV2Digit = "3"
+	CallRoutesCreateOptionPayloadV2DigitN4 CallRoutesCreateOptionPayloadV2Digit = "4"
+	CallRoutesCreateOptionPayloadV2DigitN5 CallRoutesCreateOptionPayloadV2Digit = "5"
+	CallRoutesCreateOptionPayloadV2DigitN6 CallRoutesCreateOptionPayloadV2Digit = "6"
+	CallRoutesCreateOptionPayloadV2DigitN7 CallRoutesCreateOptionPayloadV2Digit = "7"
+	CallRoutesCreateOptionPayloadV2DigitN8 CallRoutesCreateOptionPayloadV2Digit = "8"
+	CallRoutesCreateOptionPayloadV2DigitN9 CallRoutesCreateOptionPayloadV2Digit = "9"
+)
+
+// Valid indicates whether the value is a known member of the CallRoutesCreateOptionPayloadV2Digit enum.
+func (e CallRoutesCreateOptionPayloadV2Digit) Valid() bool {
+	switch e {
+	case CallRoutesCreateOptionPayloadV2DigitN1:
+		return true
+	case CallRoutesCreateOptionPayloadV2DigitN2:
+		return true
+	case CallRoutesCreateOptionPayloadV2DigitN3:
+		return true
+	case CallRoutesCreateOptionPayloadV2DigitN4:
+		return true
+	case CallRoutesCreateOptionPayloadV2DigitN5:
+		return true
+	case CallRoutesCreateOptionPayloadV2DigitN6:
+		return true
+	case CallRoutesCreateOptionPayloadV2DigitN7:
+		return true
+	case CallRoutesCreateOptionPayloadV2DigitN8:
+		return true
+	case CallRoutesCreateOptionPayloadV2DigitN9:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRoutesUpdateOptionPayloadV2Digit.
+const (
+	CallRoutesUpdateOptionPayloadV2DigitN1 CallRoutesUpdateOptionPayloadV2Digit = "1"
+	CallRoutesUpdateOptionPayloadV2DigitN2 CallRoutesUpdateOptionPayloadV2Digit = "2"
+	CallRoutesUpdateOptionPayloadV2DigitN3 CallRoutesUpdateOptionPayloadV2Digit = "3"
+	CallRoutesUpdateOptionPayloadV2DigitN4 CallRoutesUpdateOptionPayloadV2Digit = "4"
+	CallRoutesUpdateOptionPayloadV2DigitN5 CallRoutesUpdateOptionPayloadV2Digit = "5"
+	CallRoutesUpdateOptionPayloadV2DigitN6 CallRoutesUpdateOptionPayloadV2Digit = "6"
+	CallRoutesUpdateOptionPayloadV2DigitN7 CallRoutesUpdateOptionPayloadV2Digit = "7"
+	CallRoutesUpdateOptionPayloadV2DigitN8 CallRoutesUpdateOptionPayloadV2Digit = "8"
+	CallRoutesUpdateOptionPayloadV2DigitN9 CallRoutesUpdateOptionPayloadV2Digit = "9"
+)
+
+// Valid indicates whether the value is a known member of the CallRoutesUpdateOptionPayloadV2Digit enum.
+func (e CallRoutesUpdateOptionPayloadV2Digit) Valid() bool {
+	switch e {
+	case CallRoutesUpdateOptionPayloadV2DigitN1:
+		return true
+	case CallRoutesUpdateOptionPayloadV2DigitN2:
+		return true
+	case CallRoutesUpdateOptionPayloadV2DigitN3:
+		return true
+	case CallRoutesUpdateOptionPayloadV2DigitN4:
+		return true
+	case CallRoutesUpdateOptionPayloadV2DigitN5:
+		return true
+	case CallRoutesUpdateOptionPayloadV2DigitN6:
+		return true
+	case CallRoutesUpdateOptionPayloadV2DigitN7:
+		return true
+	case CallRoutesUpdateOptionPayloadV2DigitN8:
+		return true
+	case CallRoutesUpdateOptionPayloadV2DigitN9:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRoutesUpdatePayloadV2CustomLanguage.
+const (
+	CallRoutesUpdatePayloadV2CustomLanguageDeDE CallRoutesUpdatePayloadV2CustomLanguage = "de-DE"
+	CallRoutesUpdatePayloadV2CustomLanguageEnGB CallRoutesUpdatePayloadV2CustomLanguage = "en-GB"
+	CallRoutesUpdatePayloadV2CustomLanguageEnUS CallRoutesUpdatePayloadV2CustomLanguage = "en-US"
+	CallRoutesUpdatePayloadV2CustomLanguageEsES CallRoutesUpdatePayloadV2CustomLanguage = "es-ES"
+	CallRoutesUpdatePayloadV2CustomLanguageFrFR CallRoutesUpdatePayloadV2CustomLanguage = "fr-FR"
+	CallRoutesUpdatePayloadV2CustomLanguageNlNL CallRoutesUpdatePayloadV2CustomLanguage = "nl-NL"
+	CallRoutesUpdatePayloadV2CustomLanguagePtBR CallRoutesUpdatePayloadV2CustomLanguage = "pt-BR"
+	CallRoutesUpdatePayloadV2CustomLanguagePtPT CallRoutesUpdatePayloadV2CustomLanguage = "pt-PT"
+)
+
+// Valid indicates whether the value is a known member of the CallRoutesUpdatePayloadV2CustomLanguage enum.
+func (e CallRoutesUpdatePayloadV2CustomLanguage) Valid() bool {
+	switch e {
+	case CallRoutesUpdatePayloadV2CustomLanguageDeDE:
+		return true
+	case CallRoutesUpdatePayloadV2CustomLanguageEnGB:
+		return true
+	case CallRoutesUpdatePayloadV2CustomLanguageEnUS:
+		return true
+	case CallRoutesUpdatePayloadV2CustomLanguageEsES:
+		return true
+	case CallRoutesUpdatePayloadV2CustomLanguageFrFR:
+		return true
+	case CallRoutesUpdatePayloadV2CustomLanguageNlNL:
+		return true
+	case CallRoutesUpdatePayloadV2CustomLanguagePtBR:
+		return true
+	case CallRoutesUpdatePayloadV2CustomLanguagePtPT:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CallRoutesUpdatePayloadV2ResponderCallerId.
+const (
+	CallRoutesUpdatePayloadV2ResponderCallerIdOncallNumber CallRoutesUpdatePayloadV2ResponderCallerId = "oncall_number"
+	CallRoutesUpdatePayloadV2ResponderCallerIdRouteNumber  CallRoutesUpdatePayloadV2ResponderCallerId = "route_number"
+)
+
+// Valid indicates whether the value is a known member of the CallRoutesUpdatePayloadV2ResponderCallerId enum.
+func (e CallRoutesUpdatePayloadV2ResponderCallerId) Valid() bool {
+	switch e {
+	case CallRoutesUpdatePayloadV2ResponderCallerIdOncallNumber:
+		return true
+	case CallRoutesUpdatePayloadV2ResponderCallerIdRouteNumber:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for CallTranscriptEntryV2Medium.
 const (
 	CallChat CallTranscriptEntryV2Medium = "call_chat"
@@ -6106,12 +6484,14 @@ func (e ManagedResourceV2ManagedBy) Valid() bool {
 const (
 	ManagedResourceV2ResourceTypeAlertRoute         ManagedResourceV2ResourceType = "alert_route"
 	ManagedResourceV2ResourceTypeAlertSource        ManagedResourceV2ResourceType = "alert_source"
+	ManagedResourceV2ResourceTypeApiKey             ManagedResourceV2ResourceType = "api_key"
 	ManagedResourceV2ResourceTypeEscalationPath     ManagedResourceV2ResourceType = "escalation_path"
 	ManagedResourceV2ResourceTypeIncidentTemplate   ManagedResourceV2ResourceType = "incident_template"
 	ManagedResourceV2ResourceTypePolicy             ManagedResourceV2ResourceType = "policy"
 	ManagedResourceV2ResourceTypeSchedule           ManagedResourceV2ResourceType = "schedule"
 	ManagedResourceV2ResourceTypeScheduleSyncRule   ManagedResourceV2ResourceType = "schedule_sync_rule"
 	ManagedResourceV2ResourceTypeScheduleSyncTarget ManagedResourceV2ResourceType = "schedule_sync_target"
+	ManagedResourceV2ResourceTypeSecret             ManagedResourceV2ResourceType = "secret"
 	ManagedResourceV2ResourceTypeWorkflow           ManagedResourceV2ResourceType = "workflow"
 )
 
@@ -6121,6 +6501,8 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 	case ManagedResourceV2ResourceTypeAlertRoute:
 		return true
 	case ManagedResourceV2ResourceTypeAlertSource:
+		return true
+	case ManagedResourceV2ResourceTypeApiKey:
 		return true
 	case ManagedResourceV2ResourceTypeEscalationPath:
 		return true
@@ -6134,6 +6516,8 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 		return true
 	case ManagedResourceV2ResourceTypeScheduleSyncTarget:
 		return true
+	case ManagedResourceV2ResourceTypeSecret:
+		return true
 	case ManagedResourceV2ResourceTypeWorkflow:
 		return true
 	default:
@@ -6145,12 +6529,14 @@ func (e ManagedResourceV2ResourceType) Valid() bool {
 const (
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute         ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_route"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource        ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "alert_source"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey             ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "api_key"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath     ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "escalation_path"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeIncidentTemplate   ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "incident_template"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypePolicy             ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "policy"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSchedule           ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncRule   ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_rule"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncTarget ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "schedule_sync_target"
+	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret             ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "secret"
 	ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow           ManagedResourcesCreateManagedResourcePayloadV2ResourceType = "workflow"
 )
 
@@ -6160,6 +6546,8 @@ func (e ManagedResourcesCreateManagedResourcePayloadV2ResourceType) Valid() bool
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertRoute:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeAlertSource:
+		return true
+	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeApiKey:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeEscalationPath:
 		return true
@@ -6172,6 +6560,8 @@ func (e ManagedResourcesCreateManagedResourcePayloadV2ResourceType) Valid() bool
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncRule:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeScheduleSyncTarget:
+		return true
+	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeSecret:
 		return true
 	case ManagedResourcesCreateManagedResourcePayloadV2ResourceTypeWorkflow:
 		return true
@@ -12533,6 +12923,32 @@ type AlertSourcesValidateResultV3 struct {
 	Warnings []AlertSourceValidateWarningV3 `json:"warnings"`
 }
 
+// AlertTagInputV2 Example: {"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}
+type AlertTagInputV2 struct {
+	// Id Unique identifier for an existing tag
+	//
+	// Example: 01GW2G3V0S59R238FAHPDS1R66
+	Id *string `json:"id,omitempty"`
+
+	// Name The name of a tag to look up or create
+	//
+	// Example: noisy
+	Name *string `json:"name,omitempty"`
+}
+
+// AlertTagV2 Example: {"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}
+type AlertTagV2 struct {
+	// Id Unique identifier for the tag
+	//
+	// Example: 01GW2G3V0S59R238FAHPDS1R66
+	Id string `json:"id"`
+
+	// Name The tag name
+	//
+	// Example: noisy
+	Name string `json:"name"`
+}
+
 // AlertTemplateAttributeBindingPayloadV2 Example: {"array_value":[{"literal":"SEV123","reference":"incident.severity"}],"merge_strategy":"first_wins","value":{"literal":"SEV123","reference":"incident.severity"}}
 type AlertTemplateAttributeBindingPayloadV2 struct {
 	// ArrayValue If set, this is the array value of the step parameter
@@ -12651,7 +13067,7 @@ type AlertTemplateV2 struct {
 	VisibleToTeams *EngineParamBindingV2 `json:"visible_to_teams,omitempty"`
 }
 
-// AlertV2 Example: {"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}
+// AlertV2 Example: {"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}
 type AlertV2 struct {
 	// AlertGroupIds The IDs of every alert group this alert belongs to. Empty when the alert is not part of any group.
 	//
@@ -12705,6 +13121,11 @@ type AlertV2 struct {
 	// Example: firing
 	Status AlertV2Status `json:"status"`
 
+	// Tags Tags someone has applied to this alert
+	//
+	// Example: [{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}]
+	Tags *[]AlertTagV2 `json:"tags,omitempty"`
+
 	// Title The title of the alert, parsed from the alert payload according to the alert source configuration
 	//
 	// Example: *errors.withMessage: PG::Error failed to connect
@@ -12720,6 +13141,20 @@ type AlertV2 struct {
 //
 // Example: firing
 type AlertV2Status string
+
+// AlertsAddTagsPayloadV2 Example: {"tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]}
+type AlertsAddTagsPayloadV2 struct {
+	// Tags Tags to add to this alert
+	//
+	// Example: [{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]
+	Tags []AlertTagInputV2 `json:"tags"`
+}
+
+// AlertsAddTagsResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
+type AlertsAddTagsResultV2 struct {
+	// Alert Example: {"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}
+	Alert AlertV2 `json:"alert"`
+}
 
 // AlertsCreateIncidentAlertPayloadV2 Example: {"alert_id":"01FCNDV6P870EA6S7TK1DSYDG1","incident_id":"01FCNDV6P870EA6S7TK1DSYDG0","re_relate":false}
 type AlertsCreateIncidentAlertPayloadV2 struct {
@@ -12745,6 +13180,15 @@ type AlertsCreateIncidentAlertResultV2 struct {
 	IncidentAlert IncidentAlertV2 `json:"incident_alert"`
 }
 
+// AlertsListAlertTagsResultV2 Example: {"alert_tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type AlertsListAlertTagsResultV2 struct {
+	// AlertTags Example: [{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}]
+	AlertTags []AlertTagV2 `json:"alert_tags"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
+}
+
 // AlertsListIncidentAlertsResultV2 Example: {"incident_alerts":[{"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"},"alert_route_id":"01GW2G3V0S59R238FAHPDS1R67","id":"01GW2G3V0S59R238FAHPDS1R66","incident":{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
 type AlertsListIncidentAlertsResultV2 struct {
 	// IncidentAlerts Example: [{"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"},"alert_route_id":"01GW2G3V0S59R238FAHPDS1R67","id":"01GW2G3V0S59R238FAHPDS1R66","incident":{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}}]
@@ -12754,24 +13198,52 @@ type AlertsListIncidentAlertsResultV2 struct {
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
-// AlertsListResultV2 Example: {"alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+// AlertsListResultV2 Example: {"alerts":[{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
 type AlertsListResultV2 struct {
-	// Alerts Example: [{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}]
+	// Alerts Example: [{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}]
 	Alerts []AlertV2 `json:"alerts"`
 
 	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
 	PaginationMeta PaginationMetaResultV2 `json:"pagination_meta"`
 }
 
-// AlertsResolveResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
-type AlertsResolveResultV2 struct {
-	// Alert Example: {"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}
+// AlertsRemoveTagsPayloadV2 Example: {"tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]}
+type AlertsRemoveTagsPayloadV2 struct {
+	// Tags Tags to remove from this alert
+	//
+	// Example: [{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]
+	Tags []AlertTagInputV2 `json:"tags"`
+}
+
+// AlertsRemoveTagsResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
+type AlertsRemoveTagsResultV2 struct {
+	// Alert Example: {"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Alert AlertV2 `json:"alert"`
 }
 
-// AlertsShowResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
+// AlertsResolveResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
+type AlertsResolveResultV2 struct {
+	// Alert Example: {"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}
+	Alert AlertV2 `json:"alert"`
+}
+
+// AlertsSetTagsPayloadV2 Example: {"tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]}
+type AlertsSetTagsPayloadV2 struct {
+	// Tags The complete set of tags for this alert
+	//
+	// Example: [{"id":"01GW2G3V0S59R238FAHPDS1R66"},{"name":"known issue"}]
+	Tags []AlertTagInputV2 `json:"tags"`
+}
+
+// AlertsSetTagsResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
+type AlertsSetTagsResultV2 struct {
+	// Alert Example: {"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}
+	Alert AlertV2 `json:"alert"`
+}
+
+// AlertsShowResultV2 Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}}
 type AlertsShowResultV2 struct {
-	// Alert Example: {"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}
+	// Alert Example: {"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","attributes":[{"array_value":[{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}],"attribute":{"array":false,"emoji":"fire","id":"01GW2G3V0S59R238FAHPDS1R66","name":"service","required":false,"type":"CatalogEntry[\"01GW2G3V0S59R238FAHPDS1R67\"]"},"value":{"catalog_entry":{"catalog_type_id":"01FCNDV6P870EA6S7TK1DSYDG0","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Primary On-call"},"label":"Payments Team","literal":"SEV123"}}],"created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","tags":[{"id":"01GW2G3V0S59R238FAHPDS1R66","name":"noisy"}],"title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"}
 	Alert AlertV2 `json:"alert"`
 }
 
@@ -12792,6 +13264,533 @@ type AlertsTransitionIncidentAlertPayloadV2State string
 type AlertsTransitionIncidentAlertResultV2 struct {
 	// IncidentAlert Example: {"alert":{"alert_group_ids":["01GW2G3V0S59R238FAHPDS1R66"],"alert_source_id":"01GW2G3V0S59R238FAHPDS1R66","created_at":"2021-08-17T13:28:57.801578Z","deduplication_key":"4293868629","description":"CPU on the payments service has exceeded 75 percent for 5 minutes","id":"01GW2G3V0S59R238FAHPDS1R66","resolved_at":"2021-08-17T14:28:57.801578Z","source_url":"https://www.my-alerting-platform.com/alerts/my-alert-123","status":"firing","title":"*errors.withMessage: PG::Error failed to connect","updated_at":"2021-08-17T13:28:57.801578Z"},"alert_route_id":"01GW2G3V0S59R238FAHPDS1R67","id":"01GW2G3V0S59R238FAHPDS1R66","incident":{"external_id":123,"id":"01FDAG4SAP5TYPT98WGR2N7W91","name":"Our database is sad","reference":"INC-123","status_category":"triage","summary":"Our database is really really sad, and we don't know why yet.","visibility":"public"}}
 	IncidentAlert IncidentAlertV2 `json:"incident_alert"`
+}
+
+// CallRouteAllowedCallerV2 A phone number allowed to reach a call route.
+//
+// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}
+type CallRouteAllowedCallerV2 struct {
+	// Id Unique identifier for this allowed caller
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Name Label for whose number this is
+	//
+	// Example: Regulator duty desk
+	Name *string `json:"name,omitempty"`
+
+	// PhoneNumber The number allowed to call this route, in international format
+	//
+	// Example: +15551234567
+	PhoneNumber string `json:"phone_number"`
+}
+
+// CallRouteOptionV2 One entry in a call route's phone-tree menu: the digit a caller presses, the
+// prompt we read out to offer it, and who we page when they choose it.
+//
+// Example: {"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
+type CallRouteOptionV2 struct {
+	// Digit The keypad digit a caller presses to choose this option
+	//
+	// Example: 1
+	Digit CallRouteOptionV2Digit `json:"digit"`
+
+	// Id Unique identifier for this option
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Path Who we page when a caller chooses this option
+	//
+	// Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}]
+	Path []CallRoutePathNodeV2 `json:"path"`
+
+	// Prompt What we read out to offer this option, via text-to-speech in the route's language, exactly as written
+	//
+	// Example: For an urgent production outage, press 1
+	Prompt string `json:"prompt"`
+}
+
+// CallRouteOptionV2Digit The keypad digit a caller presses to choose this option
+//
+// Example: 1
+type CallRouteOptionV2Digit string
+
+// CallRoutePathNodeLevelV2 The targets a level pages.
+//
+// We call each target for 30 seconds, rotating to the next after 60 seconds, and
+// move to the next node if nobody acknowledges within 5 minutes. Those timings are
+// fixed for call routes.
+//
+// Example: {"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]}
+type CallRoutePathNodeLevelV2 struct {
+	// Targets The users and schedules to page
+	//
+	// Example: [{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]
+	Targets []CallRouteTargetV2 `json:"targets"`
+}
+
+// CallRoutePathNodePayloadV2 Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}
+type CallRoutePathNodePayloadV2 struct {
+	// Id Unique identifier for this node. Omit it and we'll generate one.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id *string `json:"id,omitempty"`
+
+	// Level The targets a level pages.
+	//
+	// We call each target for 30 seconds, rotating to the next after 60 seconds, and
+	// move to the next node if nobody acknowledges within 5 minutes. Those timings are
+	// fixed for call routes.
+	//
+	// Example: {"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]}
+	Level *CallRoutePathNodeLevelV2 `json:"level,omitempty"`
+
+	// Type The type of this node. Available types are:
+	// * level: page a set of targets, rotating between them
+	// * voicemail: record a message from the caller
+	//
+	// Example: level
+	Type CallRoutePathNodePayloadV2Type `json:"type"`
+
+	// Voicemail Records a message from the caller, and enriches the resulting alert with the transcript.
+	//
+	// Example: {"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}
+	Voicemail *CallRoutePathNodeVoicemailV2 `json:"voicemail,omitempty"`
+}
+
+// CallRoutePathNodePayloadV2Type The type of this node. Available types are:
+// * level: page a set of targets, rotating between them
+// * voicemail: record a message from the caller
+//
+// Example: level
+type CallRoutePathNodePayloadV2Type string
+
+// CallRoutePathNodeV2 A single step in a call route's path.
+//
+// Levels page a set of targets, and a trailing voicemail node records a message
+// from the caller. A path made up of only a voicemail node sends callers straight
+// to voicemail without paging anyone.
+//
+// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}
+type CallRoutePathNodeV2 struct {
+	// Id Unique identifier for this node
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Level The targets a level pages.
+	//
+	// We call each target for 30 seconds, rotating to the next after 60 seconds, and
+	// move to the next node if nobody acknowledges within 5 minutes. Those timings are
+	// fixed for call routes.
+	//
+	// Example: {"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]}
+	Level *CallRoutePathNodeLevelV2 `json:"level,omitempty"`
+
+	// Type The type of this node. Available types are:
+	// * level: page a set of targets, rotating between them
+	// * voicemail: record a message from the caller
+	//
+	// Example: level
+	Type CallRoutePathNodeV2Type `json:"type"`
+
+	// Voicemail Records a message from the caller, and enriches the resulting alert with the transcript.
+	//
+	// Example: {"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}
+	Voicemail *CallRoutePathNodeVoicemailV2 `json:"voicemail,omitempty"`
+}
+
+// CallRoutePathNodeV2Type The type of this node. Available types are:
+// * level: page a set of targets, rotating between them
+// * voicemail: record a message from the caller
+//
+// Example: level
+type CallRoutePathNodeV2Type string
+
+// CallRoutePathNodeVoicemailV2 Records a message from the caller, and enriches the resulting alert with the transcript.
+//
+// Example: {"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}
+type CallRoutePathNodeVoicemailV2 struct {
+	// GreetingText What we read to the caller before recording, via text-to-speech in the route's language, exactly as written
+	//
+	// Example: Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded.
+	GreetingText string `json:"greeting_text"`
+}
+
+// CallRouteTargetV2 Someone a call route pages when a call comes in.
+//
+// Example: {"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}
+type CallRouteTargetV2 struct {
+	// Id Uniquely identifies an entity of this type
+	//
+	// Example: lawrencejones
+	Id string `json:"id"`
+
+	// ScheduleMode Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+	//
+	// Example: currently_on_call
+	ScheduleMode *CallRouteTargetV2ScheduleMode `json:"schedule_mode,omitempty"`
+
+	// SelectedRotaId For schedule targets, identifies which rota on the schedule the schedule_mode applies to. Required when schedule_mode is all_users_for_rota, currently_on_call_for_rota, or next_on_call_for_rota; must be omitted for other schedule_mode values.
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	SelectedRotaId *string `json:"selected_rota_id,omitempty"`
+
+	// Type Whether a call route target is a user or a schedule
+	//
+	// Example: schedule
+	Type CallRouteTargetV2Type `json:"type"`
+
+	// Urgency The urgency of this escalation path target
+	//
+	// Example: high
+	Urgency CallRouteTargetV2Urgency `json:"urgency"`
+}
+
+// CallRouteTargetV2ScheduleMode Only set for schedule targets, this specifies which users to fetch from the schedule. Use currently_on_call to notify whoever is on call right now across the schedule, all_users to notify every user attached to the schedule, or all_users_for_rota / currently_on_call_for_rota / next_on_call_for_rota to scope to a specific rota (in which case selected_rota_id is required). next_on_call notifies whoever is next on call across the schedule.
+//
+// Example: currently_on_call
+type CallRouteTargetV2ScheduleMode string
+
+// CallRouteTargetV2Type Whether a call route target is a user or a schedule
+//
+// Example: schedule
+type CallRouteTargetV2Type string
+
+// CallRouteTargetV2Urgency The urgency of this escalation path target
+//
+// Example: high
+type CallRouteTargetV2Urgency string
+
+// CallRouteV2 A call route is a phone number your customers can call to reach whoever is
+// on call, for an urgent support line or a regulator hotline.
+//
+// When a call comes in we work down the route's path, ringing each level's targets
+// in turn until someone answers, then connect them to the caller. A trailing
+// voicemail node records a message instead. Every call raises an alert, so calls
+// can open incidents through an alert route.
+//
+// List and edit call routes here. Create and delete them in the dashboard.
+//
+// Example: {"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}
+type CallRouteV2 struct {
+	// AllowedCallers The numbers allowed to call this route. Only enforced when use_caller_allowlist is true.
+	//
+	// Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}]
+	AllowedCallers []CallRouteAllowedCallerV2 `json:"allowed_callers"`
+
+	// CountryCode The country this route's number belongs to
+	//
+	// Example: US
+	CountryCode *string `json:"country_code,omitempty"`
+
+	// CreatedAt Example: 2021-08-17T13:28:57.801578Z
+	CreatedAt time.Time `json:"created_at"`
+
+	// CurrentState Where this route is in provisioning. Only an active route answers calls:
+	// * pending: created, and awaiting manual work from us
+	// * pending_regulatory_information: awaiting regulatory compliance information, collected in the dashboard
+	// * pending_number: compliance is settled, and we're provisioning a number
+	// * active: fully provisioned, and answering calls
+	//
+	// Example: active
+	CurrentState CallRouteV2CurrentState `json:"current_state"`
+
+	// CustomLanguage The language we speak voice prompts in, via text-to-speech
+	//
+	// Example: en-US
+	CustomLanguage CallRouteV2CustomLanguage `json:"custom_language"`
+
+	// Id Unique identifier for this call route
+	//
+	// Example: 01FCNDV6P870EA6S7TK1DSYDG0
+	Id string `json:"id"`
+
+	// Name Name for this call route
+	//
+	// Example: Regulator urgent request
+	Name string `json:"name"`
+
+	// Options The phone-tree menu this route presents. Empty when callers are routed down the route's path.
+	//
+	// Example: [{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}]
+	Options []CallRouteOptionV2 `json:"options"`
+
+	// Path Who we page when a call comes in. Empty when this route presents a phone-tree menu, in which case each menu option carries its own path.
+	//
+	// Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}]
+	Path []CallRoutePathNodeV2 `json:"path"`
+
+	// PhoneNumber The number your customers call to reach this route, once one has been provisioned
+	//
+	// Example: +15551234567
+	PhoneNumber *string `json:"phone_number,omitempty"`
+
+	// PhoneNumberType The type of phone number, which determines the regulatory requirements for provisioning it
+	//
+	// Example: toll_free
+	PhoneNumberType *CallRouteV2PhoneNumberType `json:"phone_number_type,omitempty"`
+
+	// ResponderCallerId Which number responders see when we call them:
+	// * route_number: this route's own number
+	// * oncall_number: an incident.io on-call number
+	//
+	// Example: route_number
+	ResponderCallerId CallRouteV2ResponderCallerId `json:"responder_caller_id"`
+
+	// UpdatedAt Example: 2021-08-17T13:28:57.801578Z
+	UpdatedAt time.Time `json:"updated_at"`
+
+	// UseCallerAllowlist Whether this route only answers calls from its allowed callers
+	//
+	// Example: true
+	UseCallerAllowlist bool `json:"use_caller_allowlist"`
+}
+
+// CallRouteV2CurrentState Where this route is in provisioning. Only an active route answers calls:
+// * pending: created, and awaiting manual work from us
+// * pending_regulatory_information: awaiting regulatory compliance information, collected in the dashboard
+// * pending_number: compliance is settled, and we're provisioning a number
+// * active: fully provisioned, and answering calls
+//
+// Example: active
+type CallRouteV2CurrentState string
+
+// CallRouteV2CustomLanguage The language we speak voice prompts in, via text-to-speech
+//
+// Example: en-US
+type CallRouteV2CustomLanguage string
+
+// CallRouteV2PhoneNumberType The type of phone number, which determines the regulatory requirements for provisioning it
+//
+// Example: toll_free
+type CallRouteV2PhoneNumberType string
+
+// CallRouteV2ResponderCallerId Which number responders see when we call them:
+// * route_number: this route's own number
+// * oncall_number: an incident.io on-call number
+//
+// Example: route_number
+type CallRouteV2ResponderCallerId string
+
+// CallRoutesCreateAllowedCallerPayloadV2 Example: {"name":"Regulator duty desk","phone_number":"+15551234567"}
+type CallRoutesCreateAllowedCallerPayloadV2 struct {
+	// Name Label for whose number this is
+	//
+	// Example: Regulator duty desk
+	Name *string `json:"name,omitempty"`
+
+	// PhoneNumber The number to allow, in international format
+	//
+	// Example: +15551234567
+	PhoneNumber string `json:"phone_number"`
+}
+
+// CallRoutesCreateAllowedCallerResultV2 Example: {"allowed_caller":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}}
+type CallRoutesCreateAllowedCallerResultV2 struct {
+	// AllowedCaller A phone number allowed to reach a call route.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}
+	AllowedCaller CallRouteAllowedCallerV2 `json:"allowed_caller"`
+}
+
+// CallRoutesCreateOptionPayloadV2 Example: {"digit":"1","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
+type CallRoutesCreateOptionPayloadV2 struct {
+	// Digit The keypad digit a caller presses to choose this option
+	//
+	// Example: 1
+	Digit CallRoutesCreateOptionPayloadV2Digit `json:"digit"`
+
+	// Path Who to page when a caller chooses this option
+	//
+	// Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}]
+	Path []CallRoutePathNodePayloadV2 `json:"path"`
+
+	// Prompt What we read out to offer this option, via text-to-speech in the route's language, exactly as written
+	//
+	// Example: For an urgent production outage, press 1
+	Prompt string `json:"prompt"`
+}
+
+// CallRoutesCreateOptionPayloadV2Digit The keypad digit a caller presses to choose this option
+//
+// Example: 1
+type CallRoutesCreateOptionPayloadV2Digit string
+
+// CallRoutesCreateOptionResultV2 Example: {"option":{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}}
+type CallRoutesCreateOptionResultV2 struct {
+	// Option One entry in a call route's phone-tree menu: the digit a caller presses, the
+	// prompt we read out to offer it, and who we page when they choose it.
+	//
+	// Example: {"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
+	Option CallRouteOptionV2 `json:"option"`
+}
+
+// CallRoutesListAllowedCallersResultV2 Example: {"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}]}
+type CallRoutesListAllowedCallersResultV2 struct {
+	// AllowedCallers Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}]
+	AllowedCallers []CallRouteAllowedCallerV2 `json:"allowed_callers"`
+}
+
+// CallRoutesListOptionsResultV2 Example: {"options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}]}
+type CallRoutesListOptionsResultV2 struct {
+	// Options Example: [{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}]
+	Options []CallRouteOptionV2 `json:"options"`
+}
+
+// CallRoutesListResultV2 Example: {"call_routes":[{"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}],"pagination_meta":{"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}}
+type CallRoutesListResultV2 struct {
+	// CallRoutes Example: [{"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}]
+	CallRoutes []CallRouteV2 `json:"call_routes"`
+
+	// PaginationMeta Example: {"after":"01FCNDV6P870EA6S7TK1DSYDG0","page_size":25}
+	PaginationMeta *PaginationMetaResultV2 `json:"pagination_meta,omitempty"`
+}
+
+// CallRoutesShowAllowedCallerResultV2 Example: {"allowed_caller":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}}
+type CallRoutesShowAllowedCallerResultV2 struct {
+	// AllowedCaller A phone number allowed to reach a call route.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}
+	AllowedCaller CallRouteAllowedCallerV2 `json:"allowed_caller"`
+}
+
+// CallRoutesShowOptionResultV2 Example: {"option":{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}}
+type CallRoutesShowOptionResultV2 struct {
+	// Option One entry in a call route's phone-tree menu: the digit a caller presses, the
+	// prompt we read out to offer it, and who we page when they choose it.
+	//
+	// Example: {"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
+	Option CallRouteOptionV2 `json:"option"`
+}
+
+// CallRoutesShowResultV2 Example: {"call_route":{"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}}
+type CallRoutesShowResultV2 struct {
+	// CallRoute A call route is a phone number your customers can call to reach whoever is
+	// on call, for an urgent support line or a regulator hotline.
+	//
+	// When a call comes in we work down the route's path, ringing each level's targets
+	// in turn until someone answers, then connect them to the caller. A trailing
+	// voicemail node records a message instead. Every call raises an alert, so calls
+	// can open incidents through an alert route.
+	//
+	// List and edit call routes here. Create and delete them in the dashboard.
+	//
+	// Example: {"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}
+	CallRoute CallRouteV2 `json:"call_route"`
+}
+
+// CallRoutesUpdateAllowedCallerPayloadV2 Example: {"name":"Regulator duty desk","phone_number":"+15551234567"}
+type CallRoutesUpdateAllowedCallerPayloadV2 struct {
+	// Name Label for whose number this is
+	//
+	// Example: Regulator duty desk
+	Name *string `json:"name,omitempty"`
+
+	// PhoneNumber The number to allow, in international format
+	//
+	// Example: +15551234567
+	PhoneNumber string `json:"phone_number"`
+}
+
+// CallRoutesUpdateAllowedCallerResultV2 Example: {"allowed_caller":{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}}
+type CallRoutesUpdateAllowedCallerResultV2 struct {
+	// AllowedCaller A phone number allowed to reach a call route.
+	//
+	// Example: {"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}
+	AllowedCaller CallRouteAllowedCallerV2 `json:"allowed_caller"`
+}
+
+// CallRoutesUpdateOptionPayloadV2 Example: {"digit":"1","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
+type CallRoutesUpdateOptionPayloadV2 struct {
+	// Digit The keypad digit a caller presses to choose this option
+	//
+	// Example: 1
+	Digit CallRoutesUpdateOptionPayloadV2Digit `json:"digit"`
+
+	// Path Who to page when a caller chooses this option
+	//
+	// Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}]
+	Path []CallRoutePathNodePayloadV2 `json:"path"`
+
+	// Prompt What we read out to offer this option, via text-to-speech in the route's language, exactly as written
+	//
+	// Example: For an urgent production outage, press 1
+	Prompt string `json:"prompt"`
+}
+
+// CallRoutesUpdateOptionPayloadV2Digit The keypad digit a caller presses to choose this option
+//
+// Example: 1
+type CallRoutesUpdateOptionPayloadV2Digit string
+
+// CallRoutesUpdateOptionResultV2 Example: {"option":{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}}
+type CallRoutesUpdateOptionResultV2 struct {
+	// Option One entry in a call route's phone-tree menu: the digit a caller presses, the
+	// prompt we read out to offer it, and who we page when they choose it.
+	//
+	// Example: {"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}
+	Option CallRouteOptionV2 `json:"option"`
+}
+
+// CallRoutesUpdatePayloadV2 Example: {"custom_language":"en-US","name":"Regulator urgent request","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"responder_caller_id":"route_number","use_caller_allowlist":true}
+type CallRoutesUpdatePayloadV2 struct {
+	// CustomLanguage The language we speak voice prompts in, via text-to-speech
+	//
+	// Example: en-US
+	CustomLanguage CallRoutesUpdatePayloadV2CustomLanguage `json:"custom_language"`
+
+	// Name Name for this call route
+	//
+	// Example: Regulator urgent request
+	Name string `json:"name"`
+
+	// Path Who to page when a call comes in. Retires any phone-tree menu on the route; send an empty list to keep the menu.
+	//
+	// Example: [{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}]
+	Path []CallRoutePathNodePayloadV2 `json:"path"`
+
+	// ResponderCallerId Which number responders see when we call them:
+	// * route_number: this route's own number
+	// * oncall_number: an incident.io on-call number
+	//
+	// Example: route_number
+	ResponderCallerId CallRoutesUpdatePayloadV2ResponderCallerId `json:"responder_caller_id"`
+
+	// UseCallerAllowlist Whether to only answer calls from this route's allowed callers. Needs at least one allowed caller.
+	//
+	// Example: true
+	UseCallerAllowlist bool `json:"use_caller_allowlist"`
+}
+
+// CallRoutesUpdatePayloadV2CustomLanguage The language we speak voice prompts in, via text-to-speech
+//
+// Example: en-US
+type CallRoutesUpdatePayloadV2CustomLanguage string
+
+// CallRoutesUpdatePayloadV2ResponderCallerId Which number responders see when we call them:
+// * route_number: this route's own number
+// * oncall_number: an incident.io on-call number
+//
+// Example: route_number
+type CallRoutesUpdatePayloadV2ResponderCallerId string
+
+// CallRoutesUpdateResultV2 Example: {"call_route":{"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}}
+type CallRoutesUpdateResultV2 struct {
+	// CallRoute A call route is a phone number your customers can call to reach whoever is
+	// on call, for an urgent support line or a regulator hotline.
+	//
+	// When a call comes in we work down the route's path, ringing each level's targets
+	// in turn until someone answers, then connect them to the caller. A trailing
+	// voicemail node records a message instead. Every call raises an alert, so calls
+	// can open incidents through an alert route.
+	//
+	// List and edit call routes here. Create and delete them in the dashboard.
+	//
+	// Example: {"allowed_callers":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator duty desk","phone_number":"+15551234567"}],"country_code":"US","created_at":"2021-08-17T13:28:57.801578Z","current_state":"active","custom_language":"en-US","id":"01FCNDV6P870EA6S7TK1DSYDG0","name":"Regulator urgent request","options":[{"digit":"1","id":"01FCNDV6P870EA6S7TK1DSYDG0","path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"prompt":"For an urgent production outage, press 1"}],"path":[{"id":"01FCNDV6P870EA6S7TK1DSYDG0","level":{"targets":[{"id":"lawrencejones","schedule_mode":"currently_on_call","selected_rota_id":"01FCNDV6P870EA6S7TK1DSYDG0","type":"schedule","urgency":"high"}]},"type":"level","voicemail":{"greeting_text":"Sorry, no one is available to take your call. Please leave a message after the tone. This call will be recorded."}}],"phone_number":"+15551234567","phone_number_type":"toll_free","responder_caller_id":"route_number","updated_at":"2021-08-17T13:28:57.801578Z","use_caller_allowlist":true}
+	CallRoute CallRouteV2 `json:"call_route"`
 }
 
 // CallSessionV2 A call session is a single occurrence of a call that Scribe attended,
@@ -26376,6 +27375,18 @@ type AlertRoutesV2ListParams struct {
 	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
+// AlertsV2ListAlertTagsParams defines parameters for AlertsV2ListAlertTags.
+type AlertsV2ListAlertTagsParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A tag's ID. This endpoint will return a list of tags after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
+
+	// Search Filter to tags whose name contains this value (case-insensitive)
+	Search *string `form:"search,omitempty" json:"search,omitempty"`
+}
+
 // AlertsV2ListParams defines parameters for AlertsV2List.
 type AlertsV2ListParams struct {
 	// PageSize Number of alerts to return per page
@@ -26408,8 +27419,20 @@ type AlertsV2ListParams struct {
 	// HasNotes Filter on whether an alert has notes. The accepted operator is 'is'.
 	HasNotes *map[string][]string `form:"has_notes,omitempty" json:"has_notes,omitempty"`
 
+	// Tags Filter on the tags applied to an alert, by tag ID. The accepted operators are 'one_of', 'all_of' and 'not_in'.
+	Tags *map[string][]string `form:"tags,omitempty" json:"tags,omitempty"`
+
 	// IncludeMaintenanceWindow Filter on whether to include maintenance window alerts. The accepted operator is 'is'.
 	IncludeMaintenanceWindow *map[string][]string `form:"include_maintenance_window,omitempty" json:"include_maintenance_window,omitempty"`
+}
+
+// CallRoutesV2ListParams defines parameters for CallRoutesV2List.
+type CallRoutesV2ListParams struct {
+	// PageSize Integer number of records to return
+	PageSize *int64 `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// After A call route's ID. This endpoint will return a list of call routes after this ID in relation to the API response order.
+	After *string `form:"after,omitempty" json:"after,omitempty"`
 }
 
 // CallSessionsV2ListParams defines parameters for CallSessionsV2List.
@@ -27101,6 +28124,30 @@ type AlertSourcesV2ValidateJSONRequestBody = AlertSourcesValidatePayloadV2
 
 // AlertSourcesV2UpdateJSONRequestBody defines body for AlertSourcesV2Update for application/json ContentType.
 type AlertSourcesV2UpdateJSONRequestBody = AlertSourcesUpdatePayloadV2
+
+// AlertsV2AddTagsJSONRequestBody defines body for AlertsV2AddTags for application/json ContentType.
+type AlertsV2AddTagsJSONRequestBody = AlertsAddTagsPayloadV2
+
+// AlertsV2RemoveTagsJSONRequestBody defines body for AlertsV2RemoveTags for application/json ContentType.
+type AlertsV2RemoveTagsJSONRequestBody = AlertsRemoveTagsPayloadV2
+
+// AlertsV2SetTagsJSONRequestBody defines body for AlertsV2SetTags for application/json ContentType.
+type AlertsV2SetTagsJSONRequestBody = AlertsSetTagsPayloadV2
+
+// CallRoutesV2CreateAllowedCallerJSONRequestBody defines body for CallRoutesV2CreateAllowedCaller for application/json ContentType.
+type CallRoutesV2CreateAllowedCallerJSONRequestBody = CallRoutesCreateAllowedCallerPayloadV2
+
+// CallRoutesV2UpdateAllowedCallerJSONRequestBody defines body for CallRoutesV2UpdateAllowedCaller for application/json ContentType.
+type CallRoutesV2UpdateAllowedCallerJSONRequestBody = CallRoutesUpdateAllowedCallerPayloadV2
+
+// CallRoutesV2CreateOptionJSONRequestBody defines body for CallRoutesV2CreateOption for application/json ContentType.
+type CallRoutesV2CreateOptionJSONRequestBody = CallRoutesCreateOptionPayloadV2
+
+// CallRoutesV2UpdateOptionJSONRequestBody defines body for CallRoutesV2UpdateOption for application/json ContentType.
+type CallRoutesV2UpdateOptionJSONRequestBody = CallRoutesUpdateOptionPayloadV2
+
+// CallRoutesV2UpdateJSONRequestBody defines body for CallRoutesV2Update for application/json ContentType.
+type CallRoutesV2UpdateJSONRequestBody = CallRoutesUpdatePayloadV2
 
 // CatalogV2CreateEntryJSONRequestBody defines body for CatalogV2CreateEntry for application/json ContentType.
 //
@@ -28721,6 +29768,22 @@ type ClientInterface interface {
 	// Corresponds with PUT /v2/alert_sources/{id} (the `AlertSourcesV2Update` operationId).
 	AlertSourcesV2Update(ctx context.Context, id string, body AlertSourcesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// AlertsV2ListAlertTags ListAlertTags Alerts V2
+	//
+	// List the alert tags in your organisation's vocabulary.
+	//
+	// Alert tags are the reusable labels you can apply to alerts. This endpoint lists the
+	// organisation's active tags, ordered by name, and excludes archived tags.
+	//
+	// To narrow the list, filter by search, which matches tags whose name contains the given
+	// value (case-insensitive):
+	//
+	// 		curl --get 'https://api.incident.io/v2/alert_tags' \
+	// 			--data 'search=noisy'
+	//
+	// Corresponds with GET /v2/alert_tags (the `AlertsV2ListAlertTags` operationId).
+	AlertsV2ListAlertTags(ctx context.Context, params *AlertsV2ListAlertTagsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// AlertsV2List List Alerts V2
 	//
 	// List all alerts for your account.
@@ -28805,6 +29868,26 @@ type ClientInterface interface {
 	// 		curl --get 'https://api.incident.io/v2/alerts' \
 	// 			--data 'has_notes[is]=false'
 	//
+	// ### By tags
+	//
+	// Filter by tag ID. Name filtering is not supported.
+	//
+	// Find all alerts that have any of the given tags:
+	//
+	// 		curl --get 'https://api.incident.io/v2/alerts' \
+	// 			--data 'tags[one_of]=01GBSQF3FHF7FWZQNWGHAVQ804'
+	//
+	// Find all alerts that have all of the given tags:
+	//
+	// 		curl --get 'https://api.incident.io/v2/alerts' \
+	// 			--data 'tags[all_of]=01GBSQF3FHF7FWZQNWGHAVQ804' \
+	// 			--data 'tags[all_of]=01ET65M7ZARSFZ6TFDFVQDN9AA'
+	//
+	// Find all alerts that do not have any of the given tags. Untagged alerts are included:
+	//
+	// 		curl --get 'https://api.incident.io/v2/alerts' \
+	// 			--data 'tags[not_in]=01GBSQF3FHF7FWZQNWGHAVQ804'
+	//
 	// ### By attributes
 	//
 	// Alerts can be filtered by their attribute values. Each filter is keyed by the alert
@@ -28838,6 +29921,56 @@ type ClientInterface interface {
 	// Corresponds with GET /v2/alerts/{id} (the `AlertsV2Show` operationId).
 	AlertsV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// AlertsV2AddTagsWithBody AddTags Alerts V2
+	//
+	// Add tags to an alert without changing its existing tags.
+	//
+	// Each tag must specify exactly one of id or name. A name that does not exist is created,
+	// except on private alerts, where only names already in the organisation's tag vocabulary
+	// can be used. Tags that are already present are ignored.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/alerts/{id}/actions/add_tags (the `AlertsV2AddTags` operationId).
+	AlertsV2AddTagsWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertsV2AddTags AddTags Alerts V2
+	//
+	// Add tags to an alert without changing its existing tags.
+	//
+	// Each tag must specify exactly one of id or name. A name that does not exist is created,
+	// except on private alerts, where only names already in the organisation's tag vocabulary
+	// can be used. Tags that are already present are ignored.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/alerts/{id}/actions/add_tags (the `AlertsV2AddTags` operationId).
+	AlertsV2AddTags(ctx context.Context, id string, body AlertsV2AddTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertsV2RemoveTagsWithBody RemoveTags Alerts V2
+	//
+	// Remove tags from an alert without changing its other tags.
+	//
+	// Each tag must specify exactly one of id or name. Tags that are not present on the alert
+	// are ignored.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/alerts/{id}/actions/remove_tags (the `AlertsV2RemoveTags` operationId).
+	AlertsV2RemoveTagsWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertsV2RemoveTags RemoveTags Alerts V2
+	//
+	// Remove tags from an alert without changing its other tags.
+	//
+	// Each tag must specify exactly one of id or name. Tags that are not present on the alert
+	// are ignored.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/alerts/{id}/actions/remove_tags (the `AlertsV2RemoveTags` operationId).
+	AlertsV2RemoveTags(ctx context.Context, id string, body AlertsV2RemoveTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// AlertsV2Resolve Resolve Alerts V2
 	//
 	// Resolve a currently firing alert.
@@ -28850,6 +29983,206 @@ type ClientInterface interface {
 	//
 	// Corresponds with POST /v2/alerts/{id}/actions/resolve (the `AlertsV2Resolve` operationId).
 	AlertsV2Resolve(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertsV2SetTagsWithBody SetTags Alerts V2
+	//
+	// Replace all tags on an alert.
+	//
+	// Each tag must specify exactly one of id or name. A name that does not exist is created,
+	// except on private alerts, where only names already in the organisation's tag vocabulary
+	// can be used. Passing an empty list removes every tag.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/alerts/{id}/actions/set_tags (the `AlertsV2SetTags` operationId).
+	AlertsV2SetTagsWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AlertsV2SetTags SetTags Alerts V2
+	//
+	// Replace all tags on an alert.
+	//
+	// Each tag must specify exactly one of id or name. A name that does not exist is created,
+	// except on private alerts, where only names already in the organisation's tag vocabulary
+	// can be used. Passing an empty list removes every tag.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/alerts/{id}/actions/set_tags (the `AlertsV2SetTags` operationId).
+	AlertsV2SetTags(ctx context.Context, id string, body AlertsV2SetTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2List List Call Routes V2
+	//
+	// List all call routes for this organisation.
+	//
+	// Corresponds with GET /v2/call_routes (the `CallRoutesV2List` operationId).
+	CallRoutesV2List(ctx context.Context, params *CallRoutesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2ListAllowedCallers ListAllowedCallers Call Routes V2
+	//
+	// List the numbers allowed to call a route.
+	//
+	// Corresponds with GET /v2/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV2ListAllowedCallers` operationId).
+	CallRoutesV2ListAllowedCallers(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2CreateAllowedCallerWithBody CreateAllowedCaller Call Routes V2
+	//
+	// Allow a number to call this route.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV2CreateAllowedCaller` operationId).
+	CallRoutesV2CreateAllowedCallerWithBody(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2CreateAllowedCaller CreateAllowedCaller Call Routes V2
+	//
+	// Allow a number to call this route.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV2CreateAllowedCaller` operationId).
+	CallRoutesV2CreateAllowedCaller(ctx context.Context, callRouteId string, body CallRoutesV2CreateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2DestroyAllowedCaller DestroyAllowedCaller Call Routes V2
+	//
+	// Stop allowing a number to call this route.
+	//
+	// A route that only answers its allowed callers must keep at least one, so turn
+	// use_caller_allowlist off before removing the last number.
+	//
+	// Corresponds with DELETE /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2DestroyAllowedCaller` operationId).
+	CallRoutesV2DestroyAllowedCaller(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2ShowAllowedCaller ShowAllowedCaller Call Routes V2
+	//
+	// Show a single allowed caller.
+	//
+	// Corresponds with GET /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2ShowAllowedCaller` operationId).
+	CallRoutesV2ShowAllowedCaller(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2UpdateAllowedCallerWithBody UpdateAllowedCaller Call Routes V2
+	//
+	// Replace an allowed caller's number and label.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2UpdateAllowedCaller` operationId).
+	CallRoutesV2UpdateAllowedCallerWithBody(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2UpdateAllowedCaller UpdateAllowedCaller Call Routes V2
+	//
+	// Replace an allowed caller's number and label.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2UpdateAllowedCaller` operationId).
+	CallRoutesV2UpdateAllowedCaller(ctx context.Context, callRouteId string, id string, body CallRoutesV2UpdateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2ListOptions ListOptions Call Routes V2
+	//
+	// List a call route's phone-tree options, in the order callers hear them.
+	//
+	// Corresponds with GET /v2/call_routes/{call_route_id}/options (the `CallRoutesV2ListOptions` operationId).
+	CallRoutesV2ListOptions(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2CreateOptionWithBody CreateOption Call Routes V2
+	//
+	// Add an option to a call route's phone-tree menu.
+	//
+	// Callers hear the menu instead of being routed down the route's own path, so
+	// adding the first option clears that path. Every plan allows a single option. A
+	// menu of two or more options is not on every plan, so get in touch if you need
+	// one enabled.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v2/call_routes/{call_route_id}/options (the `CallRoutesV2CreateOption` operationId).
+	CallRoutesV2CreateOptionWithBody(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2CreateOption CreateOption Call Routes V2
+	//
+	// Add an option to a call route's phone-tree menu.
+	//
+	// Callers hear the menu instead of being routed down the route's own path, so
+	// adding the first option clears that path. Every plan allows a single option. A
+	// menu of two or more options is not on every plan, so get in touch if you need
+	// one enabled.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v2/call_routes/{call_route_id}/options (the `CallRoutesV2CreateOption` operationId).
+	CallRoutesV2CreateOption(ctx context.Context, callRouteId string, body CallRoutesV2CreateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2DestroyOption DestroyOption Call Routes V2
+	//
+	// Remove an option from a call route's phone-tree menu.
+	//
+	// A route has to route calls somewhere, so give it a path before removing its last
+	// option.
+	//
+	// Corresponds with DELETE /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2DestroyOption` operationId).
+	CallRoutesV2DestroyOption(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2ShowOption ShowOption Call Routes V2
+	//
+	// Show a single phone-tree option.
+	//
+	// Corresponds with GET /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2ShowOption` operationId).
+	CallRoutesV2ShowOption(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2UpdateOptionWithBody UpdateOption Call Routes V2
+	//
+	// Replace a phone-tree option.
+	//
+	// Two live options can't share a digit, so moving an option onto a digit the menu
+	// already uses is rejected.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2UpdateOption` operationId).
+	CallRoutesV2UpdateOptionWithBody(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2UpdateOption UpdateOption Call Routes V2
+	//
+	// Replace a phone-tree option.
+	//
+	// Two live options can't share a digit, so moving an option onto a digit the menu
+	// already uses is rejected.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2UpdateOption` operationId).
+	CallRoutesV2UpdateOption(ctx context.Context, callRouteId string, id string, body CallRoutesV2UpdateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2Show Show Call Routes V2
+	//
+	// Show a single call route.
+	//
+	// Corresponds with GET /v2/call_routes/{id} (the `CallRoutesV2Show` operationId).
+	CallRoutesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2UpdateWithBody Update Call Routes V2
+	//
+	// Replace a call route's configuration.
+	//
+	// Sending a path retires any phone-tree menu on the route. Send an empty path to
+	// keep the menu.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v2/call_routes/{id} (the `CallRoutesV2Update` operationId).
+	CallRoutesV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CallRoutesV2Update Update Call Routes V2
+	//
+	// Replace a call route's configuration.
+	//
+	// Sending a path retires any phone-tree menu on the route. Send an empty path to
+	// keep the menu.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PUT /v2/call_routes/{id} (the `CallRoutesV2Update` operationId).
+	CallRoutesV2Update(ctx context.Context, id string, body CallRoutesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// CallSessionsV2List List Call Sessions V2
 	//
@@ -34824,6 +36157,32 @@ func (c *Client) AlertSourcesV2Update(ctx context.Context, id string, body Alert
 	return c.Client.Do(req)
 }
 
+// AlertsV2ListAlertTags ListAlertTags Alerts V2
+//
+// List the alert tags in your organisation's vocabulary.
+//
+// Alert tags are the reusable labels you can apply to alerts. This endpoint lists the
+// organisation's active tags, ordered by name, and excludes archived tags.
+//
+// To narrow the list, filter by search, which matches tags whose name contains the given
+// value (case-insensitive):
+//
+//	curl --get 'https://api.incident.io/v2/alert_tags' \
+//		--data 'search=noisy'
+//
+// Corresponds with GET /v2/alert_tags (the `AlertsV2ListAlertTags` operationId).
+func (c *Client) AlertsV2ListAlertTags(ctx context.Context, params *AlertsV2ListAlertTagsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertsV2ListAlertTagsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // AlertsV2List List Alerts V2
 //
 // List all alerts for your account.
@@ -34908,6 +36267,26 @@ func (c *Client) AlertSourcesV2Update(ctx context.Context, id string, body Alert
 //	curl --get 'https://api.incident.io/v2/alerts' \
 //		--data 'has_notes[is]=false'
 //
+// ### By tags
+//
+// Filter by tag ID. Name filtering is not supported.
+//
+// Find all alerts that have any of the given tags:
+//
+//	curl --get 'https://api.incident.io/v2/alerts' \
+//		--data 'tags[one_of]=01GBSQF3FHF7FWZQNWGHAVQ804'
+//
+// Find all alerts that have all of the given tags:
+//
+//	curl --get 'https://api.incident.io/v2/alerts' \
+//		--data 'tags[all_of]=01GBSQF3FHF7FWZQNWGHAVQ804' \
+//		--data 'tags[all_of]=01ET65M7ZARSFZ6TFDFVQDN9AA'
+//
+// Find all alerts that do not have any of the given tags. Untagged alerts are included:
+//
+//	curl --get 'https://api.incident.io/v2/alerts' \
+//		--data 'tags[not_in]=01GBSQF3FHF7FWZQNWGHAVQ804'
+//
 // ### By attributes
 //
 // Alerts can be filtered by their attribute values. Each filter is keyed by the alert
@@ -34960,6 +36339,96 @@ func (c *Client) AlertsV2Show(ctx context.Context, id string, reqEditors ...Requ
 	return c.Client.Do(req)
 }
 
+// AlertsV2AddTagsWithBody AddTags Alerts V2
+//
+// Add tags to an alert without changing its existing tags.
+//
+// Each tag must specify exactly one of id or name. A name that does not exist is created,
+// except on private alerts, where only names already in the organisation's tag vocabulary
+// can be used. Tags that are already present are ignored.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/alerts/{id}/actions/add_tags (the `AlertsV2AddTags` operationId).
+func (c *Client) AlertsV2AddTagsWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertsV2AddTagsRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertsV2AddTags AddTags Alerts V2
+//
+// Add tags to an alert without changing its existing tags.
+//
+// Each tag must specify exactly one of id or name. A name that does not exist is created,
+// except on private alerts, where only names already in the organisation's tag vocabulary
+// can be used. Tags that are already present are ignored.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/alerts/{id}/actions/add_tags (the `AlertsV2AddTags` operationId).
+func (c *Client) AlertsV2AddTags(ctx context.Context, id string, body AlertsV2AddTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertsV2AddTagsRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertsV2RemoveTagsWithBody RemoveTags Alerts V2
+//
+// Remove tags from an alert without changing its other tags.
+//
+// Each tag must specify exactly one of id or name. Tags that are not present on the alert
+// are ignored.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/alerts/{id}/actions/remove_tags (the `AlertsV2RemoveTags` operationId).
+func (c *Client) AlertsV2RemoveTagsWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertsV2RemoveTagsRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertsV2RemoveTags RemoveTags Alerts V2
+//
+// Remove tags from an alert without changing its other tags.
+//
+// Each tag must specify exactly one of id or name. Tags that are not present on the alert
+// are ignored.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/alerts/{id}/actions/remove_tags (the `AlertsV2RemoveTags` operationId).
+func (c *Client) AlertsV2RemoveTags(ctx context.Context, id string, body AlertsV2RemoveTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertsV2RemoveTagsRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // AlertsV2Resolve Resolve Alerts V2
 //
 // Resolve a currently firing alert.
@@ -34973,6 +36442,406 @@ func (c *Client) AlertsV2Show(ctx context.Context, id string, reqEditors ...Requ
 // Corresponds with POST /v2/alerts/{id}/actions/resolve (the `AlertsV2Resolve` operationId).
 func (c *Client) AlertsV2Resolve(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewAlertsV2ResolveRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertsV2SetTagsWithBody SetTags Alerts V2
+//
+// Replace all tags on an alert.
+//
+// Each tag must specify exactly one of id or name. A name that does not exist is created,
+// except on private alerts, where only names already in the organisation's tag vocabulary
+// can be used. Passing an empty list removes every tag.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/alerts/{id}/actions/set_tags (the `AlertsV2SetTags` operationId).
+func (c *Client) AlertsV2SetTagsWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertsV2SetTagsRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// AlertsV2SetTags SetTags Alerts V2
+//
+// Replace all tags on an alert.
+//
+// Each tag must specify exactly one of id or name. A name that does not exist is created,
+// except on private alerts, where only names already in the organisation's tag vocabulary
+// can be used. Passing an empty list removes every tag.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/alerts/{id}/actions/set_tags (the `AlertsV2SetTags` operationId).
+func (c *Client) AlertsV2SetTags(ctx context.Context, id string, body AlertsV2SetTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAlertsV2SetTagsRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2List List Call Routes V2
+//
+// List all call routes for this organisation.
+//
+// Corresponds with GET /v2/call_routes (the `CallRoutesV2List` operationId).
+func (c *Client) CallRoutesV2List(ctx context.Context, params *CallRoutesV2ListParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2ListRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2ListAllowedCallers ListAllowedCallers Call Routes V2
+//
+// List the numbers allowed to call a route.
+//
+// Corresponds with GET /v2/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV2ListAllowedCallers` operationId).
+func (c *Client) CallRoutesV2ListAllowedCallers(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2ListAllowedCallersRequest(c.Server, callRouteId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2CreateAllowedCallerWithBody CreateAllowedCaller Call Routes V2
+//
+// Allow a number to call this route.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV2CreateAllowedCaller` operationId).
+func (c *Client) CallRoutesV2CreateAllowedCallerWithBody(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2CreateAllowedCallerRequestWithBody(c.Server, callRouteId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2CreateAllowedCaller CreateAllowedCaller Call Routes V2
+//
+// Allow a number to call this route.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV2CreateAllowedCaller` operationId).
+func (c *Client) CallRoutesV2CreateAllowedCaller(ctx context.Context, callRouteId string, body CallRoutesV2CreateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2CreateAllowedCallerRequest(c.Server, callRouteId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2DestroyAllowedCaller DestroyAllowedCaller Call Routes V2
+//
+// Stop allowing a number to call this route.
+//
+// A route that only answers its allowed callers must keep at least one, so turn
+// use_caller_allowlist off before removing the last number.
+//
+// Corresponds with DELETE /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2DestroyAllowedCaller` operationId).
+func (c *Client) CallRoutesV2DestroyAllowedCaller(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2DestroyAllowedCallerRequest(c.Server, callRouteId, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2ShowAllowedCaller ShowAllowedCaller Call Routes V2
+//
+// Show a single allowed caller.
+//
+// Corresponds with GET /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2ShowAllowedCaller` operationId).
+func (c *Client) CallRoutesV2ShowAllowedCaller(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2ShowAllowedCallerRequest(c.Server, callRouteId, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2UpdateAllowedCallerWithBody UpdateAllowedCaller Call Routes V2
+//
+// Replace an allowed caller's number and label.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2UpdateAllowedCaller` operationId).
+func (c *Client) CallRoutesV2UpdateAllowedCallerWithBody(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2UpdateAllowedCallerRequestWithBody(c.Server, callRouteId, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2UpdateAllowedCaller UpdateAllowedCaller Call Routes V2
+//
+// Replace an allowed caller's number and label.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2UpdateAllowedCaller` operationId).
+func (c *Client) CallRoutesV2UpdateAllowedCaller(ctx context.Context, callRouteId string, id string, body CallRoutesV2UpdateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2UpdateAllowedCallerRequest(c.Server, callRouteId, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2ListOptions ListOptions Call Routes V2
+//
+// List a call route's phone-tree options, in the order callers hear them.
+//
+// Corresponds with GET /v2/call_routes/{call_route_id}/options (the `CallRoutesV2ListOptions` operationId).
+func (c *Client) CallRoutesV2ListOptions(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2ListOptionsRequest(c.Server, callRouteId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2CreateOptionWithBody CreateOption Call Routes V2
+//
+// Add an option to a call route's phone-tree menu.
+//
+// Callers hear the menu instead of being routed down the route's own path, so
+// adding the first option clears that path. Every plan allows a single option. A
+// menu of two or more options is not on every plan, so get in touch if you need
+// one enabled.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v2/call_routes/{call_route_id}/options (the `CallRoutesV2CreateOption` operationId).
+func (c *Client) CallRoutesV2CreateOptionWithBody(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2CreateOptionRequestWithBody(c.Server, callRouteId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2CreateOption CreateOption Call Routes V2
+//
+// Add an option to a call route's phone-tree menu.
+//
+// Callers hear the menu instead of being routed down the route's own path, so
+// adding the first option clears that path. Every plan allows a single option. A
+// menu of two or more options is not on every plan, so get in touch if you need
+// one enabled.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v2/call_routes/{call_route_id}/options (the `CallRoutesV2CreateOption` operationId).
+func (c *Client) CallRoutesV2CreateOption(ctx context.Context, callRouteId string, body CallRoutesV2CreateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2CreateOptionRequest(c.Server, callRouteId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2DestroyOption DestroyOption Call Routes V2
+//
+// Remove an option from a call route's phone-tree menu.
+//
+// A route has to route calls somewhere, so give it a path before removing its last
+// option.
+//
+// Corresponds with DELETE /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2DestroyOption` operationId).
+func (c *Client) CallRoutesV2DestroyOption(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2DestroyOptionRequest(c.Server, callRouteId, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2ShowOption ShowOption Call Routes V2
+//
+// Show a single phone-tree option.
+//
+// Corresponds with GET /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2ShowOption` operationId).
+func (c *Client) CallRoutesV2ShowOption(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2ShowOptionRequest(c.Server, callRouteId, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2UpdateOptionWithBody UpdateOption Call Routes V2
+//
+// Replace a phone-tree option.
+//
+// Two live options can't share a digit, so moving an option onto a digit the menu
+// already uses is rejected.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2UpdateOption` operationId).
+func (c *Client) CallRoutesV2UpdateOptionWithBody(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2UpdateOptionRequestWithBody(c.Server, callRouteId, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2UpdateOption UpdateOption Call Routes V2
+//
+// Replace a phone-tree option.
+//
+// Two live options can't share a digit, so moving an option onto a digit the menu
+// already uses is rejected.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2UpdateOption` operationId).
+func (c *Client) CallRoutesV2UpdateOption(ctx context.Context, callRouteId string, id string, body CallRoutesV2UpdateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2UpdateOptionRequest(c.Server, callRouteId, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2Show Show Call Routes V2
+//
+// Show a single call route.
+//
+// Corresponds with GET /v2/call_routes/{id} (the `CallRoutesV2Show` operationId).
+func (c *Client) CallRoutesV2Show(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2ShowRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2UpdateWithBody Update Call Routes V2
+//
+// Replace a call route's configuration.
+//
+// Sending a path retires any phone-tree menu on the route. Send an empty path to
+// keep the menu.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v2/call_routes/{id} (the `CallRoutesV2Update` operationId).
+func (c *Client) CallRoutesV2UpdateWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2UpdateRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// CallRoutesV2Update Update Call Routes V2
+//
+// Replace a call route's configuration.
+//
+// Sending a path retires any phone-tree menu on the route. Send an empty path to
+// keep the menu.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PUT /v2/call_routes/{id} (the `CallRoutesV2Update` operationId).
+func (c *Client) CallRoutesV2Update(ctx context.Context, id string, body CallRoutesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCallRoutesV2UpdateRequest(c.Server, id, body)
 	if err != nil {
 		return nil, err
 	}
@@ -45169,6 +47038,84 @@ func NewAlertSourcesV2UpdateRequestWithBody(server string, id string, contentTyp
 	return req, nil
 }
 
+// NewAlertsV2ListAlertTagsRequest constructs an http.Request for the AlertsV2ListAlertTags method
+func NewAlertsV2ListAlertTagsRequest(server string, params *AlertsV2ListAlertTagsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alert_tags")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Search != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "search", *params.Search, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewAlertsV2ListRequest constructs an http.Request for the AlertsV2List method
 func NewAlertsV2ListRequest(server string, params *AlertsV2ListParams) (*http.Request, error) {
 	var err error
@@ -45313,6 +47260,18 @@ func NewAlertsV2ListRequest(server string, params *AlertsV2ListParams) (*http.Re
 
 		}
 
+		if params.Tags != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "tags", *params.Tags, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "object", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.IncludeMaintenanceWindow != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "include_maintenance_window", *params.IncludeMaintenanceWindow, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "object", Format: ""}); err != nil {
@@ -45373,6 +47332,100 @@ func NewAlertsV2ShowRequest(server string, id string) (*http.Request, error) {
 	return req, nil
 }
 
+// NewAlertsV2AddTagsRequest calls the generic AlertsV2AddTags builder with application/json body
+func NewAlertsV2AddTagsRequest(server string, id string, body AlertsV2AddTagsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertsV2AddTagsRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewAlertsV2AddTagsRequestWithBody constructs an http.Request for the AlertsV2AddTags method, with any body, and a specified content type
+func NewAlertsV2AddTagsRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alerts/%s/actions/add_tags", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAlertsV2RemoveTagsRequest calls the generic AlertsV2RemoveTags builder with application/json body
+func NewAlertsV2RemoveTagsRequest(server string, id string, body AlertsV2RemoveTagsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertsV2RemoveTagsRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewAlertsV2RemoveTagsRequestWithBody constructs an http.Request for the AlertsV2RemoveTags method, with any body, and a specified content type
+func NewAlertsV2RemoveTagsRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alerts/%s/actions/remove_tags", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewAlertsV2ResolveRequest constructs an http.Request for the AlertsV2Resolve method
 func NewAlertsV2ResolveRequest(server string, id string) (*http.Request, error) {
 	var err error
@@ -45403,6 +47456,634 @@ func NewAlertsV2ResolveRequest(server string, id string) (*http.Request, error) 
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewAlertsV2SetTagsRequest calls the generic AlertsV2SetTags builder with application/json body
+func NewAlertsV2SetTagsRequest(server string, id string, body AlertsV2SetTagsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAlertsV2SetTagsRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewAlertsV2SetTagsRequestWithBody constructs an http.Request for the AlertsV2SetTags method, with any body, and a specified content type
+func NewAlertsV2SetTagsRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/alerts/%s/actions/set_tags", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCallRoutesV2ListRequest constructs an http.Request for the CallRoutesV2List method
+func NewCallRoutesV2ListRequest(server string, params *CallRoutesV2ListParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.PageSize != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "page_size", *params.PageSize, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: "int64"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.After != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "after", *params.After, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV2ListAllowedCallersRequest constructs an http.Request for the CallRoutesV2ListAllowedCallers method
+func NewCallRoutesV2ListAllowedCallersRequest(server string, callRouteId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes/%s/allowed_callers", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV2CreateAllowedCallerRequest calls the generic CallRoutesV2CreateAllowedCaller builder with application/json body
+func NewCallRoutesV2CreateAllowedCallerRequest(server string, callRouteId string, body CallRoutesV2CreateAllowedCallerJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCallRoutesV2CreateAllowedCallerRequestWithBody(server, callRouteId, "application/json", bodyReader)
+}
+
+// NewCallRoutesV2CreateAllowedCallerRequestWithBody constructs an http.Request for the CallRoutesV2CreateAllowedCaller method, with any body, and a specified content type
+func NewCallRoutesV2CreateAllowedCallerRequestWithBody(server string, callRouteId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes/%s/allowed_callers", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCallRoutesV2DestroyAllowedCallerRequest constructs an http.Request for the CallRoutesV2DestroyAllowedCaller method
+func NewCallRoutesV2DestroyAllowedCallerRequest(server string, callRouteId string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes/%s/allowed_callers/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV2ShowAllowedCallerRequest constructs an http.Request for the CallRoutesV2ShowAllowedCaller method
+func NewCallRoutesV2ShowAllowedCallerRequest(server string, callRouteId string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes/%s/allowed_callers/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV2UpdateAllowedCallerRequest calls the generic CallRoutesV2UpdateAllowedCaller builder with application/json body
+func NewCallRoutesV2UpdateAllowedCallerRequest(server string, callRouteId string, id string, body CallRoutesV2UpdateAllowedCallerJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCallRoutesV2UpdateAllowedCallerRequestWithBody(server, callRouteId, id, "application/json", bodyReader)
+}
+
+// NewCallRoutesV2UpdateAllowedCallerRequestWithBody constructs an http.Request for the CallRoutesV2UpdateAllowedCaller method, with any body, and a specified content type
+func NewCallRoutesV2UpdateAllowedCallerRequestWithBody(server string, callRouteId string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes/%s/allowed_callers/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCallRoutesV2ListOptionsRequest constructs an http.Request for the CallRoutesV2ListOptions method
+func NewCallRoutesV2ListOptionsRequest(server string, callRouteId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes/%s/options", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV2CreateOptionRequest calls the generic CallRoutesV2CreateOption builder with application/json body
+func NewCallRoutesV2CreateOptionRequest(server string, callRouteId string, body CallRoutesV2CreateOptionJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCallRoutesV2CreateOptionRequestWithBody(server, callRouteId, "application/json", bodyReader)
+}
+
+// NewCallRoutesV2CreateOptionRequestWithBody constructs an http.Request for the CallRoutesV2CreateOption method, with any body, and a specified content type
+func NewCallRoutesV2CreateOptionRequestWithBody(server string, callRouteId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes/%s/options", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCallRoutesV2DestroyOptionRequest constructs an http.Request for the CallRoutesV2DestroyOption method
+func NewCallRoutesV2DestroyOptionRequest(server string, callRouteId string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes/%s/options/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV2ShowOptionRequest constructs an http.Request for the CallRoutesV2ShowOption method
+func NewCallRoutesV2ShowOptionRequest(server string, callRouteId string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes/%s/options/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV2UpdateOptionRequest calls the generic CallRoutesV2UpdateOption builder with application/json body
+func NewCallRoutesV2UpdateOptionRequest(server string, callRouteId string, id string, body CallRoutesV2UpdateOptionJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCallRoutesV2UpdateOptionRequestWithBody(server, callRouteId, id, "application/json", bodyReader)
+}
+
+// NewCallRoutesV2UpdateOptionRequestWithBody constructs an http.Request for the CallRoutesV2UpdateOption method, with any body, and a specified content type
+func NewCallRoutesV2UpdateOptionRequestWithBody(server string, callRouteId string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "call_route_id", callRouteId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes/%s/options/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCallRoutesV2ShowRequest constructs an http.Request for the CallRoutesV2Show method
+func NewCallRoutesV2ShowRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCallRoutesV2UpdateRequest calls the generic CallRoutesV2Update builder with application/json body
+func NewCallRoutesV2UpdateRequest(server string, id string, body CallRoutesV2UpdateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCallRoutesV2UpdateRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewCallRoutesV2UpdateRequestWithBody constructs an http.Request for the CallRoutesV2Update method, with any body, and a specified content type
+func NewCallRoutesV2UpdateRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/call_routes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -56217,6 +58898,24 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with PUT /v2/alert_sources/{id} (the `AlertSourcesV2Update` operationId).
 	AlertSourcesV2UpdateWithResponse(ctx context.Context, id string, body AlertSourcesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertSourcesV2UpdateResponse, error)
 
+	// AlertsV2ListAlertTagsWithResponse ListAlertTags Alerts V2
+	//
+	// List the alert tags in your organisation's vocabulary.
+	//
+	// Alert tags are the reusable labels you can apply to alerts. This endpoint lists the
+	// organisation's active tags, ordered by name, and excludes archived tags.
+	//
+	// To narrow the list, filter by search, which matches tags whose name contains the given
+	// value (case-insensitive):
+	//
+	// 		curl --get 'https://api.incident.io/v2/alert_tags' \
+	// 			--data 'search=noisy'
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/alert_tags (the `AlertsV2ListAlertTags` operationId).
+	AlertsV2ListAlertTagsWithResponse(ctx context.Context, params *AlertsV2ListAlertTagsParams, reqEditors ...RequestEditorFn) (*AlertsV2ListAlertTagsResponse, error)
+
 	// AlertsV2ListWithResponse List Alerts V2
 	//
 	// List all alerts for your account.
@@ -56301,6 +59000,26 @@ type ClientWithResponsesInterface interface {
 	// 		curl --get 'https://api.incident.io/v2/alerts' \
 	// 			--data 'has_notes[is]=false'
 	//
+	// ### By tags
+	//
+	// Filter by tag ID. Name filtering is not supported.
+	//
+	// Find all alerts that have any of the given tags:
+	//
+	// 		curl --get 'https://api.incident.io/v2/alerts' \
+	// 			--data 'tags[one_of]=01GBSQF3FHF7FWZQNWGHAVQ804'
+	//
+	// Find all alerts that have all of the given tags:
+	//
+	// 		curl --get 'https://api.incident.io/v2/alerts' \
+	// 			--data 'tags[all_of]=01GBSQF3FHF7FWZQNWGHAVQ804' \
+	// 			--data 'tags[all_of]=01ET65M7ZARSFZ6TFDFVQDN9AA'
+	//
+	// Find all alerts that do not have any of the given tags. Untagged alerts are included:
+	//
+	// 		curl --get 'https://api.incident.io/v2/alerts' \
+	// 			--data 'tags[not_in]=01GBSQF3FHF7FWZQNWGHAVQ804'
+	//
 	// ### By attributes
 	//
 	// Alerts can be filtered by their attribute values. Each filter is keyed by the alert
@@ -56338,6 +59057,56 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /v2/alerts/{id} (the `AlertsV2Show` operationId).
 	AlertsV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertsV2ShowResponse, error)
 
+	// AlertsV2AddTagsWithBodyWithResponse AddTags Alerts V2
+	//
+	// Add tags to an alert without changing its existing tags.
+	//
+	// Each tag must specify exactly one of id or name. A name that does not exist is created,
+	// except on private alerts, where only names already in the organisation's tag vocabulary
+	// can be used. Tags that are already present are ignored.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/alerts/{id}/actions/add_tags (the `AlertsV2AddTags` operationId).
+	AlertsV2AddTagsWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertsV2AddTagsResponse, error)
+
+	// AlertsV2AddTagsWithResponse AddTags Alerts V2
+	//
+	// Add tags to an alert without changing its existing tags.
+	//
+	// Each tag must specify exactly one of id or name. A name that does not exist is created,
+	// except on private alerts, where only names already in the organisation's tag vocabulary
+	// can be used. Tags that are already present are ignored.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/alerts/{id}/actions/add_tags (the `AlertsV2AddTags` operationId).
+	AlertsV2AddTagsWithResponse(ctx context.Context, id string, body AlertsV2AddTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertsV2AddTagsResponse, error)
+
+	// AlertsV2RemoveTagsWithBodyWithResponse RemoveTags Alerts V2
+	//
+	// Remove tags from an alert without changing its other tags.
+	//
+	// Each tag must specify exactly one of id or name. Tags that are not present on the alert
+	// are ignored.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/alerts/{id}/actions/remove_tags (the `AlertsV2RemoveTags` operationId).
+	AlertsV2RemoveTagsWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertsV2RemoveTagsResponse, error)
+
+	// AlertsV2RemoveTagsWithResponse RemoveTags Alerts V2
+	//
+	// Remove tags from an alert without changing its other tags.
+	//
+	// Each tag must specify exactly one of id or name. Tags that are not present on the alert
+	// are ignored.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/alerts/{id}/actions/remove_tags (the `AlertsV2RemoveTags` operationId).
+	AlertsV2RemoveTagsWithResponse(ctx context.Context, id string, body AlertsV2RemoveTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertsV2RemoveTagsResponse, error)
+
 	// AlertsV2ResolveWithResponse Resolve Alerts V2
 	//
 	// Resolve a currently firing alert.
@@ -56352,6 +59121,222 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with POST /v2/alerts/{id}/actions/resolve (the `AlertsV2Resolve` operationId).
 	AlertsV2ResolveWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*AlertsV2ResolveResponse, error)
+
+	// AlertsV2SetTagsWithBodyWithResponse SetTags Alerts V2
+	//
+	// Replace all tags on an alert.
+	//
+	// Each tag must specify exactly one of id or name. A name that does not exist is created,
+	// except on private alerts, where only names already in the organisation's tag vocabulary
+	// can be used. Passing an empty list removes every tag.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/alerts/{id}/actions/set_tags (the `AlertsV2SetTags` operationId).
+	AlertsV2SetTagsWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertsV2SetTagsResponse, error)
+
+	// AlertsV2SetTagsWithResponse SetTags Alerts V2
+	//
+	// Replace all tags on an alert.
+	//
+	// Each tag must specify exactly one of id or name. A name that does not exist is created,
+	// except on private alerts, where only names already in the organisation's tag vocabulary
+	// can be used. Passing an empty list removes every tag.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/alerts/{id}/actions/set_tags (the `AlertsV2SetTags` operationId).
+	AlertsV2SetTagsWithResponse(ctx context.Context, id string, body AlertsV2SetTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertsV2SetTagsResponse, error)
+
+	// CallRoutesV2ListWithResponse List Call Routes V2
+	//
+	// List all call routes for this organisation.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/call_routes (the `CallRoutesV2List` operationId).
+	CallRoutesV2ListWithResponse(ctx context.Context, params *CallRoutesV2ListParams, reqEditors ...RequestEditorFn) (*CallRoutesV2ListResponse, error)
+
+	// CallRoutesV2ListAllowedCallersWithResponse ListAllowedCallers Call Routes V2
+	//
+	// List the numbers allowed to call a route.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV2ListAllowedCallers` operationId).
+	CallRoutesV2ListAllowedCallersWithResponse(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*CallRoutesV2ListAllowedCallersResponse, error)
+
+	// CallRoutesV2CreateAllowedCallerWithBodyWithResponse CreateAllowedCaller Call Routes V2
+	//
+	// Allow a number to call this route.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV2CreateAllowedCaller` operationId).
+	CallRoutesV2CreateAllowedCallerWithBodyWithResponse(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV2CreateAllowedCallerResponse, error)
+
+	// CallRoutesV2CreateAllowedCallerWithResponse CreateAllowedCaller Call Routes V2
+	//
+	// Allow a number to call this route.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV2CreateAllowedCaller` operationId).
+	CallRoutesV2CreateAllowedCallerWithResponse(ctx context.Context, callRouteId string, body CallRoutesV2CreateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV2CreateAllowedCallerResponse, error)
+
+	// CallRoutesV2DestroyAllowedCallerWithResponse DestroyAllowedCaller Call Routes V2
+	//
+	// Stop allowing a number to call this route.
+	//
+	// A route that only answers its allowed callers must keep at least one, so turn
+	// use_caller_allowlist off before removing the last number.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2DestroyAllowedCaller` operationId).
+	CallRoutesV2DestroyAllowedCallerWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV2DestroyAllowedCallerResponse, error)
+
+	// CallRoutesV2ShowAllowedCallerWithResponse ShowAllowedCaller Call Routes V2
+	//
+	// Show a single allowed caller.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2ShowAllowedCaller` operationId).
+	CallRoutesV2ShowAllowedCallerWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV2ShowAllowedCallerResponse, error)
+
+	// CallRoutesV2UpdateAllowedCallerWithBodyWithResponse UpdateAllowedCaller Call Routes V2
+	//
+	// Replace an allowed caller's number and label.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2UpdateAllowedCaller` operationId).
+	CallRoutesV2UpdateAllowedCallerWithBodyWithResponse(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV2UpdateAllowedCallerResponse, error)
+
+	// CallRoutesV2UpdateAllowedCallerWithResponse UpdateAllowedCaller Call Routes V2
+	//
+	// Replace an allowed caller's number and label.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2UpdateAllowedCaller` operationId).
+	CallRoutesV2UpdateAllowedCallerWithResponse(ctx context.Context, callRouteId string, id string, body CallRoutesV2UpdateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV2UpdateAllowedCallerResponse, error)
+
+	// CallRoutesV2ListOptionsWithResponse ListOptions Call Routes V2
+	//
+	// List a call route's phone-tree options, in the order callers hear them.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/call_routes/{call_route_id}/options (the `CallRoutesV2ListOptions` operationId).
+	CallRoutesV2ListOptionsWithResponse(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*CallRoutesV2ListOptionsResponse, error)
+
+	// CallRoutesV2CreateOptionWithBodyWithResponse CreateOption Call Routes V2
+	//
+	// Add an option to a call route's phone-tree menu.
+	//
+	// Callers hear the menu instead of being routed down the route's own path, so
+	// adding the first option clears that path. Every plan allows a single option. A
+	// menu of two or more options is not on every plan, so get in touch if you need
+	// one enabled.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/call_routes/{call_route_id}/options (the `CallRoutesV2CreateOption` operationId).
+	CallRoutesV2CreateOptionWithBodyWithResponse(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV2CreateOptionResponse, error)
+
+	// CallRoutesV2CreateOptionWithResponse CreateOption Call Routes V2
+	//
+	// Add an option to a call route's phone-tree menu.
+	//
+	// Callers hear the menu instead of being routed down the route's own path, so
+	// adding the first option clears that path. Every plan allows a single option. A
+	// menu of two or more options is not on every plan, so get in touch if you need
+	// one enabled.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v2/call_routes/{call_route_id}/options (the `CallRoutesV2CreateOption` operationId).
+	CallRoutesV2CreateOptionWithResponse(ctx context.Context, callRouteId string, body CallRoutesV2CreateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV2CreateOptionResponse, error)
+
+	// CallRoutesV2DestroyOptionWithResponse DestroyOption Call Routes V2
+	//
+	// Remove an option from a call route's phone-tree menu.
+	//
+	// A route has to route calls somewhere, so give it a path before removing its last
+	// option.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2DestroyOption` operationId).
+	CallRoutesV2DestroyOptionWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV2DestroyOptionResponse, error)
+
+	// CallRoutesV2ShowOptionWithResponse ShowOption Call Routes V2
+	//
+	// Show a single phone-tree option.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2ShowOption` operationId).
+	CallRoutesV2ShowOptionWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV2ShowOptionResponse, error)
+
+	// CallRoutesV2UpdateOptionWithBodyWithResponse UpdateOption Call Routes V2
+	//
+	// Replace a phone-tree option.
+	//
+	// Two live options can't share a digit, so moving an option onto a digit the menu
+	// already uses is rejected.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2UpdateOption` operationId).
+	CallRoutesV2UpdateOptionWithBodyWithResponse(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV2UpdateOptionResponse, error)
+
+	// CallRoutesV2UpdateOptionWithResponse UpdateOption Call Routes V2
+	//
+	// Replace a phone-tree option.
+	//
+	// Two live options can't share a digit, so moving an option onto a digit the menu
+	// already uses is rejected.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2UpdateOption` operationId).
+	CallRoutesV2UpdateOptionWithResponse(ctx context.Context, callRouteId string, id string, body CallRoutesV2UpdateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV2UpdateOptionResponse, error)
+
+	// CallRoutesV2ShowWithResponse Show Call Routes V2
+	//
+	// Show a single call route.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/call_routes/{id} (the `CallRoutesV2Show` operationId).
+	CallRoutesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CallRoutesV2ShowResponse, error)
+
+	// CallRoutesV2UpdateWithBodyWithResponse Update Call Routes V2
+	//
+	// Replace a call route's configuration.
+	//
+	// Sending a path retires any phone-tree menu on the route. Send an empty path to
+	// keep the menu.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/call_routes/{id} (the `CallRoutesV2Update` operationId).
+	CallRoutesV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV2UpdateResponse, error)
+
+	// CallRoutesV2UpdateWithResponse Update Call Routes V2
+	//
+	// Replace a call route's configuration.
+	//
+	// Sending a path retires any phone-tree menu on the route. Send an empty path to
+	// keep the menu.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v2/call_routes/{id} (the `CallRoutesV2Update` operationId).
+	CallRoutesV2UpdateWithResponse(ctx context.Context, id string, body CallRoutesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV2UpdateResponse, error)
 
 	// CallSessionsV2ListWithResponse List Call Sessions V2
 	//
@@ -72582,6 +75567,138 @@ func (r AlertSourcesV2UpdateResponse) ContentType() string {
 	return ""
 }
 
+type AlertsV2ListAlertTagsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertsListAlertTagsResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON200() *AlertsListAlertTagsResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AlertsV2ListAlertTagsResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertsV2ListAlertTagsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertsV2ListAlertTagsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertsV2ListAlertTagsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertsV2ListAlertTagsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type AlertsV2ListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -72846,6 +75963,270 @@ func (r AlertsV2ShowResponse) ContentType() string {
 	return ""
 }
 
+type AlertsV2AddTagsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertsAddTagsResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON200() *AlertsAddTagsResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AlertsV2AddTagsResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertsV2AddTagsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertsV2AddTagsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertsV2AddTagsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertsV2AddTagsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertsV2RemoveTagsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertsRemoveTagsResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON200() *AlertsRemoveTagsResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AlertsV2RemoveTagsResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertsV2RemoveTagsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertsV2RemoveTagsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertsV2RemoveTagsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertsV2RemoveTagsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type AlertsV2ResolveResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -72972,6 +76353,1840 @@ func (r AlertsV2ResolveResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r AlertsV2ResolveResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type AlertsV2SetTagsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AlertsSetTagsResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON200() *AlertsSetTagsResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r AlertsV2SetTagsResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r AlertsV2SetTagsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r AlertsV2SetTagsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AlertsV2SetTagsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r AlertsV2SetTagsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2ListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesListResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON200() *CallRoutesListResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2ListResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2ListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2ListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2ListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2ListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2ListAllowedCallersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesListAllowedCallersResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON200() *CallRoutesListAllowedCallersResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2ListAllowedCallersResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2ListAllowedCallersResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2ListAllowedCallersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2ListAllowedCallersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2ListAllowedCallersResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2CreateAllowedCallerResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *CallRoutesCreateAllowedCallerResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON201() *CallRoutesCreateAllowedCallerResultV2 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2CreateAllowedCallerResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2CreateAllowedCallerResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2CreateAllowedCallerResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2CreateAllowedCallerResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2CreateAllowedCallerResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2DestroyAllowedCallerResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2DestroyAllowedCallerResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2DestroyAllowedCallerResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2DestroyAllowedCallerResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2DestroyAllowedCallerResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2ShowAllowedCallerResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesShowAllowedCallerResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON200() *CallRoutesShowAllowedCallerResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2ShowAllowedCallerResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2ShowAllowedCallerResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2ShowAllowedCallerResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2ShowAllowedCallerResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2ShowAllowedCallerResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2UpdateAllowedCallerResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesUpdateAllowedCallerResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON200() *CallRoutesUpdateAllowedCallerResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2UpdateAllowedCallerResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2UpdateAllowedCallerResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2UpdateAllowedCallerResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2UpdateAllowedCallerResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2ListOptionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesListOptionsResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON200() *CallRoutesListOptionsResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2ListOptionsResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2ListOptionsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2ListOptionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2ListOptionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2ListOptionsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2CreateOptionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON201 the response for an HTTP 201 `application/json` response
+	JSON201 *CallRoutesCreateOptionResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON201 returns the response for an HTTP 201 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON201() *CallRoutesCreateOptionResultV2 {
+	return r.JSON201
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2CreateOptionResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2CreateOptionResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2CreateOptionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2CreateOptionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2CreateOptionResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2DestroyOptionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2DestroyOptionResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2DestroyOptionResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2DestroyOptionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2DestroyOptionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2DestroyOptionResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2ShowOptionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesShowOptionResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON200() *CallRoutesShowOptionResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2ShowOptionResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2ShowOptionResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2ShowOptionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2ShowOptionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2ShowOptionResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2UpdateOptionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesUpdateOptionResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON200() *CallRoutesUpdateOptionResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2UpdateOptionResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2UpdateOptionResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2UpdateOptionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2UpdateOptionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2UpdateOptionResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2ShowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesShowResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON200() *CallRoutesShowResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2ShowResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2ShowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2ShowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2ShowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2ShowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CallRoutesV2UpdateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CallRoutesUpdateResultV2
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *ErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *ErrorResponse
+	// JSON405 the response for an HTTP 405 `application/json` response
+	JSON405 *ErrorResponse
+	// JSON406 the response for an HTTP 406 `application/json` response
+	JSON406 *ErrorResponse
+	// JSON408 the response for an HTTP 408 `application/json` response
+	JSON408 *ErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *ErrorResponse
+	// JSON413 the response for an HTTP 413 `application/json` response
+	JSON413 *ErrorResponse
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *ErrorResponse
+	// JSON429 the response for an HTTP 429 `application/json` response
+	JSON429 *ErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON200() *CallRoutesUpdateResultV2 {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON401() *ErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON403() *ErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON404() *ErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON405 returns the response for an HTTP 405 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON405() *ErrorResponse {
+	return r.JSON405
+}
+
+// GetJSON406 returns the response for an HTTP 406 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON406() *ErrorResponse {
+	return r.JSON406
+}
+
+// GetJSON408 returns the response for an HTTP 408 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON408() *ErrorResponse {
+	return r.JSON408
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON409() *ErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON412() *ErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON413 returns the response for an HTTP 413 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON413() *ErrorResponse {
+	return r.JSON413
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON422() *ErrorResponse {
+	return r.JSON422
+}
+
+// GetJSON429 returns the response for an HTTP 429 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON429() *ErrorResponse {
+	return r.JSON429
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r CallRoutesV2UpdateResponse) GetJSON500() *ErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r CallRoutesV2UpdateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r CallRoutesV2UpdateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CallRoutesV2UpdateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CallRoutesV2UpdateResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -100320,6 +105535,30 @@ func (c *ClientWithResponses) AlertSourcesV2UpdateWithResponse(ctx context.Conte
 	return ParseAlertSourcesV2UpdateResponse(rsp)
 }
 
+// AlertsV2ListAlertTagsWithResponse ListAlertTags Alerts V2
+//
+// List the alert tags in your organisation's vocabulary.
+//
+// Alert tags are the reusable labels you can apply to alerts. This endpoint lists the
+// organisation's active tags, ordered by name, and excludes archived tags.
+//
+// To narrow the list, filter by search, which matches tags whose name contains the given
+// value (case-insensitive):
+//
+//	curl --get 'https://api.incident.io/v2/alert_tags' \
+//		--data 'search=noisy'
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/alert_tags (the `AlertsV2ListAlertTags` operationId).
+func (c *ClientWithResponses) AlertsV2ListAlertTagsWithResponse(ctx context.Context, params *AlertsV2ListAlertTagsParams, reqEditors ...RequestEditorFn) (*AlertsV2ListAlertTagsResponse, error) {
+	rsp, err := c.AlertsV2ListAlertTags(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertsV2ListAlertTagsResponse(rsp)
+}
+
 // AlertsV2ListWithResponse List Alerts V2
 //
 // List all alerts for your account.
@@ -100404,6 +105643,26 @@ func (c *ClientWithResponses) AlertSourcesV2UpdateWithResponse(ctx context.Conte
 //	curl --get 'https://api.incident.io/v2/alerts' \
 //		--data 'has_notes[is]=false'
 //
+// ### By tags
+//
+// Filter by tag ID. Name filtering is not supported.
+//
+// Find all alerts that have any of the given tags:
+//
+//	curl --get 'https://api.incident.io/v2/alerts' \
+//		--data 'tags[one_of]=01GBSQF3FHF7FWZQNWGHAVQ804'
+//
+// Find all alerts that have all of the given tags:
+//
+//	curl --get 'https://api.incident.io/v2/alerts' \
+//		--data 'tags[all_of]=01GBSQF3FHF7FWZQNWGHAVQ804' \
+//		--data 'tags[all_of]=01ET65M7ZARSFZ6TFDFVQDN9AA'
+//
+// Find all alerts that do not have any of the given tags. Untagged alerts are included:
+//
+//	curl --get 'https://api.incident.io/v2/alerts' \
+//		--data 'tags[not_in]=01GBSQF3FHF7FWZQNWGHAVQ804'
+//
 // ### By attributes
 //
 // Alerts can be filtered by their attribute values. Each filter is keyed by the alert
@@ -100452,6 +105711,80 @@ func (c *ClientWithResponses) AlertsV2ShowWithResponse(ctx context.Context, id s
 	return ParseAlertsV2ShowResponse(rsp)
 }
 
+// AlertsV2AddTagsWithBodyWithResponse AddTags Alerts V2
+//
+// Add tags to an alert without changing its existing tags.
+//
+// Each tag must specify exactly one of id or name. A name that does not exist is created,
+// except on private alerts, where only names already in the organisation's tag vocabulary
+// can be used. Tags that are already present are ignored.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/alerts/{id}/actions/add_tags (the `AlertsV2AddTags` operationId).
+func (c *ClientWithResponses) AlertsV2AddTagsWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertsV2AddTagsResponse, error) {
+	rsp, err := c.AlertsV2AddTagsWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertsV2AddTagsResponse(rsp)
+}
+
+// AlertsV2AddTagsWithResponse AddTags Alerts V2
+//
+// Add tags to an alert without changing its existing tags.
+//
+// Each tag must specify exactly one of id or name. A name that does not exist is created,
+// except on private alerts, where only names already in the organisation's tag vocabulary
+// can be used. Tags that are already present are ignored.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/alerts/{id}/actions/add_tags (the `AlertsV2AddTags` operationId).
+func (c *ClientWithResponses) AlertsV2AddTagsWithResponse(ctx context.Context, id string, body AlertsV2AddTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertsV2AddTagsResponse, error) {
+	rsp, err := c.AlertsV2AddTags(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertsV2AddTagsResponse(rsp)
+}
+
+// AlertsV2RemoveTagsWithBodyWithResponse RemoveTags Alerts V2
+//
+// Remove tags from an alert without changing its other tags.
+//
+// Each tag must specify exactly one of id or name. Tags that are not present on the alert
+// are ignored.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/alerts/{id}/actions/remove_tags (the `AlertsV2RemoveTags` operationId).
+func (c *ClientWithResponses) AlertsV2RemoveTagsWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertsV2RemoveTagsResponse, error) {
+	rsp, err := c.AlertsV2RemoveTagsWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertsV2RemoveTagsResponse(rsp)
+}
+
+// AlertsV2RemoveTagsWithResponse RemoveTags Alerts V2
+//
+// Remove tags from an alert without changing its other tags.
+//
+// Each tag must specify exactly one of id or name. Tags that are not present on the alert
+// are ignored.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/alerts/{id}/actions/remove_tags (the `AlertsV2RemoveTags` operationId).
+func (c *ClientWithResponses) AlertsV2RemoveTagsWithResponse(ctx context.Context, id string, body AlertsV2RemoveTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertsV2RemoveTagsResponse, error) {
+	rsp, err := c.AlertsV2RemoveTags(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertsV2RemoveTagsResponse(rsp)
+}
+
 // AlertsV2ResolveWithResponse Resolve Alerts V2
 //
 // Resolve a currently firing alert.
@@ -100471,6 +105804,342 @@ func (c *ClientWithResponses) AlertsV2ResolveWithResponse(ctx context.Context, i
 		return nil, err
 	}
 	return ParseAlertsV2ResolveResponse(rsp)
+}
+
+// AlertsV2SetTagsWithBodyWithResponse SetTags Alerts V2
+//
+// Replace all tags on an alert.
+//
+// Each tag must specify exactly one of id or name. A name that does not exist is created,
+// except on private alerts, where only names already in the organisation's tag vocabulary
+// can be used. Passing an empty list removes every tag.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/alerts/{id}/actions/set_tags (the `AlertsV2SetTags` operationId).
+func (c *ClientWithResponses) AlertsV2SetTagsWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AlertsV2SetTagsResponse, error) {
+	rsp, err := c.AlertsV2SetTagsWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertsV2SetTagsResponse(rsp)
+}
+
+// AlertsV2SetTagsWithResponse SetTags Alerts V2
+//
+// Replace all tags on an alert.
+//
+// Each tag must specify exactly one of id or name. A name that does not exist is created,
+// except on private alerts, where only names already in the organisation's tag vocabulary
+// can be used. Passing an empty list removes every tag.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/alerts/{id}/actions/set_tags (the `AlertsV2SetTags` operationId).
+func (c *ClientWithResponses) AlertsV2SetTagsWithResponse(ctx context.Context, id string, body AlertsV2SetTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*AlertsV2SetTagsResponse, error) {
+	rsp, err := c.AlertsV2SetTags(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAlertsV2SetTagsResponse(rsp)
+}
+
+// CallRoutesV2ListWithResponse List Call Routes V2
+//
+// List all call routes for this organisation.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/call_routes (the `CallRoutesV2List` operationId).
+func (c *ClientWithResponses) CallRoutesV2ListWithResponse(ctx context.Context, params *CallRoutesV2ListParams, reqEditors ...RequestEditorFn) (*CallRoutesV2ListResponse, error) {
+	rsp, err := c.CallRoutesV2List(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2ListResponse(rsp)
+}
+
+// CallRoutesV2ListAllowedCallersWithResponse ListAllowedCallers Call Routes V2
+//
+// List the numbers allowed to call a route.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV2ListAllowedCallers` operationId).
+func (c *ClientWithResponses) CallRoutesV2ListAllowedCallersWithResponse(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*CallRoutesV2ListAllowedCallersResponse, error) {
+	rsp, err := c.CallRoutesV2ListAllowedCallers(ctx, callRouteId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2ListAllowedCallersResponse(rsp)
+}
+
+// CallRoutesV2CreateAllowedCallerWithBodyWithResponse CreateAllowedCaller Call Routes V2
+//
+// Allow a number to call this route.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV2CreateAllowedCaller` operationId).
+func (c *ClientWithResponses) CallRoutesV2CreateAllowedCallerWithBodyWithResponse(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV2CreateAllowedCallerResponse, error) {
+	rsp, err := c.CallRoutesV2CreateAllowedCallerWithBody(ctx, callRouteId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2CreateAllowedCallerResponse(rsp)
+}
+
+// CallRoutesV2CreateAllowedCallerWithResponse CreateAllowedCaller Call Routes V2
+//
+// Allow a number to call this route.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/call_routes/{call_route_id}/allowed_callers (the `CallRoutesV2CreateAllowedCaller` operationId).
+func (c *ClientWithResponses) CallRoutesV2CreateAllowedCallerWithResponse(ctx context.Context, callRouteId string, body CallRoutesV2CreateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV2CreateAllowedCallerResponse, error) {
+	rsp, err := c.CallRoutesV2CreateAllowedCaller(ctx, callRouteId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2CreateAllowedCallerResponse(rsp)
+}
+
+// CallRoutesV2DestroyAllowedCallerWithResponse DestroyAllowedCaller Call Routes V2
+//
+// Stop allowing a number to call this route.
+//
+// A route that only answers its allowed callers must keep at least one, so turn
+// use_caller_allowlist off before removing the last number.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2DestroyAllowedCaller` operationId).
+func (c *ClientWithResponses) CallRoutesV2DestroyAllowedCallerWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV2DestroyAllowedCallerResponse, error) {
+	rsp, err := c.CallRoutesV2DestroyAllowedCaller(ctx, callRouteId, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2DestroyAllowedCallerResponse(rsp)
+}
+
+// CallRoutesV2ShowAllowedCallerWithResponse ShowAllowedCaller Call Routes V2
+//
+// Show a single allowed caller.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2ShowAllowedCaller` operationId).
+func (c *ClientWithResponses) CallRoutesV2ShowAllowedCallerWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV2ShowAllowedCallerResponse, error) {
+	rsp, err := c.CallRoutesV2ShowAllowedCaller(ctx, callRouteId, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2ShowAllowedCallerResponse(rsp)
+}
+
+// CallRoutesV2UpdateAllowedCallerWithBodyWithResponse UpdateAllowedCaller Call Routes V2
+//
+// Replace an allowed caller's number and label.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2UpdateAllowedCaller` operationId).
+func (c *ClientWithResponses) CallRoutesV2UpdateAllowedCallerWithBodyWithResponse(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV2UpdateAllowedCallerResponse, error) {
+	rsp, err := c.CallRoutesV2UpdateAllowedCallerWithBody(ctx, callRouteId, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2UpdateAllowedCallerResponse(rsp)
+}
+
+// CallRoutesV2UpdateAllowedCallerWithResponse UpdateAllowedCaller Call Routes V2
+//
+// Replace an allowed caller's number and label.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/call_routes/{call_route_id}/allowed_callers/{id} (the `CallRoutesV2UpdateAllowedCaller` operationId).
+func (c *ClientWithResponses) CallRoutesV2UpdateAllowedCallerWithResponse(ctx context.Context, callRouteId string, id string, body CallRoutesV2UpdateAllowedCallerJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV2UpdateAllowedCallerResponse, error) {
+	rsp, err := c.CallRoutesV2UpdateAllowedCaller(ctx, callRouteId, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2UpdateAllowedCallerResponse(rsp)
+}
+
+// CallRoutesV2ListOptionsWithResponse ListOptions Call Routes V2
+//
+// List a call route's phone-tree options, in the order callers hear them.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/call_routes/{call_route_id}/options (the `CallRoutesV2ListOptions` operationId).
+func (c *ClientWithResponses) CallRoutesV2ListOptionsWithResponse(ctx context.Context, callRouteId string, reqEditors ...RequestEditorFn) (*CallRoutesV2ListOptionsResponse, error) {
+	rsp, err := c.CallRoutesV2ListOptions(ctx, callRouteId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2ListOptionsResponse(rsp)
+}
+
+// CallRoutesV2CreateOptionWithBodyWithResponse CreateOption Call Routes V2
+//
+// Add an option to a call route's phone-tree menu.
+//
+// Callers hear the menu instead of being routed down the route's own path, so
+// adding the first option clears that path. Every plan allows a single option. A
+// menu of two or more options is not on every plan, so get in touch if you need
+// one enabled.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/call_routes/{call_route_id}/options (the `CallRoutesV2CreateOption` operationId).
+func (c *ClientWithResponses) CallRoutesV2CreateOptionWithBodyWithResponse(ctx context.Context, callRouteId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV2CreateOptionResponse, error) {
+	rsp, err := c.CallRoutesV2CreateOptionWithBody(ctx, callRouteId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2CreateOptionResponse(rsp)
+}
+
+// CallRoutesV2CreateOptionWithResponse CreateOption Call Routes V2
+//
+// Add an option to a call route's phone-tree menu.
+//
+// Callers hear the menu instead of being routed down the route's own path, so
+// adding the first option clears that path. Every plan allows a single option. A
+// menu of two or more options is not on every plan, so get in touch if you need
+// one enabled.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v2/call_routes/{call_route_id}/options (the `CallRoutesV2CreateOption` operationId).
+func (c *ClientWithResponses) CallRoutesV2CreateOptionWithResponse(ctx context.Context, callRouteId string, body CallRoutesV2CreateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV2CreateOptionResponse, error) {
+	rsp, err := c.CallRoutesV2CreateOption(ctx, callRouteId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2CreateOptionResponse(rsp)
+}
+
+// CallRoutesV2DestroyOptionWithResponse DestroyOption Call Routes V2
+//
+// Remove an option from a call route's phone-tree menu.
+//
+// A route has to route calls somewhere, so give it a path before removing its last
+// option.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2DestroyOption` operationId).
+func (c *ClientWithResponses) CallRoutesV2DestroyOptionWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV2DestroyOptionResponse, error) {
+	rsp, err := c.CallRoutesV2DestroyOption(ctx, callRouteId, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2DestroyOptionResponse(rsp)
+}
+
+// CallRoutesV2ShowOptionWithResponse ShowOption Call Routes V2
+//
+// Show a single phone-tree option.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2ShowOption` operationId).
+func (c *ClientWithResponses) CallRoutesV2ShowOptionWithResponse(ctx context.Context, callRouteId string, id string, reqEditors ...RequestEditorFn) (*CallRoutesV2ShowOptionResponse, error) {
+	rsp, err := c.CallRoutesV2ShowOption(ctx, callRouteId, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2ShowOptionResponse(rsp)
+}
+
+// CallRoutesV2UpdateOptionWithBodyWithResponse UpdateOption Call Routes V2
+//
+// Replace a phone-tree option.
+//
+// Two live options can't share a digit, so moving an option onto a digit the menu
+// already uses is rejected.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2UpdateOption` operationId).
+func (c *ClientWithResponses) CallRoutesV2UpdateOptionWithBodyWithResponse(ctx context.Context, callRouteId string, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV2UpdateOptionResponse, error) {
+	rsp, err := c.CallRoutesV2UpdateOptionWithBody(ctx, callRouteId, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2UpdateOptionResponse(rsp)
+}
+
+// CallRoutesV2UpdateOptionWithResponse UpdateOption Call Routes V2
+//
+// Replace a phone-tree option.
+//
+// Two live options can't share a digit, so moving an option onto a digit the menu
+// already uses is rejected.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/call_routes/{call_route_id}/options/{id} (the `CallRoutesV2UpdateOption` operationId).
+func (c *ClientWithResponses) CallRoutesV2UpdateOptionWithResponse(ctx context.Context, callRouteId string, id string, body CallRoutesV2UpdateOptionJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV2UpdateOptionResponse, error) {
+	rsp, err := c.CallRoutesV2UpdateOption(ctx, callRouteId, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2UpdateOptionResponse(rsp)
+}
+
+// CallRoutesV2ShowWithResponse Show Call Routes V2
+//
+// Show a single call route.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/call_routes/{id} (the `CallRoutesV2Show` operationId).
+func (c *ClientWithResponses) CallRoutesV2ShowWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*CallRoutesV2ShowResponse, error) {
+	rsp, err := c.CallRoutesV2Show(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2ShowResponse(rsp)
+}
+
+// CallRoutesV2UpdateWithBodyWithResponse Update Call Routes V2
+//
+// Replace a call route's configuration.
+//
+// Sending a path retires any phone-tree menu on the route. Send an empty path to
+// keep the menu.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/call_routes/{id} (the `CallRoutesV2Update` operationId).
+func (c *ClientWithResponses) CallRoutesV2UpdateWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CallRoutesV2UpdateResponse, error) {
+	rsp, err := c.CallRoutesV2UpdateWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2UpdateResponse(rsp)
+}
+
+// CallRoutesV2UpdateWithResponse Update Call Routes V2
+//
+// Replace a call route's configuration.
+//
+// Sending a path retires any phone-tree menu on the route. Send an empty path to
+// keep the menu.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v2/call_routes/{id} (the `CallRoutesV2Update` operationId).
+func (c *ClientWithResponses) CallRoutesV2UpdateWithResponse(ctx context.Context, id string, body CallRoutesV2UpdateJSONRequestBody, reqEditors ...RequestEditorFn) (*CallRoutesV2UpdateResponse, error) {
+	rsp, err := c.CallRoutesV2Update(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCallRoutesV2UpdateResponse(rsp)
 }
 
 // CallSessionsV2ListWithResponse List Call Sessions V2
@@ -116940,6 +122609,123 @@ func ParseAlertSourcesV2UpdateResponse(rsp *http.Response) (*AlertSourcesV2Updat
 	return response, nil
 }
 
+// ParseAlertsV2ListAlertTagsResponse parses an HTTP response from a AlertsV2ListAlertTagsWithResponse call
+func ParseAlertsV2ListAlertTagsResponse(rsp *http.Response) (*AlertsV2ListAlertTagsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertsV2ListAlertTagsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertsListAlertTagsResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseAlertsV2ListResponse parses an HTTP response from a AlertsV2ListWithResponse call
 func ParseAlertsV2ListResponse(rsp *http.Response) (*AlertsV2ListResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -117174,6 +122960,240 @@ func ParseAlertsV2ShowResponse(rsp *http.Response) (*AlertsV2ShowResponse, error
 	return response, nil
 }
 
+// ParseAlertsV2AddTagsResponse parses an HTTP response from a AlertsV2AddTagsWithResponse call
+func ParseAlertsV2AddTagsResponse(rsp *http.Response) (*AlertsV2AddTagsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertsV2AddTagsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertsAddTagsResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertsV2RemoveTagsResponse parses an HTTP response from a AlertsV2RemoveTagsWithResponse call
+func ParseAlertsV2RemoveTagsResponse(rsp *http.Response) (*AlertsV2RemoveTagsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertsV2RemoveTagsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertsRemoveTagsResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseAlertsV2ResolveResponse parses an HTTP response from a AlertsV2ResolveWithResponse call
 func ParseAlertsV2ResolveResponse(rsp *http.Response) (*AlertsV2ResolveResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -117190,6 +123210,1636 @@ func ParseAlertsV2ResolveResponse(rsp *http.Response) (*AlertsV2ResolveResponse,
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest AlertsResolveResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAlertsV2SetTagsResponse parses an HTTP response from a AlertsV2SetTagsWithResponse call
+func ParseAlertsV2SetTagsResponse(rsp *http.Response) (*AlertsV2SetTagsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AlertsV2SetTagsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AlertsSetTagsResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2ListResponse parses an HTTP response from a CallRoutesV2ListWithResponse call
+func ParseCallRoutesV2ListResponse(rsp *http.Response) (*CallRoutesV2ListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2ListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesListResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2ListAllowedCallersResponse parses an HTTP response from a CallRoutesV2ListAllowedCallersWithResponse call
+func ParseCallRoutesV2ListAllowedCallersResponse(rsp *http.Response) (*CallRoutesV2ListAllowedCallersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2ListAllowedCallersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesListAllowedCallersResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2CreateAllowedCallerResponse parses an HTTP response from a CallRoutesV2CreateAllowedCallerWithResponse call
+func ParseCallRoutesV2CreateAllowedCallerResponse(rsp *http.Response) (*CallRoutesV2CreateAllowedCallerResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2CreateAllowedCallerResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CallRoutesCreateAllowedCallerResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2DestroyAllowedCallerResponse parses an HTTP response from a CallRoutesV2DestroyAllowedCallerWithResponse call
+func ParseCallRoutesV2DestroyAllowedCallerResponse(rsp *http.Response) (*CallRoutesV2DestroyAllowedCallerResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2DestroyAllowedCallerResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2ShowAllowedCallerResponse parses an HTTP response from a CallRoutesV2ShowAllowedCallerWithResponse call
+func ParseCallRoutesV2ShowAllowedCallerResponse(rsp *http.Response) (*CallRoutesV2ShowAllowedCallerResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2ShowAllowedCallerResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesShowAllowedCallerResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2UpdateAllowedCallerResponse parses an HTTP response from a CallRoutesV2UpdateAllowedCallerWithResponse call
+func ParseCallRoutesV2UpdateAllowedCallerResponse(rsp *http.Response) (*CallRoutesV2UpdateAllowedCallerResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2UpdateAllowedCallerResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesUpdateAllowedCallerResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2ListOptionsResponse parses an HTTP response from a CallRoutesV2ListOptionsWithResponse call
+func ParseCallRoutesV2ListOptionsResponse(rsp *http.Response) (*CallRoutesV2ListOptionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2ListOptionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesListOptionsResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2CreateOptionResponse parses an HTTP response from a CallRoutesV2CreateOptionWithResponse call
+func ParseCallRoutesV2CreateOptionResponse(rsp *http.Response) (*CallRoutesV2CreateOptionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2CreateOptionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CallRoutesCreateOptionResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2DestroyOptionResponse parses an HTTP response from a CallRoutesV2DestroyOptionWithResponse call
+func ParseCallRoutesV2DestroyOptionResponse(rsp *http.Response) (*CallRoutesV2DestroyOptionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2DestroyOptionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2ShowOptionResponse parses an HTTP response from a CallRoutesV2ShowOptionWithResponse call
+func ParseCallRoutesV2ShowOptionResponse(rsp *http.Response) (*CallRoutesV2ShowOptionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2ShowOptionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesShowOptionResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2UpdateOptionResponse parses an HTTP response from a CallRoutesV2UpdateOptionWithResponse call
+func ParseCallRoutesV2UpdateOptionResponse(rsp *http.Response) (*CallRoutesV2UpdateOptionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2UpdateOptionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesUpdateOptionResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2ShowResponse parses an HTTP response from a CallRoutesV2ShowWithResponse call
+func ParseCallRoutesV2ShowResponse(rsp *http.Response) (*CallRoutesV2ShowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2ShowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesShowResultV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 406:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON406 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 408:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON408 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCallRoutesV2UpdateResponse parses an HTTP response from a CallRoutesV2UpdateWithResponse call
+func ParseCallRoutesV2UpdateResponse(rsp *http.Response) (*CallRoutesV2UpdateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CallRoutesV2UpdateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CallRoutesUpdateResultV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
