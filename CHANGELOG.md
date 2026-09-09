@@ -1,5 +1,6 @@
 ## Unreleased
 
+- `incident_api_key` and `incident_secret` now claim the key or secret they manage, the way every other managed resource does. Neither did before, so a key or secret Terraform created still looked dashboard-managed: the dashboard offered to edit it, and the next apply put its own configuration back over the change. Both now send the `incident.io/terraform/version` annotation, so the dashboard shows the resource as synced, refuses to edit it, and offers to disconnect one you want to hand back. The claim happens on create, on update, and on import - the last subject to `mark_imported_resources_as_managed`, like every other resource. It needs a version of incident.io that knows `api_key` and `secret` as managed-resource types; against an older one the claim is rejected and the apply reports it.
 - Fix `incident_catalog_type` being replaced, losing its entries, whenever another attribute changed
 - Fix `incident_catalog_type_attribute` making an array attribute scalar when `array` is omitted
 - Fix `navigate` in expressions, which never resolved against a catalog attribute
