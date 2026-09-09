@@ -103,6 +103,13 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 			"attribute_type": schema.StringAttribute{
 				MarkdownDescription: r.AttributeTypeDescription(),
 				Computed:            true,
+				PlanModifiers: []planmodifier.String{
+					// This is derived from the type's identity, so it can only change if the
+					// type is replaced. Without this it replans as unknown on every edit, and
+					// that unknown fans out to everything that takes the value for an
+					// attribute's type or an expression's `as`.
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"description": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "description"),
