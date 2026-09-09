@@ -44,6 +44,10 @@ func (i *IncidentCatalogTypeDataSource) Schema(ctx context.Context, req datasour
 				Optional:            true,
 				Computed:            true,
 			},
+			"attribute_type": schema.StringAttribute{
+				MarkdownDescription: IncidentCatalogTypeResource{}.AttributeTypeDescription(),
+				Computed:            true,
+			},
 			"description": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "description"),
 				Computed:            true,

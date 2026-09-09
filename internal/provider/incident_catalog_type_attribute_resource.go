@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -176,6 +177,24 @@ func (r *IncidentCatalogTypeAttributeResource) Schema(ctx context.Context, req r
 				Description: `Whether this attribute is an array or scalar.`,
 				Optional:    true,
 				Computed:    true,
+				PlanModifiers: []planmodifier.Bool{
+					// Leaving array out means "whatever it is already". Without this the
+					// planned value goes unknown and the update sends false, which the API
+					// rejects for an attribute that is currently an array.
+					boolplanmodifier.UseStateForUnknown(),
+					// Going scalar -> array is an in-place change the API backfills, but it
+					// refuses to go the other way: that attribute has to be replaced. Doing
+					// it here keeps the plan honest instead of failing the apply.
+					boolplanmodifier.RequiresReplaceIf(
+						func(ctx context.Context, req planmodifier.BoolRequest, resp *boolplanmodifier.RequiresReplaceIfFuncResponse) {
+							if req.StateValue.ValueBool() && !req.ConfigValue.IsNull() && !req.ConfigValue.ValueBool() {
+								resp.RequiresReplace = true
+							}
+						},
+						"Turning an array attribute back into a scalar one replaces it.",
+						"Turning an array attribute back into a scalar one replaces it.",
+					),
+				},
 			},
 			"backlink_attribute": schema.StringAttribute{
 				Description: `If this is a backlink, the id of the attribute that it's linked from`,

@@ -70,12 +70,25 @@ resource "incident_alert_source_attribute_beta" "regions" {
   values = ["eu-west-1", "eu-west-2"]
 }
 
-# A value read straight off the incoming payload.
+# A value taken off the incoming payload. This needs an expression rather than a
+# value_reference: the payload is opaque JSON, so `payload` as a whole is the only part of
+# it in scope, and a reference to "payload.labels.service" resolves to nothing. A parse
+# reaches inside it.
 resource "incident_alert_source_attribute_beta" "service_name" {
   alert_source_id    = incident_alert_source_beta.prometheus.id
   alert_attribute_id = incident_alert_attribute.service_name.id
 
-  value_reference = "payload.labels.service"
+  expression {
+    start_from = "payload"
+
+    operation {
+      parse = {
+        # JavaScript, evaluated with the payload bound to `$`.
+        function = "$.labels.service"
+        as       = "String"
+      }
+    }
+  }
 }
 
 # Computed by an expression. Declaring the block is what binds its result, so there is no
@@ -117,11 +130,27 @@ resource "incident_alert_source_attribute_beta" "severity" {
 
   expression_ref = "severity_lookup"
 
+  # The payload is opaque JSON, so a condition can't reach inside it: `payload` as a whole is
+  # all one can see, and a subject of "payload.labels.severity" resolves to nothing. Parse the
+  # value out first, then branch on the result.
+  named_expression {
+    name       = "severity_string"
+    start_from = "payload"
+
+    operation {
+      parse = {
+        # JavaScript, evaluated with the payload bound to `$`.
+        function = "$.labels.severity"
+        as       = "String"
+      }
+    }
+  }
+
   named_expression {
     name = "severity_lookup"
 
-    # A branches-only expression starts from the whole scope, so its conditions reference
-    # absolute paths.
+    # A branches-only expression starts from the whole scope, which is how it addresses the
+    # parse above.
     start_from = "."
 
     operation {
@@ -130,7 +159,7 @@ resource "incident_alert_source_attribute_beta" "severity" {
 
         if {
           conditions = [{
-            subject   = "payload.labels.severity"
+            subject   = "expressions[\"severity_string\"]"
             operation = "one_of"
             params    = [{ values = ["critical", "page"] }]
           }]
@@ -139,7 +168,7 @@ resource "incident_alert_source_attribute_beta" "severity" {
 
         else_if {
           conditions = [{
-            subject   = "payload.labels.severity"
+            subject   = "expressions[\"severity_string\"]"
             operation = "one_of"
             params    = [{ values = ["warning"] }]
           }]

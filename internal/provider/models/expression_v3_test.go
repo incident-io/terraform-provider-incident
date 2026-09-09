@@ -984,6 +984,66 @@ func TestOperationPayloadTypes(t *testing.T) {
 	})
 }
 
+// TestNavigateCatalogAttributeReference covers the wrapping a navigate needs. The API
+// addresses a catalog entry's attributes as catalog_attribute["<id>"], so sending the bare
+// ID resolves to nothing — and the read has to undo the wrapping, or a bare ID in config
+// shows a diff against the wrapped form the API returns.
+func TestNavigateCatalogAttributeReference(t *testing.T) {
+	t.Run("a bare attribute ID is wrapped", func(t *testing.T) {
+		payload, err := operationPayload(Operation{
+			Navigate: &Navigate{To: types.StringValue("01ABC")},
+		})
+		if err != nil {
+			t.Fatalf("operationPayload: %v", err)
+		}
+		if got, want := payload.Navigate.Reference, `catalog_attribute["01ABC"]`; got != want {
+			t.Errorf("reference is %q, want %q", got, want)
+		}
+	})
+
+	t.Run("a reference path is left alone", func(t *testing.T) {
+		for _, reference := range []string{
+			`catalog_attribute["01ABC"]`,
+			`incident.custom_field["team"]`,
+			"owner.email",
+		} {
+			payload, err := operationPayload(Operation{
+				Navigate: &Navigate{To: types.StringValue(reference)},
+			})
+			if err != nil {
+				t.Fatalf("operationPayload: %v", err)
+			}
+			if got := payload.Navigate.Reference; got != reference {
+				t.Errorf("reference is %q, want it unchanged as %q", got, reference)
+			}
+		}
+	})
+
+	t.Run("the wrapping round-trips back to a bare ID", func(t *testing.T) {
+		payload, err := operationPayload(Operation{
+			Navigate: &Navigate{To: types.StringValue("01ABC")},
+		})
+		if err != nil {
+			t.Fatalf("operationPayload: %v", err)
+		}
+		if got, want := operationFromPayload(payload).Navigate.To.ValueString(), "01ABC"; got != want {
+			t.Errorf("read back %q, want %q", got, want)
+		}
+	})
+
+	t.Run("a path that isn't a catalog attribute reads back unchanged", func(t *testing.T) {
+		payload, err := operationPayload(Operation{
+			Navigate: &Navigate{To: types.StringValue("owner.email")},
+		})
+		if err != nil {
+			t.Fatalf("operationPayload: %v", err)
+		}
+		if got, want := operationFromPayload(payload).Navigate.To.ValueString(), "owner.email"; got != want {
+			t.Errorf("read back %q, want %q", got, want)
+		}
+	})
+}
+
 // TestValidateExpressions covers the checks standing in for schema Required and
 // ConflictsWith. They hold only as long as this test does.
 func TestValidateExpressions(t *testing.T) {

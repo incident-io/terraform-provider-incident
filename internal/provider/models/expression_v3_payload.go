@@ -2,6 +2,8 @@ package models
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/samber/lo"
@@ -22,6 +24,41 @@ const FallbackSuffix = "--fallback"
 
 func ExpressionReference(name string) string {
 	return fmt.Sprintf("expressions[%q]", name)
+}
+
+// catalogAttributePrefix is how the API addresses a catalog entry's attributes, so a
+// navigate has to go through it: a bare attribute ID resolves to nothing.
+const catalogAttributePrefix = "catalog_attribute["
+
+// catalogAttributeReference wraps a bare catalog attribute ID into the reference the API
+// expects. Anything already written as a reference path is passed through, which leaves an
+// escape hatch for navigating something that isn't a catalog attribute.
+func catalogAttributeReference(to string) string {
+	if strings.Contains(to, "[") || strings.Contains(to, ".") {
+		return to
+	}
+
+	return fmt.Sprintf("catalog_attribute[%q]", to)
+}
+
+// catalogAttributeID undoes catalogAttributeReference, so a bare ID in config round-trips
+// against the wrapped form the API returns rather than showing a diff every plan.
+func catalogAttributeID(reference string) string {
+	rest, ok := strings.CutPrefix(reference, catalogAttributePrefix)
+	if !ok {
+		return reference
+	}
+	id, ok := strings.CutSuffix(rest, "]")
+	if !ok {
+		return reference
+	}
+
+	unquoted, err := strconv.Unquote(id)
+	if err != nil {
+		return reference
+	}
+
+	return unquoted
 }
 
 // ExpressionsToPayload maps a resource's expression blocks, returning the binding for the
@@ -276,7 +313,7 @@ func operationPayload(operation Operation) (client.ExpressionOperationPayloadV3,
 		return client.ExpressionOperationPayloadV3{
 			OperationType: "navigate",
 			Navigate: &client.ExpressionNavigateOptsPayloadV3{
-				Reference: operation.Navigate.To.ValueString(),
+				Reference: catalogAttributeReference(operation.Navigate.To.ValueString()),
 			},
 		}, nil
 

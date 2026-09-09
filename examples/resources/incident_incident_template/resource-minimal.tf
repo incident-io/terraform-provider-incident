@@ -4,6 +4,9 @@
 resource "incident_incident_template" "minimal" {
   name = "Support escalations"
 
+  ## Required, even when the template binds nothing through an expression.
+  expressions = []
+
   template = {
     ## A literal incident name.
     name = {

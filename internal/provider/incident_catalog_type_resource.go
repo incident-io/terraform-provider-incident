@@ -34,6 +34,7 @@ type IncidentCatalogTypeResourceModel struct {
 	ID                  types.String `tfsdk:"id"`
 	Name                types.String `tfsdk:"name"`
 	TypeName            types.String `tfsdk:"type_name"`
+	AttributeType       types.String `tfsdk:"attribute_type"`
 	Description         types.String `tfsdk:"description"`
 	SourceRepoURL       types.String `tfsdk:"source_repo_url"`
 	Categories          types.List   `tfsdk:"categories"`
@@ -60,6 +61,16 @@ func (r IncidentCatalogTypeResource) CategoryDescription() string {
 	return fmt.Sprintf("The categories that this type belongs to, to be shown in the web dashboard. Possible values are: %s.", strings.Join(categories, ", "))
 }
 
+// AttributeTypeDescription documents attribute_type, which the catalog type data source
+// exposes too.
+func (r IncidentCatalogTypeResource) AttributeTypeDescription() string {
+	return "How to refer to this type when saying that something holds its entries: the " +
+		"`type` of an alert attribute or catalog attribute, or the `as` of an engine " +
+		"expression. Take it from here rather than writing it out - a type that one of our " +
+		"integrations owns is referenced by its registry name rather than its ID, so the two " +
+		"don't have the same shape."
+}
+
 func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: apischema.TagDocstring("Catalog V3"),
@@ -81,7 +92,16 @@ func (r *IncidentCatalogTypeResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "type_name"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					// Without this, a type_name left out of the config replans as unknown
+					// whenever any other attribute changes, and RequiresReplace reads that
+					// as a change - so editing a description would destroy the type and
+					// every entry in it.
+					stringplanmodifier.UseStateForUnknown(),
 				},
+			},
+			"attribute_type": schema.StringAttribute{
+				MarkdownDescription: r.AttributeTypeDescription(),
+				Computed:            true,
 			},
 			"description": schema.StringAttribute{
 				MarkdownDescription: apischema.Docstring("CatalogTypeV3", "description"),
@@ -273,6 +293,7 @@ func (r *IncidentCatalogTypeResource) buildModel(catalogType client.CatalogTypeV
 		ID:                  types.StringValue(catalogType.Id),
 		Name:                types.StringValue(catalogType.Name),
 		TypeName:            types.StringValue(catalogType.TypeName),
+		AttributeType:       types.StringValue(catalogType.EngineResourceType),
 		Description:         types.StringValue(catalogType.Description),
 		UseNameAsIdentifier: types.BoolValue(catalogType.UseNameAsIdentifier),
 	}
