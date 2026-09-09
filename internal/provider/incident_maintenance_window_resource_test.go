@@ -141,6 +141,8 @@ func TestAccIncidentMaintenanceWindowResourceWithOptionalFields(t *testing.T) {
 						"incident_maintenance_window.example", "notify_start_minutes_before", "15"),
 					resource.TestCheckResourceAttr(
 						"incident_maintenance_window.example", "notify_end_minutes_before", "5"),
+					resource.TestCheckResourceAttr(
+						"incident_maintenance_window.example", "force_destroy", "true"),
 				),
 			},
 			// Ensure no drift after refresh
@@ -158,6 +160,9 @@ func TestAccIncidentMaintenanceWindowResourceWithOptionalFields(t *testing.T) {
 				ResourceName:      "incident_maintenance_window.example",
 				ImportState:       true,
 				ImportStateVerify: true,
+				// An import cannot read force_destroy back, so it always lands as
+				// false and never matches a config that set it.
+				ImportStateVerifyIgnore: []string{"force_destroy"},
 			},
 		},
 	})
@@ -246,6 +251,7 @@ resource "incident_maintenance_window" "example" {
 
   resolve_on_end  = true
   reroute_on_end  = false
+  force_destroy   = true
 
   notification_message        = "Planned maintenance in progress"
   notify_start_minutes_before = 15

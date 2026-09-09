@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -47,6 +48,7 @@ type MaintenanceWindowResourceModel struct {
 	NotifyEndMinutesBefore   types.Int64                              `tfsdk:"notify_end_minutes_before"`
 	NotificationMessage      types.String                             `tfsdk:"notification_message"`
 	IncidentID               types.String                             `tfsdk:"incident_id"`
+	ForceDestroy             types.Bool                               `tfsdk:"force_destroy"`
 }
 
 type MaintenanceWindowEscalationTargetModel struct {
@@ -180,6 +182,15 @@ func (r *IncidentMaintenanceWindowResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: apischema.Docstring("MaintenanceWindowV1", "incident_id"),
 				Optional:            true,
 			},
+			"force_destroy": schema.BoolAttribute{
+				MarkdownDescription: "Allow this window to be destroyed while it is active. This ends the window " +
+					"immediately. Its `resolve_on_end` and `reroute_on_end` actions do not run, so the alerts it is " +
+					"holding stay as they are. Without this, destroying an active window fails because the API " +
+					"refuses to archive one. Defaults to `false`.",
+				Optional: true,
+				Computed: true,
+				Default:  booldefault.StaticBool(false),
+			},
 		},
 	}
 }
@@ -291,7 +302,12 @@ func (r *IncidentMaintenanceWindowResource) Delete(ctx context.Context, req reso
 		return
 	}
 
-	_, err := r.client.MaintenanceWindowsV1DeleteWithResponse(ctx, data.ID.ValueString())
+	params := &client.MaintenanceWindowsV1DeleteParams{}
+	if data.ForceDestroy.ValueBool() {
+		params.Force = lo.ToPtr(true)
+	}
+
+	_, err := r.client.MaintenanceWindowsV1DeleteWithResponse(ctx, data.ID.ValueString(), params)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete maintenance window, got error: %s", err))
 		return
@@ -462,6 +478,14 @@ func (r *IncidentMaintenanceWindowResource) buildModel(mw client.MaintenanceWind
 			target.EscalationPaths = models.ReconcileBindingSpelling(target.EscalationPaths, priorTarget.EscalationPaths)
 			target.Users = models.ReconcileBindingSpelling(target.Users, priorTarget.Users)
 		}
+	}
+
+	// The API neither takes force_destroy nor returns it, so carry the planned
+	// value through. An import has no prior value, and a null here shows as a
+	// diff on the next plan.
+	model.ForceDestroy = types.BoolValue(false)
+	if prior != nil && !prior.ForceDestroy.IsNull() && !prior.ForceDestroy.IsUnknown() {
+		model.ForceDestroy = prior.ForceDestroy
 	}
 
 	return model

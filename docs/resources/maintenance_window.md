@@ -63,6 +63,7 @@ resource "incident_maintenance_window" "example" {
 ### Optional
 
 - `escalation_targets` (Attributes List) If set, alerts matching this window will be escalated to these targets (see [below for nested schema](#nestedatt--escalation_targets))
+- `force_destroy` (Boolean) Allow this window to be destroyed while it is active. This ends the window immediately. Its `resolve_on_end` and `reroute_on_end` actions do not run, so the alerts it is holding stay as they are. Without this, destroying an active window fails because the API refuses to archive one. Defaults to `false`.
 - `incident_id` (String) If set, alerts matching this window will be automatically attached to this incident
 - `notification_message` (String) Custom message included in notifications about this maintenance window
 - `notify_channels` (Attributes List) Channels to notify about the maintenance window starting and ending (see [below for nested schema](#nestedatt--notify_channels))
