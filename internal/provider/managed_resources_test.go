@@ -4,6 +4,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/provider"
@@ -139,6 +140,89 @@ func TestProviderMarkImportedResourcesAsManaged(t *testing.T) {
 
 			if data.MarkImportedAsManaged != tc.want {
 				t.Errorf("MarkImportedAsManaged = %v, want %v", data.MarkImportedAsManaged, tc.want)
+			}
+		})
+	}
+}
+
+// TestImportStateClaimsCorrectResourceType pins the resource type each resource claims
+// itself as. The plumbing is shared, so the realistic bug is a resource passing the wrong
+// constant, which no other test would catch.
+//
+// The fake serves only the claim endpoint, so each import claims and then fails to read
+// the resource back. The claim happens before the read, so it is recorded either way.
+func TestImportStateClaimsCorrectResourceType(t *testing.T) {
+	for _, tc := range []struct {
+		name             string
+		newResource      func() resource.Resource
+		importID         string
+		wantResourceType string
+		wantErrSummary   string
+	}{
+		{
+			name:             "api key",
+			newResource:      NewIncidentAPIKeyResource,
+			importID:         "01APIKEY",
+			wantResourceType: `"resource_type":"api_key"`,
+			wantErrSummary:   "API Key Not Found",
+		},
+		{
+			name:             "secret",
+			newResource:      NewIncidentSecretResource,
+			importID:         "01SECRET",
+			wantResourceType: `"resource_type":"secret"`,
+			wantErrSummary:   "Secret Not Found",
+		},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			ctx := t.Context()
+			api := &fakeManagedResourcesAPI{}
+
+			r := tc.newResource()
+			configurable, ok := r.(resource.ResourceWithConfigure)
+			if !ok {
+				t.Fatalf("%T does not implement ResourceWithConfigure", r)
+			}
+			configureResp := &resource.ConfigureResponse{}
+			configurable.Configure(ctx, resource.ConfigureRequest{
+				ProviderData: &IncidentProviderData{
+					Client:                api.start(t),
+					TerraformVersion:      "1.14.0",
+					MarkImportedAsManaged: true,
+				},
+			}, configureResp)
+			if configureResp.Diagnostics.HasError() {
+				t.Fatalf("configuring resource: %v", configureResp.Diagnostics)
+			}
+
+			importable, ok := r.(resource.ResourceWithImportState)
+			if !ok {
+				t.Fatalf("%T does not implement ResourceWithImportState", r)
+			}
+
+			schemaResp := &resource.SchemaResponse{}
+			r.Schema(ctx, resource.SchemaRequest{}, schemaResp)
+
+			importResp := &resource.ImportStateResponse{
+				State: tfsdk.State{
+					Schema: schemaResp.Schema,
+					Raw:    tftypes.NewValue(schemaResp.Schema.Type().TerraformType(ctx), nil),
+				},
+			}
+			importable.ImportState(ctx, resource.ImportStateRequest{ID: tc.importID}, importResp)
+
+			if api.requests != 1 {
+				t.Fatalf("managed resource requests = %d, want 1", api.requests)
+			}
+			if got := string(api.received); !strings.Contains(got, tc.wantResourceType) {
+				t.Errorf("claim payload = %s, want it to contain %s", got, tc.wantResourceType)
+			}
+			errs := importResp.Diagnostics.Errors()
+			if len(errs) == 0 {
+				t.Fatalf("expected the import to fail against a fake that serves no %s", tc.name)
+			}
+			if summary := errs[0].Summary(); !strings.Contains(summary, tc.wantErrSummary) {
+				t.Errorf("diagnostic summary = %q, want it to mention %q", summary, tc.wantErrSummary)
 			}
 		})
 	}
